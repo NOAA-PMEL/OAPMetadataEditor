@@ -130,7 +130,12 @@ public class OAPMetadataEditor implements EntryPoint {
 
     GenericVariablePanel genericVariablePanel = new GenericVariablePanel();
 
+    // Save XML dialog, should be its own widget.
     Modal modal = new Modal();
+    ModalHeader modalHeader = new ModalHeader();
+    ModalBody modalBody = new ModalBody();
+    Button save = new Button("Save");
+    String currentIndex;
 
     final DashboardLayout topLayout = new DashboardLayout();
 
@@ -141,7 +146,10 @@ public class OAPMetadataEditor implements EntryPoint {
 
         RootPanel.get().add(topLayout);
         topLayout.addUploadSuccess(completeHandler);
-        topLayout.setMain(investigatorPanel);
+        topLayout.setMain(submitterPanel);
+        modalBody.add(save);
+        modal.add(modalHeader);
+        modal.add(modalBody);
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {
@@ -150,10 +158,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     // List is in the celltable data provider in the layout. Nothing to do here.
                 } else if ( type.equals(Constants.SECTION_SUBMITTER) ) {
                     dataSubmitter = (Person) event.getSectionContents();
-                    if ( citation != null ) {
-                        citationPanel.show(citation);
-                    }
-                    topLayout.setMain(citationPanel);
+                    topLayout.setMain(investigatorPanel);
                 } else if ( type.equals(Constants.SECTION_CITATION) ) {
                     citation = (Citation) event.getSectionContents();
                     if ( timeAndLocation != null ) {
@@ -374,24 +379,18 @@ public class OAPMetadataEditor implements EntryPoint {
             if ( s.equals("failed") ) {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
-
-                ModalHeader modalHeader = new ModalHeader();
+                currentIndex = s;
                 modalHeader.setTitle("Save XML file.");
-                ModalBody modalBody = new ModalBody();
-                Button save = new Button("Save");
                 save.setType(ButtonType.PRIMARY);
                 save.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         modal.hide();
-                        Window.open(Constants.base+"/document/xml/"+s,"_blank", null);
+                        Window.open(Constants.base+"/document/xml/"+currentIndex,"_blank", null);
                     }
                 });
-                modal.add(modalHeader);
-                modal.add(modalBody);
-                modalBody.add(save);
-                modal.show();
 
+                modal.show();
             }
         }
     };
@@ -528,7 +527,10 @@ public class OAPMetadataEditor implements EntryPoint {
                         topLayout.setChecked(Constants.SECTION_PCO2D2);
                     }
                 }
-                topLayout.setMain(investigatorPanel);
+                if ( dataSubmitter != null ) {
+                    submitterPanel.show(dataSubmitter);
+                }
+                topLayout.setMain(submitterPanel);
 
 
             } catch (Exception e) {

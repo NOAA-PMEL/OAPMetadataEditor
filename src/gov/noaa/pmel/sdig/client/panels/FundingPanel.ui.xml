@@ -25,8 +25,8 @@
                     <b:Row>
                         <b:Column size="SM_4">
                             <b:FormGroup>
-                                <b:FormLabel for="grandNumber" text="Grant Number"></b:FormLabel>
-                                <b:TextBox ui:field="grandNumber" allowBlank="true" placeholder="Grant Number" b:id="grantNumber"></b:TextBox>
+                                <b:FormLabel for="grantNumber" text="Grant Number"></b:FormLabel>
+                                <b:TextBox ui:field="grantNumber" allowBlank="true" placeholder="Grant Number" b:id="grantNumber"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

@@ -14,8 +14,8 @@
             <b:Row>
                 <b:Column size="SM_3" pull="LEFT" ui:field="nav">
                     <b:NavPills stacked="true">
-                        <b:AnchorListItem ui:field="investigatorsLink">Investigators</b:AnchorListItem>
                         <b:AnchorListItem ui:field="submittersLink">Data Submitter</b:AnchorListItem>
+                        <b:AnchorListItem ui:field="investigatorsLink">Investigators</b:AnchorListItem>
                         <b:AnchorListItem ui:field="citationLink">Citation Information</b:AnchorListItem>
                         <b:AnchorListItem ui:field="timeAndLocationLink">Time and Location Information</b:AnchorListItem>
                         <b:AnchorListItem ui:field="fundingLink">Funding</b:AnchorListItem>

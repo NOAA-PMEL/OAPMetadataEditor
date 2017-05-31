@@ -29,7 +29,7 @@ public class FundingPanel extends Composite {
     @UiField
     TextBox title;
     @UiField
-    TextBox grandNumber;
+    TextBox grantNumber;
 
     @UiField
     Button save;
@@ -58,8 +58,8 @@ public class FundingPanel extends Composite {
         if ( funding.getGrantTitle() != null ) {
             title.setText(funding.getGrantTitle());
         }
-        if ( funding.getGrandNumber() != null ) {
-            grandNumber.setText(funding.getGrandNumber());
+        if ( funding.getGrantNumber() != null ) {
+            grantNumber.setText(funding.getGrantNumber());
         }
     }
 
@@ -67,7 +67,7 @@ public class FundingPanel extends Composite {
         Funding funding = new Funding();
         funding.setAgencyName(agencyName.getText().trim());
         funding.setGrantTitle(title.getText().trim());
-        funding.setGrandNumber(grandNumber.getText().trim());
+        funding.setGrantNumber(grantNumber.getText().trim());
         return funding;
     }
     @UiHandler("save")

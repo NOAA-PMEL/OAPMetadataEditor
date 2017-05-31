@@ -6,7 +6,7 @@ package gov.noaa.pmel.sdig.shared.bean;
 public class Funding {
     String agencyName;
     String grantTitle;
-    String grandNumber;
+    String grantNumber;
 
     public String getAgencyName() {
         return agencyName;
@@ -24,11 +24,11 @@ public class Funding {
         this.grantTitle = title;
     }
 
-    public String getGrandNumber() {
-        return grandNumber;
+    public String getGrantNumber() {
+        return grantNumber;
     }
 
-    public void setGrandNumber(String grandNumber) {
-        this.grandNumber = grandNumber;
+    public void setGrantNumber(String grantNumber) {
+        this.grantNumber = grantNumber;
     }
 }
