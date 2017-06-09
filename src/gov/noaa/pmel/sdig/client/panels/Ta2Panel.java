@@ -136,6 +136,10 @@ public class Ta2Panel extends Composite {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    public void reset() {
+        form.reset();
+    }
+
 
 //TODO initialize the cell type dropdown.
 

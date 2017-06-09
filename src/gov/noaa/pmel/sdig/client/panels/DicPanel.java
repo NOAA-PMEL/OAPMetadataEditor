@@ -85,4 +85,8 @@ DIC: Researcher Institution
             }
         }
     };
+
+    public void reset() {
+        form.reset();
+    }
 }

@@ -42,6 +42,10 @@ public class FundingPanel extends Composite {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    public void reset() {
+        form.reset();
+    }
+
     interface FundingPanelUiBinder extends UiBinder<HTMLPanel, FundingPanel> {
     }
 

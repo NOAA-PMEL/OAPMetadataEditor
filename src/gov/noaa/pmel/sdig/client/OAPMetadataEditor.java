@@ -150,6 +150,49 @@ public class OAPMetadataEditor implements EntryPoint {
         modalBody.add(save);
         modal.add(modalHeader);
         modal.add(modalBody);
+        eventBus.addHandler(ClickEvent.getType(), new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Object source = event.getSource();
+                if ( source instanceof Button ) {
+                    Button b = (Button) source;
+                    if ( b.getText().equals("Start Over") ) {
+                        // Reset containers for all information being collected to null.
+                        dataSubmitter = null;
+                        investigatorPanel.clearPeople();
+                        citation = null;
+                        timeAndLocation = null;
+                        funding = null;
+                        platformPanel.clearPlatforms();
+                        dic = null;
+                        ta = null;
+                        ph = null;
+                        pco2a = null;
+                        pco2d = null;
+                        genericVariablePanel.clearVariables();
+
+                        // Reset all forms
+                        submitterPanel.reset();
+                        investigatorPanel.reset();
+                        citationPanel.reset();
+                        fundingPanel.reset();
+                        platformPanel.reset();
+                        dicPanel.reset();
+                        dic2Panel.reset();
+                        taPanel.reset();
+                        ta2Panel.reset();
+                        phPanel.reset();
+                        ph2Panel.reset();
+                        pco2aPanel.reset();
+                        pco2a2Panel.reset();
+                        pco2dPanel.reset();
+                        pco2d2Panel.reset();
+                        genericVariablePanel.reset();
+
+                    }
+                }
+            }
+        });
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {

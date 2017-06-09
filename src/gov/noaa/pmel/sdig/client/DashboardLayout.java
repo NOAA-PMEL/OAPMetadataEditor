@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,6 +34,9 @@ import java.util.List;
  * Created by rhs on 2/27/17.
  */
 public class DashboardLayout extends Composite {
+
+    @UiField
+    Button reset;
 
     @UiField
     Button toggle;
@@ -226,7 +230,7 @@ public class DashboardLayout extends Composite {
                 setChecked(section);
             }
         });
-        
+
         save.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -307,6 +311,9 @@ public class DashboardLayout extends Composite {
         if ( dicLink.getIcon() == null ) {
             return false;
         }
+        if ( dic2Link.getIcon() == null ) {
+            return false;
+        }
         if ( taLink.getIcon() == null ) {
             return false;
         }
@@ -332,6 +339,27 @@ public class DashboardLayout extends Composite {
             return false;
         }
         return true;
+    }
+    @UiHandler("reset")
+    public void onClick(ClickEvent event) {
+        // Remove checkmarks
+        investigatorsLink.setIcon(null);
+        submittersLink.setIcon(null);
+        citationLink.setIcon(null);
+        timeAndLocationLink.setIcon(null);
+        fundingLink.setIcon(null);
+        platformsLink.setIcon(null);
+        dicLink.setIcon(null);
+        dic2Link.setIcon(null);
+        taLink.setIcon(null);
+        ta2Link.setIcon(null);
+        phLink.setIcon(null);
+        ph2Link.setIcon(null);
+        pco2aLink.setIcon(null);
+        pco2a2Link.setIcon(null);
+        pco2dLink.setIcon(null);
+        pco2d2Link.setIcon(null);
+        eventBus.fireEventFromSource(event, reset);
     }
     public void setSaveEnabled(boolean enabled) {
         save.setEnabled(enabled);

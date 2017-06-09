@@ -42,5 +42,9 @@ public class Pco2dPanel extends CommonVariablePanel {
             }
         }
     };
+
+    public void reset() {
+        form.reset();
+    }
 }
 

@@ -254,6 +254,16 @@ public class GenericVariablePanel extends Composite {
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
 
+    public void reset() {
+        form.reset();
+    }
+
+    public void clearVariables() {
+        variableData.getList().clear();
+        variableData.flush();
+        variablePagination.rebuild(cellTablePager);
+    }
+
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, GenericVariablePanel> {
     }
 

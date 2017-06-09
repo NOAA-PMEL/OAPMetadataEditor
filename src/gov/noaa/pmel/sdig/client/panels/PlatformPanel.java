@@ -76,6 +76,12 @@ public class PlatformPanel extends Composite {
 
     String type = Constants.SECTION_PLATFORMS;
 
+    public void clearPlatforms() {
+        platformsData.getList().clear();
+        platformsData.flush();
+        platformPagination.rebuild(cellTablePager);
+    }
+
     interface PlatformPanelUiBinder extends UiBinder<HTMLPanel, PlatformPanel> {
     }
 

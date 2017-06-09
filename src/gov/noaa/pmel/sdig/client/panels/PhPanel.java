@@ -52,4 +52,8 @@ public class PhPanel extends CommonVariablePanel {
             }
         }
     };
+
+    public void reset() {
+        form.reset();
+    }
 }

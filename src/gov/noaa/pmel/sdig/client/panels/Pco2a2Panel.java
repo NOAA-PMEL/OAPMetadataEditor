@@ -228,6 +228,10 @@ public class Pco2a2Panel extends Composite {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    public void reset() {
+        form.reset();
+    }
+
 //TODO initialize the cell type dropdown.
 
     interface Pco2a2PanelUiBinder extends UiBinder<HTMLPanel, Pco2a2Panel> {

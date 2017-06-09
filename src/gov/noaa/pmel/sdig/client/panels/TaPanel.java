@@ -50,4 +50,8 @@ public class TaPanel extends CommonVariablePanel {
             }
         }
     };
+
+    public void reset() {
+        form.reset();
+    }
 }

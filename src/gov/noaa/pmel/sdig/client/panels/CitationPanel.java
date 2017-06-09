@@ -58,6 +58,10 @@ public class CitationPanel extends Composite {
 
     String type = Constants.SECTION_CITATION;
 
+    public void reset() {
+        form.reset();
+    }
+
     interface CitationUiBinder extends UiBinder<HTMLPanel, CitationPanel> {
     }
 

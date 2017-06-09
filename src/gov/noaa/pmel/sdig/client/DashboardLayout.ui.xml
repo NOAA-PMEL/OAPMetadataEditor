@@ -32,7 +32,16 @@
                         <b:AnchorListItem ui:field="pco2d2Link">pCO2D (2)</b:AnchorListItem>
                         <b:AnchorListItem ui:field="genericVariableLink">Variable</b:AnchorListItem>
                     </b:NavPills>
-                    <b:Button ui:field="save" type="PRIMARY" text="Save and Download"/>
+                    <b:Container width="100%">
+                        <b:Row>
+                            <b:Column size="SM_4" pull="LEFT">
+                                <b:Button ui:field="save" type="PRIMARY" text="Save and Download"/>
+                            </b:Column>
+                            <b:Column  size="SM_3" pull="LEFT">
+                                <b:Button ui:field="reset" type="PRIMARY" text="Start Over"/>
+                            </b:Column>
+                        </b:Row>
+                    </b:Container>
                     <b:Form ui:field="uploadForm" method="POST" encoding="multipart/form-data" action="document/upload">
                         <b:FieldSet>
                             <b:FormGroup>

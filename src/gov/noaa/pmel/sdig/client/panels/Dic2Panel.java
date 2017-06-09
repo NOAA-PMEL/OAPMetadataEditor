@@ -202,4 +202,9 @@ public class Dic2Panel extends Composite {
             return true;
         }
     }
+
+    public void reset() {
+        form.reset();
+    }
+
 }

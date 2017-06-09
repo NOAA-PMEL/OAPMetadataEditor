@@ -110,6 +110,10 @@ public class Ph2Panel extends Composite {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    public void reset() {
+        form.reset();
+    }
+
 //TODO initialize the cell type dropdown.
 
     interface Ph2PanelUiBinder extends UiBinder<HTMLPanel, Ph2Panel> {
