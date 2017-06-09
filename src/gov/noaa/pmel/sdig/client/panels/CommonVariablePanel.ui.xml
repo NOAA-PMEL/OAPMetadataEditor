@@ -60,14 +60,14 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
-                                <b:TextBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:TextBox>
+                                <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analysing Instrument"></b:FormLabel>
-                                <b:TextBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analysing Instrument" b:id="analyzingInstrument"></b:TextBox>
+                                <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analysing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">

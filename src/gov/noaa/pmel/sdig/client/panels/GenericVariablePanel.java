@@ -14,19 +14,24 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
+import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
+import gov.noaa.pmel.sdig.shared.bean.list.SuggestedVariables;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Pagination;
+import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
@@ -40,6 +45,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -82,12 +88,12 @@ public class GenericVariablePanel extends Composite {
     TextBox calculationMethod;
 
     // 008 Sampling instrument
-    @UiField
-    TextBox samplingInstrument;
+    @UiField (provided = true)
+    SuggestBox samplingInstrument;
 
     // 009 Analyzing instrument
-    @UiField
-    TextBox analyzingInstrument;
+    @UiField (provided = true)
+    SuggestBox analyzingInstrument;
 
     // 010 Detailed sampling and analyzing information
     @UiField
@@ -114,8 +120,8 @@ public class GenericVariablePanel extends Composite {
     TextBox researcherInstitution;
 
     // 035 Full variable name
-    @UiField
-    TextBox fullVariableName;
+    @UiField (provided = true)
+    SuggestBox fullVariableName;
 
     // 045 Method reference (citation)
     @UiField
@@ -245,7 +251,8 @@ public class GenericVariablePanel extends Composite {
     Variable editVariable;
     int editIndex;
 
-//TODO initialize the cell type dropdown.
+    VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
+    InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
 
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, GenericVariablePanel> {
     }
@@ -253,6 +260,12 @@ public class GenericVariablePanel extends Composite {
     private static VariablePanelUiBinder ourUiBinder = GWT.create(VariablePanelUiBinder.class);
 
     public GenericVariablePanel() {
+
+
+        fullVariableName = new SuggestBox(variableSuggestOracle);
+        samplingInstrument = new SuggestBox(instrumentSuggestOracle);
+        analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
+
         initWidget(ourUiBinder.createAndBindUi(this));
         heading.setText("Continue entering information for this variable.");
 

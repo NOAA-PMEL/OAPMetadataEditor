@@ -7,12 +7,14 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
+import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Heading;
+import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
 
@@ -58,12 +60,12 @@ public class CommonVariablePanel extends Composite {
     ButtonDropDown measured;
 
     // 008 Sampling instrument
-    @UiField
-    TextBox samplingInstrument;
+    @UiField (provided = true)
+    SuggestBox samplingInstrument;
 
     // 009 Analyzing instrument
-    @UiField
-    TextBox analyzingInstrument;
+    @UiField (provided = true)
+    SuggestBox analyzingInstrument;
 
     // 010 Detailed sampling and analyzing information
     @UiField
@@ -172,6 +174,8 @@ public class CommonVariablePanel extends Composite {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
+
 //TODO initialize the cell type dropdown.
 
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, CommonVariablePanel> {
@@ -180,6 +184,10 @@ public class CommonVariablePanel extends Composite {
     private static VariablePanelUiBinder ourUiBinder = GWT.create(VariablePanelUiBinder.class);
 
     public CommonVariablePanel() {
+
+        samplingInstrument = new SuggestBox(instrumentSuggestOracle);
+        analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
+
         initWidget(ourUiBinder.createAndBindUi(this));
 
         List<String> detailNames = new ArrayList<String>();
