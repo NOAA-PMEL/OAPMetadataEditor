@@ -1,8 +1,11 @@
 package gov.noaa.pmel.sdig.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -13,15 +16,22 @@ import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
+import gov.noaa.pmel.sdig.client.widgets.BootFileInputButton;
+import gov.noaa.pmel.sdig.client.widgets.FileInputGroupButton;
+import gov.noaa.pmel.sdig.client.widgets.UploadFile;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
+import org.gwtbootstrap3.client.ui.FieldSet;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Input;
+import org.gwtbootstrap3.client.ui.InputGroup;
 import org.gwtbootstrap3.client.ui.Row;
 import org.gwtbootstrap3.client.ui.SubmitButton;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
@@ -113,6 +123,15 @@ public class DashboardLayout extends Composite {
     @UiField
     Input filename;
 
+    @UiField
+    Button filebutton;
+
+    @UiField
+    HTMLPanel fakeinput;
+
+    @UiField
+    TextBox faketextbox;
+
     interface DashboardLayoutUiBinder extends UiBinder<HTMLPanel, DashboardLayout> {
     }
 
@@ -120,7 +139,27 @@ public class DashboardLayout extends Composite {
 
     public DashboardLayout() {
         initWidget(ourUiBinder.createAndBindUi(this));
+
+        filename.addStyleName("disappear");
+        filename.addValueChangeHandler(new ValueChangeHandler<String>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<String> event) {
+                faketextbox.setValue("");
+                if( event.getValue() != null && event.getValue().length() > 0 ){
+                    String file = event.getValue();
+                    if ( file.contains("/") )
+                        file = file.substring(file.lastIndexOf("/")+1, file.length());
+                    if ( file.contains("\\") )
+                        file = file.substring(file.lastIndexOf("\\")+1, file.length());
+                    faketextbox.setValue(file);
+                }
+            }
+        });
+        filebutton.addStyleName("over");
+        fakeinput.addStyleName("fakeinputposition");
+        faketextbox.addStyleName("overright");
         uploadForm.addSubmitHandler(submitHandler);
+
         investigatorsLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
