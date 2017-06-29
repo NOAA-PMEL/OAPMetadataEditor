@@ -183,19 +183,19 @@ class XmlService {
                 doc.setDic(dic)
             } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("ph") ) {
                 Ph ph = fillVariableDomain(variableE)
-//                doc.setPh(ph)
+                doc.setPh(ph)
             } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("pco2 (fco2) autonomous") ) {
                 Pco2a p = fillVariableDomain(variableE)
                 doc.setPco2a(p)
             } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("pco2 (fco2) discrete")) {
                 Pco2d p = fillVariableDomain(variableE)
-//                doc.setPco2d(p)
+                doc.setPco2d(p)
             } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("total alkalinity") ) {
                 Ta ta = fillVariableDomain(variableE)
-//                doc.setTa(ta)
+                doc.setTa(ta)
             } else {
-//                Variable variable = fillVariableDomain(variableE)
-//                doc.addToVariables(variable)
+                Variable variable = fillVariableDomain(variableE)
+                doc.addToVariables(variable)
             }
         }
 
