@@ -12,7 +12,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="title" text="Title"></b:FormLabel>
-                                <b:Popover title="5 Provide a descriptive title for the data set." text="5 Provide a descriptive title for the data set.">
+                                <b:Popover trigger="CLICK" title="5 Provide a descriptive title for the data set." text="5 Provide a descriptive title for the data set.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="title" allowBlank="false" placeholder="Title" b:id="title"></b:TextBox>
@@ -23,7 +23,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="platformAbstract" text="Abstract"></b:FormLabel>
-                                <b:Popover title="6 A narrative summary of the data set." text="6 A narrative summary of the data set.">
+                                <b:Popover trigger="CLICK" title="6 A narrative summary of the data set." text="6 A narrative summary of the data set.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextArea ui:field="platformAbstract" visibleLines="6" allowBlank="false" placeholder="Abstract" b:id="platformAbstract"></b:TextArea>
@@ -34,7 +34,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="purpose" text="Purpose"></b:FormLabel>
-                                <b:Popover title="7 A summary of the intentions with which the data set was developed." text="7 A summary of the intentions with which the data set was developed.">
+                                <b:Popover trigger="CLICK" title="7 A summary of the intentions with which the data set was developed." text="7 A summary of the intentions with which the data set was developed.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="purpose" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextBox>
@@ -45,7 +45,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="researchProjects" text="Research Projects"></b:FormLabel>
-                                <b:Popover title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project."
+                                <b:Popover trigger="CLICK" title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project."
                                            text="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
@@ -57,7 +57,7 @@
                         <b:Column size="SM_2">
                             <b:FormGroup>
                                 <b:FormLabel for="expocode" text="EXPOCODE"></b:FormLabel>
-                                <b:Popover title="16 Expedition code consists of the four digit ICES ship code, and the date of the first day of the cruise in the format of YYYYMMDD."
+                                <b:Popover trigger="CLICK" title="16 Expedition code consists of the four digit ICES ship code, and the date of the first day of the cruise in the format of YYYYMMDD."
                                            text="16 Expedition code consists of the four digit ICES ship code, and the date of the first day of the cruise in the format of YYYYMMDD.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
@@ -68,7 +68,7 @@
                             <b:FormGroup>
 
                                 <b:FormLabel for="cruiseId" text="Cruise ID"></b:FormLabel>
-                                <b:Popover title="17 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g., A16N), and the sampling year (e.g., 2013)."
+                                <b:Popover trigger="CLICK" title="17 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g., A16N), and the sampling year (e.g., 2013)."
                                            text="17 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g., A16N), and the sampling year (e.g., 2013).">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
@@ -78,7 +78,7 @@
                         <b:Column size="SM_2">
                             <b:FormGroup>
                                 <b:FormLabel for="section" text="Section"></b:FormLabel>
-                                <b:Popover title="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N."
+                                <b:Popover trigger="CLICK" title="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N."
                                            text="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
@@ -90,7 +90,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="citationAuthorList" text="List of authors for citation"></b:FormLabel>
-                                <b:Popover title="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of Lastname1, Firstname1, Middlename1; Lastname2, Firstname2, Middlename2; … for this field."
+                                <b:Popover trigger="CLICK" title="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of Lastname1, Firstname1, Middlename1; Lastname2, Firstname2, Middlename2; … for this field."
                                            text="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of Lastname1, Firstname1, Middlename1; Lastname2, Firstname2, Middlename2; … for this field.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
@@ -102,7 +102,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="references" text="References"></b:FormLabel>
-                                <b:Popover title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set."
+                                <b:Popover trigger="CLICK" title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set."
                                            text="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
@@ -114,7 +114,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="supplementalInformation" text="Supplimental Information"></b:FormLabel>
-                                <b:Popover title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields."
+                                <b:Popover trigger="CLICK" title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields."
                                            text="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields.">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>

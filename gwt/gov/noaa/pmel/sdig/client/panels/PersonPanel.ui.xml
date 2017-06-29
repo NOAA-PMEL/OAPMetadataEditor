@@ -23,7 +23,7 @@
                         <b:Column size="SM_5">
                             <b:FormGroup>
                                 <b:FormLabel for="lastName" text="Last Name"></b:FormLabel>
-                                <b:Popover ui:field="namePopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="namePopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="lastName" allowBlank="false" placeholder="Last Name" b:id="lastName"></b:TextBox>
@@ -34,7 +34,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="institution" text="Institution"></b:FormLabel>
-                                <b:Popover ui:field="institutionPopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="institutionPopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="institution" allowBlank="false" placeholder="Institution" b:id="institution"></b:TextBox>
@@ -77,7 +77,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="zip" text="Zip Code/Postal Code"></b:FormLabel>
-                                <b:Popover ui:field="addressPopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="addressPopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="zip" allowBlank="true" placeholder="Zip Code/Postal Code" b:id="zip">
@@ -89,7 +89,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="telephone" text="Telephone Number"></b:FormLabel>
-                                <b:Popover ui:field="telephonePopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="telephonePopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" b:id="telephone"></b:TextBox>
@@ -98,7 +98,7 @@
                         <b:Column size="SM_8">
                             <b:FormGroup>
                                 <b:FormLabel for="email" text="Email Address"></b:FormLabel>
-                                <b:Popover ui:field="emailPopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="emailPopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="email" allowBlank="false" placeholder="Email address" b:id="email"></b:TextBox>
@@ -109,7 +109,7 @@
                         <b:Column size="SM_2">
                             <b:FormGroup>
                                 <b:FormLabel for="researcherType" text="Researcher ID Type"></b:FormLabel>
-                                <b:Popover ui:field="idTypePopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="idTypePopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <mde:ButtonDropDown ui:field="idType"></mde:ButtonDropDown>
@@ -118,7 +118,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="id" text="Researcher ID"></b:FormLabel>
-                                <b:Popover ui:field="idPopover" title="" text="">
+                                <b:Popover trigger="CLICK" ui:field="idPopover" title="" text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
 
