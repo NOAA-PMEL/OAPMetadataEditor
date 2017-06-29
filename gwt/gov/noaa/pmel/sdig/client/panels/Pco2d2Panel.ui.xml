@@ -1,0 +1,178 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:mde="urn:import:gov.noaa.pmel.sdig.client.widgets">
+    <g:HTMLPanel>
+        <!--
+
+012 pCO2D: Standardization technique description
+013 pCO2D: Frequency of standardization
+
+054 pCO2D: Temperature of standardization
+053 pCO2D: Temperature of measurement
+
+044 pCO2D: Manufacturer of the gas detector
+046 pCO2D: Model of the gas detector
+049 pCO2D: Resolution of the gas detector
+057 pCO2D: Uncertainty of the gas detector
+
+043 pCO2D: Manufacturer of standard gas
+028 pCO2D: Concentrations of standard gas
+056 pCO2D: Uncertainties of standard gas
+
+050 pCO2D: Seawater volume (mL)
+037 pCO2D: Headspace volume (mL)
+
+024 pCO2D: At what temperature was pCO2 reported?
+060 pCO2D: Water vapor correction method
+052 pCO2D: Temperature correction method
+016 pCO2D: Storage method
+
+
+        -->
+        <b:Form ui:field="form">
+            <b:FieldSet>
+                <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information"></b:Heading>
+                <b:Container width="100%" pull="LEFT">
+                    <b:Row>
+                        <b:Column size="SM_8">
+                            <b:FormGroup ui:field="standardizationTechniqueForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
+                                <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="freqencyOfStandardizationForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="temperatureStandarizationForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureStandarization" text="Temperature of standardization"></b:FormLabel>
+                                <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of standardization" b:id="temperatureStandarization"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="temperatureMeasurementForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureMeasurement" text="Temperature of measurement"></b:FormLabel>
+                                <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="gasDetectorManufactureForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the gas detector"></b:FormLabel>
+                                <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="gasDetectorModelForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDetectorModel" text="Model of the gas detector"></b:FormLabel>
+                                <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="gasDectectorResolutionForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDectectorResolution" text="Resolution of the gas detector"></b:FormLabel>
+                                <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="gasDectectorUncertaintyForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the gas detector"></b:FormLabel>
+                                <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="standardGasManufactureForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="standardGasManufacture" text="Manufacturer of standard gas"></b:FormLabel>
+                                <b:TextBox ui:field="standardGasManufacture" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="gasConcentrationForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasConcentration" text="Concentrations of standard gas"></b:FormLabel>
+                                <b:TextBox ui:field="gasConcentration" allowBlank="true" placeholder="Concentrations of standard gas" b:id="gasConcentration"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="standardGasUncertaintiesForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="standardGasUncertainties" text="Uncertainties of standard gas"></b:FormLabel>
+                                <b:TextBox ui:field="standardGasUncertainties" allowBlank="true" placeholder="Uncertainties of standard gas" b:id="standardGasUncertainties"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="headspaceVolumeForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="headspaceVolume" text="Headspace volume (mL)"></b:FormLabel>
+                                <b:TextBox ui:field="headspaceVolume" allowBlank="true" placeholder="Headspace volume (mL)" b:id="headspaceVolume"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="seawaterVolumeForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="seawaterVolume" text="Seawater volume (mL)"></b:FormLabel>
+                                <b:TextBox ui:field="seawaterVolume" allowBlank="true" placeholder="Seawater volume (mL)" b:id="seawaterVolume"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="pco2TemperatureForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pco2Temperature" text="At what temperature was pCO2 reported?"></b:FormLabel>
+                                <b:TextBox ui:field="pco2Temperature" allowBlank="true" placeholder="At what temperature was pCO2 reported?" b:id="pco2Temperature"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="vaporCorrectionForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="vaporCorrection" text="Water vapor correction method"></b:FormLabel>
+                                <b:TextBox ui:field="vaporCorrection" allowBlank="true" placeholder="Water vapor correction method" b:id="vaporCorrection"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="temperatureCorrectionMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
+                                <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="storageMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="storageMethod" text="Storage method"></b:FormLabel>
+                                <b:TextBox ui:field="storageMethod" allowBlank="true" placeholder="Storage method" b:id="storageMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_2">
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
+                        </b:Column>
+                    </b:Row>
+                </b:Container>
+            </b:FieldSet>
+        </b:Form>
+    </g:HTMLPanel>
+</ui:UiBinder>

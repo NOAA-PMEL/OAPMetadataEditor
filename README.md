@@ -1,9 +1,8 @@
-# oapserver
-This is the server-side component of the [OAP Metadata Editor](https://github.com/NOAA-PMEL/OAPMetadataEditor).
+# OAP Metadata Editor
+This is a Grails-based Web-app for entering and editing OAP Metadata. Capabilities include:
 
-This server will:
+1. Users can enter from scratch metadata by filling out the form which gives feedback on the validity of the entries as each section is saved.
+2. Users can save the resulting metadata to an XML file on their local system.
+3. Users can upload an existing XML file which will populate the user interface, which can then be edited and saved to either make changes to an exsiting entry or to start a new entry based on a previous one.
 
-1. Take an XML file from the client and return a JSON representative that can be used to populate the client for editing.
-2. Take the JSON file, save it as Grails Domain objects and return an XML document to be saved on the local computer.
-     * If the submited JSON has an expocode that matches an existing document, if the new document is valid the old one is replaced.
-     * If the expocode does not eist and the document is valid the document is saved.
+The uploaded and saved metadata files are stored on the server by EXPOCODE.

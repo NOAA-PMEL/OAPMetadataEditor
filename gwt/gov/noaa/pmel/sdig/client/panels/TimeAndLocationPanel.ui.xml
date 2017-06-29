@@ -1,0 +1,120 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:b2="urn:import:org.gwtbootstrap3.extras.datepicker.client.ui"
+             xmlns:mde="urn:import:gov.noaa.pmel.sdig.client.widgets">
+    <g:HTMLPanel>
+        <b:Form ui:field="form">
+            <b:FieldSet>
+                <b:Heading ui:field="heading" size="H3" text="Enter the information about the time and location."></b:Heading>
+                <b:Container width="100%" pull="LEFT">
+                    <b:Row>
+                        <b:Column size="SM_2">
+                            <b:FormGroup>
+                                <b:FormLabel for="startDate" text="Start Date"></b:FormLabel>
+                                <b:Popover title="8.1 Start date of the first measurement (e.g., 2001-02-25). Please use ISO date format (YYYY-MM-DD)."
+                                           text="8.1 Start date of the first measurement (e.g., 2001-02-25). Please use ISO date format (YYYY-MM-DD).">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="startDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD " b:id="startDate"></b2:DatePicker>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_2">
+                            <b:FormGroup>
+                                <b:FormLabel for="endDate" text="End Date"></b:FormLabel>
+                                <b:Popover title="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD)."
+                                           text="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD).">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup>
+                                <b:FormLabel for="spatialRef" text="Spatial Reference System"></b:FormLabel>
+                                <b:Popover title="10 A spatial reference system or coordinate reference system defines a specific map projection, as well as transformations between different spatial reference systems. WGS 84 is the reference coordinate system used by the Global Position System"
+                                           text="10 A spatial reference system or coordinate reference system defines a specific map projection, as well as transformations between different spatial reference systems. WGS 84 is the reference coordinate system used by the Global Position System">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="spatialRef" allowBlank="true" placeholder="Spatial Reference System" b:id="spatialRef"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column offset="SM_4" size="SM_2">
+                            <b:FormGroup>
+                                <b:Popover title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)"
+                                           text="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:FormLabel for="northLat" text="North Latitude"></b:FormLabel>
+                                <b:TextBox ui:field="northLat" allowBlank="false" placeholder="North Latitude" b:id="northLat"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_2" offset="SM_3">
+                            <b:FormGroup>
+                                <b:FormLabel for="westLon" text="West Longitude"></b:FormLabel>
+                                <b:Popover title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)."
+                                           text="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="westLon" allowBlank="false" placeholder="West Longitude" b:id="westLon"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_2">
+                            <b:FormGroup>
+                                <b:FormLabel for="eastLon" text="East Longitude"></b:FormLabel>
+                                <b:Popover title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)"
+                                           text="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="eastLon" allowBlank="false" placeholder="East Longitude" b:id="eastLon"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_2" offset="SM_4">
+                            <b:FormGroup>
+                                <b:FormLabel for="southLat" text="South Latitude"></b:FormLabel>
+                                <b:Popover title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)"
+                                           text="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="southLat" allowBlank="false" placeholder="South Latitude" b:id="southLat"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_6">
+                            <b:FormGroup>
+                                <b:FormLabel for="geoNames" text="Geographic Names"></b:FormLabel>
+                                <b:Popover title="11 Names of the geographic area where the data collection takes place, e.g., Gulf of Mexico, Baltic Sea, etc"
+                                           text="11 Names of the geographic area where the data collection takes place, e.g., Gulf of Mexico, Baltic Sea, etc">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="geoNames" allowBlank="false" placeholder="Geographic Names" b:id="geoNames"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6">
+                            <b:FormGroup>
+                                <b:FormLabel for="organismLoc" text="Location of Organism Collection"></b:FormLabel>
+                                <b:Popover title="12 For biological studies, please provide the location of the organism collection here, and use the above bounding box and geographic names for the water collection site."
+                                           text="12 For biological studies, please provide the location of the organism collection here, and use the above bounding box and geographic names for the water collection site.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="organismLoc" allowBlank="true" placeholder="Location of Organism Collection" b:id="organismLoc"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_2">
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
+                        </b:Column>
+                    </b:Row>
+                </b:Container>
+            </b:FieldSet>
+        </b:Form>
+    </g:HTMLPanel>
+</ui:UiBinder>

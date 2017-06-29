@@ -1,0 +1,92 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+.fakeinputposition {
+    position: relative;
+}
+.over {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*z-index: 1;*/
+}
+.overright {
+    position: absolute;
+    top: 0px;
+    left: 155px;
+}
+.disappear {
+    position: relative;
+    text-align: right;
+    -moz-opacity:0 ;
+    filter:alpha(opacity: 0);
+    opacity: 0;
+    z-index: 2;
+}
+/* https://groups.google.com/forum/#!topic/gwtbootstrap3/3Yd5fxfEHYA */
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+.btn-file {
+
+  position: relative;
+  overflow: hidden;
+
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 999px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+
+}
+
+.btn-file > i + span{
+  padding-left: 2px;
+}
+
+
+
+.btn-file > span + i{
+  padding-left: 2px;
+
+}

@@ -1,0 +1,6 @@
+#Thu, 22 Jun 2017 10:43:25 -0500
+
+info.app.version=0.1
+info.app.name=OAPMetadataEditor
+grails.env=production
+info.app.grailsVersion=3.2.3
