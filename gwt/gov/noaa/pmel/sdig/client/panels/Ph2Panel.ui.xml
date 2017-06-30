@@ -24,6 +24,9 @@
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.13.1 Description of the pH calibration procedures.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -33,6 +36,9 @@
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.13.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -42,6 +48,9 @@
                             <b:FormGroup ui:field="pHtemperatureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pHtemperature" text="at what temperature was pH reported"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.15 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="pHtemperature" allowBlank="true" placeholder="at what temperature was pH reported" b:id="pHtemperature"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -51,6 +60,9 @@
                             <b:FormGroup ui:field="pHscaleForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pHscale" text="pH scale"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.9 The pH scale for the reported pH results, e.g., total scale, seawater scale, NBS scale, etc.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -60,6 +72,9 @@
                             <b:FormGroup ui:field="pHstandardsForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pHstandards" text="pH values of the standards"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.13.3 pH values of the standards, e.g., 4.0, 7.0, 10.0.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="pHstandards" allowBlank="true" placeholder="pH values of the standards" b:id="pHstandards"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -69,6 +84,9 @@
                             <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.14 How the temperature effect was corrected.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -76,6 +94,9 @@
                             <b:FormGroup ui:field="temperatureMeasurementForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureMeasurement" text="Temperature of measurement"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.10 Temperature at which the samples were measured.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -83,6 +104,9 @@
                             <b:FormGroup ui:field="temperatureStandarizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureStandarization" text="Temperature of standardization"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="24.13.4 Temperature at which the calibration was done.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of standardization" b:id="temperatureStandarization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>

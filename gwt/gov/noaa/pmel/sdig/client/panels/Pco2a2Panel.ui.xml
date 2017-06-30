@@ -43,6 +43,9 @@
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.16.1 Please describe the calibration procedure.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -50,6 +53,9 @@
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.16.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -59,6 +65,9 @@
                             <b:FormGroup ui:field="intakeLocationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeLocation" text="Location of seawater intake"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.9 Whereabout of the seawater intake">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -66,6 +75,9 @@
                             <b:FormGroup ui:field="intakeDepthForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeDepth" text="Depth of seawater intake"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.10 Water depth of the seawater intake">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -73,6 +85,9 @@
                             <b:FormGroup ui:field="flowRateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="flowRate" text="Water flow rate (L/min)"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -80,6 +95,9 @@
                             <b:FormGroup ui:field="ventedForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="vented" text="Vented or not"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.13.3 Is the equilibrator vented or not?">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="vented" allowBlank="true" placeholder="Vented or not" b:id="vented"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -89,6 +107,9 @@
                             <b:FormGroup ui:field="gasDetectorManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the gas detector"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.15.1 Manufacturer of the CO2 sensor.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -96,6 +117,9 @@
                             <b:FormGroup ui:field="gasDetectorModelForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDetectorModel" text="Model of the gas detector"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.15.2 Model number of the CO2 sensor.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -103,6 +127,9 @@
                             <b:FormGroup ui:field="gasDectectorResolutionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDectectorResolution" text="Resolution of the gas detector"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.15.3 Resolution of the CO2 sensor.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -110,6 +137,9 @@
                             <b:FormGroup ui:field="gasDectectorUncertaintyForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the gas detector"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.15.4 Uncertainity of the CO2 sensor.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -119,6 +149,9 @@
                             <b:FormGroup ui:field="gasFlowRateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasFlowRate" text="Headspace gas flow rate (L/min)"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.13.5 Flow rate of the gas from the equilibrator to the CO2 analyzer.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="gasFlowRate" allowBlank="true" placeholder="Headspace gas flow rate (L/min)" b:id="gasFlowRate"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -126,6 +159,9 @@
                             <b:FormGroup ui:field="standardGasManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasManufacture" text="Manufacturer of standard gas"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.16.3.1 Manufacturer of the CO2 standard gas.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="standardGasManufacture" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -133,6 +169,9 @@
                             <b:FormGroup ui:field="gasConcentrationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasConcentration" text="Concentrations of standard gas"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.16.3.2 Concentrations of the CO2 standard gases that are used to calibrate the CO2 sensor, e.g., 200, 350, 510ppm.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="gasConcentration" allowBlank="true" placeholder="Concentrations of standard gas" b:id="gasConcentration"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -140,6 +179,9 @@
                             <b:FormGroup ui:field="standardGasUncertaintiesForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasUncertainties" text="Uncertainties of standard gas"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="standardGasUncertainties" allowBlank="true" placeholder="Uncertainties of standard gas" b:id="standardGasUncertainties"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -149,6 +191,9 @@
                             <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.16.3.3 Uncertainties of the CO2 standard gas, e.g., 0.5%.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -156,6 +201,9 @@
                             <b:FormGroup ui:field="temperatureCorrectionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrection" text="Temperature correction"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="temperatureCorrection" allowBlank="true" placeholder="Temperature correction" b:id="temperatureCorrection"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -163,6 +211,9 @@
                             <b:FormGroup ui:field="vaporCorrectionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="vaporCorrection" text="Water vapor correction method"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.18 How the temperature effect was corrected.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="vaporCorrection" allowBlank="true" placeholder="Water vapor correction method" b:id="vaporCorrection"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -171,6 +222,9 @@
                             <b:FormGroup ui:field="pco2TemperatureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pco2Temperature" text="At what temperature was pCO2 reported?"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.19 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="pco2Temperature" allowBlank="true" placeholder="At what temperature was pCO2 reported?" b:id="pco2Temperature"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -180,6 +234,9 @@
                             <b:FormGroup ui:field="dryingMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="dryingMethod" text="Drying method for CO2 gas"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.14 The method used to dry the gas coming out of CO2 equilibrator, before it is pumped into the CO2 sensor.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="dryingMethod" allowBlank="true" placeholder="Drying method for CO2 gas" b:id="dryingMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -187,14 +244,20 @@
                             <b:FormGroup ui:field="equilibratorTypeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorType" text="Equilibrator type"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.13.1 Type of the equilibrator for the CO2 measurement.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="equilibratorType" allowBlank="true" placeholder="Equilibrator type" b:id="equilibratorType"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">
                             <b:FormGroup ui:field="equilibratorVolumeForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="equilibratorVolume" text="Equilibrator volume"></b:FormLabel>
-                                <b:TextBox ui:field="equilibratorVolume" allowBlank="true" placeholder="Equilibrator volume" b:id="equilibratorVolume"></b:TextBox>
+                                <b:FormLabel for="equilibratorVolume" text="Equilibrator volume (L)"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.13.2 The total volume of the CO2 equilibrator.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="equilibratorVolume" allowBlank="true" placeholder="Equilibrator volume (L)" b:id="equilibratorVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -203,13 +266,19 @@
                             <b:FormGroup ui:field="equilibratorPressureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorPressureMeasureMethod" text="How was pressure inside the equilibrator measured?"></b:FormLabel>
-                                <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
+                                <b:Popover trigger="CLICK" content="Please specify whether pressure inside the equilibrator is measured or not. If so, please describe how the pressure was measured.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
+                                <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="25.13.7 How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="equilibratorTemperatureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorTemperatureMeasureMethod" text="How was temperature inside the equilibrator measured?"></b:FormLabel>
+                                <b:Popover trigger="CLICK" content="25.13.6 Please specify whether temperatrure inside the equilibrator is measured or not. If so, please describe how the temperature was measured.">
+                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                </b:Popover>
                                 <b:TextBox ui:field="equilibratorTemperatureMeasureMethod" allowBlank="true" placeholder="How was temperature inside the equilibrator measured?" b:id="equilibratorTemperatureMeasureMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
