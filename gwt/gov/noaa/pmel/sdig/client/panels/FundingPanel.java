@@ -74,9 +74,20 @@ public class FundingPanel extends Composite {
         funding.setGrantNumber(grantNumber.getText().trim());
         return funding;
     }
+    public boolean isDirty() {
+        if ( agencyName.getText() != null && !agencyName.getText().isEmpty() ) {
+            return true;
+        }
+        if ( title.getText() != null && !title.getText().isEmpty() ) {
+            return true;
+        }
+        if ( grantNumber.getText() != null & !grantNumber.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
-
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf(form.validate());
         if (valid.equals("false") || valid.equals("0")) {

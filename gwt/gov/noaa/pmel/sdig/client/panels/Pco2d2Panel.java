@@ -268,6 +268,57 @@ public class Pco2d2Panel extends Composite {
         variable.setVaporCorrection(vaporCorrection.getText());
         return variable;
     }
+    public boolean isDirty() {
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+            return true;
+        }
+        if (storageMethod.getText() != null && !storageMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (pco2Temperature.getText() != null && !pco2Temperature.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasConcentration.getText() != null && !gasConcentration.getText().isEmpty() ) {
+            return true;
+        }
+        if (headspaceVolume.getText() != null && !headspaceVolume.getText().isEmpty() ) {
+            return true;
+        }
+        if (standardGasManufacture.getText() != null && !standardGasManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDetectorManufacture.getText() != null && !gasDetectorManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDetectorModel.getText() != null && !gasDetectorModel.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDectectorResolution.getText() != null && !gasDectectorResolution.getText().isEmpty() ) {
+            return true;
+        }
+        if (seawaterVolume.getText() != null && !seawaterVolume.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureMeasurement.getText() != null && !temperatureMeasurement.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureStandarization.getText() != null && !temperatureStandarization.getText().isEmpty() ) {
+            return true;
+        }
+        if (standardGasUncertainties.getText() != null && !standardGasUncertainties.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDectectorUncertainty.getText() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
+            return true;
+        }
+        if (vaporCorrection.getText() != null && !vaporCorrection.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public ClickHandler saveIt = new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {

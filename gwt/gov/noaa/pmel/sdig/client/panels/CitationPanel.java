@@ -85,6 +85,39 @@ public class CitationPanel extends Composite {
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
         return citation;
     }
+    public boolean isDirty() {
+        if (platformAbstract.getText() != null && !platformAbstract.getText().isEmpty() ) {
+            return true;
+        }
+        if (purpose.getText() != null && !purpose.getText().isEmpty() ) {
+            return true;
+        }
+        if (researchProjects.getText() != null && !researchProjects.getText().isEmpty() ) {
+            return true;
+        }
+        if (title.getText() != null && !title.getText().isEmpty() ) {
+            return true;
+        }
+        if (expocode.getText() != null && !expocode.getText().isEmpty() ) {
+            return true;
+        }
+        if (cruiseId.getText() != null && !cruiseId.getText().isEmpty() ) {
+            return true;
+        }
+        if (section.getText() != null && !section.getText().isEmpty() ) {
+            return true;
+        }
+        if (citationAuthorList.getText() != null && !citationAuthorList.getText().isEmpty() ) {
+            return true;
+        }
+        if (references.getText() != null && !references.getText().isEmpty() ) {
+            return true;
+        }
+        if (supplementalInformation.getText() != null && !supplementalInformation.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public void show(Citation citation) {
         if ( citation.getTitle() != null ) {
             title.setText(citation.getTitle());

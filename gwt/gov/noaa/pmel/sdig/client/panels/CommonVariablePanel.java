@@ -7,6 +7,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
+import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
@@ -18,6 +20,10 @@ import org.gwtbootstrap3.client.ui.Popover;
 import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
+import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
+import org.gwtbootstrap3.extras.notify.client.ui.Notify;
+import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -374,6 +380,39 @@ public class CommonVariablePanel extends Composite {
         commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
         return commonVariable;
+    }
+    public boolean isDirty() {
+        // Don't check abbreviation and full name since they are filled automatically.
+        if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
+            return true;
+        }
+        if (manipulationMethod.getText() != null && !manipulationMethod.getValue().isEmpty() )
+            return true;
+        if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
+            return true;
+        if (units.getText() != null && !units.getValue().isEmpty() )
+            return true;
+        if (measured.getValue() != null && !measured.getValue().isEmpty() )
+            return true;
+        if (samplingInstrument.getText() != null && !samplingInstrument.getValue().isEmpty() )
+            return true;
+        if (analyzingInstrument.getText() != null && !analyzingInstrument.getValue().isEmpty() )
+            return true;
+        if (detailedInformation.getText() != null & !detailedInformation.getValue().isEmpty() )
+            return true;
+        if (fieldReplicate.getText() != null && !fieldReplicate.getValue().isEmpty() )
+            return true;
+        if (uncertainty.getText() != null && !uncertainty.getValue().isEmpty())
+            return true;
+        if (qualityFlag.getText() != null && !qualityFlag.getValue().isEmpty() )
+            return true;
+        if (researcherName.getText() != null && !researcherName.getValue().isEmpty())
+            return true;
+        if (researcherInstitution.getText() != null && !researcherInstitution.getValue().isEmpty() )
+            return true;
+        if (referenceMethod.getText() != null && !referenceMethod.getValue().isEmpty() )
+            return true;
+        return false;
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());

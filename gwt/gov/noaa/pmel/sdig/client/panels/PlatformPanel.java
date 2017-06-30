@@ -177,6 +177,24 @@ public class PlatformPanel extends Composite {
         platform.setPlatformType(platformType.getText().trim());
         return platform;
     }
+    public boolean isDirty() {
+        if (country.getText().trim() != null && !country.getText().isEmpty() ) {
+            return true;
+        }
+        if (name.getText().trim() != null && !name.getText().isEmpty() ) {
+            return true;
+        }
+        if (owner.getText().trim() != null && !owner.getText().isEmpty() ) {
+            return true;
+        }
+        if (platformId.getText().trim() != null && !platformId.getText().isEmpty() ) {
+            return true;
+        }
+        if (platformType.getText().trim() != null && !platformType.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public void show(Platform platform) {
         if ( platform.getCountry() != null ) {
             country.setText(platform.getCountry());

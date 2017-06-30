@@ -468,6 +468,63 @@ public class GenericVariablePanel extends Composite {
         return commonVariable;
     }
 
+    public boolean isDirty() {
+        if (abbreviation.getText() != null && !abbreviation.getText().isEmpty() ) {
+            return true;
+        }
+        if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
+            return true;
+        }
+        if (manipulationMethod.getText() != null && !manipulationMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (units.getText() != null && !units.getText().isEmpty() ) {
+            return true;
+        }
+        if (samplingInstrument.getText() != null && !samplingInstrument.getText().isEmpty() ) {
+            return true;
+        }
+        if (analyzingInstrument.getText() != null && !analyzingInstrument.getText().isEmpty() ) {
+            return true;
+        }
+        if (detailedInformation.getText() != null && !detailedInformation.getText().isEmpty() ) {
+            return true;
+        }
+        if (fieldReplicate.getText() != null && !fieldReplicate.getText().isEmpty() ) {
+            return true;
+        }
+        if (uncertainty.getText() != null && !uncertainty.getText().isEmpty() ) {
+            return true;
+        }
+        if (qualityFlag.getText() != null && !qualityFlag.getText().isEmpty() ) {
+            return true;
+        }
+        if (researcherName.getText() != null && !researcherName.getText().isEmpty() ) {
+            return true;
+        }
+        if (researcherInstitution.getText() != null && !researcherInstitution.getText().isEmpty() ) {
+            return true;
+        }
+        if (fullVariableName.getText() != null && !fullVariableName.getText().isEmpty() ) {
+            return true;
+        }
+        if (referenceMethod.getText() != null && !referenceMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (biologicalSubject.getText() != null && !biologicalSubject.getText().isEmpty() ) {
+            return true;
+        }
+        if (duration.getText() != null && !duration.getText().isEmpty() ) {
+            return true;
+        }
+        if (lifeStage.getText() != null && !lifeStage.getText().isEmpty() ) {
+            return true;
+        }
+        if (speciesIdCode.getText() != null && !speciesIdCode.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public List<Variable> getVariables() {
         return variableData.getList();
     }
@@ -490,12 +547,24 @@ public class GenericVariablePanel extends Composite {
 
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
+        String warning = Constants.NOT_COMPLETE;
+        NotifyType type = NotifyType.WARNING;
+        if ( measured.getValue() == null  ) {
+            valid = "false";
+            warning = Constants.MEASURED;
+            type = NotifyType.DANGER;
+        }
+        if ( observationDetail.getValue() == null ) {
+            valid="false";
+            warning = Constants.DETAILS;
+            type = NotifyType.DANGER;
+        }
         if ( valid.equals("false") ||
                 valid.equals("0")) {
             NotifySettings settings = NotifySettings.newSettings();
-            settings.setType(NotifyType.WARNING);
+            settings.setType(type);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
-            Notify.notify(Constants.NOT_COMPLETE, settings);
+            Notify.notify(warning, settings);
         } else {
             eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
             Variable v = getGenericVariable();

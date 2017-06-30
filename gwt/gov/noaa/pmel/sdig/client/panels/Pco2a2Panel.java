@@ -363,6 +363,78 @@ public class Pco2a2Panel extends Composite {
         pco2a.setVaporCorrection(vaporCorrection.getText());
         return pco2a;
     }
+    public boolean isDirty() {
+        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+            return true;
+        }
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+            return true;
+        }
+        if (pco2Temperature.getText() != null && !pco2Temperature.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasConcentration.getText() != null && !gasConcentration.getText().isEmpty() ) {
+            return true;
+        }
+        if (intakeDepth.getText() != null && !intakeDepth.getText().isEmpty() ) {
+            return true;
+        }
+        if (dryingMethod.getText() != null && !dryingMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (equilibratorType.getText() != null && !equilibratorType.getText().isEmpty() ) {
+            return true;
+        }
+        if (equilibratorVolume.getText() != null && !equilibratorVolume.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasFlowRate.getText() != null && !gasFlowRate.getText().isEmpty() ) {
+            return true;
+        }
+        if (equilibratorPressureMeasureMethod.getText() != null && !equilibratorPressureMeasureMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (equilibratorTemperatureMeasureMethod.getText() != null && !equilibratorTemperatureMeasureMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (intakeLocation.getText() != null && !intakeLocation.getText().isEmpty() ) {
+            return true;
+        }
+        if (standardGasManufacture.getText() != null && !standardGasManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDetectorManufacture.getText() != null && !gasDetectorManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDetectorModel.getText() != null && !gasDetectorModel.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDectectorResolution.getText() != null && !gasDectectorResolution.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureCorrection.getText() != null && !temperatureCorrection.getText().isEmpty() ) {
+            return true;
+        }
+        if (standardGasUncertainties.getText() != null && !standardGasUncertainties.getText().isEmpty() ) {
+            return true;
+        }
+        if (gasDectectorUncertainty.getText() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
+            return true;
+        }
+        if (vented.getText() != null && !vented.getText().isEmpty() ) {
+            return true;
+        }
+        if (flowRate.getText() != null && !flowRate.getText().isEmpty() ) {
+            return true;
+        }
+        if (vaporCorrection.getText() != null && !vaporCorrection.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public boolean valid() {
         String valid = String.valueOf(form.validate());
         if (valid.equals("false") ||

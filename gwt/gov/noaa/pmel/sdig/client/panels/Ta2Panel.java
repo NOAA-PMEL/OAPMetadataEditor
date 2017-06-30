@@ -221,7 +221,39 @@ public class Ta2Panel extends Composite {
         ta.setTitrationType(titrationType.getText());
         return ta;
     }
-
+    public boolean isDirty() {
+        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+            return true;
+        }
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+            return true;
+        }
+        if (crmManufacture.getText() != null && !crmManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (batchNumber.getText() != null && !batchNumber.getText().isEmpty() ) {
+            return true;
+        }
+        if (poison.getText() != null && !poison.getText().isEmpty() ) {
+            return true;
+        }
+        if (poisonVolume.getText() != null && !poisonVolume.getText().isEmpty() ) {
+            return true;
+        }
+        if (poisonDescription.getText() != null && !poisonDescription.getText().isEmpty() ) {
+            return true;
+        }
+        if (curveFittingMethod.getText() != null && !curveFittingMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (magnitudeOfBlankCorrection.getText() != null && !magnitudeOfBlankCorrection.getText().isEmpty() ) {
+            return true;
+        }
+        if (titrationType.getText() != null && !titrationType.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public ClickHandler saveIt = new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {

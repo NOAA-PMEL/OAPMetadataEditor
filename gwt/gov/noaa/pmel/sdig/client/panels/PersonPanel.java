@@ -314,6 +314,45 @@ public class PersonPanel extends Composite {
         person.setIdType(idType.getValue());
         return person;
     }
+    public boolean isDirty() {
+        if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
+            return true;
+        }
+        if (address2.getText().trim() != null && !address1.getText().isEmpty() ) {
+            return true;
+        }
+        if (email.getText().trim() != null && !email.getText().isEmpty() ) {
+            return true;
+        }
+        if (firstName.getText().trim() != null && !firstName.getText().isEmpty() ) {
+            return true;
+        }
+        if (institution.getText().trim() != null && !institution.getText().isEmpty() ) {
+            return true;
+        }
+        if (lastName.getText().trim() != null && !lastName.getText().isEmpty() ) {
+            return true;
+        }
+        if (mi.getText().trim() != null && !mi.getText().isEmpty() ) {
+            return true;
+        }
+        if (rid.getText().trim() != null && !rid.getText().isEmpty() ) {
+            return true;
+        }
+        if (telephone.getText().trim() != null && !telephone.getText().isEmpty() ) {
+            return true;
+        }
+        if (city.getText().trim() != null && !city.getText().isEmpty() ) {
+            return true;
+        }
+        if (state.getText().trim() != null && !state.getText().isEmpty() ) {
+            return true;
+        }
+        if (zip.getText().trim() != null && !zip.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public void show(Person person) {
         if ( person.getAddress1() != null )
             address1.setText(person.getAddress1());

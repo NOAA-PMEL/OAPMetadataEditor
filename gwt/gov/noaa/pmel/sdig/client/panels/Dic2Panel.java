@@ -174,6 +174,32 @@ public class Dic2Panel extends Composite {
 
     }
 
+    public boolean isDirty() {
+
+        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+            return true;
+        }
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+            return true;
+        }
+        if (crmManufacture.getText() != null && !crmManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (batchNumber != null && !batchNumber.getText().isEmpty() ) {
+            return true;
+        }
+        if (poison != null && !poison.getText().isEmpty() ) {
+            return true;
+        }
+        if (poisonVolume != null && !poisonVolume.getText().isEmpty() ) {
+            return true;
+        }
+        if (poisonDescription != null && !poisonDescription.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
+
     ClickHandler saveIt = new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {

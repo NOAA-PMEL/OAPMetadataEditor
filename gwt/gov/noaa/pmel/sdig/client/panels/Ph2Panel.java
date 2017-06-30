@@ -172,6 +172,33 @@ public class Ph2Panel extends Composite {
         ph.setTemperatureStandarization(temperatureStandarization.getText());
         return ph;
     }
+    public boolean isDirty() {
+        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+            return true;
+        }
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+            return true;
+        }
+        if (pHtemperature.getText() != null && !pHtemperature.getText().isEmpty() ) {
+            return true;
+        }
+        if (pHscale.getText() != null && !pHscale.getText().isEmpty() ) {
+            return true;
+        }
+        if (pHstandards.getText() != null && !pHstandards.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureMeasurement.getText() != null && !temperatureMeasurement.getText().isEmpty() ) {
+            return true;
+        }
+        if (temperatureStandarization.getText() != null && !temperatureStandarization.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
     public ClickHandler saveIt = new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {

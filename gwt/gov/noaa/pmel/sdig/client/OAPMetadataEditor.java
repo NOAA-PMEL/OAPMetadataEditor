@@ -4,6 +4,8 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -64,6 +66,8 @@ import java.util.List;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class OAPMetadataEditor implements EntryPoint {
+
+    boolean saved = false;
 
     public interface SaveDocumentService extends RestService {
         @POST
@@ -196,6 +200,7 @@ public class OAPMetadataEditor implements EntryPoint {
             @Override
             public void onSectionSave(SectionSave event) {
                 String type = event.getType();
+                saved = false;
                 if (type.equals(Constants.SECTION_INVESTIGATOR)) {
                     // List is in the celltable data provider in the layout. Nothing to do here.
                 } else if ( type.equals(Constants.SECTION_SUBMITTER) ) {
@@ -409,6 +414,23 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         });
         ((RestServiceProxy)saveDocumentService).setResource(saveDocumentResource);
+        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+
+            @Override
+            public void onWindowClosing(Window.ClosingEvent event) {
+                if ( isDirty() && !saved ) {
+                    event.setMessage("It appears you have made changes that you have not saved. Are you sure?");
+                }
+            }
+        });
+
+        Window.addCloseHandler(new CloseHandler<Window>() {
+
+            @Override
+            public void onClose(CloseEvent<Window> event) {
+                //Execute code when window closes!
+            }
+        });
     }
     TextCallback documentSaved = new TextCallback() {
         @Override
@@ -428,6 +450,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     @Override
                     public void onClick(ClickEvent event) {
                         modal.hide();
+                        saved = true;
                         Window.open(Constants.base+"/document/xml/"+currentIndex,"_blank", null);
                     }
                 });
@@ -582,4 +605,24 @@ public class OAPMetadataEditor implements EntryPoint {
         }
     };
 
+    private boolean isDirty() {
+        return
+        investigatorPanel.isDirty() ||
+        submitterPanel.isDirty() ||
+        citationPanel.isDirty() ||
+        timeAndLocationPanel.isDirty() ||
+        fundingPanel.isDirty() ||
+        platformPanel.isDirty() ||
+        dicPanel.isDirty() ||
+        dic2Panel.isDirty() ||
+        taPanel.isDirty() ||
+        ta2Panel.isDirty() ||
+        phPanel.isDirty() ||
+        ph2Panel.isDirty() ||
+        pco2aPanel.isDirty() ||
+        pco2a2Panel.isDirty() ||
+        pco2dPanel.isDirty() ||
+        pco2d2Panel.isDirty() ||
+        genericVariablePanel.isDirty();
+    }
 }

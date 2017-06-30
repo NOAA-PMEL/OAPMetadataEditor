@@ -45,13 +45,25 @@ public class Pco2dPanel extends CommonVariablePanel {
         @Override
         public void onClick(ClickEvent event) {
             // For some reason this returns a "0" in debug mode.
-            String valid = String.valueOf(form.validate());
-            if (valid.equals("false") ||
+            String valid = String.valueOf( form.validate());
+            String warning = Constants.NOT_COMPLETE;
+            NotifyType type = NotifyType.WARNING;
+            if ( isDirty() && measured.getValue() == null  ) {
+                valid = "false";
+                warning = Constants.MEASURED;
+                type = NotifyType.DANGER;
+            }
+            if ( isDirty() && observationDetail.getValue() == null ) {
+                valid="false";
+                warning = Constants.DETAILS;
+                type = NotifyType.DANGER;
+            }
+            if ( valid.equals("false") ||
                     valid.equals("0")) {
                 NotifySettings settings = NotifySettings.newSettings();
-                settings.setType(NotifyType.WARNING);
+                settings.setType(type);
                 settings.setPlacement(NotifyPlacement.TOP_CENTER);
-                Notify.notify(Constants.NOT_COMPLETE, settings);
+                Notify.notify(warning, settings);
             } else {
                 eventBus.fireEventFromSource(new SectionSave(null, Constants.SECTION_PCO2D), Pco2dPanel.this);
                 NotifySettings settings = NotifySettings.newSettings();

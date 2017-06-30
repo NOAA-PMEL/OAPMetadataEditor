@@ -100,7 +100,6 @@ public class TimeAndLocationPanel extends Composite {
     public TimeAndLocation getTimeAndLocation() {
         TimeAndLocation timeAndLocation = new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
-        // TODO manage dates with gwttime
         timeAndLocation.setEndDate(endDate.getValue().toString());
         timeAndLocation.setStartDate(startDate.getValue().toString());
         timeAndLocation.setGeoNames(geoNames.getText().trim());
@@ -110,6 +109,36 @@ public class TimeAndLocationPanel extends Composite {
         timeAndLocation.setSpatialRef(spatialRef.getText().trim());
         timeAndLocation.setWestLon(westLon.getText().trim());
         return timeAndLocation;
+    }
+    public boolean isDirty() {
+        if (eastLon.getText() != null && !eastLon.getText().isEmpty() ) {
+            return true;
+        }
+        if (endDate.getValue().toString() != null && !endDate.getValue().toString().isEmpty() ) {
+            return true;
+        }
+        if (startDate.getValue().toString() != null && !startDate.getValue().toString().isEmpty() ) {
+            return true;
+        }
+        if (geoNames.getText().trim() != null && !geoNames.getText().isEmpty() ) {
+            return true;
+        }
+        if (northLat.getText().trim() != null && !northLat.getText().isEmpty() ) {
+            return true;
+        }
+        if (organismLoc.getText().trim() != null && !organismLoc.getText().isEmpty() ) {
+            return true;
+        }
+        if (southLat.getText().trim() != null && !southLat.getText().isEmpty() ) {
+            return true;
+        }
+        if (spatialRef.getText().trim() != null && !spatialRef.getText().isEmpty() ) {
+            return true;
+        }
+        if (westLon.getText().trim() != null && !westLon.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
     }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
