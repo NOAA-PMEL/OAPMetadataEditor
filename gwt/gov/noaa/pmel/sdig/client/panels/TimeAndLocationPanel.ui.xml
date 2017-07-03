@@ -40,52 +40,71 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+                    <!-- GEO START -->
                     <b:Row>
-                        <b:Column offset="SM_4" size="SM_2">
-                            <b:FormGroup>
-                                <b:Popover trigger="CLICK" title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)"
-                                           text="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)">
-                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
-                                <b:FormLabel for="northLat" text="North Latitude"></b:FormLabel>
-                                <b:TextBox ui:field="northLat" allowBlank="false" placeholder="North Latitude" b:id="northLat"></b:TextBox>
-                            </b:FormGroup>
+                        <b:Column size="SM_8">
+                            <b:Panel>
+                                <b:PanelHeader><b:Heading size="H3" text="Geographic Extents">
+                                    <b:Popover trigger="CLICK" content="Latitude and Longitude values should be entered as decimal degrees, with negative values for South latitudes and West longitudes.">
+                                        <b:Icon marginBottom="12" pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                    </b:Popover>
+                                </b:Heading>
+                                </b:PanelHeader>
+                                <b:PanelBody>
+                                    <b:Container width="100%" pull="LEFT">
+                                        <b:Row>
+                                            <b:Column offset="SM_2" size="SM_4">
+                                                <b:FormGroup>
+                                                    <b:Popover trigger="CLICK" title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)"
+                                                               text="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)">
+                                                        <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                                    </b:Popover>
+                                                    <b:FormLabel for="northLat" text="North Latitude"></b:FormLabel>
+                                                    <b:TextBox ui:field="northLat" allowBlank="false" placeholder="North Latitude (-90.000 to 90.000)" b:id="northLat"></b:TextBox>
+                                                </b:FormGroup>
+                                            </b:Column>
+                                        </b:Row>
+                                        <b:Row>
+                                            <b:Column offset="SM_1" size="SM_4">
+                                                <b:FormGroup>
+                                                    <b:FormLabel for="westLon" text="West Longitude"></b:FormLabel>
+                                                    <b:Popover trigger="CLICK" title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)."
+                                                               text="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).">
+                                                        <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                                    </b:Popover>
+                                                    <b:TextBox ui:field="westLon" allowBlank="false" placeholder="West Longitude (-180.000 to 180.000)" b:id="westLon"></b:TextBox>
+                                                </b:FormGroup>
+                                            </b:Column>
+                                            <b:Column size="SM_4">
+                                                <b:FormGroup>
+                                                    <b:FormLabel for="eastLon" text="East Longitude"></b:FormLabel>
+                                                    <b:Popover trigger="CLICK" title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)"
+                                                               text="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)">
+                                                        <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                                    </b:Popover>
+                                                    <b:TextBox ui:field="eastLon" allowBlank="false" placeholder="East Longitude (-180.000 to 180.000)" b:id="eastLon"></b:TextBox>
+                                                </b:FormGroup>
+                                            </b:Column>
+                                        </b:Row>
+                                        <b:Row>
+                                            <b:Column offset="SM_2" size="SM_4">
+                                                <b:FormGroup>
+                                                    <b:FormLabel for="southLat" text="South Latitude"></b:FormLabel>
+                                                    <b:Popover trigger="CLICK" title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)"
+                                                               text="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)">
+                                                        <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
+                                                    </b:Popover>
+                                                    <b:TextBox ui:field="southLat" allowBlank="false" placeholder="South Latitude (-90.000 to 90.000)" b:id="southLat"></b:TextBox>
+                                                </b:FormGroup>
+                                            </b:Column>
+                                        </b:Row>
+                                    </b:Container>
+
+                                </b:PanelBody>
+                            </b:Panel>
                         </b:Column>
                     </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_2" offset="SM_3">
-                            <b:FormGroup>
-                                <b:FormLabel for="westLon" text="West Longitude"></b:FormLabel>
-                                <b:Popover trigger="CLICK" title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)."
-                                           text="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).">
-                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
-                                <b:TextBox ui:field="westLon" allowBlank="false" placeholder="West Longitude" b:id="westLon"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_2">
-                            <b:FormGroup>
-                                <b:FormLabel for="eastLon" text="East Longitude"></b:FormLabel>
-                                <b:Popover trigger="CLICK" title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)"
-                                           text="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)">
-                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
-                                <b:TextBox ui:field="eastLon" allowBlank="false" placeholder="East Longitude" b:id="eastLon"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_2" offset="SM_4">
-                            <b:FormGroup>
-                                <b:FormLabel for="southLat" text="South Latitude"></b:FormLabel>
-                                <b:Popover trigger="CLICK" title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)"
-                                           text="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)">
-                                    <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
-                                <b:TextBox ui:field="southLat" allowBlank="false" placeholder="South Latitude" b:id="southLat"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
+                    <!-- GEO END-->
                     <b:Row>
                         <b:Column size="SM_6">
                             <b:FormGroup>
@@ -97,6 +116,8 @@
                                 <b:TextBox ui:field="geoNames" allowBlank="false" placeholder="Geographic Names" b:id="geoNames"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                    </b:Row>
+                    <b:Row>
                         <b:Column size="SM_6">
                             <b:FormGroup>
                                 <b:FormLabel for="organismLoc" text="Location of Organism Collection"></b:FormLabel>
