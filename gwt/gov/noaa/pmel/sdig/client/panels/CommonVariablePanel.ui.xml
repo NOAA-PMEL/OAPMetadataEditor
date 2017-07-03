@@ -63,7 +63,7 @@ Unnamed variables have "Full variable name in addition.
                                            text="">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
-                                <b:TextBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:TextBox>
+                                <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

@@ -43,7 +43,7 @@
                                 <b:Popover trigger="CLICK" content="27.4 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc">
                                     <b:Icon pull="RIGHT" marginRight="10" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
-                                <b:TextBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:TextBox>
+                                <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

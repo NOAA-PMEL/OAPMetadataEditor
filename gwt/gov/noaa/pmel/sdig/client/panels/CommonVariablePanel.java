@@ -10,6 +10,7 @@ import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
+import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
@@ -47,8 +48,8 @@ public class CommonVariablePanel extends Composite {
     TextBox abbreviation;
 
     // 002 Observation type
-    @UiField
-    TextBox observationType;
+    @UiField (provided = true)
+    SuggestBox observationType;
 
     // 003 Manipulation method
     @UiField
@@ -251,6 +252,7 @@ public class CommonVariablePanel extends Composite {
     EventBus eventBus = clientFactory.getEventBus();
 
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
+    ObservationTypeSuggestOracle observationTypeOracle = new ObservationTypeSuggestOracle();
 
 //TODO initialize the cell type dropdown.
 
@@ -263,6 +265,7 @@ public class CommonVariablePanel extends Composite {
 
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
         analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
+        observationType = new SuggestBox(observationTypeOracle);
 
         initWidget(ourUiBinder.createAndBindUi(this));
 

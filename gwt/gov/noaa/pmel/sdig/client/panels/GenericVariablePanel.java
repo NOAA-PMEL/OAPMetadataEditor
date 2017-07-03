@@ -21,6 +21,7 @@ import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
+import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Person;
@@ -64,8 +65,8 @@ public class GenericVariablePanel extends Composite {
     TextBox abbreviation;
 
     // 002 Observation type
-    @UiField
-    TextBox observationType;
+    @UiField (provided = true)
+    SuggestBox observationType;
 
     // 003 Manipulation method
     @UiField
@@ -253,6 +254,7 @@ public class GenericVariablePanel extends Composite {
 
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
+    ObservationTypeSuggestOracle observationTypeSuggestOracle = new ObservationTypeSuggestOracle();
 
     public void reset() {
         form.reset();
@@ -275,6 +277,8 @@ public class GenericVariablePanel extends Composite {
         fullVariableName = new SuggestBox(variableSuggestOracle);
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
         analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
+        observationType = new SuggestBox(observationTypeSuggestOracle);
+
 
         initWidget(ourUiBinder.createAndBindUi(this));
         heading.setText("Continue entering information for this variable.");

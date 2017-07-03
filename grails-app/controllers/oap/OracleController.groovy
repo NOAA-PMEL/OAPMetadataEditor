@@ -692,4 +692,92 @@ class OracleController {
         }
         render suggestions as JSON;
     }
+    def observationTypes = [
+            "ATLAS",
+            "BENTHIC STUDY",
+            "BUOY - DRIFTING",
+            "BUOY - MOORED",
+            "CURRENT MEASUREMENTS",
+            "DERIVED PRODUCTS",
+            "DISCRETE SAMPLING",
+            "DOCUMENTATION ONLY - NO OBSERVATION TYPE",
+            "FISH EXAMINATION",
+            "GIS PRODUCT",
+            "ICE CORE",
+            "ICE HOLE SAMPLING",
+            "IMAGERY",
+            "INTEGRATED PROFILES",
+            "LABORATORY EXPERIMENTS",
+            "MANUAL SAMPLE COLLECTION",
+            "MARINE MAMMAL OBSERVATION",
+            "MODEL OUTPUT",
+            "NAVIGATIONAL",
+            "PORE WATER CHEMISTRY",
+            "PROFILE (e.g., CTD)",
+            "PUMP CAST",
+            "SATELLITE DATA",
+            "SEDIMENT ANALYSIS",
+            "SURFACE MEASUREMENTS (EXCLUDING UNDERWAY)",
+            "SURFACE UNDERWAY",
+            "SURVEY - BIOLOGICAL",
+            "SURVEY - CORAL REEF",
+            "TIME SERIES",
+            "TIME SERIES PROFILE",
+            "TOWS",
+            "TRAWL",
+            "UNDULATING PROFILE (e.g., ARGO)",
+            "VISUAL OBSERVATION"
+    ]
+    def observationTypeId = [
+            37,
+            1,
+            54,
+            53,
+            45,
+            46,
+            52,
+            47,
+            61,
+            39,
+            57,
+            58,
+            51,
+            10,
+            62,
+            11,
+            59,
+            48,
+            50,
+            17,
+            18,
+            43,
+            20,
+            42,
+            23,
+            27,
+            33,
+            34,
+            24,
+            55,
+            25,
+            44,
+            56,
+            30
+    ]
+    def observationType () {
+        def queryJSON = request.JSON
+        SuggestQuery vq = new SuggestQuery(queryJSON)
+        String query = vq.getQuery()
+        List<NceiSuggestion> suggestions = new ArrayList<NceiSuggestion>()
+        if (query) {
+            for (int i = 0; i < observationTypes.size(); i++) {
+                if (observationTypes.get(i).toLowerCase().contains(query)) {
+                    NceiSuggestion v = new NceiSuggestion();
+                    v.setSuggestion(observationTypes.get(i))
+                    suggestions.add(v)
+                }
+            }
+        }
+        render suggestions as JSON;
+    }
 }
