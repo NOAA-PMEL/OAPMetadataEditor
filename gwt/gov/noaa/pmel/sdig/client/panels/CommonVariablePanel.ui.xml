@@ -47,7 +47,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
-                                <b:FormLabel for="fullVariableName" text="Full variable name"></b:FormLabel>
+                                <b:FormLabel for="fullVariableName" text="Full Variable Name"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="fullVariableNamePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
@@ -142,7 +142,7 @@ Unnamed variables have "Full variable name in addition.
                         <!-- Keep -->
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="calculationMethodForm">
-                                <b:FormLabel for="calculationMethod" text="Calculation method and parameters"></b:FormLabel>
+                                <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="calculationMethodPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
@@ -154,7 +154,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
-                                <b:FormLabel for="referenceMethod" text="Method reference (citation)"></b:FormLabel>
+                                <b:FormLabel for="referenceMethod" text="Method Reference (citation)"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="referenceMethodPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
@@ -167,7 +167,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_12">
                             <!-- Keep -->
                             <b:FormGroup ui:field="detailedInformationForm">
-                                <b:FormLabel for="detailedInformation" text="Detailed sampling and analyzing information"></b:FormLabel>
+                                <b:FormLabel for="detailedInformation" text="Detailed Sampling and Analyzing Information"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="detailedInformationPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
@@ -192,7 +192,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel for="qualityFlag" text="Data quality flag description"></b:FormLabel>
+                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="qualityFlagPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
@@ -227,7 +227,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="fieldReplicate" text="Field replicate information"></b:FormLabel>
+                                <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="fieldReplicatePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>

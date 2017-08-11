@@ -89,7 +89,7 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="citationAuthorList" text="List of authors for citation"></b:FormLabel>
+                                <b:FormLabel for="citationAuthorList" text="List of Authors for Citation"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" title="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of Lastname1, Firstname1, Middlename1; Lastname2, Firstname2, Middlename2; … for this field."
                                            text="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of Lastname1, Firstname1, Middlename1; Lastname2, Firstname2, Middlename2; … for this field.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>

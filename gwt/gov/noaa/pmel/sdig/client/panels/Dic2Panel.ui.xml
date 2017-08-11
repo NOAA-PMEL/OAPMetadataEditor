@@ -23,7 +23,7 @@
                         <b:Column size="SM_8">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
+                                <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="22.12.1 Description of the standardization procedure.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -67,7 +67,7 @@
                         <b:Column size="SM_3">
                             <b:FormGroup ui:field="poisonForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poison" text="Poison used to kill the sample"></b:FormLabel>
+                                <b:FormLabel for="poison" text="Poison Used to Kill the Sample"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="22.13.1 As described, e.g., Mercury Chloride.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -87,7 +87,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poisonDescription" text="Poisoning correction description"></b:FormLabel>
+                                <b:FormLabel for="poisonDescription" text="Poisoning Dorrection Description"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="22.13.3 Please specify whether the reported variables were corrected for poison usage, and if so, how they were corrected.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
