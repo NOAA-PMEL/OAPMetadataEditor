@@ -8,6 +8,7 @@ class Person {
     String address1;
     String address2;
     String telephone;
+    String extension;
     String email;
     String rid;
     String city;
@@ -24,6 +25,7 @@ class Person {
         address1 (nullable: true)
         address2 (nullable: true)
         telephone (nullable: true)
+        extension (nullable: true)
         email (nullable: true)
         rid (nullable: true)
         city (nullable: true)

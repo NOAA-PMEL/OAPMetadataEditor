@@ -81,6 +81,8 @@ public class PersonPanel extends Composite {
     @UiField
     TextBox telephone;
     @UiField
+    TextBox extension;
+    @UiField
     TextBox city;
     @UiField
     TextBox state;
@@ -308,6 +310,7 @@ public class PersonPanel extends Composite {
         person.setMi(mi.getText().trim());
         person.setRid(rid.getText().trim());
         person.setTelephone(telephone.getText().trim());
+        person.setExtension(extension.getText().trim());
         person.setCity(city.getText().trim());
         person.setState(state.getText().trim());
         person.setZip(zip.getText().trim());
@@ -342,6 +345,9 @@ public class PersonPanel extends Composite {
         if (telephone.getText().trim() != null && !telephone.getText().isEmpty() ) {
             return true;
         }
+        if (extension.getText().trim() != null && !extension.getText().isEmpty() ) {
+            return true;
+        }
         if (city.getText().trim() != null && !city.getText().isEmpty() ) {
             return true;
         }
@@ -372,6 +378,8 @@ public class PersonPanel extends Composite {
             rid.setText(person.getRid());
         if ( person.getTelephone() != null )
             telephone.setText(person.getTelephone());
+        if (person.getExtension() != null )
+            extension.setText(person.getExtension());
         if ( person.getCity() != null )
             city.setText(person.getCity());
         if ( person.getState().trim() != null )

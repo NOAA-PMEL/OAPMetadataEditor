@@ -11,6 +11,7 @@ public class Person {
     String address1;
     String address2;
     String telephone;
+    String extension;
     String email;
     String rid;
     String city;
@@ -80,6 +81,14 @@ public class Person {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getEmail() {

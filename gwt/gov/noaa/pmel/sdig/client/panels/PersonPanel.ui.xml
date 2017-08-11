@@ -86,7 +86,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_3">
                             <b:FormGroup>
                                 <b:FormLabel for="telephone" text="Telephone Number"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="telephonePopover" title="" text="">
@@ -95,7 +95,16 @@
                                 <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" b:id="telephone"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_8">
+                        <b:Column size="SM_2">
+                            <b:FormGroup>
+                                <b:FormLabel for="ext" text="Extension"></b:FormLabel>
+                                <b:Popover trigger="FOCUS" container="body" ui:field="extensionPopoer" title="" text="" content="The extension for the phone number if applicable.">
+                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                </b:Popover>
+                                <b:TextBox ui:field="extension" allowBlank="true" placeholder="Extension" b:id="extension"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_7">
                             <b:FormGroup>
                                 <b:FormLabel for="email" text="Email Address"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="emailPopover" title="" text="">

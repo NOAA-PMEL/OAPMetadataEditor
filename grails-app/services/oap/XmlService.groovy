@@ -1269,8 +1269,11 @@ class XmlService {
         if ( p.getZip() )
             person.addContent(new Element("zip").setText(p.getZip()))
 //            person.addContent(new Element("country").setText(p.getCountry()))
-        if ( p.getTelephone() )
+        if ( p.getTelephone() && p.getExtension() ) {
+            person.addContent(new Element("phone").setText(p.getTelephone() + " " +p.getExtension() ))
+        } else if ( p.getTelephone() ) {
             person.addContent(new Element("phone").setText(p.getTelephone()))
+        }
         if ( p.getEmail() )
             person.addContent(new Element("email").setText(p.getEmail()))
         if ( p.getRid() )
