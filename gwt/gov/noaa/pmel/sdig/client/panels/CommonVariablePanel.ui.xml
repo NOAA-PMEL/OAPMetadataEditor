@@ -37,7 +37,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="abbreviationPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="abbreviationPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -48,7 +48,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel for="fullVariableName" text="Full variable name"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="fullVariableNamePopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="fullVariableNamePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -59,7 +59,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="observationTypePopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="observationTypePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -72,7 +72,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="samplingInstrumentPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="samplingInstrumentPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -83,7 +83,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analysing Instrument"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="analyzingInstrumentPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="analyzingInstrumentPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -94,7 +94,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
                                 <b:FormLabel for="units" text="Units"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="unitsPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="unitsPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -107,7 +107,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="observationDetailPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="observationDetailPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -118,7 +118,7 @@ Unnamed variables have "Full variable name in addition.
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="measuredPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="measuredPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -129,7 +129,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="manipulationMethodPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="manipulationMethodPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -143,7 +143,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation method and parameters"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="calculationMethodPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="calculationMethodPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -155,7 +155,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
                                 <b:FormLabel for="referenceMethod" text="Method reference (citation)"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="referenceMethodPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="referenceMethodPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -168,7 +168,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="detailedInformationForm">
                                 <b:FormLabel for="detailedInformation" text="Detailed sampling and analyzing information"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="detailedInformationPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="detailedInformationPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -182,7 +182,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
                                 <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="uncertaintyPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="uncertaintyPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -193,7 +193,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
                                 <b:FormLabel for="qualityFlag" text="Data quality flag description"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="qualityFlagPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="qualityFlagPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -204,7 +204,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="researcherNamePopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="researcherNamePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -215,7 +215,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherInstitutionForm">
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="researcherInstitutionPopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="researcherInstitutionPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -228,7 +228,7 @@ Unnamed variables have "Full variable name in addition.
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field replicate information"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" ui:field="fieldReplicatePopover" title=""
+                                <b:Popover trigger="FOCUS" container="body" ui:field="fieldReplicatePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>

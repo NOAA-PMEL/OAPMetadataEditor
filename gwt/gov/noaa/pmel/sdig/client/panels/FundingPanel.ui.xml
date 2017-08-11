@@ -12,7 +12,7 @@
                         <b:Column size="SM_3">
                             <b:FormGroup>
                                 <b:FormLabel for="agencyName" text="Agency Name"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" title="13.1 Funding agency of the data collection. Examples include, National Science Foundation, NOAA's Ocean Acidificaiton Program, etc."
+                                <b:Popover trigger="FOCUS" container="body" title="13.1 Funding agency of the data collection. Examples include, National Science Foundation, NOAA's Ocean Acidificaiton Program, etc."
                                            text="13.1 Funding agency of the data collection. Examples include, National Science Foundation, NOAA's Ocean Acidificaiton Program, etc.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -22,7 +22,7 @@
                         <b:Column size="SM_9">
                             <b:FormGroup>
                                 <b:FormLabel for="title" text="Project Title"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" title="13.2 The title of your funded project"
+                                <b:Popover trigger="FOCUS" container="body" title="13.2 The title of your funded project"
                                            text="13.2 The title of your funded project">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -34,7 +34,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="grantNumber" text="Grant Number"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" title="13.3 The ID of your funded project"
+                                <b:Popover trigger="FOCUS" container="body" title="13.3 The ID of your funded project"
                                            text="13.3 The ID of your funded project">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
