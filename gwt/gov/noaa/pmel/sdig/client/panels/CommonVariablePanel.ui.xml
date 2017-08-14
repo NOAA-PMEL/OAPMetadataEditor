@@ -103,7 +103,7 @@ Unnamed variables have "Full variable name in addition.
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
@@ -114,7 +114,7 @@ Unnamed variables have "Full variable name in addition.
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>

@@ -69,7 +69,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_4">
                             <b:FormGroup ui:field="poisonForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poison" text="Poison used to kill the sample"></b:FormLabel>
@@ -79,7 +79,7 @@
                                 <b:TextBox ui:field="poison" allowBlank="true" placeholder="Poison used to kill the sample" b:id="poison"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_4">
                             <b:FormGroup ui:field="poisonVolumeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poisonVolume" text="Poison Volume"></b:FormLabel>
@@ -89,7 +89,7 @@
                                 <b:TextBox ui:field="poisonVolume" allowBlank="true" placeholder="Poison Volume" b:id="poisonVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_4">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poisonDescription" text="Poisoning correction description"></b:FormLabel>

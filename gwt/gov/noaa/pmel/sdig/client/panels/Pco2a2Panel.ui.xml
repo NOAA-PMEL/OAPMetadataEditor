@@ -262,7 +262,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_5">
                             <b:FormGroup ui:field="equilibratorPressureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorPressureMeasureMethod" text="How was pressure inside the equilibrator measured?"></b:FormLabel>
@@ -272,7 +272,7 @@
                                 <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="25.13.7 How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_5">
                             <b:FormGroup ui:field="equilibratorTemperatureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorTemperatureMeasureMethod" text="How was temperature inside the equilibrator measured?"></b:FormLabel>

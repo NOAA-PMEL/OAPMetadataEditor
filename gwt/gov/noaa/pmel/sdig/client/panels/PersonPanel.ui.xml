@@ -62,14 +62,14 @@
                     <b:Row>
                         <b:Column size="SM_6">
                             <b:FormGroup>
-                                <b:FormLabel for="city" text="City"></b:FormLabel>
+                                <b:FormLabel paddingBottom="12" for="city" text="City"></b:FormLabel>
                                 <b:TextBox ui:field="city" allowBlank="true" placeholder="City" b:id="city">
                                 </b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel for="state" text="State/Province"></b:FormLabel>
+                                <b:FormLabel paddingBottom="12" for="state" text="State/Province"></b:FormLabel>
                                 <b:TextBox ui:field="state" allowBlank="true" placeholder="State/Province" b:id="state">
                                 </b:TextBox>
                             </b:FormGroup>
