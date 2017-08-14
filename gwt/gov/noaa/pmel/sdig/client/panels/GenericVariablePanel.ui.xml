@@ -61,11 +61,11 @@
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
-                                <b:FormLabel for="analyzingInstrument" text="Analysing Instrument"></b:FormLabel>
+                                <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.11 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
-                                <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analysing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
+                                <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">

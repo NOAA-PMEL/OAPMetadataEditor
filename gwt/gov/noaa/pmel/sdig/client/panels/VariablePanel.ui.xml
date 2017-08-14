@@ -125,7 +125,7 @@
                         </b:Column>
                         <b:Column size="SM_3">
                             <b:FormGroup ui:field="analyzingInstrumentForm">
-                                <b:FormLabel for="analyzingInstrument" text="Analysing Instrument"></b:FormLabel>
+                                <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
                                 <mde:ButtonDropDown ui:field="analyzingInstrument"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
