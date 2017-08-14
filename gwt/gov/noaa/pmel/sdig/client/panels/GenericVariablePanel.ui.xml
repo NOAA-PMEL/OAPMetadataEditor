@@ -226,7 +226,7 @@
                         <b:Column size="SM_3">
                             <b:FormGroup ui:field="lifeStageForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="lifeStage" text="Life stage of the biological subject)"></b:FormLabel>
+                                <b:FormLabel for="lifeStage" text="Life stage of the biological subject"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.20 Life stage of the biological subject (a specific species genus or a community).">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
