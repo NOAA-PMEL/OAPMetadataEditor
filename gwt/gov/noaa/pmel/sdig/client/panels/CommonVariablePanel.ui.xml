@@ -37,7 +37,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" ui:field="abbreviationPopover" title=""
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" ui:field="abbreviationPopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -48,7 +48,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel for="fullVariableName" text="Full Variable Name"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" ui:field="fullVariableNamePopover" title=""
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" ui:field="fullVariableNamePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
@@ -59,7 +59,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" ui:field="observationTypePopover" title=""
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" ui:field="observationTypePopover" title=""
                                            text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>

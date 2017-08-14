@@ -12,7 +12,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="title" text="Title"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" title="5 Provide a descriptive title for the data set." text="5 Provide a descriptive title for the data set.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" title="5 Provide a descriptive title for the data set." text="5 Provide a descriptive title for the data set.">
                                     <b:Button icon="QUESTION_CIRCLE" pull="RIGHT"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="title" allowBlank="false" placeholder="Title" b:id="title"></b:TextBox>

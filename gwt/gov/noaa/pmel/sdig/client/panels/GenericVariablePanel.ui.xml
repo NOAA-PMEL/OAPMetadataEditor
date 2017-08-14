@@ -20,7 +20,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="27.1 Column header name of the variable in the data files, e.g., T, DO, etc.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="27.1 Column header name of the variable in the data files, e.g., T, DO, etc.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="abbreviation" allowBlank="true" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
@@ -30,7 +30,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel for="fullVariableName" text="Full variable name"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:SuggestBox ui:field="fullVariableName" allowBlank="true" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
@@ -40,7 +40,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="27.4 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="27.4 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>

@@ -24,7 +24,7 @@
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="22.12.1 Description of the standardization procedure.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="22.12.1 Description of the standardization procedure.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>

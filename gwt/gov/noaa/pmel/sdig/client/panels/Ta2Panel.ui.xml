@@ -29,7 +29,7 @@
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="23.15.1 Description of the standardization procedure.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="23.15.1 Description of the standardization procedure.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -41,7 +41,7 @@
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="23.15.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="23.15.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
@@ -51,7 +51,7 @@
                             <b:FormGroup ui:field="crmManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="crmManufacture" text="CRM Manufacture"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="23.15.3.1 Manufacture of the Certified Reference Material, e.g., Andrew Dickson's lab at Scripps Institute of Oceanography.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="23.15.3.1 Manufacture of the Certified Reference Material, e.g., Andrew Dickson's lab at Scripps Institute of Oceanography.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="crmManufacture" allowBlank="true" placeholder="CRM Manufacture" b:id="crmManufacture"></b:TextBox>
@@ -61,7 +61,7 @@
                             <b:FormGroup ui:field="batchNumberForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="batchNumber" text="Batch Number"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="23.15.3.2 The batch number of the CRMs that are used to calibrate the instrument.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="23.15.3.2 The batch number of the CRMs that are used to calibrate the instrument.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="batchNumber" allowBlank="true" placeholder="Batch Number" b:id="batchNumber"></b:TextBox>

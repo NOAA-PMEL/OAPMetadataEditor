@@ -24,7 +24,7 @@
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="24.13.1 Description of the pH calibration procedures.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="24.13.1 Description of the pH calibration procedures.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -36,7 +36,7 @@
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="24.13.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="24.13.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>

@@ -39,7 +39,7 @@
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="26.17.1 Description of the calibration procedure.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="26.17.1 Description of the calibration procedure.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -49,7 +49,7 @@
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="26.17.2 How frequent was the calibration carried out, e.g., every 6 samples, etc.">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="26.17.2 How frequent was the calibration carried out, e.g., every 6 samples, etc.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>

@@ -10,20 +10,20 @@
                     <b:Row>
                         <b:Column size="SM_5">
                             <b:FormGroup>
-                                <b:FormLabel for="firstName" text="First Name"></b:FormLabel>
+                                <b:FormLabel paddingBottom="13" for="firstName" text="First Name"></b:FormLabel>
                                 <b:TextBox ui:field="firstName" allowBlank="false" placeholder="First Name" b:id="firstName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel for="mi" text="M.I."></b:FormLabel>
+                                <b:FormLabel paddingBottom="13" for="mi" text="M.I."></b:FormLabel>
                                 <b:TextBox ui:field="mi" allowBlank="true" placeholder="M.I.(s)" b:id="mi"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_5">
                             <b:FormGroup>
                                 <b:FormLabel for="lastName" text="Last Name"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" ui:field="namePopover" title="" text="">
+                                <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" ui:field="namePopover" title="" text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="lastName" allowBlank="false" placeholder="Last Name" b:id="lastName"></b:TextBox>
