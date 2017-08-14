@@ -72,6 +72,7 @@ DIC: Researcher Institution
         researcherInstitutionPopover.setContent("22.17.2 The institution of the PI, whose research team measured or derived this parameter.");
         fullVariableNamePopover.setContent("The full variable name.");
         referenceMethodPopover.setContent("22.16 Citation for the dissolved inorganic carbon method.");
+        unitsPopover.setContent("22.5 Units of the variable (e.g., μmol/kg).");
 
     }
     public Variable getDic() {

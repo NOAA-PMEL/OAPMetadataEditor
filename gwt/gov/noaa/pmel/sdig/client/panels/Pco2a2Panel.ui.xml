@@ -85,7 +85,7 @@
                             <b:FormGroup ui:field="flowRateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="flowRate" text="Water Flow Rate (L/min)"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="">
+                                <b:Popover trigger="FOCUS" container="body" content="25.13.4 Flow rate of the flow through seawater.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
@@ -179,7 +179,7 @@
                             <b:FormGroup ui:field="standardGasUncertaintiesForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasUncertainties" text="Uncertainties of Standard Gas"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="">
+                                <b:Popover trigger="FOCUS" container="body" content="25.16.3.3 Uncertainties of the CO2 standard gas, e.g., 0.5%.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardGasUncertainties" allowBlank="true" placeholder="Uncertainties of standard gas" b:id="standardGasUncertainties"></b:TextBox>
@@ -191,20 +191,10 @@
                             <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature Correction Method"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="25.16.3.3 Uncertainties of the CO2 standard gas, e.g., 0.5%.">
+                                <b:Popover trigger="FOCUS" container="body" content="25.18 How the temperature effect was corrected.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_3">
-                            <b:FormGroup ui:field="temperatureCorrectionForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="temperatureCorrection" text="Temperature Correction"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
-                                </b:Popover>
-                                <b:TextBox ui:field="temperatureCorrection" allowBlank="true" placeholder="Temperature correction" b:id="temperatureCorrection"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">

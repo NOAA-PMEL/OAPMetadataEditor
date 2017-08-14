@@ -94,8 +94,7 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
                                 <b:FormLabel for="units" text="Units"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" ui:field="unitsPopover" title=""
-                                           text="">
+                                <b:Popover trigger="FOCUS" container="body" ui:field="unitsPopover" title="" text="">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>

@@ -103,7 +103,7 @@
                         <b:Column size="SM_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
-                                <b:Popover trigger="FOCUS" container="body" content="">
+                                <b:Popover trigger="FOCUS" container="body" content="22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>

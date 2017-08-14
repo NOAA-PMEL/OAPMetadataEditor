@@ -96,10 +96,6 @@ public class Pco2a2Panel extends Composite {
     @UiField
     TextBox gasDectectorResolution;
 
-    // ??? Temperature correction
-    @UiField
-    TextBox temperatureCorrection;
-
     // 052 Temperature correction method
     @UiField
     TextBox temperatureCorrectionMethod;
@@ -191,9 +187,6 @@ public class Pco2a2Panel extends Composite {
     @UiField
     FormGroup gasDectectorResolutionForm;
 
-    // ??
-    @UiField
-    FormGroup temperatureCorrectionForm;
 
     // 052 Temperature correction method
     @UiField
@@ -310,9 +303,6 @@ public class Pco2a2Panel extends Composite {
             gasDectectorResolution.setText(variable.getGasDectectorResolution());
         }
 
-        if ( variable.getTemperatureCorrection() != null ) {
-            temperatureCorrection.setText(variable.getTemperatureCorrection());
-        }
         if ( variable.getTemperatureCorrectionMethod() != null ) {
             temperatureCorrectionMethod.setText(variable.getTemperatureCorrectionMethod());
         }
@@ -355,7 +345,6 @@ public class Pco2a2Panel extends Composite {
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
         pco2a.setGasDectectorResolution(gasDectectorResolution.getText());
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-        pco2a.setTemperatureCorrection(temperatureCorrection.getText());
         pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         pco2a.setVented(vented.getText());
@@ -413,9 +402,6 @@ public class Pco2a2Panel extends Composite {
             return true;
         }
         if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
-            return true;
-        }
-        if (temperatureCorrection.getText() != null && !temperatureCorrection.getText().isEmpty() ) {
             return true;
         }
         if (standardGasUncertainties.getText() != null && !standardGasUncertainties.getText().isEmpty() ) {

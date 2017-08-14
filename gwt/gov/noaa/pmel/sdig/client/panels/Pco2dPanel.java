@@ -38,6 +38,7 @@ public class Pco2dPanel extends CommonVariablePanel {
         researcherInstitutionPopover.setContent("26.24.2 The institution of the PI, whose research team measured or derived this parameter.");
         fullVariableNamePopover.setContent("The full variable name.");
         referenceMethodPopover.setContent("26.23 Citation for the pCO2 method.");
+        unitsPopover.setContent("26.5 Units of the variable, e.g., μatm.");
 
 
     }
