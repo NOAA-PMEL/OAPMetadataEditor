@@ -469,6 +469,8 @@ public class OAPMetadataEditor implements EntryPoint {
             jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
                                    .replace("</pre>","");
 
+            jsonString = jsonString.replace("<pre>","");
+
             try {
                 JSONValue json = JSONParser.parseStrict(jsonString);
                 Document document = codec.decode(json);
@@ -599,7 +601,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
 
             } catch (Exception e) {
-                Window.alert("File not processed.");
+                Window.alert("File not processed. e="+e.getLocalizedMessage());
             }
             topLayout.resetFileForm();
         }
