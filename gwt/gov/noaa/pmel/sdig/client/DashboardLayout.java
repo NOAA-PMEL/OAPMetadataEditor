@@ -415,4 +415,58 @@ public class DashboardLayout extends Composite {
             }
         }
     };
+    public void setActive(String section) {
+        investigatorsLink.setActive(false);
+        submittersLink.setActive(false);
+        citationLink.setActive(false);
+        timeAndLocationLink.setActive(false);
+        fundingLink.setActive(false);
+        platformsLink.setActive(false);
+        dicLink.setActive(false);
+        dic2Link.setActive(false);
+        taLink.setActive(false);
+        ta2Link.setActive(false);
+        phLink.setActive(false);
+        ph2Link.setActive(false);
+        pco2aLink.setActive(false);
+        pco2a2Link.setActive(false);
+        pco2dLink.setActive(false);
+        pco2d2Link.setActive(false);
+        genericVariableLink.setActive(false);
+        if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+            investigatorsLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
+            submittersLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_CITATION) ) {
+            citationLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+            timeAndLocationLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
+            fundingLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
+            platformsLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_DIC)) {
+            dicLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_DIC2) ) {
+            dic2Link.setActive(true);
+        } else if ( section.equals(Constants.SECTION_TA) ) {
+            taLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_TA2) ) {
+            ta2Link.setActive(true);
+        }  else if ( section.equals(Constants.SECTION_PH) ) {
+            phLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_PH2) ) {
+            ph2Link.setActive(true);
+        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
+            pco2aLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_PCO2A2) ) {
+            pco2a2Link.setActive(true);
+        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
+            pco2dLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_PCO2D2) ) {
+            pco2d2Link.setActive(true);
+        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+            genericVariableLink.setActive(true);
+        }
+    }
 }

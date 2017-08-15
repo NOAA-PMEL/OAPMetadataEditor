@@ -39,6 +39,7 @@ import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
+import org.eclipse.jdt.internal.compiler.impl.Constant;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.Resource;
@@ -150,6 +151,7 @@ public class OAPMetadataEditor implements EntryPoint {
         RootPanel.get().add(topLayout);
         topLayout.addUploadSuccess(completeHandler);
         topLayout.setMain(submitterPanel);
+        topLayout.setActive(Constants.SECTION_SUBMITTER);
         modalBody.add(save);
         modal.add(modalHeader);
         modal.add(modalBody);
@@ -206,21 +208,25 @@ public class OAPMetadataEditor implements EntryPoint {
                 } else if ( type.equals(Constants.SECTION_SUBMITTER) ) {
                     dataSubmitter = (Person) event.getSectionContents();
                     topLayout.setMain(investigatorPanel);
+                    topLayout.setActive(Constants.SECTION_INVESTIGATOR);
                 } else if ( type.equals(Constants.SECTION_CITATION) ) {
                     citation = (Citation) event.getSectionContents();
                     if ( timeAndLocation != null ) {
                         timeAndLocationPanel.show(timeAndLocation);
                     }
                     topLayout.setMain(timeAndLocationPanel);
+                    topLayout.setActive(Constants.SECTION_TIMEANDLOCATION);
                 } else if ( type.equals(Constants.SECTION_TIMEANDLOCATION) ) {
                     timeAndLocation = (TimeAndLocation) event.getSectionContents();
                     if ( funding != null ) {
                         fundingPanel.show(funding);
                     }
                     topLayout.setMain(fundingPanel);
+                    topLayout.setActive(Constants.SECTION_FUNDING);
                 } else if ( type.equals(Constants.SECTION_FUNDING) ) {
                     funding = (Funding) event.getSectionContents();
                     topLayout.setMain(platformPanel);
+                    topLayout.setActive(Constants.SECTION_PLATFORMS);
                 } else if ( type.equals(Constants.SECTION_PLATFORMS) ) {
                     // List kept in the panel. Nothing to do here.
                 } else if ( type.equals(Constants.SECTION_DIC) ) {
@@ -230,12 +236,14 @@ public class OAPMetadataEditor implements EntryPoint {
                         dicPanel.fill(dic);
                     }
                     topLayout.setMain(dic2Panel);
+                    topLayout.setActive(Constants.SECTION_DIC2);
                 } else if ( type.equals(Constants.SECTION_DIC2) ) {
                     if ( dic == null ) {
                         dic = new Variable();;
                     }
                     dic2Panel.fill(dic);
                     topLayout.setMain(taPanel);
+                    topLayout.setActive(Constants.SECTION_TA);
                 } else if ( type.equals(Constants.SECTION_TA) ) {
                     if ( ta == null ) {
                         ta = (Variable) event.getSectionContents();
@@ -243,12 +251,14 @@ public class OAPMetadataEditor implements EntryPoint {
                         taPanel.fill(ta);
                     }
                     topLayout.setMain(ta2Panel);
+                    topLayout.setActive(Constants.SECTION_TA2);
                 } else if ( type.equals(Constants.SECTION_TA2) ) {
                     if ( ta == null ) {
                         ta = new Variable();
                     }
                     ta2Panel.fill(ta);
                     topLayout.setMain(phPanel);
+                    topLayout.setActive(Constants.SECTION_PH);
                 } else if ( type.equals(Constants.SECTION_PH) ) {
                     if ( ph == null ) {
                         ph = (Variable) event.getSectionContents();
@@ -256,12 +266,14 @@ public class OAPMetadataEditor implements EntryPoint {
                         phPanel.fillCommonVariable(ph);
                     }
                     topLayout.setMain(ph2Panel);
+                    topLayout.setActive(Constants.SECTION_PH2);
                 } else if ( type.equals(Constants.SECTION_PH2) ) {
                     if ( ph == null ) {
                         ph = new Variable();
                     }
                     ph2Panel.fill(ph);
                     topLayout.setMain(pco2aPanel);
+                    topLayout.setActive(Constants.SECTION_PCO2A);
                 } else if ( type.equals(Constants.SECTION_PCO2A) ) {
                     if ( pco2a == null ) {
                         pco2a = (Variable) event.getSectionContents();
@@ -269,6 +281,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         pco2aPanel.fillCommonVariable(pco2a);
                     }
                     topLayout.setMain(pco2a2Panel);
+                    topLayout.setActive(Constants.SECTION_PCO2A2);
                 }
                 else if ( type.equals(Constants.SECTION_PCO2A2) ) {
                     if ( pco2a == null ) {
@@ -276,6 +289,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     pco2a2Panel.fill(pco2a);
                     topLayout.setMain(pco2dPanel);
+                    topLayout.setActive(Constants.SECTION_PCO2D);
                 } else if ( type.equals(Constants.SECTION_PCO2D) ) {
                     if ( pco2d == null ) {
                         pco2d = (Variable) event.getSectionContents();
@@ -283,6 +297,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         pco2dPanel.fillCommonVariable(pco2d);
                     }
                     topLayout.setMain(pco2d2Panel);
+                    topLayout.setActive(Constants.SECTION_PCO2D2);
                 }
                 else if ( type.equals(Constants.SECTION_PCO2D2) ) {
                     if ( pco2d == null ) {
@@ -290,6 +305,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     pco2d2Panel.fill(pco2d);
                     topLayout.setMain(genericVariablePanel);
+                    topLayout.setActive(Constants.SECTION_GENERIC);
                 } else if ( type.equals(Constants.SECTION_GENERIC) ) {
                     // List managed in the panel
                 } else if ( type.equals(Constants.SECTION_DOCUMENT) )  {
@@ -327,6 +343,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 AnchorListItem link = (AnchorListItem) event.getSource();
                 if ( link.getText().equals(Constants.SECTION_INVESTIGATOR) ) {
                     topLayout.setMain(investigatorPanel);
+                    topLayout.setActive(Constants.SECTION_INVESTIGATOR);
                     if ( investigatorPanel.getInvestigators().size() > 0 ) {
                         investigatorPanel.setTableVisible(true);
                     }
@@ -335,6 +352,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         submitterPanel.show(dataSubmitter);
                     }
                     topLayout.setMain(submitterPanel);
+                    topLayout.setActive(Constants.SECTION_SUBMITTER);
                 } else if ( link.getText().equals(Constants.SECTION_CITATION) ) {
                     if ( citation != null ) {
                         citationPanel.show(citation);
@@ -345,68 +363,82 @@ public class OAPMetadataEditor implements EntryPoint {
                         timeAndLocationPanel.show(timeAndLocation);
                     }
                     topLayout.setMain(timeAndLocationPanel);
+                    topLayout.setActive(Constants.SECTION_TIMEANDLOCATION);
                 } else if ( link.getText().equals(Constants.SECTION_FUNDING) ) {
                     if ( funding != null ) {
                         fundingPanel.show(funding);
                     }
                     topLayout.setMain(fundingPanel);
+                    topLayout.setActive(Constants.SECTION_FUNDING);
                 } else if ( link.getText().equals(Constants.SECTION_PLATFORMS) ) {
                     topLayout.setMain(platformPanel);
+                    topLayout.setActive(Constants.SECTION_PLATFORMS);
                     if ( platformPanel.getPlatforms().size() > 0 ) {
                         platformPanel.setTableVisible(true);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_DIC) ) {
                     topLayout.setMain(dicPanel);
+                    topLayout.setActive(Constants.SECTION_DIC);
                     if (dic != null) {
                         dicPanel.show(dic);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_DIC2) ) {
                     topLayout.setMain(dic2Panel);
+                    topLayout.setActive(Constants.SECTION_DIC2);
                     if ( dic != null ) {
                         dic2Panel.show(dic);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_TA) ) {
                     topLayout.setMain(taPanel);
+                    topLayout.setActive(Constants.SECTION_TA);
                     if (ta != null) {
                         taPanel.show(ta);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_TA2) ) {
                     topLayout.setMain(ta2Panel);
+                    topLayout.setActive(Constants.SECTION_TA2);
                     if ( ta != null ) {
                         ta2Panel.show(ta);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PH) ) {
                     topLayout.setMain(phPanel);
+                    topLayout.setActive(Constants.SECTION_PH);
                     if (ph != null) {
                         phPanel.show(ph);
                     }
                 }  else if ( link.getText().equals(Constants.SECTION_PH2) ) {
                     topLayout.setMain(ph2Panel);
+                    topLayout.setActive(Constants.SECTION_PH2);
                     if (ph != null) {
                         ph2Panel.show(ph);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PCO2A) ) {
                     topLayout.setMain(pco2aPanel);
+                    topLayout.setActive(Constants.SECTION_PCO2A);
                     if ( pco2a != null ) {
                         pco2aPanel.show(pco2a);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PCO2A2) ) {
                     topLayout.setMain(pco2a2Panel);
+                    topLayout.setActive(Constants.SECTION_PCO2A2);
                     if ( pco2a != null ) {
                         pco2a2Panel.show(pco2a);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PCO2D) ) {
                     topLayout.setMain(pco2dPanel);
+                    topLayout.setActive(Constants.SECTION_PCO2D);
                     if ( pco2d != null) {
                         pco2dPanel.show(pco2d);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PCO2D2) ) {
                     topLayout.setMain(pco2d2Panel);
+                    topLayout.setActive(Constants.SECTION_PCO2D2);
                     if ( pco2d != null ) {
                         pco2d2Panel.show(pco2d);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_GENERIC) ) {
                     topLayout.setMain(genericVariablePanel);
+                    topLayout.setActive(Constants.SECTION_GENERIC);
                     if (genericVariablePanel.getVariables().size() > 0 ) {
                         genericVariablePanel.setTableVisible(true);
                     }
