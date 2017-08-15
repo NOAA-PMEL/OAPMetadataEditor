@@ -113,12 +113,12 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="supplementalInformation" text="Supplimental Information"></b:FormLabel>
+                                <b:FormLabel for="supplementalInformation" text="Supplemental Information"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields."
                                            text="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
-                                <b:TextBox ui:field="supplementalInformation" allowBlank="false" placeholder="Supplimental Information" b:id="supplementalInformation"></b:TextBox>
+                                <b:TextBox ui:field="supplementalInformation" allowBlank="false" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
