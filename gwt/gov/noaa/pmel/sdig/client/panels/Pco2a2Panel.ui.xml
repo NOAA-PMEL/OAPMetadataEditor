@@ -44,7 +44,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="25.16.1 Please describe the calibration procedure.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
@@ -54,7 +54,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="25.16.2 How frequent was the calibration carried out, e.g., every 6 hours, etc.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
@@ -66,7 +66,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeLocation" text="Location of Seawater Intake"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.9 Whereabout of the seawater intake">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
                             </b:FormGroup>
@@ -76,7 +76,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeDepth" text="Depth of Seawater Intake"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.10 Water depth of the seawater intake">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
                             </b:FormGroup>
@@ -86,7 +86,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="flowRate" text="Water Flow Rate (L/min)"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.4 Flow rate of the flow through seawater.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
                             </b:FormGroup>
@@ -96,7 +96,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="vented" text="Vented or Not"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.3 Is the equilibrator vented or not?">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="vented" allowBlank="true" placeholder="Vented or not" b:id="vented"></b:TextBox>
                             </b:FormGroup>
@@ -108,7 +108,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the Gas Detector"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.15.1 Manufacturer of the CO2 sensor.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
                             </b:FormGroup>
@@ -118,7 +118,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDetectorModel" text="Model of the Gas Detector"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.15.2 Model number of the CO2 sensor.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
                             </b:FormGroup>
@@ -128,7 +128,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDectectorResolution" text="Resolution of the Gas Detector"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.15.3 Resolution of the CO2 sensor.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
                             </b:FormGroup>
@@ -138,7 +138,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the Gas Detector"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.15.4 Uncertainity of the CO2 sensor.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
                             </b:FormGroup>
@@ -150,7 +150,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="gasFlowRate" text="Headspace Gas Flow Rate (L/min)"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.5 Flow rate of the gas from the equilibrator to the CO2 analyzer.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="gasFlowRate" allowBlank="true" placeholder="Headspace gas flow rate (L/min)" b:id="gasFlowRate"></b:TextBox>
                             </b:FormGroup>
@@ -160,7 +160,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasManufacture" text="Manufacturer of Standard Gas"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.16.3.1 Manufacturer of the CO2 standard gas.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardGasManufacture" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture"></b:TextBox>
                             </b:FormGroup>
@@ -170,7 +170,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="gasConcentration" text="Concentrations of Standard Gas"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.16.3.2 Concentrations of the CO2 standard gases that are used to calibrate the CO2 sensor, e.g., 200, 350, 510ppm.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="gasConcentration" allowBlank="true" placeholder="Concentrations of standard gas" b:id="gasConcentration"></b:TextBox>
                             </b:FormGroup>
@@ -180,7 +180,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasUncertainties" text="Uncertainties of Standard Gas"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.16.3.3 Uncertainties of the CO2 standard gas, e.g., 0.5%.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="standardGasUncertainties" allowBlank="true" placeholder="Uncertainties of standard gas" b:id="standardGasUncertainties"></b:TextBox>
                             </b:FormGroup>
@@ -192,7 +192,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature Correction Method"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.18 How the temperature effect was corrected.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
@@ -202,7 +202,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="vaporCorrection" text="Water Vapor Correction Method"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.18 How the temperature effect was corrected.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="vaporCorrection" allowBlank="true" placeholder="Water vapor correction method" b:id="vaporCorrection"></b:TextBox>
                             </b:FormGroup>
@@ -213,7 +213,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="pco2Temperature" text="At What Temperature was pCO2 Reported?"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.19 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="pco2Temperature" allowBlank="true" placeholder="At what temperature was pCO2 reported?" b:id="pco2Temperature"></b:TextBox>
                             </b:FormGroup>
@@ -225,7 +225,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="dryingMethod" text="Drying Method for CO2 Gas"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.14 The method used to dry the gas coming out of CO2 equilibrator, before it is pumped into the CO2 sensor.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="dryingMethod" allowBlank="true" placeholder="Drying method for CO2 gas" b:id="dryingMethod"></b:TextBox>
                             </b:FormGroup>
@@ -235,7 +235,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorType" text="Equilibrator Type"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.1 Type of the equilibrator for the CO2 measurement.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="equilibratorType" allowBlank="true" placeholder="Equilibrator type" b:id="equilibratorType"></b:TextBox>
                             </b:FormGroup>
@@ -245,7 +245,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorVolume" text="Equilibrator Volume (L)"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.2 The total volume of the CO2 equilibrator.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="equilibratorVolume" allowBlank="true" placeholder="Equilibrator volume (L)" b:id="equilibratorVolume"></b:TextBox>
                             </b:FormGroup>
@@ -257,7 +257,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorPressureMeasureMethod" text="How was pressure inside the equilibrator measured?"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.7 Please specify whether pressure inside the equilibrator is measured or not. If so, please describe how the pressure was measured.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
                             </b:FormGroup>
@@ -267,7 +267,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorTemperatureMeasureMethod" text="How was temperature inside the equilibrator measured?"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="25.13.6 Please specify whether temperatrure inside the equilibrator is measured or not. If so, please describe how the temperature was measured.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="equilibratorTemperatureMeasureMethod" allowBlank="true" placeholder="How was temperature inside the equilibrator measured?" b:id="equilibratorTemperatureMeasureMethod"></b:TextBox>
                             </b:FormGroup>

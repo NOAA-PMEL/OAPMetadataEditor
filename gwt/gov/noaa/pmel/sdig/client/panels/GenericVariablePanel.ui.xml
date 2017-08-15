@@ -13,7 +13,7 @@
 
         <b:Form ui:field="form">
             <b:FieldSet>
-                <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information"></b:Heading>
+                <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information. You may enter more than one variable."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_2">
@@ -21,7 +21,7 @@
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="27.1 Column header name of the variable in the data files, e.g., T, DO, etc.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="abbreviation" allowBlank="true" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
@@ -31,7 +31,7 @@
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel for="fullVariableName" text="Full variable name"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:SuggestBox ui:field="fullVariableName" allowBlank="true" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
                             </b:FormGroup>
@@ -41,7 +41,7 @@
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" content="27.4 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
                             </b:FormGroup>
@@ -53,7 +53,7 @@
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
                             </b:FormGroup>
@@ -63,7 +63,7 @@
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.11 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
                             </b:FormGroup>
@@ -73,7 +73,7 @@
                             <b:FormGroup ui:field="unitsForm">
                                 <b:FormLabel for="units" text="Units"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.7 Units of the variable, e.g., oC, μmol/kg.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="units" allowBlank="false" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
@@ -84,7 +84,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.5 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
@@ -94,7 +94,7 @@
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.8 Whether the variable is measured in-situ, or calculated from other variables.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
@@ -104,7 +104,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
                                 <b:Popover trigger="FOCUS" container="body" content="22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
                                 <b:TextBox ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextBox>
@@ -117,7 +117,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.9 Variables can be calculated using different sets of constants or different software.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="calculationMethod" text="Calculation method and parameters"></b:FormLabel>
                                 <b:TextBox ui:field="calculationMethod" allowBlank="true" placeholder="Calculation method and parameters" b:id="calculationMethod"></b:TextBox>
@@ -128,7 +128,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.17 Citation for the method.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="referenceMethod" text="Method reference (citation)"></b:FormLabel>
                                 <b:TextBox ui:field="referenceMethod" allowBlank="true" placeholder="Method reference (citation)" b:id="referenceMethod"></b:TextBox>
@@ -140,7 +140,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="detailedInformationForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="detailedInformation" text="Detailed sampling and analyzing information"></b:FormLabel>
                                 <b:TextArea visibleLines="9" ui:field="detailedInformation" allowBlank="true" placeholder="Detailed sampling and analyzing information" b:id="detailedInformation"></b:TextArea>
@@ -153,7 +153,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.15 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
                                 <b:TextBox ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextBox>
@@ -163,7 +163,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="qualityFlag" text="Data quality flag description"></b:FormLabel>
                                 <b:TextBox ui:field="qualityFlag" allowBlank="false" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
@@ -173,7 +173,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.21.1 The name of the PI, whose research team measured or derived this parameter.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
                                 <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
@@ -184,7 +184,7 @@
                             <b:FormGroup ui:field="researcherInstitutionForm">
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.21.2 The institution of the PI, whose research team measured or derived this parameter.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="researcherInstitution" allowBlank="true" placeholder="Researcher Institution" b:id="researcherInstitution"></b:TextBox>
                             </b:FormGroup>
@@ -196,7 +196,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field replicate information"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.14 Repetition of sample collection and measurement, e.g., triplicate samples.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="fieldReplicate" allowBlank="true" placeholder="Field replicate information" b:id="fieldReplicate"></b:TextBox>
                             </b:FormGroup>
@@ -208,7 +208,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="biologicalSubject" text="Biological subject"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.18 For biological variables, please state the taxonomy (a specific species genus or a community), upon which the variable is studied. For example, if you study the growth rate of a certain type of Salmon. The 'variable/parameter' is growth rate, and is that specific type of salmon.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="biologicalSubject" allowBlank="true" placeholder="Biological subject" b:id="biologicalSubject"></b:TextBox>
                             </b:FormGroup>
@@ -218,7 +218,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="duration" text="Duration (for settlement/colonization methods)"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.12 The duration for settlement, colonization, or experiment studies.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="duration" allowBlank="true" placeholder="Duration (for settlement/colonization methods)" b:id="duration"></b:TextBox>
                             </b:FormGroup>
@@ -228,7 +228,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="lifeStage" text="Life stage of the biological subject"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.20 Life stage of the biological subject (a specific species genus or a community).">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="lifeStage" allowBlank="false" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>
                             </b:FormGroup>
@@ -238,7 +238,7 @@
                                 <!-- Keep -->
                                 <b:FormLabel for="speciesIdCode" text="Species Identification code"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" content="27.19 It is recommended to use the species reference databases from the Integrated Taxonomic Information System (or ITIS, http://www.itis.gov/), or World Register of Marine Species (or WoRMS, http://marinespecies.org/). We also recommend you to include the reference databases that are used in this field.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="speciesIdCode" allowBlank="true" placeholder="Species Identification code" b:id="speciesIdCode"></b:TextBox>
                             </b:FormGroup>

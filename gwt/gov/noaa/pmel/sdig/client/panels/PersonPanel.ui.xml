@@ -24,7 +24,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="lastName" text="Last Name"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" ui:field="namePopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="lastName" allowBlank="false" placeholder="Last Name" b:id="lastName"></b:TextBox>
                             </b:FormGroup>
@@ -35,7 +35,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="institution" text="Institution"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="institutionPopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="institution" allowBlank="false" placeholder="Institution" b:id="institution"></b:TextBox>
                             </b:FormGroup>
@@ -78,7 +78,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="zip" text="Zip Code/Postal Code"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="addressPopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="zip" allowBlank="true" placeholder="Zip Code/Postal Code" b:id="zip">
                                 </b:TextBox>
@@ -90,7 +90,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="telephone" text="Telephone Number"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="telephonePopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" b:id="telephone"></b:TextBox>
                             </b:FormGroup>
@@ -99,7 +99,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="ext" text="Extension"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="extensionPopoer" title="" text="" content="The extension for the phone number if applicable.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="extension" allowBlank="true" placeholder="Extension" b:id="extension"></b:TextBox>
                             </b:FormGroup>
@@ -108,7 +108,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="email" text="Email Address"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="emailPopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="email" allowBlank="false" placeholder="Email address" b:id="email"></b:TextBox>
                             </b:FormGroup>
@@ -119,7 +119,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="researcherType" text="Researcher ID Type"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="idTypePopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <mde:ButtonDropDown ui:field="idType"></mde:ButtonDropDown>
                             </b:FormGroup>
@@ -128,7 +128,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="id" text="Researcher ID"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" ui:field="idPopover" title="" text="">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
 
                                 <b:TextBox ui:field="rid" allowBlank="true" placeholder="Researcher ID" b:id="id"></b:TextBox>

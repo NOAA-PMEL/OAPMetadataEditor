@@ -5,7 +5,7 @@
     <g:HTMLPanel>
         <b:Form ui:field="form">
             <b:FieldSet>
-                <b:Heading ui:field="heading" size="H3" text="Enter the Platform Information"></b:Heading>
+                <b:Heading ui:field="heading" size="H3" text="Enter the Platform Information. You may enter more than one platform."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_2">
@@ -13,7 +13,7 @@
                                 <b:FormLabel for="name" text="Platform Name"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" title="15.1 Platforms are often the research vessels that carry out the research. However, platforms could be something other than a ship (e.g., glider, Argo, etc), or something that is fixed (e.g., moored buoys, towers, etc)."
                                            text="15.1 Platforms are often the research vessels that carry out the research. However, platforms could be something other than a ship (e.g., glider, Argo, etc), or something that is fixed (e.g., moored buoys, towers, etc).">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="name" allowBlank="false" placeholder="Platform Name" b:id="Name"></b:TextBox>
                             </b:FormGroup>
@@ -23,7 +23,7 @@
                                 <b:FormLabel for="platformId" text="Platform ID"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" title="15.2 ICES platform code (e.g., 33RO, optional). For a list of ICES ship code, please check out this link: http://vocab.ices.dk."
                                            text="15.2 ICES platform code (e.g., 33RO, optional). For a list of ICES ship code, please check out this link: http://vocab.ices.dk.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="platformId" allowBlank="false" placeholder="Platform ID" b:id="platformId"></b:TextBox>
                             </b:FormGroup>
@@ -33,7 +33,7 @@
                                 <b:FormLabel for="country" text="Country"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" title="15.5 Country of the platform"
                                            text="15.5 Country of the platform">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="country" allowBlank="false" placeholder="Country" b:id="country"></b:TextBox>
                             </b:FormGroup>
@@ -43,7 +43,7 @@
                                 <b:FormLabel for="owner" text="Owner"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="FOCUS" container="body" title="15.4 Owner of the platform"
                                            text="15.4 Owner of the platform">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="owner" allowBlank="false" placeholder="Owner" b:id="owner"></b:TextBox>
                             </b:FormGroup>
@@ -55,7 +55,7 @@
                                 <b:FormLabel for="type" text="Platform Type"></b:FormLabel>
                                 <b:Popover trigger="FOCUS" container="body" title="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc."
                                            text="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc.">
-                                    <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                    <b:Button tabIndex="999" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
                                 <b:TextBox ui:field="platformType" allowBlank="false" placeholder="Platform Type" b:id="type"></b:TextBox>
                             </b:FormGroup>

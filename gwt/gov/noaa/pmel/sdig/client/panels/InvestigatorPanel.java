@@ -12,7 +12,7 @@ public class InvestigatorPanel extends PersonPanel {
     public InvestigatorPanel() {
         super();
         setType(Constants.SECTION_INVESTIGATOR);
-        heading.setText("Enter the information for this investigator.");
+        heading.setText("Enter the information for this investigator. You may enter more than one investigator.");
 
         namePopover.setContent("3.1 Full name of the investigator (First Middle Last).");
         institutionPopover.setContent("3.2 Affiliated institution of the investigator (e.g., Woods Hole Oceanographic Institution).");
