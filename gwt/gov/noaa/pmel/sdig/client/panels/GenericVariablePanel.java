@@ -347,6 +347,8 @@ public class GenericVariablePanel extends Composite {
                 variablePagination.rebuild(cellTablePager);
                 if ( variableData.getList().size() == 0 ) {
                     setTableVisible(false);
+                } else {
+                    setTableVisible(true);
                 }
             }
         });
@@ -369,7 +371,13 @@ public class GenericVariablePanel extends Composite {
     }
     public void setTableVisible(boolean b) {
         variables.setVisible(b);
-        variablePagination.setVisible(b);
+        if ( b ) {
+            int page = cellTablePager.getPage();
+            variablePagination.setVisible(true);
+            cellTablePager.setPage(page);
+        } else {
+            variablePagination.setVisible(false);
+        }
     }
     public void show(Variable variable) {
         if ( variable.getAbbreviation() != null ) {
@@ -581,7 +589,7 @@ public class GenericVariablePanel extends Composite {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
             if ( showTable ) {
-                variables.setVisible(true);
+                setTableVisible(true);
                 form.reset();
             }
         }

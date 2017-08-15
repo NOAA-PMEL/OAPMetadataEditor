@@ -147,6 +147,9 @@ public class PlatformPanel extends Composite {
                 platformPagination.rebuild(cellTablePager);
                 if ( platformsData.getList().size() == 0 ) {
                     setTableVisible(false);
+                } else {
+                    // hide/show the pager buttons if necessary
+                    setTableVisible(true);
                 }
             }
         });
@@ -233,7 +236,7 @@ public class PlatformPanel extends Composite {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
             if ( showTable ) {
-                platforms.setVisible(true);
+                setTableVisible(true);
                 form.reset();
             }
         }
@@ -254,7 +257,15 @@ public class PlatformPanel extends Composite {
 
     public void setTableVisible(boolean v) {
         platforms.setVisible(v);
-        platformPagination.setVisible(v);
+        if ( v ) {
+            int page = cellTablePager.getPage();
+            if (cellTablePager.getPageCount() > 1) {
+                platformPagination.setVisible(true);
+                cellTablePager.setPage(page);
+            } else {
+                platformPagination.setVisible(false);
+            }
+        }
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());

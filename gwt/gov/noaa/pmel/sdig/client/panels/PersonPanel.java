@@ -48,11 +48,9 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
-import sun.misc.Regexp;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by rhs on 2/27/17.
@@ -250,6 +248,8 @@ public class PersonPanel extends Composite {
                 peoplePagination.rebuild(cellTablePager);
                 if ( peopleData.getList().size() == 0 ) {
                     setTableVisible(false);
+                } else {
+                    setTableVisible(true);
                 }
             }
         });
@@ -444,7 +444,7 @@ public class PersonPanel extends Composite {
         peopleData.getList().clear();
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
-
+        setTableVisible(false);
     }
 
     public void addPeople(List<Person> personList) {
@@ -461,7 +461,15 @@ public class PersonPanel extends Composite {
 
     public void setTableVisible(boolean b) {
         people.setVisible(b);
-        peoplePagination.setVisible(b);
+        if ( b ) {
+            int page = cellTablePager.getPage();
+            if ( cellTablePager.getPageCount() > 1 ) {
+                peoplePagination.setVisible(true);
+                cellTablePager.setPage(page);
+            } else {
+                peoplePagination.setVisible(false);
+            }
+        }
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());

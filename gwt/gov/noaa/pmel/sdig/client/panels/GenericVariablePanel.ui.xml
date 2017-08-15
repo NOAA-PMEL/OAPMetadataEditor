@@ -80,7 +80,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.5 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study.">
@@ -90,7 +90,7 @@
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:Popover trigger="FOCUS" container="body" content="27.8 Whether the variable is measured in-situ, or calculated from other variables.">
