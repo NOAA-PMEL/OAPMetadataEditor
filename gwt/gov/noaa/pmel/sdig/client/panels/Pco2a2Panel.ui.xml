@@ -256,10 +256,10 @@
                             <b:FormGroup ui:field="equilibratorPressureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorPressureMeasureMethod" text="How was pressure inside the equilibrator measured?"></b:FormLabel>
-                                <b:Popover trigger="FOCUS" container="body" content="Please specify whether pressure inside the equilibrator is measured or not. If so, please describe how the pressure was measured.">
+                                <b:Popover trigger="FOCUS" container="body" content="25.13.7 Please specify whether pressure inside the equilibrator is measured or not. If so, please describe how the pressure was measured.">
                                     <b:Button pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 </b:Popover>
-                                <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="25.13.7 How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
+                                <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_5">
