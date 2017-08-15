@@ -31,7 +31,7 @@
         </b:Navbar>
         <b:Container width="100%">
             <b:Row>
-                <b:Column size="SM_3" pull="LEFT" ui:field="nav">
+                <b:Column size="XS_3" pull="LEFT" ui:field="nav">
                     <b:NavPills stacked="true">
                         <b:AnchorListItem ui:field="submittersLink">Data Submitter</b:AnchorListItem>
                         <b:AnchorListItem ui:field="investigatorsLink">Investigators</b:AnchorListItem>
@@ -65,17 +65,19 @@
                         <b:FieldSet>
                             <b:FormGroup>
                                 <b:FormLabel marginTop="20" for="upLoad">Upload XML</b:FormLabel>
+
                                 <g:HTMLPanel ui:field="fakeinput">
                                     <b:Input ui:field="filename" name="xmlFile" type="FILE" b:id="upLoad"/>
                                     <b:Button text="Choose an XML File:" ui:field="filebutton" type="PRIMARY"/>
-                                    <b:TextBox pixelSize="300,35" enabled="false" ui:field="faketextbox"/>
+                                    <b:TextBox width="50%" enabled="false" ui:field="faketextbox"/>
                                 </g:HTMLPanel>
+
                             </b:FormGroup>
                             <b:SubmitButton ui:field="upload" type="PRIMARY" text="Upload"/>
                         </b:FieldSet>
                     </b:Form>
                 </b:Column>
-                <b:Column size="SM_9" ui:field="mainColumn">
+                <b:Column size="XS_9" ui:field="mainColumn">
                     <g:HTMLPanel ui:field="main"></g:HTMLPanel>
                 </b:Column>
             </b:Row>
