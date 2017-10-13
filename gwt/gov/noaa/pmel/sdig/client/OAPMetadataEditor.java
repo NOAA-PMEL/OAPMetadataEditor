@@ -358,6 +358,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         citationPanel.show(citation);
                     }
                     topLayout.setMain(citationPanel);
+                    topLayout.setActive(Constants.SECTION_CITATION);
                 }  else if ( link.getText().equals(Constants.SECTION_TIMEANDLOCATION) ) {
                     if ( timeAndLocation != null ) {
                         timeAndLocationPanel.show(timeAndLocation);
@@ -483,7 +484,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     public void onClick(ClickEvent event) {
                         modal.hide();
                         saved = true;
-                        Window.open(Constants.base+"/document/xml/"+currentIndex,"_blank", null);
+                        Window.open(Constants.base+"document/xml/"+currentIndex,"_blank", null);
                     }
                 });
 

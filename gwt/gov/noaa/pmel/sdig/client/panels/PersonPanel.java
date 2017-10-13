@@ -382,8 +382,8 @@ public class PersonPanel extends Composite {
             extension.setText(person.getExtension());
         if ( person.getCity() != null )
             city.setText(person.getCity());
-        if ( person.getState().trim() != null )
-            state.setText(person.getState());
+        if ( person.getState() != null )
+            state.setText(person.getState().trim());
         if ( person.getZip() != null )
             zip.setText(person.getZip());
         if ( person.getIdType() != null ) {

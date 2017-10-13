@@ -6,6 +6,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
@@ -69,11 +70,22 @@ public class TimeAndLocationPanel extends Composite {
 
     public void show(TimeAndLocation timeAndLocation) {
         // TODO use joda and store an ISO string on both get and show
-        if ( timeAndLocation.getStartDate() != null ) {
-            startDate.setValue(new Date(timeAndLocation.getStartDate()));
+        if ( timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0 ) {
+            try {
+                Date st = new Date(timeAndLocation.getStartDate());
+                startDate.setValue(st);
+            } catch (Exception e) {
+                Window.alert("Could not convert date string: "+timeAndLocation.getStartDate());
+            }
+
         }
-        if ( timeAndLocation.getEndDate() != null ) {
-            endDate.setValue(new Date(timeAndLocation.getEndDate()));
+        if ( timeAndLocation.getEndDate() != null && timeAndLocation.getEndDate().length() > 0 ) {
+            try {
+                Date ed = new Date(timeAndLocation.getEndDate());
+                endDate.setValue(ed);
+            } catch (Exception e) {
+                Window.alert("Could not convert date string:" + timeAndLocation.getEndDate());
+            }
         }
         if ( timeAndLocation.getNorthLat() != null ) {
             northLat.setText(timeAndLocation.getNorthLat());

@@ -13,7 +13,7 @@ public class Citation {
     String cruiseId;
     String section;
     String citationAuthorList;
-    String references;
+    String scientificReferences;
     String supplementalInformation;
     String researchProjects;
 
@@ -49,12 +49,12 @@ public class Citation {
         this.citationAuthorList = citationAuthorList;
     }
 
-    public String getReferences() {
-        return references;
+    public String getScientificReferences() {
+        return scientificReferences;
     }
 
-    public void setReferences(String references) {
-        this.references = references;
+    public void setScientificReferences(String scientificReferences) {
+        this.scientificReferences = scientificReferences;
     }
 
     public String getSupplementalInformation() {

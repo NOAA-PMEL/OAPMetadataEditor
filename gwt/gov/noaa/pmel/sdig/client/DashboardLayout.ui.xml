@@ -54,7 +54,7 @@
                     <b:Container width="100%">
                         <b:Row>
                             <b:Column size="SM_4" pull="LEFT">
-                                <b:Button ui:field="save" type="PRIMARY" text="Save and Download"/>
+                                <b:Button ui:field="save" type="PRIMARY" text="Download"/>
                             </b:Column>
                             <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
                                 <b:Button ui:field="reset" type="PRIMARY" text="Start Over"/>

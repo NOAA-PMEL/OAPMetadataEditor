@@ -2,7 +2,6 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -81,7 +80,7 @@ public class CitationPanel extends Composite {
         citation.setCruiseId(cruiseId.getText().trim());
         citation.setSection(section.getText().trim());
         citation.setCitationAuthorList(citationAuthorList.getText().trim());
-        citation.setReferences(references.getText().trim());
+        citation.setScientificReferences(references.getText().trim());
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
         return citation;
     }
@@ -143,8 +142,8 @@ public class CitationPanel extends Composite {
         if ( citation.getCitationAuthorList() != null ) {
             citationAuthorList.setText(citation.getCitationAuthorList());
         }
-        if ( citation.getReferences() != null ) {
-            references.setText(citation.getReferences());
+        if ( citation.getScientificReferences() != null ) {
+            references.setText(citation.getScientificReferences());
         }
         if ( citation.getSupplementalInformation() != null ) {
             supplementalInformation.setText(citation.getSupplementalInformation());

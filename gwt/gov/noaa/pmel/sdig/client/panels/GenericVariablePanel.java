@@ -372,11 +372,13 @@ public class GenericVariablePanel extends Composite {
     public void setTableVisible(boolean b) {
         variables.setVisible(b);
         if ( b ) {
-            int page = cellTablePager.getPage();
-            variablePagination.setVisible(true);
-            cellTablePager.setPage(page);
-        } else {
-            variablePagination.setVisible(false);
+            if (cellTablePager.getPageCount() > 1) {
+                int page = cellTablePager.getPage();
+                variablePagination.setVisible(true);
+                cellTablePager.setPage(page);
+            } else {
+                variablePagination.setVisible(false);
+            }
         }
     }
     public void show(Variable variable) {
