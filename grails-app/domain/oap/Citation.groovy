@@ -10,7 +10,8 @@ class Citation {
     String cruiseId;
     String section;
     String citationAuthorList;
-    String references;
+    // The word "references" is a mysql reserved word.
+    String scientificReferences;
     String supplementalInformation;
     String researchProjects
     static constraints = {
@@ -23,7 +24,7 @@ class Citation {
         cruiseId (nullable: true)
         section (nullable: true)
         citationAuthorList (nullable: true, type: 'text')
-        references (nullable: true, type: 'text')
+        scientificReferences (nullable: true, type: 'text')
         supplementalInformation (nullable: true, type: 'text')
         researchProjects(nullable: true, type: 'text')
     }

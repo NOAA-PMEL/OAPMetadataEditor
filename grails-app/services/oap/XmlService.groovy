@@ -72,7 +72,7 @@ class XmlService {
 
         Element reference = root.getChild("reference")
         if ( reference ) {
-            citation.setReferences(reference.getTextTrim())
+            citation.setScientificReferences(reference.getTextTrim())
         }
 
         Element citationList = root.getChild("citation")
@@ -951,9 +951,9 @@ class XmlService {
                 section.setText(citation.getSection())
                 metadata.addContent(section)
             }
-            if ( citation.getReferences() ) {
+            if ( citation.getScientificReferences() ) {
                 Element reference = new Element("reference")
-                reference.setText(citation.getReferences())
+                reference.setText(citation.getScientificReferences())
                 metadata.addContent(reference)
             }
             // TODO the XML does not match the spreadsheet
