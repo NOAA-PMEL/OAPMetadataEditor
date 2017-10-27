@@ -10,6 +10,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
@@ -39,6 +40,7 @@ import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
+import org.apache.xpath.operations.Mod;
 import org.eclipse.jdt.internal.compiler.impl.Constant;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
@@ -49,11 +51,14 @@ import org.fusesource.restygwt.client.TextCallback;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
+import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.ModalBody;
+import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.ModalHeader;
 import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.HeadingSize;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -148,6 +153,8 @@ public class OAPMetadataEditor implements EntryPoint {
      */
     public void onModuleLoad() {
 
+        RootPanel.get().clear();
+        RootPanel.get().getElement().setInnerHTML(""); // <-- This is the key!
         RootPanel.get().add(topLayout);
         topLayout.addUploadSuccess(completeHandler);
         topLayout.setMain(submitterPanel);
@@ -162,38 +169,51 @@ public class OAPMetadataEditor implements EntryPoint {
                 if ( source instanceof Button ) {
                     Button b = (Button) source;
                     if ( b.getText().equals("Start Over") ) {
-                        // Reset containers for all information being collected to null.
-                        dataSubmitter = null;
-                        investigatorPanel.clearPeople();
-                        citation = null;
-                        timeAndLocation = null;
-                        funding = null;
-                        platformPanel.clearPlatforms();
-                        dic = null;
-                        ta = null;
-                        ph = null;
-                        pco2a = null;
-                        pco2d = null;
-                        genericVariablePanel.clearVariables();
 
-                        // Reset all forms
-                        submitterPanel.reset();
-                        investigatorPanel.reset();
-                        citationPanel.reset();
-                        fundingPanel.reset();
-                        platformPanel.reset();
-                        dicPanel.reset();
-                        dic2Panel.reset();
-                        taPanel.reset();
-                        ta2Panel.reset();
-                        phPanel.reset();
-                        ph2Panel.reset();
-                        pco2aPanel.reset();
-                        pco2a2Panel.reset();
-                        pco2dPanel.reset();
-                        pco2d2Panel.reset();
-                        genericVariablePanel.reset();
+                        if ( isDirty() && !saved ) {
 
+                            final Modal sure = new Modal();
+                            ModalHeader header = new ModalHeader();
+                            Heading h = new Heading(HeadingSize.H3);
+                            h.setText("WARNING!");
+                            header.add(h);
+                            sure.add(header);
+                            ModalBody body = new ModalBody();
+                            HTML message = new HTML("You appear to have made changes but have not saved them to your local disk." +
+                                    "<br><strong>Click OK to reset the form and LOSE ALL YOUR DATA.</strong>" +
+                                    "<br>Click Canel to go back to what you were doing.");
+                            ModalFooter footer = new ModalFooter();
+                            Button ok = new Button("OK");
+                            ok.setType(ButtonType.DANGER);
+                            Button cancel = new Button("Cancel");
+                            cancel.setType(ButtonType.PRIMARY);
+
+                            footer.add(ok);
+                            footer.add(cancel);
+                            body.add(message);
+                            sure.add(body);
+                            sure.add(footer);
+
+                            sure.show();
+
+                            ok.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    startOver();
+                                    sure.hide();
+                                }
+                            });
+
+                            cancel.addClickHandler(new ClickHandler() {
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    sure.hide();
+                                }
+                            });
+
+                        } else {
+                            startOver();
+                        }
                     }
                 }
             }
@@ -659,5 +679,38 @@ public class OAPMetadataEditor implements EntryPoint {
         pco2dPanel.isDirty() ||
         pco2d2Panel.isDirty() ||
         genericVariablePanel.isDirty();
+    }
+    private void startOver() {
+        // Reset containers for all information being collected to null.
+        dataSubmitter = null;
+        investigatorPanel.clearPeople();
+        citation = null;
+        timeAndLocation = null;
+        funding = null;
+        platformPanel.clearPlatforms();
+        dic = null;
+        ta = null;
+        ph = null;
+        pco2a = null;
+        pco2d = null;
+        genericVariablePanel.clearVariables();
+
+        // Reset all forms
+        submitterPanel.reset();
+        investigatorPanel.reset();
+        citationPanel.reset();
+        fundingPanel.reset();
+        platformPanel.reset();
+        dicPanel.reset();
+        dic2Panel.reset();
+        taPanel.reset();
+        ta2Panel.reset();
+        phPanel.reset();
+        ph2Panel.reset();
+        pco2aPanel.reset();
+        pco2a2Panel.reset();
+        pco2dPanel.reset();
+        pco2d2Panel.reset();
+        genericVariablePanel.reset();
     }
 }
