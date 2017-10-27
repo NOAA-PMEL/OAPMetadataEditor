@@ -24,9 +24,9 @@
                             <b:FormGroup>
                                 <b:FormLabel for="lastName" text="Last Name"></b:FormLabel>
                                 <b:Popover placement="BOTTOM" trigger="CLICK" container="body" ui:field="namePopover" title="" text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
+                                    <b:Icon paddingBottom="24" pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
-                                <b:TextBox ui:field="lastName" allowBlank="false" placeholder="Last Name" b:id="lastName"></b:TextBox>
+                                <b:TextBox ui:field="lastName" allowBlank="false" placeholder="Last Name" b:id="lastName" ></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -78,7 +78,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="zip" text="Zip Code/Postal Code"></b:FormLabel>
                                 <b:Popover trigger="CLICK" container="body" ui:field="addressPopover" title="" text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
+                                    <b:Icon paddingBottom="24" pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
                                 </b:Popover>
                                 <b:TextBox ui:field="zip" allowBlank="true" placeholder="Zip Code/Postal Code" b:id="zip">
                                 </b:TextBox>
