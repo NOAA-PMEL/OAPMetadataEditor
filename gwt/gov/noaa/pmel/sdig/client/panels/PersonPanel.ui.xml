@@ -6,11 +6,12 @@
         <b:Form ui:field="form">
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Information for this Person"></b:Heading>
+                <b:Heading size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_5">
                             <b:FormGroup>
-                                <b:FormLabel paddingBottom="13" for="firstName" text="First Name"></b:FormLabel>
+                                <b:FormLabel paddingBottom="13" for="firstName" text="First Name *"></b:FormLabel>
                                 <b:TextBox ui:field="firstName" allowBlank="false" placeholder="First Name" b:id="firstName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -22,7 +23,7 @@
                         </b:Column>
                         <b:Column size="SM_5">
                             <b:FormGroup>
-                                <b:FormLabel for="lastName" text="Last Name"></b:FormLabel>
+                                <b:FormLabel for="lastName" text="Last Name *"></b:FormLabel>
                                 <b:Modal closable="true" b:id="namePopover" ui:field="namePopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataToggle="MODAL" dataTarget="#namePopover" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 <b:TextBox ui:field="lastName" allowBlank="false" placeholder="Last Name" b:id="lastName" ></b:TextBox>
@@ -32,7 +33,7 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="institution" text="Institution"></b:FormLabel>
+                                <b:FormLabel for="institution" text="Institution *"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="institutionPopover" b:id="institutionPopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#institutionPopover" dataToggle="MODAL" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
                                 <b:TextBox ui:field="institution" allowBlank="false" placeholder="Institution" b:id="institution"></b:TextBox>
@@ -101,7 +102,7 @@
                         </b:Column>
                         <b:Column size="SM_7">
                             <b:FormGroup>
-                                <b:FormLabel for="email" text="Email Address"></b:FormLabel>
+                                <b:FormLabel for="email" text="Email Address *"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="emailPopover" b:id="emailPopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#emailPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="email" allowBlank="false" placeholder="Email address" b:id="email"></b:TextBox>
