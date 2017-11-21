@@ -22,33 +22,33 @@ public class TaPanel extends CommonVariablePanel {
         fullVariableName.setEnabled(false);
         heading.setText("Enter the information for Total Alkalinity (TA)");
         save.addClickHandler(saveIt);
-        abbreviationPopover.setContent("23.1 Column header name of the variable in the data files, e.g., TA, Alk, etc.");
-        observationTypePopover.setContent("23.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
-        manipulationMethodPopover.setContent("23.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
-        observationDetailPopover.setContent("23.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a \n" +
+        abbreviationModal.setTitle("23.1 Column header name of the variable in the data files, e.g., TA, Alk, etc.");
+        observationTypeModal.setTitle("23.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
+        manipulationMethodModal.setTitle("23.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
+        observationDetailModal.setTitle("23.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a \n" +
                 "biological experimental study.");
-        unitsPopover.setContent("23.5 Units of the variable (e.g., μmol/kg).");
-        measuredPopover.setContent("23.6 Variable is measured in-situ, or calculated from other variables.");
-        calculationMethodPopover.setContent("23.7 Variables can be calculated using different sets of constants or different software.");
-        samplingInstrumentPopover.setContent("23.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a\n" +
+        unitsModal.setTitle("23.5 Units of the variable (e.g., μmol/kg).");
+        measuredModal.setTitle("23.6 Variable is measured in-situ, or calculated from other variables.");
+        calculationMethodModal.setTitle("23.7 Variables can be calculated using different sets of constants or different software.");
+        samplingInstrumentModal.setTitle("23.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a\n" +
                 " sampling instrument.");
-        analyzingInstrumentPopover.setContent("23.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are\n" +
+        analyzingInstrumentModal.setTitle("23.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are\n" +
                 " mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator,\n" +
                 " spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument.\n" +
                 " We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as\n" +
                 " you can here.");
-        detailedInformationPopover.setContent("23.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the\n" +
+        detailedInformationModal.setTitle("23.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the\n" +
                 " instrument, etc.");
-        fieldReplicatePopover.setContent("23.14 Repetition of sample collection and measurement, e.g., triplicate samples.");
-        uncertaintyPopover.setContent("23.18\n" +
+        fieldReplicateModal.setTitle("23.14 Repetition of sample collection and measurement, e.g., triplicate samples.");
+        uncertaintyModal.setTitle("23.18\n" +
                 " Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the \n" +
                 " variable.");
-        qualityFlagPopover.setContent("23.19 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of\n" +
+        qualityFlagModal.setTitle("23.19 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of\n" +
                 " WOCE quality flags are recommended.");
-        researcherNamePopover.setContent("23.21.1 The name of the PI, whose research team measured or derived this parameter.");
-        researcherInstitutionPopover.setContent("23.21.2 The institution of the PI, whose research team measured or derived this parameter.");
-        fullVariableNamePopover.setContent("The full name of the variable.");
-        referenceMethodPopover.setContent("23.20 Citation for the alkalinity method.");
+        researcherNameModal.setTitle("23.21.1 The name of the PI, whose research team measured or derived this parameter.");
+        researcherInstitutionModal.setTitle("23.21.2 The institution of the PI, whose research team measured or derived this parameter.");
+        fullVariableNameModal.setTitle("The full name of the variable.");
+        referenceMethodModal.setTitle("23.20 Citation for the alkalinity method.");
 
     }
     public Variable getTa() {

@@ -9,6 +9,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,6 +23,8 @@ import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Input;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
+import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.IconSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
@@ -264,6 +267,7 @@ public class DashboardLayout extends Composite {
                 eventBus.fireEventFromSource(new SectionSave(null, Constants.SECTION_DOCUMENT), save);
             }
         });
+
         toggle.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {

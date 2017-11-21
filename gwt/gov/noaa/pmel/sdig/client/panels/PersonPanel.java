@@ -34,6 +34,7 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Icon;
+import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.Pagination;
 import org.gwtbootstrap3.client.ui.Popover;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -97,19 +98,19 @@ public class PersonPanel extends Composite {
     // Form help items to be customized...
 
     @UiField
-    Popover namePopover;
+    Modal namePopover;
     @UiField
-    Popover institutionPopover;
+    Modal institutionPopover;
     @UiField
-    Popover addressPopover;
+    Modal addressPopover;
     @UiField
-    Popover telephonePopover;
+    Modal telephonePopover;
     @UiField
-    Popover emailPopover;
+    Modal emailPopover;
     @UiField
-    Popover idPopover;
+    Modal idPopover;
     @UiField
-    Popover idTypePopover;
+    Modal idTypePopover;
 
 
     @UiField

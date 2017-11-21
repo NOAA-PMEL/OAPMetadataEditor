@@ -281,7 +281,6 @@ public class GenericVariablePanel extends Composite {
 
 
         initWidget(ourUiBinder.createAndBindUi(this));
-        heading.setText("Continue entering information for this variable.");
 
         List<String> detailNames = new ArrayList<String>();
         List<String> detailValues = new ArrayList<String>();

@@ -17,6 +17,7 @@ import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Heading;
+import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.Popover;
 import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextArea;
@@ -180,71 +181,71 @@ public class CommonVariablePanel extends Composite {
 
     // 001 Variable abbreviation in data files
     @UiField
-    Popover abbreviationPopover;
+    Modal abbreviationModal;
 
     // 002 Observation type
     @UiField
-    Popover observationTypePopover;
+    Modal observationTypeModal;
 
     // 003 Manipulation method
     @UiField
-    Popover manipulationMethodPopover;
+    Modal manipulationMethodModal;
 
     // 004 In-situ observation / manipulation condition / response variable
     @UiField
-    Popover observationDetailPopover;
+    Modal observationDetailModal;
 
     // 005 Variable unit
     @UiField
-    Popover unitsPopover;
+    Modal unitsModal;
 
     // 006 Measured or calculated
     @UiField
-    Popover measuredPopover;
+    Modal measuredModal;
 
     // 007 Calculation method and parameters
     @UiField
-    Popover calculationMethodPopover;
+    Modal calculationMethodModal;
 
     // 008 Sampling instrument
     @UiField
-    Popover samplingInstrumentPopover;
+    Modal samplingInstrumentModal;
 
     // 009 Analyzing instrument
     @UiField
-    Popover analyzingInstrumentPopover;
+    Modal analyzingInstrumentModal;
 
-    // 010 Detailed sampling and analyzing inPopoveration
+    // 010 Detailed sampling and analyzing information
     @UiField
-    Popover detailedInformationPopover;
+    Modal detailedInformationModal;
 
-    // 011 Field replicate inPopoveration
+    // 011 Field replicate information
     @UiField
-    Popover fieldReplicatePopover;
+    Modal fieldReplicateModal;
 
     // 020 Uncertainty
     @UiField
-    Popover uncertaintyPopover;
+    Modal uncertaintyModal;
 
     // 021 Data quality flag description
     @UiField
-    Popover qualityFlagPopover;
+    Modal qualityFlagModal;
 
     // 022 Researcher Name
     @UiField
-    Popover researcherNamePopover;
+    Modal researcherNameModal;
 
     // 023 Researcher Institution
     @UiField
-    Popover researcherInstitutionPopover;
+    Modal researcherInstitutionModal;
 
     // 035 Full variable name
     @UiField
-    Popover fullVariableNamePopover;
+    Modal fullVariableNameModal;
 
     // 045 Method reference (citation)
     @UiField
-    Popover referenceMethodPopover;
+    Modal referenceMethodModal;
 
 
 
@@ -287,22 +288,22 @@ public class CommonVariablePanel extends Composite {
         measuredValues.add("calculated");
         measured.init("Measured or Calculated ", measuredNames, measuredValues);
 
-        abbreviationPopover.setContent("");
-        observationTypePopover.setContent("");
-        manipulationMethodPopover.setContent("");
-        observationDetailPopover.setContent("");
-        measuredPopover.setContent("");
-        calculationMethodPopover.setContent("");
-        samplingInstrumentPopover.setContent("");
-        analyzingInstrumentPopover.setContent("");
-        detailedInformationPopover.setContent("");
-        fieldReplicatePopover.setContent("");
-        uncertaintyPopover.setContent("");
-        qualityFlagPopover.setContent("");
-        researcherNamePopover.setContent("");
-        researcherInstitutionPopover.setContent("");
-        fullVariableNamePopover.setContent("");
-        referenceMethodPopover.setContent("");
+        abbreviationModal.setTitle("");
+        observationTypeModal.setTitle("");
+        manipulationMethodModal.setTitle("");
+        observationDetailModal.setTitle("");
+        measuredModal.setTitle("");
+        calculationMethodModal.setTitle("");
+        samplingInstrumentModal.setTitle("");
+        analyzingInstrumentModal.setTitle("");
+        detailedInformationModal.setTitle("");
+        fieldReplicateModal.setTitle("");
+        uncertaintyModal.setTitle("");
+        qualityFlagModal.setTitle("");
+        researcherNameModal.setTitle("");
+        researcherInstitutionModal.setTitle("");
+        fullVariableNameModal.setTitle("");
+        referenceMethodModal.setTitle("");
 
     }
     public void show(Variable variable) {

@@ -153,8 +153,7 @@ public class OAPMetadataEditor implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        RootPanel.get().clear();
-        RootPanel.get().getElement().setInnerHTML(""); // <-- This is the key!
+        RootPanel.get("load").getElement().setInnerHTML("");
         RootPanel.get().add(topLayout);
         topLayout.addUploadSuccess(completeHandler);
         topLayout.setMain(submitterPanel);

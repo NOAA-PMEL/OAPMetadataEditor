@@ -56,23 +56,23 @@ DIC: Researcher Institution
         heading.setText("Enter the information for Dissolved Inorganic Carbon (DIC)");
         save.addClickHandler(saveIt);
 
-        abbreviationPopover.setContent("22.1 Column header name of the variable in the data files, e.g., DIC, TCO2, etc.");
-        observationTypePopover.setContent("22.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
-        manipulationMethodPopover.setContent("22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
-        observationDetailPopover.setContent("22.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study.");
-        measuredPopover.setContent("22.6 Whether the variable is measured in-situ, or calculated from other variables.");
-        calculationMethodPopover.setContent("22.7 Variables can be calculated using different sets of constants or different software.");
-        samplingInstrumentPopover.setContent("22.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument.");
-        analyzingInstrumentPopover.setContent("22.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.");
-        detailedInformationPopover.setContent("22.10 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
-        fieldReplicatePopover.setContent("22.11 Repetition of sample collection and measurement, e.g., triplicate samples.");
-        uncertaintyPopover.setContent("22.14 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
-        qualityFlagPopover.setContent("22.15 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
-        researcherNamePopover.setContent("22.17.1 The name of the PI, whose research team measured or derived this parameter.");
-        researcherInstitutionPopover.setContent("22.17.2 The institution of the PI, whose research team measured or derived this parameter.");
-        fullVariableNamePopover.setContent("The full variable name.");
-        referenceMethodPopover.setContent("22.16 Citation for the dissolved inorganic carbon method.");
-        unitsPopover.setContent("22.5 Units of the variable (e.g., μmol/kg).");
+        abbreviationModal.setTitle("22.1 Column header name of the variable in the data files, e.g., DIC, TCO2, etc.");
+        observationTypeModal.setTitle("22.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
+        manipulationMethodModal.setTitle("22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
+        observationDetailModal.setTitle("22.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study.");
+        measuredModal.setTitle("22.6 Whether the variable is measured in-situ, or calculated from other variables.");
+        calculationMethodModal.setTitle("22.7 Variables can be calculated using different sets of constants or different software.");
+        samplingInstrumentModal.setTitle("22.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument.");
+        analyzingInstrumentModal.setTitle("22.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.");
+        detailedInformationModal.setTitle("22.10 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
+        fieldReplicateModal.setTitle("22.11 Repetition of sample collection and measurement, e.g., triplicate samples.");
+        uncertaintyModal.setTitle("22.14 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
+        qualityFlagModal.setTitle("22.15 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
+        researcherNameModal.setTitle("22.17.1 The name of the PI, whose research team measured or derived this parameter.");
+        researcherInstitutionModal.setTitle("22.17.2 The institution of the PI, whose research team measured or derived this parameter.");
+        fullVariableNameModal.setTitle("The full variable name.");
+        referenceMethodModal.setTitle("22.16 Citation for the dissolved inorganic carbon method.");
+        unitsModal.setTitle("22.5 Units of the variable (e.g., μmol/kg).");
 
     }
     public Variable getDic() {

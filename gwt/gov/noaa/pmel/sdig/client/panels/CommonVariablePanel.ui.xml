@@ -37,10 +37,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
-                                <b:Popover placement="BOTTOM" trigger="CLICK" container="body" ui:field="abbreviationPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="abbreviationModal" b:id="modalAbbreviation"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="abbreviation" allowBlank="true" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -48,10 +46,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel for="fullVariableName" text="Full Variable Name"></b:FormLabel>
-                                <b:Popover placement="BOTTOM" trigger="CLICK" container="body" ui:field="fullVariableNamePopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="fullVariableNameModal" b:id="modalFullVariableName"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFullVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="fullVariableName" allowBlank="true" placeholder="Full variable name" b:id="fullVariableName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -59,10 +55,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
-                                <b:Popover placement="BOTTOM" trigger="CLICK" container="body" ui:field="observationTypePopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="observationTypeModal" b:id="modalObservationType"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
@@ -72,10 +66,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="samplingInstrumentPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="samplingInstrumentModal" b:id="modalSamplingInstrument"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSamplingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
@@ -83,10 +75,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="analyzingInstrumentPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="analyzingInstrumentModal" b:id="modalAnalyzingInstrument"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
@@ -94,9 +84,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
                                 <b:FormLabel for="units" text="Units"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="unitsPopover" title="" text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="unitsModal" b:id="modalUnits"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -106,10 +95,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="observationDetailPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="observationDetailModal" b:id="modalObservationDetail"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationDetail" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
@@ -117,10 +104,8 @@ Unnamed variables have "Full variable name in addition.
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="measuredPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="measuredModal" b:id="modalMeasured"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalMeasured" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
@@ -128,10 +113,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="manipulationMethodPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="manipulationMethodModal" b:id="modalManipulationMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -142,10 +125,8 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="calculationMethodPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="calculationMethodModal" b:id="modalCalculationMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCalculationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="calculationMethod" allowBlank="true" placeholder="Calculation method and parameters" b:id="calculationMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -154,10 +135,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
                                 <b:FormLabel for="referenceMethod" text="Method Reference (citation)"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="referenceMethodPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="referenceMethodModal" b:id="modalReferenceMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferenceMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="referenceMethod" allowBlank="true" placeholder="Method reference (citation)" b:id="referenceMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -167,10 +146,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="detailedInformationForm">
                                 <b:FormLabel for="detailedInformation" text="Detailed Sampling and Analyzing Information"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="detailedInformationPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="detailedInformationModal" b:id="modalDetailedInformation"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDetailedInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="9" ui:field="detailedInformation" allowBlank="true" placeholder="Detailed sampling and analyzing information" b:id="detailedInformation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
@@ -181,10 +158,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
                                 <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="uncertaintyPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="uncertaintyModal" b:id="modalUncertainty"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -192,10 +167,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
                                 <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="qualityFlagPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="qualityFlagModal" b:id="modalQualityFlag"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -203,10 +176,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="researcherNamePopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="researcherNameModal" b:id="modalResearcherName"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -214,10 +185,8 @@ Unnamed variables have "Full variable name in addition.
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherInstitutionForm">
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="researcherInstitutionPopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="researcherInstitutionModal" b:id="modalResearcherInstitution"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherInstitution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="researcherInstitution" allowBlank="true" placeholder="Researcher Institution" b:id="researcherInstitution"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
@@ -227,10 +196,8 @@ Unnamed variables have "Full variable name in addition.
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
-                                <b:Popover trigger="CLICK" container="body" ui:field="fieldReplicatePopover" title=""
-                                           text="">
-                                    <b:Icon pull="RIGHT" type="QUESTION_CIRCLE"></b:Icon>
-                                </b:Popover>
+                                <b:Modal title="" closable="true" ui:field="fieldReplicateModal" b:id="modalFieldReplicate"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFieldReplicate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="fieldReplicate" allowBlank="true" placeholder="Field replicate information" b:id="fieldReplicate"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>

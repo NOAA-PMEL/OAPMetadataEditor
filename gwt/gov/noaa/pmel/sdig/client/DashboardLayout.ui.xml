@@ -1,10 +1,18 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+    <ui:style>
+        .barbar {
+            class: fa fa-bar;
+        }
+    </ui:style>
     <g:HTMLPanel>
         <b:Navbar>
+            <b:Button pull="LEFT" ui:field="toggle" icon="BARS" iconSize="LARGE" type="DEFAULT" marginTop="8" marginRight="10">
+
+            </b:Button>
             <b:NavbarHeader>
-                <b:Button pull="LEFT" ui:field="toggle" icon="BARS" marginTop="8" marginRight="10"/>
+
                     <b:Image  pull="LEFT" pixelSize="60,60" url="images/NOAA_logo.svg"/>
                     <b:NavbarBrand>OAP Metadata Editor</b:NavbarBrand>
             </b:NavbarHeader>
