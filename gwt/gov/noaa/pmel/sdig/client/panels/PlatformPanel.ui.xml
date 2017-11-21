@@ -6,7 +6,6 @@
         <b:Form ui:field="form">
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Platform Information. You may enter more than one platform."></b:Heading>
-                <b:Heading size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_2">
@@ -14,41 +13,41 @@
                                 <b:FormLabel for="name" text="Platform Name *"></b:FormLabel>
                                 <b:Modal title="15.1 Platforms are often the research vessels that carry out the research. However, platforms could be something other than a ship (e.g., glider, Argo, etc), or something that is fixed (e.g., moored buoys, towers, etc)." closable="true" b:id="modalPlatformName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="name" allowBlank="false" placeholder="Platform Name" b:id="Name"></b:TextBox>
+                                <b:TextBox ui:field="name"allowBlank="true" placeholder="Platform Name" b:id="Name"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel for="platformId" text="Platform ID *"></b:FormLabel>
+                                <b:FormLabel for="platformId" text="Platform ID"></b:FormLabel>
                                 <b:Modal title="15.2 ICES platform code (e.g., 33RO, optional). For a list of ICES ship code, please check out this link: http://vocab.ices.dk." closable="true" b:id="modalPlatformID"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformID" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="platformId" allowBlank="false" placeholder="Platform ID" b:id="platformId"></b:TextBox>
+                                <b:TextBox ui:field="platformId"allowBlank="true" placeholder="Platform ID" b:id="platformId"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel for="country" text="Country *"></b:FormLabel>
+                                <b:FormLabel for="country" text="Country"></b:FormLabel>
                                 <b:Modal title="15.5 Country of the platform" closable="true" b:id="modalCountry"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCountry" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="country" allowBlank="false" placeholder="Country" b:id="country"></b:TextBox>
+                                <b:TextBox ui:field="country"allowBlank="true" placeholder="Country" b:id="country"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_4">
                             <b:FormGroup>
-                                <b:FormLabel for="owner" text="Owner *"></b:FormLabel>
+                                <b:FormLabel for="owner" text="Owner"></b:FormLabel>
                                 <b:Modal title="15.4 Owner of the platform" closable="true" b:id="modalOwner"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalOwner" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="owner" allowBlank="false" placeholder="Owner" b:id="owner"></b:TextBox>
+                                <b:TextBox ui:field="owner"allowBlank="true" placeholder="Owner" b:id="owner"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_4">
                             <b:FormGroup>
-                                <b:FormLabel for="type" text="Platform Type *"></b:FormLabel>
+                                <b:FormLabel for="type" text="Platform Type"></b:FormLabel>
                                 <b:Modal title="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc." closable="true" b:id="modalPlatformType"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="platformType" allowBlank="false" placeholder="Platform Type" b:id="type"></b:TextBox>
+                                <b:TextBox ui:field="platformType"allowBlank="true" placeholder="Platform Type" b:id="type"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
