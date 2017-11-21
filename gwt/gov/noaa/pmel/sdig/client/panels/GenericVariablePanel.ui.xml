@@ -78,7 +78,7 @@
                         <b:Column size="SM_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
-                                <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
+                                <b:FormLabel for="observationDetail" text="Details about the Observation (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.5 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study." closable="true" b:id="modalObservationDetail"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationDetail" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
@@ -96,7 +96,7 @@
                         <b:Column size="SM_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
-                                <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
+                                <b:FormLabel for="manipulationMethod" text="Manipulation Method (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc." closable="true" b:id="modalManipulationMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextBox>
@@ -187,37 +187,39 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6">
                             <b:FormGroup ui:field="biologicalSubjectForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="biologicalSubject" text="Biological subject"></b:FormLabel>
+                                <b:FormLabel for="biologicalSubject" text="Biological subject (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.18 For biological variables, please state the taxonomy (a specific species genus or a community), upon which the variable is studied. For example, if you study the growth rate of a certain type of Salmon. The 'variable/parameter' is growth rate, and is that specific type of salmon." closable="true" b:id="modalBiologicalSubject"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalBiologicalSubject" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="biologicalSubject" allowBlank="true" placeholder="Biological subject" b:id="biologicalSubject"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6">
                             <b:FormGroup ui:field="durationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="duration" text="Duration (for settlement/colonization methods)"></b:FormLabel>
+                                <b:FormLabel for="duration" text="Duration (for settlement/colonization methods) (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.12 The duration for settlement, colonization, or experiment studies." closable="true" b:id="modalDuration"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDuration" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="duration" allowBlank="true" placeholder="Duration (for settlement/colonization methods)" b:id="duration"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_6">
                             <b:FormGroup ui:field="lifeStageForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="lifeStage" text="Life stage of the biological subject *"></b:FormLabel>
+                                <b:FormLabel for="lifeStage" text="Life stage of the biological subject * (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.20 Life stage of the biological subject (a specific species genus or a community). *" closable="true" b:id="modalLifeStage"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLifeStage" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="lifeStage" allowBlank="false" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6">
                             <b:FormGroup ui:field="speciesIdCodeForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="speciesIdCode" text="Species Identification code"></b:FormLabel>
+                                <b:FormLabel for="speciesIdCode" text="Species Identification code (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.19 It is recommended to use the species reference databases from the Integrated Taxonomic Information System (or ITIS, http://www.itis.gov/), or World Register of Marine Species (or WoRMS, http://marinespecies.org/). We also recommend you to include the reference databases that are used in this field." closable="true" b:id="modalSpeciesIdCode"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSpeciesIdCode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="speciesIdCode" allowBlank="true" placeholder="Species Identification code" b:id="speciesIdCode"></b:TextBox>
