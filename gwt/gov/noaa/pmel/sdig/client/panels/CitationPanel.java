@@ -34,7 +34,7 @@ public class CitationPanel extends Composite {
     @UiField
     TextArea platformAbstract;
     @UiField
-    TextBox purpose;
+    TextArea purpose;
     @UiField
     TextBox researchProjects;
     @UiField
@@ -48,7 +48,7 @@ public class CitationPanel extends Composite {
     @UiField
     TextBox references;
     @UiField
-    TextBox supplementalInformation;
+    TextArea supplementalInformation;
 
     @UiField
     Button save;

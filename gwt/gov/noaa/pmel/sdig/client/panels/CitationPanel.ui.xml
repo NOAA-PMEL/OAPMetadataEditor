@@ -35,7 +35,7 @@
                                 <b:FormLabel for="purpose" text="Purpose"></b:FormLabel>
                                 <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" b:id="modalPurpose"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPurpose" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="purpose" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextBox>
+                                <b:TextArea ui:field="purpose" visibleLines="6" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -101,7 +101,7 @@
                                 <b:FormLabel for="supplementalInformation" text="Supplemental Information *"></b:FormLabel>
                                 <b:Modal title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields." b:id="modalSupplementalInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSupplementalInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="supplementalInformation" allowBlank="false" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextBox>
+                                <b:TextArea visibleLines="6" ui:field="supplementalInformation" allowBlank="false" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
