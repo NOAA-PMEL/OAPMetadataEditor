@@ -84,6 +84,14 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
+                        <b:Column size="SM_6">
+                            <b:FormGroup>
+                                <b:FormLabel for="country" text="Country"></b:FormLabel>
+                                <b:SuggestBox ui:field="country" allowBlank="true" placeholder="Country" b:id="country"></b:SuggestBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
                         <b:Column size="SM_3">
                             <b:FormGroup>
                                 <b:FormLabel for="telephone" text="Telephone Number"></b:FormLabel>

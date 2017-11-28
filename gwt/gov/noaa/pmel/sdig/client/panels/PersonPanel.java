@@ -1,6 +1,5 @@
 package gov.noaa.pmel.sdig.client.panels;
 
-import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
@@ -9,8 +8,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.regexp.shared.RegExp;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -23,20 +20,18 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Icon;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.Popover;
+import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
@@ -87,6 +82,8 @@ public class PersonPanel extends Composite {
     TextBox state;
     @UiField
     TextBox zip;
+    @UiField (provided = true)
+    SuggestBox country;
     @UiField
     TextBox email;
     @UiField
@@ -127,6 +124,8 @@ public class PersonPanel extends Composite {
     @UiField
     Pagination peoplePagination;
 
+    CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
+
     ListDataProvider<Person> peopleData = new ListDataProvider<Person>();
 
     private SimplePager cellTablePager = new SimplePager();
@@ -141,6 +140,7 @@ public class PersonPanel extends Composite {
 
     public PersonPanel() {
 
+        country = new SuggestBox(countrySuggestionOracle);
 
         initWidget(ourUiBinder.createAndBindUi(this));
         List<String> idNames = new ArrayList<String>();
@@ -315,6 +315,7 @@ public class PersonPanel extends Composite {
         person.setCity(city.getText().trim());
         person.setState(state.getText().trim());
         person.setZip(zip.getText().trim());
+        person.setCountry(country.getText().trim());
         person.setIdType(idType.getValue());
         return person;
     }
@@ -358,6 +359,9 @@ public class PersonPanel extends Composite {
         if (zip.getText().trim() != null && !zip.getText().isEmpty() ) {
             return true;
         }
+        if ( country.getText().trim() != null && !country.getText().isEmpty() ) {
+            return true;
+        }
         return false;
     }
     public void show(Person person) {
@@ -387,6 +391,8 @@ public class PersonPanel extends Composite {
             state.setText(person.getState().trim());
         if ( person.getZip() != null )
             zip.setText(person.getZip());
+        if ( person.getCountry() != null )
+            country.setText(person.getCountry());
         if ( person.getIdType() != null ) {
             idType.setSelected(person.getIdType());
         }

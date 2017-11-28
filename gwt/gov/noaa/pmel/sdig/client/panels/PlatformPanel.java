@@ -19,10 +19,12 @@ import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Pagination;
+import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
@@ -49,8 +51,8 @@ public class PlatformPanel extends Composite {
     TextBox name;
     @UiField
     TextBox platformId;
-    @UiField
-    TextBox country;
+    @UiField (provided = true)
+    SuggestBox country;
     @UiField
     TextBox owner;
     @UiField
@@ -66,6 +68,8 @@ public class PlatformPanel extends Composite {
 
     @UiField
     Pagination platformPagination;
+
+    CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
 
 
     boolean showTable = true;
@@ -88,6 +92,7 @@ public class PlatformPanel extends Composite {
     private static PlatformPanelUiBinder ourUiBinder = GWT.create(PlatformPanelUiBinder.class);
 
     public PlatformPanel() {
+        country = new SuggestBox(countrySuggestionOracle);
         initWidget(ourUiBinder.createAndBindUi(this));
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
 

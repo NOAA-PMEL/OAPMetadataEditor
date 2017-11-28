@@ -17,6 +17,7 @@ public class Person {
     String city;
     String state;
     String zip;
+    String country;
     String idType;
 
     public String getIdType() {
@@ -129,5 +130,11 @@ public class Person {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+    public String getCountry() {
+        return country;
+    }
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

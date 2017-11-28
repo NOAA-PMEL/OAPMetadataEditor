@@ -169,7 +169,13 @@ class XmlService {
             }
             Element platformCountry = platformE.getChild("PlatformCountry")
             if (platformCountry) {
-                platform.setCountry(platformCountry.getText())
+                String proposedCountry = platformCountry.getTextTrim()
+                String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
+                if ( countryThreeLetter != null ) {
+                    platform.setCountry(countryThreeLetter)
+                } else {
+                    platform.setCountry(proposedCountry)
+                }
             }
             doc.addToPlatforms(platform)
         }
@@ -869,7 +875,13 @@ class XmlService {
             }
             Element country = p.getChild("country");
             if ( country ) {
-                human.setCountry(country.getTextTrim())
+                String proposedCountry = country.getTextTrim();
+                String countryName = OracleController.getCountryName(country.getTextTrim())
+                if ( countryName !=  null ) {
+                    human.setCountry(countryName)
+                } else {
+                    human.setCountry(proposedCountry)
+                }
             }
             Element phone = p.getChild("phone");
             if ( phone ) {
@@ -1066,7 +1078,13 @@ class XmlService {
                 }
                 if (platform.getCountry()) {
                     Element platformCountry = new Element("PlatformCountry")
-                    platformCountry.setText(platform.getCountry())
+                    String proposedCountry = platform.getCountry();
+                    String countryName = OracleController.getCountryName(proposedCountry)
+                    if ( countryName != null ) {
+                        platformCountry.setText(countryName)
+                    } else {
+                        platformCountry.setText(proposedCountry)
+                    }
                     platformE.addContent(platformCountry)
                 }
                 metadata.addContent(platformE)
@@ -1268,7 +1286,15 @@ class XmlService {
         // But, not postal code instead of zip??
         if ( p.getZip() )
             person.addContent(new Element("zip").setText(p.getZip()))
-//            person.addContent(new Element("country").setText(p.getCountry()))
+        if ( p.getCountry() ) {
+            String proposedCountry = p.getCountry();
+            String countryName = OracleController.getThreeLetter(proposedCountry)
+            if ( countryName != null ) {
+                person.addContent(new Element("country").setText(countryName))
+            } else {
+                person.addContent(new Element("country").setText(proposedCountry))
+            }
+        }
         if ( p.getTelephone() && p.getExtension() ) {
             person.addContent(new Element("phone").setText(p.getTelephone() + " " +p.getExtension() ))
         } else if ( p.getTelephone() ) {

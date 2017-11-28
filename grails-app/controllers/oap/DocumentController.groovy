@@ -57,15 +57,25 @@ class DocumentController {
         def f = request.getPart('xmlFile')
 
         InputStream ins = f.getInputStream()
+        // Create the document
         Document document = xmlService.createDocument(ins)
+        // Set its last modified date
+        DateTime currently = DateTime.now(DateTimeZone.UTC)
+        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
+        String update = format.print(currently)
+        document.setLastModified(update)
 
-        //respond(document)
+        if ( !document.validate() ) {
+            document.errors.allErrors.each {
+                log.debug it.toString()
+            }
+        } else {
+            log.debug("Document is valid...")
+        }
+
         JSON.use("deep") {
             render document as JSON
         }
-
-
-
     }
     def xml() {
         String pid = params.id;
