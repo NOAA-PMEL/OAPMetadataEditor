@@ -13,7 +13,7 @@ public class Document {
     Person dataSubmitter;
     Citation citation;
     TimeAndLocation timeAndLocation;
-    Funding funding;
+    List<Funding> funding;
     Variable dic;
     Variable ta;
     Variable ph;
@@ -46,11 +46,11 @@ public class Document {
     public void setVariables(List<Variable> variables) {
         this.variables = variables;
     }
-    public Funding getFunding() {
+    public List<Funding> getFunding() {
         return funding;
     }
 
-    public void setFunding(Funding funding) {
+    public void setFunding(List<Funding> funding) {
         this.funding = funding;
     }
 

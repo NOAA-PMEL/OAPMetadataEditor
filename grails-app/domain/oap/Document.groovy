@@ -7,6 +7,7 @@ class Document {
     List<Platform> platforms
     List<Investigator> investigators
     List<Variable> variables
+    List<Funding> funding;
 
     static hasOne = [dataSubmitter: DataSubmitter,
                      citation: Citation,
@@ -15,14 +16,14 @@ class Document {
                      pco2a: Pco2a,
                      ta: Ta,
                      ph: Ph,
-                     pco2d: Pco2d,
-                     funding: Funding]
+                     pco2d: Pco2d]
 
 
 
     static hasMany = [platforms:Platform,
                       investigators: Investigator,
-                      variables: Variable]
+                      variables: Variable,
+                      funding: Funding]
 
     static mapping = {
 

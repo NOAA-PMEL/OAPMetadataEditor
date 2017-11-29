@@ -37,6 +37,16 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
+                        <b:Column size="SM_12">
+                            <b:gwt.CellTable ui:field="fundings" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12">
+                            <b:Pagination ui:field="fundingPagination"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
                         <b:Column size="SM_2">
                             <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
                         </b:Column>

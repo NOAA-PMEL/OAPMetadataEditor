@@ -128,22 +128,30 @@ class XmlService {
         doc.setTimeAndLocation(timeAndLocation)
 
         // Funding
-        Funding funding = new Funding()
 
-        Element agency = root.getChild("agency")
-        if ( agency ) {
-            funding.setAgencyName(agency.getTextTrim())
-        }
-        Element granttitle = root.getChild("title")
-        if ( granttitle ) {
-            funding.setGrantTitle(granttitle.getTextTrim())
-        }
-        Element ID = root.getChild("ID")
-        if ( ID ) {
-            funding.setGrandNumber(ID.getTextTrim())
+        List<Element> funding = root.getChildren("fundingAgency");
+        List<Funding> fundingList = new ArrayList<>();
+        for ( int i = 0; i < funding.get(i); i++ ) {
+            Element fund = funding.get(i);
+            Funding finst = new Funding();
+            Element agency = fund.getChild("agency")
+
+            if ( agency ) {
+                finst.setAgencyName(agency.getTextTrim())
+            }
+            Element granttitle = agency.getChild("title")
+            if ( granttitle ) {
+                finst.setGrantTitle(granttitle.getTextTrim())
+            }
+            Element ID = agency.getChild("ID")
+            if ( ID ) {
+                finst.setGrantNumber(ID.getTextTrim())
+            }
+            fundingList.add(finst)
         }
 
-        doc.setFunding(funding)
+
+        doc.setFunding(fundingList)
 
         Platform platform = new Platform()
         Element platformE = root.getChild("Platform")
@@ -1030,26 +1038,31 @@ class XmlService {
                 metadata.addContent(locationOrganism)
             }
         }
-        Funding funding = doc.getFunding()
-        if ( funding ) {
-            Element fundingAgency = new Element("fundingAgency")
-            if ( funding.getAgencyName() ) {
-                Element agency = new Element("agency")
-                agency.setText(funding.getAgencyName())
-                fundingAgency.addContent(agency)
+
+        List<Funding> fundingList = doc.getFunding();
+        for (int i = 0; i < fundingList.size(); i++) {
+            Funding funding = fundingList.get(i)
+            if ( funding ) {
+                Element fundingAgency = new Element("fundingAgency")
+                if ( funding.getAgencyName() ) {
+                    Element agency = new Element("agency")
+                    agency.setText(funding.getAgencyName())
+                    fundingAgency.addContent(agency)
+                }
+                if ( funding.getGrantTitle() ) {
+                    Element title = new Element("title")
+                    title.setText(funding.getGrantTitle())
+                    fundingAgency.addContent(title)
+                }
+                if ( funding.getGrantNumber() ) {
+                    Element ID = new Element("ID")
+                    ID.setText(funding.getGrantNumber())
+                    fundingAgency.addContent(ID)
+                }
+                metadata.addContent(fundingAgency)
             }
-            if ( funding.getGrantTitle() ) {
-                Element title = new Element("title")
-                title.setText(funding.getGrantTitle())
-                fundingAgency.addContent(title)
-            }
-            if ( funding.getGrantNumber() ) {
-                Element ID = new Element("ID")
-                ID.setText(funding.getGrantNumber())
-                fundingAgency.addContent(ID)
-            }
-            metadata.addContent(fundingAgency)
         }
+
 
         List<Platform> platforms = doc.getPlatforms()
         if ( platforms ) {

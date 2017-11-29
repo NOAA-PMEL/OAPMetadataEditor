@@ -40,8 +40,6 @@ import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import org.apache.xpath.operations.Mod;
-import org.eclipse.jdt.internal.compiler.impl.Constant;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.Resource;
@@ -243,9 +241,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.setMain(fundingPanel);
                     topLayout.setActive(Constants.SECTION_FUNDING);
                 } else if ( type.equals(Constants.SECTION_FUNDING) ) {
-                    funding = (Funding) event.getSectionContents();
-                    topLayout.setMain(platformPanel);
-                    topLayout.setActive(Constants.SECTION_PLATFORMS);
+                    // Nothing to do here, list in the panel
                 } else if ( type.equals(Constants.SECTION_PLATFORMS) ) {
                     // List kept in the panel. Nothing to do here.
                 } else if ( type.equals(Constants.SECTION_DIC) ) {
@@ -346,7 +342,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     document.setPh(ph);
                     document.setTa(ta);
                     document.setPlatforms(platformPanel.getPlatforms());
-                    document.setFunding(funding);
+                    document.setFunding(fundingPanel.getFundings());
                     List<Variable> variables = genericVariablePanel.getVariables();
                     if (variables != null && variables.size() > 0)
                         document.setVariables(variables);
@@ -385,11 +381,11 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.setMain(timeAndLocationPanel);
                     topLayout.setActive(Constants.SECTION_TIMEANDLOCATION);
                 } else if ( link.getText().equals(Constants.SECTION_FUNDING) ) {
-                    if ( funding != null ) {
-                        fundingPanel.show(funding);
-                    }
                     topLayout.setMain(fundingPanel);
                     topLayout.setActive(Constants.SECTION_FUNDING);
+                    if ( fundingPanel.getFundings().size() > 0 ) {
+                        fundingPanel.setTableVisible(true);
+                    }
                 } else if ( link.getText().equals(Constants.SECTION_PLATFORMS) ) {
                     topLayout.setMain(platformPanel);
                     topLayout.setActive(Constants.SECTION_PLATFORMS);
@@ -585,11 +581,16 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                 }
                 if (document.getFunding() != null) {
-                    funding = document.getFunding();
-                    fundingPanel.show(funding);
-                    if (fundingPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_FUNDING);
+                    List<Funding> fundings = document.getFunding();
+                    for( int i = 0; i < fundings.size(); i++ ) {
+                        Funding f = fundings.get(i);
+                        fundingPanel.show(f);
+                        if ( fundingPanel.valid() ) {
+                            topLayout.setChecked(Constants.SECTION_FUNDING);
+                        }
                     }
+                    fundingPanel.reset();
+                    fundingPanel.addFundings(fundings);
                 }
                 if (document.getDic() != null) {
                     dic = document.getDic();
