@@ -48,15 +48,10 @@
                         <b:AnchorListItem ui:field="fundingLink">Funding</b:AnchorListItem>
                         <b:AnchorListItem ui:field="platformsLink">Platforms</b:AnchorListItem>
                         <b:AnchorListItem ui:field="dicLink">DIC</b:AnchorListItem>
-                        <b:AnchorListItem ui:field="dic2Link">DIC (2)</b:AnchorListItem>
                         <b:AnchorListItem ui:field="taLink">TA</b:AnchorListItem>
-                        <b:AnchorListItem ui:field="ta2Link">TA (2)</b:AnchorListItem>
                         <b:AnchorListItem ui:field="phLink">pH</b:AnchorListItem>
-                        <b:AnchorListItem ui:field="ph2Link">pH (2)</b:AnchorListItem>
                         <b:AnchorListItem ui:field="pco2aLink">pCO2A</b:AnchorListItem>
-                        <b:AnchorListItem ui:field="pco2a2Link">pCO2A (2)</b:AnchorListItem>
                         <b:AnchorListItem ui:field="pco2dLink">pCO2D</b:AnchorListItem>
-                        <b:AnchorListItem ui:field="pco2d2Link">pCO2D (2)</b:AnchorListItem>
                         <b:AnchorListItem ui:field="genericVariableLink">Variable</b:AnchorListItem>
                     </b:NavPills>
                     <b:Container width="100%">

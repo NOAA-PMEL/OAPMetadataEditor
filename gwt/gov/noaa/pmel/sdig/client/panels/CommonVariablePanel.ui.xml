@@ -28,7 +28,6 @@ Unnamed variables have "Full variable name in addition.
 
 
         -->
-        <b:Form ui:field="form">
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information"></b:Heading>
                 <b:Container width="100%" pull="LEFT">
@@ -202,13 +201,7 @@ Unnamed variables have "Full variable name in addition.
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
-                        </b:Column>
-                    </b:Row>
                 </b:Container>
             </b:FieldSet>
-        </b:Form>
     </g:HTMLPanel>
 </ui:UiBinder>

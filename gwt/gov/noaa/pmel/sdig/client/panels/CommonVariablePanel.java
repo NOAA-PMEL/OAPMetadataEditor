@@ -38,12 +38,6 @@ public class CommonVariablePanel extends Composite {
     @UiField
     Heading heading;
 
-    @UiField
-    Form form;
-
-    @UiField
-    Button save;
-
     // 001 Variable abbreviation in data files
     @UiField
     TextBox abbreviation;
@@ -418,13 +412,5 @@ public class CommonVariablePanel extends Composite {
             return true;
         return false;
     }
-    public boolean valid() {
-        String valid = String.valueOf(form.validate());
-        if (valid.equals("false") ||
-                valid.equals("0")) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+
 }

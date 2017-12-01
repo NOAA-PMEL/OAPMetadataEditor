@@ -73,31 +73,16 @@ public class DashboardLayout extends Composite {
     AnchorListItem dicLink;
 
     @UiField
-    AnchorListItem dic2Link;
-
-    @UiField
-    AnchorListItem taLink;
-
-    @UiField
-    AnchorListItem ta2Link;
+    AnchorListItem taLink;;
 
     @UiField
     AnchorListItem phLink;
 
     @UiField
-    AnchorListItem ph2Link;
-
-    @UiField
     AnchorListItem pco2aLink;
 
     @UiField
-    AnchorListItem pco2a2Link;
-
-    @UiField
     AnchorListItem pco2dLink;
-
-    @UiField
-    AnchorListItem pco2d2Link;
 
     @UiField
     AnchorListItem genericVariableLink;
@@ -193,22 +178,10 @@ public class DashboardLayout extends Composite {
                 eventBus.fireEventFromSource(new NavLink(), dicLink);
             }
         });
-        dic2Link.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new NavLink(), dic2Link);
-            }
-        });
         taLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), taLink);
-            }
-        });
-        ta2Link.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new NavLink(), ta2Link);
             }
         });
         phLink.addClickHandler(new ClickHandler() {
@@ -217,34 +190,16 @@ public class DashboardLayout extends Composite {
                 eventBus.fireEventFromSource(new NavLink(), phLink);
             }
         });
-        ph2Link.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new NavLink(), ph2Link);
-            }
-        });
         pco2aLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), pco2aLink);
             }
         });
-        pco2a2Link.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new NavLink(), pco2a2Link);
-            }
-        });
         pco2dLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), pco2dLink);
-            }
-        });
-        pco2d2Link.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new NavLink(), pco2d2Link);
             }
         });
         genericVariableLink.addClickHandler(new ClickHandler() {
@@ -298,24 +253,14 @@ public class DashboardLayout extends Composite {
             platformsLink.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_DIC)) {
             dicLink.setIcon(IconType.CHECK);
-        } else if ( section.equals(Constants.SECTION_DIC2) ) {
-            dic2Link.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_TA) ) {
             taLink.setIcon(IconType.CHECK);
-        } else if ( section.equals(Constants.SECTION_TA2) ) {
-            ta2Link.setIcon(IconType.CHECK);
-        }  else if ( section.equals(Constants.SECTION_PH) ) {
+        } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.setIcon(IconType.CHECK);
-        } else if ( section.equals(Constants.SECTION_PH2) ) {
-            ph2Link.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.setIcon(IconType.CHECK);
-        } else if ( section.equals(Constants.SECTION_PCO2A2) ) {
-            pco2a2Link.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.setIcon(IconType.CHECK);
-        } else if ( section.equals(Constants.SECTION_PCO2D2) ) {
-            pco2d2Link.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_GENERIC) ) {
             genericVariableLink.setIcon(IconType.CHECK);
         }
@@ -342,31 +287,16 @@ public class DashboardLayout extends Composite {
         if ( dicLink.getIcon() == null ) {
             return false;
         }
-        if ( dic2Link.getIcon() == null ) {
-            return false;
-        }
         if ( taLink.getIcon() == null ) {
-            return false;
-        }
-        if ( ta2Link.getIcon() == null ) {
             return false;
         }
         if ( phLink.getIcon() == null ) {
             return false;
         }
-        if ( ph2Link.getIcon() == null ) {
-            return false;
-        }
         if ( pco2aLink.getIcon() == null ) {
             return false;
         }
-        if ( pco2a2Link.getIcon() == null ) {
-            return false;
-        }
         if ( pco2dLink.getIcon() == null ) {
-            return false;
-        }
-        if ( pco2d2Link.getIcon() == null ) {
             return false;
         }
         return true;
@@ -381,15 +311,10 @@ public class DashboardLayout extends Composite {
         fundingLink.setIcon(null);
         platformsLink.setIcon(null);
         dicLink.setIcon(null);
-        dic2Link.setIcon(null);
         taLink.setIcon(null);
-        ta2Link.setIcon(null);
         phLink.setIcon(null);
-        ph2Link.setIcon(null);
         pco2aLink.setIcon(null);
-        pco2a2Link.setIcon(null);
         pco2dLink.setIcon(null);
-        pco2d2Link.setIcon(null);
         eventBus.fireEventFromSource(event, reset);
     }
     public void setSaveEnabled(boolean enabled) {
@@ -427,15 +352,10 @@ public class DashboardLayout extends Composite {
         fundingLink.setActive(false);
         platformsLink.setActive(false);
         dicLink.setActive(false);
-        dic2Link.setActive(false);
         taLink.setActive(false);
-        ta2Link.setActive(false);
         phLink.setActive(false);
-        ph2Link.setActive(false);
         pco2aLink.setActive(false);
-        pco2a2Link.setActive(false);
         pco2dLink.setActive(false);
-        pco2d2Link.setActive(false);
         genericVariableLink.setActive(false);
         if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
             investigatorsLink.setActive(true);
@@ -451,24 +371,14 @@ public class DashboardLayout extends Composite {
             platformsLink.setActive(true);
         } else if ( section.equals(Constants.SECTION_DIC)) {
             dicLink.setActive(true);
-        } else if ( section.equals(Constants.SECTION_DIC2) ) {
-            dic2Link.setActive(true);
         } else if ( section.equals(Constants.SECTION_TA) ) {
             taLink.setActive(true);
-        } else if ( section.equals(Constants.SECTION_TA2) ) {
-            ta2Link.setActive(true);
-        }  else if ( section.equals(Constants.SECTION_PH) ) {
+        } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.setActive(true);
-        } else if ( section.equals(Constants.SECTION_PH2) ) {
-            ph2Link.setActive(true);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.setActive(true);
-        } else if ( section.equals(Constants.SECTION_PCO2A2) ) {
-            pco2a2Link.setActive(true);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.setActive(true);
-        } else if ( section.equals(Constants.SECTION_PCO2D2) ) {
-            pco2d2Link.setActive(true);
         } else if ( section.equals(Constants.SECTION_GENERIC) ) {
             genericVariableLink.setActive(true);
         }

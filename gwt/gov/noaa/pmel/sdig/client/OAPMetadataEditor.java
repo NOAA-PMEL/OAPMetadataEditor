@@ -250,13 +250,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     } else {
                         dicPanel.fill(dic);
                     }
-                    topLayout.setMain(dic2Panel);
-                    topLayout.setActive(Constants.SECTION_DIC2);
-                } else if ( type.equals(Constants.SECTION_DIC2) ) {
-                    if ( dic == null ) {
-                        dic = new Variable();;
-                    }
-                    dic2Panel.fill(dic);
                     topLayout.setMain(taPanel);
                     topLayout.setActive(Constants.SECTION_TA);
                 } else if ( type.equals(Constants.SECTION_TA) ) {
@@ -278,10 +271,10 @@ public class OAPMetadataEditor implements EntryPoint {
                     if ( ph == null ) {
                         ph = (Variable) event.getSectionContents();
                     } else {
-                        phPanel.fillCommonVariable(ph);
+                        phPanel.fill(ph);
                     }
-                    topLayout.setMain(ph2Panel);
-                    topLayout.setActive(Constants.SECTION_PH2);
+                    topLayout.setMain(pco2aPanel);
+                    topLayout.setActive(Constants.SECTION_PCO2A);
                 } else if ( type.equals(Constants.SECTION_PH2) ) {
                     if ( ph == null ) {
                         ph = new Variable();
@@ -293,10 +286,10 @@ public class OAPMetadataEditor implements EntryPoint {
                     if ( pco2a == null ) {
                         pco2a = (Variable) event.getSectionContents();
                     } else {
-                        pco2aPanel.fillCommonVariable(pco2a);
+                        pco2aPanel.fill(pco2a);
                     }
-                    topLayout.setMain(pco2a2Panel);
-                    topLayout.setActive(Constants.SECTION_PCO2A2);
+                    topLayout.setMain(pco2dPanel);
+                    topLayout.setActive(Constants.SECTION_PCO2D);
                 }
                 else if ( type.equals(Constants.SECTION_PCO2A2) ) {
                     if ( pco2a == null ) {
@@ -309,16 +302,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if ( pco2d == null ) {
                         pco2d = (Variable) event.getSectionContents();
                     } else {
-                        pco2dPanel.fillCommonVariable(pco2d);
+                        pco2dPanel.fill(pco2d);
                     }
-                    topLayout.setMain(pco2d2Panel);
-                    topLayout.setActive(Constants.SECTION_PCO2D2);
-                }
-                else if ( type.equals(Constants.SECTION_PCO2D2) ) {
-                    if ( pco2d == null ) {
-                        pco2d = new Variable();
-                    }
-                    pco2d2Panel.fill(pco2d);
                     topLayout.setMain(genericVariablePanel);
                     topLayout.setActive(Constants.SECTION_GENERIC);
                 } else if ( type.equals(Constants.SECTION_GENERIC) ) {
@@ -598,20 +583,12 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (dicPanel.valid()) {
                         topLayout.setChecked(Constants.SECTION_DIC);
                     }
-                    dic2Panel.show(dic);
-                    if (dic2Panel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_DIC2);
-                    }
                 }
                 if (document.getTa() != null) {
                     ta = document.getTa();
                     taPanel.show(ta);
                     if (taPanel.valid()) {
                         topLayout.setChecked(Constants.SECTION_TA);
-                    }
-                    ta2Panel.show(ta);
-                    if (ta2Panel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_TA2);
                     }
                 }
                 if (document.getPh() != null) {
@@ -620,10 +597,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (phPanel.valid()) {
                         topLayout.setChecked(Constants.SECTION_PH);
                     }
-                    ph2Panel.show(ph);
-                    if (ph2Panel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PH2);
-                    }
                 }
                 if (document.getPco2a() != null) {
                     pco2a = document.getPco2a();
@@ -631,20 +604,12 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (pco2aPanel.valid()) {
                         topLayout.setChecked(Constants.SECTION_PCO2A);
                     }
-                    pco2a2Panel.show(pco2a);
-                    if (pco2a2Panel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PCO2A2);
-                    }
                 }
                 if (document.getPco2d() != null) {
                     pco2d = document.getPco2d();
                     pco2dPanel.show(pco2d);
                     if (pco2dPanel.valid()) {
                         topLayout.setChecked(Constants.SECTION_PCO2D);
-                    }
-                    pco2d2Panel.show(pco2d);
-                    if (pco2a2Panel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PCO2D2);
                     }
                 }
                 if ( dataSubmitter != null ) {

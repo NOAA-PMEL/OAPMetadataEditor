@@ -116,15 +116,15 @@ public class Ph2Panel extends Composite {
 
 //TODO initialize the cell type dropdown.
 
-    interface Ph2PanelUiBinder extends UiBinder<HTMLPanel, Ph2Panel> {
-    }
-
-    private static Ph2PanelUiBinder ourUiBinder = GWT.create(Ph2PanelUiBinder.class);
+//    interface Ph2PanelUiBinder extends UiBinder<HTMLPanel, Ph2Panel> {
+//    }
+//
+//    private static Ph2PanelUiBinder ourUiBinder = GWT.create(Ph2PanelUiBinder.class);
 
     public Ph2Panel() {
-        initWidget(ourUiBinder.createAndBindUi(this));
-        save.addClickHandler(saveIt);
-        heading.setText("Continue entering information for pH.");
+//        initWidget(ourUiBinder.createAndBindUi(this));
+//        save.addClickHandler(saveIt);
+//        heading.setText("Continue entering information for pH.");
     }
     public void show(Variable variable) {
 

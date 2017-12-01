@@ -131,7 +131,7 @@ class XmlService {
 
         List<Element> funding = root.getChildren("fundingAgency");
         List<Funding> fundingList = new ArrayList<>();
-        for ( int i = 0; i < funding.get(i); i++ ) {
+        for ( int i = 0; i < funding.size(); i++ ) {
             Element fund = funding.get(i);
             Funding finst = new Funding();
             Element agency = fund.getChild("agency")
@@ -176,6 +176,41 @@ class XmlService {
                 platform.setOwner(platformOwner.getText())
             }
             Element platformCountry = platformE.getChild("country")
+            if (platformCountry) {
+                String proposedCountry = platformCountry.getTextTrim()
+                String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
+                if ( countryThreeLetter != null ) {
+                    platform.setCountry(countryThreeLetter)
+                } else {
+                    platform.setCountry(proposedCountry)
+                }
+            }
+            doc.addToPlatforms(platform)
+        }
+
+        // Or read the "old" style if it's included
+        Element oldPlatE = root.getChild("Platform")
+
+        if (oldPlatE) {
+
+            Element platformName = oldPlatE.getChild("PlatformName")
+            if (platformName) {
+                platform.setName(platformName.getTextTrim())
+            }
+            Element platformId = oldPlatE.getChild("PlatformID")
+            if (platformId) {
+                platform.setPlatformId(platformId.getTextTrim())
+            }
+            Element platformType = oldPlatE.getChild("PlatformType")
+            if (platformType) {
+
+                platform.setPlatformType(platformType.getText())
+            }
+            Element platformOwner = oldPlatE.getChild("PlatformOwner")
+            if (platformOwner) {
+                platform.setOwner(platformOwner.getText())
+            }
+            Element platformCountry = oldPlatE.getChild("PlatformCountry")
             if (platformCountry) {
                 String proposedCountry = platformCountry.getTextTrim()
                 String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)

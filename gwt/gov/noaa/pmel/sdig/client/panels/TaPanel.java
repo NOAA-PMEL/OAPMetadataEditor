@@ -1,76 +1,178 @@
 package gov.noaa.pmel.sdig.client.panels;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Form;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rhs on 3/8/17.
  */
-public class TaPanel extends CommonVariablePanel {
+public class TaPanel extends Composite {
+    @UiField
+    Button save;
+
+    @UiField
+    Form form;
+
+    // 012 Standardization technique description
+    @UiField
+    TextBox standardizationTechnique;
+
+    // 013 Frequency of standardization
+    @UiField
+    TextBox freqencyOfStandardization;
+
+    // 014 CRM manufacturer
+    @UiField
+    TextBox crmManufacture;
+
+    // 015 Batch Number
+    @UiField
+    TextBox batchNumber;
+
+    // 017 Poison used to kill the sample
+    @UiField
+    TextBox poison;
+
+    // 018 Poison volume
+    @UiField
+    TextBox poisonVolume;
+
+    // 019 Poisoning correction description
+    @UiField
+    TextBox poisonDescription;
+
+    // 027 Cell type (open or closed)
+    @UiField
+    ButtonDropDown cellType;
+
+    // 029 Curve fitting method
+    @UiField
+    TextBox curveFittingMethod;
+
+    // 042 Magnitude of blank correction
+    @UiField
+    TextBox magnitudeOfBlankCorrection;
+
+    // 055 Type of titration
+    @UiField
+    TextBox titrationType;
+
+    @UiField
+    CommonVariablePanel common;
+
+    interface VariablePanelUiBinder extends UiBinder<HTMLPanel, TaPanel> {
+    }
+
+    private static TaPanel.VariablePanelUiBinder ourUiBinder = GWT.create(TaPanel.VariablePanelUiBinder.class);
+
     public TaPanel() {
-        super();
-        abbreviation.setText("TA");
-        abbreviation.setEnabled(false);
-        fullVariableName.setText("Total Alkalinity");
-        fullVariableName.setEnabled(false);
-        heading.setText("Enter the information for Total Alkalinity (TA)");
+
+        initWidget(ourUiBinder.createAndBindUi(this));
+
+        common.abbreviation.setText("TA");
+        common.abbreviation.setEnabled(false);
+        common.fullVariableName.setText("Total Alkalinity");
+        common.fullVariableName.setEnabled(false);
+        common.heading.setText("Enter the information for Total Alkalinity (TA)");
         save.addClickHandler(saveIt);
-        abbreviationModal.setTitle("23.1 Column header name of the variable in the data files, e.g., TA, Alk, etc.");
-        observationTypeModal.setTitle("23.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
-        manipulationMethodModal.setTitle("23.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
-        observationDetailModal.setTitle("23.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a \n" +
+        common.abbreviationModal.setTitle("23.1 Column header name of the variable in the data files, e.g., TA, Alk, etc.");
+        common.observationTypeModal.setTitle("23.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
+        common.manipulationMethodModal.setTitle("23.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
+        common.observationDetailModal.setTitle("23.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a \n" +
                 "biological experimental study.");
-        unitsModal.setTitle("23.5 Units of the variable (e.g., μmol/kg).");
-        measuredModal.setTitle("23.6 Variable is measured in-situ, or calculated from other variables.");
-        calculationMethodModal.setTitle("23.7 Variables can be calculated using different sets of constants or different software.");
-        samplingInstrumentModal.setTitle("23.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a\n" +
+        common.unitsModal.setTitle("23.5 Units of the variable (e.g., μmol/kg).");
+        common.measuredModal.setTitle("23.6 Variable is measured in-situ, or calculated from other variables.");
+        common.calculationMethodModal.setTitle("23.7 Variables can be calculated using different sets of constants or different software.");
+        common.samplingInstrumentModal.setTitle("23.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a\n" +
                 " sampling instrument.");
-        analyzingInstrumentModal.setTitle("23.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are\n" +
+        common.analyzingInstrumentModal.setTitle("23.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are\n" +
                 " mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator,\n" +
                 " spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument.\n" +
                 " We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as\n" +
                 " you can here.");
-        detailedInformationModal.setTitle("23.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the\n" +
+        common.detailedInformationModal.setTitle("23.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the\n" +
                 " instrument, etc.");
-        fieldReplicateModal.setTitle("23.14 Repetition of sample collection and measurement, e.g., triplicate samples.");
-        uncertaintyModal.setTitle("23.18\n" +
+        common.fieldReplicateModal.setTitle("23.14 Repetition of sample collection and measurement, e.g., triplicate samples.");
+        common.uncertaintyModal.setTitle("23.18\n" +
                 " Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the \n" +
                 " variable.");
-        qualityFlagModal.setTitle("23.19 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of\n" +
+        common.qualityFlagModal.setTitle("23.19 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of\n" +
                 " WOCE quality flags are recommended.");
-        researcherNameModal.setTitle("23.21.1 The name of the PI, whose research team measured or derived this parameter.");
-        researcherInstitutionModal.setTitle("23.21.2 The institution of the PI, whose research team measured or derived this parameter.");
-        fullVariableNameModal.setTitle("The full name of the variable.");
-        referenceMethodModal.setTitle("23.20 Citation for the alkalinity method.");
+        common.researcherNameModal.setTitle("23.21.1 The name of the PI, whose research team measured or derived this parameter.");
+        common.researcherInstitutionModal.setTitle("23.21.2 The institution of the PI, whose research team measured or derived this parameter.");
+        common.fullVariableNameModal.setTitle("The full name of the variable.");
+        common.referenceMethodModal.setTitle("23.20 Citation for the alkalinity method.");
+
+        List<String> name = new ArrayList<String>();
+        List<String> value = new ArrayList<String>();
+        name.add("Open");
+        value.add("open");
+        name.add("Closed");
+        value.add("closed");
+        cellType.init("Cell Type: Open or Closed", name, value);
 
     }
     public Variable getTa() {
-        return getCommonVariable();
-    }
-    public Variable fill(Variable ta) {
-        fillCommonVariable(ta);
+        Variable ta = common.getCommonVariable();
+        ta.setStandardizationTechnique(standardizationTechnique.getText());
+        ta.setFreqencyOfStandardization(freqencyOfStandardization.getText());
+        ta.setCrmManufacture(crmManufacture.getText());
+        ta.setBatchNumber(batchNumber.getText());
+        ta.setPoison(poison.getText());
+        ta.setPoisonVolume(poisonVolume.getText());
+        ta.setPoisonDescription(poisonDescription.getText());
+        ta.setCellType(cellType.getValue());
+        ta.setCurveFittingMethod(curveFittingMethod.getText());
+        ta.setMagnitudeOfBlankCorrection(magnitudeOfBlankCorrection.getText());
+        ta.setTitrationType(titrationType.getText());
         return ta;
+    }
+    public void fill(Variable ta) {
+        common.fillCommonVariable(ta);
+        ta.setStandardizationTechnique(standardizationTechnique.getText());
+        ta.setFreqencyOfStandardization(freqencyOfStandardization.getText());
+        ta.setCrmManufacture(crmManufacture.getText());
+        ta.setBatchNumber(batchNumber.getText());
+        ta.setPoison(poison.getText());
+        ta.setPoisonVolume(poisonVolume.getText());
+        ta.setPoisonDescription(poisonDescription.getText());
+        ta.setCellType(cellType.getValue());
+        ta.setCurveFittingMethod(curveFittingMethod.getText());
+        ta.setMagnitudeOfBlankCorrection(magnitudeOfBlankCorrection.getText());
+        ta.setTitrationType(titrationType.getText());
     }
     public ClickHandler saveIt = new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
             // For some reason this returns a "0" in debug mode.
-            String valid = String.valueOf( form.validate());
+            String valid = "0"; //TODO local form String.valueOf( form.validate());
             String warning = Constants.NOT_COMPLETE;
             NotifyType type = NotifyType.WARNING;
-            if ( isDirty() && measured.getValue() == null  ) {
+            if ( isDirty() && common.measured.getValue() == null  ) {
                 valid = "false";
                 warning = Constants.MEASURED;
                 type = NotifyType.DANGER;
             }
-            if ( isDirty() && observationDetail.getValue() == null ) {
+            if ( isDirty() && common.observationDetail.getValue() == null ) {
                 valid="false";
                 warning = Constants.DETAILS;
                 type = NotifyType.DANGER;
@@ -82,7 +184,7 @@ public class TaPanel extends CommonVariablePanel {
                 settings.setPlacement(NotifyPlacement.TOP_CENTER);
                 Notify.notify(warning, settings);
             } else {
-                eventBus.fireEventFromSource(new SectionSave(getTa(), Constants.SECTION_TA), TaPanel.this);
+                common.eventBus.fireEventFromSource(new SectionSave(getTa(), Constants.SECTION_TA), TaPanel.this);
                 NotifySettings settings = NotifySettings.newSettings();
                 settings.setType(NotifyType.SUCCESS);
                 settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -90,7 +192,97 @@ public class TaPanel extends CommonVariablePanel {
             }
         }
     };
+    public void show(Variable ta) {
+        common.show(ta);
+        if ( ta.getStandardizationTechnique() != null ) {
+            standardizationTechnique.setText(ta.getStandardizationTechnique());
+        }
 
+        if ( ta.getFreqencyOfStandardization() != null ) {
+            freqencyOfStandardization.setText(ta.getFreqencyOfStandardization());
+        }
+
+        if ( ta.getCrmManufacture() != null ) {
+            crmManufacture.setText(ta.getCrmManufacture());
+        }
+
+        if (ta.getBatchNumber() != null ) {
+            batchNumber.setText(ta.getBatchNumber());
+        }
+
+        if ( ta.getPoison() != null ) {
+            poison.setText(ta.getPoison());
+        }
+
+        if ( ta.getPoisonVolume() != null ) {
+            poisonVolume.setText(ta.getPoisonVolume());
+        }
+
+        if ( ta.getPoisonDescription() != null ) {
+            poisonDescription.setText(ta.getPoisonDescription());
+        }
+
+        if ( ta.getCellType() != null ) {
+            cellType.setSelected(ta.getCellType());
+        }
+
+        if ( ta.getCurveFittingMethod() != null ) {
+            curveFittingMethod.setText(ta.getCurveFittingMethod());
+        }
+
+        if ( ta.getMagnitudeOfBlankCorrection() != null ) {
+            magnitudeOfBlankCorrection.setText(ta.getMagnitudeOfBlankCorrection());
+        }
+
+        if ( ta.getTitrationType() != null ) {
+            titrationType.setText(ta.getTitrationType());
+        }
+    }
+    public boolean isDirty() {
+        if ( common.isDirty() ) {
+            return true;
+        }
+        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+            return true;
+        }
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+            return true;
+        }
+        if (crmManufacture.getText() != null && !crmManufacture.getText().isEmpty() ) {
+            return true;
+        }
+        if (batchNumber.getText() != null && !batchNumber.getText().isEmpty() ) {
+            return true;
+        }
+        if (poison.getText() != null && !poison.getText().isEmpty() ) {
+            return true;
+        }
+        if (poisonVolume.getText() != null && !poisonVolume.getText().isEmpty() ) {
+            return true;
+        }
+        if (poisonDescription.getText() != null && !poisonDescription.getText().isEmpty() ) {
+            return true;
+        }
+        if (curveFittingMethod.getText() != null && !curveFittingMethod.getText().isEmpty() ) {
+            return true;
+        }
+        if (magnitudeOfBlankCorrection.getText() != null && !magnitudeOfBlankCorrection.getText().isEmpty() ) {
+            return true;
+        }
+        if (titrationType.getText() != null && !titrationType.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
+    public boolean valid() {
+        String valid = String.valueOf(form.validate());
+        if (valid.equals("false") ||
+                valid.equals("0")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     public void reset() {
         form.reset();
     }
