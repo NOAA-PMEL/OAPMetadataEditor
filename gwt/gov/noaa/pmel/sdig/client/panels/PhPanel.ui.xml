@@ -1,0 +1,111 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+             xmlns:mdep="urn:import:gov.noaa.pmel.sdig.client.panels">
+    <g:HTMLPanel>
+        <!--
+
+047 pH: pH scale
+053 pH: Temperature of measurement
+012 pH: Standardization technique description
+013 pH: Frequency of standardization
+048 pH: pH values of the standards
+054 pH: Temperature of standardization
+052 pH: Temperature correction method
+025 pH: at what temperature was pH reported
+
+        -->
+        <b:Form ui:field="form">
+
+            <mdep:CommonVariablePanel ui:field="common"></mdep:CommonVariablePanel>
+            <b:FieldSet>
+
+                <b:Container width="100%" pull="LEFT">
+                    <b:Row>
+                        <b:Column size="SM_8">
+                            <b:FormGroup ui:field="standardizationTechniqueForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
+                                <b:Modal title="24.13.1 Description of the pH calibration procedures." closable="true" b:id="modalStandardizationTechnique"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="freqencyOfStandardizationForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:Modal title="24.13.2 How frequent was the calibration carried out, e.g., every 6 hours, etc." closable="true" b:id="modalFreqencyOfStandardizationl"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardizationl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="pHtemperatureForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pHtemperature" text="at what temperature was pH reported"></b:FormLabel>
+                                <b:Modal title="24.15 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc." closable="true" b:id="modalpHtemperature"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHtemperature" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pHtemperature" allowBlank="true" placeholder="at what temperature was pH reported" b:id="pHtemperature"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="pHscaleForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pHscale" text="pH scale"></b:FormLabel>
+                                <b:Modal title="24.9 The pH scale for the reported pH results, e.g., total scale, seawater scale, NBS scale, etc." closable="true" b:id="modalpHscale"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHscale" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="pHstandardsForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pHstandards" text="pH values of the standards"></b:FormLabel>
+                                <b:Modal title="24.13.3 pH values of the standards, e.g., 4.0, 7.0, 10.0." closable="true" b:id="modalpHstandards"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHstandards" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pHstandards" allowBlank="true" placeholder="pH values of the standards" b:id="pHstandards"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="temperatureCorrectionMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
+                                <b:Modal title="24.14 How the temperature effect was corrected." closable="true" b:id="modalTemperatureCorrectionMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureCorrectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="temperatureMeasurementForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureMeasurement" text="Temperature of measurement"></b:FormLabel>
+                                <b:Modal title="24.10 Temperature at which the samples were measured." closable="true" b:id="modalTemperatureMeasurement"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureMeasurement" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:FormGroup ui:field="temperatureStandarizationForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureStandarization" text="Temperature of standardization"></b:FormLabel>
+                                <b:Modal title="24.13.4 Temperature at which the calibration was done." closable="true" b:id="modalTemperatureStandarization"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureStandarization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of standardization" b:id="temperatureStandarization"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_2">
+                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                        </b:Column>
+                    </b:Row>
+                </b:Container>
+            </b:FieldSet>
+        </b:Form>
+    </g:HTMLPanel>
+</ui:UiBinder>
