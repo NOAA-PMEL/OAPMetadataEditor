@@ -17,20 +17,16 @@ import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
 import gov.noaa.pmel.sdig.client.panels.CitationPanel;
-import gov.noaa.pmel.sdig.client.panels.Dic2Panel;
+import gov.noaa.pmel.sdig.client.panels.DataSubmitterPanel;
 import gov.noaa.pmel.sdig.client.panels.DicPanel;
 import gov.noaa.pmel.sdig.client.panels.FundingPanel;
 import gov.noaa.pmel.sdig.client.panels.GenericVariablePanel;
 import gov.noaa.pmel.sdig.client.panels.InvestigatorPanel;
-import gov.noaa.pmel.sdig.client.panels.Pco2a2Panel;
 import gov.noaa.pmel.sdig.client.panels.Pco2aPanel;
-import gov.noaa.pmel.sdig.client.panels.Pco2d2Panel;
 import gov.noaa.pmel.sdig.client.panels.Pco2dPanel;
 import gov.noaa.pmel.sdig.client.panels.Ph2Panel;
 import gov.noaa.pmel.sdig.client.panels.PhPanel;
 import gov.noaa.pmel.sdig.client.panels.PlatformPanel;
-import gov.noaa.pmel.sdig.client.panels.DataSubmitterPanel;
-import gov.noaa.pmel.sdig.client.panels.Ta2Panel;
 import gov.noaa.pmel.sdig.client.panels.TaPanel;
 import gov.noaa.pmel.sdig.client.panels.TimeAndLocationPanel;
 import gov.noaa.pmel.sdig.shared.bean.Citation;
@@ -113,12 +109,8 @@ public class OAPMetadataEditor implements EntryPoint {
     DicPanel dicPanel = new DicPanel();
     Variable dic = null;
 
-    Dic2Panel dic2Panel = new Dic2Panel();
-
     TaPanel taPanel = new TaPanel();
     Variable ta = null;
-
-    Ta2Panel ta2Panel = new Ta2Panel();
 
     PhPanel phPanel = new PhPanel();
     Variable ph = null;
@@ -128,12 +120,8 @@ public class OAPMetadataEditor implements EntryPoint {
     Pco2aPanel pco2aPanel = new Pco2aPanel();
     Variable pco2a = null;
 
-    Pco2a2Panel pco2a2Panel = new Pco2a2Panel();
-
     Pco2dPanel pco2dPanel = new Pco2dPanel();
     Variable pco2d = null;
-
-    Pco2d2Panel pco2d2Panel = new Pco2d2Panel();
 
     GenericVariablePanel genericVariablePanel = new GenericVariablePanel();
 
@@ -258,13 +246,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     } else {
                         taPanel.fill(ta);
                     }
-                    topLayout.setMain(ta2Panel);
-                    topLayout.setActive(Constants.SECTION_TA2);
-                } else if ( type.equals(Constants.SECTION_TA2) ) {
-                    if ( ta == null ) {
-                        ta = new Variable();
-                    }
-                    ta2Panel.fill(ta);
                     topLayout.setMain(phPanel);
                     topLayout.setActive(Constants.SECTION_PH);
                 } else if ( type.equals(Constants.SECTION_PH) ) {
@@ -288,14 +269,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     } else {
                         pco2aPanel.fill(pco2a);
                     }
-                    topLayout.setMain(pco2dPanel);
-                    topLayout.setActive(Constants.SECTION_PCO2D);
-                }
-                else if ( type.equals(Constants.SECTION_PCO2A2) ) {
-                    if ( pco2a == null ) {
-                        pco2a = new Variable();
-                    }
-                    pco2a2Panel.fill(pco2a);
                     topLayout.setMain(pco2dPanel);
                     topLayout.setActive(Constants.SECTION_PCO2D);
                 } else if ( type.equals(Constants.SECTION_PCO2D) ) {
@@ -383,23 +356,11 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (dic != null) {
                         dicPanel.show(dic);
                     }
-                } else if ( link.getText().equals(Constants.SECTION_DIC2) ) {
-                    topLayout.setMain(dic2Panel);
-                    topLayout.setActive(Constants.SECTION_DIC2);
-                    if ( dic != null ) {
-                        dic2Panel.show(dic);
-                    }
                 } else if ( link.getText().equals(Constants.SECTION_TA) ) {
                     topLayout.setMain(taPanel);
                     topLayout.setActive(Constants.SECTION_TA);
                     if (ta != null) {
                         taPanel.show(ta);
-                    }
-                } else if ( link.getText().equals(Constants.SECTION_TA2) ) {
-                    topLayout.setMain(ta2Panel);
-                    topLayout.setActive(Constants.SECTION_TA2);
-                    if ( ta != null ) {
-                        ta2Panel.show(ta);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PH) ) {
                     topLayout.setMain(phPanel);
@@ -419,23 +380,11 @@ public class OAPMetadataEditor implements EntryPoint {
                     if ( pco2a != null ) {
                         pco2aPanel.show(pco2a);
                     }
-                } else if ( link.getText().equals(Constants.SECTION_PCO2A2) ) {
-                    topLayout.setMain(pco2a2Panel);
-                    topLayout.setActive(Constants.SECTION_PCO2A2);
-                    if ( pco2a != null ) {
-                        pco2a2Panel.show(pco2a);
-                    }
                 } else if ( link.getText().equals(Constants.SECTION_PCO2D) ) {
                     topLayout.setMain(pco2dPanel);
                     topLayout.setActive(Constants.SECTION_PCO2D);
                     if ( pco2d != null) {
                         pco2dPanel.show(pco2d);
-                    }
-                } else if ( link.getText().equals(Constants.SECTION_PCO2D2) ) {
-                    topLayout.setMain(pco2d2Panel);
-                    topLayout.setActive(Constants.SECTION_PCO2D2);
-                    if ( pco2d != null ) {
-                        pco2d2Panel.show(pco2d);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_GENERIC) ) {
                     topLayout.setMain(genericVariablePanel);
@@ -634,15 +583,11 @@ public class OAPMetadataEditor implements EntryPoint {
         fundingPanel.isDirty() ||
         platformPanel.isDirty() ||
         dicPanel.isDirty() ||
-        dic2Panel.isDirty() ||
         taPanel.isDirty() ||
-        ta2Panel.isDirty() ||
         phPanel.isDirty() ||
         ph2Panel.isDirty() ||
         pco2aPanel.isDirty() ||
-        pco2a2Panel.isDirty() ||
         pco2dPanel.isDirty() ||
-        pco2d2Panel.isDirty() ||
         genericVariablePanel.isDirty();
     }
     private void startOver() {
@@ -667,15 +612,11 @@ public class OAPMetadataEditor implements EntryPoint {
         fundingPanel.reset();
         platformPanel.reset();
         dicPanel.reset();
-        dic2Panel.reset();
         taPanel.reset();
-        ta2Panel.reset();
         phPanel.reset();
         ph2Panel.reset();
         pco2aPanel.reset();
-        pco2a2Panel.reset();
         pco2dPanel.reset();
-        pco2d2Panel.reset();
         genericVariablePanel.reset();
     }
 }

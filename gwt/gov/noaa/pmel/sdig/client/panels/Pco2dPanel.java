@@ -227,7 +227,7 @@ public class Pco2dPanel extends Composite {
         @Override
         public void onClick(ClickEvent event) {
             // For some reason this returns a "0" in debug mode.
-            String valid = "0"; // TODO String.valueOf( form.validate());
+            String valid = String.valueOf( form.validate());
             String warning = Constants.NOT_COMPLETE;
             NotifyType type = NotifyType.WARNING;
             if ( isDirty() && common.measured.getValue() == null  ) {
