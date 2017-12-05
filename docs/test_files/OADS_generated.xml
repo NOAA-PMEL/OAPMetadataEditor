@@ -27,7 +27,7 @@
       <email>simone.r.alin@noaa.gov</email>
       <ID>1: 0000-0002-8283-1910, 2: J-6836-2017</ID>
       <IDtype>1: ORCID; 2: Researcher ID</IDtype>
-      <role>principal investigator</role>
+      <role>investigator</role>
    </person>
 
    <person>
@@ -43,7 +43,7 @@
       <email>janewton@uw.edu</email>
       <ID>1: 0000-0002-2551-1830, 2: T-6555-2017</ID>
       <IDtype>1: ORCID; 2: Researcher ID</IDtype>
-      <role>principal investigator</role>
+      <role>investigator</role>
    </person>
 
    <person>
@@ -59,7 +59,7 @@
       <email>Richard.A.Feely@noaa.gov</email>
       <ID></ID>
       <IDtype></IDtype>
-      <role>principal investigator</role>
+      <role>investigator</role>
    </person>
 
    <datasubmitter>
@@ -122,7 +122,7 @@
       <PlatformCountry></PlatformCountry>
    </Platform>
       
-   <expocode>(Dana can help generate from info in "Ship info" tab, if you need help)</expocode>
+   <expocode>TEST001</expocode>
    <cruiseID>(this should be the same as what the ship calls the cruise - in column B of the ALL_DATA tab of the WOAC data "masterfile") </cruiseID>
    <section>(enter either "Puget Sound" or "Sound to Sea" here.)</section>
    <CDIAC>
@@ -135,8 +135,9 @@
    
 
 
-   <dissolvedInorganicCarbon>
-      <abbrev>DIC_UMOL_KG</abbrev>
+   <variable>
+      <abbrev>DIC</abbrev>
+      <fullname>Dissolved inorganic carbon</fullname>
       <observationType>Discrete dissolved inorganic carbon concentration measurements from samples collected on CTD casts</observationType>
       <insitu>In-situ observation</insitu>
       <manipulationMethod>Not applicable</manipulationMethod>
@@ -185,10 +186,11 @@ for marine studies: Measurement and internal consistency of underway surface TCO
 </methodReference>
       <researcherName>Dana Greeley, Julian Herndon, and Morgan Ostendorf</researcherName>
       <researcherInstitution>Pacific Marine Environmental Laboratory, National Oceanic and Atmospheric Administration; and Joint Institute for the Study of the Atmosphere and Ocean, University of Washington</researcherInstitution>
-   </dissolvedInorganicCarbon>
+   </variable>
 
-   <alkalinity>
-      <abbrev>TA_UMOL_KG</abbrev>
+   <variable>
+      <abbrev>TA</abbrev>
+      <fullname>Total alkalinity</fullname>
       <observationType>Discrete total alkalinity measurements from samples collected on CTD casts</observationType>
       <insitu>In-situ observation</insitu>
       <manipulationMethod>Not applicable</manipulationMethod>
@@ -225,7 +227,7 @@ The samples were subsequently analyzed for TA according to SOP3b of "the Guide t
       <methodReference>Dickson, A.G, Sabine, C.L. and Christian, J.R. (Eds.) 2007.  "Guide to Best Practices for Ocean CO2 Measurements." PICES Special Publication 3, 191 pp.</methodReference>
       <researcherName>Morgan Ostendorf and Julian Herndon</researcherName>
       <researcherInstitution>Pacific Marine Environmental Laboratory, National Oceanic and Atmospheric Administration; and Joint Institute for the Study of the Atmosphere and Ocean, University of Washington</researcherInstitution>
-   </alkalinity>
+   </variable>
 
    <variable>
       <abbrev>CTDPRS_DBAR</abbrev>
