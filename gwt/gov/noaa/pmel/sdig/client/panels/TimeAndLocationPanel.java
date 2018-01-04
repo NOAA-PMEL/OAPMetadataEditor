@@ -100,7 +100,7 @@ public class TimeAndLocationPanel extends Composite {
             eastLon.setText(timeAndLocation.getEastLon());
         }
         if ( timeAndLocation.getGeoNames() != null ) {
-            geoNames.setText(timeAndLocation.getEastLon());
+            geoNames.setText(timeAndLocation.getGeoNames());
         }
         if ( timeAndLocation.getSouthLat() != null ) {
             southLat.setText(timeAndLocation.getSouthLat());
