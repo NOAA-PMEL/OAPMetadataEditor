@@ -29,7 +29,7 @@
                         <b:Column size="SM_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
-                                <b:FormLabel for="fullVariableName" text="Full variable name"></b:FormLabel>
+                                <b:FormLabel for="fullVariableName" text="Full Variable Name"></b:FormLabel>
                                 <b:Modal title="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables." closable="true" b:id="modalFullVariableName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFullVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:SuggestBox ui:field="fullVariableName" allowBlank="true" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
@@ -108,7 +108,7 @@
                         <!-- Keep -->
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="calculationMethodForm">
-                                <b:FormLabel for="calculationMethod" text="Calculation method and parameters"></b:FormLabel>
+                                <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Modal title="27.9 Variables can be calculated using different sets of constants or different software." closable="true" b:id="modalCalculationMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCalculationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="calculationMethod" allowBlank="true" placeholder="Calculation method and parameters" b:id="calculationMethod"></b:TextBox>
@@ -118,7 +118,7 @@
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
-                                <b:FormLabel for="referenceMethod" text="Method reference (citation)"></b:FormLabel>
+                                <b:FormLabel for="referenceMethod" text="Method Reference (citation)"></b:FormLabel>
                                 <b:Modal title="27.17 Citation for the method." closable="true" b:id="modalReferenceMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferenceMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="referenceMethod" allowBlank="true" placeholder="Method reference (citation)" b:id="referenceMethod"></b:TextBox>
@@ -129,7 +129,7 @@
                         <b:Column size="SM_12">
                             <!-- Keep -->
                             <b:FormGroup ui:field="detailedInformationForm">
-                                <b:FormLabel for="detailedInformation" text="Detailed sampling and analyzing information"></b:FormLabel>
+                                <b:FormLabel for="detailedInformation" text="Detailed Sampling and Analyzing Information"></b:FormLabel>
                                 <b:Modal title="27.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc." closable="true" b:id="modalDetailedInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDetailedInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="9" ui:field="detailedInformation" allowBlank="true" placeholder="Detailed sampling and analyzing information" b:id="detailedInformation"></b:TextArea>
@@ -150,7 +150,7 @@
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel for="qualityFlag" text="Data quality flag description *"></b:FormLabel>
+                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description *"></b:FormLabel>
                                 <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qualityFlag" allowBlank="false" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
@@ -179,7 +179,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="fieldReplicate" text="Field replicate information"></b:FormLabel>
+                                <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
                                 <b:Modal title="27.14 Repetition of sample collection and measurement, e.g., triplicate samples." closable="true" b:id="modalFieldReplicate"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFieldReplicate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="fieldReplicate" allowBlank="true" placeholder="Field replicate information" b:id="fieldReplicate"></b:TextBox>
@@ -190,7 +190,7 @@
                         <b:Column size="SM_6">
                             <b:FormGroup ui:field="biologicalSubjectForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="biologicalSubject" text="Biological subject (Biological Study Only)"></b:FormLabel>
+                                <b:FormLabel for="biologicalSubject" text="Biological Subject (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.18 For biological variables, please state the taxonomy (a specific species genus or a community), upon which the variable is studied. For example, if you study the growth rate of a certain type of Salmon. The 'variable/parameter' is growth rate, and is that specific type of salmon." closable="true" b:id="modalBiologicalSubject"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalBiologicalSubject" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="biologicalSubject" allowBlank="true" placeholder="Biological subject" b:id="biologicalSubject"></b:TextBox>
@@ -210,7 +210,7 @@
                         <b:Column size="SM_6">
                             <b:FormGroup ui:field="lifeStageForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="lifeStage" text="Life stage of the biological subject * (Biological Study Only)"></b:FormLabel>
+                                <b:FormLabel for="lifeStage" text="Life Stage of the Biological Subject * (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.20 Life stage of the biological subject (a specific species genus or a community). *" closable="true" b:id="modalLifeStage"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLifeStage" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="lifeStage" allowBlank="false" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>
@@ -219,7 +219,7 @@
                         <b:Column size="SM_6">
                             <b:FormGroup ui:field="speciesIdCodeForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="speciesIdCode" text="Species Identification code (Biological Study Only)"></b:FormLabel>
+                                <b:FormLabel for="speciesIdCode" text="Species Identification Code (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="27.19 It is recommended to use the species reference databases from the Integrated Taxonomic Information System (or ITIS, http://www.itis.gov/), or World Register of Marine Species (or WoRMS, http://marinespecies.org/). We also recommend you to include the reference databases that are used in this field." closable="true" b:id="modalSpeciesIdCode"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSpeciesIdCode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="speciesIdCode" allowBlank="true" placeholder="Species Identification code" b:id="speciesIdCode"></b:TextBox>
