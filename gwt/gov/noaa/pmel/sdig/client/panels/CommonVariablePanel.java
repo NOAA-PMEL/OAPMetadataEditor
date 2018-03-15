@@ -249,8 +249,6 @@ public class CommonVariablePanel extends Composite {
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
     ObservationTypeSuggestOracle observationTypeOracle = new ObservationTypeSuggestOracle();
 
-//TODO initialize the cell type dropdown.
-
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, CommonVariablePanel> {
     }
 

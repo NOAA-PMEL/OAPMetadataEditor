@@ -14,7 +14,7 @@
         <b:Form ui:field="form">
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information. You may enter more than one variable."></b:Heading>
-                <b:Heading size="H5" text="(*) Denotes a required field."></b:Heading>
+                <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_2">
@@ -67,7 +67,7 @@
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel for="units" text="Units"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="units" text="Units *"></b:FormLabel>
                                 <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="units" allowBlank="false" placeholder="Units" b:id="units"></b:TextBox>
@@ -150,7 +150,7 @@
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description *"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="qualityFlag" text="Data Quality Flag Description *"></b:FormLabel>
                                 <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qualityFlag" allowBlank="false" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
@@ -210,10 +210,10 @@
                         <b:Column size="SM_6">
                             <b:FormGroup ui:field="lifeStageForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="lifeStage" text="Life Stage of the Biological Subject * (Biological Study Only)"></b:FormLabel>
-                                <b:Modal title="27.20 Life stage of the biological subject (a specific species genus or a community). *" closable="true" b:id="modalLifeStage"/>
+                                <b:FormLabel for="lifeStage" text="Life Stage of the Biological Subject (Biological Study Only)"></b:FormLabel>
+                                <b:Modal title="27.20 Life stage of the biological subject (a specific species genus or a community)." closable="true" b:id="modalLifeStage"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLifeStage" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="lifeStage" allowBlank="false" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>
+                                <b:TextBox ui:field="lifeStage" allowBlank="true" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6">

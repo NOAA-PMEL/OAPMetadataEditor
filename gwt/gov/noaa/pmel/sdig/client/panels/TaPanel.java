@@ -92,7 +92,7 @@ public class TaPanel extends Composite {
         common.abbreviation.setEnabled(false);
         common.fullVariableName.setText("Total Alkalinity");
         common.fullVariableName.setEnabled(false);
-        common.heading.setText("Enter the information for Total Alkalinity (TA)");
+        common.heading.setText("Enter the information for Total Alkalinity (TA).");
         save.addClickHandler(saveIt);
         common.abbreviationModal.setTitle("23.1 Column header name of the variable in the data files, e.g., TA, Alk, etc.");
         common.observationTypeModal.setTitle("23.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
