@@ -24,7 +24,6 @@ import gov.noaa.pmel.sdig.client.panels.GenericVariablePanel;
 import gov.noaa.pmel.sdig.client.panels.InvestigatorPanel;
 import gov.noaa.pmel.sdig.client.panels.Pco2aPanel;
 import gov.noaa.pmel.sdig.client.panels.Pco2dPanel;
-import gov.noaa.pmel.sdig.client.panels.Ph2Panel;
 import gov.noaa.pmel.sdig.client.panels.PhPanel;
 import gov.noaa.pmel.sdig.client.panels.PlatformPanel;
 import gov.noaa.pmel.sdig.client.panels.TaPanel;
@@ -114,8 +113,6 @@ public class OAPMetadataEditor implements EntryPoint {
 
     PhPanel phPanel = new PhPanel();
     Variable ph = null;
-
-    Ph2Panel ph2Panel = new Ph2Panel();
 
     Pco2aPanel pco2aPanel = new Pco2aPanel();
     Variable pco2a = null;
@@ -256,13 +253,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     topLayout.setMain(pco2aPanel);
                     topLayout.setActive(Constants.SECTION_PCO2A);
-                } else if ( type.equals(Constants.SECTION_PH2) ) {
-                    if ( ph == null ) {
-                        ph = new Variable();
-                    }
-                    ph2Panel.fill(ph);
-                    topLayout.setMain(pco2aPanel);
-                    topLayout.setActive(Constants.SECTION_PCO2A);
                 } else if ( type.equals(Constants.SECTION_PCO2A) ) {
                     if ( pco2a == null ) {
                         pco2a = (Variable) event.getSectionContents();
@@ -367,12 +357,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.setActive(Constants.SECTION_PH);
                     if (ph != null) {
                         phPanel.show(ph);
-                    }
-                }  else if ( link.getText().equals(Constants.SECTION_PH2) ) {
-                    topLayout.setMain(ph2Panel);
-                    topLayout.setActive(Constants.SECTION_PH2);
-                    if (ph != null) {
-                        ph2Panel.show(ph);
                     }
                 } else if ( link.getText().equals(Constants.SECTION_PCO2A) ) {
                     topLayout.setMain(pco2aPanel);
@@ -585,7 +569,6 @@ public class OAPMetadataEditor implements EntryPoint {
         dicPanel.isDirty() ||
         taPanel.isDirty() ||
         phPanel.isDirty() ||
-        ph2Panel.isDirty() ||
         pco2aPanel.isDirty() ||
         pco2dPanel.isDirty() ||
         genericVariablePanel.isDirty();
@@ -593,30 +576,30 @@ public class OAPMetadataEditor implements EntryPoint {
     private void startOver() {
         // Reset containers for all information being collected to null.
         dataSubmitter = null;
-        investigatorPanel.clearPeople();
+        if ( investigatorPanel != null ) investigatorPanel.clearPeople();
         citation = null;
         timeAndLocation = null;
         funding = null;
-        platformPanel.clearPlatforms();
+        if ( platformPanel != null ) platformPanel.clearPlatforms();
         dic = null;
         ta = null;
         ph = null;
         pco2a = null;
         pco2d = null;
-        genericVariablePanel.clearVariables();
+        if ( genericVariablePanel != null ) genericVariablePanel.clearVariables();
 
         // Reset all forms
-        submitterPanel.reset();
-        investigatorPanel.reset();
-        citationPanel.reset();
-        fundingPanel.reset();
-        platformPanel.reset();
-        dicPanel.reset();
-        taPanel.reset();
-        phPanel.reset();
-        ph2Panel.reset();
-        pco2aPanel.reset();
-        pco2dPanel.reset();
-        genericVariablePanel.reset();
+        if (submitterPanel != null ) submitterPanel.reset();
+        if (investigatorPanel != null ) investigatorPanel.reset();
+        if ( citationPanel != null ) citationPanel.reset();
+        if ( fundingPanel != null ) fundingPanel.reset();
+        if ( platformPanel != null ) platformPanel.reset();
+        if ( dicPanel != null ) dicPanel.reset();
+        if ( taPanel != null ) taPanel.reset();
+        if ( phPanel != null ) phPanel.reset();
+        if ( pco2aPanel != null ) pco2aPanel.reset();
+        if ( pco2dPanel != null ) pco2dPanel.reset();
+        if ( genericVariablePanel != null ) genericVariablePanel.reset();
+        topLayout.resetFileForm();
     }
 }
