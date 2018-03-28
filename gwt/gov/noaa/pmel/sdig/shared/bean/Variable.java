@@ -144,7 +144,7 @@ public class Variable {
         return pco2Temperature;
     }
 
-    public void setPco2Temperature(String Pco2Temperature) {
+    public void setPco2Temperature(String pco2Temperature) {
         this.pco2Temperature = pco2Temperature;
     }
 
