@@ -12,6 +12,7 @@ import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
@@ -277,6 +278,81 @@ public class OAPMetadataEditor implements EntryPoint {
                         settings.setType(NotifyType.WARNING);
                         settings.setPlacement(NotifyPlacement.TOP_CENTER);
                         Notify.notify(Constants.DOCUMENT_NOT_COMPLETE, settings);
+                    }
+                    // Get the active panel and save it before proceeding in
+                    // case the section wasn't saved before beginning.
+
+                    String activePanel = topLayout.getActive();
+                    if ( activePanel != null ) {
+                        if ( activePanel.equals(Constants.SECTION_INVESTIGATOR) ) {
+                            if ( investigatorPanel.isDirty() ) {
+                                notSaved();
+                                return;
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_SUBMITTER) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof  DataSubmitterPanel ) {
+                                DataSubmitterPanel dsp = (DataSubmitterPanel) w;
+                                dataSubmitter = dsp.getPerson();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_CITATION) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof CitationPanel ) {
+                                CitationPanel cp = (CitationPanel) w;
+                                citation = cp.getCitation();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof TimeAndLocationPanel ) {
+                                TimeAndLocationPanel tlp = (TimeAndLocationPanel) w;
+                                timeAndLocation = tlp.getTimeAndLocation();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_FUNDING) ) {
+                            if ( fundingPanel.isDirty() ) {
+                                notSaved();
+                                return;
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_PLATFORMS) ) {
+                            if ( fundingPanel.isDirty() ) {
+                                notSaved();
+                                return;
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_DIC)) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof DicPanel ) {
+                                DicPanel dp = (DicPanel) w;
+                                dic = dp.getDic();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_TA) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof TaPanel ) {
+                                TaPanel tp = (TaPanel) w;
+                                ta = tp.getTa();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_PH) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof PhPanel ) {
+                                PhPanel pp = (PhPanel) w;
+                                ph = (Variable) event.getSectionContents();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_PCO2A) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof Pco2aPanel ) {
+                                Pco2aPanel p2a = (Pco2aPanel) w;
+                                pco2a = p2a.getPco2a();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_PCO2D) ) {
+                            Widget w = topLayout.getMain();
+                            if ( w instanceof Pco2dPanel ) {
+                                Pco2dPanel p2d = (Pco2dPanel) w;
+                                pco2d = p2d.getPco2d();
+                            }
+                        } else if ( activePanel.equals(Constants.SECTION_GENERIC) ) {
+                            if ( genericVariablePanel.isDirty() ) {
+                                notSaved();
+                                return;
+                            }
+                        }
                     }
                     Document document = new Document();
                     document.setTimeAndLocation(timeAndLocation);
@@ -601,5 +677,12 @@ public class OAPMetadataEditor implements EntryPoint {
         if ( pco2dPanel != null ) pco2dPanel.reset();
         if ( genericVariablePanel != null ) genericVariablePanel.reset();
         topLayout.resetFileForm();
+    }
+    private void notSaved() {
+        NotifySettings settings = NotifySettings.newSettings();
+        settings.setType(NotifyType.WARNING);
+        settings.setPlacement(NotifyPlacement.TOP_CENTER);
+        Notify.notify(Constants.NOT_SAVED, settings);
+
     }
 }

@@ -36,6 +36,7 @@ public class Constants {
 
     public static final String NOT_COMPLETE = "Section is not complete! See form fields highlighted in red.";
     public static final String NO_FILE = "You must select a file to upload.";
+    public static final String NOT_SAVED = "You may have unsaved changes. Save the section you are working on and save your document again.";
     public static final String COMPLETE = "Section saved.";
     public static final String MEASURED = "Use menu to pick 'measured' or 'calculated'";
     public static final String DETAILS = "Pick from the details menu.";

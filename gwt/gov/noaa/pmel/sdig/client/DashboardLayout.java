@@ -324,6 +324,9 @@ public class DashboardLayout extends Composite {
         main.clear();
         main.add(widget);
     }
+    public Widget getMain() {
+        return main.getWidget(0);
+    }
     public void addUploadSuccess(Form.SubmitCompleteHandler handler) {
         uploadForm.addSubmitCompleteHandler(handler);
     }
@@ -383,4 +386,20 @@ public class DashboardLayout extends Composite {
             genericVariableLink.setActive(true);
         }
     }
+    public String getActive() {
+        if ( investigatorsLink.isActive() ) return Constants.SECTION_INVESTIGATOR;
+        if ( submittersLink.isActive() ) return Constants.SECTION_SUBMITTER;
+        if ( citationLink.isActive() ) return Constants.SECTION_CITATION;
+        if ( timeAndLocationLink.isActive() ) return Constants.SECTION_TIMEANDLOCATION;
+        if ( fundingLink.isActive() ) return Constants.SECTION_FUNDING;
+        if ( platformsLink.isActive() ) return Constants.SECTION_PLATFORMS;
+        if ( dicLink.isActive() ) return Constants.SECTION_DIC;
+        if ( taLink.isActive() ) return Constants.SECTION_TA;
+        if ( phLink.isActive() ) return Constants.SECTION_PH;
+        if ( pco2aLink.isActive() ) return Constants.SECTION_PCO2A;
+        if ( pco2dLink.isActive() ) return Constants.SECTION_PCO2D;
+        if ( genericVariableLink.isActive() ) return Constants.SECTION_GENERIC;
+        return null;
+    }
+
 }
