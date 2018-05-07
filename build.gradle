@@ -12,7 +12,7 @@ buildscript {
 }
 
 
-version "0.3.3"
+version "0.3.4"
 group "oap"
 
 apply plugin:"eclipse"
@@ -75,6 +75,8 @@ task GWTCompile (type: Exec) {
 }
 
 war.dependsOn(GWTCompile)
+
+jar.dependsOn(GWTCompile)
 
 bootRun {
     jvmArgs = ['-Dspring.output.ansi.enabled=always']
