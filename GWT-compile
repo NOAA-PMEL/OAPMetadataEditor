@@ -1,12 +1,11 @@
 #!/bin/sh
 APPDIR=`dirname $0`
 GWTDIR="/usr/local/gwt-2.8.0"
-LIBS=/home/rhs/IdeaProjects/OAPMetadataEditor/lib/*
+LIBS=./lib/*
 CLASSPATH="${LIBS}:${GWTDIR}/*:${APPDIR}/gwt"
-CMPNTDIR="/home/rhs/IdeaProjects/OAPMetadataEditor/src/main/webapp"
+CMPNTDIR="./src/main/webapp"
 JAVAOPS="-Xmx1024M -Xms1024M"
 GWTOPTIONS="-strict"
 
-
-#echo java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} climatedatacloud.hrrr.Map
+echo java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} climatedatacloud.hrrr.Map
 java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler -style DETAILED -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} gov.noaa.pmel.sdig.OAPMetadataEditor
