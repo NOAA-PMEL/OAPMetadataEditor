@@ -3,3 +3,8 @@
 
 gwt-unitCache/*
 /test-classes/
+*.class
+/build/*
+/out/*
+.gradle
+.idea/libraries

@@ -1,0 +1,5 @@
+out is compiled src/test output
+classes is compiled gwt/ output
+build is gradle compile stuff
+GWT-compile puts stuff in src/main/gwt-unitCache and src/main/webapp
+
