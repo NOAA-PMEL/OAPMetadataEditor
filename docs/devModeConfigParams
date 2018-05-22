@@ -1,0 +1,13 @@
+-sourceLevel
+1.8
+-war
+/Users/kamb/oxy-work/OMD/OAPMetadataEditor/src/main/webapp
+-nostartServer
+-bindAddress
+matisse
+-startupUrl
+matisse:8383/oap/OAPMetadataEditor.html
+gov.noaa.pmel.sdig.OAPMetadataEditor
+
+start page:
+matisse:8383/oap/OAPMetadataEditor.html
