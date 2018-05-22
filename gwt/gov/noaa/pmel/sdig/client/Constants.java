@@ -31,6 +31,7 @@ public class Constants {
     public static String SECTION_DOCUMENT = " document";
 
     public static final String saveDocument = base + "document/saveDoc";
+    public static final String getDocument = base + "document/get";
 
     public static final String DOCUMENT_NOT_COMPLETE = "You are saving an incomplete document. Don't forget to upload the document and finish providing the metadata..";
 

@@ -17,6 +17,13 @@ class DocumentController {
         def documentJSON = request.JSON
         Document doc = new Document(documentJSON)
 
+        def id = _saveDoc(doc)
+
+        render doc.id
+    }
+
+    def _saveDoc(Document doc) {
+
         DateTime currently = DateTime.now(DateTimeZone.UTC)
         DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
 
@@ -46,12 +53,69 @@ class DocumentController {
                 log.debug(error.getMessage())            }
         }
 
-        render doc.id
-
-
-
-
+        return doc.id
     }
+
+    def get() {
+        String id = request.getParameter("id")
+        if ( id == null ) {
+            id = params.id
+        }
+        if ( id == null ) {
+            id = "1";
+        }
+        String pathI = request.getPathInfo();
+        String pathT = request.getPathTranslated();
+        String uri = request.getRequestURI();
+        Document d = Document.findById(Long.parseLong(id));
+        JSON.use("deep") {
+            render d as JSON
+        }
+    }
+
+    def postit() {
+        def f = request.getPart('xmlFile')
+
+        InputStream ins = f.getInputStream()
+        // Create the document
+        Document document = xmlService.createDocument(ins)
+        // Set its last modified date
+        DateTime currently = DateTime.now(DateTimeZone.UTC)
+        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
+        String update = format.print(currently)
+        document.setLastModified(update)
+
+        if ( !document.validate() ) {
+            document.errors.allErrors.each {
+                log.debug it.toString()
+            }
+        } else {
+            log.debug("Document is valid...")
+        }
+        def id = _saveDoc(doc)
+        render id
+    }
+
+    def test() {
+        String query = request.getParameter("query")
+        if ( query == null ) {
+            String queryString = request.getQueryString()
+            if ( queryString != null ) {
+                String[] parts = queryString.split("=")
+                query = parts[1]
+            }
+        }
+        if ( query == null ) {
+            def queryJSON = request.JSON
+            query = queryJSON
+        }
+
+        String method = request.getMethod();
+        String myResponse = method + ": " + query
+        response.outputStream << myResponse;
+        response.outputStream.flush()
+    }
+
     def upload() {
 
         def f = request.getPart('xmlFile')
