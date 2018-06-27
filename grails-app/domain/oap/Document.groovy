@@ -26,7 +26,6 @@ class Document {
                       funding: Funding]
 
     static mapping = {
-
         platforms (cascade: 'all-delete-orphan')
         investigators (cascade: 'all-delete-orphan')
         variables (cascade: 'all-delete-orphan')

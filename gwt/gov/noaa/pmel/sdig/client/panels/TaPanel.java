@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class TaPanel extends Composite {
+public class TaPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     Button save;
 
@@ -237,6 +237,22 @@ public class TaPanel extends Composite {
         if ( ta.getTitrationType() != null ) {
             titrationType.setText(ta.getTitrationType());
         }
+    }
+    public boolean isDirty(Variable original) {
+        boolean isDirty = original == null ?
+            isDirty() :
+            common.isDirty(original) ||
+            isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
+            isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
+            isDirty(crmManufacture, original.getCrmManufacture() ) ||
+            isDirty(batchNumber, original.getBatchNumber() ) ||
+            isDirty(poison, original.getPoison() ) ||
+            isDirty(poisonVolume, original.getPoisonVolume() ) ||
+            isDirty(poisonDescription, original.getPoisonDescription() ) ||
+            isDirty(curveFittingMethod, original.getCurveFittingMethod() ) ||
+            isDirty(magnitudeOfBlankCorrection, original.getMagnitudeOfBlankCorrection() ) ||
+            isDirty(titrationType, original.getTitrationType() );
+        return isDirty;
     }
     public boolean isDirty() {
         if ( common.isDirty() ) {

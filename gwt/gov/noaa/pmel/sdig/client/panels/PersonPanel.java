@@ -51,7 +51,7 @@ import java.util.List;
 /**
  * Created by rhs on 2/27/17.
  */
-public class PersonPanel extends Composite {
+public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     ButtonDropDown idType;
     @UiField
@@ -272,23 +272,30 @@ public class PersonPanel extends Composite {
 
     }
 
+    public boolean valid() {
+        // For some reason this returns a "0" in debug mode.
+        String valid = String.valueOf( form.validate());
+        return ! ( valid.equals("false") || valid.equals("0"));
+    }
+
+    protected void addPerson(Person p) {
+        peopleData.getList().add(getPerson());
+        peopleData.flush();
+        peoplePagination.rebuild(cellTablePager);
+    }
+
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
-
-        // For some reason this returns a "0" in debug mode.
-        String valid = String.valueOf( form.validate());
-        if ( valid.equals("false") ||
-             valid.equals("0")) {
+        if ( ! valid() ) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.NOT_COMPLETE, settings);
         } else {
             eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
-            peopleData.getList().add(getPerson());
-            peopleData.flush();
-            peoplePagination.rebuild(cellTablePager);
+            Person p = getPerson();
+            addPerson(p);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -300,7 +307,16 @@ public class PersonPanel extends Composite {
         }
 
     }
+//    public Person savePerson() {
+//        Person p = getPerson();
+//        peopleData.getList().add(getPerson());
+//        peopleData.flush();
+//        peoplePagination.rebuild(cellTablePager);
+//        return p;
+//    }
+
     public Person getPerson() {
+        if ( ! isDirty() ) { return null; }
         Person person = new Person();
         person.setAddress1(address1.getText().trim());
         person.setAddress2(address2.getText().trim());
@@ -317,8 +333,31 @@ public class PersonPanel extends Composite {
         person.setZip(zip.getText().trim());
         person.setCountry(country.getText().trim());
         person.setIdType(idType.getValue());
+        person.setComplete(this.valid());
         return person;
     }
+
+   public boolean isDirty(Person original) {
+        boolean isDirty = false;
+        isDirty = original == null ?
+                  isDirty() :
+                  isDirty(address1, original.getAddress1()) ||
+                  isDirty(address2, original.getAddress2()) ||
+                  isDirty(email, original.getEmail()) ||
+                  isDirty(firstName, original.getFirstName()) ||
+                  isDirty(institution, original.getInstitution()) ||
+                  isDirty(lastName, original.getLastName()) ||
+                  isDirty(mi, original.getMi()) ||
+                  isDirty(rid, original.getRid()) ||
+                  isDirty(telephone, original.getTelephone()) ||
+                  isDirty(extension, original.getExtension()) ||
+                  isDirty(city, original.getCity()) ||
+                  isDirty(state, original.getState()) ||
+                  isDirty(zip, original.getZip()) ||
+                  isDirty(country, original.getCountry());
+        return isDirty;
+    }
+
     public boolean isDirty() {
         if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
             return true;
@@ -476,15 +515,6 @@ public class PersonPanel extends Composite {
             } else {
                 peoplePagination.setVisible(false);
             }
-        }
-    }
-    public boolean valid() {
-        String valid = String.valueOf(form.validate());
-        if (valid.equals("false") ||
-                valid.equals("0")) {
-            return false;
-        } else {
-            return true;
         }
     }
 

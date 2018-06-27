@@ -9,7 +9,7 @@ import org.jdom2.output.XMLOutputter
 @Transactional
 class XmlService {
 
-    def createDocument(FileInputStream f) {
+    def createDocument(InputStream f) {
 
         SAXBuilder saxBuilder = new SAXBuilder()
         org.jdom2.Document document = saxBuilder.build(f)
@@ -139,11 +139,11 @@ class XmlService {
             if ( agency ) {
                 finst.setAgencyName(agency.getTextTrim())
             }
-            Element granttitle = agency.getChild("title")
+            Element granttitle = fund.getChild("title")
             if ( granttitle ) {
                 finst.setGrantTitle(granttitle.getTextTrim())
             }
-            Element ID = agency.getChild("ID")
+            Element ID = fund.getChild("ID")
             if ( ID ) {
                 finst.setGrantNumber(ID.getTextTrim())
             }
@@ -251,7 +251,6 @@ class XmlService {
 
         return doc
     }
-
 
     private GenericVariable fillVariableDomain(Element variable) {
 
@@ -889,8 +888,19 @@ class XmlService {
             String name = p.getChild("name").getText().trim();
             if (name.length() > 0 ) {
                 // TODO mi????
-                human.setFirstName(name.substring(0, name.lastIndexOf(" ")))
-                human.setLastName(name.substring(name.lastIndexOf(" ")))
+                int firstSpace = name.indexOf(' ')
+                if ( firstSpace > 0 ) {
+                    int lastSpace = name.lastIndexOf(' ')
+                    int endFirstName = lastSpace
+                    if ( firstSpace != lastSpace && lastSpace - firstSpace == 2 ) {
+                        endFirstName = firstSpace
+                        human.setMi(name.substring(firstSpace, lastSpace))
+                    }
+                    human.setFirstName(name.substring(0, endFirstName))
+                    human.setLastName(name.substring(lastSpace))
+                } else {
+                    human.setFirstName(name)
+                }
             }
             Element organization = p.getChild("organization");
             if ( organization ) {
@@ -1223,7 +1233,7 @@ class XmlService {
         if ( v.getSamplingInstrument() ) {
             Element samplingInstrument = new Element("samplingInstrument")
             samplingInstrument.setText(v.getSamplingInstrument())
-            variable.addContent(v.getSamplingInstrument())
+            variable.addContent(samplingInstrument)
         }
         if ( v.getAnalyzingInstrument() ) {
             Element analyzingInstrument = new Element("analyzingInstrument")

@@ -1,9 +1,10 @@
 package gov.noaa.pmel.sdig.client.panels;
 
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.shared.bean.Document;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rhs on 2/27/17.
@@ -23,5 +24,27 @@ public class InvestigatorPanel extends PersonPanel {
         idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the investigator");
 
     }
+
+    public boolean isDirty(List<Person> originals) {
+        if ( this.isDirty()) {
+            addPerson(getPerson());
+            form.reset();
+        }
+        if ( originals == null ) { originals = Collections.EMPTY_LIST; }
+        Set<Person> thisPeople = new TreeSet<>(getInvestigators());
+        if ( thisPeople.size() != originals.size()) {
+            return true;
+        }
+        Set<Person> orderedOriginals = new TreeSet<>(originals);
+        Iterator<Person> ooI = orderedOriginals.iterator();
+        for ( Person person : thisPeople ) {
+            Person originalPerson = ooI.next();
+            if ( ! person.isTheSameAs(originalPerson)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

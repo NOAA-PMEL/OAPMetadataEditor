@@ -7,25 +7,16 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
-import gov.noaa.pmel.sdig.client.Constants;
-import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.Popover;
 import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
-import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
-import org.gwtbootstrap3.extras.notify.client.ui.Notify;
-import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +24,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class CommonVariablePanel extends Composite {
+public class CommonVariablePanel extends Composite implements GetsDirty<Variable> {
 
     @UiField
     Heading heading;
@@ -376,6 +367,27 @@ public class CommonVariablePanel extends Composite {
         commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
         return commonVariable;
+    }
+    public boolean isDirty(Variable original) {
+        boolean isDirty;
+        isDirty = original == null ?
+                  isDirty() :
+                   // Don't check abbreviation and full name since they are filled automatically.
+                   isDirty(observationType, original.getObservationType() ) ||
+                   isDirty(manipulationMethod, original.getManipulationMethod() ) ||
+                   isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
+                   isDirty(units, original.getUnits() ) ||
+                   isDirty(measured.getValue(), original.getMeasured() ) ||
+                   isDirty(samplingInstrument, original.getSamplingInstrument() ) ||
+                   isDirty(analyzingInstrument, original.getAnalyzingInstrument() ) ||
+                   isDirty(detailedInformation, original.getDetailedInformation() ) ||
+                   isDirty(fieldReplicate, original.getFieldReplicate() ) ||
+                   isDirty(uncertainty, original.getUncertainty() ) ||
+                   isDirty(qualityFlag, original.getQualityFlag() ) ||
+                   isDirty(researcherName, original.getResearcherName() ) ||
+                   isDirty(researcherInstitution, original.getResearcherInstitution() ) ||
+                   isDirty(referenceMethod, original.getReferenceMethod() );
+        return isDirty;
     }
     public boolean isDirty() {
         // Don't check abbreviation and full name since they are filled automatically.

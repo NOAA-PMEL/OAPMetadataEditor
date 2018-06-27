@@ -37,10 +37,13 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 public class DashboardLayout extends Composite {
 
     @UiField
-    Button reset;
+    Button saveNotify;
 
-    @UiField
-    Button toggle;
+//    @UiField
+//    Button reset;
+
+//    @UiField
+//    Button toggle;
 
     @UiField
     Column nav;
@@ -219,25 +222,59 @@ public class DashboardLayout extends Composite {
         save.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new SectionSave(null, Constants.SECTION_DOCUMENT), save);
+                eventBus.fireEventFromSource(new SectionSave("Download", Constants.SECTION_DOCUMENT), save);
             }
         });
-
-        toggle.addClickHandler(new ClickHandler() {
+        saveNotify.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                if ( nav.isVisible() ) {
-                    nav.setVisible(false);
-                    mainColumn.setSize("SM_12");
-                } else {
-                    nav.setVisible(true);
-                    mainColumn.setSize("SM_9");
-                }
-
+                eventBus.fireEventFromSource(new SectionSave("Notify", Constants.SECTION_DOCUMENT), saveNotify);
             }
         });
+
+
+//        toggle.addClickHandler(new ClickHandler() {
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                if ( nav.isVisible() ) {
+//                    nav.setVisible(false);
+//                    mainColumn.setSize("SM_12");
+//                } else {
+//                    nav.setVisible(true);
+//                    mainColumn.setSize("SM_9");
+//                }
+//
+//            }
+//        });
     }
 
+    public void uncheck(String section) {
+        if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+            investigatorsLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
+            submittersLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_CITATION) ) {
+            citationLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+            timeAndLocationLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
+            fundingLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
+            platformsLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_DIC)) {
+            dicLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_TA) ) {
+            taLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PH) ) {
+            phLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
+            pco2aLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
+            pco2dLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+            genericVariableLink.setIcon(null);
+        }
+    }
     public void setChecked(String section) {
         if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
             investigatorsLink.setIcon(IconType.CHECK);
@@ -301,22 +338,26 @@ public class DashboardLayout extends Composite {
         }
         return true;
     }
-    @UiHandler("reset")
-    public void onClick(ClickEvent event) {
-        // Remove checkmarks
-        investigatorsLink.setIcon(null);
-        submittersLink.setIcon(null);
-        citationLink.setIcon(null);
-        timeAndLocationLink.setIcon(null);
-        fundingLink.setIcon(null);
-        platformsLink.setIcon(null);
-        dicLink.setIcon(null);
-        taLink.setIcon(null);
-        phLink.setIcon(null);
-        pco2aLink.setIcon(null);
-        pco2dLink.setIcon(null);
-        eventBus.fireEventFromSource(event, reset);
+    @UiHandler("saveNotify")
+    public void saveNotifyClick(ClickEvent event) {
+
     }
+//    @UiHandler("reset")
+//    public void onClick(ClickEvent event) {
+//        // Remove checkmarks
+//        investigatorsLink.setIcon(null);
+//        submittersLink.setIcon(null);
+//        citationLink.setIcon(null);
+//        timeAndLocationLink.setIcon(null);
+//        fundingLink.setIcon(null);
+//        platformsLink.setIcon(null);
+//        dicLink.setIcon(null);
+//        taLink.setIcon(null);
+//        phLink.setIcon(null);
+//        pco2aLink.setIcon(null);
+//        pco2dLink.setIcon(null);
+//        eventBus.fireEventFromSource(event, reset);
+//    }
     public void setSaveEnabled(boolean enabled) {
         save.setEnabled(enabled);
     }

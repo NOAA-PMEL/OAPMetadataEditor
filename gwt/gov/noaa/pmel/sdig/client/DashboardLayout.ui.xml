@@ -7,6 +7,8 @@
         }
     </ui:style>
     <g:HTMLPanel>
+
+        <!--
         <b:Navbar>
             <b:Button pull="LEFT" ui:field="toggle" icon="BARS" iconSize="LARGE" type="DEFAULT" marginTop="8" marginRight="10">
 
@@ -37,6 +39,7 @@
                 </b:html.UnorderedList>
                 </b:PanelBody>
         </b:Navbar>
+        -->
         <b:Container width="100%">
             <b:Row>
                 <b:Column size="XS_3" pull="LEFT" ui:field="nav">
@@ -59,8 +62,13 @@
                             <b:Column size="SM_4" pull="LEFT">
                                 <b:Button ui:field="save" type="PRIMARY" text="Download"/>
                             </b:Column>
+                            <!--
                             <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
                                 <b:Button ui:field="reset" type="PRIMARY" text="Start Over"/>
+                            </b:Column>
+                            -->
+                            <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
+                                <b:Button ui:field="saveNotify" type="PRIMARY" text="Save"/>
                             </b:Column>
                         </b:Row>
                     </b:Container>

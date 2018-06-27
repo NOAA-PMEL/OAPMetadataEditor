@@ -6,20 +6,73 @@ import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 
+import javax.servlet.http.HttpServletResponse
+
 class DocumentController {
 
     XmlService xmlService
+    OaMetadataFileService oaMetadataFileService
 
     static scaffold = Document
 
+//    def clearAll() {
+//        Document.deleteAll(Document.findAll())
+//        DocumentUpdateListener.deleteAll(DocumentUpdateListener.findAll())
+//    }
     def saveDoc() {
-
+//        def sessionFactory
+//        def session = sessionFactory.currentSession
+        String id = params.id
         def documentJSON = request.JSON
         Document doc = new Document(documentJSON)
 
-        def id = _saveDoc(doc)
+        DocumentUpdateListener dul = _findDocUpldateListener(doc, id)
+        System.out.println("DocListener:"+dul)
+        String newId = _saveDoc(doc)
+        if ( dul != null ) {
+            dul.documentId = newId
+            dul.documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
+            dul.save(flush:true)
+            dul.notifyListener()
+            newId = dul.documentLocation
+        }
+        render newId
+    }
 
-        render doc.id
+    private def _findDocUpldateListener(Document doc, String id) {
+//        Document savedDoc = _findSavedDoc(doc)
+        String expo = _findExpocode(doc)
+        System.out.println("Expocode: " + expo + ", id: " + id)
+        if ( expo ) {
+            return DocumentUpdateListener.findByExpoCode(expo)
+        } else {
+            return null
+        }
+    }
+
+    private def _findExpocode(Document doc) {
+        String expocode = null;
+        Citation c = doc.getCitation()
+        if ( c ) {
+            expocode = c.getExpocode()
+        }
+        return expocode
+    }
+
+    private def _findSavedDoc(Document doc) {
+        Document savedDoc = null
+        Citation c = doc.getCitation()
+        if ( c ) {
+            String expocode = c.getExpocode()
+            if ( expocode ) {
+                Citation savedCitation = Citation.findByExpocode(expocode)
+                if ( savedCitation ) {
+                    savedDoc = savedCitation.getDocument()
+                    System.out.println("SavedDoc: "+ savedDoc)
+                }
+            }
+        }
+        return savedDoc
     }
 
     def _saveDoc(Document doc) {
@@ -31,6 +84,7 @@ class DocumentController {
 
         doc.setLastModified(update)
 
+        Document d
         if ( doc.validate() ) {
             Citation c = doc.getCitation()
             if ( c ) {
@@ -42,58 +96,111 @@ class DocumentController {
                         if (savedVersion) {
                             // Out with the old and in with the new
                             savedVersion.delete(flush: true)
+//                            doc.id = savedVersion.id
+//                            d = doc.merge(flush:true)
+////                            d = savedVersion.save(flush: true)
+//                            System.out.println("Save existg: " + d)
+//                            saved = true
                         }
                     }
                 }
             }
-            doc.save(flush:true)
-
+            d = doc.save(flush:true)
+            System.out.println("Save: " + d)
         } else {
             doc.errors.each {Error error ->
                 log.debug(error.getMessage())            }
         }
 
-        return doc.id
+        return d.id
     }
 
-    def get() {
-        String id = request.getParameter("id")
-        if ( id == null ) {
-            id = params.id
+    def getDoc() {
+        String id = params.id
+        System.out.println("getDoc " + id)
+        Document d;
+        try {
+            d = Document.findById(Long.parseLong(id));
+        } catch (NumberFormatException nfe) {
+            d = oaMetadataFileService.readOAMetadataFile(id)
         }
-        if ( id == null ) {
-            id = "1";
-        }
+
         String pathI = request.getPathInfo();
         String pathT = request.getPathTranslated();
         String uri = request.getRequestURI();
-        Document d = Document.findById(Long.parseLong(id));
         JSON.use("deep") {
             render d as JSON
         }
     }
 
+// multipart/form-data; boundary=gwuu1ZDGWlhZ6XiMBo3Zx2RU-xMu1LR
     def postit() {
+        String ctype = request.getContentType()
+        String postedDocId = params.id
+        System.out.println("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost());
+        InputStream ins;
+        if ( ! ctype.startsWith("multipart/form-data")) {
+            // bad post
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Post Document requires Content-Type: multipart/form-data")
+            return
+        }
         def f = request.getPart('xmlFile')
-
-        InputStream ins = f.getInputStream()
+        ins = f.getInputStream();
         // Create the document
-        Document document = xmlService.createDocument(ins)
-        // Set its last modified date
-        DateTime currently = DateTime.now(DateTimeZone.UTC)
-        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
-        String update = format.print(currently)
-        document.setLastModified(update)
+        Document document;
+        try {
+            document = xmlService.createDocument(ins)
+        } catch (Exception ex) {
+            String msg = "Error parsing metadata XML document: " + ex.toString()
+            System.out.println(msg)
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg)
+            return
+        }
+        setDocumentId(document, postedDocId)
+        String docId = _saveDoc(document)
+        def notificationUrlPart = request.getPart("notificationUrl")
+        ins = notificationUrlPart.getInputStream()
+        String notificationUrl = readStream(ins)
+        String docLocation = _getDocumentLocation(docId, "postit", "getXml");
+        DocumentUpdateListener dul = new DocumentUpdateListener()
+        dul.notificationUrl = notificationUrl
+        dul.expoCode = postedDocId
+        dul.documentId = docId
+        dul.documentLocation = docLocation
+        dul.save()
+        render docId
+    }
 
-        if ( !document.validate() ) {
-            document.errors.allErrors.each {
-                log.debug it.toString()
+    private def _getDocumentLocation(String docId, String requestMethod, String accessMethod) {
+        StringBuffer url = request.getRequestURL()
+        String docLocation = url.substring(0, url.indexOf(requestMethod))+accessMethod+"/"+docId
+        return docLocation
+    }
+
+    private def setDocumentId(Document doc, String docId) {
+        Citation c = doc.getCitation()
+        if (c) {
+            String expocode = c.getExpocode()
+            if ( expocode != null && ! expocode.trim().equals("") &&
+                 ! expocode.equalsIgnoreCase(docId)) {
+                String msg = "Posted dataaset ID "+docId+ " does not equal document Excocode: " + expocode
+                System.out.println(msg)
             }
         } else {
-            log.debug("Document is valid...")
+            c = new Citation()
+            doc.setCitation(c)
         }
-        def id = _saveDoc(doc)
-        render id
+        c.setExpocode(docId)
+    }
+
+    private def readStream(InputStream is) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        byte[] buf = new byte[4096]
+        int read = 0
+        while ((read = is.read(buf)) > 0 ) {
+            baos.write(buf, 0, read)
+        }
+        return new String(baos.toByteArray())
     }
 
     def test() {
@@ -140,6 +247,26 @@ class DocumentController {
         JSON.use("deep") {
             render document as JSON
         }
+    }
+    def getXml() {
+        String pid = params.id;
+        long id  = Long.valueOf(pid)
+        Document doc = Document.findById(id)
+        Citation c = doc.getCitation()
+        String expocode
+        String filename = "oap_metadata";
+        if ( c ) {
+            expocode = c.getExpocode()
+        }
+        if ( expocode ) {
+            filename = filename + "_" + expocode + ".xml"
+        } else {
+            filename = filename + "_" + id + ".xml"
+        }
+        String output = xmlService.createXml(doc);
+        response.contentType = 'text/xml'
+        response.outputStream << output
+        response.outputStream.flush()
     }
     def xml() {
         String pid = params.id;

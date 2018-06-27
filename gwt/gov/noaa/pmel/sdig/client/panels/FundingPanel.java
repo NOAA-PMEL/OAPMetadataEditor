@@ -33,12 +33,15 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by rhs on 3/7/17.
  */
-public class FundingPanel extends Composite {
+public class FundingPanel extends Composite implements GetsDirty<Funding> {
     @UiField
     TextBox agencyName;
     @UiField
@@ -69,6 +72,14 @@ public class FundingPanel extends Composite {
 
     public void reset() {
         form.reset();
+    }
+
+    public Funding saveFunding() {
+       Funding f = getFunding();
+       fundingListDataProvider.getList().add(f);
+       fundingListDataProvider.flush();
+       fundingPagination.rebuild(cellTablePager);
+       return f;
     }
 
     interface FundingPanelUiBinder extends UiBinder<HTMLPanel, FundingPanel> {
@@ -193,6 +204,29 @@ public class FundingPanel extends Composite {
         funding.setGrantNumber(grantNumber.getText().trim());
         return funding;
     }
+    public boolean isDirty(Funding original) {
+        boolean isDirty =
+            isDirty( agencyName, original.getAgencyName() ) ||
+            isDirty( title, original.getGrantTitle() ) ||
+            isDirty( grantNumber, original.getGrantNumber() );
+        return isDirty;
+    }
+
+    public boolean isDirty(List<Funding> originals) {
+        if (  this.isDirty() ) {
+            addCurrentFunding();
+        }
+        Set<Funding> thisFundings = new TreeSet<>(getFundings());
+        if ( thisFundings.size() != originals.size()) { return true; }
+        Iterator<Funding> otherFundings = new TreeSet<>(originals).iterator();
+        for ( Funding f : thisFundings ) {
+           if ( ! f.equals(otherFundings.next())) {
+               return true;
+           }
+        }
+        return false;
+    }
+
     public boolean isDirty() {
         if ( agencyName.getText() != null && !agencyName.getText().isEmpty() ) {
             return true;
@@ -205,21 +239,30 @@ public class FundingPanel extends Composite {
         }
         return false;
     }
+
+    private void addFunding(Funding f) {
+        fundingListDataProvider.getList().add(f);
+        fundingListDataProvider.flush();
+        fundingPagination.rebuild(cellTablePager);
+    }
+    private void addCurrentFunding() {
+        Funding f = getFunding();
+        addFunding(f);
+        form.reset();
+    }
+
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
-        // For some reason this returns a "0" in debug mode.
-        String valid = String.valueOf(form.validate());
-        if (valid.equals("false") || valid.equals("0")) {
+        if ( !isDirty() ) { return; }
+        if ( valid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.NOT_COMPLETE, settings);
         } else {
             Funding f = getFunding();
-            fundingListDataProvider.getList().add(f);
-            fundingListDataProvider.flush();
-            fundingPagination.rebuild(cellTablePager);
+            addCurrentFunding();
             eventBus.fireEventFromSource(new SectionSave(f, this.type), FundingPanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
@@ -227,11 +270,11 @@ public class FundingPanel extends Composite {
             Notify.notify(Constants.COMPLETE, settings);
             eventBus.fireEventFromSource(new SectionSave(getFundings(), this.type), FundingPanel.this);
             setTableVisible(true);
-            form.reset();
         }
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());
+        // For some reason this returns a "0" in debug mode.
         if (valid.equals("false") ||
                 valid.equals("0")) {
             return false;

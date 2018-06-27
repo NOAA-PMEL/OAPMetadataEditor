@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasValue;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
@@ -27,7 +28,7 @@ import java.util.Date;
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocationPanel extends Composite {
+public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAndLocation> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -112,8 +113,10 @@ public class TimeAndLocationPanel extends Composite {
     public TimeAndLocation getTimeAndLocation() {
         TimeAndLocation timeAndLocation = new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
-        timeAndLocation.setEndDate(endDate.getValue().toString());
-        timeAndLocation.setStartDate(startDate.getValue().toString());
+        Date end = endDate.getValue();
+        timeAndLocation.setEndDate(end != null ? end.toString() : null );
+        Date start = startDate.getValue();
+        timeAndLocation.setStartDate(start != null ? start.toString() : null );
         timeAndLocation.setGeoNames(geoNames.getText().trim());
         timeAndLocation.setNorthLat(northLat.getText().trim());
         timeAndLocation.setOrganismLoc(organismLoc.getText().trim());
@@ -122,14 +125,38 @@ public class TimeAndLocationPanel extends Composite {
         timeAndLocation.setWestLon(westLon.getText().trim());
         return timeAndLocation;
     }
+    private boolean isDirty(HasValue<Date> valueField, String original) {
+        boolean isDirty = false;
+        Date fieldValue = valueField.getValue();
+        String originalValue = original != null ? original.trim() : "";
+        isDirty =  fieldValue == null ?
+                  ! isEmpty(originalValue) :
+                  ! originalValue.equals(String.valueOf(fieldValue));
+        return isDirty;
+    }
+    public boolean isDirty(TimeAndLocation original) {
+        boolean isDirty =
+            original == null ?
+            this.isDirty() :
+            isDirty(eastLon, original.getEastLon() ) ||
+            isDirty(endDate, original.getEndDate() ) ||
+            isDirty(startDate, original.getStartDate() ) ||
+            isDirty(geoNames, original.getGeoNames() ) ||
+            isDirty(northLat, original.getNorthLat() ) ||
+            isDirty(organismLoc, original.getOrganismLoc() ) ||
+            isDirty(southLat, original.getSouthLat() ) ||
+            isDirty(spatialRef, original.getSpatialRef() ) ||
+            isDirty(westLon, original.getWestLon() );
+        return isDirty;
+    }
     public boolean isDirty() {
         if (eastLon.getText() != null && !eastLon.getText().isEmpty() ) {
             return true;
         }
-        if (endDate.getValue().toString() != null && !endDate.getValue().toString().isEmpty() ) {
+        if (endDate.getValue() != null && !endDate.getValue().toString().isEmpty() ) {
             return true;
         }
-        if (startDate.getValue().toString() != null && !startDate.getValue().toString().isEmpty() ) {
+        if (startDate.getValue() != null && !startDate.getValue().toString().isEmpty() ) {
             return true;
         }
         if (geoNames.getText().trim() != null && !geoNames.getText().isEmpty() ) {

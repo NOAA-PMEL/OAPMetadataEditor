@@ -21,7 +21,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/30/17.
  */
-public class Pco2dPanel extends Composite {
+public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
 
     @UiField
     Button save;
@@ -107,9 +107,9 @@ public class Pco2dPanel extends Composite {
 
     public Pco2dPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        common.abbreviation.setText("pCO2");
+        common.abbreviation.setText("pCO2d");
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("pCO2");
+        common.fullVariableName.setText("pco2 (fco2) discrete");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for pCO2D.");
         save.addClickHandler(saveIt);
@@ -255,6 +255,29 @@ public class Pco2dPanel extends Composite {
             }
         }
     };
+    public boolean isDirty(Variable original) {
+       boolean isDirty =
+           original == null ?
+           isDirty() :
+           common.isDirty(original) ||
+           isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
+           isDirty(storageMethod, original.getStorageMethod() ) ||
+           isDirty(pco2Temperature, original.getPco2Temperature() ) ||
+           isDirty(gasConcentration, original.getGasConcentration() ) ||
+           isDirty(headspaceVolume, original.getHeadspaceVolume() ) ||
+           isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
+           isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
+           isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
+           isDirty(gasDectectorResolution, original.getGasDectectorResolution() ) ||
+           isDirty(seawaterVolume, original.getSeawaterVolume() ) ||
+           isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
+           isDirty(temperatureMeasurement, original.getTemperatureMeasurement() ) ||
+           isDirty(temperatureStandarization, original.getTemperatureStandarization() ) ||
+           isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
+           isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
+           isDirty(vaporCorrection, original.getVaporCorrection() );
+       return isDirty;
+    }
     public boolean isDirty() {
         if ( common.isDirty() ) {
             return true;

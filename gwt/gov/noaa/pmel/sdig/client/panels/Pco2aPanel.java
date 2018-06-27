@@ -18,10 +18,11 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
+
 /**
  * Created by rhs on 3/22/17.
  */
-public class Pco2aPanel extends Composite {
+public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
     // 012 Standardization technique description
     @UiField
     TextBox standardizationTechnique;
@@ -128,9 +129,9 @@ public class Pco2aPanel extends Composite {
 
     public Pco2aPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        common.abbreviation.setText("pCO2");
+        common.abbreviation.setText("pCO2a");
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("pCO2");
+        common.fullVariableName.setText("pco2 (fco2) autonomous");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for pCO2A.");
         common.fieldReplicate.setAllowBlank(true);
@@ -328,6 +329,35 @@ public class Pco2aPanel extends Composite {
                 Notify.notify(Constants.COMPLETE, settings);
             }        }
     };
+    public boolean isDirty(Variable original) {
+        boolean isDirty =
+            original == null ?
+            isDirty() :
+            common.isDirty(original) ||
+            isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
+            isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
+            isDirty(pco2Temperature, original.getPco2Temperature() ) ||
+            isDirty(gasConcentration, original.getGasConcentration() ) ||
+            isDirty(intakeDepth, original.getIntakeDepth() ) ||
+            isDirty(dryingMethod, original.getDryingMethod() ) ||
+            isDirty(equilibratorType, original.getEquilibratorType() ) ||
+            isDirty(equilibratorVolume, original.getEquilibratorVolume() ) ||
+            isDirty(gasFlowRate, original.getGasFlowRate() ) ||
+            isDirty(equilibratorPressureMeasureMethod, original.getEquilibratorPressureMeasureMethod() ) ||
+            isDirty(equilibratorTemperatureMeasureMethod, original.getEquilibratorTemperatureMeasureMethod() ) ||
+            isDirty(intakeLocation, original.getIntakeLocation() ) ||
+            isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
+            isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
+            isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
+            isDirty(gasDectectorResolution, original.getGasDectectorResolution() ) ||
+            isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
+            isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
+            isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
+            isDirty(vented, original.getVented() ) ||
+            isDirty(flowRate, original.getFlowRate() ) ||
+            isDirty(vaporCorrection, original.getVaporCorrection() );
+        return isDirty;
+    }
     public boolean isDirty() {
         if ( common.isDirty() ) {
             return true;

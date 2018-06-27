@@ -24,7 +24,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/3/17.
  */
-public class CitationPanel extends Composite {
+public class CitationPanel extends Composite implements GetsDirty<Citation> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -83,6 +83,23 @@ public class CitationPanel extends Composite {
         citation.setScientificReferences(references.getText().trim());
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
         return citation;
+    }
+    public boolean isDirty(Citation original) {
+        boolean isDirty = false;
+        isDirty =
+            original == null ?
+            this.isDirty() :
+            isDirty(platformAbstract, original.getPlatformAbstract() ) ||
+            isDirty(purpose, original.getPurpose() ) ||
+            isDirty(researchProjects, original.getResearchProjects() ) ||
+            isDirty(title, original.getTitle() ) ||
+            isDirty(expocode, original.getExpocode() ) ||
+            isDirty(cruiseId, original.getCruiseId() ) ||
+            isDirty(section, original.getSection() ) ||
+            isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
+            isDirty(references, original.getScientificReferences() ) ||
+            isDirty(supplementalInformation, original.getSupplementalInformation() );
+        return isDirty;
     }
     public boolean isDirty() {
         if (platformAbstract.getText() != null && !platformAbstract.getText().isEmpty() ) {
