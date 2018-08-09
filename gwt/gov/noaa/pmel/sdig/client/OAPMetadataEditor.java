@@ -218,7 +218,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //                if ( event.getType().equals(Constants.SECTION_DOCUMENT )) { // &&  event.getSectionContents().equals("saveNotify") {
 //                    saveMultiItemPanels();
 //                }
-                if ( isDirty()) {
+                if ( isDirty() || "Download".equals(event.getSectionContents()) ) {
                     saveSection(event.getType(), event.getSectionContents());
                 }
             }
