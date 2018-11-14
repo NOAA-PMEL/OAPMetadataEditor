@@ -18,7 +18,7 @@ class Citation {
         document (nullable: true)
         title (nullable: true, type: 'text')
         platformAbstract (nullable: true, type: 'text')
-        purpose (nullable: true)
+        purpose (nullable: true, type: 'text')
         projects (nullable: true, type: 'text')
         expocode (nullable: true)
         cruiseId (nullable: true)
