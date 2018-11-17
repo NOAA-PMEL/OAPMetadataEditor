@@ -625,6 +625,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     submitterPanel.show(dataSubmitter);
                 }
                 topLayout.setMain(submitterPanel);
+                topLayout.setActive(Constants.SECTION_SUBMITTER);
 
 
             } catch (Exception e) {
@@ -668,6 +669,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if (submitterPanel != null ) submitterPanel.reset();
         if (investigatorPanel != null ) investigatorPanel.reset();
         if ( citationPanel != null ) citationPanel.reset();
+        if ( timeAndLocationPanel != null ) timeAndLocationPanel.reset();
         if ( fundingPanel != null ) fundingPanel.reset();
         if ( platformPanel != null ) platformPanel.reset();
         if ( dicPanel != null ) dicPanel.reset();
