@@ -74,7 +74,7 @@ public class CitationPanel extends Composite {
         Citation citation = new Citation();
         citation.setPlatformAbstract(platformAbstract.getText().trim());
         citation.setPurpose(purpose.getText().trim());
-        citation.setProjects(researchProjects.getText().trim());
+        citation.setResearchProjects(researchProjects.getText().trim());
         citation.setTitle(title.getText().trim());
         citation.setExpocode(expocode.getText().trim());
         citation.setCruiseId(cruiseId.getText().trim());
@@ -127,8 +127,8 @@ public class CitationPanel extends Composite {
         if ( citation.getPurpose() != null ) {
             purpose.setText(citation.getPurpose() );
         }
-        if ( citation.getProjects() != null ) {
-            researchProjects.setText(citation.getProjects());
+        if ( citation.getResearchProjects() != null ) {
+            researchProjects.setText(citation.getResearchProjects());
         }
         if ( citation.getExpocode() != null ) {
             expocode.setText(citation.getExpocode());
