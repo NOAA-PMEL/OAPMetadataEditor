@@ -56,9 +56,8 @@ class DocumentController {
 
         def f = request.getPart('xmlFile')
 
-        InputStream ins = f.getInputStream()
         // Create the document
-        Document document = xmlService.createDocument(ins)
+        Document document = xmlService.createDocument(f)
         // Set its last modified date
         DateTime currently = DateTime.now(DateTimeZone.UTC)
         DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()

@@ -67,11 +67,11 @@
                     <b:Form ui:field="uploadForm" method="POST" encoding="multipart/form-data" action="document/upload">
                         <b:FieldSet>
                             <b:FormGroup>
-                                <b:FormLabel marginTop="20" for="upLoad">Upload XML</b:FormLabel>
+                                <b:FormLabel marginTop="20" for="upLoad">Upload OADS Metadata File (XML, Excel, or CSV)</b:FormLabel>
 
                                 <g:HTMLPanel ui:field="fakeinput">
                                     <b:Input ui:field="filename" name="xmlFile" type="FILE" b:id="upLoad"/>
-                                    <b:Button text="Choose an XML File:" ui:field="filebutton" type="PRIMARY"/>
+                                    <b:Button text="Choose a File:" ui:field="filebutton" type="PRIMARY"/>
                                     <b:TextBox width="50%" enabled="false" ui:field="faketextbox"/>
                                 </g:HTMLPanel>
 
