@@ -9,8 +9,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HasValue;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
 import org.gwtbootstrap3.client.ui.Button;
@@ -68,12 +70,23 @@ public class TimeAndLocationPanel extends Composite {
         initWidget(ourUiBinder.createAndBindUi(this));
     }
 
+    public void reset() {
+        form.reset();
+    }
+
     public void show(TimeAndLocation timeAndLocation) {
         // TODO use joda and store an ISO string on both get and show
         if ( timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0 ) {
             try {
-                Date st = new Date(timeAndLocation.getStartDate());
-                startDate.setValue(st);
+                String dateStr = timeAndLocation.getStartDate();
+                String[] parts = dateStr.split("[/ -]");
+                Date d;
+                if ( parts.length == 3) {
+                    d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+                } else {
+                    d = new Date(dateStr);
+                }
+                startDate.setValue(d);
             } catch (Exception e) {
                 Window.alert("Could not convert date string: "+timeAndLocation.getStartDate());
             }
@@ -81,8 +94,15 @@ public class TimeAndLocationPanel extends Composite {
         }
         if ( timeAndLocation.getEndDate() != null && timeAndLocation.getEndDate().length() > 0 ) {
             try {
-                Date ed = new Date(timeAndLocation.getEndDate());
-                endDate.setValue(ed);
+                String dateStr = timeAndLocation.getEndDate();
+                String[] parts = dateStr.split("[/ -]");
+                Date d;
+                if ( parts.length == 3) {
+                    d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+                } else {
+                    d = new Date(dateStr);
+                }
+                endDate.setValue(d);
             } catch (Exception e) {
                 Window.alert("Could not convert date string:" + timeAndLocation.getEndDate());
             }
@@ -112,8 +132,10 @@ public class TimeAndLocationPanel extends Composite {
     public TimeAndLocation getTimeAndLocation() {
         TimeAndLocation timeAndLocation = new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
-        timeAndLocation.setEndDate(endDate.getValue().toString());
-        timeAndLocation.setStartDate(startDate.getValue().toString());
+        String end = endDate.getTextBox().getValue();
+        timeAndLocation.setEndDate(end != null ? end.toString() : null );
+        String start = startDate.getTextBox().getValue();
+        timeAndLocation.setStartDate(start != null ? start.toString() : null );
         timeAndLocation.setGeoNames(geoNames.getText().trim());
         timeAndLocation.setNorthLat(northLat.getText().trim());
         timeAndLocation.setOrganismLoc(organismLoc.getText().trim());
@@ -126,10 +148,10 @@ public class TimeAndLocationPanel extends Composite {
         if (eastLon.getText() != null && !eastLon.getText().isEmpty() ) {
             return true;
         }
-        if (endDate.getValue().toString() != null && !endDate.getValue().toString().isEmpty() ) {
+        if (endDate.getValue() != null && !endDate.getValue().toString().isEmpty() ) {
             return true;
         }
-        if (startDate.getValue().toString() != null && !startDate.getValue().toString().isEmpty() ) {
+        if (startDate.getValue() != null && !startDate.getValue().toString().isEmpty() ) {
             return true;
         }
         if (geoNames.getText().trim() != null && !geoNames.getText().isEmpty() ) {

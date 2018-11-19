@@ -69,6 +69,12 @@ public class FundingPanel extends Composite {
 
     public void reset() {
         form.reset();
+        clearFundings();
+    }
+    public void clearFundings() {
+        fundingListDataProvider.getList().clear();
+        fundingListDataProvider.flush();
+        fundingPagination.rebuild(cellTablePager);
     }
 
     interface FundingPanelUiBinder extends UiBinder<HTMLPanel, FundingPanel> {
