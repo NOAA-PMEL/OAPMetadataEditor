@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
@@ -315,7 +316,7 @@ public class CommonVariablePanel extends Composite {
             units.setText(variable.getUnits());
         }
         if ( variable.getMeasured() != null ) {
-            measured.setTitle(variable.getMeasured());
+            measured.setSelected(variable.getMeasured());
         }
         if ( variable.getSamplingInstrument() != null ) {
             samplingInstrument.setText(variable.getSamplingInstrument());

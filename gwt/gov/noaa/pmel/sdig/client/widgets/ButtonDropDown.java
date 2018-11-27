@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.DropDownMenu;
@@ -71,9 +72,10 @@ public class ButtonDropDown extends Composite {
         for (Iterator kIt = keys.iterator(); kIt.hasNext(); ) {
             String key = (String) kIt.next();
             String v = values.get(key);
-            if ( v.equals(value) ) {
+            if ( v.equalsIgnoreCase(value) ) {
                 button.setText(key);
                 currentValue = v;
+                break;
             }
         }
 

@@ -667,8 +667,11 @@ class XmlService {
 
         // TODO this is in two different parent elements in the example <standard> and <standardization>
         Element standard = variable.getChild("standard")
+        if ( isEmpty( standard )) {
+            standard = variable.getChild("standardization")
+        }
         if ( ! isEmpty(standard) ) {
-            Element technique = standard.getChild("standardizationTechnique") // TODO I believe this should be "description"
+            Element technique = standard.getChild("description")
             if ( ! isEmpty(technique) ) {
                 v.setStandardizationTechnique(technique.getTextTrim())
             }
@@ -686,6 +689,21 @@ class XmlService {
                 Element batch = crm.getChild("batch")
                 if ( ! isEmpty(batch) ) {
                     v.setBatchNumber(batch.getText())
+                }
+            }
+            Element stdGas = standard.getChild("standardgas")
+            if ( ! isEmpty(stdGas) ) {
+                Element sgasMfc = stdGas.getChild("manufacturer")
+                if ( !isEmpty( sgasMfc )) {
+                    v.setStandardGasManufacture(sgasMfc.getText())
+                }
+                Element sgasConc = stdGas.getChild("concentration")
+                if ( !isEmpty( sgasConc )) {
+                    v.setGasConcentration(sgasConc.getText())
+                }
+                Element sgasUnc = stdGas.getChild("uncertainty")
+                if ( !isEmpty( sgasUnc )) {
+                    v.setStandardGasUncertainties(sgasUnc.getText())
                 }
             }
         }
@@ -1155,29 +1173,29 @@ class XmlService {
         if ( platforms ) {
             for (int i = 0; i < platforms.size(); i++) {
                 Platform platform = platforms.get(i)
-                Element platformE = new Element("platform");
+                Element platformE = new Element("Platform");
                 if (platform.getName()) {
-                    Element platformName = new Element("name")
+                    Element platformName = new Element("PlatformName")
                     platformName.setText(platform.getName())
                     platformE.addContent(platformName)
                 }
                 if (platform.getPlatformId()) {
-                    Element platformId = new Element("ID")
+                    Element platformId = new Element("PlatformID")
                     platformId.setText(platform.getPlatformId())
                     platformE.addContent(platformId)
                 }
                 if (platform.getPlatformType()) {
-                    Element platformType = new Element("type")
+                    Element platformType = new Element("PlatformType")
                     platformType.setText(platform.getPlatformType())
                     platformE.addContent(platformType)
                 }
                 if (platform.getOwner()) {
-                    Element platformOwner = new Element("owner")
+                    Element platformOwner = new Element("PlatformOwner")
                     platformOwner.setText(platform.getOwner())
                     platformE.addContent(platformOwner)
                 }
                 if (platform.getCountry()) {
-                    Element platformCountry = new Element("country")
+                    Element platformCountry = new Element("PlatformCountry")
                     String proposedCountry = platform.getCountry();
                     String countryName = OracleController.getCountryName(proposedCountry)
                     if ( countryName != null ) {
@@ -1197,29 +1215,29 @@ class XmlService {
          */
 
         if ( doc.getDic() ) {
-            Element variable = fillVariable(doc.getDic())
+            Element variable = fillDic(doc.getDic())
             metadata.addContent(variable)
         }
         if ( doc.getTa() ) {
-            Element variable = fillVariable(doc.getTa())
+            Element variable = fillTa(doc.getTa())
             metadata.addContent(variable)
         }
         if ( doc.getPh() ) {
-            Element variable = fillVariable(doc.getPh())
+            Element variable = fillPh(doc.getPh())
             metadata.addContent(variable)
         }
         if ( doc.getPco2a() ) {
-            Element variable = fillVariable(doc.getPco2a())
+            Element variable = fillPCO2a(doc.getPco2a())
             metadata.addContent(variable)
         }
         if ( doc.getPco2d() ) {
-            Element variable = fillVariable(doc.getPco2d())
+            Element variable = fillPCO2d(doc.getPco2d())
             metadata.addContent(variable)
         }
         if ( doc.getVariables() ) {
             for(int i = 0; i < doc.getVariables().size(); i++ ) {
                 Variable v = doc.getVariables().get(i)
-                Element variable = fillVariable(v)
+                Element variable = fillVariable(v, "0")
                 metadata.addContent(variable)
             }
         }
@@ -1229,7 +1247,262 @@ class XmlService {
         String xml = outputter.outputString(document)
         return xml
     }
-    private Element fillVariable(GenericVariable v) {
+
+    private Element fillDic(GenericVariable v) {
+        Element element = fillVariable(v, "1");
+        return element;
+    }
+    private Element fillTa(GenericVariable v) {
+        Element element = fillVariable(v, "2");
+        /*
+        TA: Type of titration
+        TA: Cell type (open or closed)
+        TA: Curve fitting method
+        TA: Magnitude of blank correction
+        */
+        if ( v.getTitrationType() ) {
+            Element e = new Element("titrationType")
+            e.setText(v.getTitrationType())
+            element.addContent(e)
+        }
+        if ( v.getCellType() ) {
+            Element e = new Element("cellType")
+            e.setText(v.getCellType())
+            element.addContent(e)
+        }
+        if ( v.getCurveFittingMethod() ) {
+            Element e = new Element("curveFitting")
+            e.setText(v.getCurveFittingMethod())
+            element.addContent(e)
+        }
+        if ( v.getMagnitudeOfBlankCorrection() ) {
+            Element e = new Element("blank")
+            e.setText(v.getMagnitudeOfBlankCorrection())
+            element.addContent(e)
+        }
+        return element;
+    }
+    private Element fillPh(GenericVariable v) {
+        Element element = fillVariable(v, "3");
+        /*
+        pH: pH scale
+        pH: Temperature of measurement
+        XXX Standardization element !!! TODO: pH: pH values of the standards
+        pH: Temperature correction method
+        pH: at what temperature was pH reported
+        */
+        if ( v.getPhScale() ) {
+            Element e = new Element("phscale")
+            e.setText(v.getPhScale())
+            element.addContent(e)
+        }
+        if ( v.getTemperatureMeasurement() ) {
+            Element e = new Element("temperatureMeasure")
+            e.setText(v.getTemperatureMeasurement())
+            element.addContent(e)
+        }
+        if ( v.getTemperatureCorrectionMethod() ) {
+            Element e = new Element("temperatureCorrectionMethod") // TODO: "temperatureCorrection" in pCO2
+            e.setText(v.getTemperatureCorrectionMethod())
+            element.addContent(e)
+        }
+        if ( v.getPhTemperature() ) {
+            Element e = new Element("phReportTemperature")
+            e.setText(v.getPhTemperature())
+            element.addContent(e)
+        }
+        return element;
+    }
+    private Element fillPCO2a(GenericVariable v) {
+        Element element = fillPCO2x(v, "4");
+        /*
+        pCO2A: Location of seawater intake
+        pCO2A: Depth of seawater intake
+        pCO2A: Equilbrator type
+        pCO2A: Equilibrator volume (L)
+        pCO2A: Vented or not
+        pCO2A: Water flow rate (L/min)
+        pCO2A: Headspace gas flow rate (L/min)
+        pCO2A: How was temperature inside the equilibrator measured .
+        pCO2A: How was pressure inside the equilibrator measured.
+        pCO2A: Drying method for CO2 gas
+        */
+        if ( v.getIntakeLocation() ) {
+            Element e = new Element("intakeLocation")
+            e.setText(v.getIntakeLocation())
+            element.addContent(e)
+        }
+        if ( v.getIntakeDepth() ) {
+            Element e = new Element("intakeDepth")
+            e.setText(v.getIntakeDepth())
+            element.addContent(e)
+        }
+        Element eq = new Element("equilibrator")
+        if ( v.getEquilibratorType() ) {
+            Element e = new Element("equilibratorType")
+            e.setText(v.getEquilibratorType())
+            eq.addContent(e)
+        }
+        if ( v.getEquilibratorVolume() ) {
+            Element e = new Element("equilibratorVolume")
+            e.setText(v.getEquilibratorVolume())
+            eq.addContent(e)
+        }
+        if ( v.getVented() ) {
+            Element e = new Element("vented")
+            e.setText(v.getVented())
+            eq.addContent(e)
+        }
+        if ( v.getFlowRate() ) {
+            Element e = new Element("waterFlowRate")
+            e.setText(v.getVented())
+            eq.addContent(e)
+        }
+        if ( v.getGasFlowRate() ) {
+            Element e = new Element("gasFlowRate")
+            e.setText(v.getGasFlowRate())
+            eq.addContent(e)
+        }
+        if ( v.getEquilibratorTemperatureMeasureMethod() ) {
+            Element e = new Element("temperatureEquilibratorMethod")
+            e.setText(v.getEquilibratorTemperatureMeasureMethod())
+            eq.addContent(e)
+        }
+        if ( v.getEquilibratorPressureMeasureMethod() ) {
+            Element e = new Element("pressureEquilibratorMethod")
+            e.setText(v.getEquilibratorPressureMeasureMethod())
+            eq.addContent(e)
+        }
+        if ( v.getDryingMethod() ) {
+            Element e = new Element("dryMethod")
+            e.setText(v.getDryingMethod())
+            eq.addContent(e)
+        }
+        element.addContent(eq)
+        return element;
+    }
+    private Element fillPCO2d(GenericVariable v) {
+        Element element = fillPCO2x(v, "5");
+        /*
+        pCO2D: Storage method
+        pCO2D: Seawater volume (mL)
+        pCO2D: Headspace volume (mL)
+        pCO2D: Temperature of measurement
+        */
+        if ( v.getStorageMethod() ) {
+            Element e = new Element("storageMethod")
+            e.setText(v.getStorageMethod())
+            element.addContent(e)
+        }
+        if ( v.getSeawaterVolume() ) {
+            Element e = new Element("seawatervol")
+            e.setText(v.getSeawaterVolume())
+            element.addContent(e)
+        }
+        if ( v.getHeadspaceVolume() ) {
+            Element e = new Element("headspacevol")
+            e.setText(v.getHeadspaceVolume())
+            element.addContent(e)
+        }
+        if ( v.getTemperatureMeasurement() ) {
+            Element e = new Element("temperatureMeasure")
+            e.setText(v.getTemperatureMeasurement())
+            element.addContent(e)
+        }
+        return element;
+    }
+    private Element fillPCO2x(GenericVariable v, String internalId) {
+        Element element = fillVariable(v, internalId);
+        /*
+        pCO2A: Manufacturer of the gas detector
+        pCO2A: Model of the gas detector
+        pCO2A: Resolution of the gas detector
+        pCO2A: Uncertainty of the gas detector
+*/
+        Element gasDetector = new Element("gasDetector")
+        if ( v.getGasDetectorManufacture() ) {
+            Element e = new Element("manufacture")
+            e.setText(v.getGasDetectorManufacture())
+            gasDetector.addContent(e)
+        }
+        if ( v.getGasDetectorModel() ) {
+            Element e = new Element("model")
+            e.setText(v.getGasDetectorModel())
+            gasDetector.addContent(e)
+        }
+        if ( v.getGasDectectorResolution() ) {
+            Element e = new Element("resolution")
+            e.setText(v.getGasDectectorResolution())
+            gasDetector.addContent(e)
+        }
+        if ( v.getGasDectectorUncertainty() ) {
+            Element e = new Element("uncertainty")
+            e.setText(v.getGasDectectorUncertainty())
+            gasDetector.addContent(e)
+        }
+        element.addContent(gasDetector)
+        /*
+    // TODO: This is under "standardization" AOT "standard" for other vars.
+        // Done in fillVariable, for some reason
+        pCO2A: Manufacturer of standard gas
+        pCO2A: Concentrations of standard gas
+        pCO2A: Uncertainties of standard gas
+        */
+
+        /*
+        pCO2A: Water vapor correction method
+        pCO2A: Temperature correction method
+        pCO2A: at what temperature was pCO2 reported
+        */
+
+        if ( v.getVaporCorrection() ) {
+            Element e = new Element("waterVaporCorrection")
+            e.setText(v.getVaporCorrection())
+            element.addContent(e)
+        }
+        if ( v.getTemperatureCorrection() ) {
+            Element e = new Element("temperatureCorrection")
+            e.setText(v.getTemperatureCorrection())
+            element.addContent(e)
+        }
+        if ( v.getPco2Temperature() ) {
+            Element e = new Element("co2ReportTemperature")
+            e.setText(v.getPco2Temperature())
+            element.addContent(e)
+        }
+        return element;
+    }
+    /*
+    fullname
+    abbrev
+    observationType
+    insitu
+    manipulationMethod
+    unit
+    measured
+    calcMethod
+    samplingInstrument
+    analyzingInstrument
+    detailedInfo
+    replicate
+    standard
+        description
+        frequency
+        TODO: ph Values of Standards ...
+        crm
+            manufacturer
+            batch
+    poison
+        poisonName
+        volume
+        correction
+    uncertainty
+    flag
+    methodReference
+    researcherName
+    researcherInstitution
+    */
+    private Element fillVariable(GenericVariable v, String internalId) {
         Element variable = new Element("variable")
         if ( v.getFullVariableName() ) {
             Element fullname = new Element("fullname")
@@ -1291,8 +1564,13 @@ class XmlService {
             replicate.setText(v.getFieldReplicate())
             variable.addContent(replicate)
         }
-        Element standard = new Element("standard")
-        // TODO description
+        String standardName = getStandardNameFor(v)
+        Element standard = new Element(standardName)
+        if ( v.getStandardizationTechnique()) {
+            Element description = new Element("description")
+            description.setText(v.getStandardizationTechnique())
+            standard.addContent(description)
+        }
         if ( v.getFreqencyOfStandardization() ) {
             Element frequency = new Element("frequency")
             frequency.setText(v.getFreqencyOfStandardization())
@@ -1309,8 +1587,32 @@ class XmlService {
             batch.setText(v.getBatchNumber())
             crm.addContent(batch)
         }
-        standard.addContent(crm)
-        variable.addContent(standard)
+        if ( !isEmpty(crm)) {
+            standard.addContent(crm)
+        }
+        if ( v.getStandardGasManufacture() || v.getStandardGasUncertainties() ||
+             v.getGasConcentration()) {
+            Element sgas = new Element("standardgas")
+            if ( v.getStandardGasManufacture()) {
+                Element mnf = new Element("manufacturer")
+                mnf.addContent(v.getStandardGasManufacture())
+                sgas.addContent(mnf)
+            }
+            if ( v.getStandardGasUncertainties()) {
+                Element unc = new Element("uncertainty")
+                unc.addContent(v.getStandardGasUncertainties())
+                sgas.addContent(unc)
+            }
+            if ( v.getGasConcentration()) {
+                Element conc = new Element("concentration")
+                conc.addContent(v.getGasConcentration())
+                sgas.addContent(conc)
+            }
+            standard.addContent(sgas)
+        }
+        if ( !isEmpty(standard)) {
+            variable.addContent(standard)
+        }
         Element poison = new Element("poison")
         if ( v.getPoison() ) {
             Element poisonName = new Element("poisonName")
@@ -1355,8 +1657,18 @@ class XmlService {
         }
         // TODO set the internal variable number
 
+        Element internal = new Element("internal");
+        internal.addContent(internalId);
+        variable.addContent(internal);
         return variable
     }
+
+    String getStandardNameFor(GenericVariable genericVariable) {
+        return ( genericVariable instanceof Pco2a || genericVariable instanceof Pco2d ) ?
+                "standardization" :
+                "standard"
+    }
+
     private void fillPerson(Person p, Element person, String type) {
         def name = "";
         if ( p.getFirstName() ) {

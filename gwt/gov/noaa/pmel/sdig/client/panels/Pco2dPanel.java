@@ -135,6 +135,7 @@ public class Pco2dPanel extends Composite {
     }
     public void fill (Variable pco2d) {
         common.fillCommonVariable(pco2d);
+        pco2d.setStandardizationTechnique(standardizationTechnique.getText());
         pco2d.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2d.setStorageMethod(storageMethod.getText());
         pco2d.setPco2Temperature(pco2Temperature.getText());
@@ -154,6 +155,7 @@ public class Pco2dPanel extends Composite {
     }
     public Variable getPco2d() {
         Variable pco2d = common.getCommonVariable();
+        pco2d.setStandardizationTechnique(standardizationTechnique.getText());
         pco2d.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2d.setStorageMethod(storageMethod.getText());
         pco2d.setPco2Temperature(pco2Temperature.getText());
@@ -174,6 +176,9 @@ public class Pco2dPanel extends Composite {
     }
     public void show(Variable pco2d) {
         common.show(pco2d);
+        if ( pco2d.getStandardizationTechnique() != null ) {
+            standardizationTechnique.setText(pco2d.getStandardizationTechnique());
+        }
         if (pco2d.getFreqencyOfStandardization() != null) {
             freqencyOfStandardization.setText(pco2d.getFreqencyOfStandardization());
         }
@@ -198,8 +203,8 @@ public class Pco2dPanel extends Composite {
         if (pco2d.getGasDetectorModel() != null) {
             gasDetectorModel.setText(pco2d.getGasDetectorModel());
         }
-        if (pco2d.getGasDetectorManufacture() != null) {
-            gasDectectorResolution.setText(pco2d.getGasDetectorManufacture());
+        if (pco2d.getGasDectectorResolution() != null) {
+            gasDectectorResolution.setText(pco2d.getGasDectectorResolution());
         }
         if (pco2d.getSeawaterVolume() != null) {
             seawaterVolume.setText(pco2d.getSeawaterVolume());

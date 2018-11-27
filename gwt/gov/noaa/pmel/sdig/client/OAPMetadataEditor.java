@@ -132,6 +132,10 @@ public class OAPMetadataEditor implements EntryPoint {
 
     final DashboardLayout topLayout = new DashboardLayout();
 
+    public static native void consoleLog(String msg) /*-{
+        console.log(msg);
+    }-*/;
+
     /**
      * This is the entry point method.
      */
