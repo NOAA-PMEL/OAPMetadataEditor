@@ -1,8 +1,0 @@
-import oap.Document
-
-model {
-    Document document
-}
-response.contentType "application/json"
-json g.render(document, [deep: true])
-

@@ -1,5 +1,9 @@
 .DS_Store
 .DS_Store?
 
-gwt-unitCache/*
-/test-classes/
+.gradle
+.idea
+**/gwt-unitCache
+build
+*.cache.js
+OM_master.iml

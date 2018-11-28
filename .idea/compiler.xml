@@ -2,9 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="oap_integrationTest" target="1.8" />
-      <module name="oap_main" target="1.8" />
-      <module name="oap_test" target="1.8" />
+      <module name="OM_master_main" target="1.8" />
+      <module name="OM_master_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
