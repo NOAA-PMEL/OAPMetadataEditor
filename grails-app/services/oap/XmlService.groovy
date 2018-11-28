@@ -9,6 +9,22 @@ import org.jdom2.output.XMLOutputter
 @Transactional
 class XmlService {
 
+    private static boolean isEmpty(Element e) {
+        if ( e == null ) {
+            return true;
+        }
+        if ( e.getTextTrim().length() > 0 || e.hasAttributes()) {
+            return false;
+        }
+        boolean emptyChildren = true;
+        Iterator<Element> children = e.getChildren().iterator();
+        while ( emptyChildren && children.hasNext()) {
+            Element child = children.next();
+            emptyChildren = isEmpty(child);
+        }
+        return emptyChildren;
+    }
+
     def createDocument(InputStream f) {
 
         SAXBuilder saxBuilder = new SAXBuilder()
@@ -28,7 +44,7 @@ class XmlService {
         }
         // Data Submitter
         Element datasubmitterE = root.getChild("datasubmitter")
-        if ( datasubmitterE ) {
+        if ( ! isEmpty(datasubmitterE) ) {
             DataSubmitter p = fillPersonDomain(datasubmitterE)
             doc.setDataSubmitter(p)
         }
@@ -36,52 +52,52 @@ class XmlService {
         // Citation
         Citation citation = new Citation()
         Element title = root.getChild("title")
-        if ( title ) {
+        if ( ! isEmpty(title) ) {
             citation.setTitle(title.getTextTrim());
         }
 
         Element platformAbstract = root.getChild("abstract")
-        if ( platformAbstract ) {
+        if ( ! isEmpty(platformAbstract) ) {
             citation.setPlatformAbstract(platformAbstract.getTextTrim())
         }
 
         Element purpose = root.getChild("purpose")
-        if ( purpose ) {
+        if ( ! isEmpty(purpose) ) {
             citation.setPurpose(purpose.getTextTrim())
         }
 
-        Element researchProjects = root.getChild("researchProjects")
-        if ( researchProjects ) {
-            citation.setResearchProjects(researchProject.getTextTrim())
+        Element researchProjects = root.getChild("researchProject")
+        if ( ! isEmpty(researchProjects) ) {
+            citation.setResearchProjects(researchProjects.getTextTrim())
         }
 
         Element expocode = root.getChild("expocode")
-        if ( expocode ) {
+        if ( ! isEmpty(expocode) ) {
             citation.setExpocode(expocode.getTextTrim())
         }
 
         Element cruiseID = root.getChild("cruiseID")
-        if ( cruiseID ) {
+        if ( ! isEmpty(cruiseID) ) {
             citation.setCruiseId(cruiseID.getTextTrim())
         }
 
         Element section = root.getChild("section")
-        if ( section ) {
+        if ( ! isEmpty(section) ) {
             citation.setSection(section.getTextTrim())
         }
 
         Element reference = root.getChild("reference")
-        if ( reference ) {
+        if ( ! isEmpty(reference) ) {
             citation.setScientificReferences(reference.getTextTrim())
         }
 
         Element citationList = root.getChild("citation")
-        if ( citationList ) {
+        if ( ! isEmpty(citationList) ) {
             citation.setCitationAuthorList(citationList.getTextTrim())
         }
 
         Element suppleInfo = root.getChild("suppleInfo")
-        if ( suppleInfo ) {
+        if ( ! isEmpty(suppleInfo) ) {
             citation.setSupplementalInformation(suppleInfo.getTextTrim())
         }
         doc.setCitation(citation)
@@ -89,40 +105,40 @@ class XmlService {
         // Time and Location Information
         TimeAndLocation timeAndLocation = new TimeAndLocation()
         Element startdate = root.getChild("startdate")
-        if ( startdate ) {
+        if ( ! isEmpty(startdate) ) {
             timeAndLocation.setStartDate(startdate.getTextTrim())
         }
         Element enddate = root.getChild("enddate")
-        if ( enddate ) {
+        if ( ! isEmpty(enddate) ) {
             timeAndLocation.setEndDate(enddate.getTextTrim())
         }
         Element westbd = root.getChild("westbd")
-        if (westbd ) {
+        if ( ! isEmpty(westbd) ) {
             timeAndLocation.setWestLon(westbd.getTextTrim())
         }
         Element eastbd = root.getChild("eastbd")
-        if ( eastbd ) {
+        if ( ! isEmpty(eastbd) ) {
             timeAndLocation.setEastLon(eastbd.getTextTrim())
         }
         Element northbd = root.getChild("northbd")
-        if ( northbd ) {
+        if ( ! isEmpty(northbd) ) {
             timeAndLocation.setNorthLat(northbd.getTextTrim())
         }
         Element southbd = root.getChild("southbd")
-        if ( southbd ) {
+        if ( ! isEmpty(southbd) ) {
             timeAndLocation.setSouthLat(southbd.getTextTrim())
         }
         Element spatialReference = root.getChild("spatialReference")
-        if ( spatialReference ) {
+        if ( ! isEmpty(spatialReference) ) {
             timeAndLocation.setSpatialRef(spatialReference.getTextTrim())
         }
         Element geographicName = root.getChild("geographicName")
-        if ( geographicName ) {
+        if ( ! isEmpty(geographicName) ) {
             // TODO this is wrong. We need to collect a list, either by comma separating or entering and accumulating them
             timeAndLocation.setGeoNames(geographicName.getTextTrim())
         }
         Element locationOrganism = root.getChild("locationOrganism")
-        if ( locationOrganism ) {
+        if ( ! isEmpty(locationOrganism) ) {
             timeAndLocation.setOrganismLoc(locationOrganism.getText())
         }
         doc.setTimeAndLocation(timeAndLocation)
@@ -136,15 +152,15 @@ class XmlService {
             Funding finst = new Funding();
             Element agency = fund.getChild("agency")
 
-            if ( agency ) {
+            if ( ! isEmpty(agency) ) {
                 finst.setAgencyName(agency.getTextTrim())
             }
             Element granttitle = fund.getChild("title")
-            if ( granttitle ) {
+            if ( ! isEmpty(granttitle) ) {
                 finst.setGrantTitle(granttitle.getTextTrim())
             }
             Element ID = fund.getChild("ID")
-            if ( ID ) {
+            if ( ! isEmpty(ID) ) {
                 finst.setGrantNumber(ID.getTextTrim())
             }
             fundingList.add(finst)
@@ -156,27 +172,27 @@ class XmlService {
         Platform platform = new Platform()
         Element platformE = root.getChild("platfrom")
 
-        if (platformE) {
+        if (! isEmpty(platformE)) {
 
             Element platformName = platformE.getChild("name")
-            if (platformName) {
+            if (! isEmpty(platformName)) {
                 platform.setName(platformName.getTextTrim())
             }
             Element platformId = platformE.getChild("ID")
-            if (platformId) {
+            if (! isEmpty(platformId)) {
                 platform.setPlatformId(platformId.getTextTrim())
             }
             Element platformType = platformE.getChild("type")
-            if (platformType) {
+            if (! isEmpty(platformType)) {
 
                 platform.setPlatformType(platformType.getText())
             }
             Element platformOwner = platformE.getChild("owner")
-            if (platformOwner) {
+            if (! isEmpty(platformOwner)) {
                 platform.setOwner(platformOwner.getText())
             }
             Element platformCountry = platformE.getChild("country")
-            if (platformCountry) {
+            if (! isEmpty(platformCountry)) {
                 String proposedCountry = platformCountry.getTextTrim()
                 String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
                 if ( countryThreeLetter != null ) {
@@ -191,27 +207,27 @@ class XmlService {
         // Or read the "old" style if it's included
         Element oldPlatE = root.getChild("Platform")
 
-        if (oldPlatE) {
+        if (! isEmpty(oldPlatE)) {
 
             Element platformName = oldPlatE.getChild("PlatformName")
-            if (platformName) {
+            if (! isEmpty(platformName)) {
                 platform.setName(platformName.getTextTrim())
             }
             Element platformId = oldPlatE.getChild("PlatformID")
-            if (platformId) {
+            if (! isEmpty(platformId)) {
                 platform.setPlatformId(platformId.getTextTrim())
             }
             Element platformType = oldPlatE.getChild("PlatformType")
-            if (platformType) {
+            if (! isEmpty(platformType)) {
 
                 platform.setPlatformType(platformType.getText())
             }
             Element platformOwner = oldPlatE.getChild("PlatformOwner")
-            if (platformOwner) {
+            if (! isEmpty(platformOwner)) {
                 platform.setOwner(platformOwner.getText())
             }
             Element platformCountry = oldPlatE.getChild("PlatformCountry")
-            if (platformCountry) {
+            if (! isEmpty(platformCountry)) {
                 String proposedCountry = platformCountry.getTextTrim()
                 String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
                 if ( countryThreeLetter != null ) {
@@ -250,6 +266,14 @@ class XmlService {
 
 
         return doc
+    }
+
+    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        gov.noaa.pmel.excel2oap.PoiReader2.ConvertExcelToOADS(inputStream, baos)
+        ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
+        return createDocument(convertedIS)
+
     }
 
     private GenericVariable fillVariableDomain(Element variable) {
@@ -575,51 +599,51 @@ class XmlService {
         }
 
         Element fullname = variable.getChild("fullname")
-        if ( fullname ) {
+        if ( ! isEmpty(fullname) ) {
             v.setFullVariableName(fullname.getTextTrim())
         }
         Element abbrev = variable.getChild("abbrev")
-        if ( abbrev ) {
+        if ( ! isEmpty(abbrev) ) {
             v.setAbbreviation(abbrev.getTextTrim())
         }
         Element observationType = variable.getChild("observationType")
-        if ( observationType ) {
+        if ( ! isEmpty(observationType) ) {
             v.setObservationType(observationType.getTextTrim())
         }
         Element insitu = variable.getChild("insitu")
-        if ( insitu ) {
+        if ( ! isEmpty(insitu) ) {
             v.setObservationDetail(insitu.getTextTrim())
         }
         Element manipulationMethod = variable.getChild("manipulationMethod")
-        if ( manipulationMethod ) {
+        if ( ! isEmpty(manipulationMethod) ) {
             v.setManipulationMethod(manipulationMethod.getTextTrim())
         }
         Element unit = variable.getChild("unit")
-        if ( unit ) {
+        if ( ! isEmpty(unit) ) {
             v.setUnits(unit.getTextTrim())
         }
         Element measured = variable.getChild("measured")
-        if ( measured ) {
+        if ( ! isEmpty(measured) ) {
             v.setMeasured(measured.getTextTrim())
         }
         Element calcMethod = variable.getChild("calcMethod")
-        if ( calcMethod ) {
+        if ( ! isEmpty(calcMethod) ) {
             v.setCalculationMethod(calcMethod.getTextTrim())
         }
         Element samplingInstrument = variable.getChild("samplingInstrument")
-        if ( samplingInstrument ) {
+        if ( ! isEmpty(samplingInstrument) ) {
             v.setSamplingInstrument(samplingInstrument.getTextTrim())
         }
         Element analyzingInstrument = variable.getChild("analyzingInstrument")
-        if ( analyzingInstrument ) {
+        if ( ! isEmpty(analyzingInstrument) ) {
             v.setAnalyzingInstrument(analyzingInstrument.getTextTrim())
         }
         Element detailedInfo = variable.getChild("detailedInfo")
-        if ( detailedInfo ) {
+        if ( ! isEmpty(detailedInfo) ) {
             v.setDetailedInformation(detailedInfo.getTextTrim())
         }
         Element replicate = variable.getChild("replicate")
-        if ( replicate ) {
+        if ( ! isEmpty(replicate) ) {
             v.setFieldReplicate(replicate.getTextTrim())
         }
 
@@ -627,24 +651,23 @@ class XmlService {
 
         // TODO this is in two different parent elements in the example <standard> and <standardization>
         Element standard = variable.getChild("standard")
-        if ( standard ) {
-            Element technique = standard.getChild("standardizationTechnique")
-            if ( technique ) {
+        if ( ! isEmpty(standard) ) {
+            Element technique = standard.getChild("description")
+            if ( ! isEmpty(technique) ) {
                 v.setStandardizationTechnique(technique.getTextTrim())
             }
             Element frequency = standard.getChild("frequency")
-            // TODO description
-            if ( frequency ) {
+            if ( ! isEmpty(frequency) ) {
                 v.setFreqencyOfStandardization(frequency.getTextTrim())
             }
             Element crm = standard.getChild("crm")
-            if ( crm ) {
+            if ( ! isEmpty(crm) ) {
                 Element manufacture = crm.getChild("manufacturer")
-                if ( manufacture ) {
+                if ( ! isEmpty(manufacture) ) {
                     v.setCrmManufacture(manufacture.getTextTrim())
                 }
                 Element batch = crm.getChild("batch")
-                if ( batch ) {
+                if ( ! isEmpty(batch) ) {
                     v.setBatchNumber(batch.getText())
                 }
             }
@@ -654,18 +677,18 @@ class XmlService {
 
         Element poison = variable.getChild("poison")
 
-        if ( poison ) {
+        if ( ! isEmpty(poison) ) {
             Element poisonName = poison.getChild("poisonName")
-            if  ( poisonName ) {
+            if ( ! isEmpty(poisonName) ) {
                 v.setPoison(poisonName.getTextTrim())
             }
 
             Element volume = poison.getChild("volume")
-            if ( volume ) {
+            if ( ! isEmpty(volume) ) {
                 v.setPoisonVolume(volume.getText())
             }
             Element poisonDescription = poison.getChild("correction")
-            if ( poisonDescription ) {
+            if ( ! isEmpty(poisonDescription) ) {
                 v.setPoisonDescription(poisonDescription.getTextTrim())
             }
 
@@ -675,33 +698,33 @@ class XmlService {
 
 //
         Element uncertainty = variable.getChild("uncertainty")
-        if ( uncertainty ) {
+        if ( ! isEmpty(uncertainty) ) {
             v.setUncertainty(uncertainty.getText())
         }
         Element flag = variable.getChild("flag")
-        if ( flag ) {
+        if ( ! isEmpty(flag) ) {
             v.setQualityFlag(flag.getText())
         }
         Element methodReference = variable.getChild("methodReference")
-        if ( methodReference ) {
+        if ( ! isEmpty(methodReference) ) {
             v.setReferenceMethod(methodReference.getText())
         }
         Element researcherName = variable.getChild("researcherName")
-        if ( researcherName ) {
+        if ( ! isEmpty(researcherName) ) {
             v.setResearcherName(researcherName.getText())
         }
         Element researcherInstitution = variable.getChild("researcherInstitution")
-        if ( researcherInstitution ) {
+        if ( ! isEmpty(researcherInstitution) ) {
             v.setResearcherInstitution(researcherInstitution.getText())
         }
 
         Element storageMethod = variable.getChild("storageMethod")
-        if ( storageMethod ) {
+        if ( ! isEmpty(storageMethod) ) {
             v.setStorageMethod(storageMethod.getTextTrim())
         }
 
         Element co2ReportTemperature = variable.getChild("co2ReportTemperature")
-        if ( co2ReportTemperature ) {
+        if ( ! isEmpty(co2ReportTemperature) ) {
             v.setPco2Temperature(co2ReportTemperature.getTextTrim());
         }
 
@@ -709,7 +732,7 @@ class XmlService {
         // <phReportTemperature>
         // TextBox pHtemperature;
         Element phReportTemperature = variable.getChild("phReportTemperature")
-        if ( phReportTemperature ) {
+        if ( ! isEmpty(phReportTemperature) ) {
             v.setPhTemperature(phReportTemperature.getTextTrim())
         }
 
@@ -717,7 +740,7 @@ class XmlService {
         // <biologicalSubject>
         // TextBox biologicalSubject;
         Element biologicalSubject = variable.getChild("biologicalSubject")
-        if ( biologicalSubject ) {
+        if ( ! isEmpty(biologicalSubject) ) {
             v.setBiologicalSubject(biologicalSubject.getTextTrim())
         }
 
@@ -725,7 +748,7 @@ class XmlService {
         // <cellType>
         // ButtonDropDown cellType;
         Element cellType = variable.getChild("cellType")
-        if ( cellType ) {
+        if ( ! isEmpty(cellType) ) {
             v.setCellType(cellType.getTextTrim())
         }
 
@@ -734,7 +757,7 @@ class XmlService {
         // TextBox curveFittingMethod;
 
         Element curveFitting = variable.getChild("curveFitting")
-        if ( curveFitting ) {
+        if ( ! isEmpty(curveFitting) ) {
             v.setCurveFittingMethod(curveFitting.getTextTrim())
         }
 
@@ -742,7 +765,7 @@ class XmlService {
         // <DepthSeawaterIntake>
         // TextBox intakeDepth;
         Element DepthSeawaterIntake = variable.getChild("DepthSeawaterIntake")
-        if ( DepthSeawaterIntake ) {
+        if ( ! isEmpty(DepthSeawaterIntake) ) {
             v.setIntakeDepth(DepthSeawaterIntake.getTextTrim())
         }
 
@@ -753,38 +776,38 @@ class XmlService {
         // TextBox duration;
 
         Element duration = variable.getChild("duration")
-        if ( duration ) {
+        if ( ! isEmpty(duration) ) {
             v.setDuration(duration.getTextTrim())
         }
 
         Element equilibrator = variable.getChild("equilibrator")
-        if ( equilibrator ) {
+        if ( ! isEmpty(equilibrator) ) {
             Element type = equilibrator.getChild("type")
-            if ( type ) {
+            if ( ! isEmpty(type) ) {
                 v.setEquilibratorType(type.getTextTrim())
             }
             Element volume = equilibrator.getChild("volume")
-            if ( volume ) {
+            if ( ! isEmpty(volume) ) {
                 v.setEquilibratorVolume(volume.getTextTrim())
             }
             Element vented = equilibrator.getChild("vented")
-            if ( vented ) {
+            if ( ! isEmpty(vented) ) {
                 v.setVented(vented.getTextTrim())
             }
             Element waterFlowRate = equilibrator.getChild("waterFlowRate")
-            if ( waterFlowRate ) {
+            if ( ! isEmpty(waterFlowRate) ) {
                 v.setFlowRate(waterFlowRate.getTextTrim())
             }
             Element gasFlowRate = equilibrator.getChild("gasFlowRate")
-            if ( gasFlowRate ) {
+            if ( ! isEmpty(gasFlowRate) ) {
                 v.setGasFlowRate(gasFlowRate.getTextTrim())
             }
             Element temperatureEquilibratorMethod = equilibrator.getChild("temperatureEquilibratorMethod")
-            if ( temperatureEquilibratorMethod ) {
+            if ( ! isEmpty(temperatureEquilibratorMethod) ) {
                 v.setEquilibratorTemperatureMeasureMethod(temperatureEquilibratorMethod.getTextTrim())
             }
             Element pressureEquilibratorMethod = equilibrator.getChild("pressureEquilibratorMethod")
-            if ( pressureEquilibratorMethod ) {
+            if ( ! isEmpty(pressureEquilibratorMethod) ) {
                 v.setEquilibratorPressureMeasureMethod(pressureEquilibratorMethod.getTextTrim())
             }
 
@@ -793,90 +816,91 @@ class XmlService {
             // TextBox dryingMethod;
 
             Element dryMethod = variable.getChild("dryMethod")
-            if ( dryMethod ) {
+            if ( ! isEmpty(dryMethod) ) {
                 v.setDryingMethod(dryMethod.getTextTrim())
             }
         }
 
         Element headspacevol = variable.getChild("headspacevol");
-        if ( headspacevol ) {
+        if ( ! isEmpty(headspacevol) ) {
             v.setHeadspaceVolume(headspacevol.getTextTrim())
         }
 
         Element lifeStage = variable.getChild("lifeStage")
-        if ( lifeStage ) {
+        if ( ! isEmpty(lifeStage) ) {
             v.setLifeStage(lifeStage.getTextTrim())
         }
 
         Element locationSeawaterIntake = variable.getChild("locationSeawaterIntake")
-        if ( locationSeawaterIntake ) {
+        if ( ! isEmpty(locationSeawaterIntake) ) {
             v.setIntakeLocation(locationSeawaterIntake.getTextTrim())
         }
 
 
         Element gasDetector = variable.getChild("gasDetector")
-        if ( gasDetector ) {
+        if ( ! isEmpty(gasDetector) ) {
             Element manufacturer = gasDetector.getChild("manufacturer")
-            if (manufacturer  ) {
+            if (! isEmpty(manufacturer)  ) {
                 v.setGasDetectorManufacture(manufacturer.getTextTrim())
             }
             Element model = gasDetector.getChild("model")
-            if ( model ) {
+            if ( ! isEmpty(model) ) {
                 v.setGasDetectorModel(model.getTextTrim())
             }
             Element resolution = gasDetector.getChild("resolution")
-            if ( resolution ) {
+            if ( ! isEmpty(resolution) ) {
                 v.setGasDectectorResolution(resolution.getTextTrim())
             }
             Element gasuncertainty = gasDetector.getChild("uncertainty")
-            if ( gasuncertainty ) {
+            if ( ! isEmpty(gasuncertainty) ) {
                 v.setGasDectectorUncertainty(gasuncertainty.getTextTrim())
             }
         }
 
         Element phscale = variable.getChild("phscale")
-        if ( phscale ) {
+        if ( ! isEmpty(phscale) ) {
             v.setPhScale(phscale.getTextTrim())
         }
 
         Element seawatervol = variable.getChild("seawatervol")
-        if ( seawatervol ) {
+        if ( ! isEmpty(seawatervol) ) {
             v.setSeawaterVolume(seawatervol.getTextTrim())
         }
 
         Element speciesID = variable.getChild("speciesID")
-        if ( speciesID ) {
+        if ( ! isEmpty(speciesID) ) {
             v.setSpeciesIdCode(speciesID.getTextTrim())
         }
 
         Element temperatureCorrectionMethod = variable.getChild("temperatureCorrectionMethod")
-        if ( temperatureCorrectionMethod ) {
+        if ( ! isEmpty(temperatureCorrectionMethod) ) {
             v.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getTextTrim())
         }
 
         Element temperatureCorrection = variable.getChild("temperatureCorrection")
-        if ( temperatureCorrection ) {
+        if ( ! isEmpty(temperatureCorrection) ) {
             v.setTemperatureCorrection(temperatureCorrection.getTextTrim())
         }
 
         Element temperatureMeasure = variable.getChild("temperatureMeasure")
-        if ( temperatureMeasure ) {
+        if ( ! isEmpty(temperatureMeasure) ) {
             v.setTemperatureMeasurement(temperatureMeasure.getTextTrim())
         }
 
         Element titrationType = variable.getChild("titrationType")
-        if ( titrationType ) {
+        if ( ! isEmpty(titrationType) ) {
             v.setTitrationType(titrationType.getTextTrim())
         }
 
         Element waterVaporCorrection = variable.getChild("waterVaporCorrection")
-        if ( waterVaporCorrection ) {
+        if ( ! isEmpty(waterVaporCorrection) ) {
             v.setVaporCorrection(waterVaporCorrection.getTextTrim())
         }
         // TODO set the internal variable number
 
         return v
     }
+
     private Person fillPersonDomain(Element p) {
         def human;
         if ( p.getChild("role") != null && p.getChild("role").getText().equals("investigator") ) {
@@ -903,31 +927,31 @@ class XmlService {
                 }
             }
             Element organization = p.getChild("organization");
-            if ( organization ) {
+            if ( ! isEmpty(organization) ) {
                 human.setInstitution(organization.getTextTrim())
             }
             Element deliverypoint1 = p.getChild("deliverypoint1");
-            if ( deliverypoint1 ) {
+            if ( ! isEmpty(deliverypoint1) ) {
                 human.setAddress1(deliverypoint1.getTextTrim())
             }
             Element deliverypoint2 = p.getChild("deliverypoint2");
-            if ( deliverypoint2 ) {
+            if ( ! isEmpty(deliverypoint2) ) {
                 human.setAddress2(deliverypoint2.getTextTrim())
             }
             Element city = p.getChild("city");
-            if ( city ) {
+            if ( ! isEmpty(city) ) {
                 human.setCity(city.getTextTrim())
             }
             Element administrativeArea = p.getChild("administrativeArea");
-            if ( administrativeArea ) {
+            if ( ! isEmpty(administrativeArea) ) {
                 human.setState(administrativeArea.getTextTrim())
             }
             Element zip = p.getChild("zip");
-            if ( zip ) {
+            if ( ! isEmpty(zip) ) {
                 human.setZip(zip.getTextTrim())
             }
             Element country = p.getChild("country");
-            if ( country ) {
+            if ( ! isEmpty(country) ) {
                 String proposedCountry = country.getTextTrim();
                 String countryName = OracleController.getCountryName(country.getTextTrim())
                 if ( countryName !=  null ) {
@@ -937,19 +961,19 @@ class XmlService {
                 }
             }
             Element phone = p.getChild("phone");
-            if ( phone ) {
+            if ( ! isEmpty( phone )) {
                 human.setTelephone(phone.getTextTrim())
             }
             Element email = p.getChild("email");
-            if ( email ) {
+            if ( ! isEmpty(email) ) {
                 human.setEmail(email.getTextTrim())
             }
             Element ID = p.getChild("ID");
-            if ( ID ) {
+            if ( ! isEmpty(ID) ) {
                 human.setRid(ID.getTextTrim())
             }
             Element IDtype = p.getChild("IDtype");
-            if ( IDtype ) {
+            if ( ! isEmpty(IDtype) ) {
                 human.setIdType(IDtype.getTextTrim())
             }
         }
@@ -996,7 +1020,7 @@ class XmlService {
                 metadata.addContent(purpose)
             }
             if ( citation.getResearchProjects() ) {
-                Element researchProjects = new Element("researchProjects")
+                Element researchProjects = new Element("researchProject")
                 researchProjects.setText(citation.getResearchProjects())
                 metadata.addContent(researchProjects)
             }
@@ -1205,7 +1229,7 @@ class XmlService {
             observationType.setText(v.getObservationType())
             variable.addContent(observationType)
         }
-        if ( v.getObservationType() ) {
+        if ( v.getObservationDetail() ) {
             Element insitu = new Element("insitu")
             insitu.setText(v.getObservationDetail())
             variable.addContent(insitu)

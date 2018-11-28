@@ -1,6 +1,7 @@
 package gov.noaa.pmel.sdig.client.panels;
 
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.shared.bean.Document;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 
@@ -26,13 +27,14 @@ public class InvestigatorPanel extends PersonPanel {
     }
 
     public boolean isDirty(List<Person> originals) {
-        if ( this.isDirty()) {
-            addPerson(getPerson());
-            form.reset();
-        }
+        OAPMetadataEditor.debugLog("Investigator.isDirty("+originals+")");
         if ( originals == null ) { originals = Collections.EMPTY_LIST; }
         Set<Person> thisPeople = new TreeSet<>(getInvestigators());
+        if ( this.isDirty()) {
+            thisPeople.add(getPerson());
+        }
         if ( thisPeople.size() != originals.size()) {
+            OAPMetadataEditor.debugLog("Investigator.isDirty(orig:"+originals.size()+"): size:" + thisPeople.size());
             return true;
         }
         Set<Person> orderedOriginals = new TreeSet<>(originals);
@@ -40,6 +42,7 @@ public class InvestigatorPanel extends PersonPanel {
         for ( Person person : thisPeople ) {
             Person originalPerson = ooI.next();
             if ( ! person.isTheSameAs(originalPerson)) {
+                OAPMetadataEditor.debugLog("Investigator.isDirty: " + person + " v " + originalPerson);
                 return true;
             }
         }

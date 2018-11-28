@@ -9,12 +9,24 @@ grails:
     spring:
         transactionManagement:
             proxies: false
+    controllers:
+        upload:
+            maxFileSize: 154800000
+            maxRequestSize: 154800000
 info:
     app:
         name: '@info.app.name@'
         version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
 spring:
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
+    http:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
     main:
         banner-mode: "off"
     groovy:
@@ -103,7 +115,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: update
+            dbCreate: create
             url: jdbc:mysql://localhost:3306/oapme_dev
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -115,8 +127,8 @@ environments:
             url: jdbc:mysql://dunkel:3306/oapme
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            username: linus
-            password: tsunami2
+            username: scientist
+            password: qc4socat3
     devo:
         dataSource:
             dbCreate: create-drop
@@ -153,8 +165,8 @@ environments:
             url: jdbc:mysql://localhost:3306/oapme
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            username: oapweb
-            password: webster
+            username: scientist
+            password: qc4socat3
             properties:
                 jmxEnabled: true
                 initialSize: 5

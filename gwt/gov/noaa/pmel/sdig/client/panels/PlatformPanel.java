@@ -18,6 +18,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
@@ -195,10 +196,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public boolean isDirty(List<Platform> platforms) {
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+false);
         boolean isDirty = false;
         return isDirty;
     }
     public boolean isDirty(Platform original) {
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty("+original+")");
         boolean isDirty =
             isDirty(country, original.getCountry() ) ||
             isDirty(name, original.getName() ) ||
@@ -315,5 +318,6 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     public void reset() {
         form.reset();
+        clearPlatforms();
     }
 }

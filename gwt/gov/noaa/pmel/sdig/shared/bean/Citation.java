@@ -1,14 +1,16 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.Stringy;
+
 /**
  * Created by rhs on 3/3/17.
  */
-public class Citation {
+public class Citation implements Stringy {
 
     String title;
     String platformAbstract;
     String purpose;
-    String projects;
+//    String projects;
     String expocode;
     String cruiseId;
     String section;
@@ -73,13 +75,13 @@ public class Citation {
         this.expocode = expocode;
     }
 
-    public String getProjects() {
-        return projects;
-    }
-
-    public void setProjects(String projects) {
-        this.projects = projects;
-    }
+//    public String getProjects() {
+//        return projects;
+//    }
+//
+//    public void setProjects(String projects) {
+//        this.projects = projects;
+//    }
 
     public String getPurpose() {
         return purpose;

@@ -79,6 +79,16 @@ public class OAPMetadataEditor implements EntryPoint {
         public void get(@PathParam("id") String id, TextCallback textCallback);
     }
 
+    private static boolean DEBUG = true;
+    public static void debugLog(String msg) {
+        if ( DEBUG ) {
+            logToConsole(msg);
+        }
+    }
+    static native void logToConsole(String msg) /*-{
+        console.log(msg);
+    }-*/;
+
     /**
      * The message displayed to the user when the server cannot be reached or
      * returns an error.
@@ -162,7 +172,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 Object source = event.getSource();
                 if ( source instanceof Button ) {
                     Button b = (Button) source;
-                    if ( b.getText().equals("Start Over") ) {
+                    if ( b.getText().equals("Clear All") ) {
 
                         if ( isDirty() && !saved ) {
 
@@ -304,16 +314,16 @@ public class OAPMetadataEditor implements EntryPoint {
         });
         ((RestServiceProxy)saveDocumentService).setResource(saveDocumentResource);
         ((RestServiceProxy)getDocumentService).setResource(getDocumentResource);
-        Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            @Override
-            public void onWindowClosing(Window.ClosingEvent event) {
+//        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+//            @Override
+//            public void onWindowClosing(Window.ClosingEvent event) {
 //                System.out.println("is about to close dirty: " + isDirty());
 //                if ( isDirty() && !saved ) {
 //                    event.setMessage("It appears you have made changes that you have not saved. Are you sure?");
 //                }
-            }
-        });
-
+//            }
+//        });
+//
 //        Window.addCloseHandler(new CloseHandler<Window>() {
 //            @Override
 //            public void onClose(CloseEvent<Window> event) {
@@ -325,7 +335,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
         String docId = Window.Location.getParameter("id");
         if ( docId != null ) {
-            System.out.println("Loading document " + docId);
+            debugLog("Loading document " + docId);
             loadDocumentId(docId);
         }
     }
@@ -354,7 +364,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //    }
 
     private void saveSection(String type, Object sectionContents) {
-        GWT.log("saveSection:"+type+", " + sectionContents);
+        logToConsole("saveSection:"+type+", " + sectionContents);
         saved = false;
         if (type.equals(Constants.SECTION_INVESTIGATOR)) {
             // List is in the celltable data provider in the layout. Nothing to do here.
@@ -524,21 +534,38 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private void onPostMessage(String data, String origin) {
 //        Notify.notify("PostMessage: ", "received \"" + data + "\" from " + origin);
-        if ( "closing".equalsIgnoreCase(data)
-                && isDirty() && !saved ) {
-            saveSection(Constants.SECTION_DOCUMENT, "Notify");
+        GWT.log("OAME PostMessage: received \"" + data + "\" from " + origin);
+        if ( "closing".equalsIgnoreCase(data)) {
+            logToConsole("Closing");
+            GWT.log("gwt:Closing");
+            boolean isDirty = isDirty();
+            GWT.log("gwt:isDirty:"+isDirty + ", saved:"+saved);
+            logToConsole("isDirty:"+isDirty + ", saved:"+saved);
+            if ( isDirty ) { //&& !saved ) {
+                logToConsole("Notify save");
+                saveSection(Constants.SECTION_DOCUMENT, "Notify");
+            }
+            sendMessage("Roger That:"+data, origin);
+        } else if ( "dirty".equalsIgnoreCase(data)) {
+            sendMessage("Roger That:"+data+":"+String.valueOf(isDirty()), origin);
         }
     }
+
+    private native void sendMessage(String message, String origin) /*-{
+        console.log("OAME sending msg \""+message+"\" to " + origin);
+        var p = top;
+        p.postMessage(message, origin);
+    }-*/;
 
     private native void setupMessageListener(OAPMetadataEditor instance) /*-{
         console.log("Setting up message listener");
         function postMsgListener(event) {
-            console.log("post msg:" + ( event.data ? event.data : event ) + " from " + event.origin);
+            console.log("OAME recv msg:" + ( event.data ? event.data : event ) + " from " + event.origin);
             instance.@gov.noaa.pmel.sdig.client.OAPMetadataEditor::onPostMessage(Ljava/lang/String;Ljava/lang/String;) (
-                event.data, event.origin
+                            event.data, event.origin
             );
-            var p = top;
-            p.postMessage("Roger That:"+event.data, event.origin);
+            // var p = top;
+            // p.postMessage("Roger That:"+event.data, event.origin);
         }
 //        postMsgListener( "setup message")
         $wnd.addEventListener('message', postMsgListener, false);
@@ -551,8 +578,7 @@ public class OAPMetadataEditor implements EntryPoint {
         public void onFailure(Method method, Throwable throwable) {
             String msg = "saveNotify " + method.toString() + " error : " + throwable.toString();
 //            Window.alert(msg);
-            GWT.log(msg);
-            throwable.printStackTrace(System.out);
+            logToConsole(msg);
         }
 
         @Override
@@ -604,7 +630,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if ( s.equals("failed") ) {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
-                loadJsonDocument(s);
+                loadJsonDocument(s, true);
             }
         }
     };
@@ -612,13 +638,18 @@ public class OAPMetadataEditor implements EntryPoint {
         @Override
         public void onSubmitComplete(AbstractForm.SubmitCompleteEvent submitCompleteEvent) {
             String jsonString = submitCompleteEvent.getResults();
-            loadJsonDocument(jsonString);
+            if ( wasError(jsonString )) {
+                Window.alert("There was an error processing your file:" + jsonString.substring("ERROR:".length()));
+                return;
+            }
+            mergeJsonDocument(jsonString);
         }
     };
 
     private boolean isDirty() {
+        debugLog("_loadedDoc:"+_loadedDocument);
         Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
-        GWT.log("Checking dirty against " + compDoc);
+        debugLog("Checking dirty against " + compDoc);
 //        Window.alert("Checking dirty against " + compDoc);
         boolean isDirty =
             submitterPanel.isDirty(compDoc.getDataSubmitter()) ||
@@ -633,7 +664,7 @@ public class OAPMetadataEditor implements EntryPoint {
             pco2aPanel.isDirty(compDoc.getPco2a()) ||
             pco2dPanel.isDirty(compDoc.getPco2d()) ||
             genericVariablePanel.isDirty(compDoc.getVariables());
-        GWT.log("Found dirty: " + isDirty);
+        debugLog("Found dirty: " + isDirty);
 //        Window.alert("Found dirty: " + isDirty);
         return isDirty;
     }
@@ -657,6 +688,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if (submitterPanel != null ) submitterPanel.reset();
         if (investigatorPanel != null ) investigatorPanel.reset();
         if ( citationPanel != null ) citationPanel.reset();
+        if ( timeAndLocationPanel != null ) timeAndLocationPanel.reset();
         if ( fundingPanel != null ) fundingPanel.reset();
         if ( platformPanel != null ) platformPanel.reset();
         if ( dicPanel != null ) dicPanel.reset();
@@ -674,23 +706,37 @@ public class OAPMetadataEditor implements EntryPoint {
         Notify.notify(Constants.NOT_SAVED, settings);
 
     }
-    private void loadDocumentId(String documentId) {
+    private void loadDocumentId(String documentId)
+    {
+        GWT.log("loadDocument " + documentId);
         getDocumentService.get(documentId, documentFetched);
     }
-    private void loadJsonDocument(String jsonString) {
+    private void mergeJsonDocument(String jsonString) {
+        loadJsonDocument(jsonString, false);
+    }
+    private boolean wasError(String response) {
+        return response != null && response.trim().startsWith("ERROR:");
+    }
+    private void loadJsonDocument(String jsonString, boolean clearFirst) {
         // A bug discussed in various places on the 'net, but nothing specific to grails.
         // Just work around for now
         jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
                 .replace("</pre>","");
 
+        if (clearFirst) {
+            startOver();
+        }
         jsonString = jsonString.replace("<pre>","");
 
         try {
             JSONValue json = JSONParser.parseStrict(jsonString);
             Document document = codec.decode(json);
-            _loadedDocument = document;
+            if ( clearFirst ) {
+                debugLog("Setting document to: " + document );
+                _loadedDocument = document;
+            }
 
-            investigatorPanel.clearPeople();
+//            investigatorPanel.clearPeople();
 
             if (document.getInvestigators() != null) {
                 List<Person> personList = document.getInvestigators();
@@ -763,8 +809,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if ( fundingPanel.valid() ) {
                         topLayout.setChecked(Constants.SECTION_FUNDING);
                     }
+                    fundingPanel.reset();
                 }
-                fundingPanel.reset();
                 fundingPanel.addFundings(fundings);
             }
             if (document.getDic() != null) {
@@ -806,6 +852,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 submitterPanel.show(dataSubmitter);
             }
             topLayout.setMain(submitterPanel);
+            topLayout.setActive(Constants.SECTION_SUBMITTER);
 
 
         } catch (Exception e) {

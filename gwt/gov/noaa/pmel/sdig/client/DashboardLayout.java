@@ -39,8 +39,8 @@ public class DashboardLayout extends Composite {
     @UiField
     Button saveNotify;
 
-//    @UiField
-//    Button reset;
+    @UiField
+    Button reset;
 
 //    @UiField
 //    Button toggle;
@@ -342,25 +342,25 @@ public class DashboardLayout extends Composite {
     public void saveNotifyClick(ClickEvent event) {
 
     }
-//    @UiHandler("reset")
-//    public void onClick(ClickEvent event) {
-//        // Remove checkmarks
-//        investigatorsLink.setIcon(null);
-//        submittersLink.setIcon(null);
-//        citationLink.setIcon(null);
-//        timeAndLocationLink.setIcon(null);
-//        fundingLink.setIcon(null);
-//        platformsLink.setIcon(null);
-//        dicLink.setIcon(null);
-//        taLink.setIcon(null);
-//        phLink.setIcon(null);
-//        pco2aLink.setIcon(null);
-//        pco2dLink.setIcon(null);
-//        eventBus.fireEventFromSource(event, reset);
-//    }
-    public void setSaveEnabled(boolean enabled) {
-        save.setEnabled(enabled);
+    @UiHandler("reset")
+    public void onClick(ClickEvent event) {
+        // Remove checkmarks
+        investigatorsLink.setIcon(null);
+        submittersLink.setIcon(null);
+        citationLink.setIcon(null);
+        timeAndLocationLink.setIcon(null);
+        fundingLink.setIcon(null);
+        platformsLink.setIcon(null);
+        dicLink.setIcon(null);
+        taLink.setIcon(null);
+        phLink.setIcon(null);
+        pco2aLink.setIcon(null);
+        pco2dLink.setIcon(null);
+        eventBus.fireEventFromSource(event, reset);
     }
+//    public void setSaveEnabled(boolean enabled) {
+//        save.setEnabled(enabled);
+//    }
     public void setMain(Widget widget) {
         main.clear();
         main.add(widget);

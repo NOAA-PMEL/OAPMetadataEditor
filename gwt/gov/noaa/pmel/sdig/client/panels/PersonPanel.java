@@ -22,6 +22,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
@@ -279,7 +280,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     protected void addPerson(Person p) {
-        peopleData.getList().add(getPerson());
+        peopleData.getList().add(p);
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
     }
@@ -316,6 +317,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //    }
 
     public Person getPerson() {
+        OAPMetadataEditor.debugLog("PersonPanel.get()");
         if ( ! isDirty() ) { return null; }
         Person person = new Person();
         person.setAddress1(address1.getText().trim());
@@ -338,6 +340,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
    public boolean isDirty(Person original) {
+        OAPMetadataEditor.debugLog("PersonPanel.isDirty("+original+")");
         boolean isDirty = false;
         isDirty = original == null ?
                   isDirty() :
@@ -355,53 +358,70 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                   isDirty(state, original.getState()) ||
                   isDirty(zip, original.getZip()) ||
                   isDirty(country, original.getCountry());
+        OAPMetadataEditor.debugLog("PersonPanel.isDirty:"+isDirty);
         return isDirty;
     }
 
     public boolean isDirty() {
+        OAPMetadataEditor.debugLog("PersonPanel.isDirty()");
+        boolean isDirty = false;
         if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.address1:"+ address1.getText());
+            isDirty = true;
         }
-        if (address2.getText().trim() != null && !address1.getText().isEmpty() ) {
-            return true;
+        if (address2.getText().trim() != null && !address2.getText().isEmpty() ) {
+            OAPMetadataEditor.debugLog("PersonPanel.address2:"+ address2.getText());
+            isDirty = true;
         }
         if (email.getText().trim() != null && !email.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.email:"+ email.getText());
+            isDirty = true;
         }
         if (firstName.getText().trim() != null && !firstName.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.firstName:"+ firstName.getText());
+            isDirty = true;
         }
         if (institution.getText().trim() != null && !institution.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.institution:"+ institution.getText());
+            isDirty = true;
         }
         if (lastName.getText().trim() != null && !lastName.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.lastName:"+ lastName.getText());
+            isDirty = true;
         }
         if (mi.getText().trim() != null && !mi.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.mi:"+ mi.getText());
+            isDirty = true;
         }
         if (rid.getText().trim() != null && !rid.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.rid:"+ rid.getText());
+            isDirty = true;
         }
         if (telephone.getText().trim() != null && !telephone.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.telephone:"+ telephone.getText());
+            isDirty = true;
         }
         if (extension.getText().trim() != null && !extension.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.extension:"+ extension.getText());
+            isDirty = true;
         }
         if (city.getText().trim() != null && !city.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.city:"+ city.getText());
+            isDirty = true;
         }
         if (state.getText().trim() != null && !state.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.state:"+ state.getText());
+            isDirty = true;
         }
         if (zip.getText().trim() != null && !zip.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.zip:"+ zip.getText());
+            isDirty = true;
         }
         if ( country.getText().trim() != null && !country.getText().isEmpty() ) {
-            return true;
+            OAPMetadataEditor.debugLog("PersonPanel.country:"+ country.getText());
+            isDirty = true;
         }
-        return false;
+        return isDirty;
     }
     public void show(Person person) {
         if ( person.getAddress1() != null )

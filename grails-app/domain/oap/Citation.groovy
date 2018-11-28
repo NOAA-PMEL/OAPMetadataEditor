@@ -5,7 +5,6 @@ class Citation {
     String title;
     String platformAbstract;
     String purpose;
-    String projects;
     String expocode;
     String cruiseId;
     String section;
@@ -19,7 +18,6 @@ class Citation {
         title (nullable: true, type: 'text')
         platformAbstract (nullable: true, type: 'text')
         purpose (nullable: true, type: 'text')
-        projects (nullable: true, type: 'text')
         expocode (nullable: true)
         cruiseId (nullable: true)
         section (nullable: true)

@@ -1,9 +1,10 @@
 package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.user.client.ui.HasText;
+import gov.noaa.pmel.sdig.shared.Stringy;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 
-public interface GetsDirty<T extends Object> {
+public interface GetsDirty<T extends Stringy> {
     default boolean isEmpty(String str) {
         return str == null || str.trim().length() == 0;
     }

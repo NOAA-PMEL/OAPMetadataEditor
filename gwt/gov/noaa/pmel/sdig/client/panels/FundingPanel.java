@@ -17,6 +17,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Funding;
 import org.gwtbootstrap3.client.ui.Button;
@@ -72,8 +73,13 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
 
     public void reset() {
         form.reset();
+        clearFundings();
     }
-
+    public void clearFundings() {
+        fundingListDataProvider.getList().clear();
+        fundingListDataProvider.flush();
+        fundingPagination.rebuild(cellTablePager);
+    }
     public Funding saveFunding() {
        Funding f = getFunding();
        fundingListDataProvider.getList().add(f);
@@ -194,7 +200,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundingPagination.rebuild(cellTablePager);
         setTableVisible(true);
     }
-    public List<Funding> getFundings() {
+   public List<Funding> getFundings() {
         return fundingListDataProvider.getList();
     }
     public Funding getFunding() {
@@ -205,6 +211,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         return funding;
     }
     public boolean isDirty(Funding original) {
+        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+original+")");
         boolean isDirty =
             isDirty( agencyName, original.getAgencyName() ) ||
             isDirty( title, original.getGrantTitle() ) ||
@@ -213,21 +220,30 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     }
 
     public boolean isDirty(List<Funding> originals) {
+        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+originals+")");
         if (  this.isDirty() ) {
             addCurrentFunding();
+            form.reset();
         }
+        boolean isDirty = false;
         Set<Funding> thisFundings = new TreeSet<>(getFundings());
-        if ( thisFundings.size() != originals.size()) { return true; }
+        if ( thisFundings.size() != originals.size()) {
+            OAPMetadataEditor.debugLog("FundingPanel.isDirty.size:"+thisFundings.size());
+            return true;
+        }
         Iterator<Funding> otherFundings = new TreeSet<>(originals).iterator();
         for ( Funding f : thisFundings ) {
            if ( ! f.equals(otherFundings.next())) {
-               return true;
+               isDirty = true;
+               OAPMetadataEditor.debugLog("FundingPanel.isDirty.other:"+f);
+               break;
            }
         }
-        return false;
+        return isDirty;
     }
 
     public boolean isDirty() {
+        OAPMetadataEditor.debugLog("FundingPanel.isDirty()");
         if ( agencyName.getText() != null && !agencyName.getText().isEmpty() ) {
             return true;
         }
@@ -255,7 +271,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     public void onSave(ClickEvent clickEvent) {
 
         if ( !isDirty() ) { return; }
-        if ( valid()) {
+        if ( ! valid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);

@@ -3,6 +3,7 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -12,6 +13,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
 import org.gwtbootstrap3.client.ui.Button;
@@ -69,23 +71,50 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
         initWidget(ourUiBinder.createAndBindUi(this));
     }
 
+    public void reset() {
+        form.reset();
+    }
+
+    private static final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    private Date tryToReadDate(String dateStr) throws  Exception {
+        Date d = null;
+        String[] parts = dateStr.split("[/ -]");
+//        if ( parts.length == 3) {
+//            d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+//        } else {
+            try {
+                d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+            } catch (Exception e1) {
+                GWT.log(e1.toString());
+                try {
+                    d = new Date(dateStr);
+                } catch (Exception e2) {
+                    GWT.log(e2.toString());
+                    DateTimeFormat dtf = DateTimeFormat.getFormat(ISO8601_FORMAT);
+                    d = dtf.parse(dateStr);
+                }
+            }
+        return d;
+    }
     public void show(TimeAndLocation timeAndLocation) {
         // TODO use joda and store an ISO string on both get and show
         if ( timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0 ) {
             try {
-                Date st = new Date(timeAndLocation.getStartDate());
-                startDate.setValue(st);
+                Date d = tryToReadDate(timeAndLocation.getStartDate());
+                startDate.setValue(d);
             } catch (Exception e) {
-                Window.alert("Could not convert date string: "+timeAndLocation.getStartDate());
+                GWT.log(e.toString());
+                Window.alert("Could not convert start date string: "+timeAndLocation.getStartDate());
             }
 
         }
         if ( timeAndLocation.getEndDate() != null && timeAndLocation.getEndDate().length() > 0 ) {
             try {
-                Date ed = new Date(timeAndLocation.getEndDate());
-                endDate.setValue(ed);
+                Date d = tryToReadDate(timeAndLocation.getEndDate());
+                endDate.setValue(d);
             } catch (Exception e) {
-                Window.alert("Could not convert date string:" + timeAndLocation.getEndDate());
+                GWT.log(e.toString());
+                Window.alert("Could not convert end date string:" + timeAndLocation.getEndDate());
             }
         }
         if ( timeAndLocation.getNorthLat() != null ) {
@@ -113,9 +142,9 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
     public TimeAndLocation getTimeAndLocation() {
         TimeAndLocation timeAndLocation = new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
-        Date end = endDate.getValue();
+        String end = endDate.getTextBox().getValue();
         timeAndLocation.setEndDate(end != null ? end.toString() : null );
-        Date start = startDate.getValue();
+        String start = startDate.getTextBox().getValue();
         timeAndLocation.setStartDate(start != null ? start.toString() : null );
         timeAndLocation.setGeoNames(geoNames.getText().trim());
         timeAndLocation.setNorthLat(northLat.getText().trim());
@@ -135,6 +164,7 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
         return isDirty;
     }
     public boolean isDirty(TimeAndLocation original) {
+        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty("+original+")");
         boolean isDirty =
             original == null ?
             this.isDirty() :
@@ -147,6 +177,7 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
             isDirty(southLat, original.getSouthLat() ) ||
             isDirty(spatialRef, original.getSpatialRef() ) ||
             isDirty(westLon, original.getWestLon() );
+        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty:"+isDirty);
         return isDirty;
     }
     public boolean isDirty() {

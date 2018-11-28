@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Citation;
 import org.gwtbootstrap3.client.ui.Button;
@@ -74,7 +75,7 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         Citation citation = new Citation();
         citation.setPlatformAbstract(platformAbstract.getText().trim());
         citation.setPurpose(purpose.getText().trim());
-        citation.setProjects(researchProjects.getText().trim());
+        citation.setResearchProjects(researchProjects.getText().trim());
         citation.setTitle(title.getText().trim());
         citation.setExpocode(expocode.getText().trim());
         citation.setCruiseId(cruiseId.getText().trim());
@@ -85,6 +86,7 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         return citation;
     }
     public boolean isDirty(Citation original) {
+        OAPMetadataEditor.debugLog("CitationPanel.isDirty("+original+")");
         boolean isDirty = false;
         isDirty =
             original == null ?
@@ -99,6 +101,7 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
             isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
             isDirty(references, original.getScientificReferences() ) ||
             isDirty(supplementalInformation, original.getSupplementalInformation() );
+        OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
     }
     public boolean isDirty() {
@@ -144,8 +147,8 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         if ( citation.getPurpose() != null ) {
             purpose.setText(citation.getPurpose() );
         }
-        if ( citation.getProjects() != null ) {
-            researchProjects.setText(citation.getProjects());
+        if ( citation.getResearchProjects() != null ) {
+            researchProjects.setText(citation.getResearchProjects());
         }
         if ( citation.getExpocode() != null ) {
             expocode.setText(citation.getExpocode());

@@ -1,9 +1,11 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.Stringy;
+
 /**
  * Created by rhs on 3/7/17.
  */
-public class Platform {
+public class Platform implements Stringy {
     String name;
     String platformId;
     String country;

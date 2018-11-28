@@ -25,6 +25,7 @@ class DocumentController {
         String id = params.id
         def documentJSON = request.JSON
         Document doc = new Document(documentJSON)
+        System.out.println("saveDoc doc:"+doc);
 
         DocumentUpdateListener dul = _findDocUpldateListener(doc, id)
         System.out.println("DocListener:"+dul)
@@ -33,7 +34,14 @@ class DocumentController {
             dul.documentId = newId
             dul.documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
             dul.save(flush:true)
-            dul.notifyListener()
+            TimerTask tt = new TimerTask() {
+                @Override
+                public void run() {
+                    dul.notifyListener()
+                }
+            };
+            Timer t = new Timer();
+            t.schedule(tt, 50);
             newId = dul.documentLocation
         }
         render newId
@@ -43,11 +51,13 @@ class DocumentController {
 //        Document savedDoc = _findSavedDoc(doc)
         String expo = _findExpocode(doc)
         System.out.println("Expocode: " + expo + ", id: " + id)
+        DocumentUpdateListener dul
         if ( expo ) {
-            return DocumentUpdateListener.findByExpoCode(expo)
+            dul = DocumentUpdateListener.findByExpoCode(expo)
         } else {
-            return null
+            dul = DocumentUpdateListener.findByDocumentId(id)
         }
+        return dul
     }
 
     private def _findExpocode(Document doc) {
@@ -128,6 +138,7 @@ class DocumentController {
         String pathI = request.getPathInfo();
         String pathT = request.getPathTranslated();
         String uri = request.getRequestURI();
+        String from = request.getRemoteHost();
         JSON.use("deep") {
             render d as JSON
         }
@@ -137,7 +148,7 @@ class DocumentController {
     def postit() {
         String ctype = request.getContentType()
         String postedDocId = params.id
-        System.out.println("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost());
+        System.out.println("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + postedDocId);
         InputStream ins;
         if ( ! ctype.startsWith("multipart/form-data")) {
             // bad post
@@ -162,12 +173,16 @@ class DocumentController {
         ins = notificationUrlPart.getInputStream()
         String notificationUrl = readStream(ins)
         String docLocation = _getDocumentLocation(docId, "postit", "getXml");
-        DocumentUpdateListener dul = new DocumentUpdateListener()
+        DocumentUpdateListener dul = DocumentUpdateListener.findByExpoCode(postedDocId)
+        if ( dul == null ) {
+            dul = new DocumentUpdateListener()
+        }
         dul.notificationUrl = notificationUrl
         dul.expoCode = postedDocId
         dul.documentId = docId
         dul.documentLocation = docLocation
-        dul.save()
+        System.out.println("saving dul for expo " + dul.expoCode + " docId " + dul.documentId + ", notify: " + notificationUrl);
+        dul.save(flush:true)
         render docId
     }
 
@@ -183,7 +198,8 @@ class DocumentController {
             String expocode = c.getExpocode()
             if ( expocode != null && ! expocode.trim().equals("") &&
                  ! expocode.equalsIgnoreCase(docId)) {
-                String msg = "Posted dataaset ID "+docId+ " does not equal document Excocode: " + expocode
+                // XXX TODO This should probably be an error !
+                String msg = "Posted dataset ID "+docId+ " does not equal document Excocode: " + expocode
                 System.out.println(msg)
             }
         } else {
@@ -226,26 +242,39 @@ class DocumentController {
     def upload() {
 
         def f = request.getPart('xmlFile')
-
         InputStream ins = f.getInputStream()
-        // Create the document
-        Document document = xmlService.createDocument(ins)
-        // Set its last modified date
-        DateTime currently = DateTime.now(DateTimeZone.UTC)
-        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
-        String update = format.print(currently)
-        document.setLastModified(update)
 
-        if ( !document.validate() ) {
-            document.errors.allErrors.each {
-                log.debug it.toString()
+        Document document;
+
+        try {
+            String name = f.getSubmittedFileName()
+            if (name.toLowerCase().endsWith(".xml")) {
+                // Create the document
+                document = xmlService.createDocument(ins)
+            } else {
+                document = xmlService.translateSpreadsheet(ins)
             }
-        } else {
-            log.debug("Document is valid...")
-        }
 
-        JSON.use("deep") {
-            render document as JSON
+            // Set its last modified date
+            DateTime currently = DateTime.now(DateTimeZone.UTC)
+            DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
+            String update = format.print(currently)
+            document.setLastModified(update)
+
+            if (!document.validate()) {
+                document.errors.allErrors.each {
+                    log.debug it.toString()
+                }
+            } else {
+                log.debug("Document is valid...")
+            }
+
+            JSON.use("deep") {
+                render document as JSON
+            }
+        } catch (Exception ex) {
+            String msg = "ERROR: There was an error processing your uploaded file: "+ ex.getMessage()
+            render msg
         }
     }
     def getXml() {

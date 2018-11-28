@@ -306,7 +306,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             units.setText(variable.getUnits());
         }
         if ( variable.getMeasured() != null ) {
-            measured.setTitle(variable.getMeasured());
+            measured.setSelected(variable.getMeasured());
         }
         if ( variable.getSamplingInstrument() != null ) {
             samplingInstrument.setText(variable.getSamplingInstrument());

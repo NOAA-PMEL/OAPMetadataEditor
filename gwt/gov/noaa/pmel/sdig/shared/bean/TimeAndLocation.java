@@ -1,9 +1,11 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.Stringy;
+
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocation {
+public class TimeAndLocation implements Stringy {
     String startDate;
     String endDate;
     String northLat;
