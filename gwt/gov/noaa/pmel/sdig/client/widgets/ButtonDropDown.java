@@ -71,9 +71,10 @@ public class ButtonDropDown extends Composite {
         for (Iterator kIt = keys.iterator(); kIt.hasNext(); ) {
             String key = (String) kIt.next();
             String v = values.get(key);
-            if ( v.equals(value) ) {
+            if ( v.equalsIgnoreCase(value) ) {
                 button.setText(key);
                 currentValue = v;
+                break;
             }
         }
 
