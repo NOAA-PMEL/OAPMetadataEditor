@@ -133,7 +133,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         common.abbreviation.setEnabled(false);
         common.fullVariableName.setText("pco2 (fco2) autonomous");
         common.fullVariableName.setEnabled(false);
-        common.heading.setText("Enter the information for pCO2A.");
+        common.heading.setText("Enter the information for pCO2 (fCO2) Autonomous.");
         common.fieldReplicate.setAllowBlank(true);
         common.fieldReplicateForm.setVisible(false);
         save.addClickHandler(saveIt);
