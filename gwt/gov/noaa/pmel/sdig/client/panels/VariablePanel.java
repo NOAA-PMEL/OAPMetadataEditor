@@ -286,9 +286,7 @@ Don't know which of several that these belongs to
     TextBox speciesIdCode;
 
     // 052 Temperature correction method
-    // ???
     // <temperatureCorrectionMethod>
-    // <temperatureCorrection>
     @UiField
     TextBox temperatureCorrectionMethod;
 

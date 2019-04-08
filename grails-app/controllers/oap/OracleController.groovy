@@ -806,6 +806,8 @@ class OracleController {
     }
 
     static String getThreeLetter(String countryName) {
+        if ( !countryName ) { return null }
+        countryName = countryName.trim()
         for ( int i = 0; i < countryJson.size(); i++  ) {
             JSONObject cntry = countryJson.get(i)
             if (cntry.getString("name").toLowerCase().equals(countryName.toLowerCase())) {
@@ -814,6 +816,8 @@ class OracleController {
         }
     }
     static String getCountryName(String threeLetter) {
+        if ( !threeLetter ) { return null }
+        threeLetter = threeLetter.trim()
         for ( int i = 0; i < countryJson.size(); i++  ) {
             JSONObject cntry = countryJson.get(i)
             if (cntry.getString("alpha-3").toLowerCase().equals(threeLetter.toLowerCase())) {

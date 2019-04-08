@@ -57,7 +57,7 @@ public class Variable implements Comparable<Variable>, Stringy {
     String gasDectectorResolution;
     String seawaterVolume;
     String temperatureCorrectionMethod;
-    String temperatureCorrection;
+//    String temperatureCorrection;
     String temperatureMeasurement;
     String temperatureStandarization;
     String standardGasUncertainties;
@@ -68,15 +68,19 @@ public class Variable implements Comparable<Variable>, Stringy {
     String duration;
     String lifeStage;
     String speciesIdCode;
+    int internal;
 
+    public int getInternal() { return internal; }
 
-    public String getTemperatureCorrection() {
-        return temperatureCorrection;
-    }
+    public void setInternal(int internal) { this.internal = internal; }
 
-    public void setTemperatureCorrection(String temperatureCorrection) {
-        this.temperatureCorrection = temperatureCorrection;
-    }
+//    public String getTemperatureCorrection() {
+//        return temperatureCorrection;
+//    }
+//
+//    public void setTemperatureCorrection(String temperatureCorrection) {
+//        this.temperatureCorrection = temperatureCorrection;
+//    }
 
     public String getCalculationMethod() {
         return calculationMethod;
@@ -617,7 +621,7 @@ public class Variable implements Comparable<Variable>, Stringy {
         result = 31 * result + (gasDectectorResolution != null ? gasDectectorResolution.hashCode() : 0);
         result = 31 * result + (seawaterVolume != null ? seawaterVolume.hashCode() : 0);
         result = 31 * result + (temperatureCorrectionMethod != null ? temperatureCorrectionMethod.hashCode() : 0);
-        result = 31 * result + (temperatureCorrection != null ? temperatureCorrection.hashCode() : 0);
+//        result = 31 * result + (temperatureCorrection != null ? temperatureCorrection.hashCode() : 0);
         result = 31 * result + (temperatureMeasurement != null ? temperatureMeasurement.hashCode() : 0);
         result = 31 * result + (temperatureStandarization != null ? temperatureStandarization.hashCode() : 0);
         result = 31 * result + (standardGasUncertainties != null ? standardGasUncertainties.hashCode() : 0);
@@ -688,7 +692,7 @@ public class Variable implements Comparable<Variable>, Stringy {
             sCompare(gasDectectorResolution, v.gasDectectorResolution) == 0 &&
             sCompare(seawaterVolume, v.seawaterVolume) == 0 &&
             sCompare(temperatureCorrectionMethod, v.temperatureCorrectionMethod) == 0 &&
-            sCompare(temperatureCorrection, v.temperatureCorrection) == 0 &&
+//            sCompare(temperatureCorrection, v.temperatureCorrection) == 0 &&
             sCompare(temperatureMeasurement, v.temperatureMeasurement) == 0 &&
             sCompare(temperatureStandarization, v.temperatureStandarization) == 0 &&
             sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&

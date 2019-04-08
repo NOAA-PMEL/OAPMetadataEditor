@@ -116,7 +116,7 @@ environments:
     development:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme_dev
+            url: jdbc:mysql://localhost:3306/oapme_dev?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -124,7 +124,7 @@ environments:
     dunkel:
         dataSource:
             dbCreate: create-drop
-            url: jdbc:mysql://dunkel:3306/oapme
+            url: jdbc:mysql://dunkel:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
@@ -162,7 +162,7 @@ environments:
     production:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme
+            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist

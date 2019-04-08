@@ -54,4 +54,23 @@ class Document {
         pco2d (nullable: true)
         funding (nullable: true)
     }
+
+    def addVariable(Variable var) {
+        addToVariables(var)
+    }
+    def addVariable(Dic var) {
+        dic = var
+    }
+    def addVariable(Ta var) {
+        ta = var
+    }
+    def addVariable(Ph var) {
+        ph = var
+    }
+    def addVariable(Pco2a var) {
+        pco2a = var
+    }
+    def addVariable(Pco2d var) {
+        pco2d = var
+    }
 }

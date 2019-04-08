@@ -1,16 +1,23 @@
 package oap
 
 import grails.converters.JSON
+import groovy.xml.SAXBuilder
+import org.jdom2.Attribute
+import org.jdom2.Element
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 
 import javax.servlet.http.HttpServletResponse
+import javax.xml.parsers.DocumentBuilder
+import javax.xml.parsers.DocumentBuilderFactory
+import java.util.stream.Collectors
 
 class DocumentController {
 
     XmlService xmlService
+    OadsXmlService oadsXmlService
     OaMetadataFileService oaMetadataFileService
 
     static scaffold = Document
@@ -24,6 +31,7 @@ class DocumentController {
 //        def session = sessionFactory.currentSession
         String id = params.id
         def documentJSON = request.JSON
+        System.out.println("JSON :"+documentJSON.toString())
         Document doc = new Document(documentJSON)
         System.out.println("saveDoc doc:"+doc);
 
@@ -33,6 +41,7 @@ class DocumentController {
         if ( dul != null ) {
             dul.documentId = newId
             dul.documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
+            System.out.println("doc location:"+dul.documentLocation)
             dul.save(flush:true)
             TimerTask tt = new TimerTask() {
                 @Override
@@ -187,8 +196,18 @@ class DocumentController {
     }
 
     private def _getDocumentLocation(String docId, String requestMethod, String accessMethod) {
-        StringBuffer url = request.getRequestURL()
+        String url = request.getRequestURL().toString()
+        System.out.println("docUrl request:"+url);
+        if ( url.indexOf("pmel") > 0 ) {
+            int contextIdx = url.indexOf("/oa")
+            int meIdx = url.indexOf("MetadataEditor")
+            int delta = meIdx - contextIdx
+            String context
+            url = "https://www.pmel.noaa.gov/sdig" + url.substring(url.indexOf("/oa"))
+            System.out.println("docUrl revised:"+url)
+        }
         String docLocation = url.substring(0, url.indexOf(requestMethod))+accessMethod+"/"+docId
+        System.out.println("doc location:"+docLocation)
         return docLocation
     }
 
@@ -239,6 +258,42 @@ class DocumentController {
         response.outputStream.flush()
     }
 
+    private def _createXDoc(String xml) {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance()
+        dbf.setNamespaceAware(true);
+        DocumentBuilder db = dbf.newDocumentBuilder()
+        org.w3c.dom.Document doc = db.parse(new ByteArrayInputStream(xml.bytes))
+        return doc
+    }
+    private def createDocumentFromXml(InputStream inStream) {
+
+        String xml = new BufferedReader(new InputStreamReader(inStream))
+                .lines().parallel().collect(Collectors.joining("\n"));
+        org.w3c.dom.Document xdoc = _createXDoc(xml)
+        org.w3c.dom.Element rootElem = xdoc.getDocumentElement()
+        String version = rootElem.getAttribute("version")
+        if (version) {
+            return oadsXmlService.createDocumentFromVersion(xdoc, version)
+        } else {
+            return xmlService.createDocumentFromLegacyXML(new ByteArrayInputStream(xml.bytes))
+        }
+    }
+
+//    def createDocumentFromLegacy(String xml) {
+//        SAXBuilder saxBuilder = new SAXBuilder()
+//        org.jdom2.Document document = saxBuilder.build(new ByteArrayInputStream(xml.bytes))
+//        Document doc = new Document()
+//        Element root = document.getRootElement()
+//        String rootName = root.getName()
+//        Attribute a_version = root.getAttribute("version")
+//        String version = a_version ? a_version.getValue() : "legacy"
+//        if ( version.equals("legacy")) {
+//            return xmlService.createDocumentFromLegacyXML(root)
+//        } else {
+//            return oadsXmlService.createDocumentFromVersion(root, version)
+//        }
+//    }
+
     def upload() {
 
         def f = request.getPart('xmlFile')
@@ -249,10 +304,9 @@ class DocumentController {
         try {
             String name = f.getSubmittedFileName()
             if (name.toLowerCase().endsWith(".xml")) {
-                // Create the document
-                document = xmlService.createDocument(ins)
+                document = createDocumentFromXml(ins)
             } else {
-                document = xmlService.translateSpreadsheet(ins)
+                document = xmlService.translateSpreadsheet(ins) // TODO: pull this from xmlService
             }
 
             // Set its last modified date
@@ -292,7 +346,7 @@ class DocumentController {
         } else {
             filename = filename + "_" + id + ".xml"
         }
-        String output = xmlService.createXml(doc);
+        String output = oadsXmlService.createXml(doc);
         response.contentType = 'text/xml'
         response.outputStream << output
         response.outputStream.flush()
@@ -312,7 +366,8 @@ class DocumentController {
         } else {
             filename = filename + "_" + id + ".xml"
         }
-        String output = xmlService.createXml(doc);
+//        String output = xmlService.createXml(doc);
+        String output = oadsXmlService.createXml(doc);
         response.setHeader "Content-disposition", "attachment; filename=${filename}"
         response.contentType = 'text/xml'
         response.outputStream << output

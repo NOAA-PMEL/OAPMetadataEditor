@@ -25,8 +25,9 @@ class DocumentUpdateListener {
             HttpPost post = new HttpPost(notificationUrl)
             post.setHeader("Location", documentLocation)
             HttpResponse response = client.execute(post)
+            System.out.println("ME_response:"+response.getStatusLine())
             HttpEntity responseEntity = response.getEntity()
-            System.out.print("ME_");
+            System.out.print("ME_responseEntity:");
             responseEntity.writeTo(System.out)
             System.out.println();
         } catch (IOException iex) {
