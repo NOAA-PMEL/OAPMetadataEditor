@@ -52,18 +52,18 @@
                     <b:Row>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="expocode" text="EXPOCODE *"></b:FormLabel>
+                                <b:FormLabel for="expocode" text="EXPOCODE"></b:FormLabel>
                                 <b:Modal title="16 Expedition code consists of the four digit ICES ship code, and the date of the first day of the cruise in the format of YYYYMMDD." closable="true" b:id="modalExpocode"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalExpocode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="expocode" allowBlank="false" placeholder="EXPOCODE" b:id="expocode"></b:TextBox>
+                                <b:TextBox ui:field="expocode" allowBlank="true" placeholder="EXPOCODE" b:id="expocode"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222"  for="cruiseId" text="Cruise ID *"></b:FormLabel>
+                                <b:FormLabel for="cruiseId" text="Cruise ID"></b:FormLabel>
                                 <b:Modal title="17 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g., A16N), and the sampling year (e.g., 2013)." closable="true" b:id="modalCruiseID"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCruiseID" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="cruiseId" allowBlank="false" placeholder="Cruise ID" b:id="cruiseId"></b:TextBox>
+                                <b:TextBox ui:field="cruiseId" allowBlank="true" placeholder="Cruise ID" b:id="cruiseId"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
@@ -88,20 +88,20 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="references" text="References *"></b:FormLabel>
+                                <b:FormLabel for="references" text="References"></b:FormLabel>
                                 <b:Modal title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set." b:id="modalReferences"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferences" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="references" allowBlank="false" placeholder="References" b:id="references"></b:TextBox>
+                                <b:TextBox ui:field="references" allowBlank="true" placeholder="References" b:id="references"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="supplementalInformation" text="Supplemental Information *"></b:FormLabel>
+                                <b:FormLabel for="supplementalInformation" text="Supplemental Information"></b:FormLabel>
                                 <b:Modal title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields." b:id="modalSupplementalInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSupplementalInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="6" ui:field="supplementalInformation" allowBlank="false" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextArea>
+                                <b:TextArea visibleLines="6" ui:field="supplementalInformation" allowBlank="true" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
