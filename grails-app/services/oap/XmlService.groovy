@@ -272,7 +272,7 @@ class XmlService {
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
         PoiReader2.ConvertExcelToOADS(inputStream, baos)
         ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
-        return createDocument(convertedIS)
+        return createDocumentFromLegacyXML(convertedIS)
 
     }
 
