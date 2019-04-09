@@ -18,6 +18,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
@@ -42,7 +43,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/7/17.
  */
-public class PlatformPanel extends Composite {
+public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -84,6 +85,14 @@ public class PlatformPanel extends Composite {
         platformsData.getList().clear();
         platformsData.flush();
         platformPagination.rebuild(cellTablePager);
+    }
+
+    public Platform savePlatform() {
+        Platform p = getPlatform();
+        platformsData.getList().add(p);
+        platformsData.flush();
+        platformPagination.rebuild(cellTablePager);
+        return p;
     }
 
     interface PlatformPanelUiBinder extends UiBinder<HTMLPanel, PlatformPanel> {
@@ -185,6 +194,23 @@ public class PlatformPanel extends Composite {
         platform.setPlatformType(platformType.getText().trim());
         return platform;
     }
+
+    public boolean isDirty(List<Platform> platforms) {
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+false);
+        boolean isDirty = false;
+        return isDirty;
+    }
+    public boolean isDirty(Platform original) {
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty("+original+")");
+        boolean isDirty =
+            isDirty(country, original.getCountry() ) ||
+            isDirty(name, original.getName() ) ||
+            isDirty(owner, original.getOwner() ) ||
+            isDirty(platformId, original.getPlatformId() ) ||
+            isDirty(platformType, original.getPlatformType() );
+        return isDirty;
+    }
+
     public boolean isDirty() {
         if (country.getText().trim() != null && !country.getText().isEmpty() ) {
             return true;
@@ -220,6 +246,16 @@ public class PlatformPanel extends Composite {
             platformType.setText(platform.getPlatformType());
         }
     }
+    private void addPlatform(Platform p ) {
+        platformsData.getList().add(p);
+        platformsData.flush();
+        platformPagination.rebuild(cellTablePager);
+    }
+    private void addCurrentPlatform() {
+        Platform p = getPlatform();
+        addPlatform(p);
+        form.reset();
+    }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
@@ -232,9 +268,7 @@ public class PlatformPanel extends Composite {
             Notify.notify(Constants.NOT_COMPLETE, settings);
         } else {
             Platform p = getPlatform();
-            platformsData.getList().add(p);
-            platformsData.flush();
-            platformPagination.rebuild(cellTablePager);
+            addPlatform(p);
             eventBus.fireEventFromSource(new SectionSave(p, this.type), PlatformPanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
@@ -284,5 +318,6 @@ public class PlatformPanel extends Composite {
 
     public void reset() {
         form.reset();
+        clearPlatforms();
     }
 }

@@ -11,8 +11,8 @@ grails:
             proxies: false
     controllers:
         upload:
-            maxFileSize: 104800000
-            maxRequestSize: 104800000
+            maxFileSize: 154800000
+            maxRequestSize: 154800000
 info:
     app:
         name: '@info.app.name@'
@@ -115,16 +115,16 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: update
-            url: jdbc:mysql://localhost:3306/oapme_dev
+            dbCreate: create
+            url: jdbc:mysql://localhost:3306/oapme_dev?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
             password: webster
     dunkel:
         dataSource:
-            dbCreate: create
-            url: jdbc:mysql://localhost:3306/oap
+            dbCreate: create-drop
+            url: jdbc:mysql://dunkel:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
@@ -162,7 +162,7 @@ environments:
     production:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oap
+            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist

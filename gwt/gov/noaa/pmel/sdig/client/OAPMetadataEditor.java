@@ -12,7 +12,6 @@ import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
@@ -58,7 +57,7 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import javax.ws.rs.POST;
+import javax.ws.rs.*;
 import java.util.List;
 
 
@@ -75,6 +74,21 @@ public class OAPMetadataEditor implements EntryPoint {
     }
     public interface DocumentCodec extends JsonEncoderDecoder<Document> {}
 
+    public interface GetDocumentService extends RestService {
+        @Path("{id}")
+        public void get(@PathParam("id") String id, TextCallback textCallback);
+    }
+
+    private static boolean DEBUG = true;
+    public static void debugLog(String msg) {
+        if ( DEBUG ) {
+            logToConsole(msg);
+        }
+    }
+    static native void logToConsole(String msg) /*-{
+        console.log(msg);
+    }-*/;
+
     /**
      * The message displayed to the user when the server cannot be reached or
      * returns an error.
@@ -85,15 +99,21 @@ public class OAPMetadataEditor implements EntryPoint {
     Resource saveDocumentResource = new Resource(Constants.saveDocument);
     SaveDocumentService saveDocumentService = GWT.create(SaveDocumentService.class);
 
+    Resource getDocumentResource = new Resource(Constants.getDocument);
+    GetDocumentService getDocumentService = GWT.create(GetDocumentService.class);
+
     DocumentCodec codec = GWT.create(DocumentCodec.class);
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    Document _savedDoc = null;
+    Document _loadedDocument = null;
+
     Person dataSubmitter = null;
 
-    InvestigatorPanel investigatorPanel = new InvestigatorPanel();
     DataSubmitterPanel submitterPanel = new DataSubmitterPanel();
+    InvestigatorPanel investigatorPanel = new InvestigatorPanel();
 
     CitationPanel citationPanel = new CitationPanel();
     Citation citation = null;
@@ -128,6 +148,7 @@ public class OAPMetadataEditor implements EntryPoint {
     ModalHeader modalHeader = new ModalHeader();
     ModalBody modalBody = new ModalBody();
     Button save = new Button("Save");
+    String documentLocation;
     String currentIndex;
 
     final DashboardLayout topLayout = new DashboardLayout();
@@ -155,7 +176,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 Object source = event.getSource();
                 if ( source instanceof Button ) {
                     Button b = (Button) source;
-                    if ( b.getText().equals("Start Over") ) {
+                    if ( b.getText().equals("Clear All") ) {
 
                         if ( isDirty() && !saved ) {
 
@@ -208,175 +229,11 @@ public class OAPMetadataEditor implements EntryPoint {
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {
-                String type = event.getType();
-                saved = false;
-                if (type.equals(Constants.SECTION_INVESTIGATOR)) {
-                    // List is in the celltable data provider in the layout. Nothing to do here.
-                } else if ( type.equals(Constants.SECTION_SUBMITTER) ) {
-                    dataSubmitter = (Person) event.getSectionContents();
-                    topLayout.setMain(investigatorPanel);
-                    topLayout.setActive(Constants.SECTION_INVESTIGATOR);
-                } else if ( type.equals(Constants.SECTION_CITATION) ) {
-                    citation = (Citation) event.getSectionContents();
-                    if ( timeAndLocation != null ) {
-                        timeAndLocationPanel.show(timeAndLocation);
-                    }
-                    topLayout.setMain(timeAndLocationPanel);
-                    topLayout.setActive(Constants.SECTION_TIMEANDLOCATION);
-                } else if ( type.equals(Constants.SECTION_TIMEANDLOCATION) ) {
-                    timeAndLocation = (TimeAndLocation) event.getSectionContents();
-                    if ( funding != null ) {
-                        fundingPanel.show(funding);
-                    }
-                    topLayout.setMain(fundingPanel);
-                    topLayout.setActive(Constants.SECTION_FUNDING);
-                } else if ( type.equals(Constants.SECTION_FUNDING) ) {
-                    // Nothing to do here, list in the panel
-                } else if ( type.equals(Constants.SECTION_PLATFORMS) ) {
-                    // List kept in the panel. Nothing to do here.
-                } else if ( type.equals(Constants.SECTION_DIC) ) {
-                    if ( dic == null ) {
-                        dic = (Variable) event.getSectionContents();
-                    } else {
-                        dicPanel.fill(dic);
-                    }
-                    topLayout.setMain(taPanel);
-                    topLayout.setActive(Constants.SECTION_TA);
-                } else if ( type.equals(Constants.SECTION_TA) ) {
-                    if ( ta == null ) {
-                        ta = (Variable) event.getSectionContents();
-                    } else {
-                        taPanel.fill(ta);
-                    }
-                    topLayout.setMain(phPanel);
-                    topLayout.setActive(Constants.SECTION_PH);
-                } else if ( type.equals(Constants.SECTION_PH) ) {
-                    if ( ph == null ) {
-                        ph = (Variable) event.getSectionContents();
-                    } else {
-                        phPanel.fill(ph);
-                    }
-                    topLayout.setMain(pco2aPanel);
-                    topLayout.setActive(Constants.SECTION_PCO2A);
-                } else if ( type.equals(Constants.SECTION_PCO2A) ) {
-                    if ( pco2a == null ) {
-                        pco2a = (Variable) event.getSectionContents();
-                    } else {
-                        pco2aPanel.fill(pco2a);
-                    }
-                    topLayout.setMain(pco2dPanel);
-                    topLayout.setActive(Constants.SECTION_PCO2D);
-                } else if ( type.equals(Constants.SECTION_PCO2D) ) {
-                    if ( pco2d == null ) {
-                        pco2d = (Variable) event.getSectionContents();
-                    } else {
-                        pco2dPanel.fill(pco2d);
-                    }
-                    topLayout.setMain(genericVariablePanel);
-                    topLayout.setActive(Constants.SECTION_GENERIC);
-                } else if ( type.equals(Constants.SECTION_GENERIC) ) {
-                    // List managed in the panel
-                } else if ( type.equals(Constants.SECTION_DOCUMENT) )  {
-                    if ( !topLayout.isComplete() ) {
-                        NotifySettings settings = NotifySettings.newSettings();
-                        settings.setType(NotifyType.WARNING);
-                        settings.setPlacement(NotifyPlacement.TOP_CENTER);
-                        Notify.notify(Constants.DOCUMENT_NOT_COMPLETE, settings);
-                    }
-                    // Get the active panel and save it before proceeding in
-                    // case the section wasn't saved before beginning.
-
-                    String activePanel = topLayout.getActive();
-                    if ( activePanel != null ) {
-                        if ( activePanel.equals(Constants.SECTION_INVESTIGATOR) ) {
-                            if ( investigatorPanel.isDirty() ) {
-                                notSaved();
-                                return;
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_SUBMITTER) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof  DataSubmitterPanel ) {
-                                DataSubmitterPanel dsp = (DataSubmitterPanel) w;
-                                dataSubmitter = dsp.getPerson();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_CITATION) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof CitationPanel ) {
-                                CitationPanel cp = (CitationPanel) w;
-                                citation = cp.getCitation();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_TIMEANDLOCATION) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof TimeAndLocationPanel ) {
-                                TimeAndLocationPanel tlp = (TimeAndLocationPanel) w;
-                                timeAndLocation = tlp.getTimeAndLocation();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_FUNDING) ) {
-                            if ( fundingPanel.isDirty() ) {
-                                notSaved();
-                                return;
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_PLATFORMS) ) {
-                            if ( fundingPanel.isDirty() ) {
-                                notSaved();
-                                return;
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_DIC)) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof DicPanel ) {
-                                DicPanel dp = (DicPanel) w;
-                                dic = dp.getDic();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_TA) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof TaPanel ) {
-                                TaPanel tp = (TaPanel) w;
-                                ta = tp.getTa();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_PH) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof PhPanel ) {
-                                PhPanel pp = (PhPanel) w;
-                                ph = (Variable) event.getSectionContents();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_PCO2A) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof Pco2aPanel ) {
-                                Pco2aPanel p2a = (Pco2aPanel) w;
-                                pco2a = p2a.getPco2a();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_PCO2D) ) {
-                            Widget w = topLayout.getMain();
-                            if ( w instanceof Pco2dPanel ) {
-                                Pco2dPanel p2d = (Pco2dPanel) w;
-                                pco2d = p2d.getPco2d();
-                            }
-                        } else if ( activePanel.equals(Constants.SECTION_GENERIC) ) {
-                            if ( genericVariablePanel.isDirty() ) {
-                                notSaved();
-                                return;
-                            }
-                        }
-                    }
-                    Document document = new Document();
-                    document.setTimeAndLocation(timeAndLocation);
-                    document.setCitation(citation);
-                    document.setDataSubmitter(dataSubmitter);
-                    document.setDic(dic);
-                    List<Person> investigators = investigatorPanel.getInvestigators();
-                    document.setInvestigators(investigators);
-                    document.setPco2a(pco2a);
-                    document.setPco2d(pco2d);
-                    document.setPh(ph);
-                    document.setTa(ta);
-                    document.setPlatforms(platformPanel.getPlatforms());
-                    document.setFunding(fundingPanel.getFundings());
-                    List<Variable> variables = genericVariablePanel.getVariables();
-                    if (variables != null && variables.size() > 0)
-                        document.setVariables(variables);
-
-                    saveDocumentService.save(document, documentSaved);
-
+//                if ( event.getType().equals(Constants.SECTION_DOCUMENT )) { // &&  event.getSectionContents().equals("saveNotify") {
+//                    saveMultiItemPanels();
+//                }
+                if ( isDirty() || "Download".equals(event.getSectionContents()) ) {
+                    saveSection(event.getType(), event.getSectionContents());
                 }
             }
         });
@@ -460,28 +317,287 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         });
         ((RestServiceProxy)saveDocumentService).setResource(saveDocumentResource);
-        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+        ((RestServiceProxy)getDocumentService).setResource(getDocumentResource);
+//        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+//            @Override
+//            public void onWindowClosing(Window.ClosingEvent event) {
+//                System.out.println("is about to close dirty: " + isDirty());
+//                if ( isDirty() && !saved ) {
+//                    event.setMessage("It appears you have made changes that you have not saved. Are you sure?");
+//                }
+//            }
+//        });
+//
+//        Window.addCloseHandler(new CloseHandler<Window>() {
+//            @Override
+//            public void onClose(CloseEvent<Window> event) {
+//                System.out.println("closing dirty: " + isDirty());
+//            }
+//        });
 
-            @Override
-            public void onWindowClosing(Window.ClosingEvent event) {
-                if ( isDirty() && !saved ) {
-                    event.setMessage("It appears you have made changes that you have not saved. Are you sure?");
-                }
-            }
-        });
+        setupMessageListener(this);
 
-        Window.addCloseHandler(new CloseHandler<Window>() {
-
-            @Override
-            public void onClose(CloseEvent<Window> event) {
-                //Execute code when window closes!
-            }
-        });
+        String docId = Window.Location.getParameter("id");
+        if ( docId != null ) {
+            debugLog("Loading document " + docId);
+            loadDocumentId(docId);
+        }
     }
+
+//    private void saveMultiItemPanels() {
+//        String activePanel = topLayout.getActive();
+//        if ( activePanel.equals(Constants.SECTION_INVESTIGATOR) ) {
+//            if ( investigatorPanel.isDirty()) {
+//                investigatorPanel.savePerson();
+//            }
+//        } else if ( activePanel.equals(Constants.SECTION_FUNDING) ) {
+//            if ( fundingPanel.isDirty()) {
+//                fundingPanel.saveFunding();
+//            }
+//        } else if ( activePanel.equals(Constants.SECTION_PLATFORMS) ) {
+//            if ( platformPanel.isDirty()) {
+//                platformPanel.savePlatform();
+//            }
+//        } else if ( activePanel.equals(Constants.SECTION_GENERIC) ) {
+//            if ( genericVariablePanel.isDirty()) {
+//                genericVariablePanel.saveVariable();
+//            }
+//
+//        }
+//
+//    }
+
+    private void saveSection(String type, Object sectionContents) {
+        logToConsole("saveSection:"+type+", " + sectionContents);
+        saved = false;
+        if (type.equals(Constants.SECTION_INVESTIGATOR)) {
+            // List is in the celltable data provider in the layout. Nothing to do here.
+        } else if ( type.equals(Constants.SECTION_SUBMITTER) ) {
+            dataSubmitter = (Person) sectionContents;
+            topLayout.setMain(investigatorPanel);
+            topLayout.setActive(Constants.SECTION_INVESTIGATOR);
+        } else if ( type.equals(Constants.SECTION_CITATION) ) {
+            citation = (Citation) sectionContents;
+            if ( timeAndLocation != null ) {
+                timeAndLocationPanel.show(timeAndLocation);
+            }
+            topLayout.setMain(timeAndLocationPanel);
+            topLayout.setActive(Constants.SECTION_TIMEANDLOCATION);
+        } else if ( type.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+            timeAndLocation = (TimeAndLocation) sectionContents;
+            if ( funding != null ) {
+                fundingPanel.show(funding);
+            }
+            topLayout.setMain(fundingPanel);
+            topLayout.setActive(Constants.SECTION_FUNDING);
+        } else if ( type.equals(Constants.SECTION_FUNDING) ) {
+            // Nothing to do here, list in the panel
+        } else if ( type.equals(Constants.SECTION_PLATFORMS) ) {
+            // List kept in the panel. Nothing to do here.
+        } else if ( type.equals(Constants.SECTION_DIC) ) {
+            if ( dic == null ) {
+                dic = (Variable) sectionContents;
+            } else {
+                dicPanel.fill(dic);
+            }
+            topLayout.setMain(taPanel);
+            topLayout.setActive(Constants.SECTION_TA);
+        } else if ( type.equals(Constants.SECTION_TA) ) {
+            if ( ta == null ) {
+                ta = (Variable) sectionContents;
+            } else {
+                taPanel.fill(ta);
+            }
+            topLayout.setMain(phPanel);
+            topLayout.setActive(Constants.SECTION_PH);
+        } else if ( type.equals(Constants.SECTION_PH) ) {
+            if ( ph == null ) {
+                ph = (Variable) sectionContents;
+            } else {
+                phPanel.fill(ph);
+            }
+            topLayout.setMain(pco2aPanel);
+            topLayout.setActive(Constants.SECTION_PCO2A);
+        } else if ( type.equals(Constants.SECTION_PCO2A) ) {
+            if ( pco2a == null ) {
+                pco2a = (Variable) sectionContents;
+            } else {
+                pco2aPanel.fill(pco2a);
+            }
+            topLayout.setMain(pco2dPanel);
+            topLayout.setActive(Constants.SECTION_PCO2D);
+        } else if ( type.equals(Constants.SECTION_PCO2D) ) {
+            if ( pco2d == null ) {
+                pco2d = (Variable) sectionContents;
+            } else {
+                pco2dPanel.fill(pco2d);
+            }
+            topLayout.setMain(genericVariablePanel);
+            topLayout.setActive(Constants.SECTION_GENERIC);
+        } else if ( type.equals(Constants.SECTION_GENERIC) ) {
+            // List managed in the panel
+        } else if ( type.equals(Constants.SECTION_DOCUMENT) )  {
+            Object content = sectionContents;
+            TextCallback callback = "Download".equals(content) ? documentSaved : saveNotify;
+            saveDocToServer(callback);
+        }
+    }
+
+    private static void warn(String msg) {
+        NotifySettings settings = NotifySettings.newSettings();
+        settings.setType(NotifyType.WARNING);
+        settings.setPlacement(NotifyPlacement.TOP_CENTER);
+        Notify.notify(msg, settings);
+    }
+    private static void info(String msg) {
+        NotifySettings settings = NotifySettings.newSettings();
+        settings.setType(NotifyType.INFO);
+        settings.setPlacement(NotifyPlacement.TOP_CENTER);
+        Notify.notify(msg, settings);
+    }
+
+    private void saveDocToServer(TextCallback callback) {
+        Document original = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
+
+        if ( !topLayout.isComplete() ) {
+            warn(Constants.DOCUMENT_NOT_COMPLETE);
+        }
+
+        Document doc = new Document();
+        // Data Submitter Panel
+        dataSubmitter = submitterPanel.getPerson();
+        doc.setDataSubmitter(dataSubmitter);
+        // Investigators Panel
+        List<Person> investigators = investigatorPanel.getInvestigators();
+        if ( investigatorPanel.isDirty() ) {
+            Person p = investigatorPanel.getPerson();
+            p.setComplete(investigatorPanel.valid());
+            if ( !p.isComplete()) {
+                warn("Current Investigator is not complete.");
+            }
+            investigators.add(p);
+        }
+        doc.setInvestigators(investigators);
+        // Citation Panel
+        citation = citationPanel.getCitation();
+        doc.setCitation(citation);
+        // TimeAndLocationPanel
+        timeAndLocation = timeAndLocationPanel.getTimeAndLocation();
+        doc.setTimeAndLocation(timeAndLocation);
+        // Funding Panel
+        List<Funding> fundings = fundingPanel.getFundings();
+        if ( fundingPanel.isDirty() ) {
+            Funding f = fundingPanel.getFunding();
+            fundings.add(f);
+        }
+        doc.setFunding(fundings);
+        // Platforms Panel
+        List<Platform> platforms = platformPanel.getPlatforms();
+        if ( platformPanel.isDirty() ) {
+            Platform p = platformPanel.getPlatform();
+            platforms.add(p);
+        }
+        doc.setPlatforms(platforms);
+        // Dic Panel
+        if ( dicPanel.isDirty()) {
+            dic = dicPanel.getDic();
+            doc.setDic(dic);
+        }
+        // Ta
+        if ( taPanel.isDirty()) {
+            ta = taPanel.getTa();
+            doc.setTa(ta);
+        }
+        // Ph
+        if ( phPanel.isDirty()) {
+            ph = phPanel.getPh();
+            doc.setPh(ph);
+        }
+        // pco2z
+        if ( pco2aPanel.isDirty()) {
+            pco2a = pco2aPanel.getPco2a();
+            doc.setPco2a(pco2a);
+        }
+        // pco2d
+        if ( pco2dPanel.isDirty()) {
+            pco2d = pco2dPanel.getPco2d();
+            doc.setPco2d(pco2d);
+        }
+        // Generic Variables
+        List<Variable> genericVariables = genericVariablePanel.getVariables();
+        if ( genericVariablePanel.isDirty() ) {
+            Variable v = genericVariablePanel.getGenericVariable();
+            genericVariables.add(v);
+        }
+        doc.setVariables(genericVariables);
+
+        _savedDoc = doc;
+
+        saveDocumentService.save(doc, callback);
+    }
+
+    private void onPostMessage(String data, String origin) {
+//        Notify.notify("PostMessage: ", "received \"" + data + "\" from " + origin);
+        GWT.log("OAME PostMessage: received \"" + data + "\" from " + origin);
+        if ( "closing".equalsIgnoreCase(data)) {
+            logToConsole("Closing");
+            GWT.log("gwt:Closing");
+            boolean isDirty = isDirty();
+            GWT.log("gwt:isDirty:"+isDirty + ", saved:"+saved);
+            logToConsole("isDirty:"+isDirty + ", saved:"+saved);
+            if ( isDirty ) { //&& !saved ) {
+                logToConsole("Notify save");
+                saveSection(Constants.SECTION_DOCUMENT, "Notify");
+            }
+            sendMessage("Roger That:"+data, origin);
+        } else if ( "dirty".equalsIgnoreCase(data)) {
+            sendMessage("Roger That:"+data+":"+String.valueOf(isDirty()), origin);
+        }
+    }
+
+    private native void sendMessage(String message, String origin) /*-{
+        console.log("OAME sending msg \""+message+"\" to " + origin);
+        var p = top;
+        p.postMessage(message, origin);
+    }-*/;
+
+    private native void setupMessageListener(OAPMetadataEditor instance) /*-{
+        console.log("Setting up message listener");
+        function postMsgListener(event) {
+            console.log("OAME recv msg:" + ( event.data ? event.data : event ) + " from " + event.origin);
+            instance.@gov.noaa.pmel.sdig.client.OAPMetadataEditor::onPostMessage(Ljava/lang/String;Ljava/lang/String;) (
+                            event.data, event.origin
+            );
+            // var p = top;
+            // p.postMessage("Roger That:"+event.data, event.origin);
+        }
+//        postMsgListener( "setup message")
+        $wnd.addEventListener('message', postMsgListener, false);
+        // ie
+//        $wnd.attachEvent('onmessage', postMsgListener);
+    }-*/;
+
+    TextCallback saveNotify = new TextCallback() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+            String msg = "saveNotify " + method.toString() + " error : " + throwable.toString();
+//            Window.alert(msg);
+            logToConsole(msg);
+        }
+
+        @Override
+        public void onSuccess(Method method, String response) {
+            documentLocation = response;
+            currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+            _loadedDocument = _savedDoc;
+            info("Your document has been saved and is available.");
+            saved = true;
+        }
+    };
     TextCallback documentSaved = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-            Window.alert(throwable.getMessage());
+            Window.alert("docSaved error : " + throwable.toString());
         }
 
         @Override
@@ -489,7 +605,9 @@ public class OAPMetadataEditor implements EntryPoint {
             if ( s.equals("failed") ) {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
-                currentIndex = s;
+                documentLocation = s;
+                currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+                _loadedDocument = _savedDoc;
                 modalHeader.setTitle("Save XML file.");
                 save.setType(ButtonType.PRIMARY);
                 save.addClickHandler(new ClickHandler() {
@@ -497,7 +615,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     public void onClick(ClickEvent event) {
                         modal.hide();
                         saved = true;
-                        Window.open(Constants.base+"document/xml/"+currentIndex,"_blank", null);
+                        Window.open(Constants.base+"document/xml/"+ currentIndex,"_blank", null);
                     }
                 });
 
@@ -505,157 +623,58 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         }
     };
+    TextCallback documentFetched = new TextCallback() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+            Window.alert("Server Error: " + String.valueOf(throwable));
+        }
+
+        @Override
+        public void onSuccess(Method method, String s) {
+            if ( s.equals("failed") ) {
+                Window.alert("Something went wrong. Check with your server administrators.");
+            } else {
+                loadJsonDocument(s, true);
+            }
+        }
+    };
     Form.SubmitCompleteHandler completeHandler = new Form.SubmitCompleteHandler() {
         @Override
         public void onSubmitComplete(AbstractForm.SubmitCompleteEvent submitCompleteEvent) {
             String jsonString = submitCompleteEvent.getResults();
-
-            // A bug discussed in various places on the 'net, but nothing specific to grails.
-            // Just work around for now
-            jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
-                                   .replace("</pre>","");
-
-            jsonString = jsonString.replace("<pre>","");
-
-            try {
-                JSONValue json = JSONParser.parseStrict(jsonString);
-                Document document = codec.decode(json);
-
-                investigatorPanel.clearPeople();
-
-                if (document.getInvestigators() != null) {
-                    List<Person> personList = document.getInvestigators();
-                    for (int i = 0; i < personList.size(); i++) {
-                        Person p = personList.get(i);
-                        if (p != null) {
-                            investigatorPanel.show(p);
-                            if (investigatorPanel.valid()) {
-                                topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
-                            }
-                        }
-                    }
-                    investigatorPanel.addPeople(personList);
-                    investigatorPanel.reset();
-                }
-
-                // TODO this has to be redone to work with the data provider
-                List<Variable> variablesList = document.getVariables();
-                if (variablesList != null) {
-                    genericVariablePanel.addVariables(variablesList);
-                }
-
-                if (document.getPlatforms() != null) {
-                    List<Platform> platforms = document.getPlatforms();
-                    for (int i = 0; i < platforms.size(); i++) {
-                        Platform p = platforms.get(i);
-                        platformPanel.show(p);
-                        if (platformPanel.valid()) {
-                            topLayout.setChecked(Constants.SECTION_PLATFORMS);
-                        }
-                    }
-                    platformPanel.reset();
-                    platformPanel.addPlatforms(document.getPlatforms());
-
-                }
-                if (document.getDataSubmitter() != null) {
-                    dataSubmitter = document.getDataSubmitter();
-                    submitterPanel.show(dataSubmitter);
-                    if (submitterPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_SUBMITTER);
-                    }
-                }
-                if (document.getCitation() != null) {
-                    citation = document.getCitation();
-                    citationPanel.show(citation);
-                    if (citationPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_CITATION);
-                    }
-                }
-                if (document.getTimeAndLocation() != null) {
-                    timeAndLocation = document.getTimeAndLocation();
-                    timeAndLocationPanel.show(timeAndLocation);
-                    if (timeAndLocationPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_TIMEANDLOCATION);
-                    }
-                }
-                if (document.getFunding() != null) {
-                    List<Funding> fundings = document.getFunding();
-                    for( int i = 0; i < fundings.size(); i++ ) {
-                        Funding f = fundings.get(i);
-                        fundingPanel.show(f);
-                        if ( fundingPanel.valid() ) {
-                            topLayout.setChecked(Constants.SECTION_FUNDING);
-                        }
-                    }
-                    fundingPanel.reset();
-                    fundingPanel.addFundings(fundings);
-                }
-                if (document.getDic() != null) {
-                    dic = document.getDic();
-                    dicPanel.show(dic);
-                    if (dicPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_DIC);
-                    }
-                }
-                if (document.getTa() != null) {
-                    ta = document.getTa();
-                    taPanel.show(ta);
-                    if (taPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_TA);
-                    }
-                }
-                if (document.getPh() != null) {
-                    ph = document.getPh();
-                    phPanel.show(ph);
-                    if (phPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PH);
-                    }
-                }
-                if (document.getPco2a() != null) {
-                    pco2a = document.getPco2a();
-                    pco2aPanel.show(pco2a);
-                    if (pco2aPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PCO2A);
-                    }
-                }
-                if (document.getPco2d() != null) {
-                    pco2d = document.getPco2d();
-                    pco2dPanel.show(pco2d);
-                    if (pco2dPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PCO2D);
-                    }
-                }
-                if ( dataSubmitter != null ) {
-                    submitterPanel.show(dataSubmitter);
-                }
-                topLayout.setMain(submitterPanel);
-                topLayout.setActive(Constants.SECTION_SUBMITTER);
-
-
-            } catch (Exception e) {
-                Window.alert("File not processed. e="+e.getLocalizedMessage());
+            if ( wasError(jsonString )) {
+                Window.alert("There was an error processing your file:" + jsonString.substring("ERROR:".length()));
+                return;
             }
-            topLayout.resetFileForm();
+            mergeJsonDocument(jsonString);
         }
     };
 
     private boolean isDirty() {
-        return
-        investigatorPanel.isDirty() ||
-        submitterPanel.isDirty() ||
-        citationPanel.isDirty() ||
-        timeAndLocationPanel.isDirty() ||
-        fundingPanel.isDirty() ||
-        platformPanel.isDirty() ||
-        dicPanel.isDirty() ||
-        taPanel.isDirty() ||
-        phPanel.isDirty() ||
-        pco2aPanel.isDirty() ||
-        pco2dPanel.isDirty() ||
-        genericVariablePanel.isDirty();
+        debugLog("_loadedDoc:"+_loadedDocument);
+        Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
+        debugLog("Checking dirty against " + compDoc);
+//        Window.alert("Checking dirty against " + compDoc);
+        boolean isDirty =
+            submitterPanel.isDirty(compDoc.getDataSubmitter()) ||
+            investigatorPanel.isDirty(compDoc.getInvestigators()) ||
+            citationPanel.isDirty(compDoc.getCitation()) ||
+            timeAndLocationPanel.isDirty(compDoc.getTimeAndLocation()) ||
+            fundingPanel.isDirty(compDoc.getFunding()) ||
+            platformPanel.isDirty(compDoc.getPlatforms()) ||
+            dicPanel.isDirty(compDoc.getDic()) ||
+            taPanel.isDirty(compDoc.getTa()) ||
+            phPanel.isDirty(compDoc.getPh()) ||
+            pco2aPanel.isDirty(compDoc.getPco2a()) ||
+            pco2dPanel.isDirty(compDoc.getPco2d()) ||
+            genericVariablePanel.isDirty(compDoc.getVariables());
+        debugLog("Found dirty: " + isDirty);
+//        Window.alert("Found dirty: " + isDirty);
+        return isDirty;
     }
     private void startOver() {
         // Reset containers for all information being collected to null.
+        _loadedDocument = null;
         dataSubmitter = null;
         if ( investigatorPanel != null ) investigatorPanel.clearPeople();
         citation = null;
@@ -690,5 +709,159 @@ public class OAPMetadataEditor implements EntryPoint {
         settings.setPlacement(NotifyPlacement.TOP_CENTER);
         Notify.notify(Constants.NOT_SAVED, settings);
 
+    }
+    private void loadDocumentId(String documentId)
+    {
+        GWT.log("loadDocument " + documentId);
+        getDocumentService.get(documentId, documentFetched);
+    }
+    private void mergeJsonDocument(String jsonString) {
+        loadJsonDocument(jsonString, false);
+    }
+    private boolean wasError(String response) {
+        return response != null && response.trim().startsWith("ERROR:");
+    }
+    private void loadJsonDocument(String jsonString, boolean clearFirst) {
+        // A bug discussed in various places on the 'net, but nothing specific to grails.
+        // Just work around for now
+        jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
+                .replace("</pre>","");
+
+        if (clearFirst) {
+            startOver();
+        }
+        jsonString = jsonString.replace("<pre>","");
+
+        try {
+            JSONValue json = JSONParser.parseStrict(jsonString);
+            Document document = codec.decode(json);
+            if ( clearFirst ) {
+                debugLog("Setting document to: " + document );
+                _loadedDocument = document;
+            }
+
+//            investigatorPanel.clearPeople();
+
+            if (document.getInvestigators() != null) {
+                List<Person> personList = document.getInvestigators();
+                Person p = null;
+                for (int i = 0; i < personList.size(); i++) {
+                    investigatorPanel.reset();
+                    p = personList.get(i);
+                    if (p != null) {
+                        investigatorPanel.show(p);
+                        if (p.isComplete() && investigatorPanel.valid()) {
+                            topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
+                        } else {
+                            topLayout.uncheck(Constants.SECTION_INVESTIGATOR);
+                        }
+                    }
+                }
+                if ( p != null && !p.isComplete() ) {
+                    personList.remove(p);
+                } else {
+                    investigatorPanel.reset();
+                }
+                investigatorPanel.addPeople(personList);
+            }
+
+            // TODO this has to be redone to work with the data provider
+            List<Variable> variablesList = document.getVariables();
+            if (variablesList != null) {
+                genericVariablePanel.addVariables(variablesList);
+            }
+
+            if (document.getPlatforms() != null) {
+                List<Platform> platforms = document.getPlatforms();
+                for (int i = 0; i < platforms.size(); i++) {
+                    Platform p = platforms.get(i);
+                    platformPanel.show(p);
+                    if (platformPanel.valid()) {
+                        topLayout.setChecked(Constants.SECTION_PLATFORMS);
+                    }
+                    platformPanel.reset();
+                }
+                platformPanel.addPlatforms(document.getPlatforms());
+
+            }
+            if (document.getDataSubmitter() != null) {
+                dataSubmitter = document.getDataSubmitter();
+                submitterPanel.show(dataSubmitter);
+                if (submitterPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_SUBMITTER);
+                }
+            }
+            if (document.getCitation() != null) {
+                citation = document.getCitation();
+                citationPanel.show(citation);
+                if (citationPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_CITATION);
+                }
+            }
+            if (document.getTimeAndLocation() != null) {
+                timeAndLocation = document.getTimeAndLocation();
+                timeAndLocationPanel.show(timeAndLocation);
+                if (timeAndLocationPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_TIMEANDLOCATION);
+                }
+            }
+            if (document.getFunding() != null) {
+                List<Funding> fundings = document.getFunding();
+                for( int i = 0; i < fundings.size(); i++ ) {
+                    Funding f = fundings.get(i);
+                    fundingPanel.show(f);
+                    if ( fundingPanel.valid() ) {
+                        topLayout.setChecked(Constants.SECTION_FUNDING);
+                    }
+                    fundingPanel.reset();
+                }
+                fundingPanel.addFundings(fundings);
+            }
+            if (document.getDic() != null) {
+                dic = document.getDic();
+                dicPanel.show(dic);
+                if (dicPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_DIC);
+                }
+            }
+            if (document.getTa() != null) {
+                ta = document.getTa();
+                taPanel.show(ta);
+                if (taPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_TA);
+                }
+            }
+            if (document.getPh() != null) {
+                ph = document.getPh();
+                phPanel.show(ph);
+                if (phPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_PH);
+                }
+            }
+            if (document.getPco2a() != null) {
+                pco2a = document.getPco2a();
+                pco2aPanel.show(pco2a);
+                if (pco2aPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_PCO2A);
+                }
+            }
+            if (document.getPco2d() != null) {
+                pco2d = document.getPco2d();
+                pco2dPanel.show(pco2d);
+                if (pco2dPanel.valid()) {
+                    topLayout.setChecked(Constants.SECTION_PCO2D);
+                }
+            }
+            if ( dataSubmitter != null ) {
+                submitterPanel.show(dataSubmitter);
+            }
+            topLayout.setMain(submitterPanel);
+            topLayout.setActive(Constants.SECTION_SUBMITTER);
+
+
+        } catch (Exception e) {
+            Window.alert("File not processed. e="+e.getLocalizedMessage());
+        }
+        topLayout.resetFileForm();
     }
 }

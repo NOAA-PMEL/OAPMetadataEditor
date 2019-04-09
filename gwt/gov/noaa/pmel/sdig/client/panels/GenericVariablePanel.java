@@ -45,9 +45,7 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rhs on 3/8/17.
@@ -266,6 +264,14 @@ public class GenericVariablePanel extends Composite {
         variablePagination.rebuild(cellTablePager);
     }
 
+    public Variable saveVariable() {
+        Variable v = getGenericVariable();
+        variableData.getList().add(v);
+        variableData.flush();
+        variablePagination.rebuild(cellTablePager);
+        return v;
+    }
+
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, GenericVariablePanel> {
     }
 
@@ -481,6 +487,23 @@ public class GenericVariablePanel extends Composite {
         return commonVariable;
     }
 
+    public boolean isDirty(List<Variable> originals) {
+        boolean isDirty = false;
+        if ( isDirty()) {
+            addCurrentVariable();
+        }
+        Set<Variable>thisVariables = new TreeSet<>(getVariables());
+        if ( thisVariables.size() != originals.size()) { return true; }
+        Iterator<Variable>originalVariables = new TreeSet<>(originals).iterator();
+        for ( Variable v : thisVariables ) {
+            if ( !v.equals(originalVariables.next())) {
+                isDirty = true;
+                break;
+            }
+        }
+        return isDirty;
+    }
+
     public boolean isDirty() {
         if (abbreviation.getText() != null && !abbreviation.getText().isEmpty() ) {
             return true;
@@ -551,7 +574,6 @@ public class GenericVariablePanel extends Composite {
         variableData.flush();
         variablePagination.rebuild(cellTablePager);
         setTableVisible(true);
-
     }
 
     @UiHandler("save")
@@ -579,12 +601,10 @@ public class GenericVariablePanel extends Composite {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(warning, settings);
         } else {
+            if ( isDirty()) {
+                addCurrentVariable();
+            }
             eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
-            Variable v = getGenericVariable();
-            variableData.getList().add(v);
-            variableData.flush();
-            variablePagination.rebuild(cellTablePager);
-            setTableVisible(true);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -594,7 +614,18 @@ public class GenericVariablePanel extends Composite {
                 form.reset();
             }
         }
+    }
 
+    private void addCurrentVariable() {
+        Variable v = getGenericVariable();
+        addVariable(v);
+        setTableVisible(true);
+        form.reset();
+    }
+    private void addVariable(Variable v) {
+        variableData.getList().add(v);
+        variableData.flush();
+        variablePagination.rebuild(cellTablePager);
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());

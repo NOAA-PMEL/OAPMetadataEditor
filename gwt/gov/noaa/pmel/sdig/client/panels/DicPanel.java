@@ -5,12 +5,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
-import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -26,14 +24,13 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class DicPanel extends Composite {
+public class DicPanel extends Composite implements GetsDirty<Variable> {
 
     @UiField
     Button save;
 
     @UiField
     CommonVariablePanel common;
-
 
     @UiField
     Form form;
@@ -214,6 +211,22 @@ DIC: Researcher Institution
             }
         }
     };
+
+    public boolean isDirty(Variable original) {
+        boolean isDirty;
+        isDirty = original == null ?
+            isDirty() :
+            common.isDirty(original) ||
+            isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
+            isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
+            isDirty(crmManufacture, original.getCrmManufacture() ) ||
+            isDirty(batchNumber, original.getBatchNumber() ) ||
+            isDirty(poison, original.getPoison() ) ||
+            isDirty(poisonVolume, original.getPoisonVolume() ) ||
+            isDirty(poisonDescription, original.getPoisonDescription() );
+        return isDirty;
+    }
+
     public boolean isDirty() {
 
         if ( common.isDirty() ) {

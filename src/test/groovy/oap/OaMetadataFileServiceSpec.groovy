@@ -4,10 +4,10 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
+ * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(NceiSuggestion)
-class VariableSuggestionSpec extends Specification {
+@TestFor(OaMetadataFileService)
+class OaMetadataFileServiceSpec extends Specification {
 
     def setup() {
     }

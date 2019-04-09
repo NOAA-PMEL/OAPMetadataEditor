@@ -1,11 +1,12 @@
 .DS_Store
 .DS_Store?
 
+test-classes
+*.class
 .gradle
 .idea
 **/gwt-unitCache
 build
 *.cache.js
-OM_master.iml
 out
 classes

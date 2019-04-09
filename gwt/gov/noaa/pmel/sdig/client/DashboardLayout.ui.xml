@@ -1,18 +1,23 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
+
     <ui:style>
         .barbar {
             class: fa fa-bar;
         }
+        .bigAndBold {
+            font-size: larger;
+            font-weight: bold;
+        }
     </ui:style>
     <g:HTMLPanel>
+
         <b:Navbar>
             <b:Button pull="LEFT" ui:field="toggle" icon="BARS" iconSize="LARGE" type="DEFAULT" marginTop="8" marginRight="10">
 
             </b:Button>
             <b:NavbarHeader>
-
                     <b:Image  pull="LEFT" pixelSize="60,60" url="images/NOAA_logo.svg"/>
                     <b:NavbarBrand>OAP Metadata Editor</b:NavbarBrand>
             </b:NavbarHeader>
@@ -57,10 +62,13 @@
                     <b:Container width="100%">
                         <b:Row>
                             <b:Column size="SM_4" pull="LEFT">
-                                <b:Button ui:field="save" type="PRIMARY" text="Download"/>
+                                <b:Button ui:field="save" type="PRIMARY" text="Download" title="Download Metadata as XML"/>
                             </b:Column>
                             <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
-                                <b:Button ui:field="reset" type="PRIMARY" text="Start Over"/>
+                                <b:Button ui:field="saveNotify" type="PRIMARY" text="Save" title="Save the current metadata."/>
+                            </b:Column>
+                            <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
+                                <b:Button ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>
                             </b:Column>
                         </b:Row>
                     </b:Container>
@@ -68,7 +76,6 @@
                         <b:FieldSet>
                             <b:FormGroup>
                                 <b:FormLabel marginTop="20" for="upLoad">Upload OADS Metadata File (XML, Excel, or CSV)</b:FormLabel>
-
                                 <g:HTMLPanel ui:field="fakeinput">
                                     <b:Input ui:field="filename" name="xmlFile" type="FILE" b:id="upLoad"/>
                                     <b:Button text="Choose a File:" ui:field="filebutton" type="PRIMARY"/>

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="OAPMetadataEditor" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="oap" external.system.module.version="0.1" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="OAPMetadataEditor" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="oap" external.system.module.version="0.3.4" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
+    <facet type="web" name="Web">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/war/WEB-INF/web.xml" />
+        </descriptors>
+        <webroots>
+          <root url="file://$MODULE_DIR$/war" relative="/" />
+        </webroots>
+        <sourceRoots />
+      </configuration>
+    </facet>
     <facet type="gwt" name="GWT">
       <configuration>
         <setting name="compilerMaxHeapSize" value="1024" />
         <setting name="gwtScriptOutputStyle" value="DETAILED" />
-        <setting name="gwtSdkUrl" value="file:///usr/local/gwt-2.8.0" />
+        <setting name="gwtSdkUrl" value="file:///local/software/gwt-2.8.2" />
       </configuration>
     </facet>
     <facet type="web" name="Web">
@@ -25,10 +36,13 @@
       <sourceFolder url="file://$MODULE_DIR$/gwt" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gwt-user" level="project" />
+    <orderEntry type="library" name="excel2oap" level="project" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="oads_xml" level="project" />
   </component>
 </module>

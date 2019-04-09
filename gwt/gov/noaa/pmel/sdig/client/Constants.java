@@ -31,8 +31,9 @@ public class Constants {
     public static String SECTION_DOCUMENT = " document";
 
     public static final String saveDocument = base + "document/saveDoc";
+    public static final String getDocument = base + "document/getDoc";
 
-    public static final String DOCUMENT_NOT_COMPLETE = "You are saving an incomplete document. Don't forget to upload the document and finish providing the metadata..";
+    public static final String DOCUMENT_NOT_COMPLETE = "You are saving an incomplete document. The dataset cannot be submitted with incomplete metadata.";
 
     public static final String NOT_COMPLETE = "Section is not complete! See form fields highlighted in red.";
     public static final String NO_FILE = "You must select a file to upload.";

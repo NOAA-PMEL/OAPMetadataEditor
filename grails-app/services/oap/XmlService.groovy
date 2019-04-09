@@ -1,12 +1,13 @@
 package oap
 
 import grails.transaction.Transactional
+import org.jdom2.Attribute
 import org.jdom2.Element
 import org.jdom2.input.SAXBuilder
 import org.jdom2.output.Format
 import org.jdom2.output.XMLOutputter
 
-import javax.servlet.http.Part
+import gov.noaa.pmel.excel2oap.PoiReader2;
 
 @Transactional
 class XmlService {
@@ -27,27 +28,12 @@ class XmlService {
         return emptyChildren;
     }
 
-    def createDocument(Part part) {
-
-        Document document;
-        InputStream ins = part.getInputStream();
-
-            String name = part.getSubmittedFileName()
-            if (name.toLowerCase().endsWith(".xml")) {
-                // Create the document
-                document = createDocumentFromXml(ins)
-            } else {
-                document = translateSpreadsheet(ins)
-            }
-
-    }
-
-    def createDocumentFromXml(InputStream f) {
+    def createDocumentFromLegacyXML(InputStream ins) {
         SAXBuilder saxBuilder = new SAXBuilder()
-        org.jdom2.Document document = saxBuilder.build(f)
+        org.jdom2.Document document = saxBuilder.build(ins)
         Document doc = new Document()
+        Element root = document.getRootElement()
 
-        Element root = document.getRootElement();
         List<Element> people = root.getChildren("person")
 
         // Investigators
@@ -279,16 +265,14 @@ class XmlService {
                 doc.addToVariables(variable)
             }
         }
-
-
         return doc
     }
 
-    def translateSpreadsheet(InputStream inputStream) {
+    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        gov.noaa.pmel.excel2oap.PoiReader2.ConvertExcelToOADS(inputStream, baos)
-        InputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
-        return createDocumentFromXml(convertedIS)
+        PoiReader2.ConvertExcelToOADS(inputStream, baos)
+        ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
+        return createDocumentFromLegacyXML(convertedIS)
 
     }
 
@@ -676,7 +660,6 @@ class XmlService {
                 v.setStandardizationTechnique(technique.getTextTrim())
             }
             Element frequency = standard.getChild("frequency")
-            // TODO description
             if ( ! isEmpty(frequency) ) {
                 v.setFreqencyOfStandardization(frequency.getTextTrim())
             }
@@ -912,11 +895,6 @@ class XmlService {
             v.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getTextTrim())
         }
 
-        Element temperatureCorrection = variable.getChild("temperatureCorrection")
-        if ( ! isEmpty(temperatureCorrection) ) {
-            v.setTemperatureCorrection(temperatureCorrection.getTextTrim())
-        }
-
         Element temperatureMeasure = variable.getChild("temperatureMeasure")
         if ( ! isEmpty(temperatureMeasure) ) {
             v.setTemperatureMeasurement(temperatureMeasure.getTextTrim())
@@ -1014,11 +992,12 @@ class XmlService {
         }
         return human;
     }
+
     def createXml(Document doc) {
 
-        org.jdom2.Document document = new org.jdom2.Document();
+        org.jdom2.Document xmlDoc = new org.jdom2.Document();
         Element metadata = new Element("metadata");
-        document.setRootElement(metadata)
+        xmlDoc.setRootElement(metadata)
 
         for (int i = 0; i < doc.getInvestigators().size(); i++) {
             Person p = doc.getInvestigators().get(i)
@@ -1244,7 +1223,7 @@ class XmlService {
 
         // TODO the rest of the variable stuff.
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat())
-        String xml = outputter.outputString(document)
+        String xml = outputter.outputString(xmlDoc)
         return xml
     }
 
@@ -1355,7 +1334,7 @@ class XmlService {
         }
         if ( v.getFlowRate() ) {
             Element e = new Element("waterFlowRate")
-            e.setText(v.getVented())
+            e.setText(v.getFlowRate())
             eq.addContent(e)
         }
         if ( v.getGasFlowRate() ) {

@@ -1,5 +1,7 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public class Document {
 
+//    String datasetId;
     List<Platform> platforms;
     List<Person> investigators;
     List<Variable> variables;
@@ -22,6 +25,26 @@ public class Document {
 
     String update;
 
+    public static Document EmptyDocument() {
+       Document empty = new Document();
+//       empty.setCitation(new Citation());
+//       empty.setDataSubmitter(new Person());
+//       empty.setDic(new Variable());
+       empty.setFunding(Arrays.asList(new Funding[0]));
+       empty.setInvestigators(Arrays.asList(new Person[0]));
+//       empty.setPco2a(new Variable());
+//       empty.setPco2d(new Variable());
+       empty.setInvestigators(Arrays.asList(new Person[0]));
+//       empty.setPh(new Variable());
+       empty.setPlatforms(Arrays.asList(new Platform[0]));
+//       empty.setTa(new Variable());
+//       empty.setTimeAndLocation(new TimeAndLocation());
+       empty.setVariables(Arrays.asList(new Variable[0]));
+       return empty;
+    }
+
+//    public String getDatasetId() { return datasetId; }
+//    public void setDatasetId(String id) { datasetId = id; }
 
     public List<Platform> getPlatforms() {
         return platforms;

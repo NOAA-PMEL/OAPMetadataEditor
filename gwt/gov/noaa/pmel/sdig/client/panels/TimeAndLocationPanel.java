@@ -3,6 +3,7 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -29,7 +30,7 @@ import java.util.Date;
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocationPanel extends Composite {
+public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAndLocation> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -74,37 +75,47 @@ public class TimeAndLocationPanel extends Composite {
         form.reset();
     }
 
+    private static final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    private Date tryToReadDate(String dateStr) throws  Exception {
+        Date d = null;
+        String[] parts = dateStr.split("[/ -]");
+//        if ( parts.length == 3) {
+//            d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+//        } else {
+            try {
+                d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+            } catch (Exception e1) {
+                GWT.log(e1.toString());
+                try {
+                    d = new Date(dateStr);
+                } catch (Exception e2) {
+                    GWT.log(e2.toString());
+                    DateTimeFormat dtf = DateTimeFormat.getFormat(ISO8601_FORMAT);
+                    d = dtf.parse(dateStr);
+                }
+            }
+        return d;
+    }
+
     public void show(TimeAndLocation timeAndLocation) {
         // TODO use joda and store an ISO string on both get and show
         if ( timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0 ) {
             try {
-                String dateStr = timeAndLocation.getStartDate();
-                String[] parts = dateStr.split("[/ -]");
-                Date d;
-                if ( parts.length == 3) {
-                    d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
-                } else {
-                    d = new Date(dateStr);
-                }
+                Date d = tryToReadDate(timeAndLocation.getStartDate());
                 startDate.setValue(d);
             } catch (Exception e) {
-                Window.alert("Could not convert date string: "+timeAndLocation.getStartDate());
+                GWT.log(e.toString());
+                Window.alert("Could not convert start date string: "+timeAndLocation.getStartDate());
             }
 
         }
         if ( timeAndLocation.getEndDate() != null && timeAndLocation.getEndDate().length() > 0 ) {
             try {
-                String dateStr = timeAndLocation.getEndDate();
-                String[] parts = dateStr.split("[/ -]");
-                Date d;
-                if ( parts.length == 3) {
-                    d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
-                } else {
-                    d = new Date(dateStr);
-                }
+                Date d = tryToReadDate(timeAndLocation.getEndDate());
                 endDate.setValue(d);
             } catch (Exception e) {
-                Window.alert("Could not convert date string:" + timeAndLocation.getEndDate());
+                GWT.log(e.toString());
+                Window.alert("Could not convert end date string:" + timeAndLocation.getEndDate());
             }
         }
         if ( timeAndLocation.getNorthLat() != null ) {
@@ -143,6 +154,32 @@ public class TimeAndLocationPanel extends Composite {
         timeAndLocation.setSpatialRef(spatialRef.getText().trim());
         timeAndLocation.setWestLon(westLon.getText().trim());
         return timeAndLocation;
+    }
+    private boolean isDirty(HasValue<Date> valueField, String original) {
+        boolean isDirty = false;
+        Date fieldValue = valueField.getValue();
+        String originalValue = original != null ? original.trim() : "";
+        isDirty =  fieldValue == null ?
+                  ! isEmpty(originalValue) :
+                  ! originalValue.equals(String.valueOf(fieldValue));
+        return isDirty;
+    }
+    public boolean isDirty(TimeAndLocation original) {
+        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty("+original+")");
+        boolean isDirty =
+            original == null ?
+            this.isDirty() :
+            isDirty(eastLon, original.getEastLon() ) ||
+            isDirty(endDate, original.getEndDate() ) ||
+            isDirty(startDate, original.getStartDate() ) ||
+            isDirty(geoNames, original.getGeoNames() ) ||
+            isDirty(northLat, original.getNorthLat() ) ||
+            isDirty(organismLoc, original.getOrganismLoc() ) ||
+            isDirty(southLat, original.getSouthLat() ) ||
+            isDirty(spatialRef, original.getSpatialRef() ) ||
+            isDirty(westLon, original.getWestLon() );
+        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty:"+isDirty);
+        return isDirty;
     }
     public boolean isDirty() {
         if (eastLon.getText() != null && !eastLon.getText().isEmpty() ) {

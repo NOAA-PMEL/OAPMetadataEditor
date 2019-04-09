@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="tws_util">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/test/lib/tws_util.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

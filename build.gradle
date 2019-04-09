@@ -36,8 +36,8 @@ dependencyManagement {
 }
 
 dependencies {
-	// for handling uploaded excel files
-	compile fileTree(dir:'lib', include:['excel2oap.jar'])
+	// for handling uploaded excel file and new XML processing
+	compile fileTree(dir:'lib', include:['excel2oap.jar','oads_xml.jar'])
     // Add JSON Views
     compile 'org.grails.plugins:views-json:1.2.0'
     compile "org.springframework.boot:spring-boot-starter-logging"
@@ -65,6 +65,10 @@ dependencies {
     compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
     // https://mvnrepository.com/artifact/org.jdom/jdom2
     compile group: 'org.jdom', name: 'jdom2', version: '2.0.6'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.5'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
 
     // RHS - use mysql for production
     // JDBC

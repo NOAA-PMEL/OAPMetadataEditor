@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class VariablePanel extends Composite {
+public class VariablePanel extends Composite  {
 /*
  *
 
@@ -286,9 +286,7 @@ Don't know which of several that these belongs to
     TextBox speciesIdCode;
 
     // 052 Temperature correction method
-    // ???
     // <temperatureCorrectionMethod>
-    // <temperatureCorrection>
     @UiField
     TextBox temperatureCorrectionMethod;
 
@@ -626,7 +624,5 @@ Don't know which of several that these belongs to
     public ButtonDropDown getAnalyzingInstrument() {
         return analyzingInstrument;
     }
-
-
 
 }

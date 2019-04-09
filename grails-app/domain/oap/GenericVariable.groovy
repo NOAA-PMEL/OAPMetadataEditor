@@ -51,7 +51,6 @@ class GenericVariable {
     String gasDectectorResolution;
     String seawaterVolume;
     String temperatureCorrectionMethod;
-    String temperatureCorrection;
     String temperatureMeasurement;
     String temperatureStandarization;
     String standardGasUncertainties;
@@ -115,7 +114,6 @@ class GenericVariable {
         gasDectectorResolution (nullable: true)
         seawaterVolume (nullable: true)
         temperatureCorrectionMethod (nullable: true, type: 'text')
-        temperatureCorrection (nullable: true)
         temperatureMeasurement (nullable: true)
         temperatureStandarization (nullable: true, type: 'text')
         standardGasUncertainties (nullable: true, type: 'text')

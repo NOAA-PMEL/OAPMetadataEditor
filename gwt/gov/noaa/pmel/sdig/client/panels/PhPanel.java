@@ -22,7 +22,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/22/17.
  */
-public class PhPanel extends Composite {
+public class PhPanel extends Composite implements GetsDirty<Variable> {
 
     @UiField
     public CommonVariablePanel common;
@@ -164,6 +164,21 @@ public class PhPanel extends Composite {
             }
         }
     };
+
+    public boolean isDirty(Variable original) {
+        boolean isDirty = original == null ?
+            isDirty() :
+            common.isDirty(original) ||
+            isDirty( standardizationTechnique, original.getStandardizationTechnique() ) ||
+            isDirty( freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
+            isDirty( pHtemperature, original.getpHtemperature() ) ||
+            isDirty( pHscale, original.getpHscale() ) ||
+            isDirty( pHstandards, original.getpHstandards() ) ||
+            isDirty( temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
+            isDirty( temperatureMeasurement, original.getTemperatureMeasurement() ) ||
+            isDirty( temperatureStandarization, original.getTemperatureStandarization() );
+        return isDirty;
+    }
 
     public boolean isDirty() {
 

@@ -1,9 +1,11 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.Stringy;
+
 /**
  * Created by rhs on 2/28/17.
  */
-public class Person {
+public class Person implements Comparable<Person>, Stringy {
     String lastName;
     String mi;
     String firstName;
@@ -19,6 +21,10 @@ public class Person {
     String zip;
     String country;
     String idType;
+
+    boolean complete = true;
+    public boolean isComplete() { return complete; }
+    public void setComplete(boolean isComplete) { complete = isComplete; }
 
     public String getIdType() {
         return idType;
@@ -92,9 +98,7 @@ public class Person {
         this.extension = extension;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
     public void setEmail(String email) {
         this.email = email;
@@ -136,5 +140,58 @@ public class Person {
     }
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        if (other == null) { return 1; }
+        int z = sCompare(lastName, other.lastName);
+        if ( z != 0 ) { return z; }
+        z = sCompare(firstName, other.firstName);
+        if ( z != 0 ) { return z; }
+        z = sCompare(mi, other.mi);
+        if ( z != 0 ) { return z; }
+        z = sCompare(institution, other.institution);
+        if ( z != 0 ) { return z; }
+        z = sCompare(address1, other.address1);
+        if ( z != 0 ) { return z; }
+        z = sCompare(address2, other.address2);
+        if ( z != 0 ) { return z; }
+        z = sCompare(telephone, other.telephone);
+        if ( z != 0 ) { return z; }
+        z = sCompare(extension, other.extension);
+        if ( z != 0 ) { return z; }
+        z = sCompare(email, other.email);
+        if ( z != 0 ) { return z; }
+        z = sCompare(rid, other.rid);
+        if ( z != 0 ) { return z; }
+        z = sCompare(city, other.city);
+        if ( z != 0 ) { return z; }
+        z = sCompare(state, other.state);
+        if ( z != 0 ) { return z; }
+        z = sCompare(zip, other.zip);
+        if ( z != 0 ) { return z; }
+        z = sCompare(country, other.country);
+        if ( z != 0 ) { return z; }
+        return sCompare(idType, other.idType);
+    }
+    public boolean isTheSameAs(Person other) {
+        if ( other == null ) { return false; }
+        return
+            sAreTheSame(lastName, other.lastName) ||
+            sAreTheSame(mi, other.mi) ||
+            sAreTheSame(firstName, other.firstName) ||
+            sAreTheSame(institution, other.institution) ||
+            sAreTheSame(address1, other.address1) ||
+            sAreTheSame(address2, other.address2) ||
+            sAreTheSame(telephone, other.telephone) ||
+            sAreTheSame(extension, other.extension) ||
+            sAreTheSame(email, other.email) ||
+            sAreTheSame(rid, other.rid) ||
+            sAreTheSame(city, other.city) ||
+            sAreTheSame(state, other.state) ||
+            sAreTheSame(zip, other.zip) ||
+            sAreTheSame(country, other.country) ||
+            sAreTheSame(idType, other.idType);
     }
 }
