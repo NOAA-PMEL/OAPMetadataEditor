@@ -10,7 +10,6 @@ public class Citation implements Stringy {
     String title;
     String platformAbstract;
     String purpose;
-//    String projects;
     String expocode;
     String cruiseId;
     String section;
@@ -74,14 +73,6 @@ public class Citation implements Stringy {
     public void setExpocode(String expocode) {
         this.expocode = expocode;
     }
-
-//    public String getProjects() {
-//        return projects;
-//    }
-//
-//    public void setProjects(String projects) {
-//        this.projects = projects;
-//    }
 
     public String getPurpose() {
         return purpose;
