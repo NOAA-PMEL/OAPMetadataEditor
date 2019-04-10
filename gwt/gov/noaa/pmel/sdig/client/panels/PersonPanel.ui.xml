@@ -94,7 +94,7 @@
                     <b:Row>
                         <b:Column size="SM_3">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="telephone" text="Telephone Number *"></b:FormLabel>
+                                <b:FormLabel for="telephone" text="Telephone Number"></b:FormLabel>
                                 <b:Modal closable="true" b:id="telephonePopover" ui:field="telephonePopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#telephonePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" b:id="telephone"></b:TextBox>

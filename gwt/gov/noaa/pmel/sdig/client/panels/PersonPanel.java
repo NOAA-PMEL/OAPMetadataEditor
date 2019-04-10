@@ -152,26 +152,26 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idValues.add("researcherId");
         idType.init("Pick and ID Type ", idNames, idValues);
 
-        telephone.addValidator(new Validator() {
-            @Override
-            public List<EditorError> validate(Editor editor, Object value) {
-                List<EditorError> result = new ArrayList<EditorError>();
-                String valueStr = value == null ? "" : value.toString();
-                // The more complex of the two answers here:
-                // https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
-                //RegExp p = RegExp.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$");
-                RegExp p = RegExp.compile("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$");
-                if ( !p.test(valueStr) ) {
-                    result.add(new BasicEditorError(telephone, value, "Does not look like a phone number to me."));
-                }
-                return result;
-            }
-
-            @Override
-            public int getPriority() {
-                return Priority.HIGH;
-            }
-        });
+//        telephone.addValidator(new Validator() {
+//            @Override
+//            public List<EditorError> validate(Editor editor, Object value) {
+//                List<EditorError> result = new ArrayList<EditorError>();
+//                String valueStr = value == null ? "" : value.toString();
+//                // The more complex of the two answers here:
+//                // https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
+//                //RegExp p = RegExp.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$");
+//                RegExp p = RegExp.compile("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$");
+//                if ( !p.test(valueStr) ) {
+//                    result.add(new BasicEditorError(telephone, value, "Does not look like a phone number to me."));
+//                }
+//                return result;
+//            }
+//
+//            @Override
+//            public int getPriority() {
+//                return Priority.HIGH;
+//            }
+//        });
 
         email.addValidator(new Validator() {
             @Override
