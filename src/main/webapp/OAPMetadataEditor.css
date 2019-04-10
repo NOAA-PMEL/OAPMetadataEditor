@@ -3,6 +3,12 @@
     border: none !important;
     padding-bottom: 10px !important;
 }
+.small-nav {
+    min-height: 30px !important;
+}
+.small-line {
+    padding: 5px 25px 0px 10px !important;
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {

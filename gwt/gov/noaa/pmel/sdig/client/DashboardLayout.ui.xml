@@ -23,8 +23,8 @@
             </b:NavbarHeader>
             <b:NavbarLink marginTop="16" marginRight="10" pull="RIGHT">Help</b:NavbarLink>
         </b:Navbar>
-        <b:Navbar position="FIXED_BOTTOM">
-                <b:PanelBody pull="RIGHT">
+        <b:Navbar position="FIXED_BOTTOM" addStyleNames="small-nav">
+                <b:PanelBody pull="RIGHT" addStyleNames="small-line">
                 <b:html.UnorderedList inline="true">
                     <b:Anchor href="mailto:Roland.Schweitzer@noaa.gov" title="Contact" text="Contact"></b:Anchor>
                     <b:Icon marginRight="8" marginLeft="8" type="ELLIPSIS_V"></b:Icon>
@@ -42,7 +42,7 @@
                 </b:html.UnorderedList>
                 </b:PanelBody>
         </b:Navbar>
-        <b:Container width="100%">
+        <b:Container width="100%" >
             <b:Row>
                 <b:Column size="XS_3" pull="LEFT" ui:field="nav">
                     <b:NavPills stacked="true">
