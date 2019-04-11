@@ -3,6 +3,9 @@
     border: none !important;
     padding-bottom: 10px !important;
 }
+.paddingTop {
+    padding-top: 5px;
+}
 .small-nav {
     min-height: 30px !important;
 }

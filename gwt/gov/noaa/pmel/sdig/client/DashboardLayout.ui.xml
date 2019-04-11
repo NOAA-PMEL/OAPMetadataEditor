@@ -2,9 +2,9 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
 
-    <ui:style>
-        .barbar {
-            class: fa fa-bar;
+    <ui:style> <!-- it seems bootstrap elements can't see these -->
+        .paddingTop {
+            padding-top: 5px;
         }
         .bigAndBold {
             font-size: larger;
@@ -59,7 +59,7 @@
                         <b:AnchorListItem ui:field="pco2dLink">pCO2D</b:AnchorListItem>
                         <b:AnchorListItem ui:field="genericVariableLink">Variable</b:AnchorListItem>
                     </b:NavPills>
-                    <b:Container width="100%">
+                    <b:Container addStyleNames="paddingTop" width="100%">
                         <b:Row>
                             <b:Column size="SM_4" pull="LEFT">
                                 <b:Button ui:field="save" type="PRIMARY" text="Download" title="Download Metadata as XML"/>
