@@ -6,6 +6,8 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -18,6 +20,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
@@ -27,17 +30,12 @@ import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Person;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.SuggestBox;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
+import org.gwtbootstrap3.client.ui.form.error.ErrorHandler;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
@@ -74,7 +72,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     TextBox address2;
     @UiField
+    FormLabel telephoneLabel;
+    @UiField
     TextBox telephone;
+//    @UiField
+//    Label telephoneError;
     @UiField
     TextBox extension;
     @UiField
@@ -115,10 +117,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     CellTable<Person> people;
 
     boolean showTable = true;
+    boolean editing = false;
 
     String type;
 
-    boolean dirty = false;
+    boolean modified = false;
 
     int editIndex = -1;
 
@@ -139,7 +142,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     private static PersonUiBinder ourUiBinder = GWT.create(PersonUiBinder.class);
 
-    public PersonPanel() {
+    public PersonPanel(String personType) {
 
         country = new SuggestBox(countrySuggestionOracle);
 
@@ -152,26 +155,74 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idValues.add("researcherId");
         idType.init("Pick and ID Type ", idNames, idValues);
 
-        telephone.addValidator(new Validator() {
-            @Override
-            public List<EditorError> validate(Editor editor, Object value) {
-                List<EditorError> result = new ArrayList<EditorError>();
-                String valueStr = value == null ? "" : value.toString();
-                // The more complex of the two answers here:
-                // https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
-                //RegExp p = RegExp.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$");
-                RegExp p = RegExp.compile("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$");
-                if ( !p.test(valueStr) ) {
-                    result.add(new BasicEditorError(telephone, value, "Does not look like a phone number to me."));
-                }
-                return result;
-            }
+        namePopover.setTitle("3.1 Full name of the " + personType + " (First Middle Last).");
+        institutionPopover.setTitle("3.2 Affiliated institution of the " + personType + " (e.g., Woods Hole Oceanographic Institution).");
+        addressPopover.setTitle("3.3 Address of the affiliated institution of the " + personType + ".");
+        telephonePopover.setTitle("3.4 Phone number of the " + personType + ".");
+        emailPopover.setTitle("3.5 Email address of the " + personType + ".");
+        idTypePopover.setTitle("3.7 Please indicate which type of researcher ID.");
+        idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
-            @Override
-            public int getPriority() {
-                return Priority.HIGH;
-            }
-        });
+        if ( "data submitter".equalsIgnoreCase(personType)) {
+            telephone.setAllowBlank(false);
+            telephoneLabel.setText("Telephone Number *");
+            telephoneLabel.setColor("#B22222");
+            telephone.addValidator(new Validator() {
+                @Override
+                public List<EditorError> validate(Editor editor, Object value) {
+                    List<EditorError> result = new ArrayList<EditorError>();
+                    String valueStr = value == null ? "" : value.toString().trim();
+                    if ( valueStr.length() == 0 ) {
+                        return result;
+                    }
+                    // The more complex of the two answers here:
+                    // https://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
+                    //RegExp p = RegExp.compile("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$");
+                    //                RegExp p = RegExp.compile("^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$");
+                    RegExp p = RegExp.compile("(?:\\+|00|011)?[\\(\\)\\d .-]{8,16}");
+                    if (!p.test(valueStr)) {
+                        // try international number
+                        //                    p = RegExp.compile("/(\\+|00)(297|93|244|1264|358|355|376|971|54|374|1684|1268|61|43|994|257|32|229|226|880|359|973|1242|387|590|375|501|1441|591|55|1246|673|975|267|236|1|61|41|56|86|225|237|243|242|682|57|269|238|506|53|5999|61|1345|357|420|49|253|1767|45|1809|1829|1849|213|593|20|291|212|34|372|251|358|679|500|33|298|691|241|44|995|44|233|350|224|590|220|245|240|30|1473|299|502|594|1671|592|852|504|385|509|36|62|44|91|246|353|98|964|354|972|39|1876|44|962|81|76|77|254|996|855|686|1869|82|383|965|856|961|231|218|1758|423|94|266|370|352|371|853|590|212|377|373|261|960|52|692|389|223|356|95|382|976|1670|258|222|1664|596|230|265|60|262|264|687|227|672|234|505|683|31|47|977|674|64|968|92|507|64|51|63|680|675|48|1787|1939|850|351|595|970|689|974|262|40|7|250|966|249|221|65|500|4779|677|232|503|378|252|508|381|211|239|597|421|386|46|268|1721|248|963|1649|235|228|66|992|690|993|670|676|1868|216|90|688|886|255|256|380|598|1|998|3906698|379|1784|58|1284|1340|84|678|681|685|967|27|260|263)(9[976]\\d|8[987530]\\d|6[987]\\d|5[90]\\d|42\\d|3[875]\\d|2[98654321]\\d|9[8543210]|8[6421]|6[6543210]|5[87654321]|4[987654310]|3[9643210]|2[70]|7|1)\\d{4,20}$/\n");
+                        //                    if ( !p.test(valueStr) ) {
+                        result.add(new BasicEditorError(telephone, value, "Does not look like a phone number to me."));
+                        //                    }
+                    }
+                    return result;
+                }
+                @Override
+                public int getPriority() {
+                    return Priority.HIGH;
+                }
+            });
+//            telephone.setErrorHandler(new ErrorHandler() {
+//                @Override
+//                public void cleanup() {
+//                    System.out.println("Cleanup()");
+//                    telephoneError.setText("");
+//                    telephoneError.setVisible(false);
+//                }
+//
+//                @Override
+//                public void clearErrors() {
+//                    System.out.println("clearErrors()");
+//                    telephoneError.setText("");
+//                    telephoneError.setVisible(false);
+//                }
+//
+//                @Override
+//                public void showErrors(List<EditorError> errors) {
+//                    StringBuilder sb = new StringBuilder();
+//                    String sep = "";
+//                    for (EditorError e : errors) {
+//                        sb.append(sep);
+//                        sb.append(e.getMessage());
+//                        sep = "; ";
+//                    }
+//                    telephoneError.setText(sb.toString());
+//                    telephoneError.setVisible(true);
+//                }
+//            });
+        }
 
         email.addValidator(new Validator() {
             @Override
@@ -181,7 +232,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 // from http://emailregex.com/
                 RegExp p = RegExp.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
                 if ( !p.test(valueStr) ) {
-                    result.add(new BasicEditorError(telephone, value, "Does not look like a phone number to me."));
+                    result.add(new BasicEditorError(telephone, value, "Does not look like an email address to me."));
                 }
                 return result;
             }
@@ -193,7 +244,17 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         });
 
         people.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
-
+        people.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
+            @Override
+            public void onCellPreview(CellPreviewEvent<Person> event) {
+                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+                if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
+                    show(event.getValue());
+                } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
+                    reset();
+                }
+            }
+        });
 
         Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -209,6 +270,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     Window.alert("Edit failed.");
                 } else {
                     show(person);
+                    editing = true;
                     peopleData.getList().remove(person);
                     peopleData.flush();
                     peoplePagination.rebuild(cellTablePager);
@@ -258,7 +320,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         people.addColumn(delete);
 
         people.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-
             @Override
             public void onRangeChange(final RangeChangeEvent event) {
                 peoplePagination.rebuild(cellTablePager);
@@ -271,6 +332,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         peopleData.addDataDisplay(people);
 
+        country.addValueChangeHandler(new ValueChangeHandler<String>() {
+                  @Override
+                  public void onValueChange(ValueChangeEvent<String> event) {
+                      modified = true;
+                  }
+              }
+        );
     }
 
     public boolean valid() {
@@ -280,6 +348,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     protected void addPerson(Person p) {
+        if ( p == null ) { return; }
         peopleData.getList().add(p);
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
@@ -294,9 +363,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.NOT_COMPLETE, settings);
         } else {
-            eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
+            this.modified = false;
+            this.editing = false;
             Person p = getPerson();
             addPerson(p);
+            eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -317,33 +388,44 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //    }
 
     public Person getPerson() {
-        OAPMetadataEditor.debugLog("PersonPanel.get()");
-        if ( ! isDirty() ) { return null; }
-        Person person = new Person();
-        person.setAddress1(address1.getText().trim());
-        person.setAddress2(address2.getText().trim());
-        person.setEmail(email.getText().trim());
-        person.setFirstName(firstName.getText().trim());
-        person.setInstitution(institution.getText().trim());
-        person.setLastName(lastName.getText().trim());
-        person.setMi(mi.getText().trim());
-        person.setRid(rid.getText().trim());
-        person.setTelephone(telephone.getText().trim());
-        person.setExtension(extension.getText().trim());
-        person.setCity(city.getText().trim());
-        person.setState(state.getText().trim());
-        person.setZip(zip.getText().trim());
-        person.setCountry(country.getText().trim());
-        person.setIdType(idType.getValue());
-        person.setComplete(this.valid());
-        return person;
+        return _getPerson(false);
     }
 
-   public boolean isDirty(Person original) {
+    protected Person _getPerson(boolean reset) {
+        OAPMetadataEditor.debugLog("PersonPanel.get()");
+        if ( hasContent() ) {
+            Person person = new Person();
+            person.setAddress1(address1.getText().trim());
+            person.setAddress2(address2.getText().trim());
+            person.setEmail(email.getText().trim());
+            person.setFirstName(firstName.getText().trim());
+            person.setInstitution(institution.getText().trim());
+            person.setLastName(lastName.getText().trim());
+            person.setMi(mi.getText().trim());
+            person.setRid(rid.getText().trim());
+            person.setTelephone(telephone.getText().trim());
+            person.setExtension(extension.getText().trim());
+            person.setCity(city.getText().trim());
+            person.setState(state.getText().trim());
+            person.setZip(zip.getText().trim());
+            person.setCountry(country.getText().trim());
+            person.setIdType(idType.getValue());
+            person.setComplete(this.valid());
+            if (reset) {
+                form.reset();
+            }
+            return person;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean isDirty(Person original) {
         OAPMetadataEditor.debugLog("PersonPanel.isDirty("+original+")");
         boolean isDirty = false;
         isDirty = original == null ?
-                  isDirty() :
+                  hasBeenModified() :
                   isDirty(address1, original.getAddress1()) ||
                   isDirty(address2, original.getAddress2()) ||
                   isDirty(email, original.getEmail()) ||
@@ -362,66 +444,69 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         return isDirty;
     }
 
-    public boolean isDirty() {
+    public boolean hasBeenModified() {
+        return modified;
+    }
+    public boolean hasContent() {
         OAPMetadataEditor.debugLog("PersonPanel.isDirty()");
-        boolean isDirty = false;
+        boolean hasContent = false;
         if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.address1:"+ address1.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (address2.getText().trim() != null && !address2.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.address2:"+ address2.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (email.getText().trim() != null && !email.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.email:"+ email.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (firstName.getText().trim() != null && !firstName.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.firstName:"+ firstName.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (institution.getText().trim() != null && !institution.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.institution:"+ institution.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (lastName.getText().trim() != null && !lastName.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.lastName:"+ lastName.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (mi.getText().trim() != null && !mi.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.mi:"+ mi.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (rid.getText().trim() != null && !rid.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.rid:"+ rid.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (telephone.getText().trim() != null && !telephone.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.telephone:"+ telephone.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (extension.getText().trim() != null && !extension.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.extension:"+ extension.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (city.getText().trim() != null && !city.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.city:"+ city.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (state.getText().trim() != null && !state.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.state:"+ state.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if (zip.getText().trim() != null && !zip.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.zip:"+ zip.getText());
-            isDirty = true;
+            hasContent = true;
         }
         if ( country.getText().trim() != null && !country.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.country:"+ country.getText());
-            isDirty = true;
+            hasContent = true;
         }
-        return isDirty;
+        return hasContent;
     }
     public void show(Person person) {
         if ( person.getAddress1() != null )
@@ -455,43 +540,64 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if ( person.getIdType() != null ) {
             idType.setSelected(person.getIdType());
         }
-
-    }
-    @UiHandler("lastName")
-    public void lastNameChanged(ChangeEvent changeEvent) {
-        dirty = true;
-    }
-    @UiHandler("mi")
-    public void miChanged(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = false;
+        editing = false;
     }
     @UiHandler("firstName")
     public void firstNameChanged(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
+    }
+    @UiHandler("mi")
+    public void miChanged(ChangeEvent changeEvent) {
+        modified = true;
+    }
+    @UiHandler("lastName")
+    public void lastNameChanged(ChangeEvent changeEvent) {
+        modified = true;
     }
     @UiHandler("institution")
     public void institutionChanged(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
     }
     @UiHandler("address1")
     public void address1Changed(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
     }
     @UiHandler("address2")
     public void address2Changed(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
     }
+    @UiHandler("city")
+    public void cityChanged(ChangeEvent changeEvent) {
+        modified = true;
+    }
+    @UiHandler("state")
+    public void stateChanged(ChangeEvent changeEvent) {
+        modified = true;
+    }
+    @UiHandler("zip")
+    public void zipChanged(ChangeEvent changeEvent) {
+        modified = true;
+    }
+    // @UiHandler("country") doesn't have addHandler(ChangeHandler)
+
     @UiHandler("telephone")
     public void telephoneChanged(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
     }
     @UiHandler("email")
     public void emailChanged(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
     }
+
+    @UiHandler("idType")
+    public void idTypeChanged(ChangeEvent changeEvent) {
+        modified = true;
+    }
+
     @UiHandler("rid")
     public void ridNameChanged(ChangeEvent changeEvent) {
-        dirty = true;
+        modified = true;
     }
 
     public String getType() {
@@ -522,7 +628,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
         setTableVisible(true);
-
     }
 
     public void setTableVisible(boolean b) {

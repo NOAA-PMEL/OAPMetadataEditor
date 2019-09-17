@@ -11,18 +11,18 @@
                     <b:Row>
                         <b:Column size="SM_5">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" paddingBottom="13" for="firstName" text="First Name *"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="firstName" text="First Name *"></b:FormLabel>
                                 <b:TextBox ui:field="firstName" allowBlank="false" placeholder="First Name" b:id="firstName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel paddingBottom="13" for="mi" text="M.I."></b:FormLabel>
+                                <b:FormLabel for="mi" text="M.I."></b:FormLabel>
                                 <b:TextBox ui:field="mi" allowBlank="true" placeholder="M.I.(s)" b:id="mi"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_5">
-                            <b:FormGroup>
+                            <b:FormGroup >
                                 <b:FormLabel color="#B22222" for="lastName" text="Last Name *"></b:FormLabel>
                                 <b:Modal closable="true" b:id="namePopover" ui:field="namePopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataToggle="MODAL" dataTarget="#namePopover" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
@@ -61,14 +61,14 @@
                     <b:Row>
                         <b:Column size="SM_6">
                             <b:FormGroup>
-                                <b:FormLabel paddingBottom="12" for="city" text="City"></b:FormLabel>
+                                <b:FormLabel for="city" text="City"></b:FormLabel>
                                 <b:TextBox ui:field="city" allowBlank="true" placeholder="City" b:id="city">
                                 </b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
                             <b:FormGroup>
-                                <b:FormLabel paddingBottom="12" for="state" text="State/Province"></b:FormLabel>
+                                <b:FormLabel for="state" text="State/Province"></b:FormLabel>
                                 <b:TextBox ui:field="state" allowBlank="true" placeholder="State/Province" b:id="state">
                                 </b:TextBox>
                             </b:FormGroup>
@@ -94,10 +94,11 @@
                     <b:Row>
                         <b:Column size="SM_3">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="telephone" text="Telephone Number *"></b:FormLabel>
-                                <b:Modal closable="true" b:id="telephonePopover" ui:field="telephonePopover"/>
+                                <b:FormLabel for="telephone" ui:field="telephoneLabel" text="Telephone Number"></b:FormLabel> <!-- color="#B22222"  -->
+                                <b:Modal closable="true" ui:field="telephonePopover"/> <!-- "not allowed" b:id="telephonePopover" -->
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#telephonePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" b:id="telephone"></b:TextBox>
+                                <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" ></b:TextBox> <!-- "not allowed" b:id="telephone" -->
+                           <!--     <b:Label ui:field="telephoneError" ></b:Label>  -->
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_2">
@@ -147,7 +148,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
