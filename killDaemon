@@ -1,0 +1,2 @@
+ps -ef | grep gradle | grep Daemon | awk '{ print $2 }' | xargs kill
+

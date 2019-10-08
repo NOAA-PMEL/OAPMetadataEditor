@@ -2,9 +2,9 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b="urn:import:org.gwtbootstrap3.client.ui">
 
-    <ui:style>
-        .barbar {
-            class: fa fa-bar;
+    <ui:style> <!-- it seems bootstrap elements can't see these. -->
+        .paddingTop {
+            padding-top: 5px;
         }
         .bigAndBold {
             font-size: larger;
@@ -62,23 +62,28 @@
                         <b:AnchorListItem ui:field="pco2dLink">pCO2D</b:AnchorListItem>
                         <b:AnchorListItem ui:field="genericVariableLink">Variable</b:AnchorListItem>
                     </b:NavPills>
-                    <b:Container width="100%">
+                    <b:Container addStyleNames="buttonBar" width="100%">
                         <b:Row>
                             <b:Column size="SM_4" pull="LEFT">
-                                <b:Button ui:field="save" type="PRIMARY" text="Download" title="Download Metadata as XML"/>
+                                <b:Button ui:field="preview" type="PRIMARY" text="Preview" title="Preview Metadata"/>
+                            </b:Column>
+                            <b:Column size="SM_4" pull="LEFT">
+                                <b:Button ui:field="download" type="PRIMARY" text="Download" title="Download Metadata as XML"/>
                             </b:Column>
                             <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
                                 <b:Button ui:field="saveNotify" type="PRIMARY" text="Save" title="Save the current metadata."/>
                             </b:Column>
+                            <!--
                             <b:Column  offset="SM_1" size="SM_3" pull="LEFT">
                                 <b:Button ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>
                             </b:Column>
+                            -->
                         </b:Row>
                     </b:Container>
                     <b:Form ui:field="uploadForm" method="POST" encoding="multipart/form-data" action="document/upload">
                         <b:FieldSet>
                             <b:FormGroup>
-                                <b:FormLabel marginTop="20" for="upLoad">Upload OADS Metadata File (XML, Excel, or CSV)</b:FormLabel>
+                                <b:FormLabel marginTop="15" for="upLoad">Upload OADS Metadata File (XML, Excel, or CSV)</b:FormLabel>
                                 <g:HTMLPanel ui:field="fakeinput">
                                     <b:Input ui:field="filename" name="xmlFile" type="FILE" />
                                     <b:Button text="Choose a File:" ui:field="filebutton" type="PRIMARY"/>
@@ -87,6 +92,7 @@
 
                             </b:FormGroup>
                             <b:SubmitButton ui:field="upload" type="PRIMARY" text="Upload"/>
+                            <b:Button pull="RIGHT" ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>
                         </b:FieldSet>
                     </b:Form>
                 </b:Column>

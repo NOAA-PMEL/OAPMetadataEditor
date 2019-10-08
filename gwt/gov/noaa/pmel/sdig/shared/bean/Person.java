@@ -178,20 +178,20 @@ public class Person implements Comparable<Person>, Stringy {
     public boolean isTheSameAs(Person other) {
         if ( other == null ) { return false; }
         return
-            sAreTheSame(lastName, other.lastName) ||
-            sAreTheSame(mi, other.mi) ||
-            sAreTheSame(firstName, other.firstName) ||
-            sAreTheSame(institution, other.institution) ||
-            sAreTheSame(address1, other.address1) ||
-            sAreTheSame(address2, other.address2) ||
-            sAreTheSame(telephone, other.telephone) ||
-            sAreTheSame(extension, other.extension) ||
-            sAreTheSame(email, other.email) ||
-            sAreTheSame(rid, other.rid) ||
-            sAreTheSame(city, other.city) ||
-            sAreTheSame(state, other.state) ||
-            sAreTheSame(zip, other.zip) ||
-            sAreTheSame(country, other.country) ||
-            sAreTheSame(idType, other.idType);
+            sAreEffectivelyTheSame(lastName, other.lastName) &&
+            sAreEffectivelyTheSame(mi, other.mi) &&
+            sAreEffectivelyTheSame(firstName, other.firstName) &&
+            sAreEffectivelyTheSame(institution, other.institution) &&
+            sAreEffectivelyTheSame(address1, other.address1) &&
+            sAreEffectivelyTheSame(address2, other.address2) &&
+            sAreEffectivelyTheSame(telephone, other.telephone) &&
+            sAreEffectivelyTheSame(extension, other.extension) &&
+            sAreEffectivelyTheSame(email, other.email) &&
+            sAreEffectivelyTheSame(rid, other.rid) &&
+            sAreEffectivelyTheSame(city, other.city) &&
+            sAreEffectivelyTheSame(state, other.state) &&
+            sAreEffectivelyTheSame(zip, other.zip) &&
+            sAreEffectivelyTheSame(country, other.country) &&
+            sAreEffectivelyTheSame(idType, other.idType);
     }
 }

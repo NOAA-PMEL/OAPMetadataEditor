@@ -52,7 +52,10 @@ public class DashboardLayout extends Composite {
     Column mainColumn;
 
     @UiField
-    Button save;
+    Button preview;
+
+    @UiField
+    Button download;
 
     @UiField
     AnchorListItem investigatorsLink;
@@ -219,19 +222,35 @@ public class DashboardLayout extends Composite {
             }
         });
 
-        save.addClickHandler(new ClickHandler() {
+        preview.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                eventBus.fireEventFromSource(new SectionSave("Download", Constants.SECTION_DOCUMENT), save);
+                OAPMetadataEditor.logToConsole("preview:"+event);
+                eventBus.fireEventFromSource(new SectionSave("Preview", Constants.SECTION_DOCUMENT), preview);
+            }
+        });
+        download.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                OAPMetadataEditor.logToConsole("download:"+event);
+                eventBus.fireEventFromSource(new SectionSave("Download", Constants.SECTION_DOCUMENT), download);
             }
         });
         saveNotify.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                OAPMetadataEditor.logToConsole("saveNotify:"+event);
                 eventBus.fireEventFromSource(new SectionSave("Notify", Constants.SECTION_DOCUMENT), saveNotify);
             }
         });
-
+        reset.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                OAPMetadataEditor.logToConsole("reset:"+event);
+                showConfirmationDialog("This will clear all metadata fields.");
+                eventBus.fireEventFromSource(event, reset);
+            }
+        });
 
 //        toggle.addClickHandler(new ClickHandler() {
 //            @Override
@@ -248,8 +267,13 @@ public class DashboardLayout extends Composite {
 //        });
     }
 
+    public static boolean showConfirmationDialog(String msg) {
+        return false;
+    }
     public void uncheck(String section) {
-        if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+        if (section.equals(Constants.SECTION_DOCUMENT)) {
+            return;
+        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
             investigatorsLink.setIcon(null);
         } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
             submittersLink.setIcon(null);
@@ -276,7 +300,13 @@ public class DashboardLayout extends Composite {
         }
     }
     public void setChecked(String section) {
-        if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+        setIcon(section, IconType.CHECK);
+    }
+
+    public void setIcon(String section, IconType icon) {
+        if (section.equals(Constants.SECTION_DOCUMENT)) {
+            return;
+        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
             investigatorsLink.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
             submittersLink.setIcon(IconType.CHECK);
@@ -338,13 +368,17 @@ public class DashboardLayout extends Composite {
         }
         return true;
     }
-    @UiHandler("saveNotify")
-    public void saveNotifyClick(ClickEvent event) {
+    // clickHandlers added directly
+//    @UiHandler("saveNotify")
+//    public void saveNotifyClick(ClickEvent event) {
+//        OAPMetadataEditor.logToConsole("saveNotify:"+event);
+//    }
+//    @UiHandler("reset")
+//    public void onClick(ClickEvent event) {
+//        eventBus.fireEventFromSource(event, reset);
+//    }
 
-    }
-    @UiHandler("reset")
-    public void onClick(ClickEvent event) {
-        // Remove checkmarks
+    public void removeCheckmarks() {
         investigatorsLink.setIcon(null);
         submittersLink.setIcon(null);
         citationLink.setIcon(null);
@@ -356,7 +390,6 @@ public class DashboardLayout extends Composite {
         phLink.setIcon(null);
         pco2aLink.setIcon(null);
         pco2dLink.setIcon(null);
-        eventBus.fireEventFromSource(event, reset);
     }
 //    public void setSaveEnabled(boolean enabled) {
 //        save.setEnabled(enabled);

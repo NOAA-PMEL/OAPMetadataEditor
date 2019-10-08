@@ -3,7 +3,9 @@ package oap
 class Citation {
     static belongsTo = [document: Document]
     String title;
-    String platformAbstract;
+    String datasetAbstract;
+    String useLimitation;
+    String dataUse;
     String purpose;
     String expocode;
     String cruiseId;
@@ -16,7 +18,9 @@ class Citation {
     static constraints = {
         document (nullable: true)
         title (nullable: true, type: 'text')
-        platformAbstract (nullable: true, type: 'text')
+        datasetAbstract (nullable: true, type: 'text')
+        useLimitation (nullable: true, type: 'text')
+        dataUse (nullable: true, type: 'text')
         purpose (nullable: true, type: 'text')
         expocode (nullable: true)
         cruiseId (nullable: true)

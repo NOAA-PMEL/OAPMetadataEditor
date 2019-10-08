@@ -1,17 +1,15 @@
 package gov.noaa.pmel.sdig.client.widgets;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.event.shared.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.DropDownMenu;
@@ -35,6 +33,7 @@ public class ButtonDropDown extends Composite {
 
     Map<String, String> values = new HashMap<String, String>();
     String currentValue;
+    ChangeHandler changeHandler;
 
     interface ButtonDropDownUiBinder extends UiBinder<HTMLPanel, ButtonDropDown> {
     }
@@ -54,9 +53,11 @@ public class ButtonDropDown extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     String label = a.getText();
+                    if ( ! label.equals(currentValue)) {
+                        changeHandler.onChange(null);
+                    }
                     button.setText(label);
                     currentValue = values.get(label);
-                    final String v = currentValue;
                 }
             });
             menu.add(a);
@@ -77,6 +78,11 @@ public class ButtonDropDown extends Composite {
                 break;
             }
         }
+    }
 
+    public <H extends EventHandler> HandlerRegistration addChangeHandler(ChangeHandler ch) {
+        OAPMetadataEditor.logToConsole("handler:"+ch);
+        changeHandler = ch;
+        return null;
     }
 }

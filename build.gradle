@@ -37,7 +37,7 @@ dependencyManagement {
 
 dependencies {
 	// for handling uploaded excel file and new XML processing
-	compile fileTree(dir:'lib', include:['excel2oap.jar','oads_xml.jar'])
+	compile fileTree(dir:'lib', include:['excel2oap.jar','oads_xml.jar', "tws_util.jar"])
     // Add JSON Views
     compile 'org.grails.plugins:views-json:1.2.0'
     compile "org.springframework.boot:spring-boot-starter-logging"

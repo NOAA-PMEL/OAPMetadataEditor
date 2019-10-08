@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $1 ] ; then
+	GRAILS_ENV=$1
+else
+	GRAILS_ENV=production
+fi
+
+echo "Building Metadata Editor for environment $GRAILS_ENV"
+
+./gradlew -Dgrails.env=$GRAILS_ENV assemble
+

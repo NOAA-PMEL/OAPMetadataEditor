@@ -8,7 +8,9 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 public class Citation implements Stringy {
 
     String title;
-    String platformAbstract;
+    String datasetAbstract;
+    String dataUse;
+    String useLimitation;
     String purpose;
     String expocode;
     String cruiseId;
@@ -90,11 +92,18 @@ public class Citation implements Stringy {
         this.title = title;
     }
 
-    public String getPlatformAbstract() {
-        return platformAbstract;
+    public String getDatasetAbstract() { return datasetAbstract; }
+
+    public void setDatasetAbstract(String datasetAbstract) {
+        this.datasetAbstract = datasetAbstract;
     }
 
-    public void setPlatformAbstract(String platformAbstract) {
-        this.platformAbstract = platformAbstract;
-    }
+    public String getDataUse() { return dataUse; }
+
+    public void setDataUse(String dataUse) { this.dataUse = dataUse; }
+
+    public String getUseLimitation() { return useLimitation; }
+
+    public void setUseLimitation(String useLimitation) { this.useLimitation = useLimitation; }
+
 }

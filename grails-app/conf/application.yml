@@ -112,11 +112,28 @@ dataSource:
     username: sa
     password:
 
+# ./gradlew -Dgrails.env=[environment] assemble
 environments:
     development:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme_dev?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            driverClassName: "com.mysql.jdbc.Driver"
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            username: oapweb
+            password: webster
+    create:
+        dataSource:
+            dbCreate: create
+            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            driverClassName: "com.mysql.jdbc.Driver"
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            username: oapweb
+            password: webster
+    persistent:
+        dataSource:
+            dbCreate: validate
+            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -161,7 +178,7 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     production:
         dataSource:
-            dbCreate: create
+            dbCreate: validate
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect

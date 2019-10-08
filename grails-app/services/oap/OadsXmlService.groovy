@@ -35,10 +35,15 @@ import gov.noaa.ncei.oads.xml.v_a0_2_2.OadsMetadataDocumentType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType.PersonTypeBuilder
 import gov.noaa.pmel.excel2oap.PoiReader2
+import gov.noaa.pmel.oads.util.StringUtils
 import gov.noaa.pmel.oads.util.TimeUtils
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
+import gov.noaa.pmel.tws.util.FileUtils
 import grails.transaction.Transactional
+import org.grails.web.json.JSONObject
+import org.grails.web.util.WebUtils
+
 //import org.jdom2.Element
 import org.jdom2.input.SAXBuilder
 import org.jdom2.output.Format
@@ -46,6 +51,10 @@ import org.jdom2.output.XMLOutputter
 
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.Unmarshaller
+import javax.xml.transform.Transformer
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.stream.StreamResult
+import javax.xml.transform.stream.StreamSource
 
 @Transactional
 class OadsXmlService {
@@ -75,73 +84,76 @@ class OadsXmlService {
 //        return countryThreeLetter ? countryThreeLetter : proposed;
 //    }
 
-    def createDocumentFromVersion(org.w3c.dom.Document xDoc, String version) {
+    def createMetadataDocumentFromVersionedXml(org.w3c.dom.Document xDoc, String version) {
 
-        OadsMetadataDocumentType metadata = OadsXmlReader.read(xDoc)
+        log.info("Creating OadsMetadata from " + xDoc + " version " + version)
+        OadsMetadataDocumentType xmlMetadata = OadsXmlReader.read(xDoc)
 
-        Document doc = new Document()
+        Document mdDoc = new Document()
 
         // Investigators
-        for (PersonType person : metadata.getInvestigators()) {
-            doc.addToInvestigators(fillPersonDomain(person, new Investigator()))
+        for (PersonType person : xmlMetadata.getInvestigators()) {
+            mdDoc.addToInvestigators(fillPersonDomain(person, new Investigator()))
         }
         // Data Submitter
-        doc.setDataSubmitter(fillPersonDomain(metadata.getDataSubmitter(), new DataSubmitter()))
+        mdDoc.setDataSubmitter(fillPersonDomain(xmlMetadata.getDataSubmitter(), new DataSubmitter()))
 
         // Citation
-        Citation citation = fillCitationDomain(metadata)
-        doc.setCitation(citation)
+        Citation citation = fillCitationDomain(xmlMetadata)
+        mdDoc.setCitation(citation)
 
         // Time and Location Information
-        TimeAndLocation timeAndLocation = fillTimeAndLocDomain(metadata)
-        doc.setTimeAndLocation(timeAndLocation)
+        TimeAndLocation timeAndLocation = fillTimeAndLocDomain(xmlMetadata)
+        mdDoc.setTimeAndLocation(timeAndLocation)
 
-        doc.setTimeAndLocation(timeAndLocation)
+        mdDoc.setTimeAndLocation(timeAndLocation)
 
         // Funding
-        List<Funding> fundingList = new ArrayList<>();
-        for ( FundingSourceType funding : metadata.getFundingInfo()) {
+        List<Funding> fundingList = new ArrayList<>()
+        for (FundingSourceType funding : xmlMetadata.getFundingInfo()) {
             Funding f = new Funding()
             f.setAgencyName(funding.agency)
             f.setGrantTitle(funding.title)
             f.setGrantNumber(funding.identifier.value)
             fundingList.add(f)
         }
-        doc.setFunding(fundingList)
+        mdDoc.setFunding(fundingList)
 
         List<Platform> platformList = new ArrayList<>()
-        for (PlatformType p : metadata.platforms) {
+        for (PlatformType p : xmlMetadata.platforms) {
             Platform platform = new Platform()
             platform.setName(p.name)
             platform.setOwner(p.owner)
             platform.setPlatformId(p.identifier.value)
             platform.setPlatformType(p.type)
             platform.setCountry(p.country)
-           doc.addToPlatforms(platform)
+            mdDoc.addToPlatforms(platform)
         }
 
 
-        for (BaseVariableType baseVar : metadata.getVariables()) {
+        for (BaseVariableType baseVar : xmlMetadata.getVariables()) {
             GenericVariable variable = fillVariableDomain(baseVar)
-            doc.addVariable(variable)
+            mdDoc.addVariable(variable)
         }
 
 
-        return doc
+        return mdDoc
     }
 
-    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
-        ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        PoiReader2.ConvertExcelToOADS(inputStream, baos)
-        ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
-        return createDocument(convertedIS)
-
-    }
+//    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+//        PoiReader2.ConvertExcelToOADS(inputStream, baos)
+//        ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
+//        return createDocument(convertedIS)
+//
+//    }
 
     private Citation fillCitationDomain(OadsMetadataDocumentType metadata) {
         Citation citation = new Citation()
         citation.setTitle(metadata.getTitle())
-        citation.setPlatformAbstract(metadata.getAbstract())
+        citation.setDatasetAbstract(metadata.getAbstract())
+        citation.setUseLimitation(metadata.getUseLimitation())
+        citation.setDataUse(metadata.getDataUse())
         citation.setPurpose(metadata.getPurpose())
         citation.setResearchProjects(String.valueOf(metadata.getResearchProjects()))
         def expocode = ""
@@ -165,7 +177,7 @@ class OadsXmlService {
         for (ReferenceType ref : metadata.getReferences()) {
             reference += ref.name + " "
         }
-        citation.setScientificReferences(reference.trim());
+        citation.setScientificReferences(reference.trim())
 
         def citationList = ""
         for (String author : metadata.authors) {
@@ -209,9 +221,10 @@ class OadsXmlService {
     private GenericVariable fillVariableDomain(DicVariableType dicVar) {
         return fillVariableDic(dicVar, new Dic())
     }
+
     private GenericVariable fillVariableDic(DicVariableType dicVar, GenericVariable dicType) {
         GenericVariable variable = fillVariableGeneric(dicVar, dicType)
-        if ( dicVar.poison ) {
+        if (dicVar.poison) {
 //            Element poisonName = poison.getChild("poisonName")
 //            if ( ! isEmpty(poisonName) ) {
             variable.setPoison(dicVar.poison.name)
@@ -228,25 +241,27 @@ class OadsXmlService {
 
         return variable
     }
+
     private GenericVariable fillVariableDomain(TaVariableType taVar) {
         GenericVariable variable = fillVariableDic(taVar, new Ta())
 
 //        Element titrationType = variable.getChild("titrationType")
 //        if ( ! isEmpty(titrationType) ) {
-            variable.setTitrationType(taVar.titrationType)
+        variable.setTitrationType(taVar.titrationType)
 //        }
 //        Element cellType = variable.getChild("cellType")
 //        if ( ! isEmpty(cellType) ) {
-            variable.setCellType(taVar.cellType)
+        variable.setCellType(taVar.cellType)
 //        }
 //        Element curveFitting = variable.getChild("curveFitting")
 //        if ( ! isEmpty(curveFitting) ) {
-            variable.setCurveFittingMethod(taVar.curveFitting)
+        variable.setCurveFittingMethod(taVar.curveFitting)
 //        }
         variable.setMagnitudeOfBlankCorrection(taVar.blankCorrection)
 
         return variable
     }
+
     private GenericVariable fillVariableDomain(PhVariableType phVar) {
         GenericVariable variable = fillVariableGeneric(phVar, new Ph())
         // 025 at what temperature was pH reported
@@ -261,11 +276,12 @@ class OadsXmlService {
 //        }
 //        Element phReportTemperature = variable.getChild("phReportTemperature")
 //        if ( ! isEmpty(phReportTemperature) ) {
-            variable.setPhTemperature(phVar.phReportTemperature)
+        variable.setPhTemperature(phVar.phReportTemperature)
 //        }
 
         return variable
     }
+
     private GenericVariable fillVariableDomain(Co2Autonomous co2aVar) {
         GenericVariable variable = fillVariableCo2(co2aVar, new Pco2a())
         // 030 Depth of seawater intake
@@ -273,42 +289,42 @@ class OadsXmlService {
         // TextBox intakeDepth;
 //        Element DepthSeawaterIntake = variable.getChild("DepthSeawaterIntake")
 //        if ( ! isEmpty(DepthSeawaterIntake) ) {
-            variable.setIntakeDepth(co2aVar.depthSeawaterIntake)
+        variable.setIntakeDepth(co2aVar.depthSeawaterIntake)
 //        }
 //        Element locationSeawaterIntake = variable.getChild("locationSeawaterIntake")
 //        if ( ! isEmpty(locationSeawaterIntake) ) {
-            variable.setIntakeLocation(co2aVar.locationSeawaterIntake)
+        variable.setIntakeLocation(co2aVar.locationSeawaterIntake)
 //        }
 
 //        Element equilibrator = variable.getChild("equilibrator")
-        if ( co2aVar.equilibrator ) {
+        if (co2aVar.equilibrator) {
 //            Element type = equilibrator.getChild("type")
 //            if ( ! isEmpty(type) ) {
-                variable.setEquilibratorType(co2aVar.equilibrator.type)
+            variable.setEquilibratorType(co2aVar.equilibrator.type)
 //            }
 //            Element volume = equilibrator.getChild("volume")
 //            if ( ! isEmpty(volume) ) {
-                variable.setEquilibratorVolume(co2aVar.equilibrator.volume)
+            variable.setEquilibratorVolume(co2aVar.equilibrator.volume)
 //            }
 //            Element vented = equilibrator.getChild("vented")
 //            if ( ! isEmpty(vented) ) {
-                variable.setVented(co2aVar.equilibrator.vented)
+            variable.setVented(co2aVar.equilibrator.vented)
 //            }
 //            Element waterFlowRate = equilibrator.getChild("waterFlowRate")
 //            if ( ! isEmpty(waterFlowRate) ) {
-                variable.setFlowRate(co2aVar.equilibrator.waterFlowRate)
+            variable.setFlowRate(co2aVar.equilibrator.waterFlowRate)
 //            }
 //            Element gasFlowRate = equilibrator.getChild("gasFlowRate")
 //            if ( ! isEmpty(gasFlowRate) ) {
-                variable.setGasFlowRate(co2aVar.equilibrator.gasFlowRate)
+            variable.setGasFlowRate(co2aVar.equilibrator.gasFlowRate)
 //            }
 //            Element temperatureEquilibratorMethod = equilibrator.getChild("temperatureEquilibratorMethod")
 //            if ( ! isEmpty(temperatureEquilibratorMethod) ) {
-                variable.setEquilibratorTemperatureMeasureMethod(co2aVar.equilibrator.temperatureMeasurement.method)
+            variable.setEquilibratorTemperatureMeasureMethod(co2aVar.equilibrator.temperatureMeasurement.method)
 //            }
 //            Element pressureEquilibratorMethod = equilibrator.getChild("pressureEquilibratorMethod")
 //            if ( ! isEmpty(pressureEquilibratorMethod) ) {
-                variable.setEquilibratorPressureMeasureMethod(co2aVar.equilibrator.pressureMeasurement.method)
+            variable.setEquilibratorPressureMeasureMethod(co2aVar.equilibrator.pressureMeasurement.method)
 //            }
 
 
@@ -317,64 +333,67 @@ class OadsXmlService {
             // TextBox dryingMethod;
 //            Element dryMethod = variable.getChild("dryMethod")
 //            if ( ! isEmpty(dryMethod) ) {
-                variable.setDryingMethod(co2aVar.equilibrator.dryMethod)
+            variable.setDryingMethod(co2aVar.equilibrator.dryMethod)
 //            }
         }
 
         return variable
     }
+
     private GenericVariable fillVariableDomain(Co2Discrete co2dVar) {
         GenericVariable co2d = fillVariableCo2(co2dVar, new Pco2d())
 //        Element storageMethod = variable.getChild("storageMethod")
 //        if ( ! isEmpty(storageMethod) ) {
-            co2d.setStorageMethod(co2dVar.storageMethod)
+        co2d.setStorageMethod(co2dVar.storageMethod)
 //        }
 //        Element headspacevol = variable.getChild("headspacevol");
 //        if ( ! isEmpty(headspacevol) ) {
-            co2d.setHeadspaceVolume(co2dVar.headspaceVolume)
+        co2d.setHeadspaceVolume(co2dVar.headspaceVolume)
 //        }
 //        Element seawatervol = variable.getChild("seawatervol")
 //        if ( ! isEmpty(seawatervol) ) {
-            co2d.setSeawaterVolume(co2dVar.seawaterVolume)
+        co2d.setSeawaterVolume(co2dVar.seawaterVolume)
 //        }
 
         return co2d
     }
+
     private GenericVariable fillVariableCo2(Co2Base co2Var, GenericVariable co2x) {
         co2x = fillVariableGeneric(co2Var, co2x)
 //        Element gasDetector = variable.getChild("gasDetector")
-        if ( co2Var.gasDetector ) {
+        if (co2Var.gasDetector) {
 //            Element manufacturer = gasDetector.getChild("manufacturer")
 //            if (! isEmpty(manufacturer)  ) {
-                co2x.setGasDetectorManufacture(co2Var.gasDetector.manufacturer)
+            co2x.setGasDetectorManufacture(co2Var.gasDetector.manufacturer)
 //            }
 //            Element model = gasDetector.getChild("model")
 //            if ( ! isEmpty(model) ) {
-                co2x.setGasDetectorModel(co2Var.gasDetector.model)
+            co2x.setGasDetectorModel(co2Var.gasDetector.model)
 //            }
 //            Element resolution = gasDetector.getChild("resolution")
 //            if ( ! isEmpty(resolution) ) {
-                co2x.setGasDectectorResolution(co2Var.gasDetector.resolution)
+            co2x.setGasDectectorResolution(co2Var.gasDetector.resolution)
 //            }
 //            Element gasuncertainty = gasDetector.getChild("uncertainty")
 //            if ( ! isEmpty(gasuncertainty) ) {
-                co2x.setGasDectectorUncertainty(co2Var.gasDetector.uncertainty)
+            co2x.setGasDectectorUncertainty(co2Var.gasDetector.uncertainty)
 //            }
         }
 //        Element waterVaporCorrection = variable.getChild("waterVaporCorrection")
 //        if ( ! isEmpty(waterVaporCorrection) ) {
-            co2x.setVaporCorrection(co2Var.waterVaporCorrection)
+        co2x.setVaporCorrection(co2Var.waterVaporCorrection)
 //        }
 //        if ( co2Var.temperatureCorrection ) {
-            co2x.setTemperatureCorrectionMethod(co2Var.temperatureCorrectionMethod)
+        co2x.setTemperatureCorrectionMethod(co2Var.temperatureCorrectionMethod)
 //        }
 //        Element co2ReportTemperature = variable.getChild("co2ReportTemperature")
 //        if ( ! isEmpty(co2ReportTemperature) ) {
-            co2x.setPco2Temperature(co2Var.co2ReportTemperature)
+        co2x.setPco2Temperature(co2Var.co2ReportTemperature)
 //        }
 
-        return co2x;
+        return co2x
     }
+
     private GenericVariable fillVariableDomain(BiologicalVariable bioVar) {
         GenericVariable variable = fillVariableGeneric(bioVar, new GenericVariable())
         // 026 Biological subject
@@ -382,19 +401,19 @@ class OadsXmlService {
         // TextBox biologicalSubject;
 //        Element biologicalSubject = variable.getChild("biologicalSubject")
 //        if ( ! isEmpty(biologicalSubject) ) {
-            variable.setBiologicalSubject(bioVar.biologicalSubject)
+        variable.setBiologicalSubject(bioVar.biologicalSubject)
 //        }
 //        Element duration = variable.getChild("duration")
 //        if ( ! isEmpty(duration) ) {
-            variable.setDuration(bioVar.duration)
+        variable.setDuration(bioVar.duration)
 //        }
 //        Element lifeStage = variable.getChild("lifeStage")
 //        if ( ! isEmpty(lifeStage) ) {
-            variable.setLifeStage(bioVar.lifeStage)
+        variable.setLifeStage(bioVar.lifeStage)
 //        }
 //        Element speciesID = variable.getChild("speciesID")
 //        if ( ! isEmpty(speciesID) ) {
-            variable.setSpeciesIdCode(bioVar.speciesID)
+        variable.setSpeciesIdCode(bioVar.speciesID)
 //        }
 
         return variable
@@ -403,7 +422,7 @@ class OadsXmlService {
     private GenericVariable fillVariableDomain(BaseVariableType variable) {
         return fillVariableGeneric(variable, new Variable())
     }
-        /*
+    /*
 
     // 001 Variable abbreviation in data files
     // <abbrev>
@@ -721,51 +740,51 @@ class OadsXmlService {
 
 //        Element fullname = variable.getChild("fullname")
 //        if ( ! isEmpty(fullname) ) {
-            v.setFullVariableName(source.getFullName())
+        v.setFullVariableName(source.getFullName())
 //        }
 //        Element abbrev = variable.getChild("abbrev")
 //        if ( ! isEmpty(abbrev) ) {
-            v.setAbbreviation(source.getDatasetVarName())
+        v.setAbbreviation(source.getDatasetVarName())
 //        }
 //        Element observationType = variable.getChild("observationType")
 //        if ( ! isEmpty(observationType) ) {
-            v.setObservationType(source.getObservationType())
+        v.setObservationType(source.getObservationType())
 //        }
 //        Element insitu = variable.getChild("insitu")
 //        if ( ! isEmpty(insitu) ) {
-            v.setObservationDetail(source.getVariableType())
+        v.setObservationDetail(source.getVariableType())
 //        }
 //        Element manipulationMethod = variable.getChild("manipulationMethod")
 //        if ( ! isEmpty(manipulationMethod) ) {
-            v.setManipulationMethod(source.getManipulationMethod())
+        v.setManipulationMethod(source.getManipulationMethod())
 //        }
 //        Element unit = variable.getChild("unit")
 //        if ( ! isEmpty(unit) ) {
-            v.setUnits(source.getUnits())
+        v.setUnits(source.getUnits())
 //        }
 //        Element measured = variable.getChild("measured")
 //        if ( ! isEmpty(measured) ) {
 //            v.setMeasured(measured.getTextTrim())
 //        }
 //        Element calcMethod = variable.getChild("calcMethod")
-        if ( source.getCalculationMethod() ) {
+        if (source.getCalculationMethod()) {
             v.setCalculationMethod(source.getCalculationMethod().description)
         }
 //        Element samplingInstrument = variable.getChild("samplingInstrument")
 //        if ( ! isEmpty(samplingInstrument) ) {
-            v.setSamplingInstrument(source.getSamplingInstrument())
+        v.setSamplingInstrument(source.getSamplingInstrument())
 //        }
 //        Element analyzingInstrument = variable.getChild("analyzingInstrument")
 //        if ( ! isEmpty(analyzingInstrument) ) {
-            v.setAnalyzingInstrument(source.getAnalyzingInstrument())
+        v.setAnalyzingInstrument(source.getAnalyzingInstrument())
 //        }
 //        Element detailedInfo = variable.getChild("detailedInfo")
 //        if ( ! isEmpty(detailedInfo) ) {
-            v.setDetailedInformation(source.getDetailedInfo())
+        v.setDetailedInformation(source.getDetailedInfo())
 //        }
 //        Element replicate = variable.getChild("replicate")
 //        if ( ! isEmpty(replicate) ) {
-            v.setFieldReplicate(source.getFieldReplicateHandling())
+        v.setFieldReplicate(source.getFieldReplicateHandling())
 //        }
 
         // TODO this is in two different parent elements in the example <standard> and <standardization>
@@ -773,58 +792,58 @@ class OadsXmlService {
 //        if ( isEmpty( standard )) {
 //            standard = variable.getChild("standardization")
 //        }
-        if ( source.getStandardization()) {
+        if (source.getStandardization()) {
             StandardizationType std = source.standardization
 //            Element technique = standard.getChild("description")
 //            if ( ! isEmpty(technique) ) {
-                v.setStandardizationTechnique(std.description)
+            v.setStandardizationTechnique(std.description)
 //            }
 //            Element frequency = standard.getChild("frequency")
 //            if ( ! isEmpty(frequency) ) {
-                v.setFreqencyOfStandardization(std.frequency)
+            v.setFreqencyOfStandardization(std.frequency)
 //            }
 //            Element crm = standard.getChild("crm")
-            if ( std.crm ) {
+            if (std.crm) {
 //                Element manufacture = crm.getChild("manufacturer")
 //                if ( ! isEmpty(manufacture) ) {
-                    v.setCrmManufacture(std.crm.manufacturer)
+                v.setCrmManufacture(std.crm.manufacturer)
 //                }
 //                Element batch = crm.getChild("batch")
 //                if ( ! isEmpty(batch) ) {
-                    v.setBatchNumber(std.crm.batch)
+                v.setBatchNumber(std.crm.batch)
 //                }
             }
 //            Element stdGas = standard.getChild("standardgas")
-            if ( ! isEmpty( std.standardGas)) {
+            if (!isEmpty(std.standardGas)) {
 //                Element sgasMfc = stdGas.getChild("manufacturer")
 //                if ( !isEmpty( sgasMfc )) {
-                    v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
+                v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
 //                }
 //                Element sgasConc = stdGas.getChild("concentration")
 //                if ( !isEmpty( sgasConc )) {
-                    v.setGasConcentration(std.standardGas.get(0).concentration)
+                v.setGasConcentration(std.standardGas.get(0).concentration)
 //                }
 //                Element sgasUnc = stdGas.getChild("uncertainty")
 //                if ( !isEmpty( sgasUnc )) {
-                    v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
+                v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
 //                }
             }
         }
 //
 //        Element uncertainty = variable.getChild("uncertainty")
 //        if ( ! isEmpty(uncertainty) ) {
-            v.setUncertainty(source.getUncertainty())
+        v.setUncertainty(source.getUncertainty())
 //        }
 //        Element flag = variable.getChild("flag")
-        if ( source.getQcFlag() ) {
+        if (source.getQcFlag()) {
             v.setQualityFlag(source.getQcFlag().getDescription())
         }
 //        Element methodReference = variable.getChild("methodReference")
 //        if ( ! isEmpty(methodReference) ) {
-            v.setReferenceMethod(source.methodReference)
+        v.setReferenceMethod(source.methodReference)
 //        }
 //        Element researcherName = variable.getChild("researcherName")
-        if ( source.researcher ) {
+        if (source.researcher) {
             v.setResearcherName(source.researcher.name)
             v.setResearcherInstitution(source.researcher.organization)
         }
@@ -835,20 +854,23 @@ class OadsXmlService {
     }
 
     private Person fillPersonDomain(PersonType p, Person human) {
+        if (p == null) {
+            return null
+        }
         PersonNameType name = p.name
-        human.firstName = name.first
-        human.mi = name.middle
-        human.lastName = name.last
+        human.firstName = name?.first
+        human.mi = name?.middle
+        human.lastName = name?.last
 
         human.setInstitution(p.organization)
 
         PersonContactInfoType contactInfo = p.contactInfo
         AddressType address = contactInfo.address
-        if ( address ) {
-            List<OrderedStringElementType> addrs = address.deliveryPoint;
-            if ( addrs.size() > 0 ) {
+        if (address) {
+            List<OrderedStringElementType> addrs = address.deliveryPoint
+            if (addrs.size() > 0) {
                 human.setAddress1(addrs.get(0).value)
-                if ( addrs.size() > 1 ) {
+                if (addrs.size() > 1) {
                     human.setAddress2(addrs.get(1).value)
                 }
             }
@@ -867,17 +889,80 @@ class OadsXmlService {
         human.setTelephone(contactInfo.phone)
         human.setEmail(contactInfo.email)
         def ids = p.identifier
-        if ( ids && ! ids.isEmpty()) {
+        if (ids && !ids.isEmpty()) {
             TypedIdentifierType id = ids.get(0)
             human.setRid(id.value)
             human.setIdType(id.type)
         }
-        return human;
+        return human
     }
+
     def createXml(Document doc) {
         return createOadsXml(doc)
     }
+
     def createOadsXml(Document doc) {
+        OadsMetadataDocumentType mdDoc = buildMetadataDoc(doc)
+        String xml = OadsXmlWriter.getXml(mdDoc)
+        return xml
+    }
+
+    def transformDoc(Document doc, OutputStream outS) {
+        try {
+            OadsMetadataDocumentType mdDoc = buildMetadataDoc(doc)
+            ByteArrayOutputStream baos = new ByteArrayOutputStream()
+            OadsXmlWriter.outputXml(mdDoc, baos)
+            ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray())
+            doXslTransformation(bis, outS)
+        } catch (Throwable t) {
+            t.printStackTrace()
+        }
+    }
+
+//    def getXslResourceFile(String path) {
+//        File xslFile;
+//        File f = new File(".")
+//        String p = f.getAbsolutePath()
+//        if ( p.indexOf("OAPMetadataEditor") > -1 ) {
+//            String check = path;
+//            def resource = this.class.getResource(path)
+//            System.out.println(check + ":" + resource)
+//            check = path.substring(1)
+//            resource = this.class.getResource(check)
+//            System.out.println(check + ":" + resource)
+//            check = "src/main/webapp"+path
+//            resource = this.class.getResource(check);
+//            System.out.println(check + ":" + resource)
+//            check = "/src/main/webapp"+path
+//            resource = this.class.getResource(check);
+//            System.out.println(check + ":" + resource)
+//            check = "xslr" + path.substring(4)
+//            resource = this.class.getResource(check);
+//            System.out.println(check + ":" + resource)
+//            check = "/" + check
+//            resource = this.class.getResource(check);
+//            System.out.println(check + ":" + resource)
+//            xslFile = new File("src/main/webapp"+path)
+//            System.out.println(xslFile.getAbsolutePath())
+//        } else {
+//            def resource = this.class.getResource(path)
+//            System.out.println(resource)
+//            xslFile = resource.getFile()
+//        }
+//        return xslFile
+//    }
+
+    def doXslTransformation(InputStream inXml, OutputStream outXfrm) {
+        def resource = this.class.getResource("/xsl/a0.2.2/ocads_a0.2.2.xsl")
+        String absFile = resource?.getFile()
+        System.out.println("using XSL file " + absFile)
+        absFile = URLDecoder.decode(absFile)
+        File xslFile = new File(absFile)
+        TransformerFactory xfrmFactory = TransformerFactory.newInstance()
+        Transformer xfrm = xfrmFactory.newTransformer(new StreamSource(xslFile))
+        xfrm.transform(new StreamSource(inXml), new StreamResult(outXfrm))
+    }
+    def buildMetadataDoc(Document doc) {
         OadsMetadataDocumentType.OadsMetadataDocumentTypeBuilder metadata = OadsMetadataDocumentType.builder()
         metadata.version("a0.2.2")
 
@@ -894,10 +979,12 @@ class OadsXmlService {
 //            metadata.dataSubmitter(dataSubmitter)
 //        }
 
-        Citation citation = doc.getCitation();
+        Citation citation = doc.getCitation()
         if ( citation ) {
             metadata.title(citation.getTitle())
-            metadata._abstract(citation.getPlatformAbstract())
+            metadata._abstract(citation.getDatasetAbstract())
+            metadata.useLimitation(citation.getUseLimitation())
+            metadata.dataUse(citation.getDataUse())
             metadata.purpose(citation.getPurpose())
 
             // XXX TODO: use single string, multiple strings, or ResearchProjectType ???
@@ -929,10 +1016,10 @@ class OadsXmlService {
         TimeAndLocation timeAndLocation = doc.getTimeAndLocation()
         if ( timeAndLocation ) {
             metadata.spatialExtents(SpatialExtentsType.builder()
-                        .easternBounds(new BigDecimal(timeAndLocation.getEastLon()))
-                        .northernBounds(new BigDecimal(timeAndLocation.getNorthLat()))
-                        .southernBounds(new BigDecimal(timeAndLocation.getSouthLat()))
-                        .westernBounds(new BigDecimal(timeAndLocation.getWestLon()))
+                        .easternBounds(timeAndLocation.getEastLon() != null ? new BigDecimal(timeAndLocation.getEastLon()) : null )
+                        .northernBounds(timeAndLocation.getNorthLat() != null ? new BigDecimal(timeAndLocation.getNorthLat()) : null )
+                        .southernBounds(timeAndLocation.getSouthLat() != null ? new BigDecimal(timeAndLocation.getSouthLat()) : null )
+                        .westernBounds(timeAndLocation.getWestLon() != null ? new BigDecimal(timeAndLocation.getWestLon()) : null )
                         .build()
             )
             metadata.temporalExtents(TemporalExtentsType.builder()
@@ -956,7 +1043,7 @@ class OadsXmlService {
             }
         }
 
-        List<Funding> fundingList = doc.getFunding();
+        List<Funding> fundingList = doc.getFunding()
         for (int i = 0; i < fundingList.size(); i++) {
             Funding funding = fundingList.get(i)
             if ( funding ) {
@@ -1017,14 +1104,13 @@ class OadsXmlService {
         }
 
         OadsMetadataDocumentType md = metadata.build()
+        return md
         // TODO the rest of the variable stuff.
-        String xml = OadsXmlWriter.getXml(md)
-        return xml
     }
 
     private DicVariableType fillDic(GenericVariable v) {
         DicVariableType.DicVariableTypeBuilder dicVarBuilder = (DicVariableType.DicVariableTypeBuilder) _fillDic(v, DicVariableType.builder())
-        return dicVarBuilder.build();
+        return dicVarBuilder.build()
     }
     private DicVariableType.DicVariableTypeBuilder _fillDic(GenericVariable v, DicVariableTypeBuilder builder) {
         DicVariableType.DicVariableTypeBuilder dicVarBuilder = (DicVariableType.DicVariableTypeBuilder) fillVariable(v, builder)
@@ -1119,7 +1205,7 @@ class OadsXmlService {
         return co2Builder.build()
     }
     private Co2Base.Co2BaseBuilder fillPCO2x(GenericVariable v, Co2Base.Co2BaseBuilder builder) {
-        Co2Base.Co2BaseBuilder co2Builder = fillVariable(v, builder);
+        Co2Base.Co2BaseBuilder co2Builder = fillVariable(v, builder)
         /*
         pCO2A: Manufacturer of the gas detector
         pCO2A: Model of the gas detector
@@ -1243,7 +1329,7 @@ class OadsXmlService {
         if  ( p == null ) {
             return null
         }
-        PersonTypeBuilder person = PersonType.builder();
+        PersonTypeBuilder person = PersonType.builder()
         person.name(PersonNameType.builder().first(p.getFirstName()).middle(p.getMi()).last(p.getLastName()).build())
         // Apparently institution in the spreadsheet is organization in the XML
         person.organization(p.getInstitution())
@@ -1267,4 +1353,25 @@ class OadsXmlService {
         }
         return person.build()
     }
+
+   static void main(String[] args) {
+       try {
+           File mdDocFile = new File("/Users/kamb/workspace/oa_dashboard_test_data/ME_DOCUMENT.json")
+           String documentJson = FileUtils.readFully(mdDocFile)
+           Document doc = new Document(new JSONObject(documentJson))
+           oap.OadsXmlService xs = new OadsXmlService()
+           ByteArrayOutputStream baos = new ByteArrayOutputStream()
+           xs.transformDoc(doc, baos)
+    //       FileInputStream inXml = new FileInputStream("/Users/kamb/workspace/oa_dashboard_test_data/NCEI/Crescent_64W_32N/0117059.xml"); // workspace/oads_xml/versions/a0.2.2/sample_a0.2.2.xml")
+           byte[] ba = baos.toByteArray()
+           String html = new String(ba)
+           ByteArrayInputStream inXml = new ByteArrayInputStream(ba)
+           ByteArrayOutputStream outXfrm = new ByteArrayOutputStream()
+           new OadsXmlService().doXslTransformation(inXml, outXfrm)
+           String xfrm = new String(outXfrm.toByteArray())
+           System.out.println(xfrm)
+       } catch (Throwable t ) {
+           t.printStackTrace()
+       }
+   }
 }

@@ -25,6 +25,22 @@ public class Document {
 
     String update;
 
+    public static Document copy(Document doc) {
+        Document copyDoc = new Document();
+        copyDoc.setCitation(doc.getCitation());
+        copyDoc.setDataSubmitter(doc.getDataSubmitter());
+        copyDoc.setInvestigators(new ArrayList<>(doc.getInvestigators()));
+        copyDoc.setFunding(doc.getFunding());
+        copyDoc.setPlatforms(new ArrayList<>(doc.getPlatforms()));
+        copyDoc.setDic(doc.getDic());
+        copyDoc.setPco2a(doc.getPco2a());
+        copyDoc.setPco2d(doc.getPco2d());
+        copyDoc.setPh(doc.getPh());
+        copyDoc.setTa(doc.getTa());
+        copyDoc.setTimeAndLocation(doc.getTimeAndLocation());
+        copyDoc.setVariables(new ArrayList<>(doc.getVariables()));
+        return copyDoc;
+    }
     public static Document EmptyDocument() {
        Document empty = new Document();
 //       empty.setCitation(new Citation());
@@ -34,7 +50,6 @@ public class Document {
        empty.setInvestigators(Arrays.asList(new Person[0]));
 //       empty.setPco2a(new Variable());
 //       empty.setPco2d(new Variable());
-       empty.setInvestigators(Arrays.asList(new Person[0]));
 //       empty.setPh(new Variable());
        empty.setPlatforms(Arrays.asList(new Platform[0]));
 //       empty.setTa(new Variable());

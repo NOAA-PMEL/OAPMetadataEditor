@@ -1,9 +1,6 @@
 package oap
 
 import grails.converters.JSON
-import groovy.xml.SAXBuilder
-import org.jdom2.Attribute
-import org.jdom2.Element
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -105,27 +102,29 @@ class DocumentController {
 
         Document d
         if ( doc.validate() ) {
-            Citation c = doc.getCitation()
-            if ( c ) {
-                String expocode = c.getExpocode()
-                if ( expocode ) {
-                    Citation savedCitation = Citation.findByExpocode(expocode)
-                    if ( savedCitation ) {
-                        Document savedVersion = savedCitation.getDocument()
-                        if (savedVersion) {
-                            // Out with the old and in with the new
-                            savedVersion.delete(flush: true)
-//                            doc.id = savedVersion.id
-//                            d = doc.merge(flush:true)
-////                            d = savedVersion.save(flush: true)
-//                            System.out.println("Save existg: " + d)
-//                            saved = true
+            try {
+                Citation c = doc.getCitation()
+                if (c) {
+                    String expocode = c.getExpocode()
+                    if (expocode) {
+                        Citation savedCitation = Citation.findByExpocode(expocode)
+                        if (savedCitation) {
+                            Document savedVersion = savedCitation.getDocument()
+                            if (savedVersion) {
+                                // Out with the old and in with the new
+                                savedVersion.delete(flush: true)
+//                                doc.id = savedVersion.id
+//                                d = doc.merge(flush:true)
+                            }
                         }
                     }
                 }
+                d = doc.save(flush: true)
+                System.out.println("Save: " + d)
+            } catch (Throwable t) {
+                System.out.println("Error saving document " + doc)
+                t.printStackTrace()
             }
-            d = doc.save(flush:true)
-            System.out.println("Save: " + d)
         } else {
             doc.errors.each {Error error ->
                 log.debug(error.getMessage())            }
@@ -158,6 +157,7 @@ class DocumentController {
         String ctype = request.getContentType()
         String postedDocId = params.id
         System.out.println("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + postedDocId);
+        log.info("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + postedDocId)
         InputStream ins;
         if ( ! ctype.startsWith("multipart/form-data")) {
             // bad post
@@ -165,11 +165,11 @@ class DocumentController {
             return
         }
         def f = request.getPart('xmlFile')
-        ins = f.getInputStream();
+        ins = f?.getInputStream();
         // Create the document
         Document document;
         try {
-            document = xmlService.createDocument(ins)
+            document = createDocumentFromXml(ins)
         } catch (Exception ex) {
             String msg = "Error parsing metadata XML document: " + ex.toString()
             System.out.println(msg)
@@ -267,13 +267,14 @@ class DocumentController {
     }
     private def createDocumentFromXml(InputStream inStream) {
 
+        log.debug("Creating xml document")
         String xml = new BufferedReader(new InputStreamReader(inStream))
                 .lines().parallel().collect(Collectors.joining("\n"));
         org.w3c.dom.Document xdoc = _createXDoc(xml)
         org.w3c.dom.Element rootElem = xdoc.getDocumentElement()
         String version = rootElem.getAttribute("version")
         if (version) {
-            return oadsXmlService.createDocumentFromVersion(xdoc, version)
+            return oadsXmlService.createMetadataDocumentFromVersionedXml(xdoc, version)
         } else {
             return xmlService.createDocumentFromLegacyXML(new ByteArrayInputStream(xml.bytes))
         }
@@ -296,13 +297,20 @@ class DocumentController {
 
     def upload() {
 
+        System.out.println("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost())
+        log.info("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost())
+
         def f = request.getPart('xmlFile')
         InputStream ins = f.getInputStream()
 
         Document document;
 
+
         try {
             String name = f.getSubmittedFileName()
+            System.out.println("uploading: " + name)
+            log.info("uploading: " + name)
+
             if (name.toLowerCase().endsWith(".xml")) {
                 document = createDocumentFromXml(ins)
             } else {
@@ -350,6 +358,22 @@ class DocumentController {
         response.contentType = 'text/xml'
         response.outputStream << output
         response.outputStream.flush()
+    }
+    def preview() {
+        try {
+            String pid = params.id;
+            long id = Long.valueOf(pid)
+            Document doc = Document.findById(id)
+//        Citation c = doc.getCitation()
+            ByteArrayOutputStream baos = new ByteArrayOutputStream()
+            oadsXmlService.transformDoc(doc, baos);
+            String output = new String(baos.toByteArray())
+            response.contentType = 'text/html'
+            response.outputStream << output
+            response.outputStream.flush()
+        } catch (Throwable throwable) {
+            throwable.printStackTrace()
+        }
     }
     def xml() {
         String pid = params.id;

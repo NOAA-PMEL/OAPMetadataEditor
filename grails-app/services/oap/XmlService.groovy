@@ -29,26 +29,27 @@ class XmlService {
     }
 
     def createDocumentFromLegacyXML(InputStream ins) {
+        log.info("Creating Document from legacy xml")
         SAXBuilder saxBuilder = new SAXBuilder()
-        org.jdom2.Document document = saxBuilder.build(ins)
-        Document doc = new Document()
-        Element root = document.getRootElement()
+        org.jdom2.Document xmlDocument = saxBuilder.build(ins)
+        Document mdDoc = new Document()
+        Element root = xmlDocument.getRootElement()
 
         List<Element> people = root.getChildren("person")
 
         // Investigators
         for (int i = 0; i < people.size(); i++) {
             Element person = people.get(i)
-            if ( person.getChild("role") != null && person.getChild("role").getText().equals("investigator") ) {
-                Investigator p = fillPersonDomain(person)
-                doc.addToInvestigators(p)
+            if ( person.getChild("role") != null && person.getChild("role").getText().equalsIgnoreCase("investigator") ) {
+                Investigator p = fillPersonDomain(person, new Investigator())
+                mdDoc.addToInvestigators(p)
             }
         }
         // Data Submitter
-        Element datasubmitterE = root.getChild("datasubmitter")
-        if ( ! isEmpty(datasubmitterE) ) {
-            DataSubmitter p = fillPersonDomain(datasubmitterE)
-            doc.setDataSubmitter(p)
+        Element datasubmitter = root.getChild("datasubmitter")
+        if ( ! isEmpty(datasubmitter) ) {
+            DataSubmitter p = fillPersonDomain(datasubmitter, new DataSubmitter())
+            mdDoc.setDataSubmitter(p)
         }
 
         // Citation
@@ -58,9 +59,9 @@ class XmlService {
             citation.setTitle(title.getTextTrim());
         }
 
-        Element platformAbstract = root.getChild("abstract")
-        if ( ! isEmpty(platformAbstract) ) {
-            citation.setPlatformAbstract(platformAbstract.getTextTrim())
+        Element datasetAbstract = root.getChild("abstract")
+        if ( ! isEmpty(datasetAbstract) ) {
+            citation.setDatasetAbstract(datasetAbstract.getTextTrim())
         }
 
         Element purpose = root.getChild("purpose")
@@ -102,7 +103,7 @@ class XmlService {
         if ( ! isEmpty(suppleInfo) ) {
             citation.setSupplementalInformation(suppleInfo.getTextTrim())
         }
-        doc.setCitation(citation)
+        mdDoc.setCitation(citation)
 
         // Time and Location Information
         TimeAndLocation timeAndLocation = new TimeAndLocation()
@@ -143,7 +144,7 @@ class XmlService {
         if ( ! isEmpty(locationOrganism) ) {
             timeAndLocation.setOrganismLoc(locationOrganism.getText())
         }
-        doc.setTimeAndLocation(timeAndLocation)
+        mdDoc.setTimeAndLocation(timeAndLocation)
 
         // Funding
 
@@ -169,10 +170,10 @@ class XmlService {
         }
 
 
-        doc.setFunding(fundingList)
+        mdDoc.setFunding(fundingList)
 
         Platform platform = new Platform()
-        Element platformE = root.getChild("platfrom")
+        Element platformE = root.getChild("platform")
 
         if (! isEmpty(platformE)) {
 
@@ -203,69 +204,69 @@ class XmlService {
                     platform.setCountry(proposedCountry)
                 }
             }
-            doc.addToPlatforms(platform)
-        }
+            mdDoc.addToPlatforms(platform)
+        } else {
+            // Or try the "old" style if it's included
+            Element oldPlatE = root.getChild("Platform")
 
-        // Or read the "old" style if it's included
-        Element oldPlatE = root.getChild("Platform")
+            if (! isEmpty(oldPlatE)) {
 
-        if (! isEmpty(oldPlatE)) {
-
-            Element platformName = oldPlatE.getChild("PlatformName")
-            if (! isEmpty(platformName)) {
-                platform.setName(platformName.getTextTrim())
-            }
-            Element platformId = oldPlatE.getChild("PlatformID")
-            if (! isEmpty(platformId)) {
-                platform.setPlatformId(platformId.getTextTrim())
-            }
-            Element platformType = oldPlatE.getChild("PlatformType")
-            if (! isEmpty(platformType)) {
-
-                platform.setPlatformType(platformType.getText())
-            }
-            Element platformOwner = oldPlatE.getChild("PlatformOwner")
-            if (! isEmpty(platformOwner)) {
-                platform.setOwner(platformOwner.getText())
-            }
-            Element platformCountry = oldPlatE.getChild("PlatformCountry")
-            if (! isEmpty(platformCountry)) {
-                String proposedCountry = platformCountry.getTextTrim()
-                String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
-                if ( countryThreeLetter != null ) {
-                    platform.setCountry(countryThreeLetter)
-                } else {
-                    platform.setCountry(proposedCountry)
+                Element platformName = oldPlatE.getChild("PlatformName")
+                if (! isEmpty(platformName)) {
+                    platform.setName(platformName.getTextTrim())
                 }
+                Element platformId = oldPlatE.getChild("PlatformID")
+                if (! isEmpty(platformId)) {
+                    platform.setPlatformId(platformId.getTextTrim())
+                }
+                Element platformType = oldPlatE.getChild("PlatformType")
+                if (! isEmpty(platformType)) {
+
+                    platform.setPlatformType(platformType.getText())
+                }
+                Element platformOwner = oldPlatE.getChild("PlatformOwner")
+                if (! isEmpty(platformOwner)) {
+                    platform.setOwner(platformOwner.getText())
+                }
+                Element platformCountry = oldPlatE.getChild("PlatformCountry")
+                if (! isEmpty(platformCountry)) {
+                    String proposedCountry = platformCountry.getTextTrim()
+                    String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
+                    if ( countryThreeLetter != null ) {
+                        platform.setCountry(countryThreeLetter)
+                    } else {
+                        platform.setCountry(proposedCountry)
+                    }
+                }
+                mdDoc.addToPlatforms(platform)
             }
-            doc.addToPlatforms(platform)
         }
 
         List<Element> variables = root.getChildren("variable")
         for (int i = 0; i < variables.size(); i++) {
             Element variableE = variables.get(i)
 
-            if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("dissolved inorganic carbon") ) {
-                Dic dic = fillVariableDomain(variableE)
-                doc.setDic(dic)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("ph") ) {
-                Ph ph = fillVariableDomain(variableE)
-                doc.setPh(ph)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("pco2 (fco2) autonomous") ) {
-                Pco2a p = fillVariableDomain(variableE)
-                doc.setPco2a(p)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("pco2 (fco2) discrete")) {
-                Pco2d p = fillVariableDomain(variableE)
-                doc.setPco2d(p)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equals("total alkalinity") ) {
-                Ta ta = fillVariableDomain(variableE)
-                doc.setTa(ta)
+            if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("dissolved inorganic carbon") ) {
+                Dic dic = fillVariableDomain(variableE, new Dic())
+                mdDoc.setDic(dic)
+            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("ph") ) {
+                Ph ph = fillVariableDomain(variableE, new Ph())
+                mdDoc.setPh(ph)
+            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("pco2 (fco2) autonomous") ) {
+                Pco2a p = fillVariableDomain(variableE, new Pco2a())
+                mdDoc.setPco2a(p)
+            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("pco2 (fco2) discrete")) {
+                Pco2d p = fillVariableDomain(variableE, new Pco2d())
+                mdDoc.setPco2d(p)
+            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("total alkalinity") ) {
+                Ta ta = fillVariableDomain(variableE, new Ta())
+                mdDoc.setTa(ta)
             } else {
-                Variable variable = fillVariableDomain(variableE)
-                doc.addToVariables(variable)
+                Variable variable = fillVariableDomain(variableE, new Variable())
+                mdDoc.addToVariables(variable)
             }
         }
-        return doc
+        return mdDoc
     }
 
     def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
@@ -276,438 +277,118 @@ class XmlService {
 
     }
 
-    private GenericVariable fillVariableDomain(Element variable) {
+    private GenericVariable fillVariableDomain(Element varElement, GenericVariable domainVar) {
 
-        /*
-
-
-    // 001 Variable abbreviation in data files
-    // <abbrev>
-    @UiField
-    TextBox abbreviation;
-
-    // 002 Observation type
-    // <observationType>
-    @UiField
-    TextBox observationType;
-
-    // 003 Manipulation method
-    // <manipulationMethod>
-    @UiField
-    TextBox manipulationMethod;
-
-    // 004 In-situ observation / manipulation condition / response variable
-    // <insitu>
-    @UiField
-    ButtonDropDown observationDetail;
-
-    // 005 Variable unit
-    // <unit>
-    @UiField
-    TextBox units;
-
-    // 006 Measured or calculated
-    // <measured>
-    @UiField
-    ButtonDropDown measured;
-
-    // 007 Calculation method and parameters
-    // <calcMethod>
-    @UiField
-    TextBox calculationMethod;
-
-    // 008 Sampling instrument
-    // <samplingInstrument>
-    @UiField
-    ButtonDropDown samplingInstrument;
-
-    // 009 Analyzing instrument
-    // <analyzingInstrument>
-    @UiField
-    ButtonDropDown analyzingInstrument;
-
-    // 010 Detailed sampling and analyzing information
-    // <detailedInfo>
-    @UiField
-    TextArea detailedInformation;
-
-    // 011 Field replicate information
-    // <replicate>
-    @UiField
-    TextBox fieldReplicate;
-
-    // 012 Standardization technique description
-    // <standardization><description>
-    @UiField
-    TextBox standardizationTechnique;
-
-    // 013 Frequency of standardization
-    // <standardization><frequency>
-    @UiField
-    TextBox freqencyOfStandardization;
-
-    // 014 CRM manufacturer
-    // <crm><manufacturer>
-    @UiField
-    TextBox crmManufacture;
-
-    // 015 Batch Number
-    // <crm><batch>
-    @UiField
-    TextBox batchNumber;
-
-    // 016 Storage method
-    // <storageMethod>
-    @UiField
-    TextBox storageMethod;
-
-    // 017 Poison used to kill the sample
-    // <poison><poisonName>
-    @UiField
-    TextBox poison;
-
-    // 018 Poison volume
-    @UiField
-    TextBox poisonVolume;
-
-    // 019 Poisoning correction description
-    @UiField
-    TextBox poisonDescription;
-
-    // TODO standard gas uncertainty
-    // 020 Uncertainty
-    // <standardization><standardgas><uncertainty>
-    @UiField
-    TextBox uncertainty;
-
-    // 021 Data quality flag description
-    // <flag>
-    @UiField
-    TextBox qualityFlag;
-
-    // 022 Researcher Name
-    // <researcherName>
-    @UiField
-    TextBox researcherName;
-
-    // 023 Researcher Institution
-    // <researcherInstitution>
-    @UiField
-    TextBox researcherInstitution;
-
-    // 024 at what temperature was pCO2 reported
-    // <co2ReportTemperature>
-    @UiField
-    TextBox pCO2temperature;
-
-    // 025 at what temperature was pH reported
-    // <phReportTemperature>
-    @UiField
-    TextBox pHtemperature;
-
-    // 026 Biological subject
-    // <biologicalSubject>
-    @UiField
-    TextBox biologicalSubject;
-
-    // 027 Cell type (open or closed)
-    // <cellType>
-    @UiField
-    ButtonDropDown cellType;
-
-    // 028 Concentrations of standard gas
-    // <standardization><standardgas><concentration>
-    @UiField
-    TextBox gasConcentration;
-
-    // 029 Curve fitting method
-    // <curveFitting>
-    @UiField
-    TextBox curveFittingMethod;
-
-    // 030 Depth of seawater intake
-    // <DepthSeawaterIntake>
-    @UiField
-    TextBox intakeDepth;
-
-    // 031 Drying method for CO2 gas
-    // <dryMethod>
-    @UiField
-    TextBox dryingMethod;
-
-    // 032 Duration (for settlement/colonization methods)
-    // <duration>
-    @UiField
-    TextBox duration;
-
-    // 033 Equilibrator type
-    // <equilibrator><type>
-    @UiField
-    TextBox equilibratorType;
-
-    // 034 Equilibrator volume (L)
-    // <equilibrator><volume>
-    @UiField
-    TextBox equilibratorVolume;
-
-    // 035 Full variable name
-    // <fullname>
-    @UiField
-    TextBox fullVariableName;
-
-    // 036 Headspace gas flow rate (L/min)
-    // <gasFlowRate>
-    @UiField
-    TextBox gasFlowRate;
-
-    // 037 Headspace volume (mL)
-    // <headspacevol>
-    @UiField
-    TextBox headspaceVolume;
-
-    // 038 How was pressure inside the equilibrator measured.
-    // <equilibrator><pressureEquilibratorMethod>
-    @UiField
-    TextBox equilibratorPressureMeasureMethod;
-
-    // 039 How was temperature inside the equilibrator measured .
-    // <equilibrator><temperatureEquilibratorMethod>
-    @UiField
-    TextBox equilibratorTemperatureMeasureMethod;
-
-    // 040 Life stage of the biological subject
-    // <lifeStage>
-    @UiField
-    TextBox lifeStage;
-
-    // 041 Location of seawater intake
-    // <locationSeawaterIntake>
-    @UiField
-    TextBox intakeLocation;
-
-    // 042 Magnitude of blank correction
-    // <blank>
-    @UiField
-    TextBox magnitudeOfBlankCorrection;
-
-    // 043 Manufacturer of standard gas
-    // <standardization><standardgas><manufacture>
-    @UiField
-    TextBox standardGasManufacture;
-
-    // 044 Manufacturer of the gas detector
-    // <gasDetector> ???
-    @UiField
-    TextBox gasDetectorManufacture;
-
-    // 045 Method reference (citation)
-    // <methodReference>
-    @UiField
-    TextBox referenceMethod;
-
-    // 046 Model of the gas detector
-    @UiField
-    TextBox gasDetectorModel;
-
-    // 047 pH scale
-    // <phscale>
-    @UiField
-    TextBox pHscale;
-
-    // 048 pH values of the standards
-    @UiField
-    TextBox pHstandards;
-
-    // 049 Resolution of the gas detector
-    // <resolution>
-    @UiField
-    TextBox gasDectectorResolution;
-
-    // 050 Seawater volume (mL)
-    // <seawatervol>
-    @UiField
-    TextBox seawaterVolume;
-
-    // 051 Species Identification code
-    // <speciesID>
-    @UiField
-    TextBox speciesIdCode;
-
-    // 052 Temperature correction method
-    // ???
-    // <temperatureCorrectionMethod>
-    // <temperatureCorrection>
-    @UiField
-    TextBox temperatureCorrectionMethod;
-
-    // 053 Temperature of measurement
-    // <temperatureMeasure>
-    @UiField
-    TextBox temperatureMeasurement;
-
-    // 054 Temperature of standardization
-    // <temperatureStandardization>
-    // <temperatureStd
-    @UiField
-    TextBox temperatureStandarization;
-
-    // 055 Type of titration
-    // <titrationType>
-    @UiField
-    TextBox titrationType;
-
-    // 056 Uncertainties of standard gas
-    // <standard
-    @UiField
-    TextBox standardGasUncertainties;
-
-    // 057 Uncertainty of the gas detector
-    @UiField
-    TextBox gasDectectorUncertainty;
-
-    // 058 Vented or not
-    // <equilibrator><vented>
-    @UiField
-    TextBox vented;
-
-    // 059 Water flow rate (L/min)
-    // <equilabrator><waterFlowRate>
-    @UiField
-    TextBox flowRate;
-
-    // 060 Water vapor correction method
-    // <waterVaporCorrection>
-    @UiField
-    TextBox vaporCorrection;
-
-
-         */
-
-        def v
-        if ( variable.getChild("fullname") && variable.getChild("fullname").getTextTrim().toLowerCase().equals("dissolved inorganic carbon") ) {
-            v = new Dic()
-        } else if ( variable.getChild("fullname") && variable.getChild("fullname").getTextTrim().toLowerCase().equals("ph") ) {
-            v = new Ph()
-        } else if ( variable.getChild("fullname") && variable.getChild("fullname").getTextTrim().toLowerCase().equals("pco2 (fco2) autonomous") ) {
-            v = new Pco2a()
-        } else if ( variable.getChild("fullname") && variable.getChild("fullname").getTextTrim().toLowerCase().equals("pco2 (fco2) discrete")) {
-            v = new Pco2d()
-        } else if ( variable.getChild("fullname") && variable.getChild("fullname").getTextTrim().toLowerCase().equals("total alkalinity") ) {
-            v = new Ta()
-        } else {
-            v = new Variable()
-        }
-
-        Element fullname = variable.getChild("fullname")
+        Element fullname = varElement.getChild("fullname")
         if ( ! isEmpty(fullname) ) {
-            v.setFullVariableName(fullname.getTextTrim())
+            domainVar.setFullVariableName(fullname.getTextTrim())
         }
-        Element abbrev = variable.getChild("abbrev")
+        Element abbrev = varElement.getChild("abbrev")
         if ( ! isEmpty(abbrev) ) {
-            v.setAbbreviation(abbrev.getTextTrim())
+            domainVar.setAbbreviation(abbrev.getTextTrim())
         }
-        Element observationType = variable.getChild("observationType")
+        Element observationType = varElement.getChild("observationType")
         if ( ! isEmpty(observationType) ) {
-            v.setObservationType(observationType.getTextTrim())
+            domainVar.setObservationType(observationType.getTextTrim())
         }
-        Element insitu = variable.getChild("insitu")
+        Element insitu = varElement.getChild("insitu")
         if ( ! isEmpty(insitu) ) {
-            v.setObservationDetail(insitu.getTextTrim())
+            domainVar.setObservationDetail(insitu.getTextTrim())
         }
-        Element manipulationMethod = variable.getChild("manipulationMethod")
+        Element manipulationMethod = varElement.getChild("manipulationMethod")
         if ( ! isEmpty(manipulationMethod) ) {
-            v.setManipulationMethod(manipulationMethod.getTextTrim())
+            domainVar.setManipulationMethod(manipulationMethod.getTextTrim())
         }
-        Element unit = variable.getChild("unit")
+        Element unit = varElement.getChild("unit")
         if ( ! isEmpty(unit) ) {
-            v.setUnits(unit.getTextTrim())
+            domainVar.setUnits(unit.getTextTrim())
         }
-        Element measured = variable.getChild("measured")
+        Element measured = varElement.getChild("measured")
         if ( ! isEmpty(measured) ) {
-            v.setMeasured(measured.getTextTrim())
+            domainVar.setMeasured(measured.getTextTrim())
         }
-        Element calcMethod = variable.getChild("calcMethod")
+        Element calcMethod = varElement.getChild("calcMethod")
         if ( ! isEmpty(calcMethod) ) {
-            v.setCalculationMethod(calcMethod.getTextTrim())
+            domainVar.setCalculationMethod(calcMethod.getTextTrim())
         }
-        Element samplingInstrument = variable.getChild("samplingInstrument")
+        Element samplingInstrument = varElement.getChild("samplingInstrument")
         if ( ! isEmpty(samplingInstrument) ) {
-            v.setSamplingInstrument(samplingInstrument.getTextTrim())
+            domainVar.setSamplingInstrument(samplingInstrument.getTextTrim())
         }
-        Element analyzingInstrument = variable.getChild("analyzingInstrument")
+        Element analyzingInstrument = varElement.getChild("analyzingInstrument")
         if ( ! isEmpty(analyzingInstrument) ) {
-            v.setAnalyzingInstrument(analyzingInstrument.getTextTrim())
+            domainVar.setAnalyzingInstrument(analyzingInstrument.getTextTrim())
         }
-        Element detailedInfo = variable.getChild("detailedInfo")
+        Element detailedInfo = varElement.getChild("detailedInfo")
         if ( ! isEmpty(detailedInfo) ) {
-            v.setDetailedInformation(detailedInfo.getTextTrim())
+            domainVar.setDetailedInformation(detailedInfo.getTextTrim())
         }
-        Element replicate = variable.getChild("replicate")
+        Element replicate = varElement.getChild("replicate")
         if ( ! isEmpty(replicate) ) {
-            v.setFieldReplicate(replicate.getTextTrim())
+            domainVar.setFieldReplicate(replicate.getTextTrim())
         }
 
 
 
         // TODO this is in two different parent elements in the example <standard> and <standardization>
-        Element standard = variable.getChild("standard")
+        Element standard = varElement.getChild("standard")
         if ( isEmpty( standard )) {
-            standard = variable.getChild("standardization")
+            standard = varElement.getChild("standardization")
         }
         if ( ! isEmpty(standard) ) {
             Element technique = standard.getChild("description")
             if ( ! isEmpty(technique) ) {
-                v.setStandardizationTechnique(technique.getTextTrim())
+                domainVar.setStandardizationTechnique(technique.getTextTrim())
             }
             Element frequency = standard.getChild("frequency")
             if ( ! isEmpty(frequency) ) {
-                v.setFreqencyOfStandardization(frequency.getTextTrim())
+                domainVar.setFreqencyOfStandardization(frequency.getTextTrim())
             }
             Element crm = standard.getChild("crm")
             if ( ! isEmpty(crm) ) {
                 Element manufacture = crm.getChild("manufacturer")
                 if ( ! isEmpty(manufacture) ) {
-                    v.setCrmManufacture(manufacture.getTextTrim())
+                    domainVar.setCrmManufacture(manufacture.getTextTrim())
                 }
                 Element batch = crm.getChild("batch")
                 if ( ! isEmpty(batch) ) {
-                    v.setBatchNumber(batch.getText())
+                    domainVar.setBatchNumber(batch.getText())
                 }
             }
             Element stdGas = standard.getChild("standardgas")
             if ( ! isEmpty(stdGas) ) {
                 Element sgasMfc = stdGas.getChild("manufacturer")
                 if ( !isEmpty( sgasMfc )) {
-                    v.setStandardGasManufacture(sgasMfc.getText())
+                    domainVar.setStandardGasManufacture(sgasMfc.getText())
                 }
                 Element sgasConc = stdGas.getChild("concentration")
                 if ( !isEmpty( sgasConc )) {
-                    v.setGasConcentration(sgasConc.getText())
+                    domainVar.setGasConcentration(sgasConc.getText())
                 }
                 Element sgasUnc = stdGas.getChild("uncertainty")
                 if ( !isEmpty( sgasUnc )) {
-                    v.setStandardGasUncertainties(sgasUnc.getText())
+                    domainVar.setStandardGasUncertainties(sgasUnc.getText())
                 }
             }
         }
 
 
 
-        Element poison = variable.getChild("poison")
+        Element poison = varElement.getChild("poison")
 
         if ( ! isEmpty(poison) ) {
             Element poisonName = poison.getChild("poisonName")
             if ( ! isEmpty(poisonName) ) {
-                v.setPoison(poisonName.getTextTrim())
+                domainVar.setPoison(poisonName.getTextTrim())
             }
 
             Element volume = poison.getChild("volume")
             if ( ! isEmpty(volume) ) {
-                v.setPoisonVolume(volume.getText())
+                domainVar.setPoisonVolume(volume.getText())
             }
             Element poisonDescription = poison.getChild("correction")
             if ( ! isEmpty(poisonDescription) ) {
-                v.setPoisonDescription(poisonDescription.getTextTrim())
+                domainVar.setPoisonDescription(poisonDescription.getTextTrim())
             }
 
 
@@ -715,76 +396,76 @@ class XmlService {
 
 
 //
-        Element uncertainty = variable.getChild("uncertainty")
+        Element uncertainty = varElement.getChild("uncertainty")
         if ( ! isEmpty(uncertainty) ) {
-            v.setUncertainty(uncertainty.getText())
+            domainVar.setUncertainty(uncertainty.getText())
         }
-        Element flag = variable.getChild("flag")
+        Element flag = varElement.getChild("flag")
         if ( ! isEmpty(flag) ) {
-            v.setQualityFlag(flag.getText())
+            domainVar.setQualityFlag(flag.getText())
         }
-        Element methodReference = variable.getChild("methodReference")
+        Element methodReference = varElement.getChild("methodReference")
         if ( ! isEmpty(methodReference) ) {
-            v.setReferenceMethod(methodReference.getText())
+            domainVar.setReferenceMethod(methodReference.getText())
         }
-        Element researcherName = variable.getChild("researcherName")
+        Element researcherName = varElement.getChild("researcherName")
         if ( ! isEmpty(researcherName) ) {
-            v.setResearcherName(researcherName.getText())
+            domainVar.setResearcherName(researcherName.getText())
         }
-        Element researcherInstitution = variable.getChild("researcherInstitution")
+        Element researcherInstitution = varElement.getChild("researcherInstitution")
         if ( ! isEmpty(researcherInstitution) ) {
-            v.setResearcherInstitution(researcherInstitution.getText())
+            domainVar.setResearcherInstitution(researcherInstitution.getText())
         }
 
-        Element storageMethod = variable.getChild("storageMethod")
+        Element storageMethod = varElement.getChild("storageMethod")
         if ( ! isEmpty(storageMethod) ) {
-            v.setStorageMethod(storageMethod.getTextTrim())
+            domainVar.setStorageMethod(storageMethod.getTextTrim())
         }
 
-        Element co2ReportTemperature = variable.getChild("co2ReportTemperature")
+        Element co2ReportTemperature = varElement.getChild("co2ReportTemperature")
         if ( ! isEmpty(co2ReportTemperature) ) {
-            v.setPco2Temperature(co2ReportTemperature.getTextTrim());
+            domainVar.setPco2Temperature(co2ReportTemperature.getTextTrim());
         }
 
         // 025 at what temperature was pH reported
         // <phReportTemperature>
         // TextBox pHtemperature;
-        Element phReportTemperature = variable.getChild("phReportTemperature")
+        Element phReportTemperature = varElement.getChild("phReportTemperature")
         if ( ! isEmpty(phReportTemperature) ) {
-            v.setPhTemperature(phReportTemperature.getTextTrim())
+            domainVar.setPhTemperature(phReportTemperature.getTextTrim())
         }
 
         // 026 Biological subject
         // <biologicalSubject>
         // TextBox biologicalSubject;
-        Element biologicalSubject = variable.getChild("biologicalSubject")
+        Element biologicalSubject = varElement.getChild("biologicalSubject")
         if ( ! isEmpty(biologicalSubject) ) {
-            v.setBiologicalSubject(biologicalSubject.getTextTrim())
+            domainVar.setBiologicalSubject(biologicalSubject.getTextTrim())
         }
 
         // 027 Cell type (open or closed)
         // <cellType>
         // ButtonDropDown cellType;
-        Element cellType = variable.getChild("cellType")
+        Element cellType = varElement.getChild("cellType")
         if ( ! isEmpty(cellType) ) {
-            v.setCellType(cellType.getTextTrim())
+            domainVar.setCellType(cellType.getTextTrim())
         }
 
         // 029 Curve fitting method
         // <curveFitting>
         // TextBox curveFittingMethod;
 
-        Element curveFitting = variable.getChild("curveFitting")
+        Element curveFitting = varElement.getChild("curveFitting")
         if ( ! isEmpty(curveFitting) ) {
-            v.setCurveFittingMethod(curveFitting.getTextTrim())
+            domainVar.setCurveFittingMethod(curveFitting.getTextTrim())
         }
 
         // 030 Depth of seawater intake
         // <DepthSeawaterIntake>
         // TextBox intakeDepth;
-        Element DepthSeawaterIntake = variable.getChild("DepthSeawaterIntake")
+        Element DepthSeawaterIntake = varElement.getChild("DepthSeawaterIntake")
         if ( ! isEmpty(DepthSeawaterIntake) ) {
-            v.setIntakeDepth(DepthSeawaterIntake.getTextTrim())
+            domainVar.setIntakeDepth(DepthSeawaterIntake.getTextTrim())
         }
 
 
@@ -793,139 +474,140 @@ class XmlService {
         // <duration>
         // TextBox duration;
 
-        Element duration = variable.getChild("duration")
+        Element duration = varElement.getChild("duration")
         if ( ! isEmpty(duration) ) {
-            v.setDuration(duration.getTextTrim())
+            domainVar.setDuration(duration.getTextTrim())
         }
 
-        Element equilibrator = variable.getChild("equilibrator")
+        Element equilibrator = varElement.getChild("equilibrator")
         if ( ! isEmpty(equilibrator) ) {
             Element type = equilibrator.getChild("type")
             if ( ! isEmpty(type) ) {
-                v.setEquilibratorType(type.getTextTrim())
+                domainVar.setEquilibratorType(type.getTextTrim())
             }
             Element volume = equilibrator.getChild("volume")
             if ( ! isEmpty(volume) ) {
-                v.setEquilibratorVolume(volume.getTextTrim())
+                domainVar.setEquilibratorVolume(volume.getTextTrim())
             }
             Element vented = equilibrator.getChild("vented")
             if ( ! isEmpty(vented) ) {
-                v.setVented(vented.getTextTrim())
+                domainVar.setVented(vented.getTextTrim())
             }
             Element waterFlowRate = equilibrator.getChild("waterFlowRate")
             if ( ! isEmpty(waterFlowRate) ) {
-                v.setFlowRate(waterFlowRate.getTextTrim())
+                domainVar.setFlowRate(waterFlowRate.getTextTrim())
             }
             Element gasFlowRate = equilibrator.getChild("gasFlowRate")
             if ( ! isEmpty(gasFlowRate) ) {
-                v.setGasFlowRate(gasFlowRate.getTextTrim())
+                domainVar.setGasFlowRate(gasFlowRate.getTextTrim())
             }
             Element temperatureEquilibratorMethod = equilibrator.getChild("temperatureEquilibratorMethod")
             if ( ! isEmpty(temperatureEquilibratorMethod) ) {
-                v.setEquilibratorTemperatureMeasureMethod(temperatureEquilibratorMethod.getTextTrim())
+                domainVar.setEquilibratorTemperatureMeasureMethod(temperatureEquilibratorMethod.getTextTrim())
             }
             Element pressureEquilibratorMethod = equilibrator.getChild("pressureEquilibratorMethod")
             if ( ! isEmpty(pressureEquilibratorMethod) ) {
-                v.setEquilibratorPressureMeasureMethod(pressureEquilibratorMethod.getTextTrim())
+                domainVar.setEquilibratorPressureMeasureMethod(pressureEquilibratorMethod.getTextTrim())
             }
 
             // 031 Drying method for CO2 gas
             // <dryMethod>
             // TextBox dryingMethod;
 
-            Element dryMethod = variable.getChild("dryMethod")
+            Element dryMethod = varElement.getChild("dryMethod")
             if ( ! isEmpty(dryMethod) ) {
-                v.setDryingMethod(dryMethod.getTextTrim())
+                domainVar.setDryingMethod(dryMethod.getTextTrim())
             }
         }
 
-        Element headspacevol = variable.getChild("headspacevol");
+        Element headspacevol = varElement.getChild("headspacevol");
         if ( ! isEmpty(headspacevol) ) {
-            v.setHeadspaceVolume(headspacevol.getTextTrim())
+            domainVar.setHeadspaceVolume(headspacevol.getTextTrim())
         }
 
-        Element lifeStage = variable.getChild("lifeStage")
+        Element lifeStage = varElement.getChild("lifeStage")
         if ( ! isEmpty(lifeStage) ) {
-            v.setLifeStage(lifeStage.getTextTrim())
+            domainVar.setLifeStage(lifeStage.getTextTrim())
         }
 
-        Element locationSeawaterIntake = variable.getChild("locationSeawaterIntake")
+        Element locationSeawaterIntake = varElement.getChild("locationSeawaterIntake")
         if ( ! isEmpty(locationSeawaterIntake) ) {
-            v.setIntakeLocation(locationSeawaterIntake.getTextTrim())
+            domainVar.setIntakeLocation(locationSeawaterIntake.getTextTrim())
         }
 
 
-        Element gasDetector = variable.getChild("gasDetector")
+        Element gasDetector = varElement.getChild("gasDetector")
         if ( ! isEmpty(gasDetector) ) {
             Element manufacturer = gasDetector.getChild("manufacturer")
             if (! isEmpty(manufacturer)  ) {
-                v.setGasDetectorManufacture(manufacturer.getTextTrim())
+                domainVar.setGasDetectorManufacture(manufacturer.getTextTrim())
             }
             Element model = gasDetector.getChild("model")
             if ( ! isEmpty(model) ) {
-                v.setGasDetectorModel(model.getTextTrim())
+                domainVar.setGasDetectorModel(model.getTextTrim())
             }
             Element resolution = gasDetector.getChild("resolution")
             if ( ! isEmpty(resolution) ) {
-                v.setGasDectectorResolution(resolution.getTextTrim())
+                domainVar.setGasDectectorResolution(resolution.getTextTrim())
             }
             Element gasuncertainty = gasDetector.getChild("uncertainty")
             if ( ! isEmpty(gasuncertainty) ) {
-                v.setGasDectectorUncertainty(gasuncertainty.getTextTrim())
+                domainVar.setGasDectectorUncertainty(gasuncertainty.getTextTrim())
             }
         }
 
-        Element phscale = variable.getChild("phscale")
+        Element phscale = varElement.getChild("phscale")
         if ( ! isEmpty(phscale) ) {
-            v.setPhScale(phscale.getTextTrim())
+            domainVar.setPhScale(phscale.getTextTrim())
         }
 
-        Element seawatervol = variable.getChild("seawatervol")
+        Element seawatervol = varElement.getChild("seawatervol")
         if ( ! isEmpty(seawatervol) ) {
-            v.setSeawaterVolume(seawatervol.getTextTrim())
+            domainVar.setSeawaterVolume(seawatervol.getTextTrim())
         }
 
-        Element speciesID = variable.getChild("speciesID")
+        Element speciesID = varElement.getChild("speciesID")
         if ( ! isEmpty(speciesID) ) {
-            v.setSpeciesIdCode(speciesID.getTextTrim())
+            domainVar.setSpeciesIdCode(speciesID.getTextTrim())
         }
 
-        Element temperatureCorrectionMethod = variable.getChild("temperatureCorrectionMethod")
-        if ( ! isEmpty(temperatureCorrectionMethod) ) {
-            v.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getTextTrim())
-        }
+//        Element temperatureCorrectionMethod = varElement.getChild("temperatureCorrectionMethod")
+//        if ( ! isEmpty(temperatureCorrectionMethod) ) {
+//            domainVar.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getTextTrim())
+//        }
 
-        Element temperatureCorrection = variable.getChild("temperatureCorrection")
+        Element temperatureCorrection = varElement.getChild("temperatureCorrection")
         if ( ! isEmpty(temperatureCorrection) ) {
-            v.setTemperatureCorrection(temperatureCorrection.getTextTrim())
+            domainVar.setTemperatureCorrectionMethod(temperatureCorrection.getTextTrim())
         }
 
-        Element temperatureMeasure = variable.getChild("temperatureMeasure")
+        Element temperatureMeasure = varElement.getChild("temperatureMeasure")
         if ( ! isEmpty(temperatureMeasure) ) {
-            v.setTemperatureMeasurement(temperatureMeasure.getTextTrim())
+            domainVar.setTemperatureMeasurement(temperatureMeasure.getTextTrim())
         }
 
-        Element titrationType = variable.getChild("titrationType")
+        Element titrationType = varElement.getChild("titrationType")
         if ( ! isEmpty(titrationType) ) {
-            v.setTitrationType(titrationType.getTextTrim())
+            domainVar.setTitrationType(titrationType.getTextTrim())
         }
 
-        Element waterVaporCorrection = variable.getChild("waterVaporCorrection")
+        Element waterVaporCorrection = varElement.getChild("waterVaporCorrection")
         if ( ! isEmpty(waterVaporCorrection) ) {
-            v.setVaporCorrection(waterVaporCorrection.getTextTrim())
+            domainVar.setVaporCorrection(waterVaporCorrection.getTextTrim())
         }
         // TODO set the internal variable number
 
-        return v
+        return domainVar
     }
 
-    private Person fillPersonDomain(Element p) {
-        def human;
-        if ( p.getChild("role") != null && p.getChild("role").getText().equals("investigator") ) {
-            human = new Investigator()
-        } else {
-            human = new DataSubmitter()
-        }
+    private Person fillPersonDomain(Element p, Person human) {
+        if ( p == null ) { return null }
+//        def human;
+//        if ( p.getChild("role") != null && p.getChild("role").getText().equals("investigator") ) {
+//            human = new Investigator()
+//        } else {
+//            human = new DataSubmitter()
+//        }
         if ( p.getChild("name") ) {
             String name = p.getChild("name").getText().trim();
             if (name.length() > 0 ) {
@@ -1027,9 +709,9 @@ class XmlService {
             }
 
             // The element is called "abstract" which is a reserved word in Java
-            if (citation.getPlatformAbstract()) {
+            if (citation.getDatasetAbstract()) {
                 Element platformAbstract = new Element("abstract")
-                platformAbstract.setText(citation.getPlatformAbstract())
+                platformAbstract.setText(citation.getDatasetAbstract())
                 metadata.addContent(platformAbstract)
             }
 
@@ -1444,9 +1126,9 @@ class XmlService {
             e.setText(v.getVaporCorrection())
             element.addContent(e)
         }
-        if ( v.getTemperatureCorrection() ) {
+        if ( v.getTemperatureCorrectionMethod() ) {
             Element e = new Element("temperatureCorrection")
-            e.setText(v.getTemperatureCorrection())
+            e.setText(v.getTemperatureCorrectionMethod())
             element.addContent(e)
         }
         if ( v.getPco2Temperature() ) {

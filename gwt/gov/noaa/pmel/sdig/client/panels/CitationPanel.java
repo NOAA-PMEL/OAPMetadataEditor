@@ -33,7 +33,9 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
     @UiField
     TextBox title;
     @UiField
-    TextArea platformAbstract;
+    TextArea datasetAbstract;
+    @UiField
+    TextArea useLimitation;
     @UiField
     TextArea purpose;
     @UiField
@@ -73,7 +75,8 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
 
     public Citation getCitation() {
         Citation citation = new Citation();
-        citation.setPlatformAbstract(platformAbstract.getText().trim());
+        citation.setDatasetAbstract(datasetAbstract.getText().trim());
+        citation.setUseLimitation(useLimitation.getText().trim());
         citation.setPurpose(purpose.getText().trim());
         citation.setResearchProjects(researchProjects.getText().trim());
         citation.setTitle(title.getText().trim());
@@ -91,7 +94,8 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         isDirty =
             original == null ?
             this.isDirty() :
-            isDirty(platformAbstract, original.getPlatformAbstract() ) ||
+            isDirty(datasetAbstract, original.getDatasetAbstract() ) ||
+            isDirty(useLimitation, original.getUseLimitation() ) ||
             isDirty(purpose, original.getPurpose() ) ||
             isDirty(researchProjects, original.getResearchProjects() ) ||
             isDirty(title, original.getTitle() ) ||
@@ -105,7 +109,10 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         return isDirty;
     }
     public boolean isDirty() {
-        if (platformAbstract.getText() != null && !platformAbstract.getText().isEmpty() ) {
+        if (datasetAbstract.getText() != null && !datasetAbstract.getText().isEmpty() ) {
+            return true;
+        }
+        if (useLimitation.getText() != null && !useLimitation.getText().isEmpty() ) {
             return true;
         }
         if (purpose.getText() != null && !purpose.getText().isEmpty() ) {
@@ -141,8 +148,11 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         if ( citation.getTitle() != null ) {
             title.setText(citation.getTitle());
         }
-        if ( citation.getPlatformAbstract() != null ) {
-            platformAbstract.setText(citation.getPlatformAbstract() );
+        if ( citation.getDatasetAbstract() != null ) {
+            datasetAbstract.setText(citation.getDatasetAbstract() );
+        }
+        if ( citation.getUseLimitation() != null ) {
+            useLimitation.setText(citation.getUseLimitation() );
         }
         if ( citation.getPurpose() != null ) {
             purpose.setText(citation.getPurpose() );

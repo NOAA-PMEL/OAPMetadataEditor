@@ -22,10 +22,20 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="platformAbstract" text="Abstract *"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="datasetAbstract" text="Abstract *"></b:FormLabel>
                                 <b:Modal title="6 A narrative summary of the data set. *" closable="true" b:id="modalAbstract"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbstract" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea ui:field="platformAbstract" visibleLines="6" allowBlank="false" placeholder="Abstract" b:id="platformAbstract"></b:TextArea>
+                                <b:TextArea ui:field="datasetAbstract" visibleLines="6" allowBlank="false" placeholder="Abstract" b:id="datasetAbstract"></b:TextArea>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12">
+                            <b:FormGroup>
+                                <b:FormLabel for="useLimitation" text="Use Limitation"></b:FormLabel>
+                                <b:Modal title="* Use restrictions as specified by the data submitter." closable="true" b:id="modalLimitation"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLimitation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextArea ui:field="useLimitation" visibleLines="6" allowBlank="false" placeholder="Use Limitations" b:id="useLimitation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

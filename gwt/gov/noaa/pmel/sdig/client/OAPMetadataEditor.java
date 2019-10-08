@@ -4,8 +4,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -85,7 +83,7 @@ public class OAPMetadataEditor implements EntryPoint {
             logToConsole(msg);
         }
     }
-    static native void logToConsole(String msg) /*-{
+    public static native void logToConsole(String msg) /*-{
         console.log(msg);
     }-*/;
 
@@ -174,7 +172,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     Button b = (Button) source;
                     if ( b.getText().equals("Clear All") ) {
 
-                        if ( isDirty() && !saved ) {
+                        if ( currentDocumentIsDirty() && !saved ) {
 
                             final Modal sure = new Modal();
                             ModalHeader header = new ModalHeader();
@@ -228,7 +226,9 @@ public class OAPMetadataEditor implements EntryPoint {
 //                if ( event.getType().equals(Constants.SECTION_DOCUMENT )) { // &&  event.getSectionContents().equals("saveNotify") {
 //                    saveMultiItemPanels();
 //                }
-                if ( isDirty() || "Download".equals(event.getSectionContents()) ) {
+                if ( "Download".equals(event.getSectionContents()) ||
+                     "Preview".equals(event.getSectionContents()) || // TODO:  ... but not empty document.
+                      currentDocumentIsDirty()) {
                     saveSection(event.getType(), event.getSectionContents());
                 }
             }
@@ -433,8 +433,19 @@ public class OAPMetadataEditor implements EntryPoint {
         } else if ( type.equals(Constants.SECTION_GENERIC) ) {
             // List managed in the panel
         } else if ( type.equals(Constants.SECTION_DOCUMENT) )  {
-            Object content = sectionContents;
-            TextCallback callback = "Download".equals(content) ? documentSaved : saveNotify;
+            String content = (String)sectionContents;
+            TextCallback callback = null;
+            switch (content) {
+                case "Download" :
+                    callback = documentSaved;
+                    break;
+                case "Notify" :
+                    callback = saveNotify;
+                    break;
+                case "Preview" :
+                    callback = previewDocument;
+                    break;
+            }
             saveDocToServer(callback);
         }
     }
@@ -453,26 +464,31 @@ public class OAPMetadataEditor implements EntryPoint {
     }
 
     private void saveDocToServer(TextCallback callback) {
-        Document original = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
-
         if ( !topLayout.isComplete() ) {
             warn(Constants.DOCUMENT_NOT_COMPLETE);
         }
+        Document doc = getDocument();
+        _savedDoc = doc;
+        saveDocumentService.save(doc, callback);
+        saved = true;
+    }
 
+    public Document getDocument() {
         Document doc = new Document();
         // Data Submitter Panel
         dataSubmitter = submitterPanel.getPerson();
         doc.setDataSubmitter(dataSubmitter);
         // Investigators Panel
-        List<Person> investigators = investigatorPanel.getInvestigators();
-        if ( investigatorPanel.isDirty() ) {
+        if ( investigatorPanel.hasBeenModified() ) {
             Person p = investigatorPanel.getPerson();
-            p.setComplete(investigatorPanel.valid());
+//            p.setComplete(investigatorPanel.valid()); // XXX redundant (currently) set/checked in getPerson() !
             if ( !p.isComplete()) {
                 warn("Current Investigator is not complete.");
             }
-            investigators.add(p);
+            investigatorPanel.getInvestigators().add(p);
+            investigatorPanel.reset();
         }
+        List<Person> investigators = investigatorPanel.getInvestigators();
         doc.setInvestigators(investigators);
         // Citation Panel
         citation = citationPanel.getCitation();
@@ -527,9 +543,7 @@ public class OAPMetadataEditor implements EntryPoint {
         }
         doc.setVariables(genericVariables);
 
-        _savedDoc = doc;
-
-        saveDocumentService.save(doc, callback);
+        return doc;
     }
 
     private void onPostMessage(String data, String origin) {
@@ -538,7 +552,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if ( "closing".equalsIgnoreCase(data)) {
             logToConsole("Closing");
             GWT.log("gwt:Closing");
-            boolean isDirty = isDirty();
+            boolean isDirty = currentDocumentIsDirty();
             GWT.log("gwt:isDirty:"+isDirty + ", saved:"+saved);
             logToConsole("isDirty:"+isDirty + ", saved:"+saved);
             if ( isDirty ) { //&& !saved ) {
@@ -547,7 +561,7 @@ public class OAPMetadataEditor implements EntryPoint {
             }
             sendMessage("Roger That:"+data, origin);
         } else if ( "dirty".equalsIgnoreCase(data)) {
-            sendMessage("Roger That:"+data+":"+String.valueOf(isDirty()), origin);
+            sendMessage("Roger That:"+data+":"+String.valueOf(currentDocumentIsDirty()), origin);
         }
     }
 
@@ -580,12 +594,11 @@ public class OAPMetadataEditor implements EntryPoint {
 //            Window.alert(msg);
             logToConsole(msg);
         }
-
         @Override
         public void onSuccess(Method method, String response) {
             documentLocation = response;
             currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
-            _loadedDocument = _savedDoc;
+            _loadedDocument = Document.copy(_savedDoc);
             info("Your document has been saved and is available.");
             saved = true;
         }
@@ -595,7 +608,6 @@ public class OAPMetadataEditor implements EntryPoint {
         public void onFailure(Method method, Throwable throwable) {
             Window.alert("docSaved error : " + throwable.toString());
         }
-
         @Override
         public void onSuccess(Method method, String s) {
             if ( s.equals("failed") ) {
@@ -603,7 +615,7 @@ public class OAPMetadataEditor implements EntryPoint {
             } else {
                 documentLocation = s;
                 currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
-                _loadedDocument = _savedDoc;
+                _loadedDocument = Document.copy(_savedDoc);
                 modalHeader.setTitle("Save XML file.");
                 save.setType(ButtonType.PRIMARY);
                 save.addClickHandler(new ClickHandler() {
@@ -619,12 +631,27 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         }
     };
+    TextCallback previewDocument = new TextCallback() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+            Window.alert("docSaved error : " + throwable.toString());
+        }
+        @Override
+        public void onSuccess(Method method, String s) {
+            if ( s.equals("failed") ) {
+                Window.alert("Something went wrong. Check with your server administrators.");
+            } else {
+                documentLocation = s;
+                currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+                Window.open(Constants.base+"document/preview/"+ currentIndex,"md_preview", null);
+            }
+        }
+    };
     TextCallback documentFetched = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
             Window.alert("Server Error: " + String.valueOf(throwable));
         }
-
         @Override
         public void onSuccess(Method method, String s) {
             if ( s.equals("failed") ) {
@@ -646,7 +673,7 @@ public class OAPMetadataEditor implements EntryPoint {
         }
     };
 
-    private boolean isDirty() {
+    private boolean currentDocumentIsDirty() {
         debugLog("_loadedDoc:"+_loadedDocument);
         Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
         debugLog("Checking dirty against " + compDoc);
@@ -671,6 +698,7 @@ public class OAPMetadataEditor implements EntryPoint {
     private void startOver() {
         // Reset containers for all information being collected to null.
         _loadedDocument = null;
+        _savedDoc = null;
         dataSubmitter = null;
         if ( investigatorPanel != null ) investigatorPanel.clearPeople();
         citation = null;
@@ -698,6 +726,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if ( pco2dPanel != null ) pco2dPanel.reset();
         if ( genericVariablePanel != null ) genericVariablePanel.reset();
         topLayout.resetFileForm();
+        topLayout.removeCheckmarks();
     }
     private void notSaved() {
         NotifySettings settings = NotifySettings.newSettings();
@@ -733,7 +762,7 @@ public class OAPMetadataEditor implements EntryPoint {
             Document document = codec.decode(json);
             if ( clearFirst ) {
                 debugLog("Setting document to: " + document );
-                _loadedDocument = document;
+                _loadedDocument = Document.copy(document);
             }
 
 //            investigatorPanel.clearPeople();
@@ -741,23 +770,25 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getInvestigators() != null) {
                 List<Person> personList = document.getInvestigators();
                 Person p = null;
-                for (int i = 0; i < personList.size(); i++) {
-                    investigatorPanel.reset();
-                    p = personList.get(i);
-                    if (p != null) {
-                        investigatorPanel.show(p);
-                        if (p.isComplete() && investigatorPanel.valid()) {
-                            topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
-                        } else {
-                            topLayout.uncheck(Constants.SECTION_INVESTIGATOR);
-                        }
-                    }
-                }
-                if ( p != null && !p.isComplete() ) {
-                    personList.remove(p);
-                } else {
-                    investigatorPanel.reset();
-                }
+                investigatorPanel.reset(); // XXX Should this also be commented out.  What about merge?
+                // This was leading to duplicate copies of the displayed person in saved doc.
+//                for (int i = 0; i < personList.size(); i++) {
+//                    investigatorPanel.reset();
+//                    p = personList.get(i);
+//                    if (p != null) {
+//                        investigatorPanel.show(p);
+//                        if (p.isComplete() && investigatorPanel.valid()) {
+//                            topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
+//                        } else {
+//                            topLayout.uncheck(Constants.SECTION_INVESTIGATOR);
+//                        }
+//                    }
+//                }
+//                if ( p != null && !p.isComplete() ) {
+//                    personList.remove(p);
+//                } else {
+//                    investigatorPanel.reset();
+//                }
                 investigatorPanel.addPeople(personList);
             }
 
@@ -854,6 +885,9 @@ public class OAPMetadataEditor implements EntryPoint {
             topLayout.setMain(submitterPanel);
             topLayout.setActive(Constants.SECTION_SUBMITTER);
 
+            if ( !clearFirst ) {
+                _loadedDocument = Document.copy(getDocument());
+            }
 
         } catch (Exception e) {
             Window.alert("File not processed. e="+e.getLocalizedMessage());

@@ -68,7 +68,7 @@ class GenericVariable {
         manipulationMethod (nullable: true, type: 'text')
         observationType (nullable: true)
         observationDetail (nullable: true, type: 'text')
-        units (nullable: true)
+        units (nullable: true, type: 'text')
         measured (nullable: true)
         calculationMethod (nullable: true, type: 'text')
         samplingInstrument (nullable: true, type: 'text')
