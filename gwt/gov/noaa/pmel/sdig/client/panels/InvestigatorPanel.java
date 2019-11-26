@@ -14,6 +14,7 @@ public class InvestigatorPanel extends PersonPanel {
         super("investigator");
         setType(Constants.SECTION_INVESTIGATOR);
         heading.setText("Enter the information for this investigator. You may enter more than one investigator.");
+        showTable=true;
     }
 
    public boolean isDirty(List<Person> originals) {

@@ -249,7 +249,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             public void onCellPreview(CellPreviewEvent<Person> event) {
                 OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
                 if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
-                    show(event.getValue());
+                    show(event.getValue(), false);
                 } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
                     reset();
                 }
@@ -508,6 +508,28 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         }
         return hasContent;
     }
+    public void show(Person person, boolean editable) {
+        setAllEditable(editable);
+        show(person);
+    }
+    private void setAllEditable(boolean editable) {
+        address1.setEnabled(editable);
+        address2.setEnabled(editable);
+        email.setEnabled(editable);
+        firstName.setEnabled(editable);
+        institution.setEnabled(editable);
+        lastName.setEnabled(editable);
+        mi.setEnabled(editable);
+        rid.setEnabled(editable);
+        telephone.setEnabled(editable);
+        extension.setEnabled(editable);
+        city.setEnabled(editable);
+        state.setEnabled(editable);
+        zip.setEnabled(editable);
+        country.setEnabled(editable);
+//        modified = false;
+//        editing = editable;
+    }
     public void show(Person person) {
         if ( person.getAddress1() != null )
             address1.setText(person.getAddress1());
@@ -543,61 +565,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         modified = false;
         editing = false;
     }
-    @UiHandler("firstName")
-    public void firstNameChanged(ChangeEvent changeEvent) {
+    @UiHandler({"firstName","mi","lastName","institution","address1","address2","city","state","zip","telephone","email","idType","rid"})
+    public void elementChanged(ChangeEvent changeEvent) {
+        OAPMetadataEditor.logToConsole("event:"+ changeEvent.getSource()); // .getNativeEvent().getType());
         modified = true;
-    }
-    @UiHandler("mi")
-    public void miChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("lastName")
-    public void lastNameChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("institution")
-    public void institutionChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("address1")
-    public void address1Changed(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("address2")
-    public void address2Changed(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("city")
-    public void cityChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("state")
-    public void stateChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("zip")
-    public void zipChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    // @UiHandler("country") doesn't have addHandler(ChangeHandler)
-
-    @UiHandler("telephone")
-    public void telephoneChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-    @UiHandler("email")
-    public void emailChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-
-    @UiHandler("idType")
-    public void idTypeChanged(ChangeEvent changeEvent) {
-        modified = true;
-    }
-
-    @UiHandler("rid")
-    public void ridNameChanged(ChangeEvent changeEvent) {
-        modified = true;
+        editing = true;
     }
 
     public String getType() {
@@ -645,5 +617,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public void reset() {
         form.reset();
+        setAllEditable(true);
     }
 }

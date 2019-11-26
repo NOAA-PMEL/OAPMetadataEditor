@@ -143,7 +143,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:Pagination ui:field="peoplePagination"/>
+                            <b:Pagination ui:field="peoplePagination" visible="false" />
                         </b:Column>
                     </b:Row>
                     <b:Row>
