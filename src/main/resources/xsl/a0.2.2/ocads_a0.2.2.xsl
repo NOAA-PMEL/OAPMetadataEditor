@@ -123,7 +123,7 @@ td.desc {
             <br/><br/>
           </xsl:if>
 
-          <!--Buttons for NCEI landing page and data downloading-->
+          <!--Buttons for NCEI landing page and data downloading
           <span style="padding-left:250px">
             <a href="{link_landing}" target="_blank"><input type="button" style="background-color:#A9E2F3;" value="NCEI metadata"/></a>
           </span>
@@ -131,8 +131,8 @@ td.desc {
           <span style="padding-left:220px">
             <a href="{link_download}" target="_blank"><input type="button" style="background-color:#A9E2F3;" value="Download data"/></a>
           </span>
-
           <br/><br/>
+-->
 
           <span style="font-weight:bold; padding-left:0px; ">IDENTIFICATION INFORMATION FOR THIS DATA PACKAGE: </span><br/>
 
@@ -327,7 +327,7 @@ td.desc {
 
         </div>
 
-        <!-- FOOTER from ../oceans/includes/footlinks.inc -->
+        <!-- FOOTER from ../oceans/includes/footlinks.inc -X->
         <div style="text-align:center;"><br/>
         <span style="color:white">Last updated on: <xsl:value-of select="oa:update"/></span><br/>
         <span style="color:white"><a href="https://www.commerce.gov/" title="U.S. Department of Commerce" target="_blank" style="color:white;">DOC</a></span>
@@ -362,7 +362,7 @@ td.desc {
         <a href="/rss/"><img src="/media/images/common/rssfeed-icon2.jpg" alt="RSS feed" width="20" height="20" /></a>
         <br/><br/><br/>
         </div>
-        <!-- footer ends-->
+        <!-X- footer ends-->
 
       </body>
     </html>
