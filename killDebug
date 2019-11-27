@@ -1,4 +1,14 @@
 #!/bin/bash
 
- kill `lsof -i TCP:8383 | grep LISTEN | awk '{ print $2 }'`
+debugger=`lsof -i TCP:8383 | grep LISTEN`
+if [[ "" == "$debugger" ]]; then
+	echo No debugger
+	exit
+fi
+echo $debugger
+echo -n "kill debugger [yN]? "
+read killit
+if [[ "y" == "$killit" ]] ; then
+   kill `lsof -i TCP:8383 | grep LISTEN | awk '{ print $2 }'`
+fi
 

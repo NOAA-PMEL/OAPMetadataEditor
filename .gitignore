@@ -14,3 +14,4 @@ gwt-unitCache/*
 build
 *.cache.js
 OM_master.iml
+/scratch/

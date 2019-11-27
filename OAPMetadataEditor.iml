@@ -17,6 +17,9 @@
         <setting name="compilerMaxHeapSize" value="1024" />
         <setting name="gwtScriptOutputStyle" value="DETAILED" />
         <setting name="gwtSdkUrl" value="file:///local/software/gwt-2.8.2" />
+        <packaging>
+          <module name="gov.noaa.pmel.sdig.OAPMetadataEditor" path="/oap" />
+        </packaging>
       </configuration>
     </facet>
   </component>
@@ -31,8 +34,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gwt-user" level="project" />
-    <orderEntry type="library" name="excel2oap" level="project" />
     <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="oads_xml" level="project" />
   </component>
 </module>

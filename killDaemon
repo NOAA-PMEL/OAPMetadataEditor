@@ -1,2 +1,17 @@
-ps -ef | grep gradle | grep Daemon | awk '{ print $2 }' | xargs kill
+#!/bin/bash
+
+daemons=`ps -ef | grep gradle | grep Daemon `
+
+if [[ "" == "$daemons" ]] ; then
+	echo No Daemons
+	exit
+fi
+
+echo $daemons
+echo -n "kill all [yN]? "
+read killem
+
+if [[ "y" == "$killem" ]] ; then
+	ps -ef | grep gradle | grep Daemon | awk '{ print $2 }' | xargs kill
+fi
 
