@@ -19,12 +19,12 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
-import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import gov.noaa.pmel.sdig.shared.bean.list.SuggestedVariables;
 import org.gwtbootstrap3.client.ui.Button;
@@ -51,6 +51,10 @@ import java.util.*;
  * Created by rhs on 3/8/17.
  */
 public class GenericVariablePanel extends Composite {
+
+    // Maybe someday this will be used dynamically
+    // currently prevents requiring observation details (in-situ, etc) and Measured/Calculated
+    private static boolean strict = false;
 
     @UiField
     Heading heading;
@@ -284,7 +288,6 @@ public class GenericVariablePanel extends Composite {
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
         analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
         observationType = new SuggestBox(observationTypeSuggestOracle);
-
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
@@ -579,17 +582,17 @@ public class GenericVariablePanel extends Composite {
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
-
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
         String warning = Constants.NOT_COMPLETE;
         NotifyType type = NotifyType.WARNING;
-        if ( measured.getValue() == null  ) {
+        // These are not currently required...
+        if ( strict && measured.getValue() == null  ) {
             valid = "false";
             warning = Constants.MEASURED;
             type = NotifyType.DANGER;
         }
-        if ( observationDetail.getValue() == null ) {
+        if ( strict && observationDetail.getValue() == null ) {
             valid="false";
             warning = Constants.DETAILS;
             type = NotifyType.DANGER;

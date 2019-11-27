@@ -20,19 +20,19 @@
                         <b:Column size="SM_2">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
-                                <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
                                 <b:Modal title="27.1 Column header name of the variable in the data files, e.g., T, DO, etc." closable="true" b:id="modalAbbreviation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="abbreviation" allowBlank="true" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
+                                <b:TextBox ui:field="abbreviation" allowBlank="false" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
-                                <b:FormLabel for="fullVariableName" text="Full Variable Name"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="fullVariableName" text="Full Variable Name *"></b:FormLabel>
                                 <b:Modal title="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables." closable="true" b:id="modalFullVariableName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFullVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="fullVariableName" allowBlank="true" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
+                                <b:SuggestBox ui:field="fullVariableName" allowBlank="false" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_4">
@@ -150,10 +150,10 @@
                         <b:Column size="SM_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel color="#B22222" for="qualityFlag" text="Data Quality Flag Description *"></b:FormLabel>
+                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
                                 <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="qualityFlag" allowBlank="false" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
+                                <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">

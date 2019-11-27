@@ -1,6 +1,7 @@
 package gov.noaa.pmel.sdig.client.widgets;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -33,7 +34,6 @@ public class ButtonDropDown extends Composite {
 
     Map<String, String> values = new HashMap<String, String>();
     String currentValue;
-    ChangeHandler changeHandler;
 
     interface ButtonDropDownUiBinder extends UiBinder<HTMLPanel, ButtonDropDown> {
     }
@@ -53,9 +53,6 @@ public class ButtonDropDown extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     String label = a.getText();
-                    if ( ! label.equals(currentValue)) {
-                        changeHandler.onChange(null);
-                    }
                     button.setText(label);
                     currentValue = values.get(label);
                 }
@@ -78,11 +75,5 @@ public class ButtonDropDown extends Composite {
                 break;
             }
         }
-    }
-
-    public <H extends EventHandler> HandlerRegistration addChangeHandler(ChangeHandler ch) {
-        OAPMetadataEditor.logToConsole("handler:"+ch);
-        changeHandler = ch;
-        return null;
     }
 }

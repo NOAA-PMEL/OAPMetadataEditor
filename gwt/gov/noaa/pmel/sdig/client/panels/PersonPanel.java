@@ -565,7 +565,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         modified = false;
         editing = false;
     }
-    @UiHandler({"firstName","mi","lastName","institution","address1","address2","city","state","zip","telephone","email","idType","rid"})
+    @UiHandler({"firstName","mi","lastName","institution","address1","address2","city","state","zip","telephone","email","rid"})
+    // can't include "idType", because removed ButtonDropDown addChangeHandler because it was causing other problems...
     public void elementChanged(ChangeEvent changeEvent) {
         OAPMetadataEditor.logToConsole("event:"+ changeEvent.getSource()); // .getNativeEvent().getType());
         modified = true;
