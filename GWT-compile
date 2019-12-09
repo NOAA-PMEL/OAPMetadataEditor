@@ -5,7 +5,11 @@ LIBS=./lib/*
 CLASSPATH="${LIBS}:${GWTDIR}/*:${APPDIR}/gwt"
 CMPNTDIR="./src/main/webapp"
 JAVAOPS="-Xmx1024M -Xms1024M"
-GWTOPTIONS="-strict"
+COMPILE_REPORT="-compileReport"
+GWTOPTIONS="-strict $COMPILE_REPORT"
+OPTIMIZE="-optimize 9"
+# STYLE="-style DETAILED"
+MODULE=gov.noaa.pmel.sdig.OAPMetadataEditor
 
-echo java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} climatedatacloud.hrrr.Map
-java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler -style DETAILED -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} gov.noaa.pmel.sdig.OAPMetadataEditor
+echo java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler ${STYLE} ${OPTIMIZE} -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} $MODULE
+java ${JAVAOPS} -cp "${CLASSPATH}" com.google.gwt.dev.Compiler ${STYLE} ${OPTIMIZE} -war "${CMPNTDIR}" "$@" ${GWTOPTIONS} $MODULE
