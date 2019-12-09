@@ -558,8 +558,10 @@ public class OAPMetadataEditor implements EntryPoint {
             if ( isDirty ) { //&& !saved ) {
                 logToConsole("Notify save");
                 saveSection(Constants.SECTION_DOCUMENT, "Notify");
+                sendMessage("Roger That:"+data, origin);
+            } else {
+                sendMessage("Neg That:"+data, origin);
             }
-            sendMessage("Roger That:"+data, origin);
         } else if ( "dirty".equalsIgnoreCase(data)) {
             sendMessage("Roger That:"+data+":"+String.valueOf(currentDocumentIsDirty()), origin);
         }
