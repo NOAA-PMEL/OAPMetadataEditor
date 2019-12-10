@@ -262,7 +262,6 @@ public class DashboardLayout extends Composite {
 //                    nav.setVisible(true);
 //                    mainColumn.setSize("SM_9");
 //                }
-//
 //            }
 //        });
     }
@@ -368,16 +367,6 @@ public class DashboardLayout extends Composite {
         }
         return true;
     }
-    // clickHandlers added directly
-//    @UiHandler("saveNotify")
-//    public void saveNotifyClick(ClickEvent event) {
-//        OAPMetadataEditor.logToConsole("saveNotify:"+event);
-//    }
-//    @UiHandler("reset")
-//    public void onClick(ClickEvent event) {
-//        eventBus.fireEventFromSource(event, reset);
-//    }
-
     public void removeCheckmarks() {
         investigatorsLink.setIcon(null);
         submittersLink.setIcon(null);
@@ -391,10 +380,7 @@ public class DashboardLayout extends Composite {
         pco2aLink.setIcon(null);
         pco2dLink.setIcon(null);
     }
-//    public void setSaveEnabled(boolean enabled) {
-//        save.setEnabled(enabled);
-//    }
-    public void setMain(Widget widget) {
+   public void setMain(Widget widget) {
         main.clear();
         main.add(widget);
     }
