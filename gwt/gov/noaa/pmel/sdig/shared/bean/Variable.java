@@ -33,9 +33,9 @@ public class Variable implements Comparable<Variable>, Stringy {
     String cellType;
     String curveFittingMethod;
     String magnitudeOfBlankCorrection;
-    String pHtemperature;
-    String pHscale;
-    String pHstandards;
+    String phTemperature;
+    String phScale;
+    String phStandards;
     String titrationType;
     String intakeDepth;
     String dryingMethod;
@@ -298,29 +298,17 @@ public class Variable implements Comparable<Variable>, Stringy {
         this.vaporCorrection = vaporCorrection;
     }
 
-    public String getpHtemperature() {
-        return pHtemperature;
-    }
+    public String getPhTemperature() { return phTemperature; }
 
-    public void setpHtemperature(String pHtemperature) {
-        this.pHtemperature = pHtemperature;
-    }
+    public void setPhTemperature(String pHtemperature) { this.phTemperature = pHtemperature; }
 
-    public String getpHscale() {
-        return pHscale;
-    }
+    public String getPhScale() { return phScale; }
 
-    public void setpHscale(String pHscale) {
-        this.pHscale = pHscale;
-    }
+    public void setPhScale(String pHscale) { this.phScale = pHscale; }
 
-    public String getpHstandards() {
-        return pHstandards;
-    }
+    public String getPhStandards() { return phStandards; }
 
-    public void setpHstandards(String pHstandards) {
-        this.pHstandards = pHstandards;
-    }
+    public void setPhStandards(String pHstandards) { this.phStandards = pHstandards; }
 
     public String getTemperatureCorrectionMethod() {
         return temperatureCorrectionMethod;
@@ -597,9 +585,9 @@ public class Variable implements Comparable<Variable>, Stringy {
         result = 31 * result + (cellType != null ? cellType.hashCode() : 0);
         result = 31 * result + (curveFittingMethod != null ? curveFittingMethod.hashCode() : 0);
         result = 31 * result + (magnitudeOfBlankCorrection != null ? magnitudeOfBlankCorrection.hashCode() : 0);
-        result = 31 * result + (pHtemperature != null ? pHtemperature.hashCode() : 0);
-        result = 31 * result + (pHscale != null ? pHscale.hashCode() : 0);
-        result = 31 * result + (pHstandards != null ? pHstandards.hashCode() : 0);
+        result = 31 * result + (phTemperature != null ? phTemperature.hashCode() : 0);
+        result = 31 * result + (phScale != null ? phScale.hashCode() : 0);
+        result = 31 * result + (phStandards != null ? phStandards.hashCode() : 0);
         result = 31 * result + (titrationType != null ? titrationType.hashCode() : 0);
         result = 31 * result + (intakeDepth != null ? intakeDepth.hashCode() : 0);
         result = 31 * result + (dryingMethod != null ? dryingMethod.hashCode() : 0);
@@ -668,9 +656,9 @@ public class Variable implements Comparable<Variable>, Stringy {
             sCompare(cellType, v.cellType) == 0 &&
             sCompare(curveFittingMethod, v.curveFittingMethod) == 0 &&
             sCompare(magnitudeOfBlankCorrection, v.magnitudeOfBlankCorrection) == 0 &&
-            sCompare(pHtemperature, v.pHtemperature) == 0 &&
-            sCompare(pHscale, v.pHscale) == 0 &&
-            sCompare(pHstandards, v.pHstandards) == 0 &&
+            sCompare(phTemperature, v.phTemperature) == 0 &&
+            sCompare(phScale, v.phScale) == 0 &&
+            sCompare(phStandards, v.phStandards) == 0 &&
             sCompare(titrationType, v.titrationType) == 0 &&
             sCompare(intakeDepth, v.intakeDepth) == 0 &&
             sCompare(dryingMethod, v.dryingMethod) == 0 &&

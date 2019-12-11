@@ -344,6 +344,14 @@ class XmlService {
             if ( ! isEmpty(frequency) ) {
                 domainVar.setFreqencyOfStandardization(frequency.getTextTrim())
             }
+            Element standardPhValues = standard.getChild("standardphvalues")
+            if ( ! isEmpty(standardPhValues)) {
+                domainVar.setPhStandards(standardPhValues.getTextTrim())
+            }
+            Element standardTemp = standard.getChild("temperatureStandardization")
+            if ( ! isEmpty(standardTemp)) {
+                domainVar.setTemperatureStandarization(standardTemp.getTextTrim())
+            }
             Element crm = standard.getChild("crm")
             if ( ! isEmpty(crm) ) {
                 Element manufacture = crm.getChild("manufacturer")
@@ -514,7 +522,7 @@ class XmlService {
             // <dryMethod>
             // TextBox dryingMethod;
 
-            Element dryMethod = varElement.getChild("dryMethod")
+            Element dryMethod = equilibrator.getChild("dryMethod")
             if ( ! isEmpty(dryMethod) ) {
                 domainVar.setDryingMethod(dryMethod.getTextTrim())
             }
@@ -571,14 +579,14 @@ class XmlService {
             domainVar.setSpeciesIdCode(speciesID.getTextTrim())
         }
 
-//        Element temperatureCorrectionMethod = varElement.getChild("temperatureCorrectionMethod")
-//        if ( ! isEmpty(temperatureCorrectionMethod) ) {
-//            domainVar.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getTextTrim())
-//        }
-
-        Element temperatureCorrection = varElement.getChild("temperatureCorrection")
-        if ( ! isEmpty(temperatureCorrection) ) {
-            domainVar.setTemperatureCorrectionMethod(temperatureCorrection.getTextTrim())
+        Element temperatureCorrectionMethod = varElement.getChild("temperatureCorrectionMethod") // ph variables... sigh
+        if ( ! isEmpty(temperatureCorrectionMethod) ) {
+            domainVar.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getTextTrim())
+        } else {
+            Element temperatureCorrection = varElement.getChild("temperatureCorrection")
+            if ( ! isEmpty(temperatureCorrection) ) {
+                domainVar.setTemperatureCorrectionMethod(temperatureCorrection.getTextTrim())
+            }
         }
 
         Element temperatureMeasure = varElement.getChild("temperatureMeasure")

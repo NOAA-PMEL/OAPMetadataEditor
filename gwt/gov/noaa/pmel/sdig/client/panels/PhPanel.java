@@ -110,9 +110,9 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         common.fillCommonVariable(ph);
         ph.setStandardizationTechnique(standardizationTechnique.getText().trim());
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
-        ph.setpHtemperature(pHtemperature.getText());
-        ph.setpHscale(pHscale.getText());
-        ph.setpHstandards(pHstandards.getText());
+        ph.setPhTemperature(pHtemperature.getText());
+        ph.setPhScale(pHscale.getText());
+        ph.setPhStandards(pHstandards.getText());
         ph.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         ph.setTemperatureMeasurement(temperatureMeasurement.getText());
         ph.setTemperatureStandarization(temperatureStandarization.getText());
@@ -123,9 +123,9 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         ph.setStandardizationTechnique(standardizationTechnique.getText());
         ph.setStandardizationTechnique(standardizationTechnique.getText().trim());
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
-        ph.setpHtemperature(pHtemperature.getText());
-        ph.setpHscale(pHscale.getText());
-        ph.setpHstandards(pHstandards.getText());
+        ph.setPhTemperature(pHtemperature.getText());
+        ph.setPhScale(pHscale.getText());
+        ph.setPhStandards(pHstandards.getText());
         ph.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         ph.setTemperatureMeasurement(temperatureMeasurement.getText());
         ph.setTemperatureStandarization(temperatureStandarization.getText());
@@ -171,9 +171,9 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
             common.isDirty(original) ||
             isDirty( standardizationTechnique, original.getStandardizationTechnique() ) ||
             isDirty( freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
-            isDirty( pHtemperature, original.getpHtemperature() ) ||
-            isDirty( pHscale, original.getpHscale() ) ||
-            isDirty( pHstandards, original.getpHstandards() ) ||
+            isDirty( pHtemperature, original.getPhTemperature() ) ||
+            isDirty( pHscale, original.getPhScale() ) ||
+            isDirty( pHstandards, original.getPhStandards() ) ||
             isDirty( temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
             isDirty( temperatureMeasurement, original.getTemperatureMeasurement() ) ||
             isDirty( temperatureStandarization, original.getTemperatureStandarization() );
@@ -236,16 +236,16 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
             freqencyOfStandardization.setText(ph.getFreqencyOfStandardization());
         }
 
-        if ( ph.getpHtemperature() != null ) {
-            pHtemperature.setText(ph.getpHtemperature());
+        if ( ph.getPhTemperature() != null ) {
+            pHtemperature.setText(ph.getPhTemperature());
         }
 
-        if ( ph.getpHscale() != null ) {
-            pHscale.setText(ph.getpHscale());
+        if ( ph.getPhScale() != null ) {
+            pHscale.setText(ph.getPhScale());
         }
 
-        if ( ph.getpHstandards() != null ) {
-            pHstandards.setText(ph.getpHstandards());
+        if ( ph.getPhStandards() != null ) {
+            pHstandards.setText(ph.getPhStandards());
         }
 
         if ( ph.getTemperatureCorrectionMethod() != null ) {
