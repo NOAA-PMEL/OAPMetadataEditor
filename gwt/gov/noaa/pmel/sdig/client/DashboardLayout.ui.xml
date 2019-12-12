@@ -13,8 +13,7 @@
     </ui:style>
     <g:HTMLPanel>
 
-        <!--
-        <b:Navbar>
+        <b:Navbar visible="false">
             <b:Button pull="LEFT" ui:field="toggle" icon="BARS" iconSize="LARGE" type="DEFAULT" marginTop="8" marginRight="10">
 
             </b:Button>
@@ -25,10 +24,10 @@
             </b:NavbarHeader>
             <b:NavbarLink marginTop="16" marginRight="10" pull="RIGHT">Help</b:NavbarLink>
         </b:Navbar>
-        <b:Navbar position="FIXED_BOTTOM">
+        <b:Navbar visible="false" position="FIXED_BOTTOM">
                 <b:PanelBody pull="RIGHT">
                 <b:html.UnorderedList inline="true">
-                    <b:Anchor href="mailto:Roland.Schweitzer@noaa.gov" title="Contact" text="Contact"></b:Anchor>
+                    <b:Anchor href="mailto:Linus.Kamb@noaa.gov" title="Contact" text="Contact"></b:Anchor>
                     <b:Icon marginRight="8" marginLeft="8" type="ELLIPSIS_V"></b:Icon>
                     <b:Anchor target="_blank" href="http://www.commerce.gov" title="The United States Department of Commerce" text="DOC"></b:Anchor>
                     <b:Icon marginRight="8" marginLeft="8" type="ELLIPSIS_V"></b:Icon>
@@ -44,6 +43,7 @@
                 </b:html.UnorderedList>
                 </b:PanelBody>
         </b:Navbar>
+        <!--
         -->
         <b:Container width="100%">
             <b:Row>

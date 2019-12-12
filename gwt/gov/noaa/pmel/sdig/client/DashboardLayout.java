@@ -42,8 +42,8 @@ public class DashboardLayout extends Composite {
     @UiField
     Button reset;
 
-//    @UiField
-//    Button toggle;
+    @UiField
+    Button toggle;
 
     @UiField
     Column nav;
@@ -252,18 +252,18 @@ public class DashboardLayout extends Composite {
             }
         });
 
-//        toggle.addClickHandler(new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                if ( nav.isVisible() ) {
-//                    nav.setVisible(false);
-//                    mainColumn.setSize("SM_12");
-//                } else {
-//                    nav.setVisible(true);
-//                    mainColumn.setSize("SM_9");
-//                }
-//            }
-//        });
+        toggle.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( nav.isVisible() ) {
+                    nav.setVisible(false);
+                    mainColumn.setSize("SM_12");
+                } else {
+                    nav.setVisible(true);
+                    mainColumn.setSize("SM_9");
+                }
+            }
+        });
     }
 
     public static boolean showConfirmationDialog(String msg) {
