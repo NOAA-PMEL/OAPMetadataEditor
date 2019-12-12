@@ -802,6 +802,8 @@ class OadsXmlService {
 //            if ( ! isEmpty(frequency) ) {
             v.setFreqencyOfStandardization(std.frequency)
 //            }
+            v.setPhStandards(std.phOfStandards)
+            v.setTemperatureStandarization(std.temperature)
 //            Element crm = standard.getChild("crm")
             if (std.crm) {
 //                Element manufacture = crm.getChild("manufacturer")
@@ -1282,12 +1284,13 @@ class OadsXmlService {
 
         if ( v.getStandardizationTechnique() || v.getCrmManufacture() || v.getBatchNumber() ||
              v.getStandardGasManufacture() || v.getStandardGasUncertainties() || v.getGasConcentration() ||
-             v.getPhStandards()) {
+             v.getPhStandards() || v.getTemperatureStandarization()) {
 
             StandardizationType.StandardizationTypeBuilder standard = StandardizationType.builder()
                     .description(v.getStandardizationTechnique())
                     .frequency(v.getFreqencyOfStandardization())
                     .phOfStandards(v.getPhStandards())
+                    .temperature(v.getTemperatureStandarization())
 
             if ( v.getCrmManufacture() || v.getBatchNumber() ) {
                 standard.crm(CrmType.builder()
