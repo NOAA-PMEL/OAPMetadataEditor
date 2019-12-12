@@ -847,29 +847,29 @@ class XmlService {
         if ( platforms ) {
             for (int i = 0; i < platforms.size(); i++) {
                 Platform platform = platforms.get(i)
-                Element platformE = new Element("Platform");
+                Element platformE = new Element("platform");
                 if (platform.getName()) {
-                    Element platformName = new Element("PlatformName")
+                    Element platformName = new Element("name")
                     platformName.setText(platform.getName())
                     platformE.addContent(platformName)
                 }
                 if (platform.getPlatformId()) {
-                    Element platformId = new Element("PlatformID")
+                    Element platformId = new Element("ID")
                     platformId.setText(platform.getPlatformId())
                     platformE.addContent(platformId)
                 }
                 if (platform.getPlatformType()) {
-                    Element platformType = new Element("PlatformType")
+                    Element platformType = new Element("type")
                     platformType.setText(platform.getPlatformType())
                     platformE.addContent(platformType)
                 }
                 if (platform.getOwner()) {
-                    Element platformOwner = new Element("PlatformOwner")
+                    Element platformOwner = new Element("owner")
                     platformOwner.setText(platform.getOwner())
                     platformE.addContent(platformOwner)
                 }
                 if (platform.getCountry()) {
-                    Element platformCountry = new Element("PlatformCountry")
+                    Element platformCountry = new Element("country")
                     String proposedCountry = platform.getCountry();
                     String countryName = OracleController.getCountryName(proposedCountry)
                     if ( countryName != null ) {
