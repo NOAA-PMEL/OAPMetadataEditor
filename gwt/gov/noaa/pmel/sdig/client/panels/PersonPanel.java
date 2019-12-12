@@ -605,6 +605,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public void setTableVisible(boolean b) {
         people.setVisible(b);
+        peoplePagination.setVisible(b);
         if ( b ) {
             int page = cellTablePager.getPage();
             if ( cellTablePager.getPageCount() > 1 ) {

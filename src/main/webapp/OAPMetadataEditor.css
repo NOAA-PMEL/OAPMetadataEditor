@@ -5,6 +5,10 @@
     padding: 0px !important;
 }
 
+.tightenTBmargins {
+    margin-top: 2px !important;
+    margin-bottom: 5px !important;
+}
 .buttonBar {
    padding-top: 10px;
 }

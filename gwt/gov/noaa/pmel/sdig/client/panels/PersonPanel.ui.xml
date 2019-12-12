@@ -9,6 +9,16 @@
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
+                        <b:Column size="SM_12">
+                            <b:gwt.CellTable ui:field="people" addStyleNames="tightenTBmargins" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12">
+                            <b:Pagination ui:field="peoplePagination" addStyleNames="tightenTBmargins" visible="false" />
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
                         <b:Column size="SM_5">
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="firstName" text="First Name *"></b:FormLabel>
@@ -134,16 +144,6 @@
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#idPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="rid" allowBlank="true" placeholder="Researcher ID" b:id="id"></b:TextBox>
                             </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_12">
-                            <b:gwt.CellTable ui:field="people" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_12">
-                            <b:Pagination ui:field="peoplePagination" visible="false" />
                         </b:Column>
                     </b:Row>
                     <b:Row>
