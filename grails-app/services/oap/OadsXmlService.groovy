@@ -976,10 +976,6 @@ class OadsXmlService {
         }
 
         metadata.dataSubmitter(fillPerson(doc.getDataSubmitter()))
-//        if ( doc.getDataSubmitter() ) {
-//            PersonType dataSubmitter = fillPerson(doc.getDataSubmitter());
-//            metadata.dataSubmitter(dataSubmitter)
-//        }
 
         Citation citation = doc.getCitation()
         if ( citation ) {
@@ -990,11 +986,9 @@ class OadsXmlService {
             metadata.purpose(citation.getPurpose())
 
             // XXX TODO: use single string, multiple strings, or ResearchProjectType ???
-//            if ( citation.getResearchProjects() ) {
-//                Element researchProjects = new Element("researchProject")
-//                researchProjects.setText(citation.getResearchProjects())
-//                metadata.addResearchProject(researchProjects)
-//            }
+            if ( citation.getResearchProjects() ) {
+                metadata.addResearchProject(citation.getResearchProjects())
+            }
 
             // XXX TODO: separate expocode and cruiseID sections ???
             metadata.addExpocode(citation.getExpocode())
@@ -1003,11 +997,9 @@ class OadsXmlService {
             metadata.addSection(citation.getSection())
 
             // XXX TODO: use single string, multiple strings, or ScientificReferenceType ???
-//            if ( citation.getScientificReferences() ) {
-//                Element reference = new Element("reference")
-//                reference.setText(citation.getScientificReferences())
-//                metadata.addContent(reference)
-//            }
+            if ( citation.getScientificReferences() ) {
+                metadata.addReference(citation.getScientificReferences())
+            }
 
             // TODO the XML does not match the spreadsheet
             metadata.addAuthor(citation.getCitationAuthorList())
