@@ -335,7 +335,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
         String docId = Window.Location.getParameter("id");
         if ( docId != null ) {
-            debugLog("Loading document " + docId);
+            debugLog("OAME: Loading document " + docId);
             loadDocumentId(docId);
         }
     }
@@ -548,35 +548,34 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private void onPostMessage(String data, String origin) {
 //        Notify.notify("PostMessage: ", "received \"" + data + "\" from " + origin);
-        GWT.log("OAME PostMessage: received \"" + data + "\" from " + origin);
+//        logToConsole("OAME: PostMessage: received \"" + data + "\" from " + origin);
         if ( "closing".equalsIgnoreCase(data)) {
-            logToConsole("Closing");
-            GWT.log("gwt:Closing");
+            logToConsole("OAME: Closing");
             boolean isDirty = currentDocumentIsDirty();
-            GWT.log("gwt:isDirty:"+isDirty + ", saved:"+saved);
             logToConsole("isDirty:"+isDirty + ", saved:"+saved);
             if ( isDirty ) { //&& !saved ) {
-                logToConsole("Notify save");
+                logToConsole("OAME: Notify save");
                 saveSection(Constants.SECTION_DOCUMENT, "Notify");
                 sendMessage("Roger That:"+data, origin);
             } else {
                 sendMessage("Neg That:"+data, origin);
             }
         } else if ( "dirty".equalsIgnoreCase(data)) {
-            sendMessage("Roger That:"+data+":"+String.valueOf(currentDocumentIsDirty()), origin);
+            boolean isDirty = currentDocumentIsDirty();
+            sendMessage("Roger That:"+data+":"+String.valueOf(isDirty), origin);
         }
     }
 
     private native void sendMessage(String message, String origin) /*-{
-        console.log("OAME sending msg \""+message+"\" to " + origin);
+        console.log("OAME: sending msg \""+message+"\" to " + origin);
         var p = top;
         p.postMessage(message, origin);
     }-*/;
 
     private native void setupMessageListener(OAPMetadataEditor instance) /*-{
-        console.log("Setting up message listener");
+        console.log("OAME: Setting up message listener");
         function postMsgListener(event) {
-            console.log("OAME recv msg:" + ( event.data ? event.data : event ) + " from " + event.origin);
+            console.log("OAME: recv msg:" + ( event.data ? event.data : event ) + " from " + event.origin);
             instance.@gov.noaa.pmel.sdig.client.OAPMetadataEditor::onPostMessage(Ljava/lang/String;Ljava/lang/String;) (
                             event.data, event.origin
             );
@@ -753,17 +752,14 @@ public class OAPMetadataEditor implements EntryPoint {
         // Just work around for now
         jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
                 .replace("</pre>","");
-
-        if (clearFirst) {
-            startOver();
-        }
         jsonString = jsonString.replace("<pre>","");
 
         try {
             JSONValue json = JSONParser.parseStrict(jsonString);
             Document document = codec.decode(json);
             if ( clearFirst ) {
-                debugLog("Setting document to: " + document );
+                startOver();
+                debugLog("OAME: Setting document to: " + document );
                 _loadedDocument = Document.copy(document);
             }
 
@@ -893,6 +889,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
         } catch (Exception e) {
             Window.alert("File not processed. e="+e.getLocalizedMessage());
+            logToConsole(jsonString);
         }
         topLayout.resetFileForm();
     }
