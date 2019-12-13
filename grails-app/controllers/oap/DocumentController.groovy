@@ -28,7 +28,7 @@ class DocumentController {
 //        def session = sessionFactory.currentSession
         String id = params.id
         def documentJSON = request.JSON
-        System.out.println("JSON :"+documentJSON.toString())
+        // log.debug("JSON :"+documentJSON.toString())
         Document doc = new Document(documentJSON)
         System.out.println("saveDoc doc:"+doc);
 
