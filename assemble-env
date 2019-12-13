@@ -1,12 +1,38 @@
 #!/bin/bash
 
+GRAILS_ENV=production
+
 if [ $1 ] ; then
-	GRAILS_ENV=$1
-else
-	GRAILS_ENV=production
+	if [ $1 = "show" ] ; then
+		VISIBLE=true
+	else
+		GRAILS_ENV=$1
+	fi
+	shift
+fi
+if [ $1 ] ; then
+	if [ $1 = "show" ] ; then
+		VISIBLE=true
+	else
+		GRAILS_ENV=$1
+	fi
+fi
+
+backup=.sed-backup
+uidoc=gwt/gov/noaa/pmel/sdig/client/DashboardLayout.ui.xml
+
+if [ $VISIBLE ] ; then
+	echo "setting nav bars to visible"
+	sed -i ${backup}_1  's/<b:Navbar visible="false"/<b:Navbar visible="true"/' $uidoc
+else 
+	echo "setting nav bars back to noshow just in case"
+	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
 fi
 
 echo "Building Metadata Editor for environment $GRAILS_ENV"
+./gradlew -Dgrails.env=$GRAILS_ENV clean war
 
-./gradlew -Dgrails.env=$GRAILS_ENV assemble
-
+if [ $VISIBLE ] ; then
+	echo "setting nav bars back to noshow"
+	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
+fi

@@ -13,7 +13,7 @@
     </ui:style>
     <g:HTMLPanel>
 
-        <b:Navbar visible="false">
+        <b:Navbar visible="false" >
             <b:Button pull="LEFT" ui:field="toggle" icon="BARS" iconSize="LARGE" type="DEFAULT" marginTop="8" marginRight="10">
 
             </b:Button>
@@ -24,7 +24,8 @@
             </b:NavbarHeader>
             <b:NavbarLink marginTop="16" marginRight="10" pull="RIGHT">Help</b:NavbarLink>
         </b:Navbar>
-        <b:Navbar visible="false" position="FIXED_BOTTOM">
+        <b:Navbar visible="false"
+                  position="FIXED_BOTTOM">
                 <b:PanelBody pull="RIGHT">
                 <b:html.UnorderedList inline="true">
                     <b:Anchor href="mailto:Linus.Kamb@noaa.gov" title="Contact" text="Contact"></b:Anchor>
@@ -43,8 +44,6 @@
                 </b:html.UnorderedList>
                 </b:PanelBody>
         </b:Navbar>
-        <!--
-        -->
         <b:Container width="100%">
             <b:Row>
                 <b:Column size="XS_3" pull="LEFT" ui:field="nav">
