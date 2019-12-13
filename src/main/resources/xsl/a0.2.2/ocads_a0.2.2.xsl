@@ -386,9 +386,9 @@ td.desc {
             <br/>
             <table width="940">
 
-              <xsl:if test="oa:name != ''"><tr>
+              <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
-                <td class="val"><xsl:value-of select="oa:name"/></td>
+                <td class="val"><xsl:value-of select="oa:fullName"/></td>
               </tr>
               </xsl:if>
               <xsl:if test="oa:description != ''"><tr>
@@ -537,9 +537,9 @@ td.desc {
 
             <table width="940">
 
-              <xsl:if test="oa:name != ''"><tr>
+              <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
-                <td class="val"><xsl:value-of select="oa:name"/></td>
+                <td class="val"><xsl:value-of select="oa:fullName"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:description != ''"><tr>
@@ -562,9 +562,9 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:observationType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:insitu != ''"><tr>
+              <xsl:if test="oa:variableType != ''"><tr>
                 <td class="desc">In-situ / Manipulation / Response variable: </td>
-                <td class="val"><xsl:value-of select="oa:insitu"/></td>
+                <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:measured != ''"><tr>
@@ -702,7 +702,7 @@ td.desc {
 
           <!-- pH -->
 
-          <xsl:for-each select="oa:variable[@xsi:type='ph_variable_type']|oa:pH">
+    <xsl:for-each select="oa:variable[@xsi:type='ph_variable_type']|oa:ph">
             <hr/>
 
             <table width="940"><tr>
@@ -712,9 +712,9 @@ td.desc {
             <br/>
 
             <table width="940">
-              <xsl:if test="oa:name != ''"><tr>
+              <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
-                <td class="val"><xsl:value-of select="oa:name"/></td>
+                <td class="val"><xsl:value-of select="oa:fullName"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:description != ''"><tr>
@@ -727,9 +727,9 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:datasetVarName"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:phscale != ''"><tr>
+              <xsl:if test="oa:phScale != ''"><tr>
                 <td class="desc">pH scale: </td>
-                <td class="val"><xsl:value-of select="oa:phscale"/></td>
+                <td class="val"><xsl:value-of select="oa:phScale"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:observationType != ''"><tr>
@@ -737,9 +737,9 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:observationType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:insitu != ''"><tr>
+              <xsl:if test="oa:variableType != ''"><tr>
                 <td class="desc">In-situ / Manipulation / Response variable: </td>
-                <td class="val"><xsl:value-of select="oa:insitu"/></td>
+                <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:measured != ''"><tr>
@@ -778,7 +778,7 @@ td.desc {
               </tr></xsl:if>
 
               <!--standard-->
-              <xsl:for-each select="oa:standard">
+              <xsl:for-each select="oa:standardization">
 
                 <xsl:if test="oa:description != ''"><tr>
                   <td class="desc">Standardization description: </td>
@@ -790,14 +790,14 @@ td.desc {
                   <td class="val"><xsl:value-of select="oa:frequency"/></td>
                 </tr></xsl:if>
 
-                <xsl:if test="oa:standardphvalues != ''"><tr>
+                <xsl:if test="oa:phOfStandards != ''"><tr>
                   <td class="desc">pH standard values: </td>
-                  <td class="val"><xsl:value-of select="oa:standardphvalues"/></td>
+                  <td class="val"><xsl:value-of select="oa:phOfStandards"/></td>
                 </tr></xsl:if>
 
-                <xsl:if test="oa:temperatureStandardization != ''"><tr>
+                <xsl:if test="oa:temperature != ''"><tr>
                   <td class="desc">Temperature of standardization: </td>
-                  <td class="val"><xsl:value-of select="oa:temperatureStandardization"/></td>
+                  <td class="val"><xsl:value-of select="oa:temperature"/></td>
                 </tr></xsl:if>
 
               </xsl:for-each>
@@ -848,7 +848,7 @@ td.desc {
 
           <!-- pCO2 autonomous -->
 
-          <xsl:for-each select="oa:variable[@xsi:type='co2d_variable_type']|oa:co2d">
+          <xsl:for-each select="oa:variable[@xsi:type='co2d_variable_type']|oa:co2a">
             <hr/>
 
             <table width="940"><tr>
@@ -859,9 +859,9 @@ td.desc {
 
             <table width="940">
 
-              <xsl:if test="oa:name != ''"><tr>
+              <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
-                <td class="val"><xsl:value-of select="oa:name"/></td>
+                <td class="val"><xsl:value-of select="oa:fullName"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:description != ''"><tr>
@@ -884,9 +884,9 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:observationType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:insitu != ''"><tr>
+              <xsl:if test="oa:variableType != ''"><tr>
                 <td class="desc">In-situ / Manipulation / Response variable: </td>
-                <td class="val"><xsl:value-of select="oa:insitu"/></td>
+                <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:measured != ''"><tr>
@@ -1237,7 +1237,7 @@ td.desc {
 
           <!-- pCO2 discrete -->
 
-          <xsl:for-each select="variable[@xsi:type='co2a_variable_type']|co2a">
+          <xsl:for-each select="variable[@xsi:type='co2d_variable_type']|oa:co2d">
 
             <hr/>
 
@@ -1249,9 +1249,9 @@ td.desc {
 
             <table width="940">
 
-              <xsl:if test="oa:name != ''"><tr>
+              <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
-                <td class="val"><xsl:value-of select="oa:name"/></td>
+                <td class="val"><xsl:value-of select="oa:fullName"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:description != ''"><tr>
@@ -1274,9 +1274,9 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:observationType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:insitu != ''"><tr>
+              <xsl:if test="oa:variableType != ''"><tr>
                 <td class="desc">In-situ / Manipulation / Response variable: </td>
-                <td class="val"><xsl:value-of select="oa:insitu"/></td>
+                <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:measured != ''"><tr>
@@ -1449,18 +1449,19 @@ td.desc {
             <hr/>
 
             <table width="940"><tr>
-              <td style="font-weight:bold; font-style:italic; text-align:center;"><xsl:value-of select="oa:description"/></td>
+              <td style="font-weight:bold; font-style:italic; text-align:center;"><xsl:value-of select="oa:fullName"/></td>
             </tr></table>
 
             <br/>
 
             <table width="940">
 
-              <xsl:if test="oa:name != ''"><tr>
+<!--
+              <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
-                <td class="val"><xsl:value-of select="oa:name"/></td>
+                <td class="val"><xsl:value-of select="oa:fullName"/></td>
               </tr></xsl:if>
-
+-->
               <xsl:if test="oa:datasetVarName != ''"><tr>
                 <td class="desc">Dataset Variable Name: </td>
                 <td class="val"><xsl:value-of select="oa:datasetVarName"/></td>
