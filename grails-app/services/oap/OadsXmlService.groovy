@@ -106,8 +106,6 @@ class OadsXmlService {
         TimeAndLocation timeAndLocation = fillTimeAndLocDomain(xmlMetadata)
         mdDoc.setTimeAndLocation(timeAndLocation)
 
-        mdDoc.setTimeAndLocation(timeAndLocation)
-
         // Funding
         List<Funding> fundingList = new ArrayList<>()
         for (FundingSourceType funding : xmlMetadata.getFundingInfo()) {
@@ -189,6 +187,10 @@ class OadsXmlService {
         return citation
     }
 
+    def nonNullString(Object obj) {
+        if ( obj != null ) { return String.valueOf(obj); }
+        return null;
+    }
     def fillTimeAndLocDomain(OadsMetadataDocumentType metadata) {
         TimeAndLocation timeAndLocation = new TimeAndLocation()
         TemporalExtentsType tempExtents = metadata.temporalExtents
@@ -196,10 +198,10 @@ class OadsXmlService {
         timeAndLocation.setEndDate(TimeUtils.formatUTCdate(tempExtents.endDate))
 
         SpatialExtentsType spatialExtents = metadata.getSpatialExtents()
-        timeAndLocation.setWestLon(spatialExtents.westernBounds.toString())
-        timeAndLocation.setEastLon(spatialExtents.easternBounds.toString())
-        timeAndLocation.setNorthLat(spatialExtents.northernBounds.toString())
-        timeAndLocation.setSouthLat(spatialExtents.southernBounds.toString())
+        timeAndLocation.setWestLon(nonNullString(spatialExtents.westernBounds))
+        timeAndLocation.setEastLon(nonNullString(spatialExtents.easternBounds))
+        timeAndLocation.setNorthLat(nonNullString(spatialExtents.northernBounds))
+        timeAndLocation.setSouthLat(nonNullString(spatialExtents.southernBounds))
         timeAndLocation.setSpatialRef(metadata.getSpatialReference())
         def sampleRegions = ""
         def comma = ""
