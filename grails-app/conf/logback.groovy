@@ -9,10 +9,9 @@ conversionRule 'clr', ColorConverter
 conversionRule 'wex', WhitespaceThrowableProxyConverter
 
 // See http://logback.qos.ch/manual/groovy.html for details on configuration
-appender('STDOUT', ConsoleAppender) {
+appender('STDOUT_CLR', ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
         charset = Charset.forName('UTF-8')
-
         pattern =
                 '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
                         '%clr(%5p) ' + // Log level
@@ -21,26 +20,35 @@ appender('STDOUT', ConsoleAppender) {
                         '%m%n%wex' // Message
     }
 }
+appender('STDOUT', ConsoleAppender) {
+    encoder(PatternLayoutEncoder) {
+        charset = Charset.forName('UTF-8')
+        pattern = '%d{yyyy-MM-dd HH:mm:ss.SSS} ' + // Date
+                        '%5p ' + // Log level
+                        '--- [%15.15t] ' + // Thread
+                        '%-40.40logger{39} : ' + // Logger
+                        '%m%n%wex' // Message
+    }
+}
+appender('FILER', FileAppender) {
+    file = "logs/MetadataEditor.log"
+    append = true
+    encoder(PatternLayoutEncoder) {
+        pattern = '%d{yyyy-MM-dd HH:mm:ss.SSS} ' + // Date
+                '%5p ' + // Log level
+                '--- [%15.15t] ' + // Thread
+                '%-40.40logger{39} : ' + // Logger
+                '%m%n%wex' // Message
+    }
+}
 
 def targetDir = BuildSettings.TARGET_DIR
-//if (Environment.isDevelopmentMode() && targetDir != null) {
-    appender("FULL_STACKTRACE", FileAppender) {
-        file = "${targetDir}/stacktrace.log"
-        append = true
-        encoder(PatternLayoutEncoder) {
-            pattern = '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
-                      '%clr(%5p) ' + // Log level
-                      '%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
-                      '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
-                      '%m%n%wex' // Message
-//                    "%level %logger - %msg%n"
-        }
-    }
-    logger("StackTrace", DEBUG, ['FULL_STACKTRACE'], false)
-//}
+if (Environment.isDevelopmentMode() && targetDir != null) {
+    logger("grails.app", DEBUG, ['STDOUT_CLR', 'FILER'], false)
+    logger("oap", DEBUG, ['STDOUT_CLR', 'FILER'], false)
+} else {
+    logger("grails.app", DEBUG, ['FILER'])
+    logger("oap", DEBUG, ['FILER'])
+}
 root(ERROR, ['STDOUT'])
-// Always log everywhere for now...
-logger("oap", DEBUG, ['STDOUT', 'FULL_STACKTRACE'], false)
-//logger("grails.app.Bootstrap", DEBUG, ['STDOUT'], false)
-//logger("grails.plugins.elasticsearch", DEBUG, ['STDOUT'], false)
 
