@@ -543,7 +543,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             institution.setText(person.getInstitution());
         if ( person.getLastName() != null )
             lastName.setText(person.getLastName());
-        if ( person.getTelephone() != null )
+        if ( person.getMi() != null )
             mi.setText(person.getMi());
         if ( person.getRid() != null )
             rid.setText(person.getRid());
