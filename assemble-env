@@ -2,21 +2,34 @@
 
 GRAILS_ENV=production
 
-if [ $1 ] ; then
-	if [ $1 = "show" ] ; then
-		VISIBLE=true
-	else
-		GRAILS_ENV=$1
-	fi
+CMD=assemble
+DO_IT=true
+
+while [ $1 ] ; do
+	case $1 in
+		"show" ) VISIBLE=true;;
+		"war" ) CMD=war;;
+		"-x" ) unset DO_IT;;
+		*) GRAILS_ENV=$1;;
+	esac
 	shift
-fi
-if [ $1 ] ; then
-	if [ $1 = "show" ] ; then
-		VISIBLE=true
-	else
-		GRAILS_ENV=$1
-	fi
-fi
+done
+
+# if [ $1 ] ; then
+#	if [ $1 = "show" ] ; then
+#		VISIBLE=true
+#	else
+#		GRAILS_ENV=$1
+#	fi
+#	shift
+#fi
+#if [ $1 ] ; then
+#	if [ $1 = "show" ] ; then
+#		VISIBLE=true
+#	else
+#		GRAILS_ENV=$1
+#	fi
+#fi
 
 backup=.sed-backup
 uidoc=gwt/gov/noaa/pmel/sdig/client/DashboardLayout.ui.xml
@@ -29,10 +42,18 @@ else
 	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
 fi
 
-echo "Building Metadata Editor for environment $GRAILS_ENV"
-./gradlew -Dgrails.env=$GRAILS_ENV clean war
+echo "Building Metadata Editor as $CMD for environment $GRAILS_ENV"
+if [ $DO_IT ] ; then
+	\rm build/libs/env.* 2&> /dev/null
+	./gradlew -Dgrails.env=$GRAILS_ENV clean $CMD
+else
+	echo "BUILD CANCELLED"
+fi
 
 if [ $VISIBLE ] ; then
 	echo "setting nav bars back to noshow"
 	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
 fi
+
+touch build/libs/env.${GRAILS_ENV}.${CMD}
+
