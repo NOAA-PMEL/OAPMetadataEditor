@@ -269,8 +269,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 if ( editIndex < 0 ) {
                     Window.alert("Edit failed.");
                 } else {
-                    show(person);
-                    editing = true;
+                    show(person, true);
                     peopleData.getList().remove(person);
                     peopleData.flush();
                     peoplePagination.rebuild(cellTablePager);
@@ -510,6 +509,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
     public void show(Person person, boolean editable) {
         setAllEditable(editable);
+        editing = editable;
         show(person);
     }
     private void setAllEditable(boolean editable) {
@@ -527,8 +527,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         state.setEnabled(editable);
         zip.setEnabled(editable);
         country.setEnabled(editable);
-//        modified = false;
-//        editing = editable;
     }
     public void show(Person person) {
         if ( person.getAddress1() != null )
