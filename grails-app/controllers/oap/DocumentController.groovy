@@ -1,5 +1,6 @@
 package oap
 
+import gov.noaa.pmel.oads.util.StringUtils
 import grails.converters.JSON
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -27,6 +28,9 @@ class DocumentController {
 //        def sessionFactory
 //        def session = sessionFactory.currentSession
         String id = params.id
+        if ( id != null && "null".equals(id)) {
+            id = null
+        }
         def documentJSON = request.JSON
         // log.debug("JSON :"+documentJSON.toString())
         Document doc = new Document(documentJSON)
@@ -51,6 +55,49 @@ class DocumentController {
             t.schedule(tt, 50);
         }
         render documentLocation
+    }
+
+    def _saveDoc(String priorId, Document doc) {
+
+        DateTime currently = DateTime.now(DateTimeZone.UTC)
+        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
+
+        String update = format.print(currently)
+
+        doc.setLastModified(update)
+
+        Document d
+        if ( doc.validate() ) {
+            try {
+                if ( priorId ) {
+                    try {
+                        Long id = Long.parseLong(priorId)
+                        Document savedVersion = Document.findById(id)
+                        if ( savedVersion ) {
+                            savedVersion.delete(flush: true)
+                        } else {
+                            System.out.println("No document found for prior id " + priorId)
+                        }
+                    } catch (Exception nfe) {
+                        log
+                        nfe.printStackTrace()
+                    }
+                    d = doc.save(flush: true)
+                    System.out.println("Save: " + d)
+                } else {
+                    d = doc.save(flush: true)
+                    System.out.println("Save: " + d)
+                }
+            } catch (Throwable t) {
+                System.out.println("Error saving document " + doc)
+                t.printStackTrace()
+                throw t;
+            }
+        } else {
+            doc.errors.each {Error error -> log.debug(error.getMessage())            }
+        }
+
+        return d ? d.id : null
     }
 
     private def _findDocUpldateListener(Document doc, String id) {
@@ -89,41 +136,6 @@ class DocumentController {
             }
         }
         return savedDoc
-    }
-
-    def _saveDoc(String priorId, Document doc) {
-
-        DateTime currently = DateTime.now(DateTimeZone.UTC)
-        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
-
-        String update = format.print(currently)
-
-        doc.setLastModified(update)
-
-        Document d
-        if ( doc.validate() ) {
-            try {
-                if ( priorId ) {
-                    Document savedVersion = Document.findById(Long.parseLong(priorId))
-                    if ( savedVersion ) {
-                        savedVersion.delete(flush: true)
-                    } else {
-                        System.out.println("No document found for prior id " + priorId)
-                    }
-                }
-                d = doc.save(flush: true)
-                System.out.println("Save: " + d)
-            } catch (Throwable t) {
-                System.out.println("Error saving document " + doc)
-                t.printStackTrace()
-                throw t;
-            }
-        } else {
-            doc.errors.each {Error error ->
-                log.debug(error.getMessage())            }
-        }
-
-        return d.id
     }
 
     def getDoc() {
