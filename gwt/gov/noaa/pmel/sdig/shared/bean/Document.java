@@ -9,6 +9,9 @@ import java.util.List;
  */
 public class Document {
 
+    String id;
+    public String getId() { return id; }
+
 //    String datasetId;
     List<Platform> platforms;
     List<Person> investigators;
@@ -27,6 +30,7 @@ public class Document {
 
     public static Document copy(Document doc) {
         Document copyDoc = new Document();
+        copyDoc.id = doc.id;
         copyDoc.setCitation(doc.getCitation());
         copyDoc.setDataSubmitter(doc.getDataSubmitter());
         copyDoc.setInvestigators(new ArrayList<>(doc.getInvestigators()));

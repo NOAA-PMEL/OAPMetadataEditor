@@ -68,7 +68,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
     public interface SaveDocumentService extends RestService {
         @POST
-        public void save(Document document, TextCallback textCallback);
+        @Path("{id}")
+        public void save(@PathParam("id")String id, Document document, TextCallback textCallback);
     }
     public interface DocumentCodec extends JsonEncoderDecoder<Document> {}
 
@@ -469,7 +470,7 @@ public class OAPMetadataEditor implements EntryPoint {
         }
         Document doc = getDocument();
         _savedDoc = doc;
-        saveDocumentService.save(doc, callback);
+        saveDocumentService.save(currentIndex, doc, callback);
         saved = true;
     }
 
@@ -757,6 +758,7 @@ public class OAPMetadataEditor implements EntryPoint {
         try {
             JSONValue json = JSONParser.parseStrict(jsonString);
             Document document = codec.decode(json);
+            currentIndex = document.getId();
             if ( clearFirst ) {
                 startOver();
                 debugLog("OAME: Setting document to: " + document );

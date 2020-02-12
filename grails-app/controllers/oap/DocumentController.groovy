@@ -30,14 +30,15 @@ class DocumentController {
         def documentJSON = request.JSON
         // log.debug("JSON :"+documentJSON.toString())
         Document doc = new Document(documentJSON)
-        System.out.println("saveDoc doc:"+doc);
+        System.out.println("saveDoc doc:"+doc + " at " + System.currentTimeMillis());
 
         DocumentUpdateListener dul = _findDocUpldateListener(doc, id)
         System.out.println("DocListener:"+dul)
-        String newId = _saveDoc(doc)
+        String newId = _saveDoc(id, doc)
+        String documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
         if ( dul != null ) {
             dul.documentId = newId
-            dul.documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
+            dul.documentLocation = documentLocation
             System.out.println("doc location:"+dul.documentLocation)
             dul.save(flush:true)
             TimerTask tt = new TimerTask() {
@@ -48,9 +49,8 @@ class DocumentController {
             };
             Timer t = new Timer();
             t.schedule(tt, 50);
-            newId = dul.documentLocation
         }
-        render newId
+        render documentLocation
     }
 
     private def _findDocUpldateListener(Document doc, String id) {
@@ -91,7 +91,7 @@ class DocumentController {
         return savedDoc
     }
 
-    def _saveDoc(Document doc) {
+    def _saveDoc(String priorId, Document doc) {
 
         DateTime currently = DateTime.now(DateTimeZone.UTC)
         DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
@@ -103,20 +103,12 @@ class DocumentController {
         Document d
         if ( doc.validate() ) {
             try {
-                Citation c = doc.getCitation()
-                if (c) {
-                    String expocode = c.getExpocode()
-                    if (expocode) {
-                        Citation savedCitation = Citation.findByExpocode(expocode)
-                        if (savedCitation) {
-                            Document savedVersion = savedCitation.getDocument()
-                            if (savedVersion) {
-                                // Out with the old and in with the new
-                                savedVersion.delete(flush: true)
-//                                doc.id = savedVersion.id
-//                                d = doc.merge(flush:true)
-                            }
-                        }
+                if ( priorId ) {
+                    Document savedVersion = Document.findById(Long.parseLong(priorId))
+                    if ( savedVersion ) {
+                        savedVersion.delete(flush: true)
+                    } else {
+                        System.out.println("No document found for prior id " + priorId)
                     }
                 }
                 d = doc.save(flush: true)
@@ -124,6 +116,7 @@ class DocumentController {
             } catch (Throwable t) {
                 System.out.println("Error saving document " + doc)
                 t.printStackTrace()
+                throw t;
             }
         } else {
             doc.errors.each {Error error ->
@@ -135,7 +128,7 @@ class DocumentController {
 
     def getDoc() {
         String id = params.id
-        System.out.println("getDoc " + id)
+        System.out.println("getDoc " + id + " at " + System.currentTimeMillis())
         Document d;
         try {
             d = Document.findById(Long.parseLong(id));
@@ -147,8 +140,12 @@ class DocumentController {
         String pathT = request.getPathTranslated();
         String uri = request.getRequestURI();
         String from = request.getRemoteHost();
-        JSON.use("deep") {
-            render d as JSON
+        if ( d ) {
+            JSON.use("deep") {
+                render d as JSON
+            }
+        } else {
+            response.sendError(404, "Document not found.")
         }
     }
 
@@ -177,7 +174,7 @@ class DocumentController {
             return
         }
         setDocumentId(document, postedDocId)
-        String docId = _saveDoc(document)
+        String docId = _saveDoc(postedDocId, document)
         def notificationUrlPart = request.getPart("notificationUrl")
         ins = notificationUrlPart.getInputStream()
         String notificationUrl = readStream(ins)
