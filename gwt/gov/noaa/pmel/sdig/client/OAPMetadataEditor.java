@@ -147,8 +147,8 @@ public class OAPMetadataEditor implements EntryPoint {
     ModalHeader modalHeader = new ModalHeader();
     ModalBody modalBody = new ModalBody();
     Button save = new Button("Save");
-    String documentLocation;
-    String currentIndex;
+    String documentLocation = null;
+    String currentIndex = null;
 
     final DashboardLayout topLayout = new DashboardLayout();
 
@@ -593,7 +593,7 @@ public class OAPMetadataEditor implements EntryPoint {
         @Override
         public void onFailure(Method method, Throwable throwable) {
             String msg = "saveNotify " + method.toString() + " error : " + throwable.toString();
-//            Window.alert(msg);
+            Window.alert("There was an error saving your document.  Please try again later.");
             logToConsole(msg);
         }
         @Override
@@ -608,7 +608,7 @@ public class OAPMetadataEditor implements EntryPoint {
     TextCallback documentSaved = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-            Window.alert("docSaved error : " + throwable.toString());
+            Window.alert("There was an error saving your document.  Please try again later.");
         }
         @Override
         public void onSuccess(Method method, String s) {
@@ -636,7 +636,7 @@ public class OAPMetadataEditor implements EntryPoint {
     TextCallback previewDocument = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-            Window.alert("docSaved error : " + throwable.toString());
+            Window.alert("There was an error previewing your document.  Please try again later.");
         }
         @Override
         public void onSuccess(Method method, String s) {
@@ -652,7 +652,7 @@ public class OAPMetadataEditor implements EntryPoint {
     TextCallback documentFetched = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-            Window.alert("Server Error: " + String.valueOf(throwable));
+            Window.alert("There was an error retrieving your document.  Please try again later.");
         }
         @Override
         public void onSuccess(Method method, String s) {
