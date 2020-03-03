@@ -34,23 +34,11 @@ import gov.noaa.ncei.oads.xml.v_a0_2_2.TypedStringType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.OadsMetadataDocumentType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType.PersonTypeBuilder
-import gov.noaa.pmel.excel2oap.PoiReader2
-import gov.noaa.pmel.oads.util.StringUtils
 import gov.noaa.pmel.oads.util.TimeUtils
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
-import gov.noaa.pmel.tws.util.FileUtils
 import grails.transaction.Transactional
-import org.grails.web.json.JSONObject
-import org.grails.web.util.WebUtils
 
-//import org.jdom2.Element
-import org.jdom2.input.SAXBuilder
-import org.jdom2.output.Format
-import org.jdom2.output.XMLOutputter
-
-import javax.xml.bind.JAXBContext
-import javax.xml.bind.Unmarshaller
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
@@ -153,7 +141,9 @@ class OadsXmlService {
         citation.setUseLimitation(metadata.getUseLimitation())
         citation.setDataUse(metadata.getDataUse())
         citation.setPurpose(metadata.getPurpose())
-        citation.setResearchProjects(String.valueOf(metadata.getResearchProjects()))
+        if ( metadata.getResearchProjects() != null && metadata.getResearchProjects().size() > 0 ) {
+            citation.setResearchProjects(String.valueOf(metadata.getResearchProjects()))
+        }
         def expocode = ""
         for (String code : metadata.getExpocodes()) {
             expocode += code + " "
@@ -1350,25 +1340,4 @@ class OadsXmlService {
         }
         return person.build()
     }
-
-   static void main(String[] args) {
-       try {
-           File mdDocFile = new File("/Users/kamb/workspace/oa_dashboard_test_data/ME_DOCUMENT.json")
-           String documentJson = FileUtils.readFully(mdDocFile)
-           Document doc = new Document(new JSONObject(documentJson))
-           oap.OadsXmlService xs = new OadsXmlService()
-           ByteArrayOutputStream baos = new ByteArrayOutputStream()
-           xs.transformDoc(doc, baos)
-    //       FileInputStream inXml = new FileInputStream("/Users/kamb/workspace/oa_dashboard_test_data/NCEI/Crescent_64W_32N/0117059.xml"); // workspace/oads_xml/versions/a0.2.2/sample_a0.2.2.xml")
-           byte[] ba = baos.toByteArray()
-           String html = new String(ba)
-           ByteArrayInputStream inXml = new ByteArrayInputStream(ba)
-           ByteArrayOutputStream outXfrm = new ByteArrayOutputStream()
-           new OadsXmlService().doXslTransformation(inXml, outXfrm)
-           String xfrm = new String(outXfrm.toByteArray())
-           System.out.println(xfrm)
-       } catch (Throwable t ) {
-           t.printStackTrace()
-       }
-   }
 }
