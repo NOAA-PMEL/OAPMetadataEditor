@@ -1,0 +1,67 @@
+<noautolink>
+---+ SDIS Automation: Instruments Mapping Table
+
+
+---++ Instrument Name to ATDB controlled vocabulary Mapping Table
+
+%STARTSECTION{name="SdisInstrumentsMap" type="section"}%
+| *SDIS Instrument Name* | *ATDB Instrument ID* | 
+| Acoustic doppler current profiler (ADCP) |  1  |
+| Alkalinity titrator |  199  |
+| Potentiometric titrator for dissolved inorganic carbon (DIC) and total alkalinity (TA) measurement |  202  |
+| Autonomous sensor to measure dissolved inorganic carbon (DIC) |  186  |
+| Automated multi-parameter inorganic carbon analyzer (MICA) for autonomous measurement of pH, carbon dioxide (CO2) and dissolved inorganic carbon (DIC) |  205  |
+| Discrete dissolved inorganic carbon (DIC) measurement (Coulomerter) |  198  |
+| Discrete dissolved inorganic carbon (DIC) measurement (Non-dispersive infrared, or NDIR) |  203  |
+| Niskin bottle |  3  |
+| Buoy - drifting |  11  |
+| Buoy - moored |  22  |
+| Camera |  125  |
+| Carbon dioxide (CO2) gas analyzer (e.g., LICOR) |  183  |
+| CTD (conductivity, temperature and depth) |  8  |
+| Current meter |  10  |
+| Documentation only - no instrument type |  91  |
+| Flask with closed headspace for discrete carbon dioxide (CO2) measurement |  201  |
+| Flow cytometer |  165  |
+| Flow-through pump |  197  |
+| Fluorescence microscopy |  178  |
+| Fluorometer |  13  |
+| Free Ocean Carbon Enrichment (FOCE) experimental system |  212  |
+| Gas chromatograph |  14  |
+| Humidity sensor |  173  |
+| Instrumented tower |  66  |
+| Irradiance detector |  95  |
+| Mass spectrometer |  162  |
+| Microscope |  221  |
+| Net |  25  |
+| Nutrient autoanalyzer |  167  |
+| Optical plankton counter |  208  |
+| Photosynthetically active radiation (PAR) sensor |  153  |
+| Plankton recorder |  55  |
+| Profiling floats (e.g., glider) |  32  |
+| Pump casts |  33  |
+| Salinometer |  75  |
+| Spectrophotometer |  NaN  |
+| Weight scale |  123  |
+| Secchi disk |  38  |
+| Equilibrator for autonomous carbon dioxide (CO2) measurement (Shower head chamber ) |  184  |
+| Equilibrator for autonomous carbon dioxide (CO2) measurement (Micro-porous membrane) |  211  |
+| Equilibrator for autonomous carbon dioxide (CO2) measurement (Thin film type) |  204  |
+| Thermosalinographs |  43  |
+| Tide gauge |  80  |
+| Total organic carbon (TOC) analyzer |  215  |
+| Trap |  57  |
+| Trawl |  67  |
+| Video camera |  52  |
+| XCTD |  63  |
+| YSI - handheld multi-parameter instrument |  28  |
+%ENDSECTION{name="SdisInstrumentsMap" type="section"}%
+
+
+
+
+
+</noautolink>
+
+-- LiqingJiang - 04 Mar 2020
+

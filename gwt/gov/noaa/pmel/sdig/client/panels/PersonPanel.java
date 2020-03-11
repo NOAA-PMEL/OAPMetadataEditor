@@ -28,6 +28,7 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
+import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 import org.gwtbootstrap3.client.ui.*;
@@ -65,8 +66,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     TextBox firstName;
 
-    @UiField
-    TextBox institution;
+    @UiField ( provided = true )
+    SuggestBox institution;
     @UiField
     TextBox address1;
     @UiField
@@ -128,6 +129,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     Pagination peoplePagination;
 
+    InstitutionSuggestOracle institutionSuggestOracle = new InstitutionSuggestOracle();
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
 
     ListDataProvider<Person> peopleData = new ListDataProvider<Person>();
@@ -144,6 +146,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public PersonPanel(String personType) {
 
+        institution = new SuggestBox(institutionSuggestOracle);
         country = new SuggestBox(countrySuggestionOracle);
 
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -413,6 +416,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             if (reset) {
                 form.reset();
             }
+            modified = false;
             return person;
         } else {
             return null;
@@ -529,6 +533,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         country.setEnabled(editable);
     }
     public void show(Person person) {
+        if ( person == null ) {
+            reset();
+            return;
+        }
         if ( person.getAddress1() != null )
             address1.setText(person.getAddress1());
         if ( person.getAddress2() != null )
@@ -560,10 +568,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if ( person.getIdType() != null ) {
             idType.setSelected(person.getIdType());
         }
-        modified = false;
-        editing = false;
+//        modified = false;
+//        editing = false;
     }
-    @UiHandler({"firstName","mi","lastName","institution","address1","address2","city","state","zip","telephone","email","rid"})
+    @UiHandler({"firstName","mi","lastName","address1","address2","city","state","zip","telephone","email","rid"})
     // can't include "idType", because removed ButtonDropDown addChangeHandler because it was causing other problems...
     public void elementChanged(ChangeEvent changeEvent) {
         OAPMetadataEditor.logToConsole("event:"+ changeEvent.getSource()); // .getNativeEvent().getType());

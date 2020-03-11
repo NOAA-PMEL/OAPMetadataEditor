@@ -21,6 +21,7 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
+import gov.noaa.pmel.sdig.client.oracles.PlatformSuggestOracle;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -48,8 +49,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
-    @UiField
-    TextBox name;
+    @UiField ( provided = true )
+    SuggestBox name;
     @UiField
     TextBox platformId;
     @UiField (provided = true)
@@ -71,6 +72,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     Pagination platformPagination;
 
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
+    PlatformSuggestOracle platformSuggestionOracle = new PlatformSuggestOracle();
 
 
     boolean showTable = true;
@@ -101,6 +103,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     private static PlatformPanelUiBinder ourUiBinder = GWT.create(PlatformPanelUiBinder.class);
 
     public PlatformPanel() {
+        name = new SuggestBox(platformSuggestionOracle);
         country = new SuggestBox(countrySuggestionOracle);
         initWidget(ourUiBinder.createAndBindUi(this));
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);

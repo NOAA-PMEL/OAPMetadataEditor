@@ -1,0 +1,100 @@
+<noautolink>
+
+---+ SDIS Automation: Institution Names to ATDB Institution Mapping
+
+---++ SDIS Institution Name to ATDB Institution Mapping Table
+
+%STARTSECTION{name="SdisInstitutionMap" type="section"}%
+| *SDIS Institution Name* | *ATDB Institution id* | *ATDB Term name* |
+| Alfred Wegener Institute for Polar and Marine Research, Bremerhaven, Germany |  826  | Alfred Wegener Institute for Polar and Marine Research |
+| Atlantic Oceanographic and Meteorological Laboratory (AOML), NOAA, Miami, FL, USA |  268  | US DOC; NOAA; OAR; Atlantic Oceanographic and Meteorological Laboratory |
+| Australian Antarctic Division, Kingston, Tasmania, Australia |  1214  | Australian Antarctic Division, Department of Sustainability, Environment, Water, Population and Communities |
+| Bedford Institute of Oceanography, Dartmouth, NS, Canada |  104  | Bedford Institute of Oceanography |
+| Bermuda Institute of Ocean Sciences, Bermuda |  296  | Bermuda Institute of Ocean Sciences |
+| Bjerknes Center For Climate Research (BCCR), Bergen, Norway |  1508  | Bjerknes Centre for Climate Research |
+| Centre for Environment, Fisheries and Aquaculture Science (CEFAS), United Kingdom |  1778  | Centre for Environment, Fisheries and Aquaculture Science |
+| Chesapeake Biological Laboratory, University of Maryland Center For Environmental Science, Solomons, MD, USA |  718  | University of Maryland; Center for Environmental Science; Chesapeake Biological Laboratory |
+| Earth System Research Laboratory (ESRL), NOAA, Boulder, CO, USA |  1704  | US DOC; NOAA; OAR; Earth System Research Laboratory |
+| Geological Survey of Japan |  754  | Geological Survey of Japan |
+| Harvard University, Cambridge, MA, USA |  299  | Harvard University |
+| Hellenic Centre For Marine Research (HCMR), Anavyssos, Greece |  1400  | Hellenic Centre for Marine Research |
+| Helmholtz Centre for Ocean Research, GEOMAR, Kiel Germany |  1606  | GEOMAR Helmholtz Centre for Ocean Research Kiel |
+| Hokkaido University, Sapporo, Hokkaido, Japan |  1483  | Hokkaido University |
+| Institute of Ocean Sciences, Sidney, BC, Canada |  105  | Fisheries and Oceans Canada; Institute of Ocean Sciences |
+| Institute of Oceanography at Dalhousie University, Halifax, NS, Canada |  951  | Dalhousie University; Institute of Oceanography |
+| Instituto de Investigaciones Marinas, Vigo, Spain |  1604  | Institute of Marine Research Vigo |
+| Japan Agency for Marine-Earth Science and Technology (JAMSTEC), Japan |  1081  | Japan Agency for Marine-Earth Science and Technology |
+| Japan Meteorological Agency (JMA), Japan |  755  | Japan Meteorological Agency |
+| Kodiak Laboratory, Alaska Fisheries Science Center (AFSC), NOAA, Kodiak, AK, USA |  2054  | US DOC; NOAA; NMFS; Alaska Fisheries Science Center; Kodiak Laboratory |
+| Korea Institute of Ocean Science And Technology, Korea |  1788  | Korea Institute of Ocean Science and Technology |
+| Laboratoire Doceanographie Et Du Climat, LOCEAN, Paris, France |  1325  | UPMC; Oceanographic & Climate Laboratory: experiments and digital approaches |
+| Lamont-Doherty Earth Observatory (LDEO), Columbia University, New York City, NY, USA |  985  | Columbia University; Lamont-Doherty Earth Observatory |
+| Leibniz Institute of Marine Sciences, GEOMAR, Kiel, Germany |  1243  | Leibniz Institute of Marine Sciences |
+| Marine and Freshwater Research Institute, Iceland |  352  | Icelandic Marine Research Institute |
+| Marine Institute, Galway, Ireland |  1151  | Marine Institute of Ireland |
+| Monterey Bay Aquarium Research Institute (MBARI), Moss Landing, CA, USA |  992  | Monterey Bay Aquarium Research Institute |
+| National Institute For Environmental Studies (NIES), Japan |  32  | National Institute for Environmental Studies |
+| National Research Institute of Fisheries Science (NRIFS), Japan |  1118  | National Research Institute of Fisheries Science |
+| National Sun Yat-Sen University, Taiwan |  1630  | National Sun Yat-Sen University; Institute of Marine Geology and Chemistry |
+| National Taiwan Ocean University, Taiwan |  1607  | National Taiwan Ocean University |
+| National Taiwan University, Taiwan |  126  | National Taiwan University; Institute of Fishery Biology |
+| Northeast Fisheries Science Center (NEFSC), NOAA, Narragansett, RI, USA |  199  | US DOC; NOAA; NMFS; Northeast Fisheries Science Center |
+| Northewest Fisheries Science Center (NWFSC), NOAA, Seattle, WA, USA |  1421  | US DOC; NOAA; NMFS; Northwest Fisheries Science Center |
+| Norwegian Institute For Water Research, Oslo, Norway |  1780  | Norwegian Institute for Water Research |
+| Norwegian Institute of Marine Research, Bergen, Norway |  796  | Institute of Marine Research - Norway |
+| Norwegian Polar Institute, Tromso, Norway |  641  | Norwegian Polar Institute |
+| Norwegian University of Science And Technology, Trondheim, Norway |  1509  | Norwegian University of Science and Technology; Department of Physics and Mathematics; Radiological Dating Laboratory |
+| Oregon State University (OSU), Corvallis, OR, USA |  1726  | Oregon State University OSU |
+| Pacific Islands Fisheries Science Center (PIFSC), NOAA, Honolulu, HI, USA |  1347  | US DOC; NOAA; NMFS; Pacific Islands Fisheries Science Center |
+| Pacific Marine Environmental Laboratory (PMEL), NOAA, Seattle, WA, USA |  976  | US DOC; NOAA; OAR; Pacific Marine Environmental Laboratory |
+| Plymouth Marine Laboratory, Plymouth, United Kingdom |  1624  | Plymouth Marine Laboratory |
+| Pohang University of Science And Technology, Korea |  1638  | Pohang University of Science and Technology; School of Environmental Science and Engineering |
+| Princeton University, Princeton, NJ, USA |  1806  | Princeton University |
+| Queen's University, United Kingdom |  1921  | Queen's University |
+| Rosenstiel School of Marine and Atmospheric Science (RSMAS), University of Miami, Miami, Fl, USA |  717  | Rosenstiel School of Marine and Atmospheric Science |
+| School of Ocean Sciences at Bangor University, United Kingdom |  1609  | Bangor University; School of Ocean Sciences |
+| Scripps Institution of Oceanography (SIO), University of California-San Diego, La Jolla, CA, USA |  983  | University of California - San Diego; Scripps Institution of Oceanography |
+| Stanford University, Stanford, CA, USA |  1476  | Stanford University |
+| Stockholm University, Stockholm, Sweden |  688  | Stockholm University |
+| Swedish Polar Research Secretariat, Stockholm, Sweden |  1647  | Swedish Polar Research Secretariat |
+| The Royal Netherlands Institute of Sea Research (NIOZ), The Netherlands |  466  | Royal Netherlands Institute for Sea Research |
+| Tokai University, Shibuya City, Tokyo, Japan |  415  | Tokai University; College of Marine Science and Technology |
+| Tokyo University, Japan |  765  | Tokyo University |
+| United States Geological Survey, USA |  193  | US DOI; US Geological Survey |
+| Universidad De Puerto Rico, PR, USA |  1824  | University of Puerto Rico |
+| Universidad De Vigo, Vigo, Spain |  1665  | University of Vigo |
+| Universit De Perpignan, France |  1346  | University of Perpignan Via Domita |
+| Universitat Bremen, Germany |  1012  | University of Bremen |
+| Universitat Kiel, Germany |  817  | University of Kiel |
+| Universitt Oldenburg, Germany |  1016  | Carl von Ossietzky University of Oldenburg |
+| University of Alaska, Fairbanks, AK, USA |  180  | University of Alaska - Fairbanks |
+| University of California, Berkeley, CA, USA |  181  | University of California - Berkeley |
+| University of California, Santa Barbara, CA, USA |  1444  | University of California - Santa Barbara |
+| University of Colorado, Boulder, CO, USA |  1458  | University of Colorado - Boulder |
+| University of Delaware, Newark, DE, USA |  1477  | University of Delaware |
+| University of East Anglia, UK, USA |  1687  | University of East Anglia |
+| University of Georgia, Athens, GA, USA |  1786  | University of Georgia |
+| University of Gothenburg, Gothenburg, Sweden |  1166  | University of Gothenburg |
+| University of Groningen, The Netherlands |  470  | Groningen University |
+| University of Hawaii at Manoa, Honolulu, HI, USA |  231  | University of Hawai'i at Manoa |
+| University of Las Palmas Gran Canaria, Las Palmas, Spain |  1394  | Universidad de Las Palmas de Gran Canaria |
+| University of Liege, Belgium |  680  | University of Liege |
+| University of Maryland, College Park, MD, USA |  230  | University of Maryland |
+| University of New Hampshire, Durham, NH, USA |  219  | University of New Hampshire |
+| University of Otago, Dunedin, New Zealand |  1758  | University of Otago |
+| University of South Florida, St. Petersburg, FL, USA |  1522  | University of South Florida |
+| University of Southampton, United Kingdom |  759  | University of Southampton; Department of Oceanography |
+| University of Southern California, Los Angeles, CA, USA |  195  | University of Southern California |
+| University of Southern Mississippi, Stennis Space Center, MS, USA |  1581  | The University of Southern Mississippi |
+| University of Tasmania (UTAS), Hobart, Tasmania, Australia |  1212  | University of Tasmania |
+| University of Tennessee, Knoxville, TN, USA |  974  | University of Tennessee |
+| University of Victoria (UVic), Victoria, BC, Canada |  1584  | University of Victoria |
+| University of Washington, Seattle, WA, USA |  984  | University of Washington |
+| Uppsala University, Sweden |  1493  | Uppsala University |
+| Woods Hole Oceanographic Institution (WHOI), Woods Hole, MA, USA |  742  | Woods Hole Oceanographic Institution |
+%ENDSECTION{name="SdisInstitutionMap" type="section"}%
+
+</noautolink>
+
+-- LiqingJiang - 04 Mar 2020
+

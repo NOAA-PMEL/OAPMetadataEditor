@@ -1,0 +1,29 @@
+<noautolink>
+---+ SDIS Automation: Observation type name to ATDB Obstype Mapping Table
+
+
+---++ Observation type name to ATDB Obstype Mapping Table
+
+%STARTSECTION{name="SdisObsTypeMap" type="section"}%
+| *SDIS Observation type name* | *ATDB Obstype ID* | *ATDB Obstype Name* | 
+| Surface underway |  27  | Surface underway |
+| Surface (discrete samples) |  23, 52  | Surface measurement, discrete sample |
+| Profile (CTD continuous) |  18  | Profile |
+| Profile (discrete samples) |  18, 52  | Profile, discrete sample |
+| Profile (undulating, gliders, etc.) |  56  | Undulating profile |
+| Time-series |  24  | Time series |
+| Time-series (profile) |  55  | Time series profile |
+| Pump cast |  43  | Pump cast |
+| Model output |  48  | Model output |
+| Laboratory experiment |  62  | Laboratory experiment |
+| Fish examination |  61  | Fish examination |
+| Biological tows |  25  | Tows |
+| Marine mammal observation |  59  | Marine mammal observation |
+%ENDSECTION{name="SdisObsTypeMap" type="section"}%
+
+</noautolink>
+
+
+
+-- LiqingJiang - 04 Mar 2020
+

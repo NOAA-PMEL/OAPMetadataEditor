@@ -1,0 +1,295 @@
+// From: https://intra.nodc.noaa.gov/twiki/bin/view/NODC/SdisAutomationMappingVariables?raw=on
+// requires linus.kamb login
+
+<noautolink>
+---+ SDIS Automation: Variable Name to ATDB Datatype Mapping Table
+
+
+---++ Variable Name to ATDB Datatype Mapping Table
+
+%STARTSECTION{name="SdisDataTypeMap" type="section"}%
+| *SDIS Variable Name* | *ATDB Datatype ID* | *ATDB Datatype Name* | 
+| Air temperature |  3  | AIR TEMPERATURE |
+| Ammonium (NH4/NH3) |  11  | AMMONIUM (NH4) |
+| Apparent oxygen utilization (AOU) |  238  | OXYGEN - APPARENT UTILIZATION (AOU) |
+| Aragonite saturation state |  622  | ARAGONITE SATURATION STATE |
+| Argon |  580  | ARGON |
+| Bacteria |  32  | BACTERIA |
+| Bacteria - bacterial density |  33  | BACTERIA - BACTERIAL DENSITY |
+| Bacteria - halophilic |  34  | BACTERIA - HALOPHILIC |
+| Bacteria - heterotrophic |  35  | BACTERIA - HETEROTROPHIC |
+| Bacteria - hydrocarbonoclastic |  36  | BACTERIA - HYDROCARBONOCLASTIC |
+| Bacteria - plate counts |  37  | BACTERIA - PLATE COUNTS |
+| Bacteria - production rate |  539  | BACTERIA - PRODUCTION RATE |
+| Barometric pressure |  38  | BAROMETRIC PRESSURE |
+| Bathymetry |  447  | BATHYMETRY |
+| Beam attenuation coefficient |  587  | BEAM ATTENUATION COEFFICIENT |
+| Benthic communities |  478  | BENTHIC COMMUNITIES |
+| Benthic species |  46  | BENTHIC SPECIES |
+| Benthic species - taxa counts |  47  | BENTHIC SPECIES - TAXA COUNTS |
+| Benthic species - taxa identities |  48  | BENTHIC SPECIES - TAXA IDENTITIES |
+| Benthic species - taxa wet weights |  49  | BENTHIC SPECIES - TAXA WET WEIGHTS |
+| Bicarbonate |  621  | CARBON - BICARBONATE |
+| Biomass |  533  | BIOMASS |
+| Bivalves |  549  | BIVALVES |
+| Body fat |  697  | body fat |
+| Calcification rate |  570  | CALCIFICATION |
+| Calcite saturation state |  637  | CALCITE CONCENTRATION |
+| Calcium concentration |  648  | Calcium |
+| Carbonate |  57  | CARBON - CARBONATE |
+| Cells counts |  538  | CELL COUNTS |
+| Cetacean |  704  | cetacean |
+| Chlorodifluoromethane or Difluoromonochloromethane (HCFC-22) |  682  | chlorodifluoromethane |
+| Chlorofluorocarbon (CFC) |  80  | CHLOROFLUOROCARBON (CFC) |
+| Chlorofluorocarbon-11 (CFC-11) |  493  | CHLOROFLUOROCARBON-11 (CFC-11) |
+| Chlorofluorocarbon-113 (CFC-113) |  585  | CHLOROFLUOROCARBON-113 (CFC-113) |
+| Chlorofluorocarbon-12 (CFC-12) |  494  | CHLOROFLUOROCARBON-12 (CFC-12) |
+| Chlorophyll |  81  | CHLOROPHYLL |
+| Chlorophyll A |  83  | CHLOROPHYLL A |
+| Chlorophyll B |  87  | CHLOROPHYLL B |
+| Chlorophyll C |  88  | CHLOROPHYLL C |
+| Chromophoric dissolved organic matter (CDOM) |  623  | Chromophoric Dissolved Organic Matter (CDOM) |
+| Coral |  93  | CORAL |
+| Coral - bleaching |  531  | CORAL - BLEACHING |
+| Coral - census |  94  | CORAL - CENSUS |
+| Coral - colony size |  536  | CORAL - COLONY SIZE |
+| Coral - species identification |  95  | CORAL - SPECIES IDENTIFICATION |
+| Crustaceans |  512  | CRUSTACEANS |
+| Cyanobacteria |  732  | CYANOBACTERIA |
+| Delta Carbon-13 of DIC |  579  | DELTA CARBON-13 |
+| Delta Carbon-14 of DIC |  578  | DELTA CARBON-14 |
+| Delta Helium-3 |  577  | DELTA HELIUM-3 |
+| Delta Nitrogen-15 |  654  | DELTA NITROGEN-15 |
+| Delta Oxygen-18 |  584  | Delta Oxygen-18 |
+| Deoxyribonucleic acid (DNA) |  713  | DNA |
+| Diatom |  712  | diatom |
+| Dissolved inorganic carbon (DIC) |  588  | DISSOLVED INORGANIC CARBON (DIC) |
+| Dissolved organic carbon (DOC) |  114  | DISSOLVED ORGANIC CARBON |
+| Dissolved organic matter (DOM) |  115  | DISSOLVED ORGANIC MATTER |
+| Dissolved organic nitrogen (DON) |  644  | Dissolved Organic Nitrogen |
+| Dissolved oxygen (DO) |  116  | DISSOLVED OXYGEN |
+| Disulfur decafluoride, or Sulfur pentafluoride (SF5, S2F10) |  679  | Disulfur decafluoride, or Sulfur Pentafluoride (SF5, S2F10) |
+| Documentation only - no data type |  505  | documentation only - no data type |
+| Ester |  726  | ether |
+| Eukaryote (or Eucaryote) |  662  | Eukaryote |
+| Fatty acids |  718  | fatty acids |
+| Fecundity |  731  | fecundity |
+| Fish |  733  | Fish |
+| Fish biomass |  127  | FISH BIOMASS |
+| Fish census |  128  | FISH CENSUS |
+| Fish species |  129  | FISH SPECIES |
+| Fishery survey |  130  | FISHERY SURVEY |
+| Fishery survey - fishing duration |  133  | FISHERY SURVEY - FISHING DURATION |
+| Fishery survey - gear depth |  134  | FISHERY SURVEY - GEAR DEPTH |
+| Fishery survey - gear type - details |  137  | FISHERY SURVEY - GEAR TYPE - DETAILS |
+| Fishery survey - gear type - general |  138  | FISHERY SURVEY - GEAR TYPE - GENERAL |
+| Fishery survey - number of schools |  139  | FISHERY SURVEY - NUMBER OF SCHOOLS |
+| Fishery survey - predominant beach type |  140  | FISHERY SURVEY - PREDOMINANT BEACH TYPE |
+| Fishery survey - predominant biota type |  141  | FISHERY SURVEY - PREDOMINANT BIOTA TYPE |
+| Fishery survey - predominant escarpment type |  142  | FISHERY SURVEY - PREDOMINANT ESCARPMENT TYPE |
+| Fishery survey - school activity |  143  | FISHERY SURVEY - SCHOOL ACTIVITY |
+| Fishery survey - school location |  144  | FISHERY SURVEY - SCHOOL LOCATION |
+| Fishery survey - school size index |  145  | FISHERY SURVEY - SCHOOL SIZE INDEX |
+| Fishery survey - school taxonomic code |  146  | FISHERY SURVEY - SCHOOL TAXONOMIC CODE |
+| Fluorescence |  147  | FLUORESCENCE |
+| Fluoride |  609  | Fluoride |
+| Fluorometric pigments |  481  | FLUOROMETRIC PIGMENTS |
+| Foraminifera |  550  | FORAMINIFERA |
+| Fucoxanthin |  707  | fucoxanthin |
+| Girth |  698  | girth |
+| Glare |  150  | GLARE |
+| Graze rate (or grazing rate) |  714  | graze rate (or grazing rate) |
+| Growth rate |  534  | growth rate |
+| Helium |  157  | HELIUM |
+| Hydrocarbon |  723  | hydrocarbon |
+| Hydrogen sulfide (H2S) |  537  | Hydrogen Sulfide (H2S) |
+| Hydrostatic pressure |  589  | HYDROSTATIC PRESSURE |
+| Ichthyoplankton identity |  168  | ICHTHYOPLANKTON IDENTITY |
+| Ichthyoplankton length |  169  | ICHTHYOPLANKTON LENGTH |
+| Individual fish examination |  174  | INDIVIDUAL FISH EXAMINATION |
+| Individual fish examination - age |  175  | INDIVIDUAL FISH EXAMINATION - AGE |
+| Individual fish examination - diseases |  176  | INDIVIDUAL FISH EXAMINATION - DISEASES |
+| Individual fish examination - fin rot |  177  | INDIVIDUAL FISH EXAMINATION - FIN ROT |
+| Individual fish examination - fin rot - caudal fin |  178  | INDIVIDUAL FISH EXAMINATION - FIN ROT - CAUDAL FIN |
+| Individual fish examination - fin rot - interior anal fin |  179  | INDIVIDUAL FISH EXAMINATION - FIN ROT - INTERIOR ANAL FIN |
+| Individual fish examination - fin rot - interior dorsal fin |  180  | INDIVIDUAL FISH EXAMINATION - FIN ROT - INTERIOR DORSAL FIN |
+| Individual fish examination - fin rot - midportion anal fin |  181  | INDIVIDUAL FISH EXAMINATION - FIN ROT - MIDPORTION ANAL FIN |
+| Individual fish examination - fin rot - midportion dorsal fin |  182  | INDIVIDUAL FISH EXAMINATION - FIN ROT - MIDPORTION DORSAL FIN |
+| Individual fish examination - fin rot - pectoral fin |  183  | INDIVIDUAL FISH EXAMINATION - FIN ROT - PECTORAL FIN |
+| Individual fish examination - fin rot - pelvic fin |  184  | INDIVIDUAL FISH EXAMINATION - FIN ROT - PELVIC FIN |
+| Individual fish examination - fin rot - posterior anal fin |  185  | INDIVIDUAL FISH EXAMINATION - FIN ROT - POSTERIOR ANAL FIN |
+| Individual fish examination - fin rot - posterior dorsal fin |  186  | INDIVIDUAL FISH EXAMINATION - FIN ROT - POSTERIOR DORSAL FIN |
+| Individual fish examination - general health |  187  | INDIVIDUAL FISH EXAMINATION - GENERAL HEALTH |
+| Individual fish examination - length |  188  | INDIVIDUAL FISH EXAMINATION - LENGTH |
+| Individual fish examination - lesion- length |  189  | INDIVIDUAL FISH EXAMINATION - LESION- LENGTH |
+| Individual fish examination - lesion- location |  190  | INDIVIDUAL FISH EXAMINATION - LESION- LOCATION |
+| Individual fish examination - lesion- organ affected |  191  | INDIVIDUAL FISH EXAMINATION - LESION- ORGAN AFFECTED |
+| Individual fish examination - lesion- width |  192  | INDIVIDUAL FISH EXAMINATION - LESION- WIDTH |
+| Individual fish examination - parasite occurrence |  193  | INDIVIDUAL FISH EXAMINATION - PARASITE OCCURRENCE |
+| Individual fish examination - pigmentation |  194  | INDIVIDUAL FISH EXAMINATION - PIGMENTATION |
+| Individual fish examination - sex |  195  | INDIVIDUAL FISH EXAMINATION - SEX |
+| Individual fish examination - sexual maturity |  196  | INDIVIDUAL FISH EXAMINATION - SEXUAL MATURITY |
+| Individual fish examination - state |  197  | INDIVIDUAL FISH EXAMINATION - STATE |
+| Individual fish examination - tumor count |  198  | INDIVIDUAL FISH EXAMINATION - TUMOR COUNT |
+| Individual fish examination - weight |  199  | INDIVIDUAL FISH EXAMINATION - WEIGHT |
+| Individual identity |  657  | INDIVIDUAL IDENTITY |
+| Invertebrate species |  201  | INVERTEBRATE SPECIES |
+| Iron |  629  | Iron |
+| Irradiance |  461  | irradiance |
+| Ketone |  725  | ketone |
+| Leucine |  620  | leucine |
+| Lignin |  705  | Lignin |
+| Lipids |  717  | lipids |
+| Longwave irradiance |  606  | LONGWAVE IRRADIANCE |
+| Macroalgae |  522  | MACROALGAE |
+| Macrofauna |  564  | MACROFAUNA |
+| Macroinvertebrate census |  215  | MACROINVERTEBRATE CENSUS |
+| Magnesium |  646  | Magnesium |
+| Manganese |  551  | MANGANESE |
+| Marine mammals |  465  | MARINE MAMMALS |
+| Marine species inventory |  525  | MARINE SPECIES INVENTORY |
+| Meiofauna |  552  | MEIOFAUNA |
+| Methane (CH4) |  501  | Methane (CH4) |
+| Microplankton |  510  | MICROPLANKTON |
+| Mixed layer depth |  451  | MIXED LAYER DEPTH |
+| Mollusks |  218  | MOLLUSKS |
+| Momentum |  219  | MOMENTUM |
+| Monadoxanthin |  711  | monadoxanthin |
+| Mortality rate |  730  | mortality rate |
+| Nanoplankton |  509  | NANOPLANKTON |
+| Neon |  581  | NEON |
+| Nephels |  450  | NEPHELS |
+| Nesting sites |  469  | NESTING SITES |
+| Nickel |  653  | Nickel |
+| Nitrate (NO3-) |  223  | NITRATE |
+| Nitrate and Nitrite |  224  | nitrate + nitrite content (concentration) |
+| Nitrate/nitrite ratio |  225  | NITRATE/NITRITE RATIO |
+| Nitrite (NO2-) |  226  | NITRITE |
+| Nitrous oxide (N2O) |  566  | nitrous oxide (N2O) |
+| Otolith |  716  | OTOLITH |
+| Oyster condition indices |  245  | OYSTER CONDITION INDICES |
+| Partial pressure (or fugacity) of carbon dioxide - Air-sea difference |  69  | AIR-SEA DIFFERENCE - PARTIAL PRESSURE (OR FUGACITY) OF CARBON DIOXIDE |
+| Partial pressure (or fugacity) of carbon dioxide - Atmosphere |  71  | Partial pressure (or fugacity) of carbon dioxide - atmosphere |
+| Partial pressure (or fugacity) of carbon dioxide - Water |  70  | partial pressure of carbon dioxide - water |
+| Particulate inorganic carbon (PIC) |  663  | Particulate Inorganic Carbon |
+| Particulate matter - dry weight |  249  | PARTICULATE MATTER - DRY WEIGHT |
+| Particulate organic carbon (POC) |  251  | PARTICULATE ORGANIC CARBON |
+| Particulate organic nitrogen (PON) |  228  | PARTICULATE ORGANIC NITROGEN (PON) |
+| Particulate phosphorus |  659  | particulate phosphorus |
+| Percent oxygen |  244  | OXYGEN - PERCENT SATURATION |
+| Pesticides |  615  | Pesticides |
+| pH |  257  | pH |
+| Phaeopigment concentration |  259  | PHAEOPIGMENT CONCENTRATION |
+| Phosphate (PO4 3-) |  263  | phosphate |
+| Phosphorus - organic |  453  | PHOSPHORUS - ORGANIC |
+| Photoperiod |  643  | photoperiod |
+| Photosynthetic active radiation (PAR) |  272  | PHOTOSYNTHETIC ACTIVE RADIATION (PAR) |
+| Photosynthetic capacity |  273  | PHOTOSYNTHETIC CAPACITY |
+| Phytoplankton |  280  | PHYTOPLANKTON |
+| Phytoplankton - dry weight |  281  | PHYTOPLANKTON - DRY WEIGHT |
+| Phytoplankton - phaeopigment |  457  | PHAEOPHYTIN |
+| Phytoplankton - wet weight |  283  | PHYTOPLANKTON - WET WEIGHT |
+| Phytoplankton biomass |  284  | PHYTOPLANKTON BIOMASS |
+| Picoplankton |  632  | PICOPLANKTON |
+| Pigments |  454  | PIGMENTS |
+| Plankton |  285  | PLANKTON |
+| Polychlorinated biphenyls (PCB) |  288  | POLYCHLORINATED BIPHENYLS |
+| Polynuclear aromatic hydrocarbons (PAH) |  289  | POLYNUCLEAR AROMATIC HYDROCARBONS (PAH) |
+| Potassium |  647  | Potassium |
+| Potential temperature (Theta) |  572  | Potential temperature (theta) |
+| Primary productivity |  294  | PRIMARY PRODUCTIVITY |
+| Prochlorococcus |  660  | Prochlorococcus |
+| Radium isotopes |  616  | RADIUM ISOTOPES |
+| Redox potential (eh) |  125  | redox potential (Eh) |
+| Reflectance |  487  | REFLECTANCE |
+| Reflectance - percent |  519  | REFLECTANCE - PERCENT |
+| Relative humidity |  306  | RELATIVE HUMIDITY |
+| Remote sensing reflectance |  486  | REMOTE SENSING REFLECTANCE |
+| Reptiles |  467  | REPTILES |
+| Respiration rates |  685  | respiration rates |
+| Salinity |  307  | SALINITY |
+| Sea surface temperature |  319  | SEA SURFACE TEMPERATURE |
+| Secchi depth |  322  | SECCHI DEPTH |
+| Shell parameters (length or weight) |  729  | shell parameters (length or weight) |
+| Shellfish |  470  | SHELLFISH |
+| Sigma-T (Density anomaly) |  332  | SIGMA-T |
+| Sigma-theta (Potential density anomaly) |  573  | SIGMA-THETA |
+| Silicate |  333  | silicate |
+| Socioeconomic |  471  | SOCIOECONOMIC |
+| Sound velocity |  337  | SOUND VELOCITY |
+| Species abundance |  688  | species abundance |
+| Species identification |  339  | SPECIES IDENTIFICATION |
+| Species identification - age |  340  | SPECIES IDENTIFICATION - AGE |
+| Species identification - ash-free weight |  341  | SPECIES IDENTIFICATION - ASH-FREE WEIGHT |
+| Species identification - count |  342  | SPECIES IDENTIFICATION - COUNT |
+| Species identification - dry weight |  343  | SPECIES IDENTIFICATION - DRY WEIGHT |
+| Species identification - life history |  344  | SPECIES IDENTIFICATION - LIFE HISTORY |
+| Species identification - life stage |  345  | SPECIES IDENTIFICATION - LIFE STAGE |
+| Species identification - normal/abnormal |  346  | SPECIES IDENTIFICATION - NORMAL/ABNORMAL |
+| Species identification - organism length |  347  | SPECIES IDENTIFICATION - ORGANISM LENGTH |
+| Species identification - preservation |  348  | SPECIES IDENTIFICATION - PRESERVATION |
+| Species identification - sex |  349  | SPECIES IDENTIFICATION - SEX |
+| Species identification - sexual maturity |  350  | SPECIES IDENTIFICATION - SEXUAL MATURITY |
+| Species identification - subspecies |  351  | SPECIES IDENTIFICATION - SUBSPECIES |
+| Species identification - total weight |  352  | SPECIES IDENTIFICATION - TOTAL WEIGHT |
+| Species wet weight per sample |  355  | SPECIES WET WEIGHT PER SAMPLE |
+| Sponge species identification |  530  | SPONGE SPECIES IDENTIFICATION |
+| Sterol |  728  | sterol |
+| Stimulated fluorescence |  482  | STIMULATED FLUORESCENCE |
+| Stomach contents |  356  | STOMACH CONTENTS |
+| Stomach contents - content weight |  357  | STOMACH CONTENTS - CONTENT WEIGHT |
+| Stomach contents - digestion |  358  | STOMACH CONTENTS - DIGESTION |
+| Stomach contents - fullness |  359  | STOMACH CONTENTS - FULLNESS |
+| Stomach contents - prey count |  360  | STOMACH CONTENTS - PREY COUNT |
+| Stomach contents - prey taxonomy |  361  | STOMACH CONTENTS - PREY TAXONOMY |
+| Stomach contents - prey wet weight |  362  | STOMACH CONTENTS - PREY WET WEIGHT |
+| Sulfate (SO4 2-) |  365  | Sulfate (SO4 2-) |
+| Sulfite (SO3 2-) |  603  | Sulfite (SO3 2-) |
+| Sulfur (S) |  604  | Sulfur (S) |
+| Sulfur hexafluoride (SF6) |  618  | Sulfur Hexaflouride (SF6) |
+| Synechococcus |  661  | Synechococcus |
+| Taxonomic code |  371  | TAXONOMIC CODE |
+| Terrestrial mammals |  472  | TERRESTRIAL MAMMALS |
+| Tetrachloroethylene, or tetrachloroethene, or perchloroethylene (PCE) |  683  | Tetrachloroethylene, or tetrachloroethene, or perchloroethylene (PCE) |
+| Thermocline depth |  382  | THERMOCLINE DEPTH |
+| Thiosulfate (S2O3 2-) |  602  | Thiosulfate (S2O3 2-) |
+| Thorium isotope |  686  | thorium isotope |
+| Thymidine |  619  | thymidine |
+| Total alkalinity (TAlk) |  5  | total alkalinity |
+| Total dissolved nitrogen (TDN) |  668  | Total Dissolved Nitrogen (TDN) |
+| Total dry mass |  721  | TOTAL DRY MASS |
+| Total organic carbon (TOC) |  61  | CARBON - TOTAL ORGANIC |
+| Total petroleum hydrocarbons (TPH) |  642  | Total Petroleum Hydrocarbons (TPH) |
+| Total phosphorus |  388  | TOTAL PHOSPHORUS |
+| Total suspended matter |  366  | suspended solids |
+| Total wet mass |  720  | TOTAL WET MASS |
+| Trace metals |  390  | TRACE METALS |
+| Transmissivity |  391  | TRANSMISSIVITY |
+| Trifluoromethylsulfur pentafluoride (CF3SF5) |  689  | Trifluoromethyl sulfur pentafluoride (SF5CF3) |
+| Tritium (Hydrogen isotope) |  392  | Tritium (Hydrogen isotope) |
+| Turbulence |  630  | turbulence |
+| Uranium isotope |  687  | Uranium isotope |
+| Urea |  394  | UREA |
+| Vertebrates |  395  | VERTEBRATES |
+| Violaxanthin |  708  | Violaxanthin |
+| Water temperature |  373  | WATER TEMPERATURE |
+| Zooplankton |  440  | ZOOPLANKTON |
+| Zooplankton abundance |  504  | ZOOPLANKTON ABUNDANCE |
+| Zooplankton biomass |  441  | ZOOPLANKTON BIOMASS |
+| Zooplankton densities |  442  | ZOOPLANKTON DENSITIES |
+| Zooplankton identities |  443  | ZOOPLANKTON IDENTITIES |
+| Zooplankton species identities |  444  | ZOOPLANKTON SPECIES IDENTITIES |
+| Zooplankton species number per sample |  445  | ZOOPLANKTON SPECIES NUMBER PER SAMPLE |
+| Zooplankton species wet weight per sample |  353  | SPECIES IDENTIFICATION - WET WEIGHT |
+%ENDSECTION{name="SdisDataTypeMap" type="section"}%
+
+
+
+
+</noautolink>
+
+
+
+
+-- LiqingJiang - 27 Feb 2020
+

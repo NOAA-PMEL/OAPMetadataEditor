@@ -1,0 +1,220 @@
+// from https://intra.nodc.noaa.gov/twiki/bin/view/NODC/SdisAutomationMappingPlatforms?raw=on
+<noautolink>
+
+---+ SDIS Automation: Vessel Name to ATDB Platform Mapping
+
+---++ SDIS Vessel Name to ATDB Platform Mapping Table
+
+
+%STARTSECTION{name="SdisVesselMap" type="section"}%
+| *SDIS Vessel Name* | *ATDB Platform ID* | *ATDB Platform name* |
+| A. V. Humboldt (07AL) |  489  | A. V. HUMBOLDT |
+| Aegaeo (36AE) |  7290  | AEGAEO |
+| Akademik Aleksandr Nesmeyanov (90BM) |  6457  | AKADEMIK ALEKSANDR NESMEYANOV |
+| Akademik Fedorov (90AQ) |  6430  | AKADEMIK FYODOROV |
+| Akademik Iofe (90KD) |  6545  | AKADEMIK IOFFE |
+| Akademik Korolyov (90AM) |  6426  | AKADEMIK KOROLYOV |
+| Almirante Irizar (08AI) |  500  | ALMIRANTE IRIZAR |
+| Antares (14AT) |  10405  | ANTARES |
+| Antea (35A8) |  8454  | ANTEA |
+| Aranda (34AR) |  4036  | ARANDA |
+| Arctic IVIK (18AW) |  7378  | ARCTIC IVIK |
+| Armorique (35AQ) |  4123  | ARMORIQUE |
+| Arni Fridriksson (46FR) |  4525  | ARNI FRIDRIKSSON |
+| Atlantis II (31AN) |  7040  | ATLANTIS II |
+| Aurora Australis (09AR) |  563  | AURORA AUSTRALIS |
+| Akademik Sergey Vavilov (RUSG) |  11986  | Akademik Sergey Vavilov |
+| Al Amir Moulay Abdallah (56J8) |  12039  | Al Amir Moulay Abdallah |
+| Alligator Hope (49P2) |  11006  | Alligator Hope |
+| Allure of the Seas (BHAF) |  12478  | Allure Of The Seas |
+| Atlantic Claire (18DT) |  10339  | Atlantic Claire |
+| Atlantic Companion (77CN) |  11702  | Atlantic Companion |
+| Barcelona Express (BMBE) |  10593  | BARCELONA EXPRESS |
+| Baruna Jaya I (42BJ) |  4482  | BARUNA JAYA I |
+| Belgica (11BG) |  10432  | BELGICA |
+| B. Saemundsson (46BS) |  4520  | BJARNI SAEMUNDSSON |
+| Benguela Stream (642B) |  11026  | Benguela Stream |
+| Cap Victor (06CK) |  10707  | CAP VICTOR |
+| Cape Hatteras (32KZ) |  3060  | CAPE HATTERAS |
+| Bosei Maru II (49EW) |  4747  | BOSEI MARU NO. 2 |
+| Amundsen (18DL) |  11972  | CCGS Amundsen |
+| Henry Larsen (18HS) |  7381  | CCGS Henry Larsen |
+| Louis S. St. Laurent (18SN) |  1044  | CCGS Louis S. St-Laurent |
+| Parizeau (18PZ) |  1013  | CCGS Parizeau |
+| Quadra (18QA) |  1016  | CCGS Quadra |
+| Sir Wilfrid Laurier (18LU) |  7584  | CCGS Sir Wilfrid Laurier |
+| Columbus Iselin (32IC) |  2967  | COLUMBUS ISELIN |
+| Columbus Waikato (64CW) |  10446  | COLUMBUS WAIKATO |
+| Cap Blanche (AG5W) |  12595  | Cap Blanche |
+| San Lorenzo (65DK) |  11098  | San Lorenzo |
+| Cap Vilano (AGB6) |  12596  | Cap Vilano |
+| Celebrity Equinox (MLCE) |  12572  | Celebrity Equinox |
+| Celtic Explorer (45CE) |  10868  | Celtic Explorer |
+| Darvin (90YN) |  9474  | DARVIN |
+| Discovery (74DI) |  5848  | DISCOVERY |
+| Edwin Link (33EL) |  9612  | EDWIN LINK |
+| Endeavor (32EV) |  2843  | ENDEAVOR |
+| Endeavour (18EN) |  893  | ENDEAVOUR |
+| Explorer of the Seas (33KF) |  11008  | EXPLORER OF THE SEAS |
+| F.G. WALTON SMITH (33WA) |  9617  | F.G. Walton Smith |
+| Falstaff (77FF) |  11009  | FALSTAFF |
+| Finnpartner (34FP) |  10331  | FINNPARTNER |
+| Finnmaid (34FM) |  11805  | Finnmaid |
+| G.M. Dannevig (58GD) |  5424  | G. M. DANNEVIG |
+| G.O. Sars (58GS) |  5429  | G.O. SARS |
+| Garcia del Cid (29GD) |  1368  | GARCIA DEL CID |
+| Gauss (06GA) |  303  | GAUSS |
+| Gulf Challenger (33GC) |  7320  | GULF CHALLENGER |
+| Gyre (32GY) |  2917  | GYRE |
+| Hakon Mosby (58AA) |  5369  | HAAKON MOSBY |
+| Hakurei Maru (49HG) |  4793  | HAKUREI MARU |
+| Healy (32H1) |  2956  | HEALY |
+| Hermano Gines (93HG) |  8248  | HERMANO GINES |
+| Hesperides (29HE) |  1370  | HESPERIDES |
+| Hokko Maru (49H5) |  4817  | HOKKO MARU |
+| Hudson (18HU) |  918  | HUDSON |
+| Hakuho Maru (49HH) |  11537  | Hakuho Maru |
+| Hokusei Maru (49YQ) |  11538  | Hokusei Maru |
+| Investigator (09IN) |  620  | INVESTIGATOR |
+| James Clark Ross (74JC) |  5946  | JAMES CLARK ROSS |
+| Jan Mayen (58JM) |  5450  | JAN MAYEN |
+| Johan Hjort (58JH) |  5449  | JOHAN HJORT |
+| John P. Tully (18DD) |  882  | JOHN P. TULLY |
+| Kaimikai-O-Kanaloa (33KI) |  9050  | KA'IMIKAI-O-KANALOA |
+| Kaiyo Maru (49K6) |  4884  | KAIYO-MARU |
+| Keifu Maru (49FA) |  4756  | KEIFU MARU |
+| Kilo Moana (33KB) |  10334  | KILO MOANA |
+| Kofu Maru II (492C) |  7018  | KOFU MARU |
+| Kairei (49ZR) |  10869  | Kairei |
+| Kaiyo (49Q2) |  11739  | Kaiyo |
+| L'Astrolabe (353L) |  4421  | L'ASTROLABE |
+| L'Atalante (35A3) |  4134  | L'ATALANTE |
+| La Curieuse (35UC) |  10313  | LA CURIEUSE |
+| Lance (58LA) |  5456  | LANCE |
+| Laurence M. Gould (33LG) |  8942  | LAURENCE M. GOULD |
+| LeNoroit (35LL) |  4253  | LE NOROIT |
+| Lillooet (06LB) |  350  | LILLOOET |
+| LAS CUEVAS (74X1) |  11839  | Las Cuevas |
+| Madornina (29MD) |  8710  | MADORNINA |
+| Maria S. Merian (06M2) |  10733  | MARIA S. MERIAN |
+| Marion-Dufresne (35MF) |  4271  | MARION DUFRESNE |
+| Marthal L. Black (18MF) |  9004  | MARTHA L. BLACK |
+| Maurice Ewing (3230) |  3719  | MAURICE EWING |
+| Meteor (06MT) |  362  | METEOR |
+| Mikhail Somov (90MS) |  6585  | MIKHAIL SOMOV |
+| Mirai (49NZ) |  9735  | MIRAI |
+| Colibri (35MJ) |  11337  | MN COLIBRI |
+| Moana Wave (32MW) |  3128  | MOANA WAVE |
+| Monte Olivia (06ZG) |  3565  | MONTE OLIVIA |
+| Mooring (3164) |  2565  | MOORINGS |
+| Natsushima (49NB) |  4950  | NATSUSHIMA |
+| New Horizon (32NM) |  3154  | NEW HORIZON |
+| Bell M. Shimada (3322) |  11779  | NOAA Ship Bell M. Shimada |
+| David Starr Jord (31JD) |  1715  | NOAA Ship David Starr Jordan |
+| DELAWARE II (316G) |  7038  | NOAA Ship Delaware II |
+| Discoverer (31DS) |  1515  | NOAA Ship Discoverer |
+| Fairweather (317W) |  2593  | NOAA Ship Fairweather |
+| Gordon Gunter (33GG) |  8938  | NOAA Ship Gordon Gunter |
+| Henry B. Bigelow (33HH) |  10926  | NOAA Ship Henry B. Bigelow |
+| Ka'imimoana (33KM) |  7118  | NOAA Ship Ka'imimoana |
+| Malcolm Baldrige (33MW) |  7003  | NOAA Ship Malcolm Baldrige |
+| McArthur II (33MH) |  10430  | NOAA Ship McArthur II |
+| Miller Freeman (31FN) |  1582  | NOAA Ship Miller Freeman |
+| Oceanographer (31OC) |  1894  | NOAA Ship Oceanographer |
+| Oscar Dyson (33OA) |  10713  | NOAA Ship Oscar Dyson |
+| Pisces (334B) |  11381  | NOAA Ship Pisces |
+| Ronald H. Brown (33RO) |  8884  | NOAA Ship Ronald H. Brown |
+| Nuka Arctica (26NA) |  9379  | NUKA ARCTICA |
+| Natalie Schulte (CYNS) |  11827  | Natalie Schulte |
+| New Century 2 (PANC) |  12581  | New Century 2 |
+| Ocean Researcher I (21OR) |  10499  | OCEAN RESEARCHER I |
+| Oceanus (32OC) |  3179  | OCEANUS |
+| Oden (77DN) |  6343  | ODEN |
+| OOCL Tianjin (HKOT) |  11705  | OOCL Tianjin |
+| Oshoro Maru (49OS) |  4981  | OSHORO MARU |
+| Pacific Celebes (HKPB) |  11704  | PACIFIC CELEBES |
+| Pierre Radisson (18RD) |  9007  | PIERRE RADISSON |
+| Point Sur (32P0) |  3237  | POINT SUR |
+| Polarfront (58P3) |  10794  | POLARFRONT |
+| Poseidon (06P1) |  10828  | POSEIDON |
+| Pride of Bilbao (746P) |  11228  | PRIDE OF BILBAO |
+| Prince Madog (74PD) |  6007  | PRINCE MADOG |
+| Prince of Seas (54PC) |  11012  | PRINCE OF SEAS |
+| Professor Multanovskiy (90CT) |  6486  | PROFESSOR MULTANOVSKIY |
+| Professor Siedlecki (67SL) |  5718  | PROFESSOR SIEDLECKI |
+| Polaris II (61P2) |  11840  | Polaris II |
+| Pyxis (49P1) |  11011  | Pyxis |
+| Atlantis (33AT) |  7887  | R/V Atlantis |
+| John Vickers (3220) |  3685  | R/V John V. Vickers |
+| Knorr (316N) |  2548  | R/V Knorr |
+| Marcus G. Langseth (33H3) |  10884  | R/V Marcus G. Langseth |
+| Melville (318M) |  2618  | R/V Melville |
+| Pelagia (64PE) |  6919  | R/V Pelagia |
+| Pelican (32PE) |  3215  | R/V Pelican |
+| Roger Revelle (33RR) |  7131  | R/V Roger Revelle |
+| Seward Johnson (33SW) |  6953  | R/V Seward Johnson |
+| Thomas G. Thompson (3250) |  3785  | R/V THOMAS G. THOMPSON |
+| Wecoma (32WC) |  3457  | R/V WECOMA |
+| Rabelais (35RF) |  4321  | RABELAIS |
+| Rio Blanco (063S) |  11925  | RIO BLANCO |
+| Charles Darwin (74AB) |  5747  | RRS Charles Darwin |
+| James Cook (740H) |  10737  | RRS James Cook |
+| Baruna Jaya IV (42BR) |  7884  | RV Baruna Jaya IV |
+| Franklin (09FA) |  598  | RV Franklin |
+| Heincke (06HK) |  7831  | RV Heincke |
+| Investigator (096U) |  12539  | RV Investigator |
+| Munida (61MU) |  11796  | RV Munida |
+| Nathaniel B. Palmer (3206) |  3623  | RV Nathaniel B. Palmer |
+| Polarstern (06AQ) |  226  | RV Polarstern |
+| Professor Khromov (90CI) |  6476  | RV Professor Khromov |
+| Sarmiento de Gamboa (29AH) |  10862  | RV Sarmiento De Gamboa |
+| USS Pogy (33PY) |  9719  | USS Pogy |
+| Ryofu Maru (49RY) |  5024  | RYOFU MARU |
+| REYKJAFOSS (64RJ) |  11639  | Reykjafoss |
+| Ryofu Maru (49UP) |  10660  | Ryofu Maru |
+| S. A. Agulhas (91AA) |  6776  | S. A. AGULHAS |
+| SA AGULHAS II (91AH) |  11825  | S.A. AGULHAS II |
+| Sagar Sampada (41SS) |  4477  | SAGAR SAMPADA |
+| Santa Lucia (54SL) |  5319  | SANTA LUCIA |
+| Seifu Maru (49SH) |  5032  | SEIFU MARU |
+| Shirase (49ZS) |  5210  | SHIRASE |
+| Shoyo (492S) |  5237  | SHOYO |
+| Shumpu Maru (49SU) |  5045  | SHUMPU MARU |
+| Skaugran (58SC) |  5490  | SKAUGRAN |
+| Skogafoss (AGSK) |  1  | SKOGAFOSS |
+| Sogen Maru (49GD) |  4769  | SOGEN MARU |
+| Sonne (06BE) |  239  | SONNE |
+| Southern Surveyor (09SS) |  8868  | SOUTHERN SURVEYOR |
+| Soyo Maru (49SO) |  5039  | SOYO-MARU |
+| Stena Arctica (58A1) |  9619  | STENA ARCTICA |
+| Santa Cruz (PASR) |  12580  | Santa Cruz |
+| Santa Maria (64SA) |  11013  | Santa Maria |
+| Sikuliaq (33BI) |  12014  | Sikuliaq |
+| Skogafoss II (AGFO) |  12211  | Skogafoss |
+| Soyo Maru (49WB) |  11106  | Soyo Maru |
+| Taisei Maru (49EM) |  4738  | TAISEI MARU |
+| Taliarte (29TL) |  6916  | TALIARTE |
+| Tangaroa (61TG) |  5548  | TANGAROA |
+| Tankai Maru (49TA) |  5060  | TANKAI-MARU |
+| Thalassa (35TH) |  4342  | THALASSA |
+| Theta (31TQ) |  2088  | THETA |
+| M/S Trans Future (PAT5) |  11703  | Trans Future 5 |
+| Healy (33HQ) |  10684  | USCGC Healy |
+| Polar Sea (32L9) |  3105  | USCGC Polar Sea |
+| Polar Star (32PZ) |  3236  | USCGC Polar Star |
+| Thomas Washington (31WT) |  2199  | USNS Thomas Washington |
+| Bold (31B5) |  1457  | USS Bold |
+| Valdivia (06AZ) |  232  | VALDIVIA |
+| Vancouver (18VC) |  1069  | VANCOUVER |
+| Victor Hensen (06VI) |  407  | VICTOR HENSEN |
+| Wakataka Maru (49WA) |  5127  | WAKATAKA MARU |
+| Weatherbird II (320G) |  3600  | WEATHERBIRD II |
+| Wellington Maru (492B) |  5231  | WELLINGTON MARU |
+| Xue Long (76XL) |  10283  | XUE LONG |
+| Ymer (77YM) |  7088  | YMER |
+%ENDSECTION{name="SdisVesselMap" type="section"}%
+
+</noautolink>
+
+-- LiqingJiang - 04 Mar 2020
+
