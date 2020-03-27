@@ -1,7 +1,7 @@
 package oap
 
-import gov.noaa.pmel.oads.util.StringUtils
 import grails.converters.JSON
+import org.apache.catalina.core.ApplicationPart
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -10,10 +10,12 @@ import org.joda.time.format.ISODateTimeFormat
 import javax.servlet.http.HttpServletResponse
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
+import java.nio.file.Files
 import java.util.stream.Collectors
 
 class DocumentController {
 
+    UtilsService utilsService
     XmlService xmlService
     OadsXmlService oadsXmlService
     OaMetadataFileService oaMetadataFileService
@@ -27,18 +29,21 @@ class DocumentController {
     def saveDoc() {
 //        def sessionFactory
 //        def session = sessionFactory.currentSession
-        String id = params.id
-        if ( id != null && "null".equals(id)) {
-            id = null
-        }
+//        String id = params.id
+//        if ( id != null && "null".equals(id)) {
+//            id = null
+//        }
         def documentJSON = request.JSON
-        // log.debug("JSON :"+documentJSON.toString())
+//        System.out.println("JSON :"+documentJSON)
+        def map = documentJSON as Map
         Document doc = new Document(documentJSON)
-        System.out.println("saveDoc doc:"+doc + " at " + System.currentTimeMillis());
+        def id = documentJSON.get("id")
+        System.out.println("saveDoc doc:"+doc + "["+id+"] at " + System.currentTimeMillis());
+//        System.out.println("saveMap :"+map );
 
         DocumentUpdateListener dul = _findDocUpldateListener(doc, id)
         System.out.println("DocListener:"+dul)
-        String newId = _saveDoc(id, doc)
+        String newId = _saveDoc(id, doc, map)
         String documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
         if ( dul != null ) {
             dul.documentId = newId
@@ -57,7 +62,56 @@ class DocumentController {
         render documentLocation
     }
 
-    def _saveDoc(String priorId, Document doc) {
+    private boolean doUpdate = false;
+    private _saveDoc(String priorId, Document doc, def map) {
+
+        DateTime currently = DateTime.now(DateTimeZone.UTC)
+        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
+
+//        System.out.println("map:"+map)
+        String update = format.print(currently)
+
+        doc.setLastModified(update)
+
+        Document d
+        if ( doc.validate() ) {
+            try {
+                if (priorId) {
+                    try {
+                        Long id = Long.parseLong(priorId)
+                        Document savedVersion = Document.findById(id)
+                        if (savedVersion) {
+                            if ( doUpdate ) {
+                                savedVersion.properties = map
+                                doc = savedVersion
+                            } else {
+                                savedVersion.delete(flush: true)
+                            }
+                        } else {
+                            System.out.println("No document found for prior id " + priorId)
+                        }
+                    } catch (Exception nfe) {
+                        nfe.printStackTrace()
+                    }
+                    d = doc.save(flush: true, failOnError: true)
+                    System.out.println("Save: " + d)
+                } else {
+                    d = doc.save(flush: true, failOnError: true)
+                    System.out.println("Save: " + d)
+                }
+            } catch (Throwable t) {
+                System.out.println("Error saving document " + doc)
+                t.printStackTrace()
+                throw t;
+            }
+        } else {
+            doc.errors.each {Error error -> log.debug(error.getMessage())            }
+        }
+
+        return d ? d.id : null
+    }
+
+    private def _savePostedDoc(String expocode, Document doc) {
 
         DateTime currently = DateTime.now(DateTimeZone.UTC)
         DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
@@ -69,25 +123,14 @@ class DocumentController {
         Document d
         if ( doc.validate() ) {
             try {
-                if ( priorId ) {
-                    try {
-                        Long id = Long.parseLong(priorId)
-                        Document savedVersion = Document.findById(id)
-                        if ( savedVersion ) {
-                            savedVersion.delete(flush: true)
-                        } else {
-                            System.out.println("No document found for prior id " + priorId)
-                        }
-                    } catch (Exception nfe) {
-                        log
-                        nfe.printStackTrace()
-                    }
-                    d = doc.save(flush: true)
-                    System.out.println("Save: " + d)
+                Document savedVersion = _findSavedDocByExpocode(doc)
+                if (savedVersion) {
+                    savedVersion.delete(flush: true)
                 } else {
-                    d = doc.save(flush: true)
-                    System.out.println("Save: " + d)
+                    System.out.println("No document found for prior id " + expocode)
                 }
+                d = doc.save(flush: true, failOnError: true)
+                System.out.println("Save: " + d)
             } catch (Throwable t) {
                 System.out.println("Error saving document " + doc)
                 t.printStackTrace()
@@ -122,7 +165,7 @@ class DocumentController {
         return expocode
     }
 
-    private def _findSavedDoc(Document doc) {
+    private def _findSavedDocByExpocode(Document doc) {
         Document savedDoc = null
         Citation c = doc.getCitation()
         if ( c ) {
@@ -157,7 +200,36 @@ class DocumentController {
                 render d as JSON
             }
         } else {
-            response.sendError(404, "Document not found.")
+            render "Document not found."
+        }
+    }
+
+    def _delete() {
+        String id = params.id
+        System.out.println("getDoc " + id + " at " + System.currentTimeMillis())
+        Document d;
+        try {
+            d = Document.findById(Long.parseLong(id));
+        } catch (NumberFormatException nfe) {
+        }
+        if ( d == null ) {
+            Citation savedCitation = Citation.findByExpocode(id)
+            if ( savedCitation ) {
+                d = savedCitation.getDocument()
+            }
+        }
+        System.out.println("Found doc: "+ d)
+        if ( d ) {
+            try {
+                d.delete()
+                render "deleted " + id
+            } catch (Exception ex) {
+                ex.printStackTrace()
+                render "There was an error deleting the document: " + ex.getMessage()
+            }
+        }
+        else {
+            render id + " not found"
         }
     }
 
@@ -185,8 +257,8 @@ class DocumentController {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg)
             return
         }
-        setDocumentId(document, postedDocId)
-        String docId = _saveDoc(postedDocId, document)
+        setDocumentExpocode(document, postedDocId)
+        String docId = _savePostedDoc(postedDocId, document)
         def notificationUrlPart = request.getPart("notificationUrl")
         ins = notificationUrlPart.getInputStream()
         String notificationUrl = readStream(ins)
@@ -220,7 +292,7 @@ class DocumentController {
         return docLocation
     }
 
-    private def setDocumentId(Document doc, String docId) {
+    private def setDocumentExpocode(Document doc, String docId) {
         Citation c = doc.getCitation()
         if (c) {
             String expocode = c.getExpocode()
@@ -306,14 +378,16 @@ class DocumentController {
 
     def upload() {
 
-        System.out.println("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost())
         log.info("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost())
 
         def f = request.getPart('xmlFile')
-        InputStream ins = f.getInputStream()
+        if ( !f ) {
+            throw new IllegalStateException("Uploaded file not received.")
+        }
+        File stashed = utilsService.stash(f)
+        InputStream ins = new FileInputStream(stashed)
 
         Document document;
-
 
         try {
             String name = f.getSubmittedFileName()
@@ -344,6 +418,7 @@ class DocumentController {
                 render document as JSON
             }
         } catch (Exception ex) {
+            ex.printStackTrace()
             String msg = "ERROR: There was an error processing your uploaded file: "+ ex.getMessage()
             render msg
         }
