@@ -17,6 +17,16 @@
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
+                        <b:Column size="SM_12">
+                            <b:gwt.CellTable ui:field="variables" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12">
+                            <b:Pagination ui:field="variablePagination"></b:Pagination>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
                         <b:Column size="SM_2">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
@@ -224,16 +234,6 @@
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSpeciesIdCode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="speciesIdCode" allowBlank="true" placeholder="Species Identification code" b:id="speciesIdCode"></b:TextBox>
                             </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_12">
-                            <b:gwt.CellTable ui:field="variables" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_12">
-                            <b:Pagination ui:field="variablePagination"></b:Pagination>
                         </b:Column>
                     </b:Row>
                     <b:Row>

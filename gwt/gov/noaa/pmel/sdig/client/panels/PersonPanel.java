@@ -351,7 +351,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     protected void addPerson(Person p) {
         if ( p == null ) { return; }
-        peopleData.getList().add(p);
+        peopleData.getList().add(p.getPosition(), p);
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
     }
@@ -413,6 +413,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             person.setCountry(country.getText().trim());
             person.setIdType(idType.getValue());
             person.setComplete(this.valid());
+            person.setPosition(editIndex);
             if (reset) {
                 form.reset();
             }
@@ -602,6 +603,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         for (int i = 0; i < personList.size(); i++) {
             Person p = personList.get(i);
+            p.setPosition(i);
             peopleData.getList().add(p);
         }
         peopleData.flush();

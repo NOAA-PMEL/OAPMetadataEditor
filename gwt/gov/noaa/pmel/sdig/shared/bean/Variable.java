@@ -5,7 +5,7 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 /**
  * Created by rhs on 3/8/17.
  */
-public class Variable implements Comparable<Variable>, Stringy {
+public class Variable extends Ordered implements Comparable<Variable>, Stringy {
 
     String abbreviation;
     String manipulationMethod;

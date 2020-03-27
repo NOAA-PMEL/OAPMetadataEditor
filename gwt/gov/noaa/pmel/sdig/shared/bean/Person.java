@@ -5,7 +5,7 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 /**
  * Created by rhs on 2/28/17.
  */
-public class Person implements Comparable<Person>, Stringy {
+public class Person extends Ordered implements Comparable<Person>, Stringy {
     String lastName;
     String mi;
     String firstName;

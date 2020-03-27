@@ -16,8 +16,10 @@ public class InvestigatorPanel extends PersonPanel {
         heading.setText("Enter the information for this investigator. You may enter more than one investigator.");
         showTable=true;
     }
-
-   public boolean isDirty(List<Person> originals) {
+    public void setEditing(boolean isEditing) {
+        editing = isEditing;
+    }
+    public boolean isDirty(List<Person> originals) {
         OAPMetadataEditor.debugLog("Investigator.isDirty("+originals+")");
         if ( originals == null ) { originals = Collections.EMPTY_LIST; }
         Set<Person> thisPeople = new TreeSet<>(getInvestigators());
@@ -39,6 +41,4 @@ public class InvestigatorPanel extends PersonPanel {
         }
         return false;
     }
-
-
 }
