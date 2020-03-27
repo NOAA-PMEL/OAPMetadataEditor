@@ -1,13 +1,14 @@
 #!/bin/bash
 
-daemons=`ps -ef | grep gradle | grep Daemon `
+daemons=`ps -ef | grep gradle | grep Daemon`
 
 if [[ "" == "$daemons" ]] ; then
 	echo No Daemons
 	exit
 fi
 
-echo $daemons
+# echo $daemons
+ps -ef | grep gradle | grep Daemon
 echo -n "kill all [yN]? "
 read killem
 
