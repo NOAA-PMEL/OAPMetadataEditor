@@ -37,6 +37,7 @@ uidoc=gwt/gov/noaa/pmel/sdig/client/DashboardLayout.ui.xml
 if [ $VISIBLE ] ; then
 	echo "setting nav bars to visible"
 	sed -i ${backup}_1  's/<b:Navbar visible="false"/<b:Navbar visible="true"/' $uidoc
+	SHOW=".show"
 else 
 	echo "setting nav bars back to noshow just in case"
 	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
@@ -55,5 +56,5 @@ if [ $VISIBLE ] ; then
 	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
 fi
 
-touch build/libs/env.${GRAILS_ENV}.${CMD}
+touch build/libs/env.${GRAILS_ENV}.${CMD}${SHOW}
 
