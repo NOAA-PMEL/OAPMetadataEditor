@@ -246,19 +246,22 @@ class XmlService {
         for (int i = 0; i < variables.size(); i++) {
             Element variableE = variables.get(i)
 
-            if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("dissolved inorganic carbon") ) {
+            String fullname =variableE.getChild("fullname") ?
+                    variableE.getChild("fullname").getTextTrim().replaceAll("_", " ") :
+                    null
+            if ( fullname != null && fullname.contains("inorganic carbon") ) {
                 Dic dic = fillVariableDomain(variableE, new Dic())
                 mdDoc.setDic(dic)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("ph") ) {
+            } else if ( fullname != null && fullname.equalsIgnoreCase("ph total") ) {
                 Ph ph = fillVariableDomain(variableE, new Ph())
                 mdDoc.setPh(ph)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("pco2 (fco2) autonomous") ) {
+            } else if ( fullname != null && fullname.equalsIgnoreCase("pco2 (fco2) autonomous") ) {
                 Pco2a p = fillVariableDomain(variableE, new Pco2a())
                 mdDoc.setPco2a(p)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("pco2 (fco2) discrete")) {
+            } else if ( fullname != null && fullname.equalsIgnoreCase("pco2 (fco2) discrete")) {
                 Pco2d p = fillVariableDomain(variableE, new Pco2d())
                 mdDoc.setPco2d(p)
-            } else if ( variableE.getChild("fullname") && variableE.getChild("fullname").getTextTrim().toLowerCase().equalsIgnoreCase("total alkalinity") ) {
+            } else if ( fullname != null && fullname.equalsIgnoreCase("total alkalinity") ) {
                 Ta ta = fillVariableDomain(variableE, new Ta())
                 mdDoc.setTa(ta)
             } else {
