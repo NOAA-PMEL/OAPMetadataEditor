@@ -162,8 +162,8 @@ class OadsXmlService {
         citation.setSection(section)
 
         def reference = ""
-        for (ReferenceType ref : metadata.getReferences()) {
-            reference += ref.name + " "
+        for (String ref : metadata.getReferences()) {
+            reference += ref + "\n"
         }
         citation.setScientificReferences(reference.trim())
 
