@@ -8,8 +8,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -114,6 +113,9 @@ public class DashboardLayout extends Composite {
     @UiField
     TextBox faketextbox;
 
+    @UiField
+    CaptionPanel buttonBarCaption;
+
     interface DashboardLayoutUiBinder extends UiBinder<HTMLPanel, DashboardLayout> {
     }
 
@@ -122,6 +124,7 @@ public class DashboardLayout extends Composite {
     public DashboardLayout() {
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        buttonBarCaption.setCaptionHTML("Metadata");
         filename.addStyleName("disappear");
         filename.addValueChangeHandler(new ValueChangeHandler<String>() {
             @Override
@@ -140,7 +143,6 @@ public class DashboardLayout extends Composite {
         filebutton.addStyleName("over");
         fakeinput.addStyleName("fakeinputposition");
         faketextbox.addStyleName("overright");
-        uploadForm.addSubmitHandler(submitHandler);
 
         investigatorsLink.addClickHandler(new ClickHandler() {
             @Override
@@ -390,23 +392,13 @@ public class DashboardLayout extends Composite {
     public void addUploadSuccess(Form.SubmitCompleteHandler handler) {
         uploadForm.addSubmitCompleteHandler(handler);
     }
+    public void addUploadSubmitHandler(Form.SubmitHandler handler) {
+        uploadForm.addSubmitHandler(handler);
+    }
 
     public void resetFileForm() {
         uploadForm.reset();
     }
-    AbstractForm.SubmitHandler submitHandler = new AbstractForm.SubmitHandler() {
-        @Override
-        public void onSubmit(AbstractForm.SubmitEvent submitEvent) {
-            String value = filename.getValue();
-            if ( value == null || value.length() <= 0 ) {
-                submitEvent.cancel();
-                NotifySettings settings = NotifySettings.newSettings();
-                settings.setType(NotifyType.WARNING);
-                settings.setPlacement(NotifyPlacement.TOP_CENTER);
-                Notify.notify(Constants.NO_FILE, settings);
-            }
-        }
-    };
     public void setActive(String section) {
         investigatorsLink.setActive(false);
         submittersLink.setActive(false);

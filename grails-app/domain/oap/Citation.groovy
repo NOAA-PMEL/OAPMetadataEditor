@@ -5,7 +5,6 @@ class Citation {
     String title;
     String datasetAbstract;
     String useLimitation;
-    String dataUse;
     String purpose;
     String expocode;
     String cruiseId;
@@ -20,7 +19,6 @@ class Citation {
         title (nullable: true, type: 'text')
         datasetAbstract (nullable: true, type: 'text')
         useLimitation (nullable: true, type: 'text')
-        dataUse (nullable: true, type: 'text')
         purpose (nullable: true, type: 'text')
         expocode (nullable: true)
         cruiseId (nullable: true)

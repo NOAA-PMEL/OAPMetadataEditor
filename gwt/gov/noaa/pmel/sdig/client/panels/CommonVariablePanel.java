@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class CommonVariablePanel extends Composite implements GetsDirty<Variable> {
 
+    Variable _displayedVariable = null;
+
     @UiField
     Heading heading;
 
@@ -290,6 +292,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     }
     public void show(Variable variable) {
+        _displayedVariable = variable;
         if ( variable.getAbbreviation() != null ) {
             abbreviation.setText(variable.getAbbreviation());
         }
@@ -342,7 +345,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     public Variable getCommonVariable() {
 
-        Variable commonVariable = new Variable();
+        Variable commonVariable = _displayedVariable != null ? _displayedVariable : new Variable();
 
         fillCommonVariable(commonVariable);
 

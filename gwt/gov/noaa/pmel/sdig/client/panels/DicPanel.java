@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class DicPanel extends Composite implements GetsDirty<Variable> {
+public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable> {
 
     @UiField
     Button save;
@@ -32,10 +32,7 @@ public class DicPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     CommonVariablePanel common;
 
-    @UiField
-    Form form;
-
-    // 012 Standardization technique description
+//  // 012 Standardization technique description
     @UiField
     TextBox standardizationTechnique;
 
@@ -97,16 +94,15 @@ DIC: Researcher Institution
          */
         initWidget(ourUiBinder.createAndBindUi(this));
 
-        common.abbreviation.setText("DIC");
+        setDefaults();
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("Dissolved Inorganic Carbon");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for Dissolved Inorganic Carbon (DIC).");
         save.addClickHandler(saveIt);
 
         common.abbreviationModal.setTitle("22.1 Column header name of the variable in the data files, e.g., DIC, TCO2, etc.");
         common.observationTypeModal.setTitle("22.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
-        common. manipulationMethodModal.setTitle("22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
+        common.manipulationMethodModal.setTitle("22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
         common.observationDetailModal.setTitle("22.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study.");
         common.measuredModal.setTitle("22.6 Whether the variable is measured in-situ, or calculated from other variables.");
         common.calculationMethodModal.setTitle("22.7 Variables can be calculated using different sets of constants or different software.");
@@ -123,6 +119,12 @@ DIC: Researcher Institution
         common.unitsModal.setTitle("22.5 Units of the variable (e.g., μmol/kg).");
 
     }
+
+    private void setDefaults() {
+        common.abbreviation.setText("DIC");
+        common.fullVariableName.setText("Dissolved Inorganic Carbon");
+    }
+
     public Variable getDic() {
         Variable dic = common.getCommonVariable();
         dic.setStandardizationTechnique(standardizationTechnique.getText().trim());
@@ -256,7 +258,8 @@ DIC: Researcher Institution
         return false;
     }
     public void reset() {
-        form.reset();
+        super.reset();
+        setDefaults();
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());

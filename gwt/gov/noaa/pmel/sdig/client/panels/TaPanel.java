@@ -88,9 +88,8 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
-        common.abbreviation.setText("TA");
+        setDefaults();
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("Total Alkalinity");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for Total Alkalinity (TA).");
         save.addClickHandler(saveIt);
@@ -129,7 +128,10 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
         name.add("Closed");
         value.add("closed");
         cellType.init("Cell Type: Open or Closed", name, value);
-
+    }
+    private void setDefaults() {
+        common.abbreviation.setText("TA");
+        common.fullVariableName.setText("Total Alkalinity");
     }
     public Variable getTa() {
         Variable ta = common.getCommonVariable();
@@ -301,5 +303,6 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        setDefaults();
     }
 }

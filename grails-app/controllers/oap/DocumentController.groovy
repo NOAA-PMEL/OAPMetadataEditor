@@ -2,6 +2,9 @@ package oap
 
 import grails.converters.JSON
 import org.apache.catalina.core.ApplicationPart
+import org.grails.web.json.JSONArray
+import org.grails.web.json.JSONElement
+import org.grails.web.json.JSONObject
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -26,93 +29,97 @@ class DocumentController {
 //        Document.deleteAll(Document.findAll())
 //        DocumentUpdateListener.deleteAll(DocumentUpdateListener.findAll())
 //    }
+
+    private def Document findDocById(String id) {
+        Document doc
+        try {
+            try {
+                long lid = Long.valueOf(id)
+                doc = Document.findById(lid)
+            } catch (NumberFormatException nfe) {
+                doc = Document.findByDatasetIdentifier(id)
+            }
+            if ( ! doc ) {
+                Citation savedCitation = Citation.findByExpocode(id)
+                if ( savedCitation ) {
+                    doc = savedCitation.getDocument()
+                }
+                log.warn("Found doc by expocode: "+ id + ":" + doc + ( doc ? " : " + doc.id : ""))
+            }
+            log.info("Found doc " + doc + ( doc ? " : " + doc.id : ""))
+            if ( doc ) {
+                doc.dbId = doc.id
+                doc.dbVersion = doc.version
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace()
+        }
+        return doc
+    }
     def saveDoc() {
 //        def sessionFactory
 //        def session = sessionFactory.currentSession
-//        String id = params.id
-//        if ( id != null && "null".equals(id)) {
-//            id = null
-//        }
+        String id = params.id
+        if ( id != null && "null".equals(id)) {
+            id = null
+        }
         def documentJSON = request.JSON
-//        System.out.println("JSON :"+documentJSON)
-        def map = documentJSON as Map
+        removeNullIds(documentJSON)
+//        DocuWrap dwrap = new DocuWrap(documentJSON)
         Document doc = new Document(documentJSON)
-        def id = documentJSON.get("id")
-        System.out.println("saveDoc doc:"+doc + "["+id+"] at " + System.currentTimeMillis());
-//        System.out.println("saveMap :"+map );
+        if ( ! doc.datasetIdentifier ) {
+            def datasetId = _getDocumentIdentifier(id, doc)
+            if ( doc.id ) {
+                log.warn("Document with id " + doc.id + " has no datasetIdentifier! " +
+                         "Setting datasetIdentifier to " + datasetId + ", which will cause an update!")
+            }
+            doc.datasetIdentifier = datasetId
+        }
+        if ( ! doc.id && documentJSON.containsKey("id") && documentJSON.get("id") != null ) {
+            def jsonId = documentJSON.get("id")
+            try {
+                doc.setId(new Long(String.valueOf(jsonId)))
+                if ( documentJSON.containsKey("dbVersion")) {
+                    def jsonVers = documentJSON.get("dbVersion")
+                    try { doc.setVersion(new Long(String.valueOf(jsonVers)))}
+                    catch (Exception ex) {
+                        log.warn("Bad db version:"+jsonVers)
+                    }
+                }
+            } catch (NumberFormatException nfe) {
+                log.warn("Bad db id:"+jsonId)
+            }
+        }
+        log.info("saveDoc doc:"+doc + " as " + doc.datasetIdentifier + " at " + System.currentTimeMillis())
 
-        DocumentUpdateListener dul = _findDocUpldateListener(doc, id)
-        System.out.println("DocListener:"+dul)
-        String newId = _saveDoc(id, doc, map)
-        String documentLocation = _getDocumentLocation(newId, "saveDoc", "getXml")
+        DocumentUpdateListener dul = _findDocUpdateListener(doc.datasetIdentifier)
+        log.info("DocListener:"+dul)
+        def savedDoc = _saveDoc(doc)
+        String newId = savedDoc.datasetIdentifier // String.valueOf(savedDoc.id)
+        String documentLocation = _getDocumentLocation(savedDoc, "saveDoc", "getXml")
         if ( dul != null ) {
             dul.documentId = newId
             dul.documentLocation = documentLocation
-            System.out.println("doc location:"+dul.documentLocation)
+            log.info("doc location:"+dul.documentLocation)
             dul.save(flush:true)
             TimerTask tt = new TimerTask() {
                 @Override
                 public void run() {
-                    dul.notifyListener()
+                    dul.notifyListener(oadsXmlService.createOadsXml(doc))
                 }
             };
             Timer t = new Timer();
             t.schedule(tt, 50);
         }
-        render documentLocation
-    }
-
-    private boolean doUpdate = false;
-    private _saveDoc(String priorId, Document doc, def map) {
-
-        DateTime currently = DateTime.now(DateTimeZone.UTC)
-        DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
-
-//        System.out.println("map:"+map)
-        String update = format.print(currently)
-
-        doc.setLastModified(update)
-
-        Document d
-        if ( doc.validate() ) {
-            try {
-                if (priorId) {
-                    try {
-                        Long id = Long.parseLong(priorId)
-                        Document savedVersion = Document.findById(id)
-                        if (savedVersion) {
-                            if ( doUpdate ) {
-                                savedVersion.properties = map
-                                doc = savedVersion
-                            } else {
-                                savedVersion.delete(flush: true)
-                            }
-                        } else {
-                            System.out.println("No document found for prior id " + priorId)
-                        }
-                    } catch (Exception nfe) {
-                        nfe.printStackTrace()
-                    }
-                    d = doc.save(flush: true, failOnError: true)
-                    System.out.println("Save: " + d)
-                } else {
-                    d = doc.save(flush: true, failOnError: true)
-                    System.out.println("Save: " + d)
-                }
-            } catch (Throwable t) {
-                System.out.println("Error saving document " + doc)
-                t.printStackTrace()
-                throw t;
-            }
-        } else {
-            doc.errors.each {Error error -> log.debug(error.getMessage())            }
+        JSON.use("deep") {
+            render savedDoc as JSON
         }
-
-        return d ? d.id : null
+//        render documentLocation
     }
 
-    private def _savePostedDoc(String expocode, Document doc) {
+    private _saveDoc(Document doc, boolean removePrior = true) {
 
+        def datasetId = doc.datasetIdentifier
         DateTime currently = DateTime.now(DateTimeZone.UTC)
         DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
 
@@ -123,79 +130,83 @@ class DocumentController {
         Document d
         if ( doc.validate() ) {
             try {
-                Document savedVersion = _findSavedDocByExpocode(doc)
-                if (savedVersion) {
-                    savedVersion.delete(flush: true)
-                } else {
-                    System.out.println("No document found for prior id " + expocode)
+                if ( removePrior ) {
+                    List<Document> prior = Document.findAllByDatasetIdentifier(datasetId)
+                    if ( prior && ! prior.isEmpty()) {
+                        log.debug("Found previous documents " + prior + " found for id " + datasetId)
+                        Document.deleteAll(prior)
+                    }
+//                    Document savedVersion = Document.findByDatasetIdentifier(datasetId)
+//                    if (savedVersion) {
+//                        log.debug("Found previous document found for id " + datasetId)
+//                        savedVersion.delete(flush: true)
+//                    d = doc.merge(flush: true, failOnError: true)
                 }
                 d = doc.save(flush: true, failOnError: true)
-                System.out.println("Save: " + d)
+                d.dbId = d.id
+                d.dbVersion = d.version
+                log.debug("Save: " + d)
             } catch (Throwable t) {
-                System.out.println("Error saving document " + doc)
+                log.warn("Error saving document " + doc)
                 t.printStackTrace()
                 throw t;
             }
         } else {
-            doc.errors.each {Error error -> log.debug(error.getMessage())            }
+            doc.errors.each {Error error -> log.info(error.getMessage())            }
         }
-
-        return d ? d.id : null
+        return d
     }
 
-    private def _findDocUpldateListener(Document doc, String id) {
-//        Document savedDoc = _findSavedDoc(doc)
-        String expo = _findExpocode(doc)
-        System.out.println("Expocode: " + expo + ", id: " + id)
+    private def _findDocUpdateListener(String datasetId) {
         DocumentUpdateListener dul
-        if ( expo ) {
-            dul = DocumentUpdateListener.findByExpoCode(expo)
-        } else {
-            dul = DocumentUpdateListener.findByDocumentId(id)
-        }
+        dul = DocumentUpdateListener.findByDocumentId(datasetId)
         return dul
     }
 
+    private def _getDocumentIdentifier(String id, Document doc) {
+        def datasetId
+        if ( id ) {
+            datasetId = id
+        } else {
+            String expocode = _findExpocode(doc)
+            if ( expocode ) {
+                datasetId = expocode
+            } else {
+                datasetId = _generateDatasetId(doc)
+            }
+        }
+        return  datasetId
+    }
     private def _findExpocode(Document doc) {
-        String expocode = null;
+        String expocode = null
         Citation c = doc.getCitation()
         if ( c ) {
             expocode = c.getExpocode()
         }
         return expocode
     }
-
-    private def _findSavedDocByExpocode(Document doc) {
-        Document savedDoc = null
-        Citation c = doc.getCitation()
-        if ( c ) {
-            String expocode = c.getExpocode()
-            if ( expocode ) {
-                Citation savedCitation = Citation.findByExpocode(expocode)
-                if ( savedCitation ) {
-                    savedDoc = savedCitation.getDocument()
-                    System.out.println("SavedDoc: "+ savedDoc)
-                }
-            }
-        }
-        return savedDoc
+    private synchronized def _generateDatasetId(Document doc) {
+        return utilsService.idToShortURL(System.currentTimeMillis())
     }
 
     def getDoc() {
         String id = params.id
-        System.out.println("getDoc " + id + " at " + System.currentTimeMillis())
-        Document d;
-        try {
-            d = Document.findById(Long.parseLong(id));
-        } catch (NumberFormatException nfe) {
-            d = oaMetadataFileService.readOAMetadataFile(id)
+        log.info("getDoc " + id + " at " + System.currentTimeMillis())
+        Document d = findDocById(id)
+//        if ( d == null ) {
+//            d = oaMetadataFileService.readOAMetadataFile(id)
+//        }
+        if ( ! d || ! d.datasetIdentifier ) {
+            d = new Document()
+            d.datasetIdentifier = id
         }
-
-        String pathI = request.getPathInfo();
-        String pathT = request.getPathTranslated();
-        String uri = request.getRequestURI();
-        String from = request.getRemoteHost();
+        String pathI = request.getPathInfo()
+        String pathT = request.getPathTranslated()
+        String uri = request.getRequestURI()
+        String from = request.getRemoteHost()
         if ( d ) {
+            d.dbId = d.id
+            d.dbVersion = d.version
             JSON.use("deep") {
                 render d as JSON
             }
@@ -206,19 +217,9 @@ class DocumentController {
 
     def _delete() {
         String id = params.id
-        System.out.println("getDoc " + id + " at " + System.currentTimeMillis())
-        Document d;
-        try {
-            d = Document.findById(Long.parseLong(id));
-        } catch (NumberFormatException nfe) {
-        }
-        if ( d == null ) {
-            Citation savedCitation = Citation.findByExpocode(id)
-            if ( savedCitation ) {
-                d = savedCitation.getDocument()
-            }
-        }
-        System.out.println("Found doc: "+ d)
+        log.info("delete " + id + " at " + System.currentTimeMillis())
+        Document d = findDocById(id)
+        log.info("Found doc: "+ d)
         if ( d ) {
             try {
                 d.delete()
@@ -237,7 +238,6 @@ class DocumentController {
     def postit() {
         String ctype = request.getContentType()
         String postedDocId = params.id
-        System.out.println("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + postedDocId);
         log.info("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + postedDocId)
         InputStream ins;
         if ( ! ctype.startsWith("multipart/form-data")) {
@@ -253,42 +253,42 @@ class DocumentController {
             document = createDocumentFromXml(ins)
         } catch (Exception ex) {
             String msg = "Error parsing metadata XML document: " + ex.toString()
-            System.out.println(msg)
+            log.info(msg)
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg)
             return
         }
-        setDocumentExpocode(document, postedDocId)
-        String docId = _savePostedDoc(postedDocId, document)
+        document.datasetIdentifier = postedDocId
+        Document savedDoc = _saveDoc(document, true)
         def notificationUrlPart = request.getPart("notificationUrl")
         ins = notificationUrlPart.getInputStream()
         String notificationUrl = readStream(ins)
-        String docLocation = _getDocumentLocation(docId, "postit", "getXml");
-        DocumentUpdateListener dul = DocumentUpdateListener.findByExpoCode(postedDocId)
+        String docLocation = _getDocumentLocation(savedDoc, "postit", "getXml");
+        DocumentUpdateListener dul = DocumentUpdateListener.findByDocumentId(postedDocId)
         if ( dul == null ) {
             dul = new DocumentUpdateListener()
         }
         dul.notificationUrl = notificationUrl
-        dul.expoCode = postedDocId
-        dul.documentId = docId
+        dul.documentId = savedDoc.datasetIdentifier ? savedDoc.datasetIdentifier : savedDoc.id
         dul.documentLocation = docLocation
-        System.out.println("saving dul for expo " + dul.expoCode + " docId " + dul.documentId + ", notify: " + notificationUrl);
+        log.info("saving dul for docId " + dul.documentId + ", notify: " + notificationUrl);
         dul.save(flush:true)
-        render docId
+        render docLocation
     }
 
-    private def _getDocumentLocation(String docId, String requestMethod, String accessMethod) {
+    private def _getDocumentLocation(Document doc, String requestMethod, String accessMethod) {
         String url = request.getRequestURL().toString()
-        System.out.println("docUrl request:"+url);
+        log.info("docUrl request:"+url);
         if ( url.indexOf("pmel") > 0 ) {
             int contextIdx = url.indexOf("/oa")
             int meIdx = url.indexOf("MetadataEditor")
             int delta = meIdx - contextIdx
             String context
             url = "https://www.pmel.noaa.gov/sdig" + url.substring(url.indexOf("/oa"))
-            System.out.println("docUrl revised:"+url)
+            log.info("docUrl revised:"+url)
         }
+        String docId = doc.datasetIdentifier ? doc.datasetIdentifier : doc.id
         String docLocation = url.substring(0, url.indexOf(requestMethod))+accessMethod+"/"+docId
-        System.out.println("doc location:"+docLocation)
+        log.info("doc location:"+docLocation)
         return docLocation
     }
 
@@ -300,7 +300,7 @@ class DocumentController {
                  ! expocode.equalsIgnoreCase(docId)) {
                 // XXX TODO This should probably be an error !
                 String msg = "Posted dataset ID "+docId+ " does not equal document Excocode: " + expocode
-                System.out.println(msg)
+                log.warn(msg)
             }
         } else {
             c = new Citation()
@@ -347,7 +347,6 @@ class DocumentController {
         return doc
     }
     private def createDocumentFromXml(InputStream inStream) {
-
         log.debug("Creating xml document")
         String xml = new BufferedReader(new InputStreamReader(inStream))
                 .lines().parallel().collect(Collectors.joining("\n"));
@@ -361,24 +360,10 @@ class DocumentController {
         }
     }
 
-//    def createDocumentFromLegacy(String xml) {
-//        SAXBuilder saxBuilder = new SAXBuilder()
-//        org.jdom2.Document document = saxBuilder.build(new ByteArrayInputStream(xml.bytes))
-//        Document doc = new Document()
-//        Element root = document.getRootElement()
-//        String rootName = root.getName()
-//        Attribute a_version = root.getAttribute("version")
-//        String version = a_version ? a_version.getValue() : "legacy"
-//        if ( version.equals("legacy")) {
-//            return xmlService.createDocumentFromLegacyXML(root)
-//        } else {
-//            return oadsXmlService.createDocumentFromVersion(root, version)
-//        }
-//    }
-
     def upload() {
+        def datasetId = params.id
 
-        log.info("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost())
+        log.info("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + datasetId)
 
         def f = request.getPart('xmlFile')
         if ( !f ) {
@@ -391,7 +376,6 @@ class DocumentController {
 
         try {
             String name = f.getSubmittedFileName()
-            System.out.println("uploading: " + name)
             log.info("uploading: " + name)
 
             if (name.toLowerCase().endsWith(".xml")) {
@@ -400,19 +384,26 @@ class DocumentController {
                 document = xmlService.translateSpreadsheet(ins) // TODO: pull this from xmlService
             }
 
+            if ( document ) {
+                if ( ! datasetId ) {
+                    datasetId = _findExpocode(document)
+                }
+                document.datasetIdentifier = datasetId
+            }
             // Set its last modified date
             DateTime currently = DateTime.now(DateTimeZone.UTC)
             DateTimeFormatter format = ISODateTimeFormat.basicDateTimeNoMillis()
             String update = format.print(currently)
             document.setLastModified(update)
 
-            if (!document.validate()) {
-                document.errors.allErrors.each {
-                    log.debug it.toString()
-                }
-            } else {
-                log.debug("Document is valid...")
-            }
+//            if (!document.validate()) {
+//                document.errors.allErrors.each {
+//                    log.debug it.toString()
+//                }
+//            } else {
+//                log.debug("Document is valid...")
+//                _saveDoc(document, true)
+//            }
 
             JSON.use("deep") {
                 render document as JSON
@@ -423,32 +414,47 @@ class DocumentController {
             render msg
         }
     }
+    /**
+     * @return an XML represntation of the metadata
+     */
     def getXml() {
-        String pid = params.id;
-        long id  = Long.valueOf(pid)
-        Document doc = Document.findById(id)
-        Citation c = doc.getCitation()
-        String expocode
-        String filename = "oap_metadata";
-        if ( c ) {
-            expocode = c.getExpocode()
-        }
-        if ( expocode ) {
-            filename = filename + "_" + expocode + ".xml"
-        } else {
-            filename = filename + "_" + id + ".xml"
+        String docId = params.id;
+        Document doc = findDocById(docId)
+        if ( ! doc ) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + docId)
+            return;
         }
         String output = oadsXmlService.createXml(doc);
         response.contentType = 'text/xml'
         response.outputStream << output
         response.outputStream.flush()
     }
+    /**
+     * @return the metadata document as an XML file
+     */
+    def xml() {
+        try {
+            String pid = params.id;
+            Document doc = findDocById(pid)
+            String docId = doc.datasetIdentifier ? doc.datasetIdentifier : pid
+            String filename = "oap_metadata_" + docId + ".xml"
+            String output = oadsXmlService.createXml(doc);
+            response.setHeader "Content-disposition", "attachment; filename=${filename}"
+            response.contentType = 'text/xml'
+            response.outputStream << output
+            response.outputStream.flush()
+        } catch (Throwable t) {
+            t.printStackTrace()
+            response.sendError(500, "There was an error on the server. Please try again later.")
+        }
+    }
+    /**
+     * @return a preview of the metadata produced by a version of the NCEI xsl template
+     */
     def preview() {
         try {
             String pid = params.id;
-            long id = Long.valueOf(pid)
-            Document doc = Document.findById(id)
-//        Citation c = doc.getCitation()
+            Document doc = Document.findByDatasetIdentifier(pid)
             ByteArrayOutputStream baos = new ByteArrayOutputStream()
             oadsXmlService.transformDoc(doc, baos);
             String output = new String(baos.toByteArray())
@@ -459,27 +465,34 @@ class DocumentController {
             throwable.printStackTrace()
         }
     }
-    def xml() {
-        String pid = params.id;
-        long id  = Long.valueOf(pid)
-        Document doc = Document.findById(id)
-        Citation c = doc.getCitation()
-        String expocode
-        String filename = "oap_metadata";
-        if ( c ) {
-            expocode = c.getExpocode()
-        }
-        if ( expocode ) {
-            filename = filename + "_" + expocode + ".xml"
-        } else {
-            filename = filename + "_" + id + ".xml"
-        }
-//        String output = xmlService.createXml(doc);
-        String output = oadsXmlService.createXml(doc);
-        response.setHeader "Content-disposition", "attachment; filename=${filename}"
-        response.contentType = 'text/xml'
-        response.outputStream << output
-        response.outputStream.flush()
 
+    def void removeNullIds(JSONElement json) {
+        if ( json instanceof JSONArray ) {
+            for ( JSONObject v : json ) {
+               removeNullIds(v)
+            }
+        } else if ( json instanceof JSONObject ) {
+            def removeSet = new TreeSet()
+            def keySet = json.keySet()
+            for (String key : keySet) {
+                def val = json.get(key)
+                if ( val == null ) {
+                    removeSet.add(key)
+                } else if ( val instanceof JSONElement ) {
+                    removeNullIds(val)
+                } else {
+                    System.out.println("What have we in here: "+ val + ":" + val.getClass())
+                }
+            }
+            for ( String key : removeSet ) {
+                json.remove(key)
+            }
+        } else {
+            System.out.println("What have we out here: "+ json)
+        }
+    }
+
+    def boolean nullValue(Object o) {
+        return o == null || String.valueOf(o).equalsIgnoreCase("null")
     }
 }

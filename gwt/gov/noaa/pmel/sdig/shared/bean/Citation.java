@@ -5,11 +5,10 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 /**
  * Created by rhs on 3/3/17.
  */
-public class Citation implements Stringy {
+public class Citation extends DbItem implements Stringy {
 
     String title;
     String datasetAbstract;
-    String dataUse;
     String useLimitation;
     String purpose;
     String expocode;
@@ -98,12 +97,26 @@ public class Citation implements Stringy {
         this.datasetAbstract = datasetAbstract;
     }
 
-    public String getDataUse() { return dataUse; }
-
-    public void setDataUse(String dataUse) { this.dataUse = dataUse; }
-
     public String getUseLimitation() { return useLimitation; }
 
     public void setUseLimitation(String useLimitation) { this.useLimitation = useLimitation; }
 
+    @Override
+    public Citation sClone() {
+        Citation newc = new Citation();
+//        newc.id = this.id;
+//        newc.version = this.version;
+        newc.title = this.title;
+        newc.datasetAbstract = this.datasetAbstract;
+        newc.useLimitation = this.useLimitation;
+        newc.purpose = this.purpose;
+        newc.expocode = this.expocode;
+        newc.cruiseId = this.cruiseId;
+        newc.section = this.section;
+        newc.citationAuthorList = this.citationAuthorList;
+        newc.scientificReferences = this.scientificReferences;
+        newc.supplementalInformation = this.supplementalInformation;
+        newc.researchProjects = this.researchProjects;
+        return newc;
+    }
 }

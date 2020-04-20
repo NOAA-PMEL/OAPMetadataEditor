@@ -1,6 +1,5 @@
 package oap;
 
-import gov.noaa.pmel.tws.util.JWhich;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

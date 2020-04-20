@@ -1,6 +1,6 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
-public abstract class Ordered {
+public abstract class Ordered extends DbItem {
     protected int position;
     protected Ordered() {
         this.position = -1;

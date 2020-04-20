@@ -1,5 +1,7 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.Stringy;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,11 +9,18 @@ import java.util.List;
 /**
  * Created by rhs on 4/11/17.
  */
-public class Document {
+public class Document extends DbItem {
 
-    String id;
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    private Long dbId;
+    public Long getDbId() { return dbId; }
+    public void setDbId(Long dbId) { this.dbId = dbId; }
+    private Long dbVersion;
+    public Long getDbVersion() { return dbVersion; }
+    public void setDbVersion(Long dbVersion) { this.dbVersion = dbVersion; }
+
+    String datasetIdentifier;
+    public String getDatasetIdentifier() { return datasetIdentifier; }
+    public void setDatasetIdentifier(String datasetIdentifier) { this.datasetIdentifier = datasetIdentifier; }
 
 //    String datasetId;
     List<Platform> platforms;
@@ -29,21 +38,35 @@ public class Document {
 
     String update;
 
+    private static List<? extends Stringy> getArrayCopy(List<? extends Stringy> list) {
+        ArrayList<Stringy> newList = new ArrayList<>();
+        if ( list != null ) {
+            for (Stringy o : list) {
+                newList.add(o.sClone());
+            }
+        }
+        return newList;
+    }
+    private static Stringy copyOf(Stringy obj) {
+        return obj != null ? obj.sClone() : null;
+    }
+
     public static Document copy(Document doc) {
         Document copyDoc = new Document();
-        copyDoc.id = doc.id;
-        copyDoc.setCitation(doc.getCitation());
-        copyDoc.setDataSubmitter(doc.getDataSubmitter());
-        copyDoc.setInvestigators(new ArrayList<>(doc.getInvestigators()));
-        copyDoc.setFunding(doc.getFunding());
-        copyDoc.setPlatforms(new ArrayList<>(doc.getPlatforms()));
-        copyDoc.setDic(doc.getDic());
-        copyDoc.setPco2a(doc.getPco2a());
-        copyDoc.setPco2d(doc.getPco2d());
-        copyDoc.setPh(doc.getPh());
-        copyDoc.setTa(doc.getTa());
-        copyDoc.setTimeAndLocation(doc.getTimeAndLocation());
-        copyDoc.setVariables(new ArrayList<>(doc.getVariables()));
+//        copyDoc.id = doc.id;
+        copyDoc.datasetIdentifier = doc.datasetIdentifier;
+        copyDoc.setCitation((Citation)copyOf(doc.getCitation()));
+        copyDoc.setDataSubmitter((Person)copyOf(doc.getDataSubmitter()));
+        copyDoc.setInvestigators((List<Person>) getArrayCopy(doc.getInvestigators()));
+        copyDoc.setFunding((List<Funding>) getArrayCopy(doc.getFunding()));
+        copyDoc.setPlatforms((List<Platform>) getArrayCopy(doc.getPlatforms()));
+        copyDoc.setDic((Variable)copyOf(doc.getDic()));
+        copyDoc.setPco2a((Variable)copyOf(doc.getPco2a()));
+        copyDoc.setPco2d((Variable)copyOf(doc.getPco2d()));
+        copyDoc.setPh((Variable)copyOf(doc.getPh()));
+        copyDoc.setTa((Variable)copyOf(doc.getTa()));
+        copyDoc.setTimeAndLocation((TimeAndLocation) copyOf(doc.getTimeAndLocation()));
+        copyDoc.setVariables((List<Variable>) getArrayCopy(doc.getVariables()));
         return copyDoc;
     }
     public static Document EmptyDocument() {
@@ -62,9 +85,6 @@ public class Document {
        empty.setVariables(Arrays.asList(new Variable[0]));
        return empty;
     }
-
-//    public String getDatasetId() { return datasetId; }
-//    public void setDatasetId(String id) { datasetId = id; }
 
     public List<Platform> getPlatforms() {
         return platforms;

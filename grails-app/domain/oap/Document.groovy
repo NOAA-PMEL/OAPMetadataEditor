@@ -2,7 +2,10 @@ package oap
 
 class Document {
 
+    String datasetIdentifier;
     String lastModified;
+    transient Long dbId;
+    transient Long dbVersion;
 
     List<Platform> platforms
     List<Investigator> investigators
@@ -17,18 +20,14 @@ class Document {
                      ta: Ta,
                      ph: Ph,
                      pco2d: Pco2d]
-
-
-
     static hasMany = [platforms:Platform,
                       investigators: Investigator,
                       variables: Variable,
                       funding: Funding]
-
     static mapping = {
         platforms (cascade: 'all-delete-orphan')
         investigators (cascade: 'all-delete-orphan')
-        variables (cascade: 'all-delete-orphan')
+        variables (cascade: 'all-delete-orphan',lazy: false)
         dataSubmitter (cascade: 'all-delete-orphan')
         citation (cascade: 'all-delete-orphan')
         timeAndLocation (cascade: 'all-delete-orphan')
@@ -38,7 +37,6 @@ class Document {
         pco2a (cascade: 'all-delete-orphan')
         pco2d (cascade: 'all-delete-orphan')
         funding (cascade: 'all-delete-orphan')
-
     }
     static constraints = {
         platforms (nullable: true)

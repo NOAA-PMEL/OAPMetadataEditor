@@ -4,13 +4,13 @@ import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
 
 class DocumentUpdateListener {
 
     String notificationUrl
     String documentLocation
-    String expoCode
     String documentId
 
     static constraints = {
@@ -18,6 +18,24 @@ class DocumentUpdateListener {
         documentId ( nullable: false )
     }
 
+    def notifyListener(String documentXML) {
+        try {
+            HttpClient client = HttpClients.createDefault()
+            System.out.println("ME_Notifying:" + notificationUrl)
+            HttpPost post = new HttpPost(notificationUrl)
+            post.setHeader("Location", documentLocation)
+            post.setHeader("Content-Type", "text/xml")
+            post.setEntity(new StringEntity(documentXML))
+            HttpResponse response = client.execute(post)
+            System.out.println("ME_response:"+response.getStatusLine())
+            HttpEntity responseEntity = response.getEntity()
+            System.out.print("ME_responseEntity:");
+            responseEntity.writeTo(System.out)
+            System.out.println();
+        } catch (IOException iex) {
+            iex.printStackTrace()
+        }
+    }
     def notifyListener() {
         try {
             HttpClient client = HttpClients.createDefault()

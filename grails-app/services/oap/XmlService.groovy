@@ -252,7 +252,9 @@ class XmlService {
             if ( fullname != null && fullname.contains("inorganic carbon") ) {
                 Dic dic = fillVariableDomain(variableE, new Dic())
                 mdDoc.setDic(dic)
-            } else if ( fullname != null && fullname.equalsIgnoreCase("ph total") ) {
+            } else if ( fullname != null &&
+                    ( fullname.equalsIgnoreCase("ph")
+                      || fullname.equalsIgnoreCase("ph total"))) {
                 Ph ph = fillVariableDomain(variableE, new Ph())
                 mdDoc.setPh(ph)
             } else if ( fullname != null && fullname.equalsIgnoreCase("pco2 (fco2) autonomous") ) {

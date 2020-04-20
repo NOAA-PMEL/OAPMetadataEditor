@@ -72,11 +72,20 @@ class OadsXmlService {
 //        return countryThreeLetter ? countryThreeLetter : proposed;
 //    }
 
+    def createMetadataDocumentFromVersionedXml(InputStream inputStream) {
+        log.info("Creating OadsMetadata from input stream")
+        OadsMetadataDocumentType xmlMetadata = OadsXmlReader.read(inputStream)
+        return buildDocumentFromMetadata(xmlMetadata)
+    }
     def createMetadataDocumentFromVersionedXml(org.w3c.dom.Document xDoc, String version) {
 
         log.info("Creating OadsMetadata from " + xDoc + " version " + version)
         OadsMetadataDocumentType xmlMetadata = OadsXmlReader.read(xDoc)
 
+        return buildDocumentFromMetadata(xmlMetadata)
+    }
+
+    def buildDocumentFromMetadata(OadsMetadataDocumentType xmlMetadata) {
         Document mdDoc = new Document()
 
         // Investigators
@@ -115,14 +124,10 @@ class OadsXmlService {
             platform.setCountry(p.country)
             mdDoc.addToPlatforms(platform)
         }
-
-
         for (BaseVariableType baseVar : xmlMetadata.getVariables()) {
             GenericVariable variable = fillVariableDomain(baseVar)
             mdDoc.addVariable(variable)
         }
-
-
         return mdDoc
     }
 
@@ -139,7 +144,7 @@ class OadsXmlService {
         citation.setTitle(metadata.getTitle())
         citation.setDatasetAbstract(metadata.getAbstract())
         citation.setUseLimitation(metadata.getUseLimitation())
-        citation.setDataUse(metadata.getDataUse())
+//        citation.setDataUse(metadata.getDataUse())
         citation.setPurpose(metadata.getPurpose())
         if ( metadata.getResearchProjects() != null && metadata.getResearchProjects().size() > 0 ) {
             citation.setResearchProjects(String.valueOf(metadata.getResearchProjects()))
@@ -974,7 +979,7 @@ class OadsXmlService {
             metadata.title(citation.getTitle())
             metadata._abstract(citation.getDatasetAbstract())
             metadata.useLimitation(citation.getUseLimitation())
-            metadata.dataUse(citation.getDataUse())
+//            metadata.dataUse(citation.getDataUse())
             metadata.purpose(citation.getPurpose())
 
             // XXX TODO: use single string, multiple strings, or ResearchProjectType ???

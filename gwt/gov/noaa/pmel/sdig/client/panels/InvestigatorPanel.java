@@ -23,7 +23,7 @@ public class InvestigatorPanel extends PersonPanel {
         OAPMetadataEditor.debugLog("Investigator.isDirty("+originals+")");
         if ( originals == null ) { originals = Collections.EMPTY_LIST; }
         Set<Person> thisPeople = new TreeSet<>(getInvestigators());
-        if ( this.hasBeenModified()) {
+        if ( this.hasContent()) {
             thisPeople.add(getPerson());
         }
         if ( thisPeople.size() != originals.size()) {

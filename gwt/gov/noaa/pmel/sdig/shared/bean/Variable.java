@@ -57,7 +57,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
     String gasDectectorResolution;
     String seawaterVolume;
     String temperatureCorrectionMethod;
-//    String temperatureCorrection;
     String temperatureMeasurement;
     String temperatureStandarization;
     String standardGasUncertainties;
@@ -68,19 +67,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
     String duration;
     String lifeStage;
     String speciesIdCode;
-    int internal;
-
-    public int getInternal() { return internal; }
-
-    public void setInternal(int internal) { this.internal = internal; }
-
-//    public String getTemperatureCorrection() {
-//        return temperatureCorrection;
-//    }
-//
-//    public void setTemperatureCorrection(String temperatureCorrection) {
-//        this.temperatureCorrection = temperatureCorrection;
-//    }
 
     public String getCalculationMethod() {
         return calculationMethod;
@@ -691,5 +677,74 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
             sCompare(duration, v.duration) == 0 &&
             sCompare(lifeStage, v.lifeStage) == 0 &&
             sCompare(speciesIdCode, v.speciesIdCode) == 0;
+    }
+
+    @Override
+    public Variable sClone() {
+        Variable newv = new Variable();
+        newv.position = this.position;
+//        newv.id = this.id;
+//        newv.version = this.version;
+        newv.abbreviation = this.abbreviation;
+        newv.manipulationMethod = this.manipulationMethod;
+        newv.observationType = this.observationType;
+        newv.observationDetail = this.observationDetail;
+        newv.units = this.units;
+        newv.measured = this.measured;
+        newv.calculationMethod = this.calculationMethod;
+        newv.samplingInstrument = this.samplingInstrument;
+        newv.analyzingInstrument = this.analyzingInstrument;
+        newv.detailedInformation = this.detailedInformation;
+        newv.fieldReplicate = this.fieldReplicate;
+        newv.uncertainty = this.uncertainty;
+        newv.qualityFlag = this.qualityFlag;
+        newv.researcherName = this.researcherName;
+        newv.researcherInstitution = this.researcherInstitution;
+        newv.fullVariableName = this.fullVariableName;
+        newv.referenceMethod = this.referenceMethod;
+        newv.standardizationTechnique = this.standardizationTechnique;
+        newv.crmManufacture = this.crmManufacture;
+        newv.batchNumber = this.batchNumber;
+        newv.poison = this.poison;
+        newv.poisonVolume = this.poisonVolume;
+        newv.poisonDescription = this.poisonDescription;
+        newv.cellType = this.cellType;
+        newv.curveFittingMethod = this.curveFittingMethod;
+        newv.magnitudeOfBlankCorrection = this.magnitudeOfBlankCorrection;
+        newv.phTemperature = this.phTemperature;
+        newv.phScale = this.phScale;
+        newv.phStandards = this.phStandards;
+        newv.titrationType = this.titrationType;
+        newv.intakeDepth = this.intakeDepth;
+        newv.dryingMethod = this.dryingMethod;
+        newv.equilibratorType = this.equilibratorType;
+        newv.equilibratorVolume = this.equilibratorVolume;
+        newv.gasFlowRate = this.gasFlowRate;
+        newv.equilibratorPressureMeasureMethod = this.equilibratorPressureMeasureMethod;
+        newv.equilibratorTemperatureMeasureMethod = this.equilibratorTemperatureMeasureMethod;
+        newv.intakeLocation = this.intakeLocation;
+        newv.flowRate = this.flowRate;
+        newv.freqencyOfStandardization = this.freqencyOfStandardization;
+        newv.storageMethod = this.storageMethod;
+        newv.pco2Temperature = this.pco2Temperature;
+        newv.gasConcentration = this.gasConcentration;
+        newv.headspaceVolume = this.headspaceVolume;
+        newv.standardGasManufacture = this.standardGasManufacture;
+        newv.gasDetectorManufacture = this.gasDetectorManufacture;
+        newv.gasDetectorModel = this.gasDetectorModel;
+        newv.gasDectectorResolution = this.gasDectectorResolution;
+        newv.seawaterVolume = this.seawaterVolume;
+        newv.temperatureCorrectionMethod = this.temperatureCorrectionMethod;
+        newv.temperatureMeasurement = this.temperatureMeasurement;
+        newv.temperatureStandarization = this.temperatureStandarization;
+        newv.standardGasUncertainties = this.standardGasUncertainties;
+        newv.gasDectectorUncertainty = this.gasDectectorUncertainty;
+        newv.vaporCorrection = this.vaporCorrection;
+        newv.vented = this.vented;
+        newv.biologicalSubject = this.biologicalSubject;
+        newv.duration = this.duration;
+        newv.lifeStage = this.lifeStage;
+        newv.speciesIdCode = this.speciesIdCode;
+        return newv;
     }
 }

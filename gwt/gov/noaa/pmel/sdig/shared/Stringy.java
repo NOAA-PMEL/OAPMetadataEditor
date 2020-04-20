@@ -20,4 +20,6 @@ public interface Stringy {
     default boolean sAreEffectivelyTheSame(String s1, String s2) {
         return sNullEmptyCompare(s1,s2) == 0;
     }
+
+    Stringy sClone();
 }

@@ -11,7 +11,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -38,8 +37,7 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rhs on 3/7/17.
@@ -198,9 +196,21 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         return platform;
     }
 
-    public boolean isDirty(List<Platform> platforms) {
-        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+false);
+    public boolean isDirty(List<Platform> originals) {
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+platforms);
         boolean isDirty = false;
+        if ( isDirty()) {
+            addCurrentPlatform();
+        }
+        Set<Platform> thisPlatforms = new TreeSet<>(getPlatforms());
+        if ( thisPlatforms.size() != originals.size()) { return true; }
+        Iterator<Platform> originalPlatforms = new TreeSet<>(originals).iterator();
+        for ( Platform p : thisPlatforms ) {
+            if ( !p.equals(originalPlatforms.next())) {
+                isDirty = true;
+                break;
+            }
+        }
         return isDirty;
     }
     public boolean isDirty(Platform original) {
@@ -213,7 +223,6 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             isDirty(platformType, original.getPlatformType() );
         return isDirty;
     }
-
     public boolean isDirty() {
         if (country.getText().trim() != null && !country.getText().isEmpty() ) {
             return true;

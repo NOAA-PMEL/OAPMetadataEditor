@@ -58,4 +58,30 @@ class UtilsService {
         }
         return stashDir
     }
+
+    def String idToShortURL(long n)
+    {
+        // Map to store 62 possible characters
+//        char map62[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        char[] map36 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+
+        StringBuffer shorturl = new StringBuffer();
+
+        // Convert given integer id to a base 36 number
+        while (n > 0)
+        {
+            // use above map to store actual character
+            // in short url
+            int mod = (int)(n % 36);
+            char c = map36[mod];
+            if ( c == 'I' ) c = '1';
+            else if ( c == 'O' || c == 'Q' ) c = '0';
+            shorturl.append(c);
+            n = n / 36;
+        }
+
+        // Reverse shortURL to complete base conversion
+        return shorturl.reverse().toString();
+    }
+
 }

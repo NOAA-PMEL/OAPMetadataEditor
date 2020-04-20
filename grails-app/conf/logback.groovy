@@ -43,10 +43,17 @@ appender('FILER', FileAppender) {
 }
 
 def targetDir = BuildSettings.TARGET_DIR
+def currentEnv = Environment.getCurrent()
+System.out.println("Current environment: " + currentEnv)
 if (Environment.isDevelopmentMode() && targetDir != null) {
+    System.out.println("Seems to be DevMode " + Environment.isDevelopmentMode() + " with targetDir: "+ targetDir)
     logger("grails.app", DEBUG, ['STDOUT_CLR', 'FILER'], false)
     logger("oap", DEBUG, ['STDOUT_CLR', 'FILER'], false)
+    logger("org.hibernate.SQL", DEBUG, ['STDOUT_CLR', 'FILER'], false)
+    logger("org.hibernate.type.descriptor.sql.BasicBinder", TRACE, ['STDOUT_CLR', 'FILER'], false)
+//    logger("org.hibernate.type.descriptor.sql", TRACE, ['STDOUT_CLR', 'FILER'], false) // OR ?
 } else {
+    System.out.println("NOT DevMode with targetDir: "+ targetDir)
     logger("grails.app", DEBUG, ['FILER'])
     logger("oap", DEBUG, ['FILER'])
 }

@@ -107,9 +107,8 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
 
     public Pco2dPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        common.abbreviation.setText("pCO2d");
+        setDefaults();
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("pco2 (fco2) discrete");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for pCO2 (fCO2) Discreet.");
         save.addClickHandler(saveIt);
@@ -133,6 +132,12 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
 
 
     }
+
+    private void setDefaults() {
+        common.abbreviation.setText("pCO2d");
+        common.fullVariableName.setText("pco2 (fco2) discrete");
+    }
+
     public void fill (Variable pco2d) {
         common.fillCommonVariable(pco2d);
         pco2d.setStandardizationTechnique(standardizationTechnique.getText());
@@ -348,6 +353,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        setDefaults();
     }
 }
 

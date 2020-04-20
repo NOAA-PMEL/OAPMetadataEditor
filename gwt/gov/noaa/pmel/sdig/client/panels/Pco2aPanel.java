@@ -129,9 +129,8 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
 
     public Pco2aPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        common.abbreviation.setText("pCO2a");
+        setDefaults();
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("pco2 (fco2) autonomous");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for pCO2 (fCO2) Autonomous.");
         common.fieldReplicate.setAllowBlank(true);
@@ -155,6 +154,10 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         common.referenceMethodModal.setTitle("25.22 Citation for the pCO2 method.");
         common.unitsModal.setTitle("25.5 Units of the variable, e.g., μatm.");
 
+    }
+    private void setDefaults() {
+        common.abbreviation.setText("pCO2a");
+        common.fullVariableName.setText("pco2 (fco2) autonomous");
     }
     public Variable getPco2a() {
         Variable pco2a = common.getCommonVariable();
@@ -432,6 +435,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        setDefaults();
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());

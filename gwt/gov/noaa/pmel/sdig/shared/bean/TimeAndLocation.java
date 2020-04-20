@@ -5,7 +5,7 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocation implements Stringy {
+public class TimeAndLocation extends DbItem implements Stringy {
     String startDate;
     String endDate;
     String northLat;
@@ -86,5 +86,22 @@ public class TimeAndLocation implements Stringy {
 
     public void setSpatialRef(String spatialRef) {
         this.spatialRef = spatialRef;
+    }
+
+    @Override
+    public TimeAndLocation sClone() {
+        TimeAndLocation newt = new TimeAndLocation();
+//        newt.id = this.id;
+//        newt.version = this.version;
+        newt.startDate = this.startDate;
+        newt.endDate = this.endDate;
+        newt.northLat = this.northLat;
+        newt.southLat = this.southLat;
+        newt.westLon = this.westLon;
+        newt.eastLon = this.eastLon;
+        newt.geoNames = this.geoNames;
+        newt.organismLoc = this.organismLoc;
+        newt.spatialRef = this.spatialRef;
+        return newt;
     }
 }

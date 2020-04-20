@@ -25,7 +25,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/3/17.
  */
-public class CitationPanel extends Composite implements GetsDirty<Citation> {
+public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Citation> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -55,14 +55,8 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
 
     @UiField
     Button save;
-    @UiField
-    Form form;
 
     String type = Constants.SECTION_CITATION;
-
-    public void reset() {
-        form.reset();
-    }
 
     interface CitationUiBinder extends UiBinder<HTMLPanel, CitationPanel> {
     }
@@ -74,7 +68,7 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
     }
 
     public Citation getCitation() {
-        Citation citation = new Citation();
+        Citation citation = dbItem != null ? (Citation)dbItem : new Citation();
         citation.setDatasetAbstract(datasetAbstract.getText().trim());
         citation.setUseLimitation(useLimitation.getText().trim());
         citation.setPurpose(purpose.getText().trim());
@@ -145,6 +139,7 @@ public class CitationPanel extends Composite implements GetsDirty<Citation> {
         return false;
     }
     public void show(Citation citation) {
+        setDbItem(citation);
         if ( citation.getTitle() != null ) {
             title.setText(citation.getTitle());
         }

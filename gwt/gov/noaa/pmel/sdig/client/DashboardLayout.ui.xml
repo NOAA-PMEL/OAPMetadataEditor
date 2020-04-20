@@ -61,7 +61,7 @@
                         <b:AnchorListItem ui:field="pco2dLink">pCO2D</b:AnchorListItem>
                         <b:AnchorListItem ui:field="genericVariableLink">Variable</b:AnchorListItem>
                     </b:NavPills>
-                    <b:Container addStyleNames="buttonBar" width="100%">
+                    <g:CaptionPanel addStyleNames="buttonBar" width="100%" ui:field="buttonBarCaption">
                         <b:Row>
                             <b:Column size="SM_4" pull="LEFT">
                                 <b:Button ui:field="preview" type="PRIMARY" text="Preview" title="Preview Metadata"/>
@@ -78,7 +78,7 @@
                             </b:Column>
                             -->
                         </b:Row>
-                    </b:Container>
+                    </g:CaptionPanel>
                     <b:Form ui:field="uploadForm" method="POST" encoding="multipart/form-data" action="document/upload">
                         <b:FieldSet>
                             <b:FormGroup>

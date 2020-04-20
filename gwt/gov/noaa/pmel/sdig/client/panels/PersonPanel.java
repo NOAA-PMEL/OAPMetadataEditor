@@ -36,7 +36,6 @@ import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
-import org.gwtbootstrap3.client.ui.form.error.ErrorHandler;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
@@ -52,12 +51,14 @@ import java.util.List;
  * Created by rhs on 2/27/17.
  */
 public class PersonPanel extends Composite implements GetsDirty<Person> {
+
+    @UiField
+    Form form;
+
     @UiField
     ButtonDropDown idType;
     @UiField
     Button save;
-    @UiField
-    Form form;
 
     @UiField
     TextBox lastName;
@@ -119,10 +120,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     boolean showTable = true;
     boolean editing = false;
+    Person displayedPerson;
+    Person editPerson;
 
     String type;
-
-    boolean modified = false;
 
     int editIndex = -1;
 
@@ -250,7 +251,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         people.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Person> event) {
-                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+//                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
                 if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
                     show(event.getValue(), false);
                 } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
@@ -334,13 +335,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         peopleData.addDataDisplay(people);
 
-        country.addValueChangeHandler(new ValueChangeHandler<String>() {
-                  @Override
-                  public void onValueChange(ValueChangeEvent<String> event) {
-                      modified = true;
-                  }
-              }
-        );
+//        country.addValueChangeHandler(new ValueChangeHandler<String>() {
+//                  @Override
+//                  public void onValueChange(ValueChangeEvent<String> event) {
+//                      modified = true;
+//                  }
+//              }
+//        );
     }
 
     public boolean valid() {
@@ -349,9 +350,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         return ! ( valid.equals("false") || valid.equals("0"));
     }
 
-    protected void addPerson(Person p) {
+    public void addPerson(Person p) {
         if ( p == null ) { return; }
-        peopleData.getList().add(p.getPosition(), p);
+        int position = p.getPosition() >= 0 ? p.getPosition() : peopleData.getList().size();
+        p.setPosition(position);
+        peopleData.getList().add(position, p);
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
     }
@@ -365,10 +368,12 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.NOT_COMPLETE, settings);
         } else {
-            this.modified = false;
+//            this.modified = false;
             this.editing = false;
-            Person p = getPerson();
-            addPerson(p);
+            if ( hasContent()) {
+                Person p = getPerson();
+                addPerson(p);
+            }
             eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
@@ -376,7 +381,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             Notify.notify(Constants.COMPLETE, settings);
             if ( showTable ) {
                 setTableVisible(true);
-                form.reset();
+                reset();
             }
         }
 
@@ -390,13 +395,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //    }
 
     public Person getPerson() {
-        return _getPerson(false);
-    }
-
-    protected Person _getPerson(boolean reset) {
         OAPMetadataEditor.debugLog("PersonPanel.get()");
-        if ( hasContent() ) {
-            Person person = new Person();
+        Person person = displayedPerson != null ? displayedPerson : new Person();
             person.setAddress1(address1.getText().trim());
             person.setAddress2(address2.getText().trim());
             person.setEmail(email.getText().trim());
@@ -414,14 +414,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             person.setIdType(idType.getValue());
             person.setComplete(this.valid());
             person.setPosition(editIndex);
-            if (reset) {
-                form.reset();
-            }
-            modified = false;
             return person;
-        } else {
-            return null;
-        }
     }
 
     @Override
@@ -429,7 +422,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         OAPMetadataEditor.debugLog("PersonPanel.isDirty("+original+")");
         boolean isDirty = false;
         isDirty = original == null ?
-                  hasBeenModified() :
+                          hasContent() : //       XXX get hasBeenModified() right!
                   isDirty(address1, original.getAddress1()) ||
                   isDirty(address2, original.getAddress2()) ||
                   isDirty(email, original.getEmail()) ||
@@ -448,11 +441,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         return isDirty;
     }
 
-    public boolean hasBeenModified() {
-        return modified;
-    }
+//    public boolean hasBeenModified() {
+//        return modified;
+//    }
     public boolean hasContent() {
-        OAPMetadataEditor.debugLog("PersonPanel.isDirty()");
+        OAPMetadataEditor.debugLog("PersonPanel.hasContent()");
         boolean hasContent = false;
         if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.address1:"+ address1.getText());
@@ -515,6 +508,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public void show(Person person, boolean editable) {
         setAllEditable(editable);
         editing = editable;
+        if ( editable ) {
+            displayedPerson = person;
+        } else {
+            editPerson = getPerson();
+        }
         show(person);
     }
     private void setAllEditable(boolean editable) {
@@ -572,13 +570,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        modified = false;
 //        editing = false;
     }
-    @UiHandler({"firstName","mi","lastName","address1","address2","city","state","zip","telephone","email","rid"})
-    // can't include "idType", because removed ButtonDropDown addChangeHandler because it was causing other problems...
-    public void elementChanged(ChangeEvent changeEvent) {
-        OAPMetadataEditor.logToConsole("event:"+ changeEvent.getSource()); // .getNativeEvent().getType());
-        modified = true;
-        editing = true;
-    }
+//    @UiHandler({"firstName","mi","lastName", "address1","address2","city","state","zip","telephone","email","rid"})
+//    // can't include "idType", because removed ButtonDropDown addChangeHandler because it was causing other problems...
+//    // can't include "institution" because SuggestionBox doesn't have addHandler method.
+//    public void elementChanged(ChangeEvent changeEvent) {
+//        OAPMetadataEditor.logToConsole("event:"+ changeEvent.getSource()); // .getNativeEvent().getType());
+////        modified = true;
+////        editing = true;
+//    }
 
     public String getType() {
         return type;
@@ -627,6 +626,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public void reset() {
         form.reset();
+        displayedPerson = null;
+        editIndex = -1;
+        editing = false;
+        if ( editPerson != null ) {
+            show(editPerson);
+            editPerson = null;
+        }
         setAllEditable(true);
     }
 }

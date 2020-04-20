@@ -26,13 +26,7 @@ import gov.noaa.pmel.sdig.client.panels.PhPanel;
 import gov.noaa.pmel.sdig.client.panels.PlatformPanel;
 import gov.noaa.pmel.sdig.client.panels.TaPanel;
 import gov.noaa.pmel.sdig.client.panels.TimeAndLocationPanel;
-import gov.noaa.pmel.sdig.shared.bean.Citation;
-import gov.noaa.pmel.sdig.shared.bean.Document;
-import gov.noaa.pmel.sdig.shared.bean.Funding;
-import gov.noaa.pmel.sdig.shared.bean.Person;
-import gov.noaa.pmel.sdig.shared.bean.Platform;
-import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
-import gov.noaa.pmel.sdig.shared.bean.Variable;
+import gov.noaa.pmel.sdig.shared.bean.*;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.Resource;
@@ -55,7 +49,9 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
+import javax.print.Doc;
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -68,7 +64,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
     public interface SaveDocumentService extends RestService {
         @POST
-        public void save(Document document, TextCallback textCallback);
+        @Path("{id}")
+        public void save(@PathParam("id") String datasetId, Document document, TextCallback textCallback);
     }
     public interface DocumentCodec extends JsonEncoderDecoder<Document> {}
 
@@ -105,11 +102,14 @@ public class OAPMetadataEditor implements EntryPoint {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
-    Document _savedDoc = null;
     Document _loadedDocument = null;
+    Document _currentDocument = null;
+    String _requestedDocumentId = null;
+    String _datasetId = null;
+    Long _documentDbId = null;
+    Long _documentDbVersion = null;
 
 //    Person dataSubmitter = null;
-
     DataSubmitterPanel submitterPanel = new DataSubmitterPanel();
     InvestigatorPanel investigatorPanel = new InvestigatorPanel();
 
@@ -147,7 +147,7 @@ public class OAPMetadataEditor implements EntryPoint {
     ModalBody modalBody = new ModalBody();
     Button save = new Button("Save");
     String documentLocation = null;
-    String currentIndex = null;
+    String currentIndex = null; // XXX shouldn't use this. Leaving it for now ...
 
     final DashboardLayout topLayout = new DashboardLayout();
 
@@ -159,6 +159,7 @@ public class OAPMetadataEditor implements EntryPoint {
         RootPanel.get("load").getElement().setInnerHTML("");
         RootPanel.get().add(topLayout);
         topLayout.addUploadSuccess(completeHandler);
+        topLayout.addUploadSubmitHandler(submitHandler);
         topLayout.setMain(submitterPanel);
         topLayout.setActive(Constants.SECTION_SUBMITTER);
         modalBody.add(save);
@@ -201,7 +202,7 @@ public class OAPMetadataEditor implements EntryPoint {
                             ok.addClickHandler(new ClickHandler() {
                                 @Override
                                 public void onClick(ClickEvent event) {
-                                    startOver();
+                                    startOver(false);
                                     sure.hide();
                                 }
                             });
@@ -214,7 +215,7 @@ public class OAPMetadataEditor implements EntryPoint {
                             });
 
                         } else {
-                            startOver();
+                            startOver(false);
                         }
                     }
                 }
@@ -468,25 +469,39 @@ public class OAPMetadataEditor implements EntryPoint {
             warn(Constants.DOCUMENT_NOT_COMPLETE);
         }
         Document doc = getDocument();
-        doc.setId(currentIndex);
-        _savedDoc = doc;
-        saveDocumentService.save(doc, callback);
+        saveDocumentService.save(getDatasetId(doc), doc, callback);
         saved = true;
     }
 
+    public String getDatasetId(Document doc) {
+        if ( _datasetId != null ) {
+            return _datasetId;
+        }
+        if ( doc.getDatasetIdentifier() != null ) {
+            return doc.getDatasetIdentifier();
+        }
+        if ( doc.getCitation().getExpocode() != null && doc.getCitation().getExpocode().length() > 0 ) {
+            return doc.getCitation().getExpocode();
+        }
+        return null;
+    }
     public Document getDocument() {
         Document doc = new Document();
+        doc.setDatasetIdentifier(_datasetId);
+//        doc.setId(_documentDbId);
+//        doc.setVersion(_documentDbVersion);
+        doc.setDbId(_documentDbId);
+        doc.setDbVersion(_documentDbVersion);
         // Data Submitter Panel
         Person dataSubmitter = submitterPanel.getPerson();
         doc.setDataSubmitter(dataSubmitter);
         // Investigators Panel
         if ( investigatorPanel.hasContent() ) {
             Person p = investigatorPanel.getPerson();
-//            p.setComplete(investigatorPanel.valid()); // XXX redundant (currently) set/checked in getPerson() !
             if ( !p.isComplete()) {
                 warn("Current Investigator is not complete.");
             }
-            investigatorPanel.getInvestigators().add(p);
+            investigatorPanel.addPerson(p);
             investigatorPanel.reset();
             investigatorPanel.setEditing(false);
         }
@@ -538,14 +553,14 @@ public class OAPMetadataEditor implements EntryPoint {
             doc.setPco2d(pco2d);
         }
         // Generic Variables
-        List<Variable> genericVariables = genericVariablePanel.getVariables();
         if ( genericVariablePanel.hasContent() ) {
             Variable v = genericVariablePanel.getGenericVariable();
-            genericVariablePanel.getVariables().add(v);
+            genericVariablePanel.addVariable(v);
             genericVariablePanel.reset();
             genericVariablePanel.setEditing(false);
 //            genericVariables.add(v);
         }
+        List<Variable> genericVariables = genericVariablePanel.getVariables();
         doc.setVariables(genericVariables);
 
         return doc;
@@ -593,6 +608,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //        $wnd.attachEvent('onmessage', postMsgListener);
     }-*/;
 
+    // "Save" button
     TextCallback saveNotify = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
@@ -602,26 +618,29 @@ public class OAPMetadataEditor implements EntryPoint {
         }
         @Override
         public void onSuccess(Method method, String response) {
-            documentLocation = response;
-            currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
-            _loadedDocument = Document.copy(_savedDoc);
+//            documentLocation = response;
+//            _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+//            _loadedDocument = Document.copy(_savedDoc);
+            loadJsonDocument(response, true, true);
             info("Your document has been saved and is available.");
             saved = true;
         }
     };
+    // "Download" button
     TextCallback documentSaved = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
             Window.alert("There was an error saving your document.  Please try again later.");
         }
         @Override
-        public void onSuccess(Method method, String s) {
-            if ( s.equals("failed") ) {
+        public void onSuccess(Method method, String response) {
+            if ( response.equals("failed") ) {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
-                documentLocation = s;
-                currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
-                _loadedDocument = Document.copy(_savedDoc);
+//                documentLocation = s;
+//                _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+//                _loadedDocument = Document.copy(_savedDoc);
+                loadJsonDocument(response, true, true);
                 modalHeader.setTitle("Save XML file.");
                 save.setType(ButtonType.PRIMARY);
                 save.addClickHandler(new ClickHandler() {
@@ -629,7 +648,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     public void onClick(ClickEvent event) {
                         modal.hide();
                         saved = true;
-                        Window.open(Constants.base+"document/xml/"+ currentIndex,"_blank", null);
+                        Window.open(Constants.base+"document/xml/"+ _datasetId,"_blank", null);
                     }
                 });
 
@@ -637,6 +656,7 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         }
     };
+    // "Preview" button
     TextCallback previewDocument = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
@@ -648,11 +668,12 @@ public class OAPMetadataEditor implements EntryPoint {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
                 documentLocation = s;
-                currentIndex = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
-                Window.open(Constants.base+"document/preview/"+ currentIndex,"md_preview", null);
+                _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+                Window.open(Constants.base+"document/preview/"+ _datasetId,"md_preview", null);
             }
         }
     };
+    // Fetch document requested by id=? query param
     TextCallback documentFetched = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
@@ -663,10 +684,33 @@ public class OAPMetadataEditor implements EntryPoint {
             if ( s.equals("failed") ) {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
-                loadJsonDocument(s, true);
+                loadJsonDocument(s, true, true);
+                topLayout.setMain(submitterPanel);
+                topLayout.setActive(Constants.SECTION_SUBMITTER);
             }
         }
     };
+    // Upload file pre-action
+    AbstractForm.SubmitHandler submitHandler = new AbstractForm.SubmitHandler() {
+        @Override
+        public void onSubmit(AbstractForm.SubmitEvent submitEvent) {
+            String value = topLayout.filename.getValue();
+            if ( value == null || value.length() <= 0 ) {
+                submitEvent.cancel();
+                NotifySettings settings = NotifySettings.newSettings();
+                settings.setType(NotifyType.WARNING);
+                settings.setPlacement(NotifyPlacement.TOP_CENTER);
+                Notify.notify(Constants.NO_FILE, settings);
+            }
+            String postDocId = _datasetId != null ?
+                                _datasetId :
+                                _requestedDocumentId != null ?
+                                    _requestedDocumentId :
+                                    "";
+            topLayout.uploadForm.setAction("document/upload/" + postDocId);
+        }
+    };
+    // Upload file process results (uploaded file Document)
     Form.SubmitCompleteHandler completeHandler = new Form.SubmitCompleteHandler() {
         @Override
         public void onSubmitComplete(AbstractForm.SubmitCompleteEvent submitCompleteEvent) {
@@ -701,10 +745,14 @@ public class OAPMetadataEditor implements EntryPoint {
 //        Window.alert("Found dirty: " + isDirty);
         return isDirty;
     }
-    private void startOver() {
+    private void startOver(boolean clearIds) {
         // Reset containers for all information being collected to null.
         _loadedDocument = null;
-        _savedDoc = null;
+        if ( clearIds ) {
+            _datasetId = null;
+            _documentDbId = null;
+            _documentDbVersion = null;
+        }
 //        dataSubmitter = null;
         if ( investigatorPanel != null ) investigatorPanel.clearPeople();
 //        citation = null;
@@ -721,7 +769,7 @@ public class OAPMetadataEditor implements EntryPoint {
         // Reset all forms
         if (submitterPanel != null ) submitterPanel.reset();
         if (investigatorPanel != null ) investigatorPanel.reset();
-        if ( citationPanel != null ) citationPanel.reset();
+        if ( citationPanel != null ) citationPanel.reset(clearIds);
         if ( timeAndLocationPanel != null ) timeAndLocationPanel.reset();
         if ( fundingPanel != null ) fundingPanel.reset();
         if ( platformPanel != null ) platformPanel.reset();
@@ -744,59 +792,52 @@ public class OAPMetadataEditor implements EntryPoint {
     private void loadDocumentId(String documentId)
     {
         GWT.log("loadDocument " + documentId);
+        _requestedDocumentId = documentId;
         getDocumentService.get(documentId, documentFetched);
-    }
-    private void mergeJsonDocument(String jsonString) {
-        loadJsonDocument(jsonString, false);
     }
     private boolean wasError(String response) {
         return response != null && response.trim().startsWith("ERROR:");
     }
-    private void loadJsonDocument(String jsonString, boolean clearFirst) {
+    private void mergeJsonDocument(String jsonString) {
+        loadJsonDocument(jsonString, false, false);
+    }
+    private Document documentFromJson(String jsonString) {
         // A bug discussed in various places on the 'net, but nothing specific to grails.
         // Just work around for now
         jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
-                .replace("</pre>","");
-        jsonString = jsonString.replace("<pre>","");
+                .replace("</pre>", "");
+        jsonString = jsonString.replace("<pre>", "");
 
+        JSONValue json = JSONParser.parseStrict(jsonString);
+        Document document = codec.decode(json);
+        _loadedDocument = Document.copy(document);
+        return document;
+    }
+    private Document loadDocumentElements(Document document) {
+        _datasetId = document.getDatasetIdentifier();
+//        _documentDbId = document.getId();
+        _documentDbVersion = document.getDbVersion();
+        return document;
+    }
+    private void loadJsonDocument(String jsonString, boolean clearFirst, boolean updateIds) {
         try {
-            JSONValue json = JSONParser.parseStrict(jsonString);
-            Document document = codec.decode(json);
-            currentIndex = document.getId();
             if ( clearFirst ) {
-                startOver();
-                debugLog("OAME: Setting document to: " + document );
-                _loadedDocument = Document.copy(document);
+                startOver(updateIds);
             }
-
+            Document document = documentFromJson(jsonString);
+            if ( updateIds ) {
+                loadDocumentElements(document);
+            }
+            debugLog("OAME: Setting document to: " + document );
 //            investigatorPanel.clearPeople();
-
             if (document.getInvestigators() != null) {
                 List<Person> personList = document.getInvestigators();
-                Person p = null;
                 investigatorPanel.reset(); // XXX Should this also be commented out.  What about merge?
-                // This was leading to duplicate copies of the displayed person in saved doc.
-//                for (int i = 0; i < personList.size(); i++) {
-//                    investigatorPanel.reset();
-//                    p = personList.get(i);
-//                    if (p != null) {
-//                        investigatorPanel.show(p);
-//                        if (p.isComplete() && investigatorPanel.valid()) {
-//                            topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
-//                        } else {
-//                            topLayout.uncheck(Constants.SECTION_INVESTIGATOR);
-//                        }
-//                    }
-//                }
-//                if ( p != null && !p.isComplete() ) {
-//                    personList.remove(p);
-//                } else {
-//                    investigatorPanel.reset();
-//                }
                 investigatorPanel.addPeople(personList);
             }
 
             // TODO this has to be redone to work with the data provider
+            // what does that mean?
             List<Variable> variablesList = document.getVariables();
             if (variablesList != null) {
                 genericVariablePanel.addVariables(variablesList);
@@ -884,16 +925,9 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.setChecked(Constants.SECTION_PCO2D);
                 }
             }
-            if ( dataSubmitter != null ) {
-                submitterPanel.show(dataSubmitter);
-            }
-            topLayout.setMain(submitterPanel);
-            topLayout.setActive(Constants.SECTION_SUBMITTER);
-
             if ( !clearFirst ) {
-                _loadedDocument = Document.copy(getDocument());
+                _currentDocument = getDocument();
             }
-
         } catch (Exception e) {
             Window.alert("File not processed. e="+e.getLocalizedMessage());
             logToConsole(jsonString);

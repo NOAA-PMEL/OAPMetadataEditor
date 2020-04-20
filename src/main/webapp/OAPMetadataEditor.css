@@ -12,6 +12,13 @@
 .buttonBar {
    padding-top: 10px;
 }
+fieldset legend {
+   font-size: 110%;
+   font-weight: bold;
+   padding-top: 1em;
+   margin-bottom: 0px;
+}
+
 /** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;

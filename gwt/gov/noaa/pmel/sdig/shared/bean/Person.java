@@ -66,9 +66,7 @@ public class Person extends Ordered implements Comparable<Person>, Stringy {
         this.institution = institution;
     }
 
-    public String getAddress1() {
-        return address1;
-    }
+    public String getAddress1() { return address1; }
 
     public void setAddress1(String address1) {
         this.address1 = address1;
@@ -193,5 +191,29 @@ public class Person extends Ordered implements Comparable<Person>, Stringy {
             sAreEffectivelyTheSame(zip, other.zip) &&
             sAreEffectivelyTheSame(country, other.country) &&
             sAreEffectivelyTheSame(idType, other.idType);
+    }
+
+    @Override
+    public Person sClone() {
+        Person newPerson = new Person();
+        newPerson.position = this.position;
+//        newPerson.id = this.id;
+//        newPerson.version = this.version;
+        newPerson.lastName = this.lastName;
+        newPerson.mi = this.mi;
+        newPerson.firstName = this.firstName;
+        newPerson.institution = this.institution;
+        newPerson.address1 = this.address1;
+        newPerson.address2 = this.address2;
+        newPerson.telephone = this.telephone;
+        newPerson.extension = this.extension;
+        newPerson.email = this.email;
+        newPerson.rid = this.rid;
+        newPerson.city = this.city;
+        newPerson.state = this.state;
+        newPerson.zip = this.zip;
+        newPerson.country = this.country;
+        newPerson.idType = this.idType;
+        return newPerson;
     }
 }

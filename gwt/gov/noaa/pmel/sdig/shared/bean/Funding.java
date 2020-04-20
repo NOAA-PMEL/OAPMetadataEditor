@@ -6,8 +6,11 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 /**
  * Created by rhs on 3/7/17.
  */
-public class Funding  implements Comparable<Funding>, Stringy {
+public class Funding extends Ordered implements Comparable<Funding>, Stringy {
+
     String agencyName;
+    String grantTitle;
+    String grantNumber;
 
     @Override
     public int compareTo(Funding o) {
@@ -39,9 +42,6 @@ public class Funding  implements Comparable<Funding>, Stringy {
         return result;
     }
 
-    String grantTitle;
-    String grantNumber;
-
     public String getAgencyName() {
         return agencyName;
     }
@@ -66,4 +66,15 @@ public class Funding  implements Comparable<Funding>, Stringy {
         this.grantNumber = grantNumber;
     }
 
+    @Override
+    public Funding sClone() {
+        Funding newf = new Funding();
+        newf.position = this.position;
+//        newf.id = this.id;
+//        newf.version = this.version;
+        newf.agencyName = this.agencyName;
+        newf.grantTitle = this.grantTitle;
+        newf.grantNumber = this.grantNumber;
+        return newf;
+    }
 }

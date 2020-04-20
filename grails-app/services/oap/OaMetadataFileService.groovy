@@ -5,6 +5,7 @@ import grails.transaction.Transactional
 class OaMetadataFileService {
 
     XmlService xmlService
+    OadsXmlService oadsXmlService
 
     oap.Document readOAMetadataFile(String expocode) {
         Document doc;
@@ -13,13 +14,18 @@ class OaMetadataFileService {
             doc = _createNewDocument(expocode)
         } else {
             InputStream fis = new FileInputStream(mdFile)
-            doc = xmlService.createDocument(fis)
+            if ( mdFile.getName().startsWith("extracted")) {
+                doc = xmlService.createDocumentFromLegacyXML(fis)
+            } else {
+                doc = oadsXmlService.createMetadataDocumentFromVersionedXml(fis)
+            }
         }
         return doc
     }
 
     Document _createNewDocument(String expocode) {
         Document d = new Document()
+        d.datasetIdentifier = expocode
         Citation c = new Citation()
         c.setExpocode(expocode)
         d.setCitation(c)

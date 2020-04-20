@@ -12,22 +12,18 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
-import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.Pagination;
@@ -49,7 +45,9 @@ import java.util.*;
 /**
  * Created by rhs on 3/8/17.
  */
-public class GenericVariablePanel extends Composite {
+public class GenericVariablePanel extends FormPanel<Variable> {
+
+    Variable displayedVariable = null;
 
     // Maybe someday this will be used dynamically
     // currently prevents requiring observation details (in-situ, etc) and Measured/Calculated
@@ -57,9 +55,6 @@ public class GenericVariablePanel extends Composite {
 
     @UiField
     Heading heading;
-
-    @UiField
-    Form form;
 
     // 001 Variable abbreviation in data files
     @UiField
@@ -252,7 +247,7 @@ public class GenericVariablePanel extends Composite {
     boolean editing = false;
 
     Variable editVariable;
-    int editIndex;
+    int editIndex = -1;
 
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
@@ -260,6 +255,13 @@ public class GenericVariablePanel extends Composite {
 
     public void reset() {
         form.reset();
+        displayedVariable = null;
+        editIndex = -1;
+        editing = false;
+        if ( editVariable != null ) {
+            show(editVariable);
+            editVariable = null;
+        }
         setAllEditable(true);
     }
 
@@ -273,21 +275,12 @@ public class GenericVariablePanel extends Composite {
         variablePagination.rebuild(cellTablePager);
     }
 
-    public Variable saveVariable() {
-        Variable v = getGenericVariable();
-        variableData.getList().add(v);
-        variableData.flush();
-        variablePagination.rebuild(cellTablePager);
-        return v;
-    }
-
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, GenericVariablePanel> {
     }
 
     private static VariablePanelUiBinder ourUiBinder = GWT.create(VariablePanelUiBinder.class);
 
     public GenericVariablePanel() {
-
 
         fullVariableName = new SuggestBox(variableSuggestOracle);
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
@@ -318,7 +311,7 @@ public class GenericVariablePanel extends Composite {
         variables.addCellPreviewHandler(new CellPreviewEvent.Handler<Variable>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Variable> event) {
-                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+//                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
                 if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
                     show(event.getValue(), false);
                 } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
@@ -369,6 +362,7 @@ public class GenericVariablePanel extends Composite {
         delete.setFieldUpdater(new FieldUpdater<Variable, String>() {
             @Override
             public void update(int index, Variable variable, String value) {
+                form.reset(); // Because the mouseover will have filled the form
                 variableData.getList().remove(variable);
                 variableData.flush();
                 variablePagination.rebuild(cellTablePager);
@@ -434,6 +428,11 @@ public class GenericVariablePanel extends Composite {
     public void show(Variable variable, boolean editable) {
         setAllEditable(editable);
         editing = editable;
+        if ( editable ) {
+            displayedVariable = variable;
+        } else {
+            editVariable = getGenericVariable();
+        }
         show(variable);
     }
     public void show(Variable variable) {
@@ -506,7 +505,7 @@ public class GenericVariablePanel extends Composite {
 
     public Variable getGenericVariable() {
 
-        Variable commonVariable = new Variable();
+        Variable commonVariable = displayedVariable != null ? displayedVariable : new Variable();
 
         fillGenericVariable(commonVariable);
 
@@ -534,7 +533,9 @@ public class GenericVariablePanel extends Composite {
         commonVariable.setDuration(duration.getText());
         commonVariable.setLifeStage(lifeStage.getText());
         commonVariable.setSpeciesIdCode(speciesIdCode.getText());
-        commonVariable.setPosition(editIndex);
+        if ( editing ) {
+            commonVariable.setPosition(editIndex);
+        }
         return commonVariable;
     }
 
@@ -620,6 +621,10 @@ public class GenericVariablePanel extends Composite {
 
         for (int i = 0; i < variableList.size(); i++) {
             Variable p = variableList.get(i);
+            if ( p == null ) { // XXX badness
+                GWT.log("Null variable at pos " + i);
+                continue;
+            }
             p.setPosition(i);
             variableData.getList().add(p);
         }
@@ -656,14 +661,14 @@ public class GenericVariablePanel extends Composite {
             if ( hasContent()) {
                 addCurrentVariable();
             }
-            eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
+//            eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
             if ( showTable ) {
                 setTableVisible(true);
-                form.reset();
+                reset();
             }
         }
     }
@@ -672,10 +677,13 @@ public class GenericVariablePanel extends Composite {
         Variable v = getGenericVariable();
         addVariable(v);
         setTableVisible(true);
-        form.reset();
+        reset();
     }
-    private void addVariable(Variable v) {
-        variableData.getList().add(v.getPosition(), v);
+    public void addVariable(Variable v) {
+        if ( v == null ) { return; }
+        int position = v.getPosition() >= 0 ? v.getPosition() : variableData.getList().size();
+        v.setPosition(position);
+        variableData.getList().add(position, v);
         variableData.flush();
         variablePagination.rebuild(cellTablePager);
     }

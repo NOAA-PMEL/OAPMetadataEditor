@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAndLocation> {
+public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements GetsDirty<TimeAndLocation> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -56,9 +56,6 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
 
     @UiField
     Button save;
-
-    @UiField
-    Form form;
 
     String type = Constants.SECTION_TIMEANDLOCATION;
 
@@ -97,6 +94,7 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
         return d;
     }
     public void show(TimeAndLocation timeAndLocation) {
+        setDbItem(timeAndLocation);
         // TODO use joda and store an ISO string on both get and show
         if ( timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0 ) {
             try {
@@ -140,7 +138,7 @@ public class TimeAndLocationPanel extends Composite implements GetsDirty<TimeAnd
         }
     }
     public TimeAndLocation getTimeAndLocation() {
-        TimeAndLocation timeAndLocation = new TimeAndLocation();
+        TimeAndLocation timeAndLocation = dbItem != null ? (TimeAndLocation)dbItem : new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
         String end = endDate.getTextBox().getValue();
         timeAndLocation.setEndDate(end != null ? end.toString() : null );

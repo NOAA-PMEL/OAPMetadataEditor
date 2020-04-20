@@ -73,9 +73,8 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
     public PhPanel() {
 
         initWidget(ourUiBinder.createAndBindUi(this));
-        common.abbreviation.setText("pH");
+        setDefaults();
         common.abbreviation.setEnabled(false);
-        common.fullVariableName.setText("pH");
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the information for pH.");
 
@@ -102,10 +101,12 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         common.referenceMethodModal.setTitle("24.18 Citation for the pH method.");
 
         save.addClickHandler(saveIt);
-
-
     }
 
+    private void setDefaults() {
+        common.abbreviation.setText("pH");
+        common.fullVariableName.setText("pH total");
+    }
     public void fill( Variable ph ) {
         common.fillCommonVariable(ph);
         ph.setStandardizationTechnique(standardizationTechnique.getText().trim());
@@ -216,6 +217,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        setDefaults();
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());
