@@ -70,6 +70,13 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
 
+    //Requisite packages for ServiceTest.java:
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+    compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.5'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
+
     // RHS - use mysql for production
     // JDBC
     runtime 'mysql:mysql-connector-java:5.1.29'
@@ -77,7 +84,11 @@ dependencies {
 }
 
 task GWTCompile (type: Exec) {
+    //on *nix
     commandLine 'sh', './GWT-compile'
+
+    //on windows
+    commandLine 'cmd', '/c', 'GWT-compile.bat'
 }
 
 war.dependsOn(GWTCompile)
