@@ -13,6 +13,9 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+
+import com.google.gwt.view.client.CellPreviewEvent;
+
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
@@ -72,8 +75,11 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
     PlatformSuggestOracle platformSuggestionOracle = new PlatformSuggestOracle();
 
-
+    Platform displayedPlatform = null;
     boolean showTable = true;
+    boolean editing = false;
+    Platform editPlatform;
+    int editIndex = -1;
 
     ListDataProvider<Platform> platformsData = new ListDataProvider<Platform>();
 
@@ -105,6 +111,20 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         country = new SuggestBox(countrySuggestionOracle);
         initWidget(ourUiBinder.createAndBindUi(this));
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+
+        // add begin
+        platforms.addCellPreviewHandler(new CellPreviewEvent.Handler<Platform>() {
+            @Override
+            public void onCellPreview(CellPreviewEvent<Platform> event) {
+//                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+                if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
+                    show(event.getValue(), false);
+                } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
+                    reset();
+                }
+            }
+        });
+        // add end
 
         Column<Platform, String> edit = new Column<Platform, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -157,6 +177,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         delete.setFieldUpdater(new FieldUpdater<Platform, String>() {
             @Override
             public void update(int index, Platform platform, String value) {
+                //add
+                form.reset(); // Because the mouseover will have filled the form
+                //add end
                 platformsData.getList().remove(platform);
                 platformsData.flush();
                 platformPagination.rebuild(cellTablePager);
@@ -216,11 +239,11 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     public boolean isDirty(Platform original) {
         OAPMetadataEditor.debugLog("PlatformPanel.isDirty("+original+")");
         boolean isDirty =
-            isDirty(country, original.getCountry() ) ||
-            isDirty(name, original.getName() ) ||
-            isDirty(owner, original.getOwner() ) ||
-            isDirty(platformId, original.getPlatformId() ) ||
-            isDirty(platformType, original.getPlatformType() );
+                isDirty(country, original.getCountry() ) ||
+                        isDirty(name, original.getName() ) ||
+                        isDirty(owner, original.getOwner() ) ||
+                        isDirty(platformId, original.getPlatformId() ) ||
+                        isDirty(platformType, original.getPlatformType() );
         return isDirty;
     }
     public boolean isDirty() {
@@ -241,6 +264,27 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         }
         return false;
     }
+
+    // add begin
+    private void setAllEditable(boolean editable) {
+        country.setEnabled(editable);
+        name.setEnabled(editable);
+        owner.setEnabled(editable);
+        platformId.setEnabled(editable);
+        platformType.setEnabled(editable);
+    }
+    public void show(Platform platform, boolean editable) {
+        setAllEditable(editable);
+        editing = editable;
+        if ( editable ) {
+            displayedPlatform = platform;
+        } else {
+            editPlatform = getPlatform();
+        }
+        show(platform);
+    }
+    // add end
+
     public void show(Platform platform) {
         if ( platform.getCountry() != null ) {
             country.setText(platform.getCountry());
@@ -266,7 +310,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     private void addCurrentPlatform() {
         Platform p = getPlatform();
         addPlatform(p);
-        form.reset();
+        // form.reset(); //delete
+        setTableVisible(true);
+        reset();
     }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
@@ -288,7 +334,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             Notify.notify(Constants.COMPLETE, settings);
             if ( showTable ) {
                 setTableVisible(true);
-                form.reset();
+//                form.reset(); //delete
+                reset();
             }
         }
     }
@@ -330,6 +377,19 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     public void reset() {
         form.reset();
-        clearPlatforms();
+        displayedPlatform = null;
+        editIndex = -1;
+        editing = false;
+        if ( editPlatform != null ) {
+            show(editPlatform);
+            editPlatform = null;
+        }
+        setAllEditable(true);
     }
+
+//    public void clearPlatforms() {
+//        platformsData.getList().clear();
+//        platformsData.flush();
+//        platformPagination.rebuild(cellTablePager);
+//    }
 }
