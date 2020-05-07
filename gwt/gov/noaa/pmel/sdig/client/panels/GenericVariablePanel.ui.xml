@@ -27,7 +27,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_6 MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
@@ -36,7 +36,7 @@
                                 <b:TextBox ui:field="abbreviation" allowBlank="false" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6">
+                        <b:Column size="SM_6 MD_4 LG_5">
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel color="#B22222" for="fullVariableName" text="Full Variable Name *"></b:FormLabel>
@@ -45,7 +45,7 @@
                                 <b:SuggestBox ui:field="fullVariableName" allowBlank="false" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 MD_4 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
@@ -56,7 +56,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
@@ -65,7 +65,7 @@
                                 <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
@@ -74,7 +74,7 @@
                                 <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
                                 <b:FormLabel color="#B22222" for="units" text="Units *"></b:FormLabel>
@@ -85,7 +85,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_12 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation (Biological Study Only)"></b:FormLabel>
@@ -94,7 +94,7 @@
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_12 LG_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
@@ -103,7 +103,7 @@
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_12 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method (Biological Study Only)"></b:FormLabel>
@@ -116,7 +116,7 @@
                     </b:Row>
                     <b:Row>
                         <!-- Keep -->
-                        <b:Column size="SM_4">
+                        <b:Column size="MD_6 LG_4">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Modal title="27.9 Variables can be calculated using different sets of constants or different software." closable="true" b:id="modalCalculationMethod"/>
@@ -125,7 +125,7 @@
                             </b:FormGroup>
                         </b:Column>
 
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_4" offset="LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
                                 <b:FormLabel for="referenceMethod" text="Method Reference (citation)"></b:FormLabel>
@@ -148,7 +148,7 @@
                     </b:Row>
 
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
                                 <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
@@ -157,7 +157,7 @@
                                 <b:TextBox ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
                                 <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
@@ -166,7 +166,7 @@
                                 <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
@@ -175,7 +175,7 @@
                                 <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherInstitutionForm">
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
@@ -186,7 +186,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6">
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
