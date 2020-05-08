@@ -11,6 +11,9 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+
+import com.google.gwt.user.client.Window;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
@@ -72,26 +75,22 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     @UiField
     Pagination platformPagination;
 
-    CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
-    PlatformSuggestOracle platformSuggestionOracle = new PlatformSuggestOracle();
 
-    Platform displayedPlatform = null;
     boolean showTable = true;
     boolean editing = false;
-    Platform editPlatform;
     int editIndex = -1;
+    Platform displayedPlatform;
+    Platform editPlatform;
+
+
+    CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
+    PlatformSuggestOracle platformSuggestionOracle = new PlatformSuggestOracle();
 
     ListDataProvider<Platform> platformsData = new ListDataProvider<Platform>();
 
     private SimplePager cellTablePager = new SimplePager();
 
     String type = Constants.SECTION_PLATFORMS;
-
-    public void clearPlatforms() {
-        platformsData.getList().clear();
-        platformsData.flush();
-        platformPagination.rebuild(cellTablePager);
-    }
 
     public Platform savePlatform() {
         Platform p = getPlatform();
@@ -135,10 +134,17 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         edit.setFieldUpdater(new FieldUpdater<Platform, String>() {
             @Override
             public void update(int index, Platform platform, String value) {
-                show(platform);
-                platformsData.getList().remove(platform);
-                platformsData.flush();
-                platformPagination.rebuild(cellTablePager);
+                //addbegin
+                editIndex = platformsData.getList().indexOf(platform);
+                if ( editIndex < 0 ) {
+                    Window.alert("Edit failed.");
+                } else {
+                    //addend
+                    show(platform, true);
+                    platformsData.getList().remove(platform);
+                    platformsData.flush();
+                    platformPagination.rebuild(cellTablePager);
+                }
             }
         });
         platforms.addColumn(edit);
@@ -177,9 +183,6 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         delete.setFieldUpdater(new FieldUpdater<Platform, String>() {
             @Override
             public void update(int index, Platform platform, String value) {
-                //add
-                form.reset(); // Because the mouseover will have filled the form
-                //add end
                 platformsData.getList().remove(platform);
                 platformsData.flush();
                 platformPagination.rebuild(cellTablePager);
@@ -210,12 +213,18 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public Platform getPlatform() {
-        Platform platform = new Platform();
+        //addbegin
+        Platform platform = displayedPlatform != null ? displayedPlatform : new Platform();
+        //addend
+//        Platform platform = new Platform(); //delete
         platform.setCountry(country.getText().trim());
         platform.setName(name.getText().trim());
         platform.setOwner(owner.getText().trim());
         platform.setPlatformId(platformId.getText().trim());
         platform.setPlatformType(platformType.getText().trim());
+        //addbegin
+        platform.setPosition(editIndex);
+        //addend
         return platform;
     }
 
@@ -286,6 +295,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     // add end
 
     public void show(Platform platform) {
+        //addbegin
+        if ( platform == null ) {
+            reset();
+            return;
+        }
+        //addend
         if ( platform.getCountry() != null ) {
             country.setText(platform.getCountry());
         }
@@ -303,42 +318,84 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         }
     }
     private void addPlatform(Platform p ) {
-        platformsData.getList().add(p);
+        //addbegin
+        if ( p == null ) { return; }
+        int position = p.getPosition() >= 0 ? p.getPosition() : platformsData.getList().size();
+        p.setPosition(position);
+        //addend
+        platformsData.getList().add(position, p); //add position
         platformsData.flush();
         platformPagination.rebuild(cellTablePager);
     }
     private void addCurrentPlatform() {
         Platform p = getPlatform();
         addPlatform(p);
+
         // form.reset(); //delete
+
+        //addbegin
         setTableVisible(true);
         reset();
+        //addend
     }
-    @UiHandler("save")
-    public void onSave(ClickEvent clickEvent) {
+//    @UiHandler("save")
+//    public void onSave(ClickEvent clickEvent) {
+//
+//        // For some reason this returns a "0" in debug mode.
+//        String valid = String.valueOf(form.validate());
+//        if (valid.equals("false") || valid.equals("0")) {
+//            NotifySettings settings = NotifySettings.newSettings();
+//            settings.setType(NotifyType.WARNING);
+//            settings.setPlacement(NotifyPlacement.TOP_CENTER);
+//            Notify.notify(Constants.NOT_COMPLETE, settings);
+//        } else {
+//            this.editing = false;
+//            if (isDirty()) {
+//                Platform p = getPlatform();
+//                addPlatform(p);
+//            }
+//
+//            eventBus.fireEventFromSource(new SectionSave(p, this.type), PlatformPanel.this);
+//            NotifySettings settings = NotifySettings.newSettings();
+//            settings.setType(NotifyType.SUCCESS);
+//            settings.setPlacement(NotifyPlacement.TOP_CENTER);
+//            Notify.notify(Constants.COMPLETE, settings);
+//            if ( showTable ) {
+//                setTableVisible(true);
+////                form.reset(); //delete
+//                reset();
+//            }
+//        }
+//    }
+@UiHandler("save")
+public void onSave(ClickEvent clickEvent) {
 
-        // For some reason this returns a "0" in debug mode.
-        String valid = String.valueOf(form.validate());
-        if (valid.equals("false") || valid.equals("0")) {
-            NotifySettings settings = NotifySettings.newSettings();
-            settings.setType(NotifyType.WARNING);
-            settings.setPlacement(NotifyPlacement.TOP_CENTER);
-            Notify.notify(Constants.NOT_COMPLETE, settings);
-        } else {
-            Platform p = getPlatform();
-            addPlatform(p);
-            eventBus.fireEventFromSource(new SectionSave(p, this.type), PlatformPanel.this);
-            NotifySettings settings = NotifySettings.newSettings();
-            settings.setType(NotifyType.SUCCESS);
-            settings.setPlacement(NotifyPlacement.TOP_CENTER);
-            Notify.notify(Constants.COMPLETE, settings);
-            if ( showTable ) {
-                setTableVisible(true);
-//                form.reset(); //delete
-                reset();
-            }
+    // For some reason this returns a "0" in debug mode.
+    String valid = String.valueOf( form.validate());
+    String warning = Constants.NOT_COMPLETE;
+    NotifyType type = NotifyType.WARNING;
+
+    if ( valid.equals("false") ||
+            valid.equals("0")) {
+        NotifySettings settings = NotifySettings.newSettings();
+        settings.setType(type);
+        settings.setPlacement(NotifyPlacement.TOP_CENTER);
+        Notify.notify(warning, settings);
+    } else {
+        if ( isDirty()) {
+            addCurrentPlatform();
+        }
+//            eventBus.fireEventFromSource(new SectionSave(getPlatform(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
+        NotifySettings settings = NotifySettings.newSettings();
+        settings.setType(NotifyType.SUCCESS);
+        settings.setPlacement(NotifyPlacement.TOP_CENTER);
+        Notify.notify(Constants.COMPLETE, settings);
+        if ( showTable ) {
+            setTableVisible(true);
+            reset();
         }
     }
+}
     public List<Platform> getPlatforms() {
         return platformsData.getList();
     }
@@ -346,6 +403,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     public void addPlatforms(List<Platform> platformsList) {
         for (int i = 0; i < platformsList.size(); i++) {
             Platform p = platformsList.get(i);
+            //addbegin
+            p.setPosition(i);
+            //addend
             platformsData.getList().add(p);
         }
         platformsData.flush();
@@ -387,9 +447,11 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         setAllEditable(true);
     }
 
-//    public void clearPlatforms() {
-//        platformsData.getList().clear();
-//        platformsData.flush();
-//        platformPagination.rebuild(cellTablePager);
-//    }
+    //?
+    public void clearPlatforms() {
+        platformsData.getList().clear();
+        platformsData.flush();
+        platformPagination.rebuild(cellTablePager);
+        setTableVisible(false); //add
+    }
 }
