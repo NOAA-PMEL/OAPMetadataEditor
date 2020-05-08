@@ -11,14 +11,10 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-
 import com.google.gwt.user.client.Window;
-
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-
 import com.google.gwt.view.client.CellPreviewEvent;
-
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
@@ -97,8 +93,6 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     public FundingPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
         fundings.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
-
-        // add begin
         fundings.addCellPreviewHandler(new CellPreviewEvent.Handler<Funding>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Funding> event) {
@@ -110,7 +104,6 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
                 }
             }
         });
-        // add end
 
         Column<Funding, String> edit = new Column<Funding, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -121,12 +114,10 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         edit.setFieldUpdater(new FieldUpdater<Funding, String>() {
             @Override
             public void update(int index, Funding funding, String value) {
-                //addbegin
                 editIndex = fundingListDataProvider.getList().indexOf(funding);
                 if ( editIndex < 0 ) {
                     Window.alert("Edit failed.");
                 } else {
-                    //addend
                     show(funding, true);
                     fundingListDataProvider.getList().remove(funding);
                     fundingListDataProvider.flush();
@@ -196,15 +187,11 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         return fundingListDataProvider.getList();
     }
     public Funding getFunding() {
-        //addbegin
         Funding funding = displayedFunding != null ? displayedFunding : new Funding();
-        //addend
         funding.setAgencyName(agencyName.getText().trim());
         funding.setGrantTitle(title.getText().trim());
         funding.setGrantNumber(grantNumber.getText().trim());
-        //addbegin
         funding.setPosition(editIndex);
-        //addend
         return funding;
     }
 
@@ -251,7 +238,6 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         return false;
     }
 
-    // add begin
     private void setAllEditable(boolean editable) {
         agencyName.setEnabled(editable);
         title.setEnabled(editable);
@@ -267,15 +253,12 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         }
         show(funding);
     }
-    // add end
 
     public void show(Funding funding) {
-        //addbegin
         if ( funding == null ) {
             reset();
             return;
         }
-        //addend
         if ( funding.getAgencyName() != null ) {
             agencyName.setText(funding.getAgencyName());
         }
@@ -289,9 +272,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     public void addFundings(List<Funding> fundingList) {
         for (int i = 0; i < fundingList.size(); i++) {
             Funding f = fundingList.get(i);
-            //addbegin
             f.setPosition(i);
-            //addend
             fundingListDataProvider.getList().add(f);
         }
         fundingListDataProvider.flush();
@@ -299,11 +280,9 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         setTableVisible(true);
     }
     private void addFunding(Funding f) {
-        //addbegin
         if ( f == null ) { return; }
         int position = f.getPosition() >= 0 ? f.getPosition() : fundingListDataProvider.getList().size();
         f.setPosition(position);
-        //addend
         fundingListDataProvider.getList().add(position, f);
         fundingListDataProvider.flush();
         fundingPagination.rebuild(cellTablePager);
@@ -315,35 +294,6 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         reset();
     }
 
-//    @UiHandler("save")
-//    public void onSave(ClickEvent clickEvent) {
-//
-////        if ( !isDirty() ) { return; }
-////        if ( ! valid()) {
-//        // For some reason this returns a "0" in debug mode.
-//        String valid = String.valueOf(form.validate());
-//        if (valid.equals("false") || valid.equals("0")) {
-//            NotifySettings settings = NotifySettings.newSettings();
-//            settings.setType(NotifyType.WARNING);
-//            settings.setPlacement(NotifyPlacement.TOP_CENTER);
-//            Notify.notify(Constants.NOT_COMPLETE, settings);
-//        } else {
-//            Funding f = getFunding();
-////            addCurrentFunding(); //delete
-//            addFunding(f); //add
-//            eventBus.fireEventFromSource(new SectionSave(f, this.type), FundingPanel.this);
-//            NotifySettings settings = NotifySettings.newSettings();
-//            settings.setType(NotifyType.SUCCESS);
-//            settings.setPlacement(NotifyPlacement.TOP_CENTER);
-//            Notify.notify(Constants.COMPLETE, settings);
-////            eventBus.fireEventFromSource(new SectionSave(getFundings(), this.type), FundingPanel.this);
-//            if ( showTable ) {
-//                setTableVisible(true);
-////                form.reset(); //delete
-//                reset();
-//            }
-//        }
-//    }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
@@ -410,6 +360,6 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundingListDataProvider.getList().clear();
         fundingListDataProvider.flush();
         fundingPagination.rebuild(cellTablePager);
-        setTableVisible(false); //add
+        setTableVisible(false);
     }
 }
