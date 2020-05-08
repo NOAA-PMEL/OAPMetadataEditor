@@ -9,7 +9,17 @@
                 <b:Heading ui:field="heading" size="H3" text="Enter the funding information."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_12">
+                            <b:gwt.CellTable ui:field="fundings" addStyleNames="tightenTBmargins" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12">
+                            <b:Pagination ui:field="fundingPagination" addStyleNames="tightenTBmargins" visible="false"/>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="agencyName" text="Agency Name"></b:FormLabel>
                                 <b:Modal title="13.1 Funding agency of the data collection. Examples include, National Science Foundation, NOAA's Ocean Acidificaiton Program, etc." closable="true" b:id="modalAgencyName"/>
@@ -17,7 +27,7 @@
                                 <b:TextBox ui:field="agencyName" allowBlank="true" placeholder="Agency Name" b:id="agencyName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_9">
+                        <b:Column size="SM_8">
                             <b:FormGroup>
                                 <b:FormLabel for="title" text="Project Title"></b:FormLabel>
                                 <b:Modal title="13.2 The title of your funded project" closable="true" b:id="modalProjectTitle"/>
@@ -37,18 +47,8 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_12">
-                            <b:gwt.CellTable ui:field="fundings" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_12">
-                            <b:Pagination ui:field="fundingPagination"/>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
