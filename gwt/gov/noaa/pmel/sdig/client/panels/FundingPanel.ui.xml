@@ -6,7 +6,7 @@
     <g:HTMLPanel>
         <b:Form ui:field="form">
             <b:FieldSet>
-                <b:Heading ui:field="heading" size="H3" text="Enter the funding information."></b:Heading>
+                <b:Heading ui:field="heading" size="H3" text="Enter the Funding Information. You may enter more than one funding source."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
@@ -48,7 +48,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE FUNDING"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
