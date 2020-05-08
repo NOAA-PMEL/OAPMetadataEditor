@@ -69,21 +69,21 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_6">
+                        <b:Column size="SM_6 MD_5">
                             <b:FormGroup>
                                 <b:FormLabel for="city" text="City"></b:FormLabel>
                                 <b:TextBox ui:field="city" allowBlank="true" placeholder="City" b:id="city">
                                 </b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel for="state" text="State/Province"></b:FormLabel>
                                 <b:TextBox ui:field="state" allowBlank="true" placeholder="State/Province" b:id="state">
                                 </b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
                                 <b:FormLabel for="zip" text="Zip Code/Postal Code"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="addressPopover" b:id="addressPopover"/>
@@ -102,7 +102,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
                                 <b:FormLabel for="telephone" ui:field="telephoneLabel" text="Telephone Number"></b:FormLabel> <!-- color="#B22222"  -->
                                 <b:Modal closable="true" ui:field="telephonePopover"/> <!-- "not allowed" b:id="telephonePopover" -->
@@ -111,7 +111,7 @@
                            <!--     <b:Label ui:field="telephoneError" ></b:Label>  -->
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel for="ext" text="Extension"></b:FormLabel>
                                 <b:Modal title="The extension for the phone number if applicable." closable="true" b:id="extensionModal"/>
@@ -119,7 +119,7 @@
                                 <b:TextBox ui:field="extension" allowBlank="true" placeholder="Extension" b:id="extension"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_7">
+                        <b:Column size="SM_6 MD_5">
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="email" text="Email Address *"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="emailPopover" b:id="emailPopover"/>
@@ -129,7 +129,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
                                 <b:FormLabel for="researcherType" text="Researcher ID Type"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="idTypePopover" b:id="idTypePopover"/>
@@ -137,7 +137,7 @@
                                 <mde:ButtonDropDown ui:field="idType"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
                                 <b:FormLabel for="id" text="Researcher ID"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="idPopover" b:id="idPopover"/>
@@ -148,7 +148,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE PERSON"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
