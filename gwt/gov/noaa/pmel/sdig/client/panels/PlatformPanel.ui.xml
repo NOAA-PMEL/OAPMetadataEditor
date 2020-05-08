@@ -27,7 +27,7 @@
                                 <b:SuggestBox ui:field="name" allowBlank="true" placeholder="Platform Name" b:id="Name"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_2">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel for="platformId" text="Platform ID"></b:FormLabel>
                                 <b:Modal title="15.2 ICES platform code (e.g., 33RO, optional). For a list of ICES ship code, please check out this link: http://vocab.ices.dk." closable="true" b:id="modalPlatformID"/>
@@ -43,7 +43,7 @@
                                 <b:SuggestBox ui:field="country" allowBlank="true" placeholder="Country" b:id="country"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_4">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel for="owner" text="Owner"></b:FormLabel>
                                 <b:Modal title="15.4 Owner of the platform" closable="true" b:id="modalOwner"/>
@@ -53,7 +53,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="XS_6 SM_6">
+                        <b:Column size="SM_6">
                             <b:FormGroup>
                                 <b:FormLabel for="type" text="Platform Type"></b:FormLabel>
                                 <b:Modal title="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc." closable="true" b:id="modalPlatformType"/>
@@ -65,7 +65,7 @@
 
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="SAVE"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE PLATFORM"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
