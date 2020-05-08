@@ -11,8 +11,14 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+
+import com.google.gwt.user.client.Window;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+
+import com.google.gwt.view.client.CellPreviewEvent;
+
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
@@ -43,6 +49,10 @@ import java.util.TreeSet;
  * Created by rhs on 3/7/17.
  */
 public class FundingPanel extends Composite implements GetsDirty<Funding> {
+
+    ClientFactory clientFactory = GWT.create(ClientFactory.class);
+    EventBus eventBus = clientFactory.getEventBus();
+
     @UiField
     TextBox agencyName;
     @UiField
@@ -51,16 +61,19 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     TextBox grantNumber;
 
     @UiField
+    CellTable fundings;
+    @UiField
     Button save;
-
     @UiField
     Form form;
-
-    @UiField
-    CellTable fundings;
-
     @UiField
     Pagination fundingPagination;
+
+    boolean showTable = true;
+    boolean editing = false;
+    int editIndex = -1;
+    Funding displayedFunding = null;
+    Funding editFunding;
 
     ListDataProvider<Funding> fundingListDataProvider = new ListDataProvider<>();
 
@@ -68,18 +81,6 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
 
     String type = Constants.SECTION_FUNDING;
 
-    ClientFactory clientFactory = GWT.create(ClientFactory.class);
-    EventBus eventBus = clientFactory.getEventBus();
-
-    public void reset() {
-        form.reset();
-        clearFundings();
-    }
-    public void clearFundings() {
-        fundingListDataProvider.getList().clear();
-        fundingListDataProvider.flush();
-        fundingPagination.rebuild(cellTablePager);
-    }
     public Funding saveFunding() {
        Funding f = getFunding();
        fundingListDataProvider.getList().add(f);
@@ -97,6 +98,20 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         initWidget(ourUiBinder.createAndBindUi(this));
         fundings.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
 
+        // add begin
+        fundings.addCellPreviewHandler(new CellPreviewEvent.Handler<Funding>() {
+            @Override
+            public void onCellPreview(CellPreviewEvent<Funding> event) {
+//                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+                if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
+                    show(event.getValue(), false);
+                } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
+                    reset();
+                }
+            }
+        });
+        // add end
+
         Column<Funding, String> edit = new Column<Funding, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
             public String getValue(Funding object) {
@@ -106,10 +121,17 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         edit.setFieldUpdater(new FieldUpdater<Funding, String>() {
             @Override
             public void update(int index, Funding funding, String value) {
-                show(funding);
-                fundingListDataProvider.getList().remove(funding);
-                fundingListDataProvider.flush();
-                fundingPagination.rebuild(cellTablePager);
+                //addbegin
+                editIndex = fundingListDataProvider.getList().indexOf(funding);
+                if ( editIndex < 0 ) {
+                    Window.alert("Edit failed.");
+                } else {
+                    //addend
+                    show(funding, true);
+                    fundingListDataProvider.getList().remove(funding);
+                    fundingListDataProvider.flush();
+                    fundingPagination.rebuild(cellTablePager);
+                }
             }
         });
         fundings.addColumn(edit);
@@ -123,13 +145,13 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         };
         fundings.addColumn(nameColumn, "Agency Name");
 
-        TextColumn<Funding> platformTypeColumn = new TextColumn<Funding>() {
+        TextColumn<Funding> grantNumberColumn = new TextColumn<Funding>() {
             @Override
             public String getValue(Funding object) {
                 return object.getGrantNumber();
             }
         };
-        fundings.addColumn(platformTypeColumn, "Grant Number");
+        fundings.addColumn(grantNumberColumn, "Grant Number");
 
         Column<Funding, String> delete = new Column<Funding, String>(new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -140,8 +162,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
 
         delete.setFieldUpdater(new FieldUpdater<Funding, String>() {
             @Override
-            public void update(int index, Funding platform, String value) {
-                fundingListDataProvider.getList().remove(platform);
+            public void update(int index, Funding funding, String value) {
+                fundingListDataProvider.getList().remove(funding);
                 fundingListDataProvider.flush();
                 fundingPagination.rebuild(cellTablePager);
                 if ( fundingListDataProvider.getList().size() == 0 ) {
@@ -168,19 +190,92 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
 
         fundingListDataProvider.addDataDisplay(fundings);
     }
-    public void setTableVisible(boolean v) {
-        fundings.setVisible(v);
-        if ( v ) {
-            int page = cellTablePager.getPage();
-            if (cellTablePager.getPageCount() > 1) {
-                fundingPagination.setVisible(true);
-                cellTablePager.setPage(page);
-            } else {
-                fundingPagination.setVisible(false);
+
+    public List<Funding> getFundings() {
+
+        return fundingListDataProvider.getList();
+    }
+    public Funding getFunding() {
+        //addbegin
+        Funding funding = displayedFunding != null ? displayedFunding : new Funding();
+        //addend
+        funding.setAgencyName(agencyName.getText().trim());
+        funding.setGrantTitle(title.getText().trim());
+        funding.setGrantNumber(grantNumber.getText().trim());
+        //addbegin
+        funding.setPosition(editIndex);
+        //addend
+        return funding;
+    }
+
+    public boolean isDirty(List<Funding> originals) {
+//        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+originals+")");
+        boolean isDirty = false;
+        if ( isDirty()) {
+            addCurrentFunding();
+        }
+        Set<Funding> thisFundings = new TreeSet<>(getFundings());
+        if ( thisFundings.size() != originals.size()) {
+//            OAPMetadataEditor.debugLog("FundingPanel.isDirty.size:"+thisFundings.size());
+            return true;
+        }
+        Iterator<Funding> otherFundings = new TreeSet<>(originals).iterator();
+        for ( Funding f : thisFundings ) {
+            if ( !f.equals(otherFundings.next())) {
+                isDirty = true;
+//               OAPMetadataEditor.debugLog("FundingPanel.isDirty.other:"+f);
+                break;
             }
         }
+        return isDirty;
     }
+    public boolean isDirty(Funding original) {
+//        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+original+")");
+        boolean isDirty =
+                isDirty( agencyName, original.getAgencyName() ) ||
+                        isDirty( title, original.getGrantTitle() ) ||
+                        isDirty( grantNumber, original.getGrantNumber() );
+        return isDirty;
+    }
+    public boolean isDirty() {
+//        OAPMetadataEditor.debugLog("FundingPanel.isDirty()");
+        if ( agencyName.getText().trim() != null && !agencyName.getText().isEmpty() ) {
+            return true;
+        }
+        if ( title.getText().trim() != null && !title.getText().isEmpty() ) {
+            return true;
+        }
+        if ( grantNumber.getText().trim() != null & !grantNumber.getText().isEmpty() ) {
+            return true;
+        }
+        return false;
+    }
+
+    // add begin
+    private void setAllEditable(boolean editable) {
+        agencyName.setEnabled(editable);
+        title.setEnabled(editable);
+        grantNumber.setEnabled(editable);
+    }
+    public void show(Funding funding, boolean editable) {
+        setAllEditable(editable);
+        editing = editable;
+        if ( editable ) {
+            displayedFunding = funding;
+        } else {
+            editFunding = getFunding();
+        }
+        show(funding);
+    }
+    // add end
+
     public void show(Funding funding) {
+        //addbegin
+        if ( funding == null ) {
+            reset();
+            return;
+        }
+        //addend
         if ( funding.getAgencyName() != null ) {
             agencyName.setText(funding.getAgencyName());
         }
@@ -193,99 +288,101 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     }
     public void addFundings(List<Funding> fundingList) {
         for (int i = 0; i < fundingList.size(); i++) {
-            Funding p = fundingList.get(i);
-            fundingListDataProvider.getList().add(p);
+            Funding f = fundingList.get(i);
+            //addbegin
+            f.setPosition(i);
+            //addend
+            fundingListDataProvider.getList().add(f);
         }
         fundingListDataProvider.flush();
         fundingPagination.rebuild(cellTablePager);
         setTableVisible(true);
     }
-   public List<Funding> getFundings() {
-        return fundingListDataProvider.getList();
-    }
-    public Funding getFunding() {
-        Funding funding = new Funding();
-        funding.setAgencyName(agencyName.getText().trim());
-        funding.setGrantTitle(title.getText().trim());
-        funding.setGrantNumber(grantNumber.getText().trim());
-        return funding;
-    }
-    public boolean isDirty(Funding original) {
-        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+original+")");
-        boolean isDirty =
-            isDirty( agencyName, original.getAgencyName() ) ||
-            isDirty( title, original.getGrantTitle() ) ||
-            isDirty( grantNumber, original.getGrantNumber() );
-        return isDirty;
-    }
-
-    public boolean isDirty(List<Funding> originals) {
-        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+originals+")");
-        if (  this.isDirty() ) {
-            addCurrentFunding();
-            form.reset();
-        }
-        boolean isDirty = false;
-        Set<Funding> thisFundings = new TreeSet<>(getFundings());
-        if ( thisFundings.size() != originals.size()) {
-            OAPMetadataEditor.debugLog("FundingPanel.isDirty.size:"+thisFundings.size());
-            return true;
-        }
-        Iterator<Funding> otherFundings = new TreeSet<>(originals).iterator();
-        for ( Funding f : thisFundings ) {
-           if ( ! f.equals(otherFundings.next())) {
-               isDirty = true;
-               OAPMetadataEditor.debugLog("FundingPanel.isDirty.other:"+f);
-               break;
-           }
-        }
-        return isDirty;
-    }
-
-    public boolean isDirty() {
-        OAPMetadataEditor.debugLog("FundingPanel.isDirty()");
-        if ( agencyName.getText() != null && !agencyName.getText().isEmpty() ) {
-            return true;
-        }
-        if ( title.getText() != null && !title.getText().isEmpty() ) {
-            return true;
-        }
-        if ( grantNumber.getText() != null & !grantNumber.getText().isEmpty() ) {
-            return true;
-        }
-        return false;
-    }
-
     private void addFunding(Funding f) {
-        fundingListDataProvider.getList().add(f);
+        //addbegin
+        if ( f == null ) { return; }
+        int position = f.getPosition() >= 0 ? f.getPosition() : fundingListDataProvider.getList().size();
+        f.setPosition(position);
+        //addend
+        fundingListDataProvider.getList().add(position, f);
         fundingListDataProvider.flush();
         fundingPagination.rebuild(cellTablePager);
     }
     private void addCurrentFunding() {
         Funding f = getFunding();
         addFunding(f);
-        form.reset();
+        setTableVisible(true);
+        reset();
     }
 
+//    @UiHandler("save")
+//    public void onSave(ClickEvent clickEvent) {
+//
+////        if ( !isDirty() ) { return; }
+////        if ( ! valid()) {
+//        // For some reason this returns a "0" in debug mode.
+//        String valid = String.valueOf(form.validate());
+//        if (valid.equals("false") || valid.equals("0")) {
+//            NotifySettings settings = NotifySettings.newSettings();
+//            settings.setType(NotifyType.WARNING);
+//            settings.setPlacement(NotifyPlacement.TOP_CENTER);
+//            Notify.notify(Constants.NOT_COMPLETE, settings);
+//        } else {
+//            Funding f = getFunding();
+////            addCurrentFunding(); //delete
+//            addFunding(f); //add
+//            eventBus.fireEventFromSource(new SectionSave(f, this.type), FundingPanel.this);
+//            NotifySettings settings = NotifySettings.newSettings();
+//            settings.setType(NotifyType.SUCCESS);
+//            settings.setPlacement(NotifyPlacement.TOP_CENTER);
+//            Notify.notify(Constants.COMPLETE, settings);
+////            eventBus.fireEventFromSource(new SectionSave(getFundings(), this.type), FundingPanel.this);
+//            if ( showTable ) {
+//                setTableVisible(true);
+////                form.reset(); //delete
+//                reset();
+//            }
+//        }
+//    }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
-        if ( !isDirty() ) { return; }
-        if ( ! valid()) {
+        // For some reason this returns a "0" in debug mode.
+        String valid = String.valueOf( form.validate());
+        String warning = Constants.NOT_COMPLETE;
+        NotifyType type = NotifyType.WARNING;
+
+        if ( valid.equals("false") ||
+                valid.equals("0")) {
             NotifySettings settings = NotifySettings.newSettings();
-            settings.setType(NotifyType.WARNING);
+            settings.setType(type);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
-            Notify.notify(Constants.NOT_COMPLETE, settings);
+            Notify.notify(warning, settings);
         } else {
-            Funding f = getFunding();
-            addCurrentFunding();
-            eventBus.fireEventFromSource(new SectionSave(f, this.type), FundingPanel.this);
+            if ( isDirty()) {
+                addCurrentFunding();
+            }
+//            eventBus.fireEventFromSource(new SectionSave(getFunding(), Constants.SECTION_Funding), FundingPanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            eventBus.fireEventFromSource(new SectionSave(getFundings(), this.type), FundingPanel.this);
-            setTableVisible(true);
+            if ( showTable ) {
+                setTableVisible(true);
+                reset();
+            }
+        }
+    }
+    public void setTableVisible(boolean v) {
+        fundings.setVisible(v);
+        if ( v ) {
+            int page = cellTablePager.getPage();
+            if (cellTablePager.getPageCount() > 1) {
+                fundingPagination.setVisible(true);
+                cellTablePager.setPage(page);
+            } else {
+                fundingPagination.setVisible(false);
+            }
         }
     }
     public boolean valid() {
@@ -297,5 +394,22 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         } else {
             return true;
         }
+    }
+    public void reset() {
+        form.reset();
+        displayedFunding = null;
+        editIndex = -1;
+        editing = false;
+        if ( editFunding != null ) {
+            show(editFunding);
+            editFunding = null;
+        }
+        setAllEditable(true);
+    }
+    public void clearFundings() {
+        fundingListDataProvider.getList().clear();
+        fundingListDataProvider.flush();
+        fundingPagination.rebuild(cellTablePager);
+        setTableVisible(false); //add
     }
 }
