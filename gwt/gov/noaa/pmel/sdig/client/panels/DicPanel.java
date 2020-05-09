@@ -97,7 +97,7 @@ DIC: Researcher Institution
         setDefaults();
         common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
-        common.heading.setText("Enter the information for Dissolved Inorganic Carbon (DIC).");
+        common.heading.setText("Enter the Information for Dissolved Inorganic Carbon (DIC).");
         save.addClickHandler(saveIt);
 
         common.abbreviationModal.setTitle("22.1 Column header name of the variable in the data files, e.g., DIC, TCO2, etc.");
