@@ -12,7 +12,7 @@
 /*    white-space: nowrap;*/
 /*    word-break: break-all;*/
 /*    text-overflow: ellipsis;*/
-    width: 90%;
+    width: 89%;
 }
 
 .tightenTBmargins {
@@ -30,55 +30,67 @@
 
 @media (max-width: 767px) {
     /*applied if browser window width is less than or equal to 767px*/
+    .metadata-button-group {
+        min-width: 117px;
+    }
     .metadata-button-group .btn {
         color: transparent !important;
     }
     .metadata-button-group .btn > .fa {
-        color: white !important;; //or color of your choice
+        color: white !important; /* or color of your choice */
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+        margin: 0 auto;
+        display: inline-block !important;
+        /*height: 34px;*/
+    }
+
+    .metadata-action-button-group > .pull-right {
+        float: none !important;
     }
 
     .inputgroupoverlay.input-group .input-group-btn {
-        /*width:99%;*/
+        width:99%;
         display:block;
         margin-bottom:5px;
     }
     .inputgroupoverlay.input-group .input-group-btn .btn {
         /*width: 34%;*/
-
+        width: 100%;
     }
     /*.inputgroupoverlay.input-group .input-group-btn .btn:last-child {*/
     .inputgroupoverlay.input-group .input-group-btn .btn:last-child {
-        border-radius:4px;
+        border-radius:4px 4px 4px 4px
     }
     .inputgroupoverlay {
         display: block
     }
-    .inputgroupoverlay.input-group  .input-group-addon {
-        clear: both;
-        display: block;
-        width: 100%;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    .inputgroupoverlay.input-group .input-group-addon + .form-control {
-        border-radius: 4px;
-        margin-bottom: 5px;
-    }
+
+    /*.inputgroupoverlay.input-group  .input-group-addon {*/
+    /*    clear: both;*/
+    /*    display: block;*/
+    /*    width: 100%;*/
+    /*    border: 1px solid #ccc;*/
+    /*    border-radius: 4px;*/
+    /*}*/
+    /*.inputgroupoverlay.input-group .input-group-addon + .form-control {*/
+    /*    border-radius: 4px;*/
+    /*    margin-bottom: 5px;*/
+    /*}*/
     .inputgroupoverlay.input-group .form-control {
         border-radius: 4px !important;
-        margin-bottom: 2rem;
+        margin-bottom: 5px;
     }
     .fakeinputposition {
-        clear: both;
-        height: 6rem;
+        height: 6em!important;
     }
 }
 
 @media (min-width: 768px) {
     /*applied if browser window width is greater than 768px*/
-    /*.metadata-button-group .btn > .fa {*/
-    /*    display: none;*/
-    /*}*/
+    .metadata-button-group .btn > .fa {
+        display: none;
+    }
 }
 
 
@@ -121,12 +133,12 @@ h1 {
 /*}*/
 .fakeinputposition {
     position: relative;
-    height: 4rem;
+    height: 3em;
 }
 .inputgroupoverlay {
     position: absolute;
     padding: 0;
-    top: -3.4rem;
+    top: -34px;
     left: 0;
     display: inline-block;
     z-index: 1;
