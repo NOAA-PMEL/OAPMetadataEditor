@@ -111,19 +111,19 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 MD_4">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:TextBox ui:field="calculationMethod" allowBlank="false" placeholder="Calculation Method and Parameters" b:id="calculationMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
                                 <mde:ButtonDropDown ui:field="samplingInstrument"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_12 MD_3">
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
                                 <mde:ButtonDropDown ui:field="analyzingInstrument"></mde:ButtonDropDown>
