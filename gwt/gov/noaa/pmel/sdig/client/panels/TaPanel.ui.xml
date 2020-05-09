@@ -27,7 +27,7 @@
             <b:FieldSet>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_8">
+                        <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
@@ -38,7 +38,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
@@ -47,7 +47,7 @@
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <b:FormGroup ui:field="crmManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="crmManufacture" text="CRM Manufacture"></b:FormLabel>
@@ -56,7 +56,7 @@
                                 <b:TextBox ui:field="crmManufacture" allowBlank="true" placeholder="CRM Manufacture" b:id="crmManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <b:FormGroup ui:field="batchNumberForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="batchNumber" text="Batch Number"></b:FormLabel>
@@ -67,7 +67,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="MD_4 LG_3">
                             <b:FormGroup ui:field="poisonForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poison" text="Poison used to kill the sample"></b:FormLabel>
@@ -76,7 +76,7 @@
                                 <b:TextBox ui:field="poison" allowBlank="true" placeholder="Poison used to kill the sample" b:id="poison"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <b:FormGroup ui:field="poisonVolumeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poisonVolume" text="Poison Volume"></b:FormLabel>
@@ -85,7 +85,7 @@
                                 <b:TextBox ui:field="poisonVolume" allowBlank="true" placeholder="Poison Volume" b:id="poisonVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poisonDescription" text="Poisoning correction description"></b:FormLabel>
@@ -96,7 +96,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="cellTypeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="cellType" text="Cell Type"></b:FormLabel>
@@ -105,7 +105,7 @@
                                 <mde:ButtonDropDown ui:field="cellType"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="curveFittingMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="curveFittingMethod" text="Curve fitting method"></b:FormLabel>
@@ -114,7 +114,7 @@
                                 <b:TextBox ui:field="curveFittingMethod" allowBlank="true" placeholder="Curve fitting method" b:id="curveFittingMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="magnitudeOfBlankCorrectionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="magnitudeOfBlankCorrection" text="Magnitude of blank correction"></b:FormLabel>
@@ -123,7 +123,7 @@
                                 <b:TextBox ui:field="magnitudeOfBlankCorrection" allowBlank="true" placeholder="Magnitude of blank correction" b:id="magnitudeOfBlankCorrection"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="titrationTypeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="titrationType" text="Type of titration"></b:FormLabel>
@@ -135,7 +135,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE TA"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
