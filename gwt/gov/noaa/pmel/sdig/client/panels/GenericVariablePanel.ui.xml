@@ -85,7 +85,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_12 LG_4">
+                        <b:Column size="SM_6 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation (Biological Study Only)"></b:FormLabel>
@@ -94,7 +94,7 @@
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 LG_4">
+                        <b:Column size="SM_6 LG_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
@@ -186,7 +186,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_6">
+                        <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
