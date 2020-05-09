@@ -22,7 +22,7 @@
 
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_8">
+                        <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
@@ -33,7 +33,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
@@ -42,7 +42,7 @@
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="pHtemperatureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pHtemperature" text="at what temperature was pH reported"></b:FormLabel>
@@ -51,7 +51,7 @@
                                 <b:TextBox ui:field="pHtemperature" allowBlank="true" placeholder="at what temperature was pH reported" b:id="pHtemperature"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="pHscaleForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pHscale" text="pH scale"></b:FormLabel>
@@ -60,7 +60,7 @@
                                 <b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="pHstandardsForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pHstandards" text="pH values of the standards"></b:FormLabel>
@@ -71,7 +71,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3">
                             <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
@@ -80,7 +80,7 @@
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <b:FormGroup ui:field="temperatureMeasurementForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureMeasurement" text="Temperature of measurement"></b:FormLabel>
@@ -89,7 +89,7 @@
                                 <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <b:FormGroup ui:field="temperatureStandarizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureStandarization" text="Temperature of standardization"></b:FormLabel>
@@ -101,7 +101,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE pH"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
