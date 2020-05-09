@@ -6,7 +6,7 @@
     <g:HTMLPanel>
         <b:Form ui:field="form">
             <b:FieldSet>
-                <b:Heading ui:field="heading" size="H3" text="Enter the information about this citation."></b:Heading>
+                <b:Heading ui:field="heading" size="H3" text="Enter the Information about this Citation."></b:Heading>
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
@@ -60,7 +60,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="expocode" text="EXPOCODE"></b:FormLabel>
                                 <b:Modal title="16 Expedition code consists of the four digit ICES ship code, and the date of the first day of the cruise in the format of YYYYMMDD." closable="true" b:id="modalExpocode"/>
@@ -68,7 +68,7 @@
                                 <b:TextBox ui:field="expocode" allowBlank="true" placeholder="EXPOCODE" b:id="expocode"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="cruiseId" text="Cruise ID"></b:FormLabel>
                                 <b:Modal title="17 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g., A16N), and the sampling year (e.g., 2013)." closable="true" b:id="modalCruiseID"/>
@@ -76,7 +76,7 @@
                                 <b:TextBox ui:field="cruiseId" allowBlank="true" placeholder="Cruise ID" b:id="cruiseId"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="section" text="Section"></b:FormLabel>
                                 <b:Modal title="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N." closable="true" b:id="modalSection"/>
@@ -117,7 +117,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE Citation"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
