@@ -13,7 +13,7 @@ public class InvestigatorPanel extends PersonPanel {
     public InvestigatorPanel() {
         super("investigator");
         setType(Constants.SECTION_INVESTIGATOR);
-        heading.setText("Enter the information for this investigator. You may enter more than one investigator.");
+        heading.setText("Enter the Information for this Investigator. You may enter more than one investigator.");
         showTable=true;
     }
     public void setEditing(boolean isEditing) {
