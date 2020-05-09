@@ -110,7 +110,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         setDefaults();
         common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
-        common.heading.setText("Enter the information for pCO2 (fCO2) Discreet.");
+        common.heading.setText("Enter the Information for pCO2 (fCO2) Discreet.");
         save.addClickHandler(saveIt);
         common.abbreviationModal.setTitle("26.1 Column header name of the variable in the data files, e.g., pCO2, etc.");
         common.observationTypeModal.setTitle("26.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
