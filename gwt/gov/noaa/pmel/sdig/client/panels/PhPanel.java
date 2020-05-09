@@ -76,7 +76,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         setDefaults();
         common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
-        common.heading.setText("Enter the information for pH.");
+        common.heading.setText("Enter the Information for pH.");
 
         // 005 Variable unit
         common.unitsForm.setVisible(false);
