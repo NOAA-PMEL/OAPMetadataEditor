@@ -39,7 +39,7 @@
             <b:FieldSet>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_8">
+                        <b:Column size="SM_6 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
@@ -48,7 +48,7 @@
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_4 MD_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
@@ -59,7 +59,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="intakeLocationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeLocation" text="Location of Seawater Intake"></b:FormLabel>
@@ -68,7 +68,7 @@
                                 <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="intakeDepthForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeDepth" text="Depth of Seawater Intake"></b:FormLabel>
@@ -77,7 +77,7 @@
                                 <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="flowRateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="flowRate" text="Water Flow Rate (L/min)"></b:FormLabel>
@@ -86,7 +86,7 @@
                                 <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="ventedForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="vented" text="Vented or Not"></b:FormLabel>
@@ -97,7 +97,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasDetectorManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the Gas Detector"></b:FormLabel>
@@ -106,7 +106,7 @@
                                 <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasDetectorModelForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDetectorModel" text="Model of the Gas Detector"></b:FormLabel>
@@ -115,7 +115,7 @@
                                 <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasDectectorResolutionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDectectorResolution" text="Resolution of the Gas Detector"></b:FormLabel>
@@ -124,7 +124,7 @@
                                 <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasDectectorUncertaintyForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the Gas Detector"></b:FormLabel>
@@ -135,7 +135,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasFlowRateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasFlowRate" text="Headspace Gas Flow Rate (L/min)"></b:FormLabel>
@@ -144,7 +144,7 @@
                                 <b:TextBox ui:field="gasFlowRate" allowBlank="true" placeholder="Headspace gas flow rate (L/min)" b:id="gasFlowRate"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="standardGasManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasManufacture" text="Manufacturer of Standard Gas"></b:FormLabel>
@@ -153,7 +153,7 @@
                                 <b:TextBox ui:field="standardGasManufacture" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasConcentrationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasConcentration" text="Concentrations of Standard Gas"></b:FormLabel>
@@ -162,7 +162,7 @@
                                 <b:TextBox ui:field="gasConcentration" allowBlank="true" placeholder="Concentrations of standard gas" b:id="gasConcentration"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="standardGasUncertaintiesForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasUncertainties" text="Uncertainties of Standard Gas"></b:FormLabel>
@@ -173,7 +173,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature Correction Method"></b:FormLabel>
@@ -182,7 +182,7 @@
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="vaporCorrectionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="vaporCorrection" text="Water Vapor Correction Method"></b:FormLabel>
@@ -192,7 +192,7 @@
                             </b:FormGroup>
                         </b:Column>
 
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="pco2TemperatureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pco2Temperature" text="At What Temperature was pCO2 Reported?"></b:FormLabel>
@@ -203,7 +203,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="dryingMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="dryingMethod" text="Drying Method for CO2 Gas"></b:FormLabel>
@@ -212,7 +212,7 @@
                                 <b:TextBox ui:field="dryingMethod" allowBlank="true" placeholder="Drying method for CO2 gas" b:id="dryingMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="equilibratorTypeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorType" text="Equilibrator Type"></b:FormLabel>
@@ -221,7 +221,7 @@
                                 <b:TextBox ui:field="equilibratorType" allowBlank="true" placeholder="Equilibrator type" b:id="equilibratorType"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="equilibratorVolumeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorVolume" text="Equilibrator Volume (L)"></b:FormLabel>
@@ -232,7 +232,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_5">
+                        <b:Column size="SM_12 MD_6">
                             <b:FormGroup ui:field="equilibratorPressureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorPressureMeasureMethod" text="How was pressure inside the equilibrator measured?"></b:FormLabel>
@@ -241,7 +241,7 @@
                                 <b:TextBox ui:field="equilibratorPressureMeasureMethod" allowBlank="true" placeholder="How was pressure inside the equilibrator measured?" b:id="equilibratorPressureMeasureMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_5">
+                        <b:Column size="SM_12 MD_6">
                             <b:FormGroup ui:field="equilibratorTemperatureMeasureMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorTemperatureMeasureMethod" text="How was temperature inside the equilibrator measured?"></b:FormLabel>
@@ -253,7 +253,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE pC02A"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
