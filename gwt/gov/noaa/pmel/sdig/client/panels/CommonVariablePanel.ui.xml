@@ -32,7 +32,7 @@ Unnamed variables have "Full variable name in addition.
                 <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information"></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_6 MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
@@ -41,7 +41,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:TextBox ui:field="abbreviation" allowBlank="true" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6">
+                        <b:Column size="SM_6 MD_4 LG_5">
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
                                 <b:FormLabel for="fullVariableName" text="Full Variable Name"></b:FormLabel>
@@ -50,7 +50,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:TextBox ui:field="fullVariableName" allowBlank="true" placeholder="Full variable name" b:id="fullVariableName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 MD_4 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
@@ -61,7 +61,7 @@ Unnamed variables have "Full variable name in addition.
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
@@ -70,7 +70,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
@@ -79,7 +79,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
                                 <b:FormLabel for="units" text="Units"></b:FormLabel>
@@ -90,7 +90,7 @@ Unnamed variables have "Full variable name in addition.
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
@@ -99,7 +99,7 @@ Unnamed variables have "Full variable name in addition.
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_6 LG_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
@@ -108,7 +108,7 @@ Unnamed variables have "Full variable name in addition.
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_12 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
@@ -121,7 +121,7 @@ Unnamed variables have "Full variable name in addition.
                     </b:Row>
                     <b:Row>
                         <!-- Keep -->
-                        <b:Column size="SM_4">
+                        <b:Column size="MD_6 LG_4">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="calculationMethodModal" b:id="modalCalculationMethod"/>
@@ -130,7 +130,7 @@ Unnamed variables have "Full variable name in addition.
                             </b:FormGroup>
                         </b:Column>
 
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_4" offset="LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
                                 <b:FormLabel for="referenceMethod" text="Method Reference (citation)"></b:FormLabel>
@@ -153,7 +153,7 @@ Unnamed variables have "Full variable name in addition.
                     </b:Row>
 
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
                                 <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
@@ -162,7 +162,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:TextBox ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
                                 <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
@@ -171,7 +171,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
@@ -180,7 +180,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_12 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherInstitutionForm">
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
@@ -191,7 +191,7 @@ Unnamed variables have "Full variable name in addition.
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_4">
+                        <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
