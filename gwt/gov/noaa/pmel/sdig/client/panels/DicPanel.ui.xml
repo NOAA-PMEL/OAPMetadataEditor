@@ -20,7 +20,7 @@
             <b:FieldSet>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_8">
+                        <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
@@ -31,7 +31,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
@@ -40,7 +40,7 @@
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <b:FormGroup ui:field="crmManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="crmManufacture" text="CRM Manufacture"></b:FormLabel>
@@ -49,7 +49,7 @@
                                 <b:TextBox ui:field="crmManufacture" allowBlank="true" placeholder="CRM Manufacture" b:id="crmManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <b:FormGroup ui:field="batchNumberForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="batchNumber" text="Batch Number"></b:FormLabel>
@@ -60,7 +60,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_3">
+                        <b:Column size="MD_4 LG_3">
                             <b:FormGroup ui:field="poisonForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poison" text="Poison Used to Kill the Sample"></b:FormLabel>
@@ -69,7 +69,7 @@
                                 <b:TextBox ui:field="poison" allowBlank="true" placeholder="Poison used to kill the sample" b:id="poison"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="MD_4 LG_4" offset="LG_1">
                             <b:FormGroup ui:field="poisonVolumeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poisonVolume" text="Poison Volume"></b:FormLabel>
@@ -78,7 +78,7 @@
                                 <b:TextBox ui:field="poisonVolume" allowBlank="true" placeholder="Poison Volume" b:id="poisonVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4">
+                        <b:Column size="MD_4 LG_3" offset="LG_1">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="poisonDescription" text="Poisoning Correction Description"></b:FormLabel>
@@ -90,7 +90,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="NEXT"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE DIC"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
