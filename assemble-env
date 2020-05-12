@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GRAILS_ENV=production
+GRAILS_ENV=np_production
 
 CMD=assemble
 DO_IT=true
@@ -37,10 +37,12 @@ uidoc=gwt/gov/noaa/pmel/sdig/client/DashboardLayout.ui.xml
 if [ $VISIBLE ] ; then
 	echo "setting nav bars to visible"
 	sed -i ${backup}_1  's/<b:Navbar visible="false"/<b:Navbar visible="true"/' $uidoc
+	sed -i ${backup}_1.2  's/addStyleNames="{style.footerHidden}"/addStyleNames="{style.footerVisible}"/' $uidoc
 	SHOW=".show"
 else 
 	echo "setting nav bars back to noshow just in case"
 	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
+	sed -i ${backup}_2.2  's/addStyleNames="{style.footerVisible}"/addStyleNames="{style.footerHidden}"/' $uidoc
 fi
 
 echo "Building Metadata Editor as $CMD for environment $GRAILS_ENV"
@@ -54,6 +56,7 @@ fi
 if [ $VISIBLE ] ; then
 	echo "setting nav bars back to noshow"
 	sed -i ${backup}_2 's/<b:Navbar visible="true"/<b:Navbar visible="false"/' $uidoc
+	sed -i ${backup}_2.2  's/addStyleNames="{style.footerVisible}"/addStyleNames="{style.footerHidden}"/' $uidoc
 fi
 
 touch build/libs/env.${GRAILS_ENV}.${CMD}${SHOW}

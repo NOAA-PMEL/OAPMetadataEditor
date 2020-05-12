@@ -2,7 +2,7 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:b='urn:import:org.gwtbootstrap3.client.ui'>
 
-    <ui:style> <!-- it seems bootstrap elements can't see these. -->
+    <ui:style src="app.css"> <!-- it seems bootstrap elements can't see these. -->
         .paddingTop {
             padding-top: 5px;
         }
@@ -26,7 +26,7 @@
         </b:Navbar>
         <b:Navbar visible="false"
                   position="FIXED_BOTTOM">
-                <b:PanelBody pull="RIGHT">
+            <b:PanelBody pull="RIGHT">
                 <b:html.UnorderedList inline="true">
                     <b:Anchor href="mailto:Linus.Kamb@noaa.gov" title="Contact" text="Contact"></b:Anchor>
                     <b:Icon marginRight="8" marginLeft="8" type="ELLIPSIS_V"></b:Icon>
@@ -42,9 +42,10 @@
                     <b:Icon marginRight="8" marginLeft="8" type="ELLIPSIS_V"></b:Icon>
                     <b:Anchor target="_blank" href="http://www.noaa.gov/disclaimer.html" title="" text=" Disclaimer"></b:Anchor>
                 </b:html.UnorderedList>
-                </b:PanelBody>
+            </b:PanelBody>
         </b:Navbar>
-        <b:Container width="100%">
+        <b:Container width="100%"
+                     addStyleNames="{style.footerHidden}">
             <b:Row>
                 <b:Column size="XS_3 SM_4 MD_3" pull="LEFT" ui:field="nav">
                     <b:NavPills stacked="true">
