@@ -3,6 +3,7 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -40,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by rhs on 3/7/17.
@@ -71,7 +73,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     Funding displayedFunding = null;
     Funding editFunding;
 
-    ListDataProvider<Funding> fundingListDataProvider = new ListDataProvider<>();
+    ListDataProvider<Funding> fundingListDataProvider = new ListDataProvider<Funding>();
 
     private SimplePager cellTablePager = new SimplePager();
 
@@ -117,7 +119,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
                 editIndex = fundingListDataProvider.getList().indexOf(funding);
                 if ( editIndex < 0 ) {
                     Window.alert("Edit failed.");
-                } else {
+                }
+                else {
                     show(funding, true);
                     fundingListDataProvider.getList().remove(funding);
                     fundingListDataProvider.flush();
@@ -180,12 +183,11 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundings.setPageSize(4);
 
         fundingListDataProvider.addDataDisplay(fundings);
+        save.setEnabled(false);
     }
 
-    public List<Funding> getFundings() {
+    public List<Funding> getFundings() { return fundingListDataProvider.getList(); }
 
-        return fundingListDataProvider.getList();
-    }
     public Funding getFunding() {
         Funding funding = displayedFunding != null ? displayedFunding : new Funding();
         funding.setAgencyName(agencyName.getText().trim());
@@ -227,12 +229,15 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     public boolean isDirty() {
 //        OAPMetadataEditor.debugLog("FundingPanel.isDirty()");
         if ( agencyName.getText().trim() != null && !agencyName.getText().isEmpty() ) {
+            save.setEnabled(true);
             return true;
         }
         if ( title.getText().trim() != null && !title.getText().isEmpty() ) {
+            save.setEnabled(true);
             return true;
         }
         if ( grantNumber.getText().trim() != null & !grantNumber.getText().isEmpty() ) {
+            save.setEnabled(true);
             return true;
         }
         return false;
@@ -362,4 +367,11 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundingPagination.rebuild(cellTablePager);
         setTableVisible(false);
     }
+
+    @UiHandler({"agencyName","title", "grantNumber"})
+    public void onChange(ChangeEvent event) {
+        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+        save.setEnabled(true);
+    }
+
 }

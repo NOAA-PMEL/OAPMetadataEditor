@@ -3,6 +3,10 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -18,6 +22,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
@@ -273,6 +278,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         variableData.getList().clear();
         variableData.flush();
         variablePagination.rebuild(cellTablePager);
+        setTableVisible(false);
     }
 
     interface VariablePanelUiBinder extends UiBinder<HTMLPanel, GenericVariablePanel> {
@@ -389,6 +395,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
         variables.setPageSize(3);
 
+        save.setEnabled(false);
     }
     public void setTableVisible(boolean b) {
         variables.setVisible(b);
@@ -557,61 +564,68 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     }
 
     public boolean hasContent() {
+        boolean hasContent = false;
+        save.setEnabled(false);
         if (abbreviation.getText() != null && !abbreviation.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (manipulationMethod.getText() != null && !manipulationMethod.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (units.getText() != null && !units.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (samplingInstrument.getText() != null && !samplingInstrument.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (analyzingInstrument.getText() != null && !analyzingInstrument.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (detailedInformation.getText() != null && !detailedInformation.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (fieldReplicate.getText() != null && !fieldReplicate.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (uncertainty.getText() != null && !uncertainty.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (qualityFlag.getText() != null && !qualityFlag.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (researcherName.getText() != null && !researcherName.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (researcherInstitution.getText() != null && !researcherInstitution.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (fullVariableName.getText() != null && !fullVariableName.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (referenceMethod.getText() != null && !referenceMethod.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (biologicalSubject.getText() != null && !biologicalSubject.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (duration.getText() != null && !duration.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (lifeStage.getText() != null && !lifeStage.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
         if (speciesIdCode.getText() != null && !speciesIdCode.getText().isEmpty() ) {
-            return true;
+            hasContent = true;
         }
-        return false;
+
+        if (hasContent == true) {
+            save.setEnabled(true);
+        }
+
+        return hasContent;
     }
     public List<Variable> getVariables() {
         return variableData.getList();
@@ -632,6 +646,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         variablePagination.rebuild(cellTablePager);
         setTableVisible(true);
     }
+
+
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
@@ -661,7 +677,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             if ( hasContent()) {
                 addCurrentVariable();
             }
-//            eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
+            eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -696,4 +712,29 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             return true;
         }
     }
+
+//
+//    // 004 In-situ observation / manipulation condition / response variable
+//    @UiField
+//    ButtonDropDown observationDetail;
+//
+//    // 006 Measured or calculated
+//    @UiField
+//    ButtonDropDown measured;
+
+    @UiHandler({"abbreviation","manipulationMethod","units","calculationMethod",
+            "detailedInformation","fieldReplicate","uncertainty","qualityFlag",
+            "researcherName","researcherInstitution","referenceMethod",
+            "biologicalSubject","duration","lifeStage", "speciesIdCode"})
+    public void onChange(ChangeEvent event) {
+//        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+        save.setEnabled(true);
+    }
+    @UiHandler({"observationType","samplingInstrument",
+            "analyzingInstrument", "fullVariableName"})
+    public void onValueChange(ValueChangeEvent<String> event) {
+//        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
+        save.setEnabled(true);
+    }
+
 }
