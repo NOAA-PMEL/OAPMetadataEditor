@@ -7,6 +7,8 @@ import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
 
+import java.nio.charset.StandardCharsets
+
 class DocumentUpdateListener {
 
     String notificationUrl
@@ -25,7 +27,7 @@ class DocumentUpdateListener {
             HttpPost post = new HttpPost(notificationUrl)
             post.setHeader("Location", documentLocation)
             post.setHeader("Content-Type", "text/xml")
-            post.setEntity(new StringEntity(documentXML))
+            post.setEntity(new StringEntity(documentXML, StandardCharsets.UTF_8))
             HttpResponse response = client.execute(post)
             System.out.println("ME_response:"+response.getStatusLine())
             HttpEntity responseEntity = response.getEntity()
