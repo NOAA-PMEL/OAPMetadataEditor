@@ -1033,7 +1033,8 @@ class OracleController {
             "Laboratory experiment",
             "Fish examination",
             "Biological tows",
-            "Marine mammal observation"
+            "Marine mammal observation",
+			"Other"
     ]
     def observationTypes = [
             "ATLAS",
