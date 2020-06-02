@@ -64,8 +64,8 @@ class DocumentController {
             id = null
         }
         def documentJSON = request.JSON
-        removeNullIds(documentJSON)
-//        DocuWrap dwrap = new DocuWrap(documentJSON)
+        // part of trying to do proper database updates.  Abandoned...
+//        removeNullIds(documentJSON)
         Document doc = new Document(documentJSON)
         if ( ! doc.datasetIdentifier ) {
             def datasetId = _getDocumentIdentifier(id, doc)
@@ -111,10 +111,10 @@ class DocumentController {
             Timer t = new Timer();
             t.schedule(tt, 50);
         }
-        JSON.use("deep") {
-            render savedDoc as JSON
-        }
-//        render documentLocation
+//        JSON.use("deep") {
+//            render savedDoc as JSON
+//        }
+        render documentLocation
     }
 
     private _saveDoc(Document doc, boolean removePrior = true) {
@@ -196,8 +196,7 @@ class DocumentController {
 //        if ( d == null ) {
 //            d = oaMetadataFileService.readOAMetadataFile(id)
 //        }
-        if ( ! d || ! d.datasetIdentifier ) {
-            d = new Document()
+        if ( d && ! d.datasetIdentifier ) {
             d.datasetIdentifier = id
         }
         String pathI = request.getPathInfo()
@@ -283,7 +282,7 @@ class DocumentController {
             int meIdx = url.indexOf("MetadataEditor")
             int delta = meIdx - contextIdx
             String context
-            url = "https://www.pmel.noaa.gov/sdig" + url.substring(url.indexOf("/oa"))
+            url = "https://www.pmel.noaa.gov" + url.substring(url.indexOf("/sdig"))
             log.info("docUrl revised:"+url)
         }
         String docId = doc.datasetIdentifier ? doc.datasetIdentifier : doc.id
@@ -466,31 +465,32 @@ class DocumentController {
         }
     }
 
-    def void removeNullIds(JSONElement json) {
-        if ( json instanceof JSONArray ) {
-            for ( JSONObject v : json ) {
-               removeNullIds(v)
-            }
-        } else if ( json instanceof JSONObject ) {
-            def removeSet = new TreeSet()
-            def keySet = json.keySet()
-            for (String key : keySet) {
-                def val = json.get(key)
-                if ( val == null ) {
-                    removeSet.add(key)
-                } else if ( val instanceof JSONElement ) {
-                    removeNullIds(val)
-                } else {
-                    System.out.println("What have we in here: "+ val + ":" + val.getClass())
-                }
-            }
-            for ( String key : removeSet ) {
-                json.remove(key)
-            }
-        } else {
-            System.out.println("What have we out here: "+ json)
-        }
-    }
+    // Part of trying to do proper database updates.
+//    def void removeNullIds(JSONElement json) {
+//        if ( json instanceof JSONArray ) {
+//            for ( JSONObject v : json ) {
+//               removeNullIds(v)
+//            }
+//        } else if ( json instanceof JSONObject ) {
+//            def removeSet = new TreeSet()
+//            def keySet = json.keySet()
+//            for (String key : keySet) {
+//                def val = json.get(key)
+//                if ( val == null ) {
+//                    removeSet.add(key)
+//                } else if ( val instanceof JSONElement ) {
+//                    removeNullIds(val)
+//                } else {
+//                    System.out.println("What have we in here: "+ val + ":" + val.getClass())
+//                }
+//            }
+//            for ( String key : removeSet ) {
+//                json.remove(key)
+//            }
+//        } else {
+//            System.out.println("What have we out here: "+ json)
+//        }
+//    }
 
     def boolean nullValue(Object o) {
         return o == null || String.valueOf(o).equalsIgnoreCase("null")

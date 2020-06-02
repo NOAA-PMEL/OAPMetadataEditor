@@ -618,10 +618,11 @@ public class OAPMetadataEditor implements EntryPoint {
         }
         @Override
         public void onSuccess(Method method, String response) {
-//            documentLocation = response;
-//            _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+            documentLocation = response;
+            _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
 //            _loadedDocument = Document.copy(_savedDoc);
-            loadJsonDocument(response, true, true);
+//            loadJsonDocument(response, true, true);
+            loadDocumentId(_datasetId);
             info("Your document has been saved and is available.");
             saved = true;
         }
@@ -637,10 +638,10 @@ public class OAPMetadataEditor implements EntryPoint {
             if ( response.equals("failed") ) {
                 Window.alert("Something went wrong. Check with your server administrators.");
             } else {
-//                documentLocation = s;
-//                _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
+                documentLocation = response;
+                _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
 //                _loadedDocument = Document.copy(_savedDoc);
-                loadJsonDocument(response, true, true);
+//                loadJsonDocument(response, true, true);
                 modalHeader.setTitle("Save XML file.");
                 save.setType(ButtonType.PRIMARY);
                 save.addClickHandler(new ClickHandler() {
@@ -653,6 +654,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 });
 
                 modal.show();
+                loadDocumentId(_datasetId);
             }
         }
     };
@@ -670,6 +672,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 documentLocation = s;
                 _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/')+1);
                 Window.open(Constants.base+"document/preview/"+ _datasetId,"md_preview", null);
+                loadDocumentId(_datasetId);
             }
         }
     };
