@@ -221,6 +221,8 @@ public class DashboardLayout extends Composite {
             public void onSectionSave(SectionSave event) {
                 String section = event.getType();
                 setChecked(section);
+                removehighlight(section, "pill-warning"); //added ok
+                removehighlight(section, "pill-danger"); //added ok
             }
         });
 
@@ -333,6 +335,157 @@ public class DashboardLayout extends Composite {
             genericVariableLink.setIcon(IconType.CHECK);
         }
     }
+
+    // ex: removehighlight(section, "pill-warning"); will remove "pill-warning" style from the html element
+    public void removehighlight(String section, String highlightStyle) {
+        if (section.equals(Constants.SECTION_DOCUMENT)) {
+            return;
+        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+            investigatorsLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
+            submittersLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_CITATION) ) {
+            citationLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+            timeAndLocationLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
+            fundingLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
+            platformsLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_DIC)) {
+            dicLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_TA) ) {
+            taLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PH) ) {
+            phLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
+            pco2aLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
+            pco2dLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+            genericVariableLink.removeStyleName(highlightStyle);
+        }
+    }
+
+    // ex: sethighlight(section, "pill-warning"); will add "pill-warning" style from the html element
+    public void sethighlight(String section, String highlightStyle) {
+        if (section.equals(Constants.SECTION_DOCUMENT)) {
+            return;
+        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+            investigatorsLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
+            submittersLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_CITATION) ) {
+            citationLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+            timeAndLocationLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
+            fundingLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
+            platformsLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_DIC)) {
+            dicLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_TA) ) {
+            taLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PH) ) {
+            phLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
+            pco2aLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
+            pco2dLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+            genericVariableLink.addStyleName(highlightStyle);
+        }
+
+//        if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+//            investigatorsLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_SUBMITTER) ) {
+//            submittersLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_CITATION) ) {
+//            citationLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+//            timeAndLocationLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_FUNDING) ) {
+//            fundingLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_PLATFORMS) ) {
+//            platformsLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_DIC)) {
+//            dicLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_TA) ) {
+//            taLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_PH) ) {
+//            phLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_PCO2A) ) {
+//            pco2aLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_PCO2D) ) {
+//            pco2dLink.addStyleName(highlightStyle);
+//        }
+//        if ( section.equals(Constants.SECTION_GENERIC) ) {
+//            genericVariableLink.addStyleName(highlightStyle);
+//        }
+
+//        investigatorsLink.removeStyleName(highlightStyle);
+//        submittersLink.removeStyleName(highlightStyle);
+//        citationLink.removeStyleName(highlightStyle);
+//        timeAndLocationLink.removeStyleName(highlightStyle);
+//        fundingLink.removeStyleName(highlightStyle);
+//        platformsLink.removeStyleName(highlightStyle);
+//        dicLink.removeStyleName(highlightStyle);
+//        taLink.removeStyleName(highlightStyle);
+//        phLink.removeStyleName(highlightStyle);
+//        pco2aLink.removeStyleName(highlightStyle);
+//        pco2dLink.removeStyleName(highlightStyle);
+//        genericVariableLink.removeStyleName(highlightStyle);
+
+
+//        if (investigatorsLink.getIcon() == null ) {
+//            investigatorsLink.addStyleName(highlightStyle);
+//        }
+//        if ( submittersLink.getIcon() == null ) {
+//            submittersLink.addStyleName(highlightStyle);
+//        }
+//        if ( citationLink.getIcon() == null ) {
+//            citationLink.addStyleName(highlightStyle);
+//        }
+//        if ( timeAndLocationLink.getIcon() == null ) {
+//            timeAndLocationLink.addStyleName(highlightStyle);
+//        }
+//        if ( fundingLink.getIcon() == null ) {
+//            fundingLink.addStyleName(highlightStyle);
+//        }
+//        if ( platformsLink.getIcon() == null ) {
+//            platformsLink.addStyleName(highlightStyle);
+//        }
+//        if ( dicLink.getIcon() == null ) {
+//            dicLink.addStyleName(highlightStyle);
+//        }
+//        if ( taLink.getIcon() == null ) {
+//            taLink.addStyleName(highlightStyle);
+//        }
+//        if ( phLink.getIcon() == null ) {
+//            phLink.addStyleName(highlightStyle);
+//        }
+//        if ( pco2aLink.getIcon() == null ) {
+//            pco2aLink.addStyleName(highlightStyle);
+//        }
+//        if ( pco2dLink.getIcon() == null ) {
+//            pco2dLink.addStyleName(highlightStyle);
+//        }
+//        if ( genericVariableLink.getIcon() == null ) {
+//            genericVariableLink.addStyleName(highlightStyle);
+//        }
+    }
+
     public boolean isComplete() {
         if (investigatorsLink.getIcon() == null ) {
             return false;
@@ -381,7 +534,24 @@ public class DashboardLayout extends Composite {
         phLink.setIcon(null);
         pco2aLink.setIcon(null);
         pco2dLink.setIcon(null);
+        genericVariableLink.setIcon(null);
     }
+
+    public void removeSectionHiglightStyle(String highlightStyle) {
+        investigatorsLink.removeStyleName(highlightStyle);
+        submittersLink.removeStyleName(highlightStyle);
+        citationLink.removeStyleName(highlightStyle);
+        timeAndLocationLink.removeStyleName(highlightStyle);
+        fundingLink.removeStyleName(highlightStyle);
+        platformsLink.removeStyleName(highlightStyle);
+        dicLink.removeStyleName(highlightStyle);
+        taLink.removeStyleName(highlightStyle);
+        phLink.removeStyleName(highlightStyle);
+        pco2aLink.removeStyleName(highlightStyle);
+        pco2dLink.removeStyleName(highlightStyle);
+        genericVariableLink.removeStyleName(highlightStyle);
+    }
+
    public void setMain(Widget widget) {
         main.clear();
         main.add(widget);

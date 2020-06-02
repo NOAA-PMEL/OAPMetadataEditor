@@ -15,6 +15,7 @@ public class InvestigatorPanel extends PersonPanel {
         setType(Constants.SECTION_INVESTIGATOR);
         heading.setText("Enter the Information for this Investigator. You may enter more than one investigator.");
         showTable=true;
+        save.setEnabled(false);
     }
     public void setEditing(boolean isEditing) {
         editing = isEditing;
@@ -41,4 +42,16 @@ public class InvestigatorPanel extends PersonPanel {
         }
         return false;
     }
+
+    public boolean isValidTest(List<Person> originals) {
+        OAPMetadataEditor.debugLog("Investigator.isValidTest("+originals+")");
+//        Set<Person> thisPeople = new TreeSet<>(getInvestigators());
+        Set<Person> orderedOriginals = new TreeSet<>(originals);
+        for ( Person person : orderedOriginals ) {
+                OAPMetadataEditor.debugLog("Investigator.valid: " + person);
+                return true;
+        }
+        return false;
+    }
+
 }

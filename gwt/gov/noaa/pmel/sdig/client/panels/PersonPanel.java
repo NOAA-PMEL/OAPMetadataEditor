@@ -6,6 +6,7 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -17,6 +18,9 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.AbstractSafeHtmlCell;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -168,6 +172,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
         if ( "data submitter".equalsIgnoreCase(personType)) {
+            save.setEnabled(false);
             telephone.setAllowBlank(false);
             telephoneLabel.setText("Telephone Number *");
             telephoneLabel.setColor("#B22222");
@@ -236,7 +241,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 // from http://emailregex.com/
                 RegExp p = RegExp.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
                 if ( !p.test(valueStr) ) {
-                    result.add(new BasicEditorError(telephone, value, "Does not look like an email address to me."));
+                    result.add(new BasicEditorError(email, value, "Does not look like an email address to me."));
                 }
                 return result;
             }
@@ -257,8 +262,18 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
                     reset();
                 }
+
+//                if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
+                if ("click".equals(event.getNativeEvent().getType())) {
+//                    selectedColumn = event.getColumn();
+                    OAPMetadataEditor.logToConsole("clicked selectedColumn: " + event.getColumn());
+//                    int selectedRow = event.getIndex();
+                    OAPMetadataEditor.logToConsole("clicked selectedRow: " + event.getIndex());
+//                    event.getRowElement(event.getIndex()).setClassName("active");
+                }
             }
         });
+//        people.addSelectionChangeHandler
 
         Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -277,11 +292,15 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     peopleData.getList().remove(person);
                     peopleData.flush();
                     peoplePagination.rebuild(cellTablePager);
+                    save.setEnabled(true);
                 }
 
             }
         });
         people.addColumn(edit);
+
+        // Add a text column to show the id.
+        people.addColumn(new RowNumberColumn());
 
         // Add a text column to show the name.
         TextColumn<Person> nameColumn = new TextColumn<Person>() {
@@ -344,9 +363,27 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        );
     }
 
+    // row number
+    public class RowNumberColumn extends Column {
+        public RowNumberColumn() {
+            super(new AbstractCell() {
+                @Override
+                public void render(Context context, Object o, SafeHtmlBuilder safeHtmlBuilder) {
+                    safeHtmlBuilder.append(context.getIndex() + 1);
+                }
+            });
+        }
+
+        @Override
+        public String getValue(Object s) {
+            return null;
+        }
+    }
+
     public boolean valid() {
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
+        OAPMetadataEditor.debugLog("person-valid; String.valueOf: " + valid);
         return ! ( valid.equals("false") || valid.equals("0"));
     }
 
@@ -383,6 +420,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 setTableVisible(true);
                 reset();
             }
+            save.setEnabled(false);
         }
 
     }
@@ -447,6 +485,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public boolean hasContent() {
         OAPMetadataEditor.debugLog("PersonPanel.hasContent()");
         boolean hasContent = false;
+        save.setEnabled(false);
         if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.address1:"+ address1.getText());
             hasContent = true;
@@ -486,6 +525,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if (extension.getText().trim() != null && !extension.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.extension:"+ extension.getText());
             hasContent = true;
+
         }
         if (city.getText().trim() != null && !city.getText().isEmpty() ) {
             OAPMetadataEditor.debugLog("PersonPanel.city:"+ city.getText());
@@ -503,8 +543,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             OAPMetadataEditor.debugLog("PersonPanel.country:"+ country.getText());
             hasContent = true;
         }
+        if (hasContent == true) {
+            save.setEnabled(true);
+        }
         return hasContent;
     }
+
+
+
     public void show(Person person, boolean editable) {
         setAllEditable(editable);
         editing = editable;
@@ -578,6 +624,35 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 ////        modified = true;
 ////        editing = true;
 //    }
+   @UiHandler({"firstName","mi","lastName", "address1","address2","city","state","zip","telephone","email","rid"})
+    public void onChange(ChangeEvent event) {
+        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+        save.setEnabled(true);
+    }
+    @UiHandler({"institution", "country"})
+    public void onValueChange(ValueChangeEvent<String> event) {
+//            Window.alert("Here be the new value:" + event.getValue());
+        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
+        save.setEnabled(true);
+    }
+
+//    @UiHandler("idType")
+//    public void onClick(ClickEvent event) {
+//        OAPMetadataEditor.debugLog("Here be the new value:" + event.getSource());
+//    }
+//    public void onDropDownButtonValueChange(@SuppressWarnings("unused") ValueChangeEvent<String> event) {
+//        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
+//    }
+
+//    public void onClick(ClickEvent event) {
+//    public void onClick(ValueChangeEvent event) {
+//        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+//        save.setEnabled(true);
+//    }
+//    public void onChange(ChangeEvent event) {
+//        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+//        save.setEnabled(true);
+//    }
 
     public String getType() {
         return type;
@@ -636,3 +711,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         setAllEditable(true);
     }
 }
+
+//    public  void onChangeTextBox(TextBox textBox) {
+//
+//    }
