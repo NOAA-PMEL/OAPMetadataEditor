@@ -1128,16 +1128,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     debugLog("danger investigatorPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_INVESTIGATOR, "pill-danger");
                 }
-//                if (investigatorPanel.valid()) {
-//                    debugLog("investigatorPanel valid is true? " + p);
-//                    topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
-//                    topLayout.removehighlight(Constants.SECTION_INVESTIGATOR, "pill-warning");
-//                }
-//                else {
-//                    hasValidData = false;
-//                    debugLog("investigatorPanel valid is false? " + p);
-//                    topLayout.sethighlight(Constants.SECTION_INVESTIGATOR, "pill-warning");
-//                }
+
                 investigatorPanel.addPeople(personList);
 
             }
@@ -1148,8 +1139,6 @@ public class OAPMetadataEditor implements EntryPoint {
 //            if (variablesList != null) {
 //                genericVariablePanel.addVariables(variablesList);
 //            }
-
-
 //
 //            if (document.getVariables() != null) {
 //                List<Variable> variablesList = document.getVariables();
@@ -1165,9 +1154,6 @@ public class OAPMetadataEditor implements EntryPoint {
 //                genericVariablePanel.addVariables(variablesList);
 //
 //            }
-
-
-
             if (document.getVariables() != null) {
                 boolean hasValidData = false;
                 boolean hasInvalidData = false;
@@ -1203,23 +1189,36 @@ public class OAPMetadataEditor implements EntryPoint {
 
 
             if (document.getPlatforms() != null) {
-                debugLog("got Platforms?");
+                boolean hasValidData = false;
+                boolean hasInvalidData = false;
                 List<Platform> platforms = document.getPlatforms();
-                debugLog("# of Platforms? " + platforms.size());
                 for (int i = 0; i < platforms.size(); i++) {
-                    debugLog("Platforms index: " + i);
                     Platform p = platforms.get(i);
-                    debugLog("Platform p: " + p);
                     platformPanel.show(p);
-                    if (platformPanel.valid()) {
-                        topLayout.setChecked(Constants.SECTION_PLATFORMS);
-                        topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-warning");
+                    if (! platformPanel.valid()) {
+                        hasInvalidData = true;
+                    }
+                    else {
+                        hasValidData = true;
                     }
                     platformPanel.reset();
                 }
-//                platformPanel.addPlatforms(document.getPlatforms());
+                if (hasValidData == true && hasInvalidData == true) {
+                    debugLog("warning platformPanel valid and invalid");
+                    topLayout.setChecked(Constants.SECTION_PLATFORMS);
+                    topLayout.sethighlight(Constants.SECTION_PLATFORMS, "pill-warning");
+                }
+                if (hasValidData == true && hasInvalidData == false) {
+                    debugLog("success platformPanel has only valid data");
+                    topLayout.setChecked(Constants.SECTION_PLATFORMS);
+                    topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-danger");
+                }
+                if (hasValidData == false && hasInvalidData == true){
+                    debugLog("danger platformPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_PLATFORMS, "pill-danger");
+                }
                 platformPanel.addPlatforms(platforms);
-
             }
 //            Person dataSubmitter = null;
             if (document.getDataSubmitter() != null) {
@@ -1239,53 +1238,97 @@ public class OAPMetadataEditor implements EntryPoint {
                 Citation citation = document.getCitation();
                 citationPanel.show(citation);
                 if (citationPanel.valid()) {
+                    debugLog("success citationPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_CITATION);
-                    topLayout.removehighlight(Constants.SECTION_CITATION, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_CITATION, "pill-danger");
+                }
+                else {
+                    debugLog("danger citationPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_CITATION, "pill-danger");
                 }
             }
             if (document.getTimeAndLocation() != null) {
                 TimeAndLocation timeAndLocation = document.getTimeAndLocation();
                 timeAndLocationPanel.show(timeAndLocation);
                 if (timeAndLocationPanel.valid()) {
+                    debugLog("success timeAndLocationPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_TIMEANDLOCATION);
-                    topLayout.removehighlight(Constants.SECTION_TIMEANDLOCATION, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_TIMEANDLOCATION, "pill-danger");
+                }
+                else {
+                    debugLog("danger timeAndLocationPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_TIMEANDLOCATION, "pill-danger");
                 }
             }
             if (document.getFunding() != null) {
+                boolean hasValidData = false;
+                boolean hasInvalidData = false;
                 List<Funding> fundings = document.getFunding();
-                for( int i = 0; i < fundings.size(); i++ ) {
+                for (int i = 0; i < fundings.size(); i++) {
                     Funding f = fundings.get(i);
                     fundingPanel.show(f);
-                    if ( fundingPanel.valid() ) {
-                        topLayout.setChecked(Constants.SECTION_FUNDING);
-                        topLayout.removehighlight(Constants.SECTION_FUNDING, "pill-warning");
+                    if (! fundingPanel.valid()) {
+                        hasInvalidData = true;
+                    }
+                    else {
+                        hasValidData = true;
                     }
                     fundingPanel.reset();
+                }
+                if (hasValidData == true && hasInvalidData == true) {
+                    debugLog("warning fundingPanel valid and invalid");
+                    topLayout.setChecked(Constants.SECTION_FUNDING);
+                    topLayout.sethighlight(Constants.SECTION_FUNDING, "pill-warning");
+                }
+                if (hasValidData == true && hasInvalidData == false) {
+                    debugLog("success fundingPanel has only valid data");
+                    topLayout.setChecked(Constants.SECTION_FUNDING);
+                    topLayout.removehighlight(Constants.SECTION_FUNDING, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_FUNDING, "pill-danger");
+                }
+                if (hasValidData == false && hasInvalidData == true){
+                    debugLog("danger fundingPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_FUNDING, "pill-danger");
                 }
                 fundingPanel.addFundings(fundings);
             }
             if (document.getDic() != null) {
                 Variable dic = document.getDic();
                 dicPanel.show(dic);
-                if (dicPanel.valid()) {
+                if (phPanel.valid()) {
+                    debugLog("success dicPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_DIC);
-                    topLayout.removehighlight(Constants.SECTION_DIC, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_DIC, "pill-danger");
+                }
+                else {
+                    debugLog("danger dicPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_DIC, "pill-danger");
                 }
             }
             if (document.getTa() != null) {
                 Variable ta = document.getTa();
                 taPanel.show(ta);
-                if (taPanel.valid()) {
+                if (phPanel.valid()) {
+                    debugLog("success taPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_TA);
-                    topLayout.removehighlight(Constants.SECTION_TA, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_TA, "pill-danger");
+                }
+                else {
+                    debugLog("danger taPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_TA, "pill-danger");
                 }
             }
             if (document.getPh() != null) {
                 Variable ph = document.getPh();
                 phPanel.show(ph);
                 if (phPanel.valid()) {
+                    debugLog("success phPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_PH);
-                    topLayout.removehighlight(Constants.SECTION_PH, "pill-warning");
+                    topLayout.removehighlight(Constants.SECTION_PH, "pill-danger");
+                }
+                else {
+                    debugLog("danger phPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_PH, "pill-danger");
                 }
             }
 //            Variable pco2a = null;
@@ -1308,10 +1351,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.removehighlight(Constants.SECTION_PCO2A, "pill-danger");
                 }
             }
-            if (document.getPco2a() == null) {
-                debugLog("pco2a is null");
-                topLayout.sethighlight(Constants.SECTION_PCO2A, "pill-danger");
-            }
 
             Variable pco2d = null;
             if (document.getPco2d() != null) {
@@ -1328,11 +1367,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.sethighlight(Constants.SECTION_PCO2D, "pill-danger");
                 }
             }
-            if (document.getPco2d() == null) {
-                debugLog("pco2d is null");
-                topLayout.sethighlight(Constants.SECTION_PCO2D, "pill-danger");
-            }
-
 
             if ( !clearFirst ) {
                 _currentDocument = getDocument();
