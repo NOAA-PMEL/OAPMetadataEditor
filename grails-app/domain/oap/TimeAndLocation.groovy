@@ -20,7 +20,7 @@ class TimeAndLocation {
         southLat (nullable: true)
         westLon (nullable: true)
         eastLon (nullable: true)
-        geoNames (nullable: true)
+        geoNames (nullable: true, type: 'text')
         organismLoc (nullable: true)
         spatialRef (nullable: true)
     }
