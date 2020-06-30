@@ -18,8 +18,10 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.AbstractSafeHtmlCell;
+
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
@@ -27,6 +29,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
+
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
@@ -94,6 +100,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField (provided = true)
     SuggestBox country;
     @UiField
+    FormLabel emailLabel;
+    @UiField
     TextBox email;
     @UiField
     TextBox rid;
@@ -141,6 +149,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     private SimplePager cellTablePager = new SimplePager();
 
+
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
@@ -171,11 +180,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idTypePopover.setTitle("3.7 Please indicate which type of researcher ID.");
         idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
+
         if ( "data submitter".equalsIgnoreCase(personType)) {
-            save.setEnabled(false);
-            telephone.setAllowBlank(false);
-            telephoneLabel.setText("Telephone Number *");
-            telephoneLabel.setColor("#B22222");
+            emailLabel.setText("Email Address *");
+            emailLabel.setColor("#B22222");
+            email.setAllowBlank(false);
+//            telephone.setAllowBlank(false);
+//            telephoneLabel.setText("Telephone Number *");
+//            telephoneLabel.setColor("#B22222");
             telephone.addValidator(new Validator() {
                 @Override
                 public List<EditorError> validate(Editor editor, Object value) {
@@ -238,6 +250,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             public List<EditorError> validate(Editor editor, Object value) {
                 List<EditorError> result = new ArrayList<EditorError>();
                 String valueStr = value == null ? "" : value.toString();
+                if ( valueStr.length() == 0 ) {
+                    return result;
+                }
                 // from http://emailregex.com/
                 RegExp p = RegExp.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
                 if ( !p.test(valueStr) ) {
@@ -253,27 +268,19 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         });
 
         people.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+
         people.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Person> event) {
 //                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
-                if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
+                if (!editing && "mouseover".equals(event.getNativeEvent().getType())) {
                     show(event.getValue(), false);
-                } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
+                } else if (!editing && "mouseout".equals(event.getNativeEvent().getType())) {
                     reset();
                 }
-
-//                if (BrowserEvents.CLICK.equalsIgnoreCase(event.getNativeEvent().getType())) {
-                if ("click".equals(event.getNativeEvent().getType())) {
-//                    selectedColumn = event.getColumn();
-                    OAPMetadataEditor.logToConsole("clicked selectedColumn: " + event.getColumn());
-//                    int selectedRow = event.getIndex();
-                    OAPMetadataEditor.logToConsole("clicked selectedRow: " + event.getIndex());
-//                    event.getRowElement(event.getIndex()).setClassName("active");
-                }
             }
+
         });
-//        people.addSelectionChangeHandler
 
         Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -285,6 +292,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             @Override
             public void update(int index, Person person, String value) {
                 editIndex = peopleData.getList().indexOf(person);
+                OAPMetadataEditor.debugLog("EDIT editIndex: " + editIndex);
                 if ( editIndex < 0 ) {
                     Window.alert("Edit failed.");
                 } else {
@@ -299,8 +307,131 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         });
         people.addColumn(edit);
 
+
         // Add a text column to show the id.
-        people.addColumn(new RowNumberColumn());
+//        people.addColumn(new RowNumberColumn(), "Postion");
+
+        Column<Person, String> moveUp = new Column<Person, String>(new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+            @Override
+            public String getValue(Person object) {
+                return "";
+            }
+        };
+        moveUp.setFieldUpdater(new FieldUpdater<Person, String>() {
+            @Override
+            public void update(int index, Person person, String value) {
+//                OAPMetadataEditor.debugLog("UP intial editIndex: " + editIndex);
+
+                int position = person.getPosition();
+                OAPMetadataEditor.debugLog("moveUp intial position: " + position);
+
+                int newposition = position -1;
+                OAPMetadataEditor.debugLog("moveUp new position: " + newposition);
+
+                if ( newposition < 0 ) {
+                    OAPMetadataEditor.debugLog("is at top postion 0 > " + newposition);
+                } else {
+                    OAPMetadataEditor.debugLog("moveUp final position: " + newposition);
+
+                    // update previousPerson's position
+                    Person previousPerson = peopleData.getList().get(newposition);
+                    previousPerson.setPosition(position);
+                    peopleData.getList().remove(previousPerson);
+                    peopleData.getList().add(newposition, previousPerson);
+
+                    // update current person's position
+                    peopleData.getList().remove(person);
+                    person.setPosition(newposition);
+                    peopleData.getList().add(newposition, person);
+
+                    peopleData.flush();
+                    peoplePagination.rebuild(cellTablePager);
+//                    save.setEnabled(true);
+                    reset();
+
+//                    // for debugging position check
+//                    for (int i = 0; i < peopleData.getList().size(); i++) {
+//                        OAPMetadataEditor.debugLog("UPWARD LOOP");
+//                        OAPMetadataEditor.debugLog("Loop index: " + i);
+//                        Person who = peopleData.getList().get(i);
+//
+//                        int guessWhoPos = who.getPosition();
+////                        OAPMetadataEditor.debugLog("who pos: " + guessWhoPos);
+//
+//                        String guessWho;
+//                        if ( who.getLastName() != null ) {
+//                            guessWho = who.getLastName();
+//                            OAPMetadataEditor.debugLog(guessWho + "'s position is set to " + guessWhoPos);
+//                        }
+//                        else {
+//                            OAPMetadataEditor.debugLog("Unknown'sposition is set to " + guessWhoPos);
+//                        }
+//
+//                    }
+
+                }
+
+            }
+        });
+        people.addColumn(moveUp);
+
+        Column<Person, String> moveDown = new Column<Person, String>(new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+            @Override
+            public String getValue(Person object) {
+                return "";
+            }
+        };
+        moveDown.setFieldUpdater(new FieldUpdater<Person, String>() {
+            @Override
+            public void update(int index, Person person, String value) {
+                int position = person.getPosition();
+                OAPMetadataEditor.debugLog("moveDown intial position: " + position);
+
+                int newposition = position + 1;
+                OAPMetadataEditor.debugLog("moveDown new position: " + newposition);
+
+                if ( newposition >= peopleData.getList().size() ) {
+                    OAPMetadataEditor.debugLog("is at bottom postion " + peopleData.getList().size() + " < " + newposition);
+                } else {
+                    OAPMetadataEditor.debugLog("moveDown final position: " + newposition);
+
+                    // update nextPerson's position
+                    Person nextPerson = peopleData.getList().get(newposition);
+                    nextPerson.setPosition(position);
+                    peopleData.getList().remove(nextPerson);
+                    peopleData.getList().add(newposition, nextPerson);
+
+                    // update current person's position
+                    peopleData.getList().remove(person);
+                    person.setPosition(newposition);
+                    peopleData.getList().add(newposition, person);
+
+                    peopleData.flush();
+                    peoplePagination.rebuild(cellTablePager);
+                    reset();
+
+//                    // for debugging position check
+//                    for (int i = 0; i < peopleData.getList().size(); i++) {
+//                        OAPMetadataEditor.debugLog("DOWNWARD LOOP");
+//                        OAPMetadataEditor.debugLog("Loop index: " + i);
+//                        Person who = peopleData.getList().get(i);
+//
+//                        int guessWhoPos = who.getPosition();
+////                        OAPMetadataEditor.debugLog("who pos: " + guessWhoPos);
+//
+//                        String guessWho;
+//                        if ( who.getLastName() != null ) {
+//                            guessWho = who.getLastName();
+//                            OAPMetadataEditor.debugLog(guessWho + "'s position is set to " + guessWhoPos);
+//                        }
+//                        else {
+//                            OAPMetadataEditor.debugLog("Unknown'sposition is set to " + guessWhoPos);
+//                        }
+//                    }
+                }
+            }
+        });
+        people.addColumn(moveDown);
 
         // Add a text column to show the name.
         TextColumn<Person> nameColumn = new TextColumn<Person>() {
@@ -363,27 +494,12 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        );
     }
 
-    // row number
-    public class RowNumberColumn extends Column {
-        public RowNumberColumn() {
-            super(new AbstractCell() {
-                @Override
-                public void render(Context context, Object o, SafeHtmlBuilder safeHtmlBuilder) {
-                    safeHtmlBuilder.append(context.getIndex() + 1);
-                }
-            });
-        }
 
-        @Override
-        public String getValue(Object s) {
-            return null;
-        }
-    }
 
     public boolean valid() {
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
-        OAPMetadataEditor.debugLog("person-valid; String.valueOf: " + valid);
+//        OAPMetadataEditor.debugLog("person-valid; String.valueOf: " + valid);
         return ! ( valid.equals("false") || valid.equals("0"));
     }
 
@@ -698,6 +814,94 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         }
     }
+    //set row style
+//    public void setRowStyles(RowStyles<T> styles) {
+//        people.setRowStyles(styles);
+//    }
+
+    // row number
+    public class RowNumberColumn extends Column {
+        public RowNumberColumn() {
+            super(new AbstractCell() {
+                @Override
+                public void render(Context context, Object o, SafeHtmlBuilder safeHtmlBuilder) {
+                    safeHtmlBuilder.append(context.getIndex() + 1);
+                }
+            });
+        }
+
+        @Override
+        public String getValue(Object s) {
+            return null;
+        }
+    }
+
+//    public void testRowStyles() {
+//        people.getRowStyles(new RowStyles<Row>() {
+//            @Override
+//            public String getStyleNames(Row row, int rowIndex) {
+//                return "error".equals(row.getType()) ? "error" : "";
+//            }
+//        });
+//    }
+//
+//    public static void setupOnePageList(final AbstractHasData<?> cellTable) {
+//        cellTable.addRowCountChangeHandler(new RowCountChangeEvent.Handler() {
+//            @Override public void onRowCountChange(RowCountChangeEvent event) {
+//                cellTable.setVisibleRange(new Range(0, event.getNewRowCount()));
+//            }
+//        });
+//    }
+
+    public void setRowContextualClass2(Person person, int index, String contextualClass) {
+        OAPMetadataEditor.debugLog("object person: " + person);
+        OAPMetadataEditor.debugLog("thisIndex: " + index);
+        OAPMetadataEditor.debugLog("contextualClass: " + contextualClass);
+
+//        RowStyles<T> rowStyles = cellTable.getRowStyles();
+        RowStyles<Person> rowStyles = people.getRowStyles();
+        OAPMetadataEditor.debugLog("rowStyles: " + rowStyles);
+        if (rowStyles != null) {
+            OAPMetadataEditor.debugLog("rowStyles is NOT null");
+//            String extraRowStyles = rowStyles.getStyleNames(rowValue, absRowIndex);
+//            if (extraRowStyles != null) {
+//                trClasses.append(" ").append(extraRowStyles);
+//            }
+        }
+        else{
+            OAPMetadataEditor.debugLog("rowStyles is null");
+        }
+//        if (index>=0) {
+//            people.getRowElement(index).addClassName(contextualClass);
+//        }
+    }
+
+
+    public void setRowContextualClass(int index, String contextualClass) {
+        int page = cellTablePager.getPage();
+        if ( cellTablePager.getPageCount() > 1 ) {
+            peoplePagination.setVisible(true);
+            cellTablePager.setPage(page);
+        } else {
+            peoplePagination.setVisible(false);
+        }
+        if (index>=0) {
+            people.getRowElement(index).addClassName(contextualClass);
+        }
+    }
+
+    public void removeRowContextualClass(int index, String contextualClass) {
+        if (index>=0) {
+            people.getRowElement(index).removeClassName(contextualClass);
+        }
+    }
+
+    public boolean hasRowContextualClass(int index, String contextualClass) {
+        OAPMetadataEditor.debugLog("contextualClass is: " + people.getRowElement(index).getClassName());
+        OAPMetadataEditor.debugLog("contextualClass has: " + people.getRowElement(index).hasClassName(contextualClass));
+        return true;
+    }
+
 
     public void reset() {
         form.reset();
