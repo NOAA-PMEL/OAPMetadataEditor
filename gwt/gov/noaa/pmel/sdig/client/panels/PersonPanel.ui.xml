@@ -121,10 +121,10 @@
                         </b:Column>
                         <b:Column size="SM_6 MD_5">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="email" text="Email Address *"></b:FormLabel>
+                                <b:FormLabel  for="email" ui:field="emailLabel" text="Email Address *"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="emailPopover" b:id="emailPopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#emailPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="email" allowBlank="false" placeholder="Email address" b:id="email"></b:TextBox>
+                                <b:TextBox ui:field="email"  placeholder="Email address" b:id="email"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

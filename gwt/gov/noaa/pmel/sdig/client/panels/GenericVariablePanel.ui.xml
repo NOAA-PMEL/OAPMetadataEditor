@@ -77,10 +77,10 @@
                         <b:Column size="MD_4 LG_3" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel color="#B22222" for="units" text="Units *"></b:FormLabel>
+                                <b:FormLabel for="units" text="Units *"></b:FormLabel> <!-- color="#B22222" -->
                                 <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="units" allowBlank="false" placeholder="Units" b:id="units"></b:TextBox>
+                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

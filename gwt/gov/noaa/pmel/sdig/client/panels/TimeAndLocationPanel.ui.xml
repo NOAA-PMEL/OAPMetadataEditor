@@ -65,36 +65,40 @@
                                                 <b:FormGroup>
                                                     <b:Modal title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" b:id="modalNorthLat"/>
                                                     <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalNorthLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                                    <b:FormLabel color="#B22222" for="northLat" text="North Latitude *"></b:FormLabel>
-                                                    <b:TextBox ui:field="northLat" allowBlank="false" placeholder="North Latitude (-90.000 to 90.000)" b:id="northLat"></b:TextBox>
+<!--                                                    <b:FormLabel color="#B22222" for="northLat" text="North Latitude *"></b:FormLabel>-->
+                                                    <b:FormLabel for="northLat" text="North Latitude"></b:FormLabel>
+                                                    <b:TextBox ui:field="northLat" allowBlank="true" placeholder="North Latitude (-90.000 to 90.000)" b:id="northLat"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
                                         </b:Row>
                                         <b:Row>
                                             <b:Column offset="SM_2 MD_0" size="SM_4 MD_6">
                                                 <b:FormGroup>
-                                                    <b:FormLabel color="#B22222" for="westLon" text="West Longitude *"></b:FormLabel>
+<!--                                                    <b:FormLabel color="#B22222" for="westLon" text="West Longitude *"></b:FormLabel>-->
+                                                    <b:FormLabel for="westLon" text="West Longitude"></b:FormLabel>
                                                     <b:Modal title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)." closable="true" b:id="modalWestLon"/>
                                                     <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalWestLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                                    <b:TextBox ui:field="westLon" allowBlank="false" placeholder="West Longitude (-180.000 to 180.000)" b:id="westLon"></b:TextBox>
+                                                    <b:TextBox ui:field="westLon" allowBlank="true" placeholder="West Longitude (-180.000 to 180.000)" b:id="westLon"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
                                             <b:Column size="SM_4 MD_6">
                                                 <b:FormGroup>
-                                                    <b:FormLabel color="#B22222" for="eastLon" text="East Longitude *"></b:FormLabel>
+<!--                                                    <b:FormLabel color="#B22222" for="eastLon" text="East Longitude *"></b:FormLabel>-->
+                                                    <b:FormLabel for="eastLon" text="East Longitude"></b:FormLabel>
                                                     <b:Modal title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)" closable="true" b:id="modalEastLon"/>
                                                     <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEastLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                                    <b:TextBox ui:field="eastLon" allowBlank="false" placeholder="East Longitude (-180.000 to 180.000)" b:id="eastLon"></b:TextBox>
+                                                    <b:TextBox ui:field="eastLon" allowBlank="true" placeholder="East Longitude (-180.000 to 180.000)" b:id="eastLon"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
                                         </b:Row>
                                         <b:Row>
                                             <b:Column offset="SM_4 MD_3" size="SM_4 MD_6">
                                                 <b:FormGroup>
-                                                    <b:FormLabel color="#B22222" for="southLat" text="South Latitude *"></b:FormLabel>
+<!--                                                    <b:FormLabel color="#B22222" for="southLat" text="South Latitude *"></b:FormLabel>-->
+                                                    <b:FormLabel for="southLat" text="South Latitude"></b:FormLabel>
                                                     <b:Modal title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" b:id="modalSouthLat"/>
                                                     <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSouthLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                                    <b:TextBox ui:field="southLat" allowBlank="false" placeholder="South Latitude (-90.000 to 90.000)" b:id="southLat"></b:TextBox>
+                                                    <b:TextBox ui:field="southLat" allowBlank="true" placeholder="South Latitude (-90.000 to 90.000)" b:id="southLat"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
                                         </b:Row>
@@ -107,10 +111,11 @@
                     <b:Row>
                         <b:Column size="SM_12 MD_6">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="geoNames" text="Geographic Names *"></b:FormLabel>
+<!--                                <b:FormLabel color="#B22222" for="geoNames" text="Geographic Names *"></b:FormLabel>-->
+                                <b:FormLabel for="geoNames" text="Geographic Names"></b:FormLabel>
                                 <b:Modal title="11 Names of the geographic area where the data collection takes place, e.g., Gulf of Mexico, Baltic Sea, etc" closable="true" b:id="modalGeoNames"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGeoNames" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="geoNames" allowBlank="false" placeholder="Geographic Names" b:id="geoNames"></b:TextBox>
+                                <b:TextBox ui:field="geoNames" allowBlank="true" placeholder="Geographic Names" b:id="geoNames"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_6">
