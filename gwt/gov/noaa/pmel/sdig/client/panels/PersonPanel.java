@@ -35,6 +35,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
@@ -138,6 +139,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     String type;
 
     int editIndex = -1;
+    int pageSize = 4;
 
     @UiField
     Pagination peoplePagination;
@@ -307,9 +309,15 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         });
         people.addColumn(edit);
 
-
-        // Add a text column to show the id.
-//        people.addColumn(new RowNumberColumn(), "Postion");
+        // Add a text column to show the position.
+        TextColumn<Person> positionColumn = new TextColumn<Person>() {
+            @Override
+            public String getValue(Person object) {
+//                String position = String.valueOf(object.getPosition() + 1);
+                return String.valueOf(object.getPosition() + 1);
+            }
+        };
+        people.addColumn(positionColumn, "Position");
 
         Column<Person, String> moveUp = new Column<Person, String>(new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -329,7 +337,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 OAPMetadataEditor.debugLog("moveUp new position: " + newposition);
 
                 if ( newposition < 0 ) {
-                    OAPMetadataEditor.debugLog("is at top postion 0 > " + newposition);
+                    OAPMetadataEditor.debugLog("is at top position 0 > " + newposition);
                 } else {
                     OAPMetadataEditor.debugLog("moveUp final position: " + newposition);
 
@@ -472,6 +480,23 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         });
         people.addColumn(delete);
 
+        // set RowStyles on required fields
+        people.setRowStyles(new RowStyles<Person>() {
+            @Override
+            public String getStyleNames(Person row, int rowIndex) {
+                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
+                || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
+                || ((row.getLastName() == null) || (row.getLastName().isEmpty()))) {
+//                    OAPMetadataEditor.debugLog("getInstitution().isEmpty: " + row.getInstitution());
+                    OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
+                    return TableContextualType.DANGER.getCssName();
+                }
+                else {
+                    return "";
+                }
+            }
+        });
+
         people.addRangeChangeHandler(new RangeChangeEvent.Handler() {
             @Override
             public void onRangeChange(final RangeChangeEvent event) {
@@ -481,7 +506,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         cellTablePager.setDisplay(people);
 
-        people.setPageSize(4);
+        people.setPageSize(pageSize);
 
         peopleData.addDataDisplay(people);
 
@@ -527,7 +552,21 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 Person p = getPerson();
                 addPerson(p);
             }
-            eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
+
+            // check if any person in peopleData is missing required fields
+            boolean meetsRequired = true;
+            for (int i = 0; i < peopleData.getList().size(); i++) {
+                Person p = peopleData.getList().get(i);
+                if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
+                || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
+                || ((p.getLastName() == null) || (p.getLastName().isEmpty()))) {
+                    meetsRequired = false;
+                }
+            }
+            if (meetsRequired == true) {
+                eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
+            }
+
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -549,7 +588,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //    }
 
     public Person getPerson() {
-        OAPMetadataEditor.debugLog("PersonPanel.get()");
+//        OAPMetadataEditor.debugLog("PersonPanel.get()");
         Person person = displayedPerson != null ? displayedPerson : new Person();
             person.setAddress1(address1.getText().trim());
             person.setAddress2(address2.getText().trim());
@@ -664,8 +703,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         }
         return hasContent;
     }
-
-
 
     public void show(Person person, boolean editable) {
         setAllEditable(editable);
@@ -814,78 +851,29 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         }
     }
-    //set row style
-//    public void setRowStyles(RowStyles<T> styles) {
-//        people.setRowStyles(styles);
-//    }
 
-    // row number
-    public class RowNumberColumn extends Column {
-        public RowNumberColumn() {
-            super(new AbstractCell() {
-                @Override
-                public void render(Context context, Object o, SafeHtmlBuilder safeHtmlBuilder) {
-                    safeHtmlBuilder.append(context.getIndex() + 1);
-                }
-            });
+    public int getPageTableSize() {
+        if (people.getPageSize() > 0) {
+            return people.getPageSize();
         }
-
-        @Override
-        public String getValue(Object s) {
-            return null;
+        return pageSize;
+    }
+    public void setPageTableSize(int size) {
+        int min = 0;
+        int max = 255;
+        if ((size > min) && (size < max)) {
+            people.setPageSize(size);
+        }
+        else {
+            OAPMetadataEditor.debugLog("Out of specified range bounds [" + min + ", " + max + "]: "  + size);
         }
     }
-
-//    public void testRowStyles() {
-//        people.getRowStyles(new RowStyles<Row>() {
-//            @Override
-//            public String getStyleNames(Row row, int rowIndex) {
-//                return "error".equals(row.getType()) ? "error" : "";
-//            }
-//        });
-//    }
-//
-//    public static void setupOnePageList(final AbstractHasData<?> cellTable) {
-//        cellTable.addRowCountChangeHandler(new RowCountChangeEvent.Handler() {
-//            @Override public void onRowCountChange(RowCountChangeEvent event) {
-//                cellTable.setVisibleRange(new Range(0, event.getNewRowCount()));
-//            }
-//        });
-//    }
-
-    public void setRowContextualClass2(Person person, int index, String contextualClass) {
-        OAPMetadataEditor.debugLog("object person: " + person);
-        OAPMetadataEditor.debugLog("thisIndex: " + index);
-        OAPMetadataEditor.debugLog("contextualClass: " + contextualClass);
-
-//        RowStyles<T> rowStyles = cellTable.getRowStyles();
-        RowStyles<Person> rowStyles = people.getRowStyles();
-        OAPMetadataEditor.debugLog("rowStyles: " + rowStyles);
-        if (rowStyles != null) {
-            OAPMetadataEditor.debugLog("rowStyles is NOT null");
-//            String extraRowStyles = rowStyles.getStyleNames(rowValue, absRowIndex);
-//            if (extraRowStyles != null) {
-//                trClasses.append(" ").append(extraRowStyles);
-//            }
-        }
-        else{
-            OAPMetadataEditor.debugLog("rowStyles is null");
-        }
-//        if (index>=0) {
-//            people.getRowElement(index).addClassName(contextualClass);
-//        }
-    }
-
 
     public void setRowContextualClass(int index, String contextualClass) {
-        int page = cellTablePager.getPage();
-        if ( cellTablePager.getPageCount() > 1 ) {
-            peoplePagination.setVisible(true);
-            cellTablePager.setPage(page);
-        } else {
-            peoplePagination.setVisible(false);
-        }
         if (index>=0) {
+            OAPMetadataEditor.debugLog("passed this index: " + index);
+            OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
+            OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
             people.getRowElement(index).addClassName(contextualClass);
         }
     }
@@ -897,11 +885,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     public boolean hasRowContextualClass(int index, String contextualClass) {
+        OAPMetadataEditor.debugLog("passed this index: " + index);
+        OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
+        OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
         OAPMetadataEditor.debugLog("contextualClass is: " + people.getRowElement(index).getClassName());
         OAPMetadataEditor.debugLog("contextualClass has: " + people.getRowElement(index).hasClassName(contextualClass));
         return true;
     }
-
 
     public void reset() {
         form.reset();
@@ -916,6 +906,3 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 }
 
-//    public  void onChangeTextBox(TextBox textBox) {
-//
-//    }

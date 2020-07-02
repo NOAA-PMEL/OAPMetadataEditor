@@ -15,6 +15,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -23,6 +24,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
@@ -195,6 +197,19 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         });
         platforms.addColumn(delete);
 
+        // set RowStyles on required fields
+        platforms.setRowStyles(new RowStyles<Platform>() {
+            @Override
+            public String getStyleNames(Platform row, int rowIndex) {
+                if (((row.getName() == null) || (row.getName().isEmpty()))) {
+                    return TableContextualType.DANGER.getCssName();
+                }
+                else {
+                    return "";
+                }
+            }
+        });
+
         platforms.addRangeChangeHandler(new RangeChangeEvent.Handler() {
 
             @Override
@@ -362,7 +377,19 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             if ( hasContent()) {
                 addCurrentPlatform();
             }
-            eventBus.fireEventFromSource(new SectionSave(getPlatform(), Constants.SECTION_PLATFORMS), PlatformPanel.this);
+
+            // check if any platform in platformsData is missing required fields
+            boolean meetsRequired = true;
+            for (int i = 0; i < platformsData.getList().size(); i++) {
+                Platform p = platformsData.getList().get(i);
+                if (((p.getName() == null) || (p.getName().isEmpty()))) {
+                    meetsRequired = false;
+                }
+            }
+            if (meetsRequired == true) {
+                eventBus.fireEventFromSource(new SectionSave(getPlatform(), Constants.SECTION_PLATFORMS), PlatformPanel.this);
+            }
+
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);

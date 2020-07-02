@@ -15,6 +15,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
@@ -22,6 +23,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
@@ -381,8 +383,21 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         });
         variables.addColumn(delete);
 
-        variables.addRangeChangeHandler(new RangeChangeEvent.Handler() {
+        // set RowStyles on required fields
+        variables.setRowStyles(new RowStyles<Variable>() {
+            @Override
+            public String getStyleNames(Variable row, int rowIndex) {
+                if (((row.getAbbreviation() == null) || (row.getAbbreviation().isEmpty()))
+                || ((row.getFullVariableName() == null) || (row.getFullVariableName().isEmpty()))) {
+                    return TableContextualType.DANGER.getCssName();
+                }
+                else {
+                    return "";
+                }
+            }
+        });
 
+        variables.addRangeChangeHandler(new RangeChangeEvent.Handler() {
             @Override
             public void onRangeChange(final RangeChangeEvent event) {
                 variablePagination.rebuild(cellTablePager);
@@ -677,7 +692,20 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             if ( hasContent()) {
                 addCurrentVariable();
             }
-            eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
+
+            // check if any variable in variableData is missing required fields
+            boolean meetsRequired = true;
+            for (int i = 0; i < variableData.getList().size(); i++) {
+                Variable v = variableData.getList().get(i);
+                if (((v.getAbbreviation() == null) || (v.getAbbreviation().isEmpty()))
+                || ((v.getFullVariableName() == null) || (v.getFullVariableName().isEmpty()))) {
+                    meetsRequired = false;
+                }
+            }
+            if (meetsRequired == true) {
+                eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
+            }
+
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
