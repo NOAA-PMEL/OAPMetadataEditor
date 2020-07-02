@@ -485,6 +485,35 @@ public class DashboardLayout extends Composite {
 //            genericVariableLink.addStyleName(highlightStyle);
 //        }
     }
+    public boolean isSufficientlyComplete() {
+        // Miniumn for a complete document
+        // at least one investigator must be included
+        // every investigator must include a corresponding organization
+        // dataSubmitter must be included
+        // dataSubmitter must have a corresponding organization
+        // title, abstract, startDate, endDate must be included
+        // at least one non-standard variable, that is, a variable aside from "ta", "dic", "co2a", "co2d" and "ph", must be included
+        // every non-standard variable must have a name attribute and have fullName defined
+        if ( submittersLink.getIcon() == null ) {
+            return false;
+        }
+        if (investigatorsLink.getIcon() == null ) {
+            return false;
+        }
+        if ( citationLink.getIcon() == null ) {
+            return false;
+        }
+        if ( timeAndLocationLink.getIcon() == null ) {
+            return false;
+        }
+        if ( platformsLink.getIcon() == null ) {
+            return false;
+        }
+        if ( genericVariableLink.getIcon() == null ) {
+            return false;
+        }
+        return true;
+    }
 
     public boolean isComplete() {
         if (investigatorsLink.getIcon() == null ) {
