@@ -22,7 +22,6 @@ import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -65,20 +64,17 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     @UiField
     Form form;
-
     @UiField
     ButtonDropDown idType;
     @UiField
     Button save;
-
     @UiField
     TextBox lastName;
     @UiField
     TextBox mi;
     @UiField
     TextBox firstName;
-
-    @UiField ( provided = true )
+    @UiField(provided = true)
     SuggestBox institution;
     @UiField
     TextBox address1;
@@ -98,7 +94,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     TextBox state;
     @UiField
     TextBox zip;
-    @UiField (provided = true)
+    @UiField(provided = true)
     SuggestBox country;
     @UiField
     FormLabel emailLabel;
@@ -106,12 +102,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     TextBox email;
     @UiField
     TextBox rid;
-
     @UiField
     Heading heading;
 
     // Form help items to be customized...
-
     @UiField
     Modal namePopover;
     @UiField
@@ -127,7 +121,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     Modal idTypePopover;
 
-
     @UiField
     CellTable<Person> people;
 
@@ -135,9 +128,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     boolean editing = false;
     Person displayedPerson;
     Person editPerson;
-
     String type;
-
     int editIndex = -1;
     int pageSize = 4;
 
@@ -151,7 +142,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     private SimplePager cellTablePager = new SimplePager();
 
-
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
@@ -161,7 +151,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     private static PersonUiBinder ourUiBinder = GWT.create(PersonUiBinder.class);
 
     public PersonPanel(String personType) {
-
         institution = new SuggestBox(institutionSuggestOracle);
         country = new SuggestBox(countrySuggestionOracle);
 
@@ -182,8 +171,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idTypePopover.setTitle("3.7 Please indicate which type of researcher ID.");
         idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
-
-        if ( "data submitter".equalsIgnoreCase(personType)) {
+        if ("data submitter".equalsIgnoreCase(personType)) {
             emailLabel.setText("Email Address *");
             emailLabel.setColor("#B22222");
             email.setAllowBlank(false);
@@ -195,7 +183,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 public List<EditorError> validate(Editor editor, Object value) {
                     List<EditorError> result = new ArrayList<EditorError>();
                     String valueStr = value == null ? "" : value.toString().trim();
-                    if ( valueStr.length() == 0 ) {
+                    if (valueStr.length() == 0) {
                         return result;
                     }
                     // The more complex of the two answers here:
@@ -212,6 +200,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     }
                     return result;
                 }
+
                 @Override
                 public int getPriority() {
                     return Priority.HIGH;
@@ -252,12 +241,12 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             public List<EditorError> validate(Editor editor, Object value) {
                 List<EditorError> result = new ArrayList<EditorError>();
                 String valueStr = value == null ? "" : value.toString();
-                if ( valueStr.length() == 0 ) {
+                if (valueStr.length() == 0) {
                     return result;
                 }
                 // from http://emailregex.com/
                 RegExp p = RegExp.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-                if ( !p.test(valueStr) ) {
+                if (!p.test(valueStr)) {
                     result.add(new BasicEditorError(email, value, "Does not look like an email address to me."));
                 }
                 return result;
@@ -295,7 +284,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             public void update(int index, Person person, String value) {
                 editIndex = peopleData.getList().indexOf(person);
                 OAPMetadataEditor.debugLog("EDIT editIndex: " + editIndex);
-                if ( editIndex < 0 ) {
+                if (editIndex < 0) {
                     Window.alert("Edit failed.");
                 } else {
                     show(person, true);
@@ -308,16 +297,17 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         });
         people.addColumn(edit);
+        edit.setCellStyleNames("text-center");
 
         // Add a text column to show the position.
-        TextColumn<Person> positionColumn = new TextColumn<Person>() {
-            @Override
-            public String getValue(Person object) {
-//                String position = String.valueOf(object.getPosition() + 1);
-                return String.valueOf(object.getPosition() + 1);
-            }
-        };
-        people.addColumn(positionColumn, "Position");
+//        TextColumn<Person> positionColumn = new TextColumn<Person>() {
+//            @Override
+//            public String getValue(Person object) {
+////                String position = String.valueOf(object.getPosition() + 1);
+//                return String.valueOf(object.getPosition() + 1);
+//            }
+//        };
+//        people.addColumn(positionColumn, "Position");
 
         Column<Person, String> moveUp = new Column<Person, String>(new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -328,15 +318,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         moveUp.setFieldUpdater(new FieldUpdater<Person, String>() {
             @Override
             public void update(int index, Person person, String value) {
-//                OAPMetadataEditor.debugLog("UP intial editIndex: " + editIndex);
-
                 int position = person.getPosition();
-                OAPMetadataEditor.debugLog("moveUp intial position: " + position);
+                int newposition = position - 1;
 
-                int newposition = position -1;
-                OAPMetadataEditor.debugLog("moveUp new position: " + newposition);
-
-                if ( newposition < 0 ) {
+                if (newposition < 0) {
                     OAPMetadataEditor.debugLog("is at top position 0 > " + newposition);
                 } else {
                     OAPMetadataEditor.debugLog("moveUp final position: " + newposition);
@@ -382,6 +367,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         });
         people.addColumn(moveUp);
+        moveUp.setCellStyleNames("text-center");
 
         Column<Person, String> moveDown = new Column<Person, String>(new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
             @Override
@@ -393,12 +379,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             @Override
             public void update(int index, Person person, String value) {
                 int position = person.getPosition();
-                OAPMetadataEditor.debugLog("moveDown intial position: " + position);
-
                 int newposition = position + 1;
-                OAPMetadataEditor.debugLog("moveDown new position: " + newposition);
 
-                if ( newposition >= peopleData.getList().size() ) {
+                if (newposition >= peopleData.getList().size()) {
                     OAPMetadataEditor.debugLog("is at bottom postion " + peopleData.getList().size() + " < " + newposition);
                 } else {
                     OAPMetadataEditor.debugLog("moveDown final position: " + newposition);
@@ -440,6 +423,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         });
         people.addColumn(moveDown);
+        moveDown.setCellStyleNames("text-center");
 
         // Add a text column to show the name.
         TextColumn<Person> nameColumn = new TextColumn<Person>() {
@@ -471,7 +455,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 peopleData.getList().remove(person);
                 peopleData.flush();
                 peoplePagination.rebuild(cellTablePager);
-                if ( peopleData.getList().size() == 0 ) {
+                if (peopleData.getList().size() == 0) {
                     setTableVisible(false);
                 } else {
                     setTableVisible(true);
@@ -479,19 +463,19 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         });
         people.addColumn(delete);
+        delete.setCellStyleNames("text-center");
 
         // set RowStyles on required fields
         people.setRowStyles(new RowStyles<Person>() {
             @Override
             public String getStyleNames(Person row, int rowIndex) {
                 if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
-                || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
-                || ((row.getLastName() == null) || (row.getLastName().isEmpty()))) {
+                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
+                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))) {
 //                    OAPMetadataEditor.debugLog("getInstitution().isEmpty: " + row.getInstitution());
                     OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
                     return TableContextualType.DANGER.getCssName();
-                }
-                else {
+                } else {
                     return "";
                 }
             }
@@ -519,17 +503,17 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        );
     }
 
-
-
     public boolean valid() {
         // For some reason this returns a "0" in debug mode.
-        String valid = String.valueOf( form.validate());
+        String valid = String.valueOf(form.validate());
 //        OAPMetadataEditor.debugLog("person-valid; String.valueOf: " + valid);
-        return ! ( valid.equals("false") || valid.equals("0"));
+        return !(valid.equals("false") || valid.equals("0"));
     }
 
     public void addPerson(Person p) {
-        if ( p == null ) { return; }
+        if (p == null) {
+            return;
+        }
         int position = p.getPosition() >= 0 ? p.getPosition() : peopleData.getList().size();
         p.setPosition(position);
         peopleData.getList().add(position, p);
@@ -540,7 +524,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
-        if ( ! valid() ) {
+        if (!valid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -548,7 +532,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         } else {
 //            this.modified = false;
             this.editing = false;
-            if ( hasContent()) {
+            if (hasContent()) {
                 Person p = getPerson();
                 addPerson(p);
             }
@@ -558,8 +542,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             for (int i = 0; i < peopleData.getList().size(); i++) {
                 Person p = peopleData.getList().get(i);
                 if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
-                || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
-                || ((p.getLastName() == null) || (p.getLastName().isEmpty()))) {
+                        || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
+                        || ((p.getLastName() == null) || (p.getLastName().isEmpty()))) {
                     meetsRequired = false;
                 }
             }
@@ -571,7 +555,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if ( showTable ) {
+            if (showTable) {
                 setTableVisible(true);
                 reset();
             }
@@ -590,112 +574,112 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public Person getPerson() {
 //        OAPMetadataEditor.debugLog("PersonPanel.get()");
         Person person = displayedPerson != null ? displayedPerson : new Person();
-            person.setAddress1(address1.getText().trim());
-            person.setAddress2(address2.getText().trim());
-            person.setEmail(email.getText().trim());
-            person.setFirstName(firstName.getText().trim());
-            person.setInstitution(institution.getText().trim());
-            person.setLastName(lastName.getText().trim());
-            person.setMi(mi.getText().trim());
-            person.setRid(rid.getText().trim());
-            person.setTelephone(telephone.getText().trim());
-            person.setExtension(extension.getText().trim());
-            person.setCity(city.getText().trim());
-            person.setState(state.getText().trim());
-            person.setZip(zip.getText().trim());
-            person.setCountry(country.getText().trim());
-            person.setIdType(idType.getValue());
-            person.setComplete(this.valid());
-            person.setPosition(editIndex);
-            return person;
+        person.setAddress1(address1.getText().trim());
+        person.setAddress2(address2.getText().trim());
+        person.setEmail(email.getText().trim());
+        person.setFirstName(firstName.getText().trim());
+        person.setInstitution(institution.getText().trim());
+        person.setLastName(lastName.getText().trim());
+        person.setMi(mi.getText().trim());
+        person.setRid(rid.getText().trim());
+        person.setTelephone(telephone.getText().trim());
+        person.setExtension(extension.getText().trim());
+        person.setCity(city.getText().trim());
+        person.setState(state.getText().trim());
+        person.setZip(zip.getText().trim());
+        person.setCountry(country.getText().trim());
+        person.setIdType(idType.getValue());
+        person.setComplete(this.valid());
+        person.setPosition(editIndex);
+        return person;
     }
 
     @Override
     public boolean isDirty(Person original) {
-        OAPMetadataEditor.debugLog("PersonPanel.isDirty("+original+")");
+        OAPMetadataEditor.debugLog("PersonPanel.isDirty(" + original + ")");
         boolean isDirty = false;
         isDirty = original == null ?
-                          hasContent() : //       XXX get hasBeenModified() right!
-                  isDirty(address1, original.getAddress1()) ||
-                  isDirty(address2, original.getAddress2()) ||
-                  isDirty(email, original.getEmail()) ||
-                  isDirty(firstName, original.getFirstName()) ||
-                  isDirty(institution, original.getInstitution()) ||
-                  isDirty(lastName, original.getLastName()) ||
-                  isDirty(mi, original.getMi()) ||
-                  isDirty(rid, original.getRid()) ||
-                  isDirty(telephone, original.getTelephone()) ||
-                  isDirty(extension, original.getExtension()) ||
-                  isDirty(city, original.getCity()) ||
-                  isDirty(state, original.getState()) ||
-                  isDirty(zip, original.getZip()) ||
-                  isDirty(country, original.getCountry());
-        OAPMetadataEditor.debugLog("PersonPanel.isDirty:"+isDirty);
+                hasContent() : //       XXX get hasBeenModified() right!
+                isDirty(address1, original.getAddress1()) ||
+                        isDirty(address2, original.getAddress2()) ||
+                        isDirty(email, original.getEmail()) ||
+                        isDirty(firstName, original.getFirstName()) ||
+                        isDirty(institution, original.getInstitution()) ||
+                        isDirty(lastName, original.getLastName()) ||
+                        isDirty(mi, original.getMi()) ||
+                        isDirty(rid, original.getRid()) ||
+                        isDirty(telephone, original.getTelephone()) ||
+                        isDirty(extension, original.getExtension()) ||
+                        isDirty(city, original.getCity()) ||
+                        isDirty(state, original.getState()) ||
+                        isDirty(zip, original.getZip()) ||
+                        isDirty(country, original.getCountry());
+        OAPMetadataEditor.debugLog("PersonPanel.isDirty:" + isDirty);
         return isDirty;
     }
 
-//    public boolean hasBeenModified() {
+    //    public boolean hasBeenModified() {
 //        return modified;
 //    }
     public boolean hasContent() {
         OAPMetadataEditor.debugLog("PersonPanel.hasContent()");
         boolean hasContent = false;
         save.setEnabled(false);
-        if (address1.getText().trim() != null && !address1.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.address1:"+ address1.getText());
+        if (address1.getText().trim() != null && !address1.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.address1:" + address1.getText());
             hasContent = true;
         }
-        if (address2.getText().trim() != null && !address2.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.address2:"+ address2.getText());
+        if (address2.getText().trim() != null && !address2.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.address2:" + address2.getText());
             hasContent = true;
         }
-        if (email.getText().trim() != null && !email.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.email:"+ email.getText());
+        if (email.getText().trim() != null && !email.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.email:" + email.getText());
             hasContent = true;
         }
-        if (firstName.getText().trim() != null && !firstName.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.firstName:"+ firstName.getText());
+        if (firstName.getText().trim() != null && !firstName.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.firstName:" + firstName.getText());
             hasContent = true;
         }
-        if (institution.getText().trim() != null && !institution.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.institution:"+ institution.getText());
+        if (institution.getText().trim() != null && !institution.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.institution:" + institution.getText());
             hasContent = true;
         }
-        if (lastName.getText().trim() != null && !lastName.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.lastName:"+ lastName.getText());
+        if (lastName.getText().trim() != null && !lastName.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.lastName:" + lastName.getText());
             hasContent = true;
         }
-        if (mi.getText().trim() != null && !mi.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.mi:"+ mi.getText());
+        if (mi.getText().trim() != null && !mi.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.mi:" + mi.getText());
             hasContent = true;
         }
-        if (rid.getText().trim() != null && !rid.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.rid:"+ rid.getText());
+        if (rid.getText().trim() != null && !rid.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.rid:" + rid.getText());
             hasContent = true;
         }
-        if (telephone.getText().trim() != null && !telephone.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.telephone:"+ telephone.getText());
+        if (telephone.getText().trim() != null && !telephone.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.telephone:" + telephone.getText());
             hasContent = true;
         }
-        if (extension.getText().trim() != null && !extension.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.extension:"+ extension.getText());
+        if (extension.getText().trim() != null && !extension.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.extension:" + extension.getText());
             hasContent = true;
 
         }
-        if (city.getText().trim() != null && !city.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.city:"+ city.getText());
+        if (city.getText().trim() != null && !city.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.city:" + city.getText());
             hasContent = true;
         }
-        if (state.getText().trim() != null && !state.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.state:"+ state.getText());
+        if (state.getText().trim() != null && !state.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.state:" + state.getText());
             hasContent = true;
         }
-        if (zip.getText().trim() != null && !zip.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.zip:"+ zip.getText());
+        if (zip.getText().trim() != null && !zip.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.zip:" + zip.getText());
             hasContent = true;
         }
-        if ( country.getText().trim() != null && !country.getText().isEmpty() ) {
-            OAPMetadataEditor.debugLog("PersonPanel.country:"+ country.getText());
+        if (country.getText().trim() != null && !country.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.country:" + country.getText());
             hasContent = true;
         }
         if (hasContent == true) {
@@ -707,13 +691,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public void show(Person person, boolean editable) {
         setAllEditable(editable);
         editing = editable;
-        if ( editable ) {
+        if (editable) {
             displayedPerson = person;
         } else {
             editPerson = getPerson();
         }
         show(person);
     }
+
     private void setAllEditable(boolean editable) {
         address1.setEnabled(editable);
         address2.setEnabled(editable);
@@ -730,46 +715,48 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         zip.setEnabled(editable);
         country.setEnabled(editable);
     }
+
     public void show(Person person) {
-        if ( person == null ) {
+        if (person == null) {
             reset();
             return;
         }
-        if ( person.getAddress1() != null )
+        if (person.getAddress1() != null)
             address1.setText(person.getAddress1());
-        if ( person.getAddress2() != null )
+        if (person.getAddress2() != null)
             address2.setText(person.getAddress2());
-        if ( person.getEmail() != null )
+        if (person.getEmail() != null)
             email.setText(person.getEmail());
-        if ( person.getFirstName() != null )
+        if (person.getFirstName() != null)
             firstName.setText(person.getFirstName());
-        if ( person.getInstitution() != null )
+        if (person.getInstitution() != null)
             institution.setText(person.getInstitution());
-        if ( person.getLastName() != null )
+        if (person.getLastName() != null)
             lastName.setText(person.getLastName());
-        if ( person.getMi() != null )
+        if (person.getMi() != null)
             mi.setText(person.getMi());
-        if ( person.getRid() != null )
+        if (person.getRid() != null)
             rid.setText(person.getRid());
-        if ( person.getTelephone() != null )
+        if (person.getTelephone() != null)
             telephone.setText(person.getTelephone());
-        if (person.getExtension() != null )
+        if (person.getExtension() != null)
             extension.setText(person.getExtension());
-        if ( person.getCity() != null )
+        if (person.getCity() != null)
             city.setText(person.getCity());
-        if ( person.getState() != null )
+        if (person.getState() != null)
             state.setText(person.getState().trim());
-        if ( person.getZip() != null )
+        if (person.getZip() != null)
             zip.setText(person.getZip());
-        if ( person.getCountry() != null )
+        if (person.getCountry() != null)
             country.setText(person.getCountry());
-        if ( person.getIdType() != null ) {
+        if (person.getIdType() != null) {
             idType.setSelected(person.getIdType());
         }
 //        modified = false;
 //        editing = false;
     }
-//    @UiHandler({"firstName","mi","lastName", "address1","address2","city","state","zip","telephone","email","rid"})
+
+    //    @UiHandler({"firstName","mi","lastName", "address1","address2","city","state","zip","telephone","email","rid"})
 //    // can't include "idType", because removed ButtonDropDown addChangeHandler because it was causing other problems...
 //    // can't include "institution" because SuggestionBox doesn't have addHandler method.
 //    public void elementChanged(ChangeEvent changeEvent) {
@@ -777,11 +764,12 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 ////        modified = true;
 ////        editing = true;
 //    }
-   @UiHandler({"firstName","mi","lastName", "address1","address2","city","state","zip","telephone","email","rid"})
+    @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "email", "rid"})
     public void onChange(ChangeEvent event) {
-        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+        OAPMetadataEditor.debugLog("getsource: " + event.getSource());
         save.setEnabled(true);
     }
+
     @UiHandler({"institution", "country"})
     public void onValueChange(ValueChangeEvent<String> event) {
 //            Window.alert("Here be the new value:" + event.getValue());
@@ -841,9 +829,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public void setTableVisible(boolean b) {
         people.setVisible(b);
         peoplePagination.setVisible(b);
-        if ( b ) {
+        if (b) {
             int page = cellTablePager.getPage();
-            if ( cellTablePager.getPageCount() > 1 ) {
+            if (cellTablePager.getPageCount() > 1) {
                 peoplePagination.setVisible(true);
                 cellTablePager.setPage(page);
             } else {
@@ -852,53 +840,53 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         }
     }
 
-    public int getPageTableSize() {
-        if (people.getPageSize() > 0) {
-            return people.getPageSize();
-        }
-        return pageSize;
-    }
-    public void setPageTableSize(int size) {
-        int min = 0;
-        int max = 255;
-        if ((size > min) && (size < max)) {
-            people.setPageSize(size);
-        }
-        else {
-            OAPMetadataEditor.debugLog("Out of specified range bounds [" + min + ", " + max + "]: "  + size);
-        }
-    }
-
-    public void setRowContextualClass(int index, String contextualClass) {
-        if (index>=0) {
-            OAPMetadataEditor.debugLog("passed this index: " + index);
-            OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
-            OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
-            people.getRowElement(index).addClassName(contextualClass);
-        }
-    }
-
-    public void removeRowContextualClass(int index, String contextualClass) {
-        if (index>=0) {
-            people.getRowElement(index).removeClassName(contextualClass);
-        }
-    }
-
-    public boolean hasRowContextualClass(int index, String contextualClass) {
-        OAPMetadataEditor.debugLog("passed this index: " + index);
-        OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
-        OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
-        OAPMetadataEditor.debugLog("contextualClass is: " + people.getRowElement(index).getClassName());
-        OAPMetadataEditor.debugLog("contextualClass has: " + people.getRowElement(index).hasClassName(contextualClass));
-        return true;
-    }
+//    public int getPageTableSize() {
+//        if (people.getPageSize() > 0) {
+//            return people.getPageSize();
+//        }
+//        return pageSize;
+//    }
+//
+//    public void setPageTableSize(int size) {
+//        int min = 0;
+//        int max = 255;
+//        if ((size > min) && (size < max)) {
+//            people.setPageSize(size);
+//        } else {
+//            OAPMetadataEditor.debugLog("Out of specified range bounds [" + min + ", " + max + "]: " + size);
+//        }
+//    }
+//
+//    public void setRowContextualClass(int index, String contextualClass) {
+//        if (index >= 0) {
+//            OAPMetadataEditor.debugLog("passed this index: " + index);
+//            OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
+//            OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
+//            people.getRowElement(index).addClassName(contextualClass);
+//        }
+//    }
+//
+//    public void removeRowContextualClass(int index, String contextualClass) {
+//        if (index >= 0) {
+//            people.getRowElement(index).removeClassName(contextualClass);
+//        }
+//    }
+//
+//    public boolean hasRowContextualClass(int index, String contextualClass) {
+//        OAPMetadataEditor.debugLog("passed this index: " + index);
+//        OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
+//        OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
+//        OAPMetadataEditor.debugLog("contextualClass is: " + people.getRowElement(index).getClassName());
+//        OAPMetadataEditor.debugLog("contextualClass has: " + people.getRowElement(index).hasClassName(contextualClass));
+//        return true;
+//    }
 
     public void reset() {
         form.reset();
         displayedPerson = null;
         editIndex = -1;
         editing = false;
-        if ( editPerson != null ) {
+        if (editPerson != null) {
             show(editPerson);
             editPerson = null;
         }

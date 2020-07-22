@@ -231,6 +231,11 @@ h1 {
     background-color: #e4b9b9 !important;
 }
 
+
+.table > tbody > tr > td {
+    vertical-align: middle !important;
+}
+
 /*.text-muted {*/
 /*    color: #777777;*/
 /*}*/
