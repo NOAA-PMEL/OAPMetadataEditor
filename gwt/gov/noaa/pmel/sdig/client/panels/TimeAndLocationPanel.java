@@ -32,9 +32,6 @@ import java.util.Date;
  */
 public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements GetsDirty<TimeAndLocation> {
 
-    ClientFactory clientFactory = GWT.create(ClientFactory.class);
-    EventBus eventBus = clientFactory.getEventBus();
-
     @UiField
     DatePicker startDate;
     @UiField
@@ -59,6 +56,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     String type = Constants.SECTION_TIMEANDLOCATION;
 
+    ClientFactory clientFactory = GWT.create(ClientFactory.class);
+    EventBus eventBus = clientFactory.getEventBus();
+
     interface TimeAndLocationUiBinder extends UiBinder<HTMLPanel, TimeAndLocationPanel> {
     }
 
@@ -73,40 +73,42 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     }
 
     private static final String ISO8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    private Date tryToReadDate(String dateStr) throws  Exception {
+
+    private Date tryToReadDate(String dateStr) throws Exception {
         Date d = null;
         String[] parts = dateStr.split("[/ -]");
 //        if ( parts.length == 3) {
 //            d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
 //        } else {
+        try {
+            d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
+        } catch (Exception e1) {
+            GWT.log(e1.toString());
             try {
-                d = new Date(Integer.parseInt(parts[0]) - 1900, Integer.parseInt(parts[1]) - 1, Integer.parseInt(parts[2]));
-            } catch (Exception e1) {
-                GWT.log(e1.toString());
-                try {
-                    d = new Date(dateStr);
-                } catch (Exception e2) {
-                    GWT.log(e2.toString());
-                    DateTimeFormat dtf = DateTimeFormat.getFormat(ISO8601_FORMAT);
-                    d = dtf.parse(dateStr);
-                }
+                d = new Date(dateStr);
+            } catch (Exception e2) {
+                GWT.log(e2.toString());
+                DateTimeFormat dtf = DateTimeFormat.getFormat(ISO8601_FORMAT);
+                d = dtf.parse(dateStr);
             }
+        }
         return d;
     }
+
     public void show(TimeAndLocation timeAndLocation) {
         setDbItem(timeAndLocation);
         // TODO use joda and store an ISO string on both get and show
-        if ( timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0 ) {
+        if (timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0) {
             try {
                 Date d = tryToReadDate(timeAndLocation.getStartDate());
                 startDate.setValue(d);
             } catch (Exception e) {
                 GWT.log(e.toString());
-                Window.alert("Could not convert start date string: "+timeAndLocation.getStartDate());
+                Window.alert("Could not convert start date string: " + timeAndLocation.getStartDate());
             }
 
         }
-        if ( timeAndLocation.getEndDate() != null && timeAndLocation.getEndDate().length() > 0 ) {
+        if (timeAndLocation.getEndDate() != null && timeAndLocation.getEndDate().length() > 0) {
             try {
                 Date d = tryToReadDate(timeAndLocation.getEndDate());
                 endDate.setValue(d);
@@ -115,35 +117,36 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
                 Window.alert("Could not convert end date string:" + timeAndLocation.getEndDate());
             }
         }
-        if ( timeAndLocation.getNorthLat() != null ) {
+        if (timeAndLocation.getNorthLat() != null) {
             northLat.setText(timeAndLocation.getNorthLat());
         }
-        if ( timeAndLocation.getSpatialRef() != null ) {
+        if (timeAndLocation.getSpatialRef() != null) {
             spatialRef.setText(timeAndLocation.getSpatialRef());
         }
-        if ( timeAndLocation.getWestLon() != null ) {
+        if (timeAndLocation.getWestLon() != null) {
             westLon.setText(timeAndLocation.getWestLon());
         }
-        if ( timeAndLocation.getEastLon() != null ) {
+        if (timeAndLocation.getEastLon() != null) {
             eastLon.setText(timeAndLocation.getEastLon());
         }
-        if ( timeAndLocation.getGeoNames() != null ) {
+        if (timeAndLocation.getGeoNames() != null) {
             geoNames.setText(timeAndLocation.getGeoNames());
         }
-        if ( timeAndLocation.getSouthLat() != null ) {
+        if (timeAndLocation.getSouthLat() != null) {
             southLat.setText(timeAndLocation.getSouthLat());
         }
-        if ( timeAndLocation.getOrganismLoc() != null ) {
+        if (timeAndLocation.getOrganismLoc() != null) {
             organismLoc.setText(timeAndLocation.getOrganismLoc());
         }
     }
+
     public TimeAndLocation getTimeAndLocation() {
-        TimeAndLocation timeAndLocation = dbItem != null ? (TimeAndLocation)dbItem : new TimeAndLocation();
+        TimeAndLocation timeAndLocation = dbItem != null ? (TimeAndLocation) dbItem : new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
         String end = endDate.getTextBox().getValue();
-        timeAndLocation.setEndDate(end != null ? end.toString() : null );
+        timeAndLocation.setEndDate(end != null ? end.toString() : null);
         String start = startDate.getTextBox().getValue();
-        timeAndLocation.setStartDate(start != null ? start.toString() : null );
+        timeAndLocation.setStartDate(start != null ? start.toString() : null);
         timeAndLocation.setGeoNames(geoNames.getText().trim());
         timeAndLocation.setNorthLat(northLat.getText().trim());
         timeAndLocation.setOrganismLoc(organismLoc.getText().trim());
@@ -152,62 +155,65 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         timeAndLocation.setWestLon(westLon.getText().trim());
         return timeAndLocation;
     }
+
     private boolean isDirty(HasValue<Date> valueField, String original) {
         boolean isDirty = false;
         Date fieldValue = valueField.getValue();
         String originalValue = original != null ? original.trim() : "";
-        isDirty =  fieldValue == null ?
-                  ! isEmpty(originalValue) :
-                  ! originalValue.equals(String.valueOf(fieldValue));
+        isDirty = fieldValue == null ?
+                !isEmpty(originalValue) :
+                !originalValue.equals(String.valueOf(fieldValue));
         return isDirty;
     }
+
     public boolean isDirty(TimeAndLocation original) {
-        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty("+original+")");
+        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty(" + original + ")");
         boolean isDirty =
-            original == null ?
-            this.isDirty() :
-            isDirty(eastLon, original.getEastLon() ) ||
-            isDirty(endDate, original.getEndDate() ) ||
-            isDirty(startDate, original.getStartDate() ) ||
-            isDirty(geoNames, original.getGeoNames() ) ||
-            isDirty(northLat, original.getNorthLat() ) ||
-            isDirty(organismLoc, original.getOrganismLoc() ) ||
-            isDirty(southLat, original.getSouthLat() ) ||
-            isDirty(spatialRef, original.getSpatialRef() ) ||
-            isDirty(westLon, original.getWestLon() );
-        OAPMetadataEditor.debugLog("TimeAndLocation.isDirty:"+isDirty);
+                original == null ?
+                        this.isDirty() :
+                        isDirty(eastLon, original.getEastLon()) ||
+                                isDirty(endDate, original.getEndDate()) ||
+                                isDirty(startDate, original.getStartDate()) ||
+                                isDirty(geoNames, original.getGeoNames()) ||
+                                isDirty(northLat, original.getNorthLat()) ||
+                                isDirty(organismLoc, original.getOrganismLoc()) ||
+                                isDirty(southLat, original.getSouthLat()) ||
+                                isDirty(spatialRef, original.getSpatialRef()) ||
+                                isDirty(westLon, original.getWestLon());
         return isDirty;
     }
+
     public boolean isDirty() {
-        if (eastLon.getText() != null && !eastLon.getText().isEmpty() ) {
+        if (eastLon.getText() != null && !eastLon.getText().isEmpty()) {
             return true;
         }
-        if (endDate.getValue() != null && !endDate.getValue().toString().isEmpty() ) {
+        if (endDate.getValue() != null && !endDate.getValue().toString().isEmpty()) {
             return true;
         }
-        if (startDate.getValue() != null && !startDate.getValue().toString().isEmpty() ) {
+        if (startDate.getValue() != null && !startDate.getValue().toString().isEmpty()) {
             return true;
         }
-        if (geoNames.getText().trim() != null && !geoNames.getText().isEmpty() ) {
+        if (geoNames.getText().trim() != null && !geoNames.getText().isEmpty()) {
             return true;
         }
-        if (northLat.getText().trim() != null && !northLat.getText().isEmpty() ) {
+        if (northLat.getText().trim() != null && !northLat.getText().isEmpty()) {
             return true;
         }
-        if (organismLoc.getText().trim() != null && !organismLoc.getText().isEmpty() ) {
+        if (organismLoc.getText().trim() != null && !organismLoc.getText().isEmpty()) {
             return true;
         }
-        if (southLat.getText().trim() != null && !southLat.getText().isEmpty() ) {
+        if (southLat.getText().trim() != null && !southLat.getText().isEmpty()) {
             return true;
         }
-        if (spatialRef.getText().trim() != null && !spatialRef.getText().isEmpty() ) {
+        if (spatialRef.getText().trim() != null && !spatialRef.getText().isEmpty()) {
             return true;
         }
-        if (westLon.getText().trim() != null && !westLon.getText().isEmpty() ) {
+        if (westLon.getText().trim() != null && !westLon.getText().isEmpty()) {
             return true;
         }
         return false;
     }
+
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
@@ -222,6 +228,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
             eventBus.fireEventFromSource(new SectionSave(getTimeAndLocation(), this.type), TimeAndLocationPanel.this);
         }
     }
+
     public boolean valid() {
         String valid = String.valueOf(form.validate());
         if (valid.equals("false") ||

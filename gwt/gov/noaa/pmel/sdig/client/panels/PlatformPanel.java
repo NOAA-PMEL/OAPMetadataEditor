@@ -405,8 +405,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public void addPlatforms(List<Platform> platformsList) {
-        OAPMetadataEditor.debugLog("in addPlatforms:"+platformsList);
-        OAPMetadataEditor.debugLog("chk1 platformsList size: " + platformsList.size());
+//        OAPMetadataEditor.debugLog("in addPlatforms:"+platformsList);
+//        OAPMetadataEditor.debugLog("chk1 platformsList size: " + platformsList.size());
         int listSize =  platformsList.size();
         for (int i = 0; i < listSize; i++) {
             Platform p = platformsList.get(i);
@@ -423,7 +423,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             p.setPosition(i);
             platformsData.getList().add(p);
         }
-        OAPMetadataEditor.debugLog("chk2 platformsList size: " + platformsList.size());
+//        OAPMetadataEditor.debugLog("chk2 platformsList size: " + platformsList.size());
         platformsData.flush();
         platformPagination.rebuild(cellTablePager);
         setTableVisible(true);
