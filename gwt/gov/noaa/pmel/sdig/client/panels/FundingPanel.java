@@ -129,6 +129,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
             }
         });
         fundings.addColumn(edit);
+        edit.setCellStyleNames("text-center");
 
         // Add a text column to show the name.
         TextColumn<Funding> nameColumn = new TextColumn<Funding>() {
@@ -157,11 +158,14 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         delete.setFieldUpdater(new FieldUpdater<Funding, String>() {
             @Override
             public void update(int index, Funding funding, String value) {
+                form.reset(); // Because the mouseover will have filled the form
                 fundingListDataProvider.getList().remove(funding);
                 fundingListDataProvider.flush();
                 fundingPagination.rebuild(cellTablePager);
                 if ( fundingListDataProvider.getList().size() == 0 ) {
                     setTableVisible(false);
+                    show(funding, true);
+                    reset();
                 } else {
                     // hide/show the pager buttons if necessary
                     setTableVisible(true);
@@ -169,6 +173,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
             }
         });
         fundings.addColumn(delete);
+        delete.setCellStyleNames("text-center");
 
         fundings.addRangeChangeHandler(new RangeChangeEvent.Handler() {
 

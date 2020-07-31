@@ -353,6 +353,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             }
         });
         variables.addColumn(edit);
+        edit.setCellStyleNames("text-center");
+
         // Add a text column to show the name.
         TextColumn<Variable> nameColumn = new TextColumn<Variable>() {
             @Override
@@ -376,12 +378,15 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                 variablePagination.rebuild(cellTablePager);
                 if ( variableData.getList().size() == 0 ) {
                     setTableVisible(false);
+                    show(variable, true);
+                    reset();
                 } else {
                     setTableVisible(true);
                 }
             }
         });
         variables.addColumn(delete);
+        delete.setCellStyleNames("text-center");
 
         // set RowStyles on required fields
         variables.setRowStyles(new RowStyles<Variable>() {

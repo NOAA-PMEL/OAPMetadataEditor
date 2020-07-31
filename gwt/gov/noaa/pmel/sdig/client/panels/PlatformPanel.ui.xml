@@ -21,7 +21,7 @@
                     <b:Row>
                         <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="name" text="Platform Name *"></b:FormLabel>
+                                <b:FormLabel for="name" text="Platform Name"></b:FormLabel>
                                 <b:Modal title="15.1 Platforms are often the research vessels that carry out the research. However, platforms could be something other than a ship (e.g., glider, Argo, etc), or something that is fixed (e.g., moored buoys, towers, etc)." closable="true" b:id="modalPlatformName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:SuggestBox ui:field="name" allowBlank="true" placeholder="Platform Name" b:id="Name"></b:SuggestBox>

@@ -148,6 +148,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             }
         });
         platforms.addColumn(edit);
+        edit.setCellStyleNames("text-center");
 
         // Add a text column to show the name.
         TextColumn<Platform> nameColumn = new TextColumn<Platform>() {
@@ -189,6 +190,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                 platformPagination.rebuild(cellTablePager);
                 if ( platformsData.getList().size() == 0 ) {
                     setTableVisible(false);
+                    show(platform, true);
+                    reset();
                 } else {
                     // hide/show the pager buttons if necessary
                     setTableVisible(true);
@@ -196,19 +199,20 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             }
         });
         platforms.addColumn(delete);
+        delete.setCellStyleNames("text-center");
 
         // set RowStyles on required fields
-        platforms.setRowStyles(new RowStyles<Platform>() {
-            @Override
-            public String getStyleNames(Platform row, int rowIndex) {
-                if (((row.getName() == null) || (row.getName().isEmpty()))) {
-                    return TableContextualType.DANGER.getCssName();
-                }
-                else {
-                    return "";
-                }
-            }
-        });
+//        platforms.setRowStyles(new RowStyles<Platform>() {
+//            @Override
+//            public String getStyleNames(Platform row, int rowIndex) {
+//                if (((row.getName() == null) || (row.getName().isEmpty()))) {
+//                    return TableContextualType.DANGER.getCssName();
+//                }
+//                else {
+//                    return "";
+//                }
+//            }
+//        });
 
         platforms.addRangeChangeHandler(new RangeChangeEvent.Handler() {
 
@@ -298,6 +302,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             save.setEnabled(true);
         }
 
+        OAPMetadataEditor.debugLog("and is " + hasContent);
+
         return hasContent;
     }
 
@@ -375,6 +381,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         } else {
 //            if ( isDirty()) {
             if ( hasContent()) {
+                OAPMetadataEditor.debugLog("addomg currentPlatform");
                 addCurrentPlatform();
             }
 
@@ -386,7 +393,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                     meetsRequired = false;
                 }
             }
-            if (meetsRequired == true) {
+            OAPMetadataEditor.debugLog("platformsData size: " + platformsData.getList().size());
+            if (meetsRequired == true && platformsData.getList().size() > 0) {
+                OAPMetadataEditor.debugLog("bus event section save platform");
                 eventBus.fireEventFromSource(new SectionSave(getPlatform(), Constants.SECTION_PLATFORMS), PlatformPanel.this);
             }
 
@@ -394,7 +403,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if ( showTable ) {
+            if ( showTable && platformsData.getList().size() > 0) {
+                OAPMetadataEditor.debugLog("showtable is true or platformsData is > 0");
                 setTableVisible(true);
                 reset();
             }
