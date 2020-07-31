@@ -10,6 +10,10 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
+
+//import com.google.gwt.event.shared.SimpleEventBus;
+//import com.google.gwt.event.dom.client.ClickHandler;
+
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -37,6 +41,10 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+
+//import gov.noaa.pmel.sdig.client.event.GWTEvent;
+//import gov.noaa.pmel.sdig.client.event.GWTEventHandler;
+
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
@@ -135,6 +143,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     Pagination peoplePagination;
 
+    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell moveUpButton = new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell moveDownButton = new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
+
+    RegExp emailRegex = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+
     InstitutionSuggestOracle institutionSuggestOracle = new InstitutionSuggestOracle();
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
 
@@ -144,6 +159,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
+
+//    SimpleEventBus yellowBus = new SimpleEventBus();
 
     interface PersonUiBinder extends UiBinder<HTMLPanel, PersonPanel> {
     }
@@ -245,8 +262,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     return result;
                 }
                 // from http://emailregex.com/
-                RegExp p = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-                if (!p.test(valueStr)) {
+                //RegExp p = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+                if (!emailRegex.test(valueStr)) {
                     result.add(new BasicEditorError(email, value, "Does not look like an email address to me."));
                 }
                 return result;
@@ -273,7 +290,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         });
 
-        Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+//        Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+        Column<Person, String> edit = new Column<Person, String>(editButton) {
             @Override
             public String getValue(Person object) {
                 return "Edit";
@@ -292,8 +310,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     peopleData.flush();
                     peoplePagination.rebuild(cellTablePager);
                     save.setEnabled(true);
+                    setEnableTableRowButtons(false);
                 }
-
             }
         });
         people.addColumn(edit);
@@ -309,7 +327,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        };
 //        people.addColumn(positionColumn, "Position");
 
-        Column<Person, String> moveUp = new Column<Person, String>(new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+        Column<Person, String> moveUp = new Column<Person, String>(moveUpButton) {
             @Override
             public String getValue(Person object) {
                 return "";
@@ -369,7 +387,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         people.addColumn(moveUp);
         moveUp.setCellStyleNames("text-center");
 
-        Column<Person, String> moveDown = new Column<Person, String>(new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+        Column<Person, String> moveDown = new Column<Person, String>(moveDownButton) {
             @Override
             public String getValue(Person object) {
                 return "";
@@ -443,7 +461,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         };
         people.addColumn(institutionColumn, "Institution");
 
-        Column<Person, String> delete = new Column<Person, String>(new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL)) {
+        Column<Person, String> delete = new Column<Person, String>(deleteButton) {
             @Override
             public String getValue(Person object) {
                 return "Delete";
@@ -452,18 +470,33 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         delete.setFieldUpdater(new FieldUpdater<Person, String>() {
             @Override
             public void update(int index, Person person, String value) {
+                form.reset(); // Because the mouseover will have filled the form
                 peopleData.getList().remove(person);
                 peopleData.flush();
                 peoplePagination.rebuild(cellTablePager);
                 if (peopleData.getList().size() == 0) {
                     setTableVisible(false);
+                    show(person, true);
+                    reset();
+//                    yellowBus.fireEvent(new GWTEvent());
                 } else {
                     setTableVisible(true);
+//                    yellowBus.fireEvent(new GWTEvent());
+//                    yellowBus.fireEventFromSource(new GWTEvent(),PersonPanel.this);
+
                 }
             }
         });
         people.addColumn(delete);
         delete.setCellStyleNames("text-center");
+//        button.addClickHandler(new ClickHandler() {
+//
+//            @Override
+//            public void onClick(ClickEvent event) {
+//                // Broadcast the click event
+//                yellowBus.fireEvent(new GWTEvent());
+//            }
+//        });
 
         // set RowStyles on required fields
         people.setRowStyles(new RowStyles<Person>() {
@@ -471,7 +504,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             public String getStyleNames(Person row, int rowIndex) {
                 if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
                         || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
-                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))) {
+                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
+                        || ((!emailRegex.test(row.getEmail())) || ((row.getEmail() == null) || (row.getEmail().isEmpty())))) {
 //                    OAPMetadataEditor.debugLog("getInstitution().isEmpty: " + row.getInstitution());
                     OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
                     return TableContextualType.DANGER.getCssName();
@@ -543,11 +577,12 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 Person p = peopleData.getList().get(i);
                 if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
                         || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
-                        || ((p.getLastName() == null) || (p.getLastName().isEmpty()))) {
+                        || ((p.getLastName() == null) || (p.getLastName().isEmpty()))
+                        || ((!emailRegex.test(p.getEmail())) || ((p.getEmail() == null) || (p.getEmail().isEmpty())))) {
                     meetsRequired = false;
                 }
             }
-            if (meetsRequired == true) {
+            if (meetsRequired == true && peopleData.getList().size() > 0) {
                 eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
             }
 
@@ -555,8 +590,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if (showTable) {
+            if (showTable && peopleData.getList().size() > 0) {
                 setTableVisible(true);
+                setEnableTableRowButtons(true);
                 reset();
             }
             save.setEnabled(false);
@@ -837,6 +873,25 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             } else {
                 peoplePagination.setVisible(false);
             }
+        }
+    }
+
+    public void setEnableTableRowButtons(boolean b) {
+        for (int i = 0; i < peopleData.getList().size(); i++) {
+            setEnableButton(editButton, b);
+            setEnableButton(moveUpButton, b);
+            setEnableButton(moveDownButton, b);
+            setEnableButton(deleteButton, b);
+            people.redrawRow(i);
+        }
+    }
+
+    public void setEnableButton(ButtonCell button, boolean enabled) {
+        if (enabled) {
+            button.setEnabled(true);
+        }
+        else {
+            button.setEnabled(false);
         }
     }
 
