@@ -6,6 +6,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
+
+// import com.google.gwt.event.shared.SimpleEventBus;
+
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -15,6 +18,10 @@ import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
+
+// import gov.noaa.pmel.sdig.client.event.GWTEvent;
+// import gov.noaa.pmel.sdig.client.event.GWTEventHandler;
+
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
@@ -97,6 +104,8 @@ public class DashboardLayout extends Composite {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
+
+//    SimpleEventBus yellowBus = new SimpleEventBus();
 
     @UiField
     HTMLPanel main;
@@ -219,12 +228,27 @@ public class DashboardLayout extends Composite {
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {
+//                showConfirmationDialog("do something.");
+//                OAPMetadataEditor.logToConsole("called onSectionSave OK ");
                 String section = event.getType();
                 setChecked(section);
                 removehighlight(section, "pill-warning"); //added ok
                 removehighlight(section, "pill-danger"); //added ok
             }
         });
+//        yellowBus.addHandler(GWTEvent.TYPE, new GWTEventHandler() {
+//            @Override
+//            public void onEvent(GWTEvent event) {
+////                String section = event.getType();
+//                showConfirmationDialog("do something.");
+//                OAPMetadataEditor.logToConsole("called GWTEvent OK ");
+////                setChecked(section);
+////                removehighlight(section, "pill-warning"); //added ok
+////                removehighlight(section, "pill-danger"); //added ok
+//            }
+//        });
+
+
 
         preview.addClickHandler(new ClickHandler() {
             @Override
@@ -506,12 +530,12 @@ public class DashboardLayout extends Composite {
         if ( timeAndLocationLink.getIcon() == null ) {
             return false;
         }
-        if ( platformsLink.getIcon() == null ) {
-            return false;
-        }
-        if ( genericVariableLink.getIcon() == null ) {
-            return false;
-        }
+//        if ( platformsLink.getIcon() == null ) {
+//            return false;
+//        }
+//        if ( genericVariableLink.getIcon() == null ) {
+//            return false;
+//        }
         return true;
     }
 
