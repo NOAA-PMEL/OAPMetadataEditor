@@ -224,11 +224,8 @@ public class DashboardLayout extends Composite {
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {
-                showConfirmationDialog("do something.");
-                OAPMetadataEditor.debugLog("called onSectionSave OK ");
-                OAPMetadataEditor.debugLog("preview:"+event);
+//                OAPMetadataEditor.debugLog("preview:"+event);
                 String section = event.getType();
-                OAPMetadataEditor.debugLog("section:"+section);
                 setChecked(section);
                 removehighlight(section, "pill-warning"); //added ok
                 removehighlight(section, "pill-danger"); //added ok
@@ -237,18 +234,12 @@ public class DashboardLayout extends Composite {
         eventBus.addHandler(SectionUpdater.TYPE, new SectionUpdaterHandler() {
             @Override
             public void onEvent(SectionUpdater event) {
-//                String section = event.getType();
-                showConfirmationDialog("do something.");
-                OAPMetadataEditor.debugLog("called GWTEvent OK ");
                 OAPMetadataEditor.debugLog("preview:"+event);
                 String section = event.getType();
                 OAPMetadataEditor.debugLog("section:"+section);
                 removeIcon(section);
                 removehighlight(section, "pill-warning");
                 removehighlight(section, "pill-danger");
-//                setChecked(section);
-//                removehighlight(section, "pill-warning"); //added ok
-//                removehighlight(section, "pill-danger"); //added ok
             }
         });
 
