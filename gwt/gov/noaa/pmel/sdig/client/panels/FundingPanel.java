@@ -22,6 +22,7 @@ import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 import gov.noaa.pmel.sdig.shared.bean.Funding;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -70,8 +71,12 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     boolean showTable = true;
     boolean editing = false;
     int editIndex = -1;
+    int pageSize = 4;
     Funding displayedFunding = null;
     Funding editFunding;
+
+    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     ListDataProvider<Funding> fundingListDataProvider = new ListDataProvider<Funding>();
 
@@ -107,7 +112,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
             }
         });
 
-        Column<Funding, String> edit = new Column<Funding, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+        Column<Funding, String> edit = new Column<Funding, String>(editButton) {
             @Override
             public String getValue(Funding object) {
                 return "Edit";
@@ -125,6 +130,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
                     fundingListDataProvider.getList().remove(funding);
                     fundingListDataProvider.flush();
                     fundingPagination.rebuild(cellTablePager);
+                    save.setEnabled(true);
+                    setEnableTableRowButtons(false);
                 }
             }
         });
@@ -148,7 +155,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         };
         fundings.addColumn(grantNumberColumn, "Grant Number");
 
-        Column<Funding, String> delete = new Column<Funding, String>(new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL)) {
+        Column<Funding, String> delete = new Column<Funding, String>(deleteButton) {
             @Override
             public String getValue(Funding object) {
                 return "Delete";
@@ -166,6 +173,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
                     setTableVisible(false);
                     show(funding, true);
                     reset();
+                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_FUNDING),FundingPanel.this);
                 } else {
                     // hide/show the pager buttons if necessary
                     setTableVisible(true);
@@ -185,9 +193,10 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
 
         cellTablePager.setDisplay(fundings);
 
-        fundings.setPageSize(4);
+        fundings.setPageSize(pageSize);
 
         fundingListDataProvider.addDataDisplay(fundings);
+
         save.setEnabled(false);
     }
 
@@ -327,10 +336,12 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if ( showTable ) {
+            if ( showTable && fundingListDataProvider.getList().size() > 0) {
                 setTableVisible(true);
+                setEnableTableRowButtons(true);
                 reset();
             }
+            save.setEnabled(false);
         }
     }
     public void setTableVisible(boolean v) {
@@ -370,6 +381,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundingListDataProvider.getList().clear();
         fundingListDataProvider.flush();
         fundingPagination.rebuild(cellTablePager);
+        setEnableTableRowButtons(true);
         setTableVisible(false);
     }
 
@@ -377,6 +389,23 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("getsource: "+event.getSource());
         save.setEnabled(true);
+    }
+
+    public void setEnableTableRowButtons(boolean b) {
+        for (int i = 0; i < fundingListDataProvider.getList().size(); i++) {
+            setEnableButton(editButton, b);
+            setEnableButton(deleteButton, b);
+            fundings.redrawRow(i);
+        }
+    }
+
+    public void setEnableButton(ButtonCell button, boolean enabled) {
+        if (enabled) {
+            button.setEnabled(true);
+        }
+        else {
+            button.setEnabled(false);
+        }
     }
 
 }

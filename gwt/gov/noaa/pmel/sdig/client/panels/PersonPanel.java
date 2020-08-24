@@ -10,10 +10,6 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
-
-//import com.google.gwt.event.shared.SimpleEventBus;
-//import com.google.gwt.event.dom.client.ClickHandler;
-
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -41,9 +37,7 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
-
-//import gov.noaa.pmel.sdig.client.event.GWTEvent;
-//import gov.noaa.pmel.sdig.client.event.GWTEventHandler;
+import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
@@ -159,8 +153,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
-
-//    SimpleEventBus yellowBus = new SimpleEventBus();
 
     interface PersonUiBinder extends UiBinder<HTMLPanel, PersonPanel> {
     }
@@ -478,42 +470,66 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     setTableVisible(false);
                     show(person, true);
                     reset();
-//                    yellowBus.fireEvent(new GWTEvent());
+                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_INVESTIGATOR),PersonPanel.this);
                 } else {
                     setTableVisible(true);
-//                    yellowBus.fireEvent(new GWTEvent());
-//                    yellowBus.fireEventFromSource(new GWTEvent(),PersonPanel.this);
-
                 }
             }
         });
         people.addColumn(delete);
         delete.setCellStyleNames("text-center");
-//        button.addClickHandler(new ClickHandler() {
-//
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                // Broadcast the click event
-//                yellowBus.fireEvent(new GWTEvent());
-//            }
-//        });
 
         // set RowStyles on required fields
         people.setRowStyles(new RowStyles<Person>() {
             @Override
-            public String getStyleNames(Person row, int rowIndex) {
-                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
-                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
-                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
-                        || ((!emailRegex.test(row.getEmail())) || ((row.getEmail() == null) || (row.getEmail().isEmpty())))) {
-//                    OAPMetadataEditor.debugLog("getInstitution().isEmpty: " + row.getInstitution());
-                    OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
-                    return TableContextualType.DANGER.getCssName();
-                } else {
-                    return "";
-                }
+
+
+//            String valueStr = value == null ? "" : value.toString();
+//                if (valueStr.length() == 0) {
+//                return result;
+//            }
+
+
+//            public String getStyleNames(Person row, int rowIndex) {
+//                boolean issue = false;
+//                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
+//                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
+//                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))) {
+//                    issue = true;
+//                }
+//
+//                OAPMetadataEditor.debugLog("row.getEmail(): " + row.getEmail());
+//                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
+//                // has email then check if valid
+//                if (row.getEmail().toString().length() != 0) {
+//                    OAPMetadataEditor.debugLog("email is not null or empty?");
+//                    if (!emailRegex.test(row.getEmail())) {
+//                        issue = true;
+//                    }
+//                }
+//
+//                if (issue == true) {
+//                    OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
+//                    return TableContextualType.DANGER.getCssName();
+//                } else {
+//                    return "";
+//                }
+//            }
+//        });
+        public String getStyleNames(Person row, int rowIndex) {
+            if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
+                    || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
+                    || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
+                    || ((row.getEmail().toString().length() != 0) && (!emailRegex.test(row.getEmail())))) {
+                OAPMetadataEditor.debugLog("row.getEmail(): " + row.getEmail());
+                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
+                OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
+                return TableContextualType.DANGER.getCssName();
+            } else {
+                return "";
             }
-        });
+        }
+    });
 
         people.addRangeChangeHandler(new RangeChangeEvent.Handler() {
             @Override
@@ -578,7 +594,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
                         || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
                         || ((p.getLastName() == null) || (p.getLastName().isEmpty()))
-                        || ((!emailRegex.test(p.getEmail())) || ((p.getEmail() == null) || (p.getEmail().isEmpty())))) {
+                        || ((!emailRegex.test(p.getEmail())) && ((p.getEmail() != null) || (!p.getEmail().isEmpty())))) {
                     meetsRequired = false;
                 }
             }
@@ -847,6 +863,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         peopleData.getList().clear();
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
+        setEnableTableRowButtons(true);
         setTableVisible(false);
     }
 

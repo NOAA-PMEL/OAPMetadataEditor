@@ -6,9 +6,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
-
-// import com.google.gwt.event.shared.SimpleEventBus;
-
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CaptionPanel;
@@ -18,9 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
-
-// import gov.noaa.pmel.sdig.client.event.GWTEvent;
-// import gov.noaa.pmel.sdig.client.event.GWTEventHandler;
+import gov.noaa.pmel.sdig.client.event.SectionUpdater;
+import gov.noaa.pmel.sdig.client.event.SectionUpdaterHandler;
 
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
@@ -228,25 +224,33 @@ public class DashboardLayout extends Composite {
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {
-//                showConfirmationDialog("do something.");
-//                OAPMetadataEditor.logToConsole("called onSectionSave OK ");
+                showConfirmationDialog("do something.");
+                OAPMetadataEditor.debugLog("called onSectionSave OK ");
+                OAPMetadataEditor.debugLog("preview:"+event);
                 String section = event.getType();
+                OAPMetadataEditor.debugLog("section:"+section);
                 setChecked(section);
                 removehighlight(section, "pill-warning"); //added ok
                 removehighlight(section, "pill-danger"); //added ok
             }
         });
-//        yellowBus.addHandler(GWTEvent.TYPE, new GWTEventHandler() {
-//            @Override
-//            public void onEvent(GWTEvent event) {
-////                String section = event.getType();
-//                showConfirmationDialog("do something.");
-//                OAPMetadataEditor.logToConsole("called GWTEvent OK ");
-////                setChecked(section);
-////                removehighlight(section, "pill-warning"); //added ok
-////                removehighlight(section, "pill-danger"); //added ok
-//            }
-//        });
+        eventBus.addHandler(SectionUpdater.TYPE, new SectionUpdaterHandler() {
+            @Override
+            public void onEvent(SectionUpdater event) {
+//                String section = event.getType();
+                showConfirmationDialog("do something.");
+                OAPMetadataEditor.debugLog("called GWTEvent OK ");
+                OAPMetadataEditor.debugLog("preview:"+event);
+                String section = event.getType();
+                OAPMetadataEditor.debugLog("section:"+section);
+                removeIcon(section);
+                removehighlight(section, "pill-warning");
+                removehighlight(section, "pill-danger");
+//                setChecked(section);
+//                removehighlight(section, "pill-warning"); //added ok
+//                removehighlight(section, "pill-danger"); //added ok
+            }
+        });
 
 
 
@@ -357,6 +361,36 @@ public class DashboardLayout extends Composite {
             pco2dLink.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_GENERIC) ) {
             genericVariableLink.setIcon(IconType.CHECK);
+        }
+    }
+
+    public void removeIcon(String section) {
+        if (section.equals(Constants.SECTION_DOCUMENT)) {
+            return;
+        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
+            investigatorsLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
+            submittersLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_CITATION) ) {
+            citationLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
+            timeAndLocationLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
+            fundingLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
+            platformsLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_DIC)) {
+            dicLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_TA) ) {
+            taLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PH) ) {
+            phLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
+            pco2aLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
+            pco2dLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+            genericVariableLink.setIcon(null);
         }
     }
 

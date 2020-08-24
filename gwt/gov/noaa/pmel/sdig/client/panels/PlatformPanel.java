@@ -27,6 +27,7 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.PlatformSuggestOracle;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
@@ -81,9 +82,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     boolean showTable = true;
     boolean editing = false;
     int editIndex = -1;
+    int pageSize = 4;
     Platform displayedPlatform;
     Platform editPlatform;
 
+    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
     PlatformSuggestOracle platformSuggestionOracle = new PlatformSuggestOracle();
@@ -124,7 +128,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             }
         });
 
-        Column<Platform, String> edit = new Column<Platform, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+        Column<Platform, String> edit = new Column<Platform, String>(editButton) {
             @Override
             public String getValue(Platform object) {
                 return "Edit";
@@ -134,7 +138,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             @Override
             public void update(int index, Platform platform, String value) {
                 editIndex = platformsData.getList().indexOf(platform);
-                GWT.log("update " + platform + "["+index+"] at " + editIndex );
+//                GWT.log("update " + platform + "["+index+"] at " + editIndex );
                 platform.setPosition(editIndex);
                 if ( editIndex < 0 ) {
                     Window.alert("Edit failed.");
@@ -144,6 +148,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                     platformsData.flush();
                     platformPagination.rebuild(cellTablePager);
                     save.setEnabled(true);
+                    setEnableTableRowButtons(false);
                 }
             }
         });
@@ -192,6 +197,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                     setTableVisible(false);
                     show(platform, true);
                     reset();
+                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_PLATFORMS),PlatformPanel.this);
                 } else {
                     // hide/show the pager buttons if necessary
                     setTableVisible(true);
@@ -224,7 +230,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
         cellTablePager.setDisplay(platforms);
 
-        platforms.setPageSize(4);
+        platforms.setPageSize(pageSize);
 
         platformsData.addDataDisplay(platforms);
 
@@ -386,15 +392,16 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             }
 
             // check if any platform in platformsData is missing required fields
-            boolean meetsRequired = true;
-            for (int i = 0; i < platformsData.getList().size(); i++) {
-                Platform p = platformsData.getList().get(i);
-                if (((p.getName() == null) || (p.getName().isEmpty()))) {
-                    meetsRequired = false;
-                }
-            }
+//            boolean meetsRequired = true;
+//            for (int i = 0; i < platformsData.getList().size(); i++) {
+//                Platform p = platformsData.getList().get(i);
+//                if (((p.getName() == null) || (p.getName().isEmpty()))) {
+//                    meetsRequired = false;
+//                }
+//            }
             OAPMetadataEditor.debugLog("platformsData size: " + platformsData.getList().size());
-            if (meetsRequired == true && platformsData.getList().size() > 0) {
+//            if (meetsRequired == true && platformsData.getList().size() > 0) {
+            if (platformsData.getList().size() > 0) {
                 OAPMetadataEditor.debugLog("bus event section save platform");
                 eventBus.fireEventFromSource(new SectionSave(getPlatform(), Constants.SECTION_PLATFORMS), PlatformPanel.this);
             }
@@ -406,8 +413,10 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             if ( showTable && platformsData.getList().size() > 0) {
                 OAPMetadataEditor.debugLog("showtable is true or platformsData is > 0");
                 setTableVisible(true);
+                setEnableTableRowButtons(true);
                 reset();
             }
+            save.setEnabled(false);
         }
     }
     public List<Platform> getPlatforms() {
@@ -480,6 +489,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         platformsData.getList().clear();
         platformsData.flush();
         platformPagination.rebuild(cellTablePager);
+        setEnableTableRowButtons(true);
         setTableVisible(false); //add
     }
 
@@ -492,6 +502,23 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     public void onValueChange(ValueChangeEvent<String> event) {
         OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
         save.setEnabled(true);
+    }
+
+    public void setEnableTableRowButtons(boolean b) {
+        for (int i = 0; i < platformsData.getList().size(); i++) {
+            setEnableButton(editButton, b);
+            setEnableButton(deleteButton, b);
+            platforms.redrawRow(i);
+        }
+    }
+
+    public void setEnableButton(ButtonCell button, boolean enabled) {
+        if (enabled) {
+            button.setEnabled(true);
+        }
+        else {
+            button.setEnabled(false);
+        }
     }
 
 

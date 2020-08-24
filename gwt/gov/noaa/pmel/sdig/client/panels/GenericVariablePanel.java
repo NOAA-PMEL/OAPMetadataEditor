@@ -25,6 +25,7 @@ import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
@@ -255,6 +256,10 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     Variable editVariable;
     int editIndex = -1;
+    int pageSize = 3;
+
+    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
@@ -280,6 +285,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         variableData.getList().clear();
         variableData.flush();
         variablePagination.rebuild(cellTablePager);
+        setEnableTableRowButtons(true);
         setTableVisible(false);
     }
 
@@ -329,7 +335,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         });
 
 
-        Column<Variable, String> edit = new Column<Variable, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
+        Column<Variable, String> edit = new Column<Variable, String>(editButton) {
             @Override
             public String getValue(Variable object) {
                 return "Edit";
@@ -348,6 +354,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                     variableData.getList().remove(variable);
                     variableData.flush();
                     variablePagination.rebuild(cellTablePager);
+                    save.setEnabled(true);
+                    setEnableTableRowButtons(false);
                 }
 
             }
@@ -380,6 +388,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                     setTableVisible(false);
                     show(variable, true);
                     reset();
+                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_GENERIC),GenericVariablePanel.this);
                 } else {
                     setTableVisible(true);
                 }
@@ -413,7 +422,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
         variableData.addDataDisplay(variables);
 
-        variables.setPageSize(3);
+        variables.setPageSize(pageSize);
 
         save.setEnabled(false);
     }
@@ -707,7 +716,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                     meetsRequired = false;
                 }
             }
-            if (meetsRequired == true) {
+            if (meetsRequired == true  && variableData.getList().size() > 0) {
                 eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
             }
 
@@ -715,10 +724,12 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if ( showTable ) {
+            if ( showTable && variableData.getList().size() > 0) {
                 setTableVisible(true);
+                setEnableTableRowButtons(true);
                 reset();
             }
+            save.setEnabled(false);
         }
     }
 
@@ -768,6 +779,23 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     public void onValueChange(ValueChangeEvent<String> event) {
 //        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
         save.setEnabled(true);
+    }
+
+    public void setEnableTableRowButtons(boolean b) {
+        for (int i = 0; i < variableData.getList().size(); i++) {
+            setEnableButton(editButton, b);
+            setEnableButton(deleteButton, b);
+            variables.redrawRow(i);
+        }
+    }
+
+    public void setEnableButton(ButtonCell button, boolean enabled) {
+        if (enabled) {
+            button.setEnabled(true);
+        }
+        else {
+            button.setEnabled(false);
+        }
     }
 
 }
