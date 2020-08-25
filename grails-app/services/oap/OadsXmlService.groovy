@@ -189,15 +189,21 @@ class OadsXmlService {
     def fillTimeAndLocDomain(OadsMetadataDocumentType metadata) {
         TimeAndLocation timeAndLocation = new TimeAndLocation()
         TemporalExtentsType tempExtents = metadata.temporalExtents
-        timeAndLocation.setStartDate(TimeUtils.formatUTCdate(tempExtents.startDate))
-        timeAndLocation.setEndDate(TimeUtils.formatUTCdate(tempExtents.endDate))
+        if ( tempExtents != null ) {
+            if (tempExtents.startDate != null )
+                timeAndLocation.setStartDate(TimeUtils.formatUTCdate(tempExtents.startDate))
+            if ( tempExtents.endDate != null )
+                timeAndLocation.setEndDate(TimeUtils.formatUTCdate(tempExtents.endDate))
+        }
 
         SpatialExtentsType spatialExtents = metadata.getSpatialExtents()
-        timeAndLocation.setWestLon(nonNullString(spatialExtents.westernBounds))
-        timeAndLocation.setEastLon(nonNullString(spatialExtents.easternBounds))
-        timeAndLocation.setNorthLat(nonNullString(spatialExtents.northernBounds))
-        timeAndLocation.setSouthLat(nonNullString(spatialExtents.southernBounds))
-        timeAndLocation.setSpatialRef(metadata.getSpatialReference())
+        if ( spatialExtents != null ) {
+            timeAndLocation.setWestLon(nonNullString(spatialExtents.westernBounds))
+            timeAndLocation.setEastLon(nonNullString(spatialExtents.easternBounds))
+            timeAndLocation.setNorthLat(nonNullString(spatialExtents.northernBounds))
+            timeAndLocation.setSouthLat(nonNullString(spatialExtents.southernBounds))
+            timeAndLocation.setSpatialRef(metadata.getSpatialReference())
+        }
         def sampleRegions = ""
         def comma = ""
         for (String region : metadata.sampleCollectionRegions) {
