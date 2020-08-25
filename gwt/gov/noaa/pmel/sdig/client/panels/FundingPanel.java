@@ -395,8 +395,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         for (int i = 0; i < fundingListDataProvider.getList().size(); i++) {
             setEnableButton(editButton, b);
             setEnableButton(deleteButton, b);
-            fundings.redrawRow(i);
         }
+        fundings.redraw();
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {

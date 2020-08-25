@@ -314,10 +314,12 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //            @Override
 //            public String getValue(Person object) {
 ////                String position = String.valueOf(object.getPosition() + 1);
-//                return String.valueOf(object.getPosition() + 1);
+////                return String.valueOf(object.getPosition() + 1);
+//                return String.valueOf(object.getPosition());
 //            }
 //        };
 //        people.addColumn(positionColumn, "Position");
+//        positionColumn.setCellStyleNames("text-center");
 
         Column<Person, String> moveUp = new Column<Person, String>(moveUpButton) {
             @Override
@@ -899,8 +901,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             setEnableButton(moveUpButton, b);
             setEnableButton(moveDownButton, b);
             setEnableButton(deleteButton, b);
-            people.redrawRow(i);
         }
+        people.redraw();
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {

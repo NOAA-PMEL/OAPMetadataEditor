@@ -369,7 +369,6 @@ public class OAPMetadataEditor implements EntryPoint {
 //        }
 //
 //    }
-
     private void saveSection(String type, Object sectionContents) {
         logToConsole("saveSection:" + type + ", " + sectionContents);
         saved = false;
@@ -767,7 +766,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
             // Overwrite (default) to overwrite the existing metadata panels.
             // Preserve exiting data and merge only empty values
-            if (currentDocumentIsDirty()) {
+            if (currentDocumentIsDirty() && _loadedDocument != null) {
 //                debugLog("currentDocumentIsDirty()->" + currentDocumentIsDirty() + " Modal");
 
                 final Modal mergeOptions = new Modal();
@@ -782,12 +781,15 @@ public class OAPMetadataEditor implements EntryPoint {
                         "<br><br><strong>Overwrite</strong> will append new data content from the uploaded file where " +
                         "applicable and will not preserve content in the current data panels.");
                 ModalFooter footer = new ModalFooter();
-                Button ok = new Button("Preserve");
-                ok.setType(ButtonType.PRIMARY);
-                Button cancel = new Button("Overwrite");
+                Button preserve = new Button("Preserve");
+                preserve.setType(ButtonType.DANGER);
+                Button overwrite = new Button("Overwrite");
+                overwrite.setType(ButtonType.DANGER);
+                Button cancel = new Button("Cancel");
                 cancel.setType(ButtonType.PRIMARY);
 
-                footer.add(ok);
+                footer.add(preserve);
+                footer.add(overwrite);
                 footer.add(cancel);
                 body.add(message);
                 mergeOptions.add(body);
@@ -795,7 +797,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 mergeOptions.show();
 
-                ok.addClickHandler(new ClickHandler() {
+                preserve.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         perserveMergeJsonDocument(jsonString);
@@ -803,10 +805,17 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                 });
 
-                cancel.addClickHandler(new ClickHandler() {
+                overwrite.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         mergeJsonDocument(jsonString);
+                        mergeOptions.hide();
+                    }
+                });
+
+                cancel.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
                         mergeOptions.hide();
                     }
                 });
@@ -844,6 +853,7 @@ public class OAPMetadataEditor implements EntryPoint {
     private void startOver(boolean clearIds) {
         // Reset containers for all information being collected to null.
         _loadedDocument = null;
+        _currentDocument = null;
         if (clearIds) {
             _datasetId = null;
             _documentDbId = null;
@@ -1073,6 +1083,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (fundings.size() == 0) {
                     fundingPanel.setTableVisible(false);
+                    topLayout.uncheck(Constants.SECTION_FUNDING);
+                    topLayout.removehighlight(Constants.SECTION_FUNDING, "pill-danger");
                 }
             }
 
@@ -1115,6 +1127,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (platforms.size() == 0) {
                     platformPanel.setTableVisible(false);
+                    topLayout.uncheck(Constants.SECTION_PLATFORMS);
+                    topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-danger");
                 }
             }
 
@@ -1240,6 +1254,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (variablesList.size() == 0) {
                     genericVariablePanel.setTableVisible(false);
+                    topLayout.uncheck(Constants.SECTION_GENERIC);
+                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
                 }
             }
 
@@ -1525,6 +1541,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (fundings.size() == 0) {
                     fundingPanel.setTableVisible(false);
+                    topLayout.uncheck(Constants.SECTION_FUNDING);
+                    topLayout.removehighlight(Constants.SECTION_FUNDING, "pill-danger");
                 }
             }
 
@@ -1562,10 +1580,13 @@ public class OAPMetadataEditor implements EntryPoint {
                 if (hasValidData == false && hasInvalidData == false) {
 //                    debugLog("danger platformPanel has no data");
                     topLayout.sethighlight(Constants.SECTION_PLATFORMS, "pill-danger");
+
                 }
 
                 if (platforms.size() == 0) {
                     platformPanel.setTableVisible(false);
+                    topLayout.uncheck(Constants.SECTION_PLATFORMS);
+                    topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-danger");
                 }
             }
 
@@ -1913,6 +1934,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (variablesList.size() == 0) {
                     genericVariablePanel.setTableVisible(false);
+                    topLayout.uncheck(Constants.SECTION_PLATFORMS);
+                    topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-danger");
                 }
             }
 

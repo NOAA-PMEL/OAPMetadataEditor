@@ -508,8 +508,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         for (int i = 0; i < platformsData.getList().size(); i++) {
             setEnableButton(editButton, b);
             setEnableButton(deleteButton, b);
-            platforms.redrawRow(i);
         }
+        platforms.redraw();
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {

@@ -785,8 +785,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         for (int i = 0; i < variableData.getList().size(); i++) {
             setEnableButton(editButton, b);
             setEnableButton(deleteButton, b);
-            variables.redrawRow(i);
         }
+        variables.redraw();
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {
