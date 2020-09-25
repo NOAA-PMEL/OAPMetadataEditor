@@ -18,12 +18,12 @@
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:gwt.CellTable ui:field="variables" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
+                            <b:gwt.CellTable ui:field="variables" addStyleNames="tightenTBmargins" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
                         </b:Column>
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:Pagination ui:field="variablePagination"></b:Pagination>
+                            <b:Pagination ui:field="variablePagination" addStyleNames="tightenTBmargins" visible="false" />
                         </b:Column>
                     </b:Row>
                     <b:Row>
@@ -77,7 +77,7 @@
                         <b:Column size="MD_4 LG_3" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel for="units" text="Units *"></b:FormLabel> <!-- color="#B22222" -->
+                                <b:FormLabel for="units" text="Units"></b:FormLabel> <!-- color="#B22222" -->
                                 <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>

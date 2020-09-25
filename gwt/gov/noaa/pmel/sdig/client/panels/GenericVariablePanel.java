@@ -428,6 +428,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     }
     public void setTableVisible(boolean b) {
         variables.setVisible(b);
+        variablePagination.setVisible(b);
         if ( b ) {
             if (cellTablePager.getPageCount() > 1) {
                 int page = cellTablePager.getPage();
