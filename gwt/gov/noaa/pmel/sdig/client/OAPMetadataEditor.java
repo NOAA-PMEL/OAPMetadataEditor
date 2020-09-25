@@ -54,6 +54,7 @@ import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.*;
 
 
@@ -800,7 +801,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 preserve.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        perserveMergeJsonDocument(jsonString);
+                        preserveMergeJsonDocument(jsonString);
                         mergeOptions.hide();
                     }
                 });
@@ -915,7 +916,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
     }
 
-    private void perserveMergeJsonDocument(String jsonString) {
+    private void preserveMergeJsonDocument(String jsonString) {
         preserveLoadJsonDocument(jsonString, false, false);
     }
 
@@ -940,6 +941,7 @@ public class OAPMetadataEditor implements EntryPoint {
         return document;
     }
 
+    // overwrite data merge
     private void loadJsonDocument(String jsonString, boolean clearFirst, boolean updateIds) {
         debugLog("loadJsonDocument has been called");
         try {
@@ -953,6 +955,9 @@ public class OAPMetadataEditor implements EntryPoint {
                 loadDocumentElements(document);
             }
             debugLog("OAME: Setting document to: " + document);
+
+            // get document thats currently populated
+            Document originalDocument = getDocument();
 
             if (document.getDataSubmitter() != null) {
                 Person dataSubmitter = document.getDataSubmitter();
@@ -1217,6 +1222,38 @@ public class OAPMetadataEditor implements EntryPoint {
 //            }
             if (document.getVariables() != null) {
                 List<Variable> variablesList = document.getVariables();
+                debugLog("Overwrite merge");
+
+                if (originalDocument.getVariables() != null) {
+                    List<Variable> oVariablesList = originalDocument.getVariables();
+
+                    Map<String, Variable> map = originalDocument.getVariables().stream()
+                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getFullVariableName(), s.getUnits()), s -> s));
+
+//                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
+
+                    Iterator<Variable> variableIterator = variablesList.iterator();
+                    while (variableIterator.hasNext()) {
+                        Variable v = variableIterator.next();
+
+                        // original list contains this Variable
+                        if (oVariablesList.contains(v)) {
+                            variableIterator.remove();  // is same; remove from this variableslist
+                            break;
+                        }
+
+                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getFullVariableName(), v.getUnits());
+                        debugLog("(jsonDoc) variableKey is " + variableKey);
+
+                        // variableKey exists in the hash from the original variablelist, then remove from orignal variablelist
+                        if (map.containsKey(variableKey)) {
+                            Variable o = map.get(variableKey);
+                            oVariablesList.remove(o);
+                        }
+                    }
+                }
+
+                // validate
                 // Load
                 genericVariablePanel.addVariables(variablesList);
 
@@ -1271,7 +1308,7 @@ public class OAPMetadataEditor implements EntryPoint {
         debugLog("end of loadJsonDocument()");
     }
 
-
+    // preserve data merge
     private void preserveLoadJsonDocument(String jsonString, boolean clearFirst, boolean updateIds) {
         try {
             if (clearFirst) {
@@ -1895,47 +1932,158 @@ public class OAPMetadataEditor implements EntryPoint {
 //                genericVariablePanel.addVariables(variablesList);
 //
 //            }
+
+
             if (document.getVariables() != null) {
                 List<Variable> variablesList = document.getVariables();
-                // Load
-                genericVariablePanel.addVariables(variablesList);
+                debugLog("Preserve merge");
 
-                // verify
-                boolean hasValidData = false;
-                boolean hasInvalidData = false;
-                for (int i = 0; i < variablesList.size(); i++) {
-                    Variable v = variablesList.get(i);
-                    genericVariablePanel.show(v);
-                    if (!genericVariablePanel.valid()) {
-                        hasInvalidData = true;
-                    } else {
-                        hasValidData = true;
+                if (originalDocument.getVariables() != null) {
+                    List<Variable> oVariablesList = originalDocument.getVariables();
+
+                    Map<String, Variable> map = originalDocument.getVariables().stream()
+                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getFullVariableName(), s.getUnits()), s -> s));
+
+//                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
+
+                    Iterator<Variable> variableIterator = variablesList.iterator();
+                    while (variableIterator.hasNext()) {
+                        Variable v = variableIterator.next();
+
+                        // original list contains this Variable
+                        if (oVariablesList.contains(v)) {
+                            variableIterator.remove();  // is same; remove from this variableslist
+                            break;
+                        }
+
+                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getFullVariableName(), v.getUnits());
+                        debugLog("(jsonDoc) variableKey is " + variableKey);
+
+                        // variableKey exists in the hash from the original variablelist, then overwrite empty values
+                        if (map.containsKey(variableKey)) {
+                            Variable o = map.get(variableKey);
+
+//                            if ( (o.getAbbreviation() == null || o.getAbbreviation().isEmpty())
+//                                    && (v.getAbbreviation() != null && !v.getAbbreviation().isEmpty()) ) {
+//                                o.setAbbreviation(v.getAbbreviation());
+//                            }
+                            if ( (o.getObservationType() == null || o.getObservationType().isEmpty())
+                                    && (v.getObservationType() != null && !v.getObservationType().isEmpty()) ) {
+                                o.setObservationType(v.getObservationType());
+                            }
+                            if ( (o.getManipulationMethod() == null || o.getManipulationMethod().isEmpty())
+                                    && (v.getManipulationMethod() != null && !v.getManipulationMethod().isEmpty()) ) {
+                                o.setManipulationMethod(v.getManipulationMethod());
+                            }
+//                            if ( (o.getUnits() == null || o.getUnits().isEmpty())
+//                                    && (v.getUnits() != null && !v.getUnits().isEmpty()) ) {
+//                                o.setUnits(v.getUnits());
+//                            }
+                            if ( (o.getSamplingInstrument() == null || o.getSamplingInstrument().isEmpty())
+                                    && (v.getSamplingInstrument() != null && !v.getSamplingInstrument().isEmpty()) ) {
+                                o.setSamplingInstrument(o.getSamplingInstrument());
+                            }
+                            if ( (o.getAnalyzingInstrument() == null || o.getAnalyzingInstrument().isEmpty())
+                                    && (v.getAnalyzingInstrument() != null && !v.getAnalyzingInstrument().isEmpty()) ) {
+                                o.setAnalyzingInstrument(v.getAnalyzingInstrument());
+                            }
+                            if ( (o.getDetailedInformation() == null || o.getDetailedInformation().isEmpty())
+                                    && (v.getDetailedInformation() != null && !v.getDetailedInformation().isEmpty()) ) {
+                                o.setDetailedInformation(v.getDetailedInformation());
+                            }
+                            if ( (o.getFieldReplicate() == null || o.getFieldReplicate().isEmpty())
+                                    && (v.getFieldReplicate() != null && !v.getFieldReplicate().isEmpty()) ) {
+                                o.setFieldReplicate(v.getFieldReplicate());
+                            }
+                            if ( (o.getUncertainty() == null || o.getUncertainty().isEmpty())
+                                    && (v.getUncertainty() != null && !v.getUncertainty().isEmpty()) ) {
+                                o.setUncertainty(v.getUncertainty());
+                            }
+                            if ( (o.getQualityFlag() == null || o.getQualityFlag().isEmpty())
+                                    && (v.getQualityFlag() != null && !v.getQualityFlag().isEmpty()) ) {
+                                o.setQualityFlag(v.getQualityFlag());
+                            }
+                            if ( (o.getResearcherName() == null || o.getResearcherName().isEmpty())
+                                    && (v.getResearcherName() != null && !v.getResearcherName().isEmpty()) ) {
+                                o.setResearcherName(v.getResearcherName());
+                            }
+                            if ( (o.getResearcherInstitution() == null || o.getResearcherInstitution().isEmpty())
+                                    && (v.getResearcherInstitution() != null && !v.getResearcherInstitution().isEmpty()) ) {
+                                o.setResearcherInstitution(v.getResearcherInstitution());
+                            }
+//                            if ( (o.getFullVariableName() == null || o.getFullVariableName().isEmpty())
+//                                    && (v.getFullVariableName() != null && !v.getFullVariableName().isEmpty()) ) {
+//                                o.setFullVariableName(v.getFullVariableName());
+//                            }
+                            if ( (o.getReferenceMethod() == null || o.getReferenceMethod().isEmpty())
+                                    && (v.getReferenceMethod() != null && !v.getReferenceMethod().isEmpty()) ) {
+                                o.setReferenceMethod(v.getReferenceMethod());
+                            }
+                            if ( (o.getBiologicalSubject() == null || o.getBiologicalSubject().isEmpty())
+                                    && (v.getBiologicalSubject() != null && !v.getBiologicalSubject().isEmpty()) ) {
+                                o.setBiologicalSubject(v.getBiologicalSubject());
+                            }
+                            if ( (o.getDuration() == null || o.getDuration().isEmpty())
+                                    && (v.getDuration() != null && !v.getDuration().isEmpty()) ) {
+                                o.setDuration(v.getDuration());
+                            }
+                            if ( (o.getLifeStage() == null || o.getLifeStage().isEmpty())
+                                && (v.getLifeStage() != null && !v.getLifeStage().isEmpty()) ) {
+                                o.setLifeStage(v.getLifeStage());
+                            }
+                            if ( (o.getSpeciesIdCode() == null || o.getSpeciesIdCode().isEmpty())
+                                    && (v.getSpeciesIdCode() != null && !v.getSpeciesIdCode().isEmpty()) ) {
+                                o.setSpeciesIdCode(v.getSpeciesIdCode());
+                            }
+                            variableIterator.remove(); // remove from this variablelist
+                            break;
+
+                        }
                     }
-                    genericVariablePanel.reset();
                 }
 
-                if (hasValidData == true && hasInvalidData == true) {
+                // validate
+                if (variablesList != null && !variablesList.isEmpty()) {
+                    // Load
+                    genericVariablePanel.addVariables(variablesList);
+
+                    // verify
+                    boolean hasValidData = false;
+                    boolean hasInvalidData = false;
+                    for (int i = 0; i < variablesList.size(); i++) {
+                        Variable v = variablesList.get(i);
+                        genericVariablePanel.show(v);
+                        if (!genericVariablePanel.valid()) {
+                            hasInvalidData = true;
+                        } else {
+                            hasValidData = true;
+                        }
+                        genericVariablePanel.reset();
+                    }
+
+                    if (hasValidData == true && hasInvalidData == true) {
 //                    debugLog("warning genericVariablePanel valid and invalid");
-                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
-                }
-                if (hasValidData == true && hasInvalidData == false) {
+                        topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    }
+                    if (hasValidData == true && hasInvalidData == false) {
 //                    debugLog("success genericVariablePanel has only valid data");
-                    topLayout.setChecked(Constants.SECTION_GENERIC);
-                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
-                }
-                if (hasValidData == false && hasInvalidData == true) {
+                        topLayout.setChecked(Constants.SECTION_GENERIC);
+                        topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    }
+                    if (hasValidData == false && hasInvalidData == true) {
 //                    debugLog("danger genericVariablePanel has no valid data");
-                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
-                }
-                if (hasValidData == false && hasInvalidData == false) {
+                        topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    }
+                    if (hasValidData == false && hasInvalidData == false) {
 //                    debugLog("danger genericVariablePanel has no data");
-                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
-                }
+                        topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    }
 
-                if (variablesList.size() == 0) {
-                    genericVariablePanel.setTableVisible(false);
-                    topLayout.uncheck(Constants.SECTION_PLATFORMS);
-                    topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-danger");
+                    if (variablesList.size() == 0) {
+                        genericVariablePanel.setTableVisible(false);
+                        topLayout.uncheck(Constants.SECTION_PLATFORMS);
+                        topLayout.removehighlight(Constants.SECTION_PLATFORMS, "pill-danger");
+                    }
                 }
             }
 
@@ -1948,4 +2096,23 @@ public class OAPMetadataEditor implements EntryPoint {
         }
         topLayout.resetFileForm();
     }
+
+    // builds hash key for Variable type to determine sameness
+    public static String createVariableKeyIndex(String abbreviation, String fullVariableName, String units) {
+        StringBuilder sb = new StringBuilder();
+
+        if (abbreviation != null && !abbreviation.isEmpty()) {
+            sb.append(abbreviation);
+        }
+        if (fullVariableName != null && !fullVariableName.isEmpty()) {
+            sb.append(fullVariableName);
+        }
+        if (units != null && !units.isEmpty()) {
+            sb.append(units);
+        }
+        debugLog(sb.toString());
+
+        return sb.toString();
+    }
+
 }
