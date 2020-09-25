@@ -89,7 +89,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
         initWidget(ourUiBinder.createAndBindUi(this));
 
         setDefaults();
-        common.abbreviation.setEnabled(false);
+        // common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Total Alkalinity (TA).");
         save.addClickHandler(saveIt);

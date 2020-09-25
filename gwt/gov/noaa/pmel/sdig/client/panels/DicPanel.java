@@ -95,7 +95,7 @@ DIC: Researcher Institution
         initWidget(ourUiBinder.createAndBindUi(this));
 
         setDefaults();
-        common.abbreviation.setEnabled(false);
+//        common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Dissolved Inorganic Carbon (DIC).");
         save.addClickHandler(saveIt);

@@ -30,15 +30,16 @@ Unnamed variables have "Full variable name in addition.
         -->
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Variable Information"></b:Heading>
+                <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_6 MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
-                                <b:FormLabel for="abbreviation" text="Variable Abbreviation"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="abbreviationModal" b:id="modalAbbreviation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="abbreviation" allowBlank="true" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
+                                <b:TextBox ui:field="abbreviation" allowBlank="false" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6 MD_4 LG_5">

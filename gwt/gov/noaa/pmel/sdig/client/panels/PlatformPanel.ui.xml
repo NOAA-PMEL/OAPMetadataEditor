@@ -6,7 +6,6 @@
         <b:Form ui:field="form">
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Platform Information. You may enter more than one platform."></b:Heading>
-                <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
