@@ -1228,8 +1228,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     List<Variable> oVariablesList = originalDocument.getVariables();
 
                     Map<String, Variable> map = originalDocument.getVariables().stream()
-                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getFullVariableName(), s.getUnits()), s -> s));
-
+                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()), s -> s));
 //                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
@@ -1242,7 +1241,7 @@ public class OAPMetadataEditor implements EntryPoint {
                             break;
                         }
 
-                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getFullVariableName(), v.getUnits());
+                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
                         debugLog("(jsonDoc) variableKey is " + variableKey);
 
                         // variableKey exists in the hash from the original variablelist, then remove from orignal variablelist
@@ -1942,7 +1941,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     List<Variable> oVariablesList = originalDocument.getVariables();
 
                     Map<String, Variable> map = originalDocument.getVariables().stream()
-                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getFullVariableName(), s.getUnits()), s -> s));
+                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()), s -> s));
 
 //                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
 
@@ -1956,7 +1955,7 @@ public class OAPMetadataEditor implements EntryPoint {
                             break;
                         }
 
-                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getFullVariableName(), v.getUnits());
+                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
                         debugLog("(jsonDoc) variableKey is " + variableKey);
 
                         // variableKey exists in the hash from the original variablelist, then overwrite empty values
@@ -2098,14 +2097,11 @@ public class OAPMetadataEditor implements EntryPoint {
     }
 
     // builds hash key for Variable type to determine sameness
-    public static String createVariableKeyIndex(String abbreviation, String fullVariableName, String units) {
+    public static String createVariableKeyIndex(String abbreviation, String units) {
         StringBuilder sb = new StringBuilder();
 
         if (abbreviation != null && !abbreviation.isEmpty()) {
             sb.append(abbreviation);
-        }
-        if (fullVariableName != null && !fullVariableName.isEmpty()) {
-            sb.append(fullVariableName);
         }
         if (units != null && !units.isEmpty()) {
             sb.append(units);
