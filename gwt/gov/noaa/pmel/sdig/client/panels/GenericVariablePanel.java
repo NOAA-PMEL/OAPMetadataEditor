@@ -275,6 +275,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             editVariable = null;
         }
         setAllEditable(true);
+        setEnableTableRowButtons(true);
     }
 
     public void setEditing(boolean isEditing) {

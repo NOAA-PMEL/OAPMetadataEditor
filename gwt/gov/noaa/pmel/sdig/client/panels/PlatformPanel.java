@@ -480,6 +480,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             editPlatform = null;
         }
         setAllEditable(true);
+        setEnableTableRowButtons(true);
     }
     public void setEditing(boolean isEditing) {
         editing = isEditing;

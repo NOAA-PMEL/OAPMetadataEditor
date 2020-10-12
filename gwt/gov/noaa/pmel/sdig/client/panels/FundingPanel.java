@@ -376,6 +376,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
             editFunding = null;
         }
         setAllEditable(true);
+        setEnableTableRowButtons(true);
     }
     public void clearFundings() {
         fundingListDataProvider.getList().clear();

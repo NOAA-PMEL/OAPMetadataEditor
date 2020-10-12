@@ -965,6 +965,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             editPerson = null;
         }
         setAllEditable(true);
+        setEnableTableRowButtons(true);
     }
 }
 
