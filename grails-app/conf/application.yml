@@ -201,7 +201,7 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     dunkel:
         dataSource:
-            dbCreate: validate
+            dbCreate: create
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -236,7 +236,7 @@ environments:
     procreate:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
@@ -285,9 +285,9 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    oapme_production:
+    standalone_production:
         dataSource:
-            dbCreate: create
+            dbCreate: validate
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect

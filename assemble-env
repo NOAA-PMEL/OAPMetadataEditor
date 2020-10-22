@@ -1,13 +1,19 @@
 #!/bin/bash
 
-GRAILS_ENV=np_production
+# selected GRAILS environment values include:  development (locahost), matisse, dunkel, production, standalone_production
+# see grails-app/conf/application.yml
+
+GRAILS_ENV=production
 
 CMD=assemble
 DO_IT=true
 
 while [ $1 ] ; do
 	case $1 in
-		"show" ) VISIBLE=true;;
+		"show" ) 
+			VISIBLE=true
+			GRAILS_ENV=standalone_production
+			;;
 		"war" ) CMD=war;;
 		"-x" ) unset DO_IT;;
 		*) GRAILS_ENV=$1;;
