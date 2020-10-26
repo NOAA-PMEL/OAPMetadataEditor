@@ -1107,6 +1107,7 @@ class OadsXmlService {
 
     private DicVariableType fillDic(GenericVariable v) {
         DicVariableType.DicVariableTypeBuilder dicVarBuilder = (DicVariableType.DicVariableTypeBuilder) _fillDic(v, DicVariableType.builder())
+        dicVarBuilder.name("disolved_inorganic_carbon")
         return dicVarBuilder.build()
     }
     private DicVariableType.DicVariableTypeBuilder _fillDic(GenericVariable v, DicVariableTypeBuilder builder) {
@@ -1123,6 +1124,7 @@ class OadsXmlService {
     }
     private TaVariableType fillTa(GenericVariable v) {
         TaVariableType.TaVariableTypeBuilder taBuilder = _fillDic(v, TaVariableType.builder())
+        taBuilder.name("total_alkalinity")
         /*
         TA: Type of titration
         TA: Cell type (open or closed)
@@ -1138,6 +1140,7 @@ class OadsXmlService {
     }
     private PhVariableType fillPh(GenericVariable v) {
         PhVariableType.PhVariableTypeBuilder phBuilder = fillVariable(v, PhVariableType.builder())
+        phBuilder.name("ph_total")
         /*
         pH: pH scale
         pH: Temperature of measurement
@@ -1156,6 +1159,7 @@ class OadsXmlService {
     }
     private Co2Autonomous fillPCO2a(GenericVariable v) {
         Co2Autonomous.Co2AutonomousBuilder co2Builder = fillPCO2x(v, Co2Autonomous.builder())
+        co2Builder.name("pco2/fco2 (autonomous)")
         /*
         pCO2A: Location of seawater intake
         pCO2A: Depth of seawater intake
@@ -1189,6 +1193,7 @@ class OadsXmlService {
     }
     private Co2Discrete fillPCO2d(GenericVariable v) {
         Co2Discrete.Co2DiscreteBuilder co2Builder = fillPCO2x(v, Co2Discrete.builder())
+        co2Builder.name("pco2/fco2 (discrete)")
         /*
         pCO2D: Storage method
         pCO2D: Seawater volume (mL)
