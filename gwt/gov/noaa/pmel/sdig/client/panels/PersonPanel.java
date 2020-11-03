@@ -522,9 +522,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
                     || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
                     || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
-                    || ((row.getEmail().toString().length() != 0) && (!emailRegex.test(row.getEmail())))) {
-                OAPMetadataEditor.debugLog("row.getEmail(): " + row.getEmail());
-                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
+                    || ((row.getEmail() != null ) && (row.getEmail().toString().length() != 0) && (!emailRegex.test(row.getEmail())))) {
+                OAPMetadataEditor.debugLog("row.getEmail(): \"" + row.getEmail() + "\"");
+//                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
                 OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
                 return TableContextualType.DANGER.getCssName();
             } else {
