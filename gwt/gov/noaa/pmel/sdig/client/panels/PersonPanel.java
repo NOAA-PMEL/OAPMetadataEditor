@@ -596,10 +596,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
                         || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
                         || ((p.getLastName() == null) || (p.getLastName().isEmpty()))
-                        || ((!emailRegex.test(p.getEmail())) && ((p.getEmail() != null) || (!p.getEmail().isEmpty())))) {
+                        || ((!emailRegex.test(p.getEmail())) && ((p.getEmail() != null) && (!p.getEmail().isEmpty())))) {
                     meetsRequired = false;
                 }
             }
+//            OAPMetadataEditor.debugLog("meetsRequired set to " + meetsRequired);
             if (meetsRequired == true && peopleData.getList().size() > 0) {
                 eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
             }
