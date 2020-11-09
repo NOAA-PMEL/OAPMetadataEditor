@@ -78,14 +78,15 @@ set LIBS=%APP_HOME%lib\*
 set CLASSPATH=%LIBS%;%GWTDIR%\*;%APP_HOME%gwt
 set CMPNTDIR=%APP_HOME%src\main\webapp
 set JAVAOPS=-Xmx1024M -Xms1024M
-set GWTOPTIONS=-strict
+set COMPILE_REPORT=-compileReport
+set GWTOPTIONS="-strict %COMPILE_REPORT%"
+set OPTIMIZE="-optimize 9"
+set STYLE="-style DETAILED"
+set MODULE=gov.noaa.pmel.sdig.OAPMetadataEditor
 
 @rem Execute Gradle
-echo %JAVA_EXE% %JAVAOPS% -cp %CLASSPATH% com.google.gwt.dev.Compiler -war %CMPNTDIR% %@ %GWTOPTIONS% climatedatacloud.hrrr.Map
-echo
-echo %JAVA_EXE% %JAVAOPS% -cp %CLASSPATH% com.google.gwt.dev.Compiler -style DETAILED -war %CMPNTDIR% %CMD_LINE_ARGS% %GWTOPTIONS% gov.noaa.pmel.sdig.OAPMetadataEditor
-"%JAVA_EXE%" %JAVAOPS% -cp %CLASSPATH% com.google.gwt.dev.Compiler -style DETAILED -war %CMPNTDIR% %CMD_LINE_ARGS% %GWTOPTIONS% gov.noaa.pmel.sdig.OAPMetadataEditor
-
+echo %JAVA_EXE% %JAVAOPS% -cp "%CLASSPATH%" com.google.gwt.dev.Compiler %STYLE% %OPTIMIZE% -war "%CMPNTDIR%" %CMD_LINE_ARGS% %GWTOPTIONS% %MODULE%
+"%JAVA_EXE%" %JAVAOPS% -cp "%CLASSPATH%" com.google.gwt.dev.Compiler "%STYLE%" "%OPTIMIZE%" -war "%CMPNTDIR%" %CMD_LINE_ARGS% "%GWTOPTIONS%" "%MODULE%"
 
 @rem Execute Gradle
 @rem "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %CMD_LINE_ARGS%
