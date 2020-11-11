@@ -277,18 +277,26 @@ class DocumentController {
     private def _getDocumentLocation(Document doc, String requestMethod, String accessMethod) {
         String url = request.getRequestURL().toString()
         log.info("docUrl request:"+url);
-        if ( url.indexOf("pmel") > 0 ) {
-            int contextIdx = url.indexOf("/oa")
-            int meIdx = url.indexOf("MetadataEditor")
-            int delta = meIdx - contextIdx
-            String context
-            url = "https://www.pmel.noaa.gov" + url.substring(url.indexOf("/sdig"))
+        if ( url.indexOf("www.pmel") > 0 ) {
+            int contextIdx = url.indexOf(".gov") + 3
+            url = "https://www.pmel.noaa.gov" + url.substring(contextIdx) // url.indexOf("/sdig"))
             log.info("docUrl revised:"+url)
         }
+
         String docId = doc.datasetIdentifier ? doc.datasetIdentifier : doc.id
         String docLocation = url.substring(0, url.indexOf(requestMethod))+accessMethod+"/"+docId
         log.info("doc location:"+docLocation)
         return docLocation
+    }
+
+    private revise(String url, String from, String to) {
+        System.out.println("Url: " + url);
+        int idx1 = url.indexOf(":") + 3;
+        int idx2 = url.indexOf('/', idx1);
+        int idx3 = url.indexOf(from);
+        String base = url.substring(0, idx3);
+        String revised = base + to;
+        return revised;
     }
 
     private def setDocumentExpocode(Document doc, String docId) {
