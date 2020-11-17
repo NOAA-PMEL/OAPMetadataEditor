@@ -1005,7 +1005,20 @@ class OadsXmlService {
             }
 
             // TODO the XML does not match the spreadsheet
-            metadata.addAuthor(citation.getCitationAuthorList())
+            String authorList = citation.getCitationAuthorList()
+            if ( authorList ) {
+                String delimiter = lookForDelimiter(authorList)
+                if ( delimiter ) {
+                    String[] authors = authorList.split(delimiter)
+                    for (String author : authors) {
+                        if ( author ) {
+                            metadata.addAuthor(author.trim())
+                        }
+                    }
+                } else {
+                    metadata.addAuthor(authorList)
+                }
+            }
 
             metadata.supplementalInfo(citation.getSupplementalInformation())
         }
@@ -1355,5 +1368,45 @@ class OadsXmlService {
             person.addIdentifier(TypedIdentifierType.builder().value(p.getRid()).type(p.getIdType()).build())
         }
         return person.build()
+    }
+
+    def lookForDelimiter(String authorList) {
+        if ( authorList.contains(";")) {
+            return ";"
+        } else if ( count(authorList, ',' as char) > 1 ) {
+            return ","
+        } else {
+            return null
+        }
+    }
+
+    // This actually is likely to get it wrong.
+    def _lookForDelimiter(String peak) {
+        SortedMap<Integer, Character> sort = new TreeMap<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2.intValue() - o1.intValue();
+            }
+        });
+        sort.put(count(peak, ',' as char), new Character(',' as char));
+        sort.put(count(peak, ';' as char), new Character(';' as char));
+        sort.put(count(peak, '\t' as char), new Character('\t' as char));
+        sort.put(count(peak, '|' as char), new Character('|' as char));
+        return sort.values().iterator().next().charValue();
+    }
+
+    /**
+     * @param peak
+     * @param c
+     * @return
+     */
+    def count(String peak, char c) {
+        int count = 0;
+        for (int i = 0; i < peak.length(); i++) {
+            if ( peak.charAt(i) == c) {
+                count += 1;
+            }
+        }
+        return new Integer(count);
     }
 }
