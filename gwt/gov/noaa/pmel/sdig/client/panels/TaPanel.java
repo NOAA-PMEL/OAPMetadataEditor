@@ -260,34 +260,34 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
         if ( common.isDirty() ) {
             return true;
         }
-        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+        if (standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {
             return true;
         }
-        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+        if (freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {
             return true;
         }
-        if (crmManufacture.getText() != null && !crmManufacture.getText().isEmpty() ) {
+        if (crmManufacture.getText().trim() != null && !crmManufacture.getText().isEmpty() ) {
             return true;
         }
-        if (batchNumber.getText() != null && !batchNumber.getText().isEmpty() ) {
+        if (batchNumber.getText().trim() != null && !batchNumber.getText().isEmpty() ) {
             return true;
         }
-        if (poison.getText() != null && !poison.getText().isEmpty() ) {
+        if (poison.getText().trim() != null && !poison.getText().isEmpty() ) {
             return true;
         }
-        if (poisonVolume.getText() != null && !poisonVolume.getText().isEmpty() ) {
+        if (poisonVolume.getText().trim() != null && !poisonVolume.getText().isEmpty() ) {
             return true;
         }
-        if (poisonDescription.getText() != null && !poisonDescription.getText().isEmpty() ) {
+        if (poisonDescription.getText().trim() != null && !poisonDescription.getText().isEmpty() ) {
             return true;
         }
-        if (curveFittingMethod.getText() != null && !curveFittingMethod.getText().isEmpty() ) {
+        if (curveFittingMethod.getText().trim() != null && !curveFittingMethod.getText().isEmpty() ) {
             return true;
         }
-        if (magnitudeOfBlankCorrection.getText() != null && !magnitudeOfBlankCorrection.getText().isEmpty() ) {
+        if (magnitudeOfBlankCorrection.getText().trim() != null && !magnitudeOfBlankCorrection.getText().isEmpty() ) {
             return true;
         }
-        if (titrationType.getText() != null && !titrationType.getText().isEmpty() ) {
+        if (titrationType.getText().trim() != null && !titrationType.getText().isEmpty() ) {
             return true;
         }
         return false;

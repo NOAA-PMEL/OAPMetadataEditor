@@ -184,7 +184,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     }
 
     public boolean isDirty() {
-        if (eastLon.getText() != null && !eastLon.getText().isEmpty()) {
+        if (eastLon.getText().trim() != null && !eastLon.getText().isEmpty()) {
             return true;
         }
         if (endDate.getValue() != null && !endDate.getValue().toString().isEmpty()) {

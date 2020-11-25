@@ -189,29 +189,29 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
             return true;
         }
 
-        if ( standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+        if ( standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {
             return true;
         }
 
-        if ( freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+        if ( freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {
             return true;
         }
-        if ( pHtemperature.getText() != null && !pHtemperature.getText().isEmpty() ) {
+        if ( pHtemperature.getText().trim() != null && !pHtemperature.getText().isEmpty() ) {
             return true;
         }
-        if ( pHscale.getText() != null && !pHscale.getText().isEmpty() ) {
+        if ( pHscale.getText().trim() != null && !pHscale.getText().isEmpty() ) {
             return true;
         }
-        if (pHstandards.getText() != null && !pHstandards.getText().isEmpty()) {
+        if (pHstandards.getText().trim() != null && !pHstandards.getText().isEmpty()) {
             return true;
         }
-        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+        if (temperatureCorrectionMethod.getText().trim() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
             return true;
         }
-        if ( temperatureMeasurement.getText() != null && !temperatureMeasurement.getText().isEmpty() ) {
+        if ( temperatureMeasurement.getText().trim() != null && !temperatureMeasurement.getText().isEmpty() ) {
             return true;
         }
-        if ( temperatureStandarization.getText() != null && !temperatureStandarization.getText().isEmpty() ) {
+        if ( temperatureStandarization.getText().trim() != null && !temperatureStandarization.getText().isEmpty() ) {
             return true;
         }
 

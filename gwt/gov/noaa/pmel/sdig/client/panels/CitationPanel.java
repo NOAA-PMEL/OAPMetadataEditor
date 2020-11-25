@@ -103,37 +103,37 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         return isDirty;
     }
     public boolean isDirty() {
-        if (datasetAbstract.getText() != null && !datasetAbstract.getText().isEmpty() ) {
+        if (datasetAbstract.getText().trim() != null && !datasetAbstract.getText().isEmpty() ) {
             return true;
         }
-        if (useLimitation.getText() != null && !useLimitation.getText().isEmpty() ) {
+        if (useLimitation.getText().trim() != null && !useLimitation.getText().isEmpty() ) {
             return true;
         }
-        if (purpose.getText() != null && !purpose.getText().isEmpty() ) {
+        if (purpose.getText().trim() != null && !purpose.getText().isEmpty() ) {
             return true;
         }
-        if (researchProjects.getText() != null && !researchProjects.getText().isEmpty() ) {
+        if (researchProjects.getText().trim() != null && !researchProjects.getText().isEmpty() ) {
             return true;
         }
-        if (title.getText() != null && !title.getText().isEmpty() ) {
+        if (title.getText().trim() != null && !title.getText().isEmpty() ) {
             return true;
         }
-        if (expocode.getText() != null && !expocode.getText().isEmpty() ) {
+        if (expocode.getText().trim() != null && !expocode.getText().isEmpty() ) {
             return true;
         }
-        if (cruiseId.getText() != null && !cruiseId.getText().isEmpty() ) {
+        if (cruiseId.getText().trim() != null && !cruiseId.getText().isEmpty() ) {
             return true;
         }
-        if (section.getText() != null && !section.getText().isEmpty() ) {
+        if (section.getText().trim() != null && !section.getText().isEmpty() ) {
             return true;
         }
-        if (citationAuthorList.getText() != null && !citationAuthorList.getText().isEmpty() ) {
+        if (citationAuthorList.getText().trim() != null && !citationAuthorList.getText().isEmpty() ) {
             return true;
         }
-        if (references.getText() != null && !references.getText().isEmpty() ) {
+        if (references.getText().trim() != null && !references.getText().isEmpty() ) {
             return true;
         }
-        if (supplementalInformation.getText() != null && !supplementalInformation.getText().isEmpty() ) {
+        if (supplementalInformation.getText().trim() != null && !supplementalInformation.getText().isEmpty() ) {
             return true;
         }
         return false;

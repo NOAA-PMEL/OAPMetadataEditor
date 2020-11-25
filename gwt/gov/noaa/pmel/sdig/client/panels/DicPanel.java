@@ -234,13 +234,13 @@ DIC: Researcher Institution
         if ( common.isDirty() ) {
             return true;
         }
-        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+        if (standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {
             return true;
         }
-        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+        if (freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {
             return true;
         }
-        if (crmManufacture.getText() != null && !crmManufacture.getText().isEmpty() ) {
+        if (crmManufacture.getText().trim() != null && !crmManufacture.getText().isEmpty() ) {
             return true;
         }
         if (batchNumber != null && !batchNumber.getText().isEmpty() ) {

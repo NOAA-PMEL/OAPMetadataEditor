@@ -365,70 +365,70 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         if ( common.isDirty() ) {
             return true;
         }
-        if (standardizationTechnique.getText() != null && !standardizationTechnique.getText().isEmpty() ) {
+        if (standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {
             return true;
         }
-        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+        if (freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {
             return true;
         }
-        if (pco2Temperature.getText() != null && !pco2Temperature.getText().isEmpty() ) {
+        if (pco2Temperature.getText().trim() != null && !pco2Temperature.getText().isEmpty() ) {
             return true;
         }
-        if (gasConcentration.getText() != null && !gasConcentration.getText().isEmpty() ) {
+        if (gasConcentration.getText().trim() != null && !gasConcentration.getText().isEmpty() ) {
             return true;
         }
-        if (intakeDepth.getText() != null && !intakeDepth.getText().isEmpty() ) {
+        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() ) {
             return true;
         }
-        if (dryingMethod.getText() != null && !dryingMethod.getText().isEmpty() ) {
+        if (dryingMethod.getText().trim() != null && !dryingMethod.getText().isEmpty() ) {
             return true;
         }
-        if (equilibratorType.getText() != null && !equilibratorType.getText().isEmpty() ) {
+        if (equilibratorType.getText().trim() != null && !equilibratorType.getText().isEmpty() ) {
             return true;
         }
-        if (equilibratorVolume.getText() != null && !equilibratorVolume.getText().isEmpty() ) {
+        if (equilibratorVolume.getText().trim() != null && !equilibratorVolume.getText().isEmpty() ) {
             return true;
         }
-        if (gasFlowRate.getText() != null && !gasFlowRate.getText().isEmpty() ) {
+        if (gasFlowRate.getText().trim() != null && !gasFlowRate.getText().isEmpty() ) {
             return true;
         }
-        if (equilibratorPressureMeasureMethod.getText() != null && !equilibratorPressureMeasureMethod.getText().isEmpty() ) {
+        if (equilibratorPressureMeasureMethod.getText().trim() != null && !equilibratorPressureMeasureMethod.getText().isEmpty() ) {
             return true;
         }
-        if (equilibratorTemperatureMeasureMethod.getText() != null && !equilibratorTemperatureMeasureMethod.getText().isEmpty() ) {
+        if (equilibratorTemperatureMeasureMethod.getText().trim() != null && !equilibratorTemperatureMeasureMethod.getText().isEmpty() ) {
             return true;
         }
-        if (intakeLocation.getText() != null && !intakeLocation.getText().isEmpty() ) {
+        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() ) {
             return true;
         }
-        if (standardGasManufacture.getText() != null && !standardGasManufacture.getText().isEmpty() ) {
+        if (standardGasManufacture.getText().trim() != null && !standardGasManufacture.getText().isEmpty() ) {
             return true;
         }
-        if (gasDetectorManufacture.getText() != null && !gasDetectorManufacture.getText().isEmpty() ) {
+        if (gasDetectorManufacture.getText().trim() != null && !gasDetectorManufacture.getText().isEmpty() ) {
             return true;
         }
-        if (gasDetectorModel.getText() != null && !gasDetectorModel.getText().isEmpty() ) {
+        if (gasDetectorModel.getText().trim() != null && !gasDetectorModel.getText().isEmpty() ) {
             return true;
         }
-        if (gasDectectorResolution.getText() != null && !gasDectectorResolution.getText().isEmpty() ) {
+        if (gasDectectorResolution.getText().trim() != null && !gasDectectorResolution.getText().isEmpty() ) {
             return true;
         }
-        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+        if (temperatureCorrectionMethod.getText().trim() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
             return true;
         }
-        if (standardGasUncertainties.getText() != null && !standardGasUncertainties.getText().isEmpty() ) {
+        if (standardGasUncertainties.getText().trim() != null && !standardGasUncertainties.getText().isEmpty() ) {
             return true;
         }
-        if (gasDectectorUncertainty.getText() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
+        if (gasDectectorUncertainty.getText().trim() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
             return true;
         }
-        if (vented.getText() != null && !vented.getText().isEmpty() ) {
+        if (vented.getText().trim() != null && !vented.getText().isEmpty() ) {
             return true;
         }
-        if (flowRate.getText() != null && !flowRate.getText().isEmpty() ) {
+        if (flowRate.getText().trim() != null && !flowRate.getText().isEmpty() ) {
             return true;
         }
-        if (vaporCorrection.getText() != null && !vaporCorrection.getText().isEmpty() ) {
+        if (vaporCorrection.getText().trim() != null && !vaporCorrection.getText().isEmpty() ) {
             return true;
         }
         return false;

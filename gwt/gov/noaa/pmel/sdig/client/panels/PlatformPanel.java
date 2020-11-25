@@ -267,10 +267,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         return isDirty;
     }
 
-    // ?
-    @Override
     public boolean isDirty(Platform original) {
-        OAPMetadataEditor.debugLog("PlatformPanel.isDirty("+original+")");
+        OAPMetadataEditor.debugLog("@PlatformPanel.isDirty("+original+")");
         boolean isDirty = false;
         isDirty = original == null ?
                 hasContent() : //       XXX get hasBeenModified() right!
@@ -279,13 +277,13 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                         isDirty(owner, original.getOwner() ) ||
                         isDirty(platformId, original.getPlatformId() ) ||
                         isDirty(platformType, original.getPlatformType() );
-        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+isDirty);
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty: "+isDirty);
         return isDirty;
     }
 
 //    public boolean isDirty() {
     public boolean hasContent() {
-        OAPMetadataEditor.debugLog("PlatformPanel.hasContent()");
+        OAPMetadataEditor.debugLog("@PlatformPanel.hasContent()");
         boolean hasContent = false;
         save.setEnabled(false);
         if (country.getText().trim() != null && !country.getText().isEmpty() ) {
@@ -308,7 +306,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             save.setEnabled(true);
         }
 
-        OAPMetadataEditor.debugLog("and is " + hasContent);
+        OAPMetadataEditor.debugLog("PlatformPanel.hasContent is " + hasContent);
 
         return hasContent;
     }

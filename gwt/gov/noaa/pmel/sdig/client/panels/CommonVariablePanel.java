@@ -397,31 +397,31 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
             return true;
         }
-        if (manipulationMethod.getText() != null && !manipulationMethod.getValue().isEmpty() )
+        if (manipulationMethod.getText().trim() != null && !manipulationMethod.getValue().isEmpty() )
             return true;
         if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
             return true;
-        if (units.getText() != null && !units.getValue().isEmpty() )
+        if (units.getText().trim() != null && !units.getValue().isEmpty() )
             return true;
         if (measured.getValue() != null && !measured.getValue().isEmpty() )
             return true;
-        if (samplingInstrument.getText() != null && !samplingInstrument.getValue().isEmpty() )
+        if (samplingInstrument.getText().trim() != null && !samplingInstrument.getValue().isEmpty() )
             return true;
-        if (analyzingInstrument.getText() != null && !analyzingInstrument.getValue().isEmpty() )
+        if (analyzingInstrument.getText().trim() != null && !analyzingInstrument.getValue().isEmpty() )
             return true;
-        if (detailedInformation.getText() != null & !detailedInformation.getValue().isEmpty() )
+        if (detailedInformation.getText().trim() != null & !detailedInformation.getValue().isEmpty() )
             return true;
-        if (fieldReplicate.getText() != null && !fieldReplicate.getValue().isEmpty() )
+        if (fieldReplicate.getText().trim() != null && !fieldReplicate.getValue().isEmpty() )
             return true;
-        if (uncertainty.getText() != null && !uncertainty.getValue().isEmpty())
+        if (uncertainty.getText().trim() != null && !uncertainty.getValue().isEmpty())
             return true;
-        if (qualityFlag.getText() != null && !qualityFlag.getValue().isEmpty() )
+        if (qualityFlag.getText().trim() != null && !qualityFlag.getValue().isEmpty() )
             return true;
-        if (researcherName.getText() != null && !researcherName.getValue().isEmpty())
+        if (researcherName.getText().trim() != null && !researcherName.getValue().isEmpty())
             return true;
-        if (researcherInstitution.getText() != null && !researcherInstitution.getValue().isEmpty() )
+        if (researcherInstitution.getText().trim() != null && !researcherInstitution.getValue().isEmpty() )
             return true;
-        if (referenceMethod.getText() != null && !referenceMethod.getValue().isEmpty() )
+        if (referenceMethod.getText().trim() != null && !referenceMethod.getValue().isEmpty() )
             return true;
         return false;
     }

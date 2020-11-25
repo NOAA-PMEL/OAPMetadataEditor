@@ -651,7 +651,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     @Override
     public boolean isDirty(Person original) {
-        OAPMetadataEditor.debugLog("PersonPanel.isDirty(" + original + ")");
+        OAPMetadataEditor.debugLog("@PersonPanel.isDirty(" + original + ")");
         boolean isDirty = false;
         isDirty = original == null ?
                 hasContent() : //       XXX get hasBeenModified() right!
@@ -669,7 +669,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                         isDirty(state, original.getState()) ||
                         isDirty(zip, original.getZip()) ||
                         isDirty(country, original.getCountry());
-        OAPMetadataEditor.debugLog("PersonPanel.isDirty:" + isDirty);
+        OAPMetadataEditor.debugLog("PersonPanel.isDirty: " + isDirty);
         return isDirty;
     }
 
@@ -677,7 +677,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        return modified;
 //    }
     public boolean hasContent() {
-        OAPMetadataEditor.debugLog("PersonPanel.hasContent()");
+        OAPMetadataEditor.debugLog("@PersonPanel.hasContent()");
         boolean hasContent = false;
         save.setEnabled(false);
         if (address1.getText().trim() != null && !address1.getText().isEmpty()) {
@@ -740,6 +740,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if (hasContent == true) {
             save.setEnabled(true);
         }
+        OAPMetadataEditor.debugLog("PersonPanel.hasContent is " + hasContent);
         return hasContent;
     }
 

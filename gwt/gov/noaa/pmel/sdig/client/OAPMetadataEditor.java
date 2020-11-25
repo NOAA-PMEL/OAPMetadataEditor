@@ -534,13 +534,23 @@ public class OAPMetadataEditor implements EntryPoint {
         // TimeAndLocationPanel
         TimeAndLocation timeAndLocation = timeAndLocationPanel.getTimeAndLocation();
         doc.setTimeAndLocation(timeAndLocation);
+
         // Funding Panel
-        List<Funding> fundings = fundingPanel.getFundings();
-        if (fundingPanel.isDirty()) {
+//        List<Funding> fundings = fundingPanel.getFundings();
+//        if (fundingPanel.isDirty()) {
+//            Funding f = fundingPanel.getFunding();
+//            fundings.add(f);
+//        }
+//        doc.setFunding(fundings);
+        if (fundingPanel.hasContent()) {
             Funding f = fundingPanel.getFunding();
-            fundings.add(f);
+            fundingPanel.addFunding(f);
+            fundingPanel.reset();
+            fundingPanel.setEditing(false);
         }
+        List<Funding> fundings = fundingPanel.getFundings();
         doc.setFunding(fundings);
+
         // Platforms Panel
 //        List<Platform> platforms = platformPanel.getPlatforms();
 //        if ( platformPanel.isDirty() ) {
@@ -574,7 +584,7 @@ public class OAPMetadataEditor implements EntryPoint {
             Variable ph = phPanel.getPh();
             doc.setPh(ph);
         }
-        // pco2z
+        // pco2a
         if (pco2aPanel.isDirty()) {
             Variable pco2a = pco2aPanel.getPco2a();
             doc.setPco2a(pco2a);
@@ -1459,7 +1469,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         citation.setResearchProjects(initalCitation.getResearchProjects());
                     }
                     if (initalCitation.getTitle() != null && !initalCitation.getTitle().isEmpty()) {
-                        citation.setDatasetAbstract(initalCitation.getTitle());
+                        citation.setTitle(initalCitation.getTitle());
                     }
                     if (initalCitation.getExpocode() != null && !initalCitation.getExpocode().isEmpty()) {
                         citation.setExpocode(initalCitation.getExpocode());
@@ -1653,6 +1663,49 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalDic.getPoisonDescription() != null && !initalDic.getPoisonDescription().isEmpty()) {
                         dic.setPoisonDescription(initalDic.getPoisonDescription());
                     }
+                    // commonVariables
+                    if (initalDic.getObservationType() != null && !initalDic.getObservationType().isEmpty()) {
+                        dic.setObservationType(initalDic.getObservationType());
+                    }
+                    if (initalDic.getManipulationMethod() != null && !initalDic.getManipulationMethod().isEmpty()) {
+                        dic.setManipulationMethod(initalDic.getManipulationMethod());
+                    }
+                    if (initalDic.getObservationDetail() != null && !initalDic.getObservationDetail().isEmpty()) {
+                        dic.setObservationDetail(initalDic.getObservationDetail());
+                    }
+                    if (initalDic.getUnits() != null && !initalDic.getUnits().isEmpty()) {
+                        dic.setUnits(initalDic.getUnits());
+                    }
+                    if (initalDic.getMeasured() != null && !initalDic.getMeasured().isEmpty()) {
+                        dic.setMeasured(initalDic.getMeasured());
+                    }
+                    if (initalDic.getSamplingInstrument() != null && !initalDic.getSamplingInstrument().isEmpty()) {
+                        dic.setSamplingInstrument(initalDic.getSamplingInstrument());
+                    }
+                    if (initalDic.getAnalyzingInstrument() != null && !initalDic.getAnalyzingInstrument().isEmpty()) {
+                        dic.setAnalyzingInstrument(initalDic.getAnalyzingInstrument());
+                    }
+                    if (initalDic.getDetailedInformation() != null & !initalDic.getDetailedInformation().isEmpty()) {
+                        dic.setDetailedInformation(initalDic.getDetailedInformation());
+                    }
+                    if (initalDic.getFieldReplicate() != null && !initalDic.getFieldReplicate().isEmpty()) {
+                        dic.setFieldReplicate(initalDic.getFieldReplicate());
+                    }
+                    if (initalDic.getUncertainty() != null && !initalDic.getUncertainty().isEmpty()) {
+                        dic.setUncertainty(initalDic.getUncertainty());
+                    }
+                    if (initalDic.getQualityFlag() != null && !initalDic.getQualityFlag().isEmpty()) {
+                        dic.setQualityFlag(initalDic.getQualityFlag());
+                    }
+                    if (initalDic.getResearcherName() != null && !initalDic.getResearcherName().isEmpty()) {
+                        dic.setResearcherName(initalDic.getResearcherName());
+                    }
+                    if (initalDic.getResearcherInstitution() != null && !initalDic.getResearcherInstitution().isEmpty()) {
+                        dic.setResearcherInstitution(initalDic.getResearcherInstitution());
+                    }
+                    if (initalDic.getReferenceMethod() != null && !initalDic.getReferenceMethod().isEmpty()) {
+                        dic.setReferenceMethod(initalDic.getReferenceMethod());
+                    }
                 }
 
                 dicPanel.show(dic);
@@ -1705,6 +1758,49 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalTa.getTitrationType() != null && !initalTa.getTitrationType().isEmpty()) {
                         ta.setTitrationType(initalTa.getTitrationType());
                     }
+                    // commonVariables
+                    if (initalTa.getObservationType() != null && !initalTa.getObservationType().isEmpty()) {
+                        ta.setObservationType(initalTa.getObservationType());
+                    }
+                    if (initalTa.getManipulationMethod() != null && !initalTa.getManipulationMethod().isEmpty()) {
+                        ta.setManipulationMethod(initalTa.getManipulationMethod());
+                    }
+                    if (initalTa.getObservationDetail() != null && !initalTa.getObservationDetail().isEmpty()) {
+                        ta.setObservationDetail(initalTa.getObservationDetail());
+                    }
+                    if (initalTa.getUnits() != null && !initalTa.getUnits().isEmpty()) {
+                        ta.setUnits(initalTa.getUnits());
+                    }
+                    if (initalTa.getMeasured() != null && !initalTa.getMeasured().isEmpty()) {
+                        ta.setMeasured(initalTa.getMeasured());
+                    }
+                    if (initalTa.getSamplingInstrument() != null && !initalTa.getSamplingInstrument().isEmpty()) {
+                        ta.setSamplingInstrument(initalTa.getSamplingInstrument());
+                    }
+                    if (initalTa.getAnalyzingInstrument() != null && !initalTa.getAnalyzingInstrument().isEmpty()) {
+                        ta.setAnalyzingInstrument(initalTa.getAnalyzingInstrument());
+                    }
+                    if (initalTa.getDetailedInformation() != null & !initalTa.getDetailedInformation().isEmpty()) {
+                        ta.setDetailedInformation(initalTa.getDetailedInformation());
+                    }
+                    if (initalTa.getFieldReplicate() != null && !initalTa.getFieldReplicate().isEmpty()) {
+                        ta.setFieldReplicate(initalTa.getFieldReplicate());
+                    }
+                    if (initalTa.getUncertainty() != null && !initalTa.getUncertainty().isEmpty()) {
+                        ta.setUncertainty(initalTa.getUncertainty());
+                    }
+                    if (initalTa.getQualityFlag() != null && !initalTa.getQualityFlag().isEmpty()) {
+                        ta.setQualityFlag(initalTa.getQualityFlag());
+                    }
+                    if (initalTa.getResearcherName() != null && !initalTa.getResearcherName().isEmpty()) {
+                        ta.setResearcherName(initalTa.getResearcherName());
+                    }
+                    if (initalTa.getResearcherInstitution() != null && !initalTa.getResearcherInstitution().isEmpty()) {
+                        ta.setResearcherInstitution(initalTa.getResearcherInstitution());
+                    }
+                    if (initalTa.getReferenceMethod() != null && !initalTa.getReferenceMethod().isEmpty()) {
+                        ta.setReferenceMethod(initalTa.getReferenceMethod());
+                    }
                 }
 
                 taPanel.show(ta);
@@ -1746,6 +1842,49 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     if (initalPh.getTemperatureStandarization() != null && !initalPh.getTemperatureStandarization().isEmpty()) {
                         ph.setTemperatureStandarization(initalPh.getTemperatureCorrectionMethod());
+                    }
+                    // commonVariables
+                    if (initalPh.getObservationType() != null && !initalPh.getObservationType().isEmpty()) {
+                        ph.setObservationType(initalPh.getObservationType());
+                    }
+                    if (initalPh.getManipulationMethod() != null && !initalPh.getManipulationMethod().isEmpty()) {
+                        ph.setManipulationMethod(initalPh.getManipulationMethod());
+                    }
+                    if (initalPh.getObservationDetail() != null && !initalPh.getObservationDetail().isEmpty()) {
+                        ph.setObservationDetail(initalPh.getObservationDetail());
+                    }
+                    if (initalPh.getUnits() != null && !initalPh.getUnits().isEmpty()) {
+                        ph.setUnits(initalPh.getUnits());
+                    }
+                    if (initalPh.getMeasured() != null && !initalPh.getMeasured().isEmpty()) {
+                        ph.setMeasured(initalPh.getMeasured());
+                    }
+                    if (initalPh.getSamplingInstrument() != null && !initalPh.getSamplingInstrument().isEmpty()) {
+                        ph.setSamplingInstrument(initalPh.getSamplingInstrument());
+                    }
+                    if (initalPh.getAnalyzingInstrument() != null && !initalPh.getAnalyzingInstrument().isEmpty()) {
+                        ph.setAnalyzingInstrument(initalPh.getAnalyzingInstrument());
+                    }
+                    if (initalPh.getDetailedInformation() != null & !initalPh.getDetailedInformation().isEmpty()) {
+                        ph.setDetailedInformation(initalPh.getDetailedInformation());
+                    }
+                    if (initalPh.getFieldReplicate() != null && !initalPh.getFieldReplicate().isEmpty()) {
+                        ph.setFieldReplicate(initalPh.getFieldReplicate());
+                    }
+                    if (initalPh.getUncertainty() != null && !initalPh.getUncertainty().isEmpty()) {
+                        ph.setUncertainty(initalPh.getUncertainty());
+                    }
+                    if (initalPh.getQualityFlag() != null && !initalPh.getQualityFlag().isEmpty()) {
+                        ph.setQualityFlag(initalPh.getQualityFlag());
+                    }
+                    if (initalPh.getResearcherName() != null && !initalPh.getResearcherName().isEmpty()) {
+                        ph.setResearcherName(initalPh.getResearcherName());
+                    }
+                    if (initalPh.getResearcherInstitution() != null && !initalPh.getResearcherInstitution().isEmpty()) {
+                        ph.setResearcherInstitution(initalPh.getResearcherInstitution());
+                    }
+                    if (initalPh.getReferenceMethod() != null && !initalPh.getReferenceMethod().isEmpty()) {
+                        ph.setReferenceMethod(initalPh.getReferenceMethod());
                     }
                 }
 
@@ -1832,6 +1971,49 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getVaporCorrection() != null && !initalPco2a.getVaporCorrection().isEmpty()) {
                         pco2a.setVaporCorrection(initalPco2a.getVaporCorrection());
                     }
+                    // commonVariables
+                    if (initalPco2a.getObservationType() != null && !initalPco2a.getObservationType().isEmpty()) {
+                        pco2a.setObservationType(initalPco2a.getObservationType());
+                    }
+                    if (initalPco2a.getManipulationMethod() != null && !initalPco2a.getManipulationMethod().isEmpty()) {
+                        pco2a.setManipulationMethod(initalPco2a.getManipulationMethod());
+                    }
+                    if (initalPco2a.getObservationDetail() != null && !initalPco2a.getObservationDetail().isEmpty()) {
+                        pco2a.setObservationDetail(initalPco2a.getObservationDetail());
+                    }
+                    if (initalPco2a.getUnits() != null && !initalPco2a.getUnits().isEmpty()) {
+                        pco2a.setUnits(initalPco2a.getUnits());
+                    }
+                    if (initalPco2a.getMeasured() != null && !initalPco2a.getMeasured().isEmpty()) {
+                        pco2a.setMeasured(initalPco2a.getMeasured());
+                    }
+                    if (initalPco2a.getSamplingInstrument() != null && !initalPco2a.getSamplingInstrument().isEmpty()) {
+                        pco2a.setSamplingInstrument(initalPco2a.getSamplingInstrument());
+                    }
+                    if (initalPco2a.getAnalyzingInstrument() != null && !initalPco2a.getAnalyzingInstrument().isEmpty()) {
+                        pco2a.setAnalyzingInstrument(initalPco2a.getAnalyzingInstrument());
+                    }
+                    if (initalPco2a.getDetailedInformation() != null & !initalPco2a.getDetailedInformation().isEmpty()) {
+                        pco2a.setDetailedInformation(initalPco2a.getDetailedInformation());
+                    }
+                    if (initalPco2a.getFieldReplicate() != null && !initalPco2a.getFieldReplicate().isEmpty()) {
+                        pco2a.setFieldReplicate(initalPco2a.getFieldReplicate());
+                    }
+                    if (initalPco2a.getUncertainty() != null && !initalPco2a.getUncertainty().isEmpty()) {
+                        pco2a.setUncertainty(initalPco2a.getUncertainty());
+                    }
+                    if (initalPco2a.getQualityFlag() != null && !initalPco2a.getQualityFlag().isEmpty()) {
+                        pco2a.setQualityFlag(initalPco2a.getQualityFlag());
+                    }
+                    if (initalPco2a.getResearcherName() != null && !initalPco2a.getResearcherName().isEmpty()) {
+                        pco2a.setResearcherName(initalPco2a.getResearcherName());
+                    }
+                    if (initalPco2a.getResearcherInstitution() != null && !initalPco2a.getResearcherInstitution().isEmpty()) {
+                        pco2a.setResearcherInstitution(initalPco2a.getResearcherInstitution());
+                    }
+                    if (initalPco2a.getReferenceMethod() != null && !initalPco2a.getReferenceMethod().isEmpty()) {
+                        pco2a.setReferenceMethod(initalPco2a.getReferenceMethod());
+                    }
                 }
 
                 pco2aPanel.show(pco2a);
@@ -1897,6 +2079,49 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     if (initalPco2d.getVaporCorrection() != null && !initalPco2d.getVaporCorrection().isEmpty()) {
                         pco2d.setVaporCorrection(initalPco2d.getVaporCorrection());
+                    }
+                    // commonVariables
+                    if (initalPco2d.getObservationType() != null && !initalPco2d.getObservationType().isEmpty()) {
+                        pco2d.setObservationType(initalPco2d.getObservationType());
+                    }
+                    if (initalPco2d.getManipulationMethod() != null && !initalPco2d.getManipulationMethod().isEmpty()) {
+                        pco2d.setManipulationMethod(initalPco2d.getManipulationMethod());
+                    }
+                    if (initalPco2d.getObservationDetail() != null && !initalPco2d.getObservationDetail().isEmpty()) {
+                        pco2d.setObservationDetail(initalPco2d.getObservationDetail());
+                    }
+                    if (initalPco2d.getUnits() != null && !initalPco2d.getUnits().isEmpty()) {
+                        pco2d.setUnits(initalPco2d.getUnits());
+                    }
+                    if (initalPco2d.getMeasured() != null && !initalPco2d.getMeasured().isEmpty()) {
+                        pco2d.setMeasured(initalPco2d.getMeasured());
+                    }
+                    if (initalPco2d.getSamplingInstrument() != null && !initalPco2d.getSamplingInstrument().isEmpty()) {
+                        pco2d.setSamplingInstrument(initalPco2d.getSamplingInstrument());
+                    }
+                    if (initalPco2d.getAnalyzingInstrument() != null && !initalPco2d.getAnalyzingInstrument().isEmpty()) {
+                        pco2d.setAnalyzingInstrument(initalPco2d.getAnalyzingInstrument());
+                    }
+                    if (initalPco2d.getDetailedInformation() != null & !initalPco2d.getDetailedInformation().isEmpty()) {
+                        pco2d.setDetailedInformation(initalPco2d.getDetailedInformation());
+                    }
+                    if (initalPco2d.getFieldReplicate() != null && !initalPco2d.getFieldReplicate().isEmpty()) {
+                        pco2d.setFieldReplicate(initalPco2d.getFieldReplicate());
+                    }
+                    if (initalPco2d.getUncertainty() != null && !initalPco2d.getUncertainty().isEmpty()) {
+                        pco2d.setUncertainty(initalPco2d.getUncertainty());
+                    }
+                    if (initalPco2d.getQualityFlag() != null && !initalPco2d.getQualityFlag().isEmpty()) {
+                        pco2d.setQualityFlag(initalPco2d.getQualityFlag());
+                    }
+                    if (initalPco2d.getResearcherName() != null && !initalPco2d.getResearcherName().isEmpty()) {
+                        pco2d.setResearcherName(initalPco2d.getResearcherName());
+                    }
+                    if (initalPco2d.getResearcherInstitution() != null && !initalPco2d.getResearcherInstitution().isEmpty()) {
+                        pco2d.setResearcherInstitution(initalPco2d.getResearcherInstitution());
+                    }
+                    if (initalPco2d.getReferenceMethod() != null && !initalPco2d.getReferenceMethod().isEmpty()) {
+                        pco2d.setReferenceMethod(initalPco2d.getReferenceMethod());
                     }
                 }
 

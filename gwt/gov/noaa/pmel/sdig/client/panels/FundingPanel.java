@@ -212,49 +212,50 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     }
 
     public boolean isDirty(List<Funding> originals) {
-//        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+originals+")");
         boolean isDirty = false;
-        if ( isDirty()) {
+        if (hasContent()) {
             addCurrentFunding();
         }
-        Set<Funding> thisFundings = new TreeSet<>(getFundings());
-        if ( thisFundings.size() != originals.size()) {
-//            OAPMetadataEditor.debugLog("FundingPanel.isDirty.size:"+thisFundings.size());
-            return true;
-        }
-        Iterator<Funding> otherFundings = new TreeSet<>(originals).iterator();
-        for ( Funding f : thisFundings ) {
-            if ( !f.equals(otherFundings.next())) {
+        Set<Funding>thisFundings = new TreeSet<>(getFundings());
+        if (thisFundings.size() != originals.size()) { return true; }
+        Iterator<Funding>otherFundings = new TreeSet<>(originals).iterator();
+        for (Funding f : thisFundings) {
+            if (!f.equals(otherFundings.next())) {
                 isDirty = true;
-//               OAPMetadataEditor.debugLog("FundingPanel.isDirty.other:"+f);
                 break;
             }
         }
         return isDirty;
     }
     public boolean isDirty(Funding original) {
-//        OAPMetadataEditor.debugLog("FundingPanel.isDirty("+original+")");
-        boolean isDirty =
-                isDirty( agencyName, original.getAgencyName() ) ||
-                        isDirty( title, original.getGrantTitle() ) ||
-                        isDirty( grantNumber, original.getGrantNumber() );
+        OAPMetadataEditor.debugLog("@FundingPanel.isDirty(" + original + ")");
+        boolean isDirty = false;
+        isDirty = original == null ? hasContent() :
+                isDirty(agencyName, original.getAgencyName())
+                        || isDirty(title, original.getGrantTitle())
+                        || isDirty(grantNumber, original.getGrantNumber());
+        OAPMetadataEditor.debugLog("FundingPanel.isDirty: " + isDirty);
         return isDirty;
     }
-    public boolean isDirty() {
-//        OAPMetadataEditor.debugLog("FundingPanel.isDirty()");
-        if ( agencyName.getText().trim() != null && !agencyName.getText().isEmpty() ) {
-            save.setEnabled(true);
-            return true;
+    public boolean hasContent() {
+        OAPMetadataEditor.debugLog("@FundingPanel.hasContent()");
+        boolean hasContent = false;
+        save.setEnabled(false);
+
+        if (agencyName.getText().trim() != null && !agencyName.getText().isEmpty()) {
+            hasContent = true;
         }
-        if ( title.getText().trim() != null && !title.getText().isEmpty() ) {
-            save.setEnabled(true);
-            return true;
+        if (title.getText().trim() != null && !title.getText().isEmpty()) {
+            hasContent = true;
         }
-        if ( grantNumber.getText().trim() != null & !grantNumber.getText().isEmpty() ) {
-            save.setEnabled(true);
-            return true;
+        if (grantNumber.getText().trim() != null & !grantNumber.getText().isEmpty()) {
+            hasContent = true;
         }
-        return false;
+        if (hasContent == true) {
+            save.setEnabled(true);
+        }
+        OAPMetadataEditor.debugLog("FundingPanel.hasContent is " + hasContent);
+        return hasContent;
     }
 
     private void setAllEditable(boolean editable) {
@@ -298,7 +299,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundingPagination.rebuild(cellTablePager);
         setTableVisible(true);
     }
-    private void addFunding(Funding f) {
+//    private void addFunding(Funding f) {
+    public void addFunding(Funding f) {
         if ( f == null ) { return; }
         int position = f.getPosition() >= 0 ? f.getPosition() : fundingListDataProvider.getList().size();
         f.setPosition(position);
@@ -328,7 +330,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(warning, settings);
         } else {
-            if ( isDirty()) {
+            if ( hasContent() ) {
                 addCurrentFunding();
             }
 //            eventBus.fireEventFromSource(new SectionSave(getFunding(), Constants.SECTION_Funding), FundingPanel.this);
@@ -377,6 +379,9 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         }
         setAllEditable(true);
         setEnableTableRowButtons(true);
+    }
+    public void setEditing(boolean isEditing) {
+        editing = isEditing;
     }
     public void clearFundings() {
         fundingListDataProvider.getList().clear();
