@@ -446,7 +446,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         };
         people.addColumn(nameColumn, "Last Name");
 
-        // Add a date column to show the birthday.
+        // Add a text column to show the institution.
         TextColumn<Person> institutionColumn = new TextColumn<Person>() {
             @Override
             public String getValue(Person object) {
@@ -466,6 +466,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             public void update(int index, Person person, String value) {
                 form.reset(); // Because the mouseover will have filled the form
                 peopleData.getList().remove(person);
+                hasRequiredFields();
                 peopleData.flush();
                 peoplePagination.rebuild(cellTablePager);
                 if (peopleData.getList().size() == 0) {
@@ -590,20 +591,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
 
             // check if any person in peopleData is missing required fields
-            boolean meetsRequired = true;
-            for (int i = 0; i < peopleData.getList().size(); i++) {
-                Person p = peopleData.getList().get(i);
-                if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
-                        || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
-                        || ((p.getLastName() == null) || (p.getLastName().isEmpty()))
-                        || ((!emailRegex.test(p.getEmail())) && ((p.getEmail() != null) && (!p.getEmail().isEmpty())))) {
-                    meetsRequired = false;
-                }
-            }
-//            OAPMetadataEditor.debugLog("meetsRequired set to " + meetsRequired);
-            if (meetsRequired == true && peopleData.getList().size() > 0) {
-                eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
-            }
+            hasRequiredFields();
 
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
@@ -820,7 +808,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 ////        modified = true;
 ////        editing = true;
 //    }
-    @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "email", "rid"})
+    @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("getsource: " + event.getSource());
         save.setEnabled(true);
@@ -872,7 +860,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     public void addPeople(List<Person> personList) {
-
         for (int i = 0; i < personList.size(); i++) {
             Person p = personList.get(i);
             p.setPosition(i);
@@ -881,6 +868,25 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         peopleData.flush();
         peoplePagination.rebuild(cellTablePager);
         setTableVisible(true);
+    }
+
+    public void hasRequiredFields() {
+        // check if any person in peopleData is missing required fields
+        boolean meetsRequired = true;
+        for (int i = 0; i < peopleData.getList().size(); i++) {
+            Person p = peopleData.getList().get(i);
+            OAPMetadataEditor.debugLog("@checkPeople:p.getEmail(): \"" + p.getEmail() + "\"");
+            if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
+                    || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
+                    || ((p.getLastName() == null) || (p.getLastName().isEmpty()))
+                    || ((!emailRegex.test(p.getEmail())) && ((p.getEmail() != null) && (!p.getEmail().isEmpty())))) {
+                meetsRequired = false;
+
+            }
+        }
+        if (meetsRequired == true && peopleData.getList().size() > 0) {
+            eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
+        }
     }
 
     public void setTableVisible(boolean b) {
