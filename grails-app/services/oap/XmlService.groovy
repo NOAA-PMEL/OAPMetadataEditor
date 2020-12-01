@@ -247,25 +247,37 @@ class XmlService {
             Element variableE = variables.get(i)
 
             String fullname =variableE.getChild("fullname") ?
-                    variableE.getChild("fullname").getTextTrim().replaceAll("_", " ") :
+                    variableE.getChild("fullname").getTextTrim().replaceAll("_", " ").toLowerCase() :
                     null
-            if ( fullname != null && fullname.contains("inorganic carbon") ) {
+            String internal = variableE.getChild("internal") ?
+                    variableE.getChild("internal").getTextTrim() :
+                    null
+            if (( internal != null && internal.equals("1")) ||
+                ( fullname != null && fullname.contains("inorganic carbon"))) {
                 Dic dic = fillVariableDomain(variableE, new Dic())
                 mdDoc.setDic(dic)
-            } else if ( fullname != null &&
-                    ( fullname.equalsIgnoreCase("ph")
-                      || fullname.equalsIgnoreCase("ph total"))) {
-                Ph ph = fillVariableDomain(variableE, new Ph())
-                mdDoc.setPh(ph)
-            } else if ( fullname != null && fullname.equalsIgnoreCase("pco2 (fco2) autonomous") ) {
-                Pco2a p = fillVariableDomain(variableE, new Pco2a())
-                mdDoc.setPco2a(p)
-            } else if ( fullname != null && fullname.equalsIgnoreCase("pco2 (fco2) discrete")) {
-                Pco2d p = fillVariableDomain(variableE, new Pco2d())
-                mdDoc.setPco2d(p)
-            } else if ( fullname != null && fullname.equalsIgnoreCase("total alkalinity") ) {
+            } else if (( internal != null && internal.equals("2")) ||
+                       ( fullname != null && fullname.equals("total alkalinity"))) {
                 Ta ta = fillVariableDomain(variableE, new Ta())
                 mdDoc.setTa(ta)
+            } else if (( internal != null && internal.equals("3")) ||
+                        ( fullname != null &&
+                        ( fullname.equals("ph") ||
+                                fullname.equals("ph total")))) {
+                Ph ph = fillVariableDomain(variableE, new Ph())
+                mdDoc.setPh(ph)
+            } else if (( internal != null && internal.equals("4")) ||
+                       ( fullname != null &&
+                           ( fullname.equals("pco2 (fco2) autonomous") ||
+                             fullname.equals("pco2 (or fco2) autonomous")))) {
+                Pco2a p = fillVariableDomain(variableE, new Pco2a())
+                mdDoc.setPco2a(p)
+            } else if (( internal != null && internal.equals("5")) ||
+                       ( fullname != null &&
+                            ( fullname.equals("pco2 (fco2) discrete") ||
+                              fullname.equals("pco2 (or fco2) discrete")))) {
+                Pco2d p = fillVariableDomain(variableE, new Pco2d())
+                mdDoc.setPco2d(p)
             } else {
                 Variable variable = fillVariableDomain(variableE, new Variable())
                 mdDoc.addToVariables(variable)
