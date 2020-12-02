@@ -315,14 +315,29 @@ class XmlService {
         Element manipulationMethod = varElement.getChild("manipulationMethod")
         if ( ! isEmpty(manipulationMethod) ) {
             domainVar.setManipulationMethod(manipulationMethod.getTextTrim())
-        }
+    }
         Element unit = varElement.getChild("unit")
         if ( ! isEmpty(unit) ) {
             domainVar.setUnits(unit.getTextTrim())
         }
         Element measured = varElement.getChild("measured")
         if ( ! isEmpty(measured) ) {
-            domainVar.setMeasured(measured.getTextTrim())
+            boolean set = false
+            String measuredText = measured.getTextTrim()
+            if ( "measured or calculated".equalsIgnoreCase(measuredText)) {
+                ; // ignore domainVar.setMeasured("")
+            } else if ( "measured".equalsIgnoreCase(measuredText) ||
+                        "calculated".equalsIgnoreCase(measuredText)) {
+                domainVar.setMeasured(measuredText)
+                set = true
+            } else if ( measuredText.toLowerCase().contains("calculated")) {
+                domainVar.setMeasured("Calculated")
+                domainVar.setCalculationMethod(measuredText)
+                set = true
+            }
+            if ( !set && ! isEmpty(varElement.getChild("calcMethod"))) {
+                domainVar.setMeasured("Calculated")
+            }
         }
         Element calcMethod = varElement.getChild("calcMethod")
         if ( ! isEmpty(calcMethod) ) {

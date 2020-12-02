@@ -134,6 +134,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
     }
 
     private void setDefaults() {
+        common.isBig5 = true;
         common.abbreviation.setText("pCO2d");
         common.fullVariableName.setText("pco2 (fco2) discrete");
     }
@@ -353,6 +354,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        common.reset();
         setDefaults();
     }
 }

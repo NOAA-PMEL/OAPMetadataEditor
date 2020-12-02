@@ -121,6 +121,7 @@ DIC: Researcher Institution
     }
 
     private void setDefaults() {
+        common.isBig5 = true;
         common.abbreviation.setText("DIC");
         common.fullVariableName.setText("Dissolved Inorganic Carbon");
     }
@@ -259,6 +260,7 @@ DIC: Researcher Institution
     }
     public void reset() {
         super.reset();
+        common.reset();
         setDefaults();
     }
     public boolean valid() {
