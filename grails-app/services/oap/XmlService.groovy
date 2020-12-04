@@ -94,9 +94,18 @@ class XmlService {
             citation.setScientificReferences(reference.getTextTrim())
         }
 
-        Element citationList = root.getChild("citation")
-        if ( ! isEmpty(citationList) ) {
-            citation.setCitationAuthorList(citationList.getTextTrim())
+        Element authorsList = root.getChild("authors")
+        if ( ! isEmpty(authorsList) ) {
+            String semi = ""
+            String authorsString = ""
+            List<Element> authors = authorsList.getChildren("author")
+            for (Element author : authors) {
+                if ( !isEmpty(author)) {
+                    authorsString = authorsString + semi + author.getTextTrim()
+                    semi = "; "
+                }
+            }
+            citation.setCitationAuthorList(authorsString)
         }
 
         Element suppleInfo = root.getChild("suppleInfo")
@@ -309,13 +318,17 @@ class XmlService {
             domainVar.setObservationType(observationType.getTextTrim())
         }
         Element insitu = varElement.getChild("insitu")
-        if ( ! isEmpty(insitu) ) {
-            domainVar.setObservationDetail(insitu.getTextTrim())
+        if ( ! isEmpty(insitu)) {
+            String insituText = insitu.getTextTrim().toLowerCase();
+            if ( insituText.startsWith("in-situ") )
+                domainVar.setObservationDetail("In-situ observation")
+            else
+                domainVar.setObservationDetail(insituText)
         }
         Element manipulationMethod = varElement.getChild("manipulationMethod")
         if ( ! isEmpty(manipulationMethod) ) {
             domainVar.setManipulationMethod(manipulationMethod.getTextTrim())
-    }
+        }
         Element unit = varElement.getChild("unit")
         if ( ! isEmpty(unit) ) {
             domainVar.setUnits(unit.getTextTrim())
