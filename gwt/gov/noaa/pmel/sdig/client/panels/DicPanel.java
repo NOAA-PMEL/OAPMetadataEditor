@@ -48,15 +48,15 @@ public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>
     @UiField
     TextBox batchNumber;
 
-    // 017 Poison used to kill the sample
+    // 017 How were the samples preserved (HgCl2, or others)
     @UiField
     TextBox poison;
 
-    // 018 Poison volume
+    // 018 Concentration and amount of the preservative added
     @UiField
     TextBox poisonVolume;
 
-    // 019 Poisoning correction description
+    // 019 Preservative correction description
     @UiField
     TextBox poisonDescription;
 
@@ -83,9 +83,9 @@ DIC: Standardization technique description
 DIC: Frequency of standardization
 DIC: CRM manufacturer
 DIC: Batch number
-DIC: Poison used to kill the sample
-DIC: Poison volume
-DIC Poisoning correction description
+DIC: How were the samples preserved (HgCl2, or others)
+DIC: Concentration and amount of the preservative
+DIC: Preservative correction description
 DIC: Uncertainty
 DIC: Data quality flag description
 DIC: Method reference (citation)

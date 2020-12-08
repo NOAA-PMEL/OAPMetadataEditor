@@ -13,9 +13,9 @@
 013 TA: Frequency of standardization
 014 TA: CRM manufacturer
 015 TA: Batch Number
-017 TA: Poison used to kill the sample
-018 TA: Poison volume
-019 TA: Poisoning correction description
+017 TA: How were the samples preserved (HgCl2, or others)
+018 TA: Concentration and amount of the preservative
+019 TA: Preservative correction description
 042 TA: Magnitude of blank correction
 
 
@@ -67,31 +67,31 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="MD_4 LG_3">
+                        <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="poisonForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poison" text="Poison used to kill the sample"></b:FormLabel>
+                                <b:FormLabel for="poison" text="How were the samples preserved (HgCl2, or others)"></b:FormLabel>
                                 <b:Modal title="23.16.1 As described, e.g., Mercury Chloride." closable="true" b:id="modalPoison"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoison" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="poison" allowBlank="true" placeholder="Poison used to kill the sample" b:id="poison"></b:TextBox>
+                                <b:TextBox ui:field="poison" allowBlank="true" placeholder="How were the samples preserved (HgCl2, or others)" b:id="poison"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_4 LG_4" offset="LG_1">
+                        <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="poisonVolumeForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poisonVolume" text="Poison Volume"></b:FormLabel>
-                                <b:Modal title="23.16.2 How much poison is added to each sample to kill the microbes. For example, 20 μL Mercury Chloride is added to 500 mL samples." closable="true" b:id="modalPoisonVolume"/>
+                                <b:FormLabel for="poisonVolume" text="Concentration and amount of the preservative"></b:FormLabel>
+                                <b:Modal title="23.16.2 How much preservative is added to each sample to eliminate the microbes. For example, 20 μL Mercury Chloride is added to 500 mL samples." closable="true" b:id="modalPoisonVolume"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoisonVolume" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="poisonVolume" allowBlank="true" placeholder="Poison Volume" b:id="poisonVolume"></b:TextBox>
+                                <b:TextBox ui:field="poisonVolume" allowBlank="true" placeholder="Concentration and amount of the preservative added" b:id="poisonVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_4 LG_3" offset="LG_1">
+                        <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poisonDescription" text="Poisoning correction description"></b:FormLabel>
-                                <b:Modal title="23.16.3 Please specify whether the reported variables were corrected for poison usage, and if so, how they were corrected." closable="true" b:id="modalPoisonDescription"/>
+                                <b:FormLabel for="poisonDescription" text="Preservative correction description;"></b:FormLabel>
+                                <b:Modal title="23.16.3 Please specify whether the reported variables were corrected for preservative usage, and if so, how they were corrected." closable="true" b:id="modalPoisonDescription"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoisonDescription" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="poisonDescription" allowBlank="true" placeholder="Poisoning correction description" b:id="poisonDescription"></b:TextBox>
+                                <b:TextBox ui:field="poisonDescription" allowBlank="true" placeholder="Preservative correction description" b:id="poisonDescription"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

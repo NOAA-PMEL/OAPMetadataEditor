@@ -48,15 +48,15 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox batchNumber;
 
-    // 017 Poison used to kill the sample
+    // 017 How were the samples preserved (HgCl2, or others)
     @UiField
     TextBox poison;
 
-    // 018 Poison volume
+    // 018 Concentration and amount of the preservative
     @UiField
     TextBox poisonVolume;
 
-    // 019 Poisoning correction description
+    // 019 Preservative correction description
     @UiField
     TextBox poisonDescription;
 
