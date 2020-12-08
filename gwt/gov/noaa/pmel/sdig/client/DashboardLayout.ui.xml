@@ -22,7 +22,8 @@
                     <b:Image  pull="LEFT" pixelSize="60,60" url="images/NOAA_logo.svg"/>
                     <b:NavbarBrand>OAP Metadata Editor</b:NavbarBrand>
             </b:NavbarHeader>
-            <b:NavbarLink marginTop="16" marginRight="10" pull="RIGHT">Help</b:NavbarLink>
+            <!-- TODO define help resources -->
+            <!-- b:NavbarLink marginTop="16" marginRight="10" pull="RIGHT">Help</b:NavbarLink -->
         </b:Navbar>
         <b:Navbar visible="false"
                   position="FIXED_BOTTOM">
