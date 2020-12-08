@@ -27,6 +27,7 @@ import java.util.List;
 public class CommonVariablePanel extends Composite implements GetsDirty<Variable> {
 
     Variable _displayedVariable = null;
+    boolean isBig5 = false;
 
     @UiField
     Heading heading;
@@ -54,6 +55,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     // 006 Measured or calculated
     @UiField
     ButtonDropDown measured;
+
+    @UiField
+    TextBox calculationMethod;
 
     // 008 Sampling instrument
     @UiField (provided = true)
@@ -268,9 +272,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         List<String> measuredNames = new ArrayList<String>();
         List<String> measuredValues = new ArrayList<String>();
         measuredNames.add("Measured");
-        measuredValues.add("measured");
+        measuredValues.add("Measured");
         measuredNames.add("Calculated");
-        measuredValues.add("calculated");
+        measuredValues.add("Calculated");
         measured.init("Measured or Calculated ", measuredNames, measuredValues);
 
         abbreviationModal.setTitle("");
@@ -291,6 +295,10 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         referenceMethodModal.setTitle("");
 
     }
+    void reset() {
+        observationDetail.reset();
+        measured.reset();
+    }
     public void show(Variable variable) {
         _displayedVariable = variable;
         if ( variable.getAbbreviation() != null ) {
@@ -298,6 +306,8 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         }
         if ( variable.getObservationDetail() != null ) {
             observationDetail.setSelected(variable.getObservationDetail());
+        } else {
+            observationDetail.reset();
         }
         if ( variable.getManipulationMethod() != null ) {
             manipulationMethod.setText(variable.getManipulationMethod());
@@ -310,12 +320,17 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         }
         if ( variable.getMeasured() != null ) {
             measured.setSelected(variable.getMeasured());
+        } else {
+            measured.reset();
         }
         if ( variable.getSamplingInstrument() != null ) {
             samplingInstrument.setText(variable.getSamplingInstrument());
         }
         if ( variable.getAnalyzingInstrument() != null ) {
             analyzingInstrument.setText(variable.getAnalyzingInstrument());
+        }
+        if ( variable.getCalculationMethod() != null ) {
+            calculationMethod.setText(variable.getCalculationMethod());
         }
         if ( variable.getDetailedInformation() != null ) {
             detailedInformation.setText(variable.getDetailedInformation());
@@ -359,6 +374,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         commonVariable.setObservationDetail(observationDetail.getValue());
         commonVariable.setUnits(units.getText());
         commonVariable.setMeasured(measured.getValue());
+        commonVariable.setCalculationMethod(calculationMethod.getValue());
         commonVariable.setSamplingInstrument(samplingInstrument.getText());
         commonVariable.setAnalyzingInstrument(analyzingInstrument.getText());
         commonVariable.setDetailedInformation(detailedInformation.getText());
@@ -383,6 +399,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
                    isDirty(measured.getValue(), original.getMeasured() ) ||
                    isDirty(samplingInstrument, original.getSamplingInstrument() ) ||
                    isDirty(analyzingInstrument, original.getAnalyzingInstrument() ) ||
+                   isDirty(calculationMethod, original.getCalculationMethod() ) ||
                    isDirty(detailedInformation, original.getDetailedInformation() ) ||
                    isDirty(fieldReplicate, original.getFieldReplicate() ) ||
                    isDirty(uncertainty, original.getUncertainty() ) ||
@@ -393,7 +410,15 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         return isDirty;
     }
     public boolean isDirty() {
-        // Don't check abbreviation and full name since they are filled automatically.
+        // Don't check abbreviation and full name for Big5 since they are filled automatically.
+        if ( !isBig5 ) {
+            if (abbreviation.getText() != null && !abbreviation.getText().isEmpty() ) {
+                return true;
+            }
+            if (fullVariableName.getText() != null && !fullVariableName.getText().isEmpty() ) {
+                return true;
+            }
+        }
         if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
             return true;
         }

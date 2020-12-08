@@ -104,6 +104,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
     }
 
     private void setDefaults() {
+        common.isBig5 = true;
         common.abbreviation.setText("pH");
         common.fullVariableName.setText("pH total");
     }
@@ -219,6 +220,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        common.reset();
         setDefaults();
     }
     public boolean valid() {

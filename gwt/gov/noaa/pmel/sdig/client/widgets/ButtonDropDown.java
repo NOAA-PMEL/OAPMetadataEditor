@@ -34,6 +34,7 @@ public class ButtonDropDown extends Composite {
 
     Map<String, String> values = new HashMap<String, String>();
     String currentValue;
+    String initialValue;
 
     interface ButtonDropDownUiBinder extends UiBinder<HTMLPanel, ButtonDropDown> {
     }
@@ -44,7 +45,9 @@ public class ButtonDropDown extends Composite {
         initWidget(ourUiBinder.createAndBindUi(this));
     }
     public void init(String initialValue, List<String> labels, List<String> inputValues) {
+        this.initialValue = initialValue;
         button.setText(initialValue);
+        button.setTitle(initialValue);
         for ( int i = 0; i < labels.size(); i++ ) {
             String label = labels.get(i);
             values.put(label, inputValues.get(i));
@@ -65,6 +68,7 @@ public class ButtonDropDown extends Composite {
         return currentValue;
     }
     public void setSelected(String value) {
+        boolean set = false;
         Set<String> keys = values.keySet();
         for (Iterator kIt = keys.iterator(); kIt.hasNext(); ) {
             String key = (String) kIt.next();
@@ -72,8 +76,18 @@ public class ButtonDropDown extends Composite {
             if ( v.equalsIgnoreCase(value) ) {
                 button.setText(key);
                 currentValue = v;
+                set = true;
                 break;
             }
         }
+        if ( !set ) {
+            GWT.log("Failed to set " + this.initialValue + " dropbutton for value " + value);
+            reset();
+        }
+    }
+
+    public  void reset() {
+        button.setText(initialValue);
+        currentValue = null;
     }
 }

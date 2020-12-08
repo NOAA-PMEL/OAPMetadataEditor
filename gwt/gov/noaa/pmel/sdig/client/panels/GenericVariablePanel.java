@@ -276,6 +276,12 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         }
         setAllEditable(true);
         setEnableTableRowButtons(true);
+        resetDropDowns();
+    }
+
+    private void resetDropDowns() {
+        observationDetail.reset();
+        measured.reset();
     }
 
     public void setEditing(boolean isEditing) {
@@ -317,9 +323,9 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         List<String> measuredNames = new ArrayList<String>();
         List<String> measuredValues = new ArrayList<String>();
         measuredNames.add("Measured");
-        measuredValues.add("measured");
+        measuredValues.add("Measured");
         measuredNames.add("Calculated");
-        measuredValues.add("calculated");
+        measuredValues.add("Calculated");
         measured.init("Measured or Calculated ", measuredNames, measuredValues);
 
         variables.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
@@ -490,13 +496,16 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             units.setText(variable.getUnits());
         }
         if ( variable.getMeasured() != null ) {
-            measured.setTitle(variable.getMeasured());
+            measured.setSelected(variable.getMeasured());
         }
         if ( variable.getSamplingInstrument() != null ) {
             samplingInstrument.setText(variable.getSamplingInstrument());
         }
         if ( variable.getAnalyzingInstrument() != null ) {
             analyzingInstrument.setText(variable.getAnalyzingInstrument());
+        }
+        if ( variable.getCalculationMethod() != null ) {
+            calculationMethod.setText(variable.getCalculationMethod());
         }
         if ( variable.getDetailedInformation() != null ) {
             detailedInformation.setText(variable.getDetailedInformation());
@@ -559,6 +568,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         commonVariable.setMeasured(measured.getValue());
         commonVariable.setSamplingInstrument(samplingInstrument.getText());
         commonVariable.setAnalyzingInstrument(analyzingInstrument.getText());
+        commonVariable.setCalculationMethod(calculationMethod.getValue());
         commonVariable.setDetailedInformation(detailedInformation.getText());
         commonVariable.setFieldReplicate(fieldReplicate.getText());
         commonVariable.setUncertainty(uncertainty.getText());
@@ -613,6 +623,9 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             hasContent = true;
         }
         if (analyzingInstrument.getText() != null && !analyzingInstrument.getText().isEmpty() ) {
+            hasContent = true;
+        }
+        if (calculationMethod.getText() != null && !calculationMethod.getText().isEmpty() ) {
             hasContent = true;
         }
         if (detailedInformation.getText() != null && !detailedInformation.getText().isEmpty() ) {

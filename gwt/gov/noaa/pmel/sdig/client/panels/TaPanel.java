@@ -130,6 +130,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
         cellType.init("Cell Type: Open or Closed", name, value);
     }
     private void setDefaults() {
+        common.isBig5 = true;
         common.abbreviation.setText("TA");
         common.fullVariableName.setText("Total Alkalinity");
     }
@@ -303,6 +304,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        common.reset();
         setDefaults();
     }
 }

@@ -767,6 +767,7 @@ class OadsXmlService {
 //        }
 //        Element measured = variable.getChild("measured")
 //        if ( ! isEmpty(measured) ) {
+        v.setMeasured(source.getMeasuredOrCalculated())
 //            v.setMeasured(measured.getTextTrim())
 //        }
 //        Element calcMethod = variable.getChild("calcMethod")
@@ -969,7 +970,7 @@ class OadsXmlService {
     }
     def buildMetadataDoc(Document doc) {
         OadsMetadataDocumentType.OadsMetadataDocumentTypeBuilder metadata = OadsMetadataDocumentType.builder()
-        metadata.version("a0.2.2")
+//        metadata.version("a0.2.2")
 
         List investigators = new ArrayList()
         for (int i = 0; i < doc.getInvestigators().size(); i++) {
@@ -1286,7 +1287,7 @@ class OadsXmlService {
             .variableType(v.getObservationDetail())
             .manipulationMethod(v.getManipulationMethod())
             .units(v.getUnits())
-//            variable.setMeasured(v.getMeasured())
+            .measuredOrCalculated(v.getMeasured())
             .samplingInstrument(v.getSamplingInstrument())
             .analyzingInstrument(v.getAnalyzingInstrument())
             .detailedInfo(v.getDetailedInformation())
