@@ -74,14 +74,34 @@ class XmlService {
             citation.setResearchProjects(researchProjects.getTextTrim())
         }
 
-        Element expocode = root.getChild("expocode")
-        if ( ! isEmpty(expocode) ) {
-            citation.setExpocode(expocode.getTextTrim())
+        List<Element> expocodeList = root.getChildren("expocode")
+        if ( (expocodeList != null) && !expocodeList.isEmpty() ) {
+            String semi = ""
+            String expocodesString = ""
+            for (Element expocode : expocodeList) {
+                if ( !isEmpty(expocode) ) {
+                    expocodesString = expocodesString + semi + expocode.getTextTrim()
+                    semi = "; "
+                }
+            }
+            if ( !expocodesString.isEmpty() ) {
+                citation.setExpocode(expocodesString)
+            }
         }
 
-        Element cruiseID = root.getChild("cruiseID")
-        if ( ! isEmpty(cruiseID) ) {
-            citation.setCruiseId(cruiseID.getTextTrim())
+        List<Element> cruiseIDList = root.getChildren("cruiseID")
+        if ( (cruiseIDList != null) && !cruiseIDList.isEmpty() ) {
+            String semi = ""
+            String cruiseIDString = ""
+            for (Element cruiseID : cruiseIDList) {
+                if ( !isEmpty(cruiseID) ) {
+                    cruiseIDString = cruiseIDString + semi + cruiseID.getTextTrim()
+                    semi = "; "
+                }
+            }
+            if ( !cruiseIDString.isEmpty() ) {
+                citation.setCruiseId(cruiseIDString)
+            }
         }
 
         Element section = root.getChild("section")
@@ -89,9 +109,19 @@ class XmlService {
             citation.setSection(section.getTextTrim())
         }
 
-        Element reference = root.getChild("reference")
-        if ( ! isEmpty(reference) ) {
-            citation.setScientificReferences(reference.getTextTrim())
+        List<Element> referenceList = root.getChildren("reference")
+        if ( (referenceList != null) && !referenceList.isEmpty() ) {
+            String semi = ""
+            String referenceString = ""
+            for (Element reference : referenceList) {
+                if ( !isEmpty(reference) ) {
+                    referenceString = referenceString + semi + reference.getTextTrim()
+                    semi = "; "
+                }
+            }
+            if ( !referenceString.isEmpty() ) {
+                citation.setScientificReferences(referenceString)
+            }
         }
 
         Element authorsList = root.getChild("authors")
@@ -144,11 +174,26 @@ class XmlService {
         if ( ! isEmpty(spatialReference) ) {
             timeAndLocation.setSpatialRef(spatialReference.getTextTrim())
         }
-        Element geographicName = root.getChild("geographicName")
-        if ( ! isEmpty(geographicName) ) {
-            // TODO this is wrong. We need to collect a list, either by comma separating or entering and accumulating them
-            timeAndLocation.setGeoNames(geographicName.getTextTrim())
+//        Element geographicName = root.getChild("geographicName")
+//        if ( ! isEmpty(geographicName) ) {
+//            // TODO this is wrong. We need to collect a list, either by comma separating or entering and accumulating them
+//            timeAndLocation.setGeoNames(geographicName.getTextTrim())
+//        }
+        List<Element> geographicNameList = root.getChildren("geographicName")
+        if ( (geographicNameList != null) && !geographicNameList.isEmpty() ) {
+            String semi = ""
+            String geographicNameString = ""
+            for (Element geographicName : geographicNameList) {
+                if ( !isEmpty(geographicName) ) {
+                    geographicNameString = geographicNameString + semi + geographicName.getTextTrim()
+                    semi = "; "
+                }
+            }
+            if ( !geographicNameString.isEmpty() ) {
+                timeAndLocation.setGeoNames(geographicNameString)
+            }
         }
+
         Element locationOrganism = root.getChild("locationOrganism")
         if ( ! isEmpty(locationOrganism) ) {
             timeAndLocation.setOrganismLoc(locationOrganism.getText())
