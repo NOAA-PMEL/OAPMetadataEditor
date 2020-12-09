@@ -168,12 +168,12 @@ class DocumentController {
         if ( id ) {
             datasetId = id
         } else {
-            String expocode = _findExpocode(doc)
-            if ( expocode ) {
-                datasetId = expocode
-            } else {
+//            String expocode = _findExpocode(doc)
+//            if ( expocode ) {
+//                datasetId = expocode
+//            } else {
                 datasetId = _generateDatasetId(doc)
-            }
+//            }
         }
         return  datasetId
     }

@@ -488,9 +488,9 @@ public class OAPMetadataEditor implements EntryPoint {
         if (doc.getDatasetIdentifier() != null) {
             return doc.getDatasetIdentifier();
         }
-        if (doc.getCitation().getExpocode() != null && doc.getCitation().getExpocode().length() > 0) {
-            return doc.getCitation().getExpocode();
-        }
+//        if (doc.getCitation().getExpocode() != null && doc.getCitation().getExpocode().length() > 0) {
+//            return doc.getCitation().getExpocode();
+//        }
         return null;
     }
 
