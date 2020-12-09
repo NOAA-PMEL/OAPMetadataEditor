@@ -973,10 +973,12 @@ class OadsXmlService {
 //        metadata.version("a0.2.2")
 
         List investigators = new ArrayList()
-        for (int i = 0; i < doc.getInvestigators().size(); i++) {
-            Person p = doc.getInvestigators().get(i)
-            PersonType person = fillPerson(p)
-            metadata.addInvestigator(person)
+        if ( doc.getInvestigators() ) {
+            for (int i = 0; i < doc.getInvestigators().size(); i++) {
+                Person p = doc.getInvestigators().get(i)
+                PersonType person = fillPerson(p)
+                metadata.addInvestigator(person)
+            }
         }
 
         metadata.dataSubmitter(fillPerson(doc.getDataSubmitter()))
@@ -1055,15 +1057,17 @@ class OadsXmlService {
         }
 
         List<Funding> fundingList = doc.getFunding()
-        for (int i = 0; i < fundingList.size(); i++) {
-            Funding funding = fundingList.get(i)
-            if ( funding ) {
-                metadata.addFunding(FundingSourceType.builder()
-                        .agency(funding.getAgencyName())
-                        .title(funding.getGrantTitle())
-                        .identifier(TypedIdentifierType.builder().value(funding.getGrantNumber()).build())
-                        .build()
-                )
+        if ( fundingList ) {
+            for (int i = 0; i < fundingList.size(); i++) {
+                Funding funding = fundingList.get(i)
+                if ( funding ) {
+                    metadata.addFunding(FundingSourceType.builder()
+                            .agency(funding.getAgencyName())
+                            .title(funding.getGrantTitle())
+                            .identifier(TypedIdentifierType.builder().value(funding.getGrantNumber()).build())
+                            .build()
+                    )
+                }
             }
         }
 
