@@ -972,10 +972,8 @@ class OadsXmlService {
         OadsMetadataDocumentType.OadsMetadataDocumentTypeBuilder metadata = OadsMetadataDocumentType.builder()
 //        metadata.version("a0.2.2")
 
-        List investigators = new ArrayList()
         if ( doc.getInvestigators() ) {
-            for (int i = 0; i < doc.getInvestigators().size(); i++) {
-                Person p = doc.getInvestigators().get(i)
+            for (Person p : doc.getInvestigators()) {
                 PersonType person = fillPerson(p)
                 metadata.addInvestigator(person)
             }
@@ -996,11 +994,34 @@ class OadsXmlService {
                 metadata.addResearchProject(citation.getResearchProjects())
             }
 
-            // XXX TODO: separate expocode and cruiseID sections ???
-            metadata.addExpocode(citation.getExpocode())
-            metadata.addCruiseId(citation.getCruiseId())
-            // XXX TODO: multiple sections ???
-            metadata.addSection(citation.getSection())
+            String expocodeField = citation.getExpocode()
+            if ( expocodeField ) {
+                String[] expocodes = expocodeField.split("[, ;]")
+                for (String expocode : expocodes) {
+                    if ( ! expocode.trim().isEmpty()) {
+                        metadata.addExpocode(expocode)
+                    }
+                }
+            }
+            String cruiseIdField = citation.getCruiseId()
+            if ( cruiseIdField ) {
+                String[] cruises = cruiseIdField.split("[, ;]")
+                for (String cruiseId : cruises) {
+                    if ( ! cruiseId.trim().isEmpty()) {
+                        metadata.addCruiseId(cruiseId)
+                    }
+                }
+            }
+
+            String sectionField = citation.getSection()
+            if ( sectionField ) {
+                String[] sections = sectionField.split("[, ;]")
+                for (String section : sections) {
+                    if ( ! section.trim().isEmpty()) {
+                        metadata.addSection(section)
+                    }
+                }
+            }
 
             // XXX TODO: use single string, multiple strings, or ScientificReferenceType ???
             if ( citation.getScientificReferences() ) {

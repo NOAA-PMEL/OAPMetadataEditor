@@ -104,9 +104,19 @@ class XmlService {
             }
         }
 
-        Element section = root.getChild("section")
-        if ( ! isEmpty(section) ) {
-            citation.setSection(section.getTextTrim())
+        List<Element> sections = root.getChildren("section")
+        if ( (sections != null) && !sections.isEmpty() ) {
+            String semi = ""
+            String sectionString = ""
+            for (Element section : sections) {
+                if ( !isEmpty(section) ) {
+                    sectionString = sectionString + semi + section.getTextTrim()
+                    semi = "; "
+                }
+            }
+            if ( !sectionString.isEmpty() ) {
+                citation.setSection(sectionString)
+            }
         }
 
         List<Element> referenceList = root.getChildren("reference")
@@ -226,63 +236,28 @@ class XmlService {
 
         mdDoc.setFunding(fundingList)
 
-        Platform platform = new Platform()
-        Element platformE = root.getChild("platform")
-
-        if (! isEmpty(platformE)) {
-
-            Element platformName = platformE.getChild("name")
-            if (! isEmpty(platformName)) {
-                platform.setName(platformName.getTextTrim())
-            }
-            Element platformId = platformE.getChild("ID")
-            if (! isEmpty(platformId)) {
-                platform.setPlatformId(platformId.getTextTrim())
-            }
-            Element platformType = platformE.getChild("type")
-            if (! isEmpty(platformType)) {
-
-                platform.setPlatformType(platformType.getText())
-            }
-            Element platformOwner = platformE.getChild("owner")
-            if (! isEmpty(platformOwner)) {
-                platform.setOwner(platformOwner.getText())
-            }
-            Element platformCountry = platformE.getChild("country")
-            if (! isEmpty(platformCountry)) {
-                String proposedCountry = platformCountry.getTextTrim()
-                String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
-                if ( countryThreeLetter != null ) {
-                    platform.setCountry(countryThreeLetter)
-                } else {
-                    platform.setCountry(proposedCountry)
-                }
-            }
-            mdDoc.addToPlatforms(platform)
-        } else {
-            // Or try the "old" style if it's included
-            Element oldPlatE = root.getChild("Platform")
-
-            if (! isEmpty(oldPlatE)) {
-
-                Element platformName = oldPlatE.getChild("PlatformName")
+        List<Element> platformList = root.getChildren("platform")
+        if ( platformList ) {
+            for (Element platformE : platformList) {
+                Platform platform = new Platform()
+                Element platformName = platformE.getChild("name")
                 if (! isEmpty(platformName)) {
                     platform.setName(platformName.getTextTrim())
                 }
-                Element platformId = oldPlatE.getChild("PlatformID")
+                Element platformId = platformE.getChild("ID")
                 if (! isEmpty(platformId)) {
                     platform.setPlatformId(platformId.getTextTrim())
                 }
-                Element platformType = oldPlatE.getChild("PlatformType")
+                Element platformType = platformE.getChild("type")
                 if (! isEmpty(platformType)) {
 
                     platform.setPlatformType(platformType.getText())
                 }
-                Element platformOwner = oldPlatE.getChild("PlatformOwner")
+                Element platformOwner = platformE.getChild("owner")
                 if (! isEmpty(platformOwner)) {
                     platform.setOwner(platformOwner.getText())
                 }
-                Element platformCountry = oldPlatE.getChild("PlatformCountry")
+                Element platformCountry = platformE.getChild("country")
                 if (! isEmpty(platformCountry)) {
                     String proposedCountry = platformCountry.getTextTrim()
                     String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
@@ -293,6 +268,42 @@ class XmlService {
                     }
                 }
                 mdDoc.addToPlatforms(platform)
+            }
+        } else {
+            platformList = root.getChildren("Platform")
+            // Or try the "old" style if it's included
+            if (platformList) {
+                for (Element oldPlatE : platformList) {
+                    Platform platform = new Platform()
+                    Element platformName = oldPlatE.getChild("PlatformName")
+                    if (! isEmpty(platformName)) {
+                        platform.setName(platformName.getTextTrim())
+                    }
+                    Element platformId = oldPlatE.getChild("PlatformID")
+                    if (! isEmpty(platformId)) {
+                        platform.setPlatformId(platformId.getTextTrim())
+                    }
+                    Element platformType = oldPlatE.getChild("PlatformType")
+                    if (! isEmpty(platformType)) {
+
+                        platform.setPlatformType(platformType.getText())
+                    }
+                    Element platformOwner = oldPlatE.getChild("PlatformOwner")
+                    if (! isEmpty(platformOwner)) {
+                        platform.setOwner(platformOwner.getText())
+                    }
+                    Element platformCountry = oldPlatE.getChild("PlatformCountry")
+                    if (! isEmpty(platformCountry)) {
+                        String proposedCountry = platformCountry.getTextTrim()
+                        String countryThreeLetter = OracleController.getThreeLetter(proposedCountry)
+                        if ( countryThreeLetter != null ) {
+                            platform.setCountry(countryThreeLetter)
+                        } else {
+                            platform.setCountry(proposedCountry)
+                        }
+                    }
+                    mdDoc.addToPlatforms(platform)
+                }
             }
         }
 
