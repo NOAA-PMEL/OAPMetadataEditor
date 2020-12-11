@@ -798,7 +798,7 @@ class XmlService {
         for (int i = 0; i < doc.getInvestigators().size(); i++) {
             Person p = doc.getInvestigators().get(i)
             Element person = new Element("person")
-            fillPerson(p, person, "investigator")
+            fillPerson(p, person, "Investigator")
             metadata.addContent(person)
         }
 
