@@ -531,23 +531,18 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         if ( variable.getReferenceMethod() != null ) {
             referenceMethod.setText(variable.getReferenceMethod());
         }
-        if ( variable.getBatchNumber() != null ) {
-            biologicalSubject.setText(variable.getBatchNumber());
+        if ( variable.getBiologicalSubject() != null ) {
+            biologicalSubject.setText(variable.getBiologicalSubject());
         }
-
         if ( variable.getDuration() != null ) {
             duration.setText(variable.getDuration());
         }
-
-
         if ( variable.getLifeStage() != null ) {
             lifeStage.setText(variable.getLifeStage());
         }
-
         if ( variable.getSpeciesIdCode() != null ) {
             speciesIdCode.setText(variable.getSpeciesIdCode());
         }
-
     }
 
     public Variable getGenericVariable() {
@@ -577,7 +572,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
         commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
-        commonVariable.setBatchNumber(biologicalSubject.getText());
+        commonVariable.setBiologicalSubject(biologicalSubject.getText());
         commonVariable.setDuration(duration.getText());
         commonVariable.setLifeStage(lifeStage.getText());
         commonVariable.setSpeciesIdCode(speciesIdCode.getText());

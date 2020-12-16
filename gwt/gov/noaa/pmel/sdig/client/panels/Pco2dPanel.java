@@ -150,7 +150,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         pco2d.setStandardGasManufacture(standardGasManufacture.getText());
         pco2d.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2d.setGasDetectorModel(gasDetectorModel.getText());
-        pco2d.setGasDetectorManufacture(gasDectectorResolution.getText());
+        pco2d.setGasDectectorResolution(gasDectectorResolution.getText());
         pco2d.setSeawaterVolume(seawaterVolume.getText());
         pco2d.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2d.setTemperatureMeasurement(temperatureMeasurement.getText());
@@ -170,7 +170,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         pco2d.setStandardGasManufacture(standardGasManufacture.getText());
         pco2d.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2d.setGasDetectorModel(gasDetectorModel.getText());
-        pco2d.setGasDetectorManufacture(gasDectectorResolution.getText());
+        pco2d.setGasDectectorResolution(gasDectectorResolution.getText());
         pco2d.setSeawaterVolume(seawaterVolume.getText());
         pco2d.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2d.setTemperatureMeasurement(temperatureMeasurement.getText());
