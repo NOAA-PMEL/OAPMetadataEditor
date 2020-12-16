@@ -147,7 +147,13 @@ class OadsXmlService {
 //        citation.setDataUse(metadata.getDataUse())
         citation.setPurpose(metadata.getPurpose())
         if ( metadata.getResearchProjects() != null && metadata.getResearchProjects().size() > 0 ) {
-            citation.setResearchProjects(String.valueOf(metadata.getResearchProjects()))
+            String semi = ""
+            String researchProjects = ""
+            for (String project : metadata.getResearchProjects()) {
+                researchProjects = researchProjects + semi + project
+                semi = "; "
+            }
+            citation.setResearchProjects(String.valueOf(researchProjects))
         }
         def expocode = ""
         for (String code : metadata.getExpocodes()) {
@@ -172,11 +178,13 @@ class OadsXmlService {
         }
         citation.setScientificReferences(reference.trim())
 
-        def citationList = ""
+        def authorList = ""
+        def semi = ""
         for (String author : metadata.authors) {
-            citationList += author + "; "
+            authorList += semi + author
+            semi = "; "
         }
-        citation.setCitationAuthorList(citationList.trim())
+        citation.setCitationAuthorList(authorList.trim())
 
         citation.setSupplementalInformation(metadata.getSupplementalInfo())
         return citation
@@ -276,6 +284,7 @@ class OadsXmlService {
 //        }
 //        if ( phVar.temperatureCorrection ) {
         variable.setTemperatureCorrectionMethod(phVar.temperatureCorrectionMethod)
+        variable.setTemperatureMeasurement(phVar.getMeasurementTemperature())
 //        }
 //        Element phReportTemperature = variable.getChild("phReportTemperature")
 //        if ( ! isEmpty(phReportTemperature) ) {
@@ -356,6 +365,7 @@ class OadsXmlService {
 //        Element seawatervol = variable.getChild("seawatervol")
 //        if ( ! isEmpty(seawatervol) ) {
         co2d.setSeawaterVolume(co2dVar.seawaterVolume)
+        co2d.setTemperatureMeasurement(co2dVar.getMeasurementTemperature())
 //        }
 
         return co2d
@@ -398,7 +408,7 @@ class OadsXmlService {
     }
 
     private GenericVariable fillVariableDomain(BiologicalVariable bioVar) {
-        GenericVariable variable = fillVariableGeneric(bioVar, new GenericVariable())
+        GenericVariable variable = fillVariableGeneric(bioVar, new Variable())
         // 026 Biological subject
         // <biologicalSubject>
         // TextBox biologicalSubject;
@@ -1135,13 +1145,21 @@ class OadsXmlService {
         if ( doc.getVariables() ) {
             for(int i = 0; i < doc.getVariables().size(); i++ ) {
                 Variable v = doc.getVariables().get(i)
-                metadata.addVariable(fillVariable(v))
+                BaseVariableType var = isBioVar(v) ? fillBioVar(v) : fillVariable(v)
+                metadata.addVariable(var)
             }
         }
 
         OadsMetadataDocumentType md = metadata.build()
         return md
         // TODO the rest of the variable stuff.
+    }
+
+    private boolean isBioVar(GenericVariable v) {
+        return ( v.getBiologicalSubject()
+                || v.getDuration()
+                || v.getLifeStage()
+                || v.getSpeciesIdCode() )
     }
 
     private DicVariableType fillDic(GenericVariable v) {
@@ -1302,6 +1320,15 @@ class OadsXmlService {
     */
     private BaseVariableType fillVariable(GenericVariable v) {
         return fillVariable(v, BaseVariableType.builder()).build()
+    }
+
+    private BiologicalVariable fillBioVar(GenericVariable v) {
+        BiologicalVariable.BiologicalVariableBuilder builder = fillVariable(v, BiologicalVariable.builder())
+        builder.biologicalSubject(v.getBiologicalSubject())
+               .duration(v.getDuration())
+               .lifeStage(v.getLifeStage())
+               .speciesID(v.getSpeciesIdCode())
+        return builder.build()
     }
 
     private BaseVariableTypeBuilder fillVariable(GenericVariable v, BaseVariableTypeBuilder variable) {

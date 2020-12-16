@@ -725,9 +725,11 @@ class XmlService {
                 if ( firstSpace > 0 ) {
                     int lastSpace = name.lastIndexOf(' ')
                     int endFirstName = lastSpace
-                    if ( firstSpace != lastSpace && lastSpace - firstSpace == 2 ) {
+                    if ( firstSpace != lastSpace &&
+                            ( lastSpace - firstSpace == 2 ||
+                               name.substring(firstSpace, lastSpace).trim().indexOf('.') > 0 )) {
                         endFirstName = firstSpace
-                        human.setMi(name.substring(firstSpace, lastSpace))
+                        human.setMi(name.substring(firstSpace, lastSpace).trim())
                     }
                     human.setFirstName(name.substring(0, endFirstName))
                     human.setLastName(name.substring(lastSpace))
@@ -789,11 +791,46 @@ class XmlService {
         return human;
     }
 
+    def addNceiStuff(Element metadata) {
+/*
+    <image>/Images/nceilogo-banner.png</image>
+    <submissionDate></submissionDate>
+    <revisionDate></revisionDate>
+    <accn></accn>
+    <doi></doi>
+    <type></type>
+    <related>
+        <name></name>
+        <link></link>
+    </related>
+*/
+        Element e = new Element("image")
+        e.addContent("/Images/nceilogo-banner.png")
+        metadata.addContent(e)
+        e = new Element("submissionDate")
+        metadata.addContent(e)
+        e = new Element("revisionDate")
+        metadata.addContent(e)
+        e = new Element("accn")
+        metadata.addContent(e)
+        e = new Element("doi")
+        metadata.addContent(e)
+        e = new Element("type")
+        metadata.addContent(e)
+        e = new Element("related")
+        Element e2 = new Element("name")
+        e.addContent(e2)
+        e2 = new Element("link")
+        e.addContent(e2)
+        metadata.addContent(e)
+    }
     def createXml(Document doc) {
 
         org.jdom2.Document xmlDoc = new org.jdom2.Document();
         Element metadata = new Element("metadata");
         xmlDoc.setRootElement(metadata)
+
+        addNceiStuff(metadata)
 
         for (int i = 0; i < doc.getInvestigators().size(); i++) {
             Person p = doc.getInvestigators().get(i)
@@ -856,11 +893,25 @@ class XmlService {
                 metadata.addContent(reference)
             }
             // TODO the XML does not match the spreadsheet
-            if ( citation.getCitationAuthorList() ) {
-                Element citationList = new Element("citation")
-                citationList.setText(citation.getCitationAuthorList())
-                metadata.addContent(citationList)
+            Element authorListE = new Element("authors")
+            String authorList = citation.getCitationAuthorList()
+            if ( authorList ) {
+                String delimiter = lookForDelimiter(authorList)
+                if ( delimiter ) {
+                    String[] authors = authorList.split(delimiter)
+                    for (String author : authors) {
+                        if ( author ) {
+                            Element authorE = new Element("author")
+                            authorE.addContent(author.trim())
+                            authorListE.addContent(authorE)
+                        }
+                    }
+                } else {
+                    authorListE.addContent(authorList)
+                }
             }
+            metadata.addContent(authorListE)
+
             if ( citation.getSupplementalInformation() ) {
                 Element suppleInfo = new Element("suppleInfo")
                 suppleInfo.setText(citation.getSupplementalInformation())
@@ -1021,6 +1072,31 @@ class XmlService {
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat())
         String xml = outputter.outputString(xmlDoc)
         return xml
+    }
+
+    def lookForDelimiter(String authorList) {
+        if ( authorList.contains(";")) {
+            return ";"
+        } else if ( count(authorList, ',' as char) > 1 ) {
+            return ","
+        } else {
+            return null
+        }
+    }
+
+    /**
+     * @param peak
+     * @param c
+     * @return
+     */
+    def count(String peak, char c) {
+        int count = 0;
+        for (int i = 0; i < peak.length(); i++) {
+            if ( peak.charAt(i) == c) {
+                count += 1;
+            }
+        }
+        return new Integer(count);
     }
 
     private Element fillDic(GenericVariable v) {
