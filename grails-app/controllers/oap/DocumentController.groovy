@@ -441,11 +441,17 @@ class DocumentController {
      */
     def xml() {
         try {
-            String pid = params.id;
+            String pid = params.id
+            String version = params.v
             Document doc = findDocById(pid)
             String docId = doc.datasetIdentifier ? doc.datasetIdentifier : pid
             String filename = "oap_metadata_" + docId + ".xml"
-            String output = oadsXmlService.createXml(doc);
+            String output
+            if ( version && "ocads".equalsIgnoreCase(version)) {
+                output = xmlService.createXml(doc);
+            } else {
+                output = oadsXmlService.createXml(doc);
+            }
             response.setHeader "Content-disposition", "attachment; filename=${filename}"
             response.contentType = 'text/xml'
             response.outputStream << output
