@@ -656,8 +656,8 @@ public class OAPMetadataEditor implements EntryPoint {
     TextCallback saveNotify = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-            String msg = "saveNotify " + method.toString() + " error : " + throwable.toString();
             Window.alert("There was an error saving your document.  Please try again later.");
+            String msg = "saveNotify " + method.toString() + " error : " + throwable.toString();
             logToConsole(msg);
         }
 
@@ -677,12 +677,14 @@ public class OAPMetadataEditor implements EntryPoint {
         @Override
         public void onFailure(Method method, Throwable throwable) {
             Window.alert("There was an error saving your document.  Please try again later.");
+            String msg = "documentSaved " + method.toString() + " error : " + throwable.toString();
+            logToConsole(msg);
         }
 
         @Override
         public void onSuccess(Method method, String response) {
             if (response.equals("failed")) {
-                Window.alert("Something went wrong. Check with your server administrators.");
+                Window.alert("Something went wrong. Please check with the application administrators.");
             } else {
                 documentLocation = response;
                 _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/') + 1);
@@ -710,13 +712,15 @@ public class OAPMetadataEditor implements EntryPoint {
         public void onFailure(Method method, Throwable throwable) {
             debugLog("TextCallback previewDocument called");
             Window.alert("There was an error previewing your document.  Please try again later.");
+            String msg = "previewDocument " + method.toString() + " error : " + throwable.toString();
+            logToConsole(msg);
         }
 
         @Override
         public void onSuccess(Method method, String s) {
             debugLog("TextCallback previewDocument called");
             if (s.equals("failed")) {
-                Window.alert("Something went wrong. Check with your server administrators.");
+                Window.alert("Something went wrong. Please check with the application administrators.");
             } else {
                 documentLocation = s;
                 _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/') + 1);
@@ -731,12 +735,14 @@ public class OAPMetadataEditor implements EntryPoint {
         @Override
         public void onFailure(Method method, Throwable throwable) {
             Window.alert("There was an error retrieving your document.  Please try again later.");
+            String msg = "documentFetched " + method.toString() + " error : " + throwable.toString();
+            logToConsole(msg);
         }
 
         @Override
         public void onSuccess(Method method, String s) {
             if (s.equals("failed")) {
-                Window.alert("Something went wrong. Check with your server administrators.");
+                Window.alert("Something went wrong. Check with the application administrators.");
             } else {
                 debugLog("TextCallback: onSuccess is calling loadJsonDocument true true");
                 loadJsonDocument(s, true, true);
@@ -772,6 +778,8 @@ public class OAPMetadataEditor implements EntryPoint {
             String jsonString = submitCompleteEvent.getResults();
             if (wasError(jsonString)) {
                 Window.alert("There was an error processing your file:" + jsonString.substring("ERROR:".length()));
+                String msg = "submitComplete failed error : " + jsonString;
+                logToConsole(msg);
                 return;
             }
 
@@ -842,7 +850,6 @@ public class OAPMetadataEditor implements EntryPoint {
         debugLog("_loadedDoc:" + _loadedDocument);
         Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
         debugLog("Checking dirty against " + compDoc);
-//        Window.alert("Checking dirty against " + compDoc);
         boolean isDirty =
                 submitterPanel.isDirty(compDoc.getDataSubmitter()) ||
                         investigatorPanel.isDirty(compDoc.getInvestigators()) ||
@@ -857,7 +864,6 @@ public class OAPMetadataEditor implements EntryPoint {
                         pco2dPanel.isDirty(compDoc.getPco2d()) ||
                         genericVariablePanel.isDirty(compDoc.getVariables());
         debugLog("Found dirty: " + isDirty);
-//        Window.alert("Found dirty: " + isDirty);
         return isDirty;
     }
 
@@ -936,9 +942,19 @@ public class OAPMetadataEditor implements EntryPoint {
         jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
                 .replace("</pre>", "");
         jsonString = jsonString.replace("<pre>", "");
-
+        GWT.log("json string:" + jsonString);
+        boolean again = false;
+        do {
+            String newJsonString = jsonString.replaceAll("&amp;", "&");
+            again = !newJsonString.equalsIgnoreCase(jsonString);
+            jsonString = newJsonString;
+        } while (again);
+        jsonString = jsonString.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+        GWT.log("new json string:" + jsonString);
         JSONValue json = JSONParser.parseStrict(jsonString);
+        GWT.log("json value:" + json);
         Document document = codec.decode(json);
+        GWT.log("document sal uncertainty:"+document.getVariables().get(0).getUncertainty());
         _loadedDocument = Document.copy(document);
         return document;
     }
@@ -1311,6 +1327,7 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         } catch (Exception e) {
             Window.alert("File not processed. e=" + e.getLocalizedMessage());
+            logToConsole("File not processed. e="+e.getLocalizedMessage());
             logToConsole(jsonString);
         }
         topLayout.resetFileForm();
@@ -2316,6 +2333,7 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         } catch (Exception e) {
             Window.alert("File not processed. e=" + e.getLocalizedMessage());
+            logToConsole("File not processed. e=" + e.getLocalizedMessage());
             logToConsole(jsonString);
         }
         topLayout.resetFileForm();

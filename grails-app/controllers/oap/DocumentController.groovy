@@ -207,7 +207,8 @@ class DocumentController {
             d.dbId = d.id
             d.dbVersion = d.version
             JSON.use("deep") {
-                render d as JSON
+                def jsond = render d as JSON
+                render jsond
             }
         } else {
             render "Document not found."
@@ -413,7 +414,8 @@ class DocumentController {
 //            }
 
             JSON.use("deep") {
-                render document as JSON
+                def jsond = document as JSON
+                render jsond
             }
         } catch (Exception ex) {
             ex.printStackTrace()
