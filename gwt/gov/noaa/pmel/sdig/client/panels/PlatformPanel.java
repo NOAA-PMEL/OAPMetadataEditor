@@ -250,7 +250,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public boolean isDirty(List<Platform> originals) {
-        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+platforms);
+        OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+originals);
         boolean isDirty = false;
         if ( hasContent()) {
             addCurrentPlatform();
