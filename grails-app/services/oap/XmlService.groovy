@@ -1480,7 +1480,9 @@ class XmlService {
             correction.setText(v.getPoisonDescription())
             poison.addContent(correction)
         }
-        variable.addContent(poison)
+        if ( !isEmpty(poison)) {
+            variable.addContent(poison)
+        }
         if ( v.getUncertainty() ) {
             Element uncertainty = new Element("uncertainty")
             uncertainty.setText(v.getUncertainty())
@@ -1521,13 +1523,18 @@ class XmlService {
     }
 
     private void fillPerson(Person p, Element person, String type) {
-        def name = "";
+        def name = ""
+        def space = " "
         if ( p.getFirstName() ) {
             name = p.getFirstName()
+            space = " "
+        }
+        if ( p.getMi()) {
+            name = name + space + p.getMi()
+            space = " "
         }
         if ( p.getLastName() ) {
-            if ( name.length() > 0 ) name = name + " "
-            name = name + p.getLastName()
+            name = name + space + p.getLastName()
         }
         person.addContent(new Element("name").setText(name))
         // Apparently institution in the spreadsheet is organization in the XML
