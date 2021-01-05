@@ -950,11 +950,8 @@ public class OAPMetadataEditor implements EntryPoint {
             jsonString = newJsonString;
         } while (again);
         jsonString = jsonString.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
-        GWT.log("new json string:" + jsonString);
         JSONValue json = JSONParser.parseStrict(jsonString);
-        GWT.log("json value:" + json);
         Document document = codec.decode(json);
-        GWT.log("document sal uncertainty:"+document.getVariables().get(0).getUncertainty());
         _loadedDocument = Document.copy(document);
         return document;
     }
