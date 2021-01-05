@@ -88,7 +88,7 @@
                         <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poisonDescription" text="Preservative correction description;"></b:FormLabel>
+                                <b:FormLabel for="poisonDescription" text="Preservative correction description"></b:FormLabel>
                                 <b:Modal title="23.16.3 Please specify whether the reported variables were corrected for preservative usage, and if so, how they were corrected." closable="true" b:id="modalPoisonDescription"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoisonDescription" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="poisonDescription" allowBlank="true" placeholder="Preservative correction description" b:id="poisonDescription"></b:TextBox>
