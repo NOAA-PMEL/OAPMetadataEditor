@@ -68,6 +68,10 @@ class XmlService {
         if ( ! isEmpty(purpose) ) {
             citation.setPurpose(purpose.getTextTrim())
         }
+        Element useLimitation = root.getChild("useLimitation")
+        if ( ! isEmpty(useLimitation)) {
+            citation.setUseLimitation(useLimitation.getTextTrim())
+        }
 
         Element researchProjects = root.getChild("researchProject")
         if ( ! isEmpty(researchProjects) ) {
@@ -552,6 +556,24 @@ class XmlService {
             domainVar.setBiologicalSubject(biologicalSubject.getTextTrim())
         }
 
+        // 032 Duration (for settlement/colonization methods)
+        // <duration>
+        // TextBox duration;
+        Element duration = varElement.getChild("duration")
+        if ( ! isEmpty(duration) ) {
+            domainVar.setDuration(duration.getTextTrim())
+        }
+
+        Element lifeStage = varElement.getChild("lifeStage")
+        if ( ! isEmpty(lifeStage) ) {
+            domainVar.setLifeStage(lifeStage.getTextTrim())
+        }
+
+        Element speciesID = varElement.getChild("speciesID")
+        if ( ! isEmpty(speciesID) ) {
+            domainVar.setSpeciesIdCode(speciesID.getTextTrim())
+        }
+
         // 027 Cell type (open or closed)
         // <cellType>
         // ButtonDropDown cellType;
@@ -575,17 +597,6 @@ class XmlService {
         Element DepthSeawaterIntake = varElement.getChild("DepthSeawaterIntake")
         if ( ! isEmpty(DepthSeawaterIntake) ) {
             domainVar.setIntakeDepth(DepthSeawaterIntake.getTextTrim())
-        }
-
-
-
-        // 032 Duration (for settlement/colonization methods)
-        // <duration>
-        // TextBox duration;
-
-        Element duration = varElement.getChild("duration")
-        if ( ! isEmpty(duration) ) {
-            domainVar.setDuration(duration.getTextTrim())
         }
 
         Element equilibrator = varElement.getChild("equilibrator")
@@ -634,11 +645,6 @@ class XmlService {
             domainVar.setHeadspaceVolume(headspacevol.getTextTrim())
         }
 
-        Element lifeStage = varElement.getChild("lifeStage")
-        if ( ! isEmpty(lifeStage) ) {
-            domainVar.setLifeStage(lifeStage.getTextTrim())
-        }
-
         Element locationSeawaterIntake = varElement.getChild("locationSeawaterIntake")
         if ( ! isEmpty(locationSeawaterIntake) ) {
             domainVar.setIntakeLocation(locationSeawaterIntake.getTextTrim())
@@ -673,11 +679,6 @@ class XmlService {
         Element seawatervol = varElement.getChild("seawatervol")
         if ( ! isEmpty(seawatervol) ) {
             domainVar.setSeawaterVolume(seawatervol.getTextTrim())
-        }
-
-        Element speciesID = varElement.getChild("speciesID")
-        if ( ! isEmpty(speciesID) ) {
-            domainVar.setSpeciesIdCode(speciesID.getTextTrim())
         }
 
         Element temperatureCorrectionMethod = varElement.getChild("temperatureCorrectionMethod") // ph variables... sigh
@@ -831,6 +832,10 @@ class XmlService {
         xmlDoc.setRootElement(metadata)
 
         addNceiStuff(metadata)
+
+        Element useLimitation = new Element("useLimitation")
+        useLimitation.setText(doc.getCitation().getUseLimitation())
+        metadata.addContent(useLimitation)
 
         for (int i = 0; i < doc.getInvestigators().size(); i++) {
             Person p = doc.getInvestigators().get(i)
@@ -1063,7 +1068,7 @@ class XmlService {
         if ( doc.getVariables() ) {
             for(int i = 0; i < doc.getVariables().size(); i++ ) {
                 Variable v = doc.getVariables().get(i)
-                Element variable = fillVariable(v, "0")
+                Element variable = fillGeneralVariable(v, "0")
                 metadata.addContent(variable)
             }
         }
@@ -1097,6 +1102,35 @@ class XmlService {
             }
         }
         return new Integer(count);
+    }
+
+    private Element fillGeneralVariable(GenericVariable v) {
+        Element variable = fillVariable(v, "0");
+        // biologicalSubject
+        if ( v.getBiologicalSubject()) {
+            Element biologicalSubject = new Element("biologicalSubject")
+            biologicalSubject.setText(v.getBiologicalSubject())
+            variable.addContent(biologicalSubject)
+        }
+        // duration
+        if ( v.getDuration()) {
+            Element duration = new Element("duration")
+            duration.setText(v.getDuration())
+            variable.addContent(duration)
+        }
+        // lifeStage
+        if ( v.getLifeStage()) {
+            Element lifeStage = new Element("lifeStage")
+            lifeStage.setText(v.getLifeStage())
+            variable.addContent(lifeStage)
+        }
+        // species
+        if ( v.getSpeciesIdCode()) {
+            Element speciesID = new Element("speciesID")
+            speciesID.setText(v.getSpeciesIdCode())
+            variable.addContent(speciesID)
+        }
+        return variable;
     }
 
     private Element fillDic(GenericVariable v) {
@@ -1365,6 +1399,11 @@ class XmlService {
             abbrev.setText(v.getAbbreviation())
             variable.addContent(abbrev)
         }
+        if ( v.getUnits() ) {
+            Element unit = new Element("unit")
+            unit.setText(v.getUnits())
+            variable.addContent(unit)
+        }
         if ( v.getObservationType() ) {
             Element observationType = new Element("observationType")
             observationType.setText(v.getObservationType())
@@ -1379,11 +1418,6 @@ class XmlService {
             Element manipulationMethod = new Element("manipulationMethod")
             manipulationMethod.setText(v.getManipulationMethod())
             variable.addContent(manipulationMethod)
-        }
-        if ( v.getUnits() ) {
-            Element unit = new Element("unit")
-            unit.setText(v.getUnits())
-            variable.addContent(unit)
         }
         if ( v.getMeasured() ) {
             Element measured = new Element("measured")
@@ -1426,6 +1460,16 @@ class XmlService {
             Element frequency = new Element("frequency")
             frequency.setText(v.getFreqencyOfStandardization())
             standard.addContent(frequency)
+        }
+        if ( v.getPhStandards()) {
+            Element phStandards = new Element("standardphvalues")
+            phStandards.setText(v.getPhStandards())
+            standard.addContent(phStandards)
+        }
+        if ( v.getTemperatureStandarization()) {
+            Element tempStandard = new Element("temperatureStandardization")
+            tempStandard.setText(v.getTemperatureStandarization())
+            standard.addContent(tempStandard)
         }
         Element crm = new Element("crm")
         if ( v.getCrmManufacture() ) {
@@ -1572,10 +1616,11 @@ class XmlService {
         }
         if ( p.getEmail() )
             person.addContent(new Element("email").setText(p.getEmail()))
-        if ( p.getRid() )
+        if ( p.getRid() ) {
             person.addContent(new Element("ID").setText(p.getRid()))
-        if ( p.getIdType() )
-            person.addContent(new Element("IDtype").setText(p.getIdType()))
+            if ( p.getIdType() )
+                person.addContent(new Element("IDtype").setText(p.getIdType()))
+        }
         if ( type != null )
             person.addContent(new Element("role").setText(type))
     }
