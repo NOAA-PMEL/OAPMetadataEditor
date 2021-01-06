@@ -63,6 +63,7 @@ class DocumentController {
         if ( id != null && "null".equals(id)) {
             id = null
         }
+        log.info("saveDoc id " + id)
         def documentJSON = request.JSON
         // part of trying to do proper database updates.  Abandoned...
 //        removeNullIds(documentJSON)
@@ -111,9 +112,6 @@ class DocumentController {
             Timer t = new Timer();
             t.schedule(tt, 50);
         }
-//        JSON.use("deep") {
-//            render savedDoc as JSON
-//        }
         render documentLocation
     }
 
@@ -207,11 +205,13 @@ class DocumentController {
             d.dbId = d.id
             d.dbVersion = d.version
             JSON.use("deep") {
-                def jsond = render d as JSON
+                def jsond = d as JSON
                 render jsond
             }
         } else {
-            render "Document not found."
+            log.info("No document found for id : " + id)
+            throw new Exception("No document found for id:"+id)
+//            render "Document not found."
         }
     }
 
