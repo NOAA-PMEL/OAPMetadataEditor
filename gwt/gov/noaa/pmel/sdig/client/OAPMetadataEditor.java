@@ -1249,9 +1249,12 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (originalDocument.getVariables() != null) {
                     List<Variable> oVariablesList = originalDocument.getVariables();
-
-                    Map<String, Variable> map = originalDocument.getVariables().stream()
-                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()), s -> s));
+                    Map<String, Variable> map = oVariablesList.stream().collect(
+                            Collectors.toMap(
+                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
+                                    s -> s,
+                                    (variable1, variable2) -> variable1)
+                    );
 //                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
@@ -1261,7 +1264,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         // original list contains this Variable
                         if (oVariablesList.contains(v)) {
                             variableIterator.remove();  // is same; remove from this variableslist
-                            break;
+                            continue;
                         }
 
                         String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
@@ -2178,10 +2181,12 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (originalDocument.getVariables() != null) {
                     List<Variable> oVariablesList = originalDocument.getVariables();
-
-                    Map<String, Variable> map = originalDocument.getVariables().stream()
-                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()), s -> s));
-
+                    Map<String, Variable> map = oVariablesList.stream().collect(
+                            Collectors.toMap(
+                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
+                                    s -> s,
+                                    (variable1, variable2) -> variable1)
+                    );
 //                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
@@ -2191,7 +2196,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         // original list contains this Variable
                         if (oVariablesList.contains(v)) {
                             variableIterator.remove();  // is same; remove from this variableslist
-                            break;
+                            continue;
                         }
 
                         String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
@@ -2274,8 +2279,6 @@ public class OAPMetadataEditor implements EntryPoint {
                                 o.setSpeciesIdCode(v.getSpeciesIdCode());
                             }
                             variableIterator.remove(); // remove from this variablelist
-                            break;
-
                         }
                     }
                 }
