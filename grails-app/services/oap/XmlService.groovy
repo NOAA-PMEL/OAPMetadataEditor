@@ -138,18 +138,23 @@ class XmlService {
             }
         }
 
-        Element authorsList = root.getChild("authors")
-        if ( ! isEmpty(authorsList) ) {
-            String semi = ""
-            String authorsString = ""
-            List<Element> authors = authorsList.getChildren("author")
-            for (Element author : authors) {
-                if ( !isEmpty(author)) {
-                    authorsString = authorsString + semi + author.getTextTrim()
-                    semi = "; "
+        Element citationList = root.getChild("citationAuthorList") // from excel2oap
+        if ( ! isEmpty(citationList)) {
+            citation.setCitationAuthorList(citationList.getTextTrim())
+        } else {
+            Element authorsList = root.getChild("authors")
+            if ( ! isEmpty(authorsList) ) {
+                String semi = ""
+                String authorsString = ""
+                List<Element> authors = authorsList.getChildren("author")
+                for (Element author : authors) {
+                    if ( !isEmpty(author)) {
+                        authorsString = authorsString + semi + author.getTextTrim()
+                        semi = "; "
+                    }
                 }
+                citation.setCitationAuthorList(authorsString)
             }
-            citation.setCitationAuthorList(authorsString)
         }
 
         Element suppleInfo = root.getChild("suppleInfo")
