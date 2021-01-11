@@ -1249,9 +1249,12 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (originalDocument.getVariables() != null) {
                     List<Variable> oVariablesList = originalDocument.getVariables();
-
-                    Map<String, Variable> map = originalDocument.getVariables().stream()
-                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()), s -> s));
+                    Map<String, Variable> map = oVariablesList.stream().collect(
+                            Collectors.toMap(
+                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
+                                    s -> s,
+                                    (variable1, variable2) -> variable1)
+                    );
 //                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
@@ -1261,7 +1264,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         // original list contains this Variable
                         if (oVariablesList.contains(v)) {
                             variableIterator.remove();  // is same; remove from this variableslist
-                            break;
+                            continue;
                         }
 
                         String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
@@ -2178,10 +2181,12 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (originalDocument.getVariables() != null) {
                     List<Variable> oVariablesList = originalDocument.getVariables();
-
-                    Map<String, Variable> map = originalDocument.getVariables().stream()
-                            .collect(Collectors.toMap(s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()), s -> s));
-
+                    Map<String, Variable> map = oVariablesList.stream().collect(
+                            Collectors.toMap(
+                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
+                                    s -> s,
+                                    (variable1, variable2) -> variable1)
+                    );
 //                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
@@ -2191,7 +2196,7 @@ public class OAPMetadataEditor implements EntryPoint {
                         // original list contains this Variable
                         if (oVariablesList.contains(v)) {
                             variableIterator.remove();  // is same; remove from this variableslist
-                            break;
+                            continue;
                         }
 
                         String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
@@ -2199,39 +2204,58 @@ public class OAPMetadataEditor implements EntryPoint {
 
                         // variableKey exists in the hash from the original variablelist, then overwrite empty values
                         if (map.containsKey(variableKey)) {
+                            debugLog("containsKey: " + variableKey);
                             Variable o = map.get(variableKey);
+
+                            debugLog("begin process variables" );
 
 //                            if ( (o.getAbbreviation() == null || o.getAbbreviation().isEmpty())
 //                                    && (v.getAbbreviation() != null && !v.getAbbreviation().isEmpty()) ) {
 //                                o.setAbbreviation(v.getAbbreviation());
 //                            }
+//                            if ( (o.getFullVariableName() == null || o.getFullVariableName().isEmpty())
+//                                    && (v.getFullVariableName() != null && !v.getFullVariableName().isEmpty()) ) {
+//                                o.setFullVariableName(v.getFullVariableName());
+//                            }
                             if ( (o.getObservationType() == null || o.getObservationType().isEmpty())
                                     && (v.getObservationType() != null && !v.getObservationType().isEmpty()) ) {
                                 o.setObservationType(v.getObservationType());
                             }
-                            if ( (o.getManipulationMethod() == null || o.getManipulationMethod().isEmpty())
-                                    && (v.getManipulationMethod() != null && !v.getManipulationMethod().isEmpty()) ) {
-                                o.setManipulationMethod(v.getManipulationMethod());
-                            }
-//                            if ( (o.getUnits() == null || o.getUnits().isEmpty())
-//                                    && (v.getUnits() != null && !v.getUnits().isEmpty()) ) {
-//                                o.setUnits(v.getUnits());
-//                            }
                             if ( (o.getSamplingInstrument() == null || o.getSamplingInstrument().isEmpty())
                                     && (v.getSamplingInstrument() != null && !v.getSamplingInstrument().isEmpty()) ) {
-                                o.setSamplingInstrument(o.getSamplingInstrument());
+                                o.setSamplingInstrument(v.getSamplingInstrument());
                             }
                             if ( (o.getAnalyzingInstrument() == null || o.getAnalyzingInstrument().isEmpty())
                                     && (v.getAnalyzingInstrument() != null && !v.getAnalyzingInstrument().isEmpty()) ) {
                                 o.setAnalyzingInstrument(v.getAnalyzingInstrument());
                             }
-                            if ( (o.getDetailedInformation() == null || o.getDetailedInformation().isEmpty())
-                                    && (v.getDetailedInformation() != null && !v.getDetailedInformation().isEmpty()) ) {
-                                o.setDetailedInformation(v.getDetailedInformation());
+//                            if ( (o.getUnits() == null || o.getUnits().isEmpty())
+//                                    && (v.getUnits() != null && !v.getUnits().isEmpty()) ) {
+//                                o.setUnits(v.getUnits());
+//                            }
+                            if ( (o.getObservationDetail() == null || o.getObservationDetail().isEmpty())
+                                    && (v.getObservationDetail() != null && !v.getObservationDetail().isEmpty()) ) {
+                                o.setObservationDetail(v.getObservationDetail());
                             }
-                            if ( (o.getFieldReplicate() == null || o.getFieldReplicate().isEmpty())
-                                    && (v.getFieldReplicate() != null && !v.getFieldReplicate().isEmpty()) ) {
-                                o.setFieldReplicate(v.getFieldReplicate());
+                            if ( (o.getMeasured() == null || o.getMeasured().isEmpty())
+                                    && (v.getMeasured() != null && !v.getMeasured().isEmpty()) ) {
+                                o.setMeasured(v.getMeasured());
+                            }
+                            if ( (o.getManipulationMethod() == null || o.getManipulationMethod().isEmpty())
+                                    && (v.getManipulationMethod() != null && !v.getManipulationMethod().isEmpty()) ) {
+                                o.setManipulationMethod(v.getManipulationMethod());
+                            }
+                            if ( (o.getCalculationMethod() == null || o.getCalculationMethod().isEmpty())
+                                    && (v.getCalculationMethod() != null && !v.getCalculationMethod().isEmpty()) ) {
+                                o.setCalculationMethod(v.getCalculationMethod());
+                            }
+                            if ( (o.getReferenceMethod() == null || o.getReferenceMethod().isEmpty())
+                                    && (v.getReferenceMethod() != null && !v.getReferenceMethod().isEmpty()) ) {
+                                o.setReferenceMethod(v.getReferenceMethod());
+                            }
+                            if ( (o.getDetailedInformation() != null & o.getDetailedInformation().isEmpty())
+                                    && (v.getDetailedInformation() != null & !v.getDetailedInformation().isEmpty()) ) {
+                                o.setDetailedInformation(v.getDetailedInformation());
                             }
                             if ( (o.getUncertainty() == null || o.getUncertainty().isEmpty())
                                     && (v.getUncertainty() != null && !v.getUncertainty().isEmpty()) ) {
@@ -2249,13 +2273,9 @@ public class OAPMetadataEditor implements EntryPoint {
                                     && (v.getResearcherInstitution() != null && !v.getResearcherInstitution().isEmpty()) ) {
                                 o.setResearcherInstitution(v.getResearcherInstitution());
                             }
-//                            if ( (o.getFullVariableName() == null || o.getFullVariableName().isEmpty())
-//                                    && (v.getFullVariableName() != null && !v.getFullVariableName().isEmpty()) ) {
-//                                o.setFullVariableName(v.getFullVariableName());
-//                            }
-                            if ( (o.getReferenceMethod() == null || o.getReferenceMethod().isEmpty())
-                                    && (v.getReferenceMethod() != null && !v.getReferenceMethod().isEmpty()) ) {
-                                o.setReferenceMethod(v.getReferenceMethod());
+                            if ( (o.getFieldReplicate() == null || o.getFieldReplicate().isEmpty())
+                                    && (v.getFieldReplicate() != null && !v.getFieldReplicate().isEmpty()) ) {
+                                o.setFieldReplicate(v.getFieldReplicate());
                             }
                             if ( (o.getBiologicalSubject() == null || o.getBiologicalSubject().isEmpty())
                                     && (v.getBiologicalSubject() != null && !v.getBiologicalSubject().isEmpty()) ) {
@@ -2265,17 +2285,20 @@ public class OAPMetadataEditor implements EntryPoint {
                                     && (v.getDuration() != null && !v.getDuration().isEmpty()) ) {
                                 o.setDuration(v.getDuration());
                             }
+                            debugLog("o.getLifeStage = " + o.getLifeStage());
+                            debugLog("v.getLifeStage = " + v.getLifeStage());
                             if ( (o.getLifeStage() == null || o.getLifeStage().isEmpty())
-                                && (v.getLifeStage() != null && !v.getLifeStage().isEmpty()) ) {
+                                    && (v.getLifeStage() != null && !v.getLifeStage().isEmpty()) ) {
                                 o.setLifeStage(v.getLifeStage());
                             }
                             if ( (o.getSpeciesIdCode() == null || o.getSpeciesIdCode().isEmpty())
                                     && (v.getSpeciesIdCode() != null && !v.getSpeciesIdCode().isEmpty()) ) {
                                 o.setSpeciesIdCode(v.getSpeciesIdCode());
                             }
-                            variableIterator.remove(); // remove from this variablelist
-                            break;
 
+                            debugLog("end process all variables" );
+
+                            variableIterator.remove(); // remove from this variablelist
                         }
                     }
                 }
