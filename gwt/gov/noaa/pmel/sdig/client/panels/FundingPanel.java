@@ -2,8 +2,11 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,19 +18,18 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
-import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionUpdater;
+import gov.noaa.pmel.sdig.client.oracles.FundingSuggestOracle;
 import gov.noaa.pmel.sdig.shared.bean.Funding;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.fusesource.restygwt.client.*;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
@@ -38,6 +40,8 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -52,12 +56,27 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    FundingSuggestOracle fundingSuggestOracle = new FundingSuggestOracle();
+
+    public interface FundingCodec extends JsonEncoderDecoder<Funding> {
+    }
+
+    public interface GetFundingService extends RestService {
+        @Path("{id}")
+        public void get(@PathParam("id") String grant, TextCallback textCallback);
+    }
+
+    Resource getFundingResource = new Resource(Constants.getFunding);
+    GetFundingService getFundingService = GWT.create(GetFundingService.class);
+
+    FundingCodec codec = GWT.create(FundingCodec.class);
+
     @UiField
     TextBox agencyName;
     @UiField
     TextBox title;
-    @UiField
-    TextBox grantNumber;
+    @UiField(provided = true)
+    SuggestBox grantNumber;
 
     @UiField
     CellTable fundings;
@@ -98,7 +117,31 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     private static FundingPanelUiBinder ourUiBinder = GWT.create(FundingPanelUiBinder.class);
 
     public FundingPanel() {
+        ((RestServiceProxy) getFundingService).setResource(getFundingResource);
+
+        grantNumber = new SuggestBox(fundingSuggestOracle);
+        grantNumber.getValueBox().addDoubleClickHandler(new DoubleClickHandler() {
+            @Override
+            public void onDoubleClick(DoubleClickEvent event) {
+                NativeEvent nevent = event.getNativeEvent();
+                String type = nevent.getType();
+                grantNumber.showSuggestionList();
+            }
+        });
+        grantNumber.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+            @Override
+            public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
+                Object source = event.getSource();
+                SuggestBox grantBox = grantNumber;
+                String grant = grantBox.getText();
+                if ( grant != null && grant.trim().length() > 0 ) {
+                    lookForFundingInfo(grant);
+                }
+            }
+        });
+
         initWidget(ourUiBinder.createAndBindUi(this));
+
         fundings.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         fundings.addCellPreviewHandler(new CellPreviewEvent.Handler<Funding>() {
             @Override
@@ -198,6 +241,42 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         fundingListDataProvider.addDataDisplay(fundings);
 
         save.setEnabled(false);
+
+//        grantNumber.addValueChangeHandler()
+    }
+
+    private void lookForFundingInfo(String grantId) {
+        GWT.log("looking for grant info for " + grantId);
+        if ( grantId != null ) {
+            grantId = grantId.trim();
+            getFundingService.get(grantId, new TextCallback() {
+                @Override
+                public void onFailure(Method method, Throwable exception) {
+                    GWT.log("get funding failed:"+exception);
+                    agencyName.setText("");
+                    title.setText("");
+                }
+
+                @Override
+                public void onSuccess(Method method, String response) {
+                    GWT.log("funding response: "+ response);
+                    if ( response != null ) {
+                        response = response.trim();
+                        if ( ! Constants.NOT_FOUND.equals(response)) {
+                            Funding funding = codec.decode(response);
+                            save.setEnabled(true);
+                            show(funding);
+                        } else {
+                            agencyName.setText("");
+                            title.setText("");
+                        }
+                    } else {
+                        agencyName.setText("");
+                        title.setText("");
+                    }
+                }
+            });
+        }
     }
 
     public List<Funding> getFundings() { return fundingListDataProvider.getList(); }
@@ -391,9 +470,15 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         setTableVisible(false);
     }
 
-    @UiHandler({"agencyName","title", "grantNumber"})
+    @UiHandler({"agencyName","title"})// , "grantNumber"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("getsource: "+event.getSource());
+        save.setEnabled(true);
+    }
+
+    @UiHandler({"grantNumber"})
+    public void onValueChange(ValueChangeEvent<String> event) {
+        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
         save.setEnabled(true);
     }
 

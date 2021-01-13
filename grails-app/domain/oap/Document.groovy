@@ -2,6 +2,8 @@ package oap
 
 class Document {
 
+    public static final String NOT_FOUND = "Not Found"
+
     String datasetIdentifier;
     String lastModified;
     transient Long dbId;

@@ -9,6 +9,7 @@ public class Constants {
 
     public static final String base = GWT.getHostPageBaseURL();
 
+    public static String NOT_FOUND = "Not Found";
 
     public static String SECTION_INVESTIGATOR = "Investigators";
     public static String SECTION_SUBMITTER = "Data Submitter";
@@ -32,6 +33,7 @@ public class Constants {
 
     public static final String saveDocument = base + "document/saveDoc";
     public static final String getDocument = base + "document/getDoc";
+    public static final String getFunding = base + "funding/getGrantInfo";
 
     public static final String DOCUMENT_NOT_COMPLETE = "You are saving an incomplete document. The dataset cannot be submitted with incomplete metadata.";
 

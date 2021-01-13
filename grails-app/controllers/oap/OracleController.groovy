@@ -6,6 +6,8 @@ import org.grails.web.json.JSONObject
 
 class OracleController {
 
+    FundingService fundingService
+
     def ncei_variables = [
             "Air temperature",
             "Ammonium (NH4/NH3)",
@@ -1452,6 +1454,25 @@ class OracleController {
                 }
             }
         }
+        render suggestions as JSON
+    }
+
+    def funding() {
+        def queryJSON = request.JSON
+        SuggestQuery vq = new SuggestQuery(queryJSON)
+        String query = vq.getQuery()
+        if ( query ) { query = query.trim().toLowerCase() }
+        def oap_fundings = fundingService.fundingSources()
+        List<NceiSuggestion> suggestions = new ArrayList<NceiSuggestion>()
+//        if (query) {
+            for (String grantNum : oap_fundings) {
+                if ( ! query || grantNum.toLowerCase().contains(query)) {
+                    NceiSuggestion v = new NceiSuggestion();
+                    v.setSuggestion(grantNum)
+                    suggestions.add(v)
+                }
+            }
+//        }
         render suggestions as JSON
     }
 
