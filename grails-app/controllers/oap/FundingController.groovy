@@ -15,10 +15,12 @@ class FundingController {
             if ( funding ) {
                 render funding as JSON
             } else {
-                throw new FileNotFoundException(Document.NOT_FOUND)
+                respond Document.NOT_FOUND
+//                throw new FileNotFoundException(Document.NOT_FOUND)
             }
         } else {
-            throw new FileNotFoundException(Document.NOT_FOUND)
+            respond Document.NOT_FOUND
+//            throw new FileNotFoundException(Document.NOT_FOUND)
         }
     }
 }
