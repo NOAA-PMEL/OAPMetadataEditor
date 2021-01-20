@@ -2,7 +2,7 @@ package oap
 
 class FundingService {
 
-    def oap_funding_grantNumbers = [
+    def oap_funding_grantNumbers = [ // XXX Not used.
             "NA19OAR0170351",
             "NA19OAR0170349",
             "NA19OAR0170354",
@@ -128,7 +128,7 @@ class FundingService {
     private Map<String, Funding> buildMap() {
         Map<String, Funding> map = new TreeMap<>()
         for (String[] fundingInfo : oap_fundings) {
-            map.put(fundingInfo[0], new Funding([agencyName:"OAP",grantTitle:fundingInfo[1],grantNumber:fundingInfo[0]]))
+            map.put(fundingInfo[0], new Funding([agencyName:"NOAA Ocean Acidification Program",grantTitle:fundingInfo[1],grantNumber:fundingInfo[0]]))
         }
         return map
     }
