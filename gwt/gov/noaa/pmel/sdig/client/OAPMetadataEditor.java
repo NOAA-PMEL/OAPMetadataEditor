@@ -2355,9 +2355,17 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (originalDocument.getVariables() != null) {
                     List<Variable> oVariablesList = originalDocument.getVariables();
+
+//                    Map<String, Variable> map = oVariablesList.stream().collect(
+//                            Collectors.toMap(
+//                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
+//                                    s -> s,
+//                                    (variable1, variable2) -> variable1)
+//                    );
+                    // for now just match abbrevation name handle units later
                     Map<String, Variable> map = oVariablesList.stream().collect(
                             Collectors.toMap(
-                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
+                                    s -> s.getAbbreviation().toLowerCase(),
                                     s -> s,
                                     (variable1, variable2) -> variable1)
                     );
@@ -2373,106 +2381,113 @@ public class OAPMetadataEditor implements EntryPoint {
                             continue;
                         }
 
-                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
-                        debugLog("(jsonDoc) variableKey is " + variableKey);
+//                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
+                        if (v.getAbbreviation() != null && !v.getAbbreviation().isEmpty()) {
+                            String variableKey = v.getAbbreviation().toLowerCase();
+                            debugLog("(jsonDoc) variableKey is " + variableKey);
 
-                        // variableKey exists in the hash from the original variablelist, then overwrite empty values
-                        if (map.containsKey(variableKey)) {
-                            debugLog("containsKey: " + variableKey);
-                            Variable o = map.get(variableKey);
+                            // variableKey exists in the hash from the original variablelist, then overwrite empty values
+                            if (map.containsKey(variableKey)) {
+                                debugLog("containsKey: " + variableKey);
+                                Variable o = map.get(variableKey);
 
-                            debugLog("begin process variables" );
+                                debugLog("begin process variables");
 
+//                                debugLog("o.getAbbreviation(): " + o.getAbbreviation());
+//                                debugLog("v.getAbbreviation(): " + v.getAbbreviation());
 //                            if ( (o.getAbbreviation() == null || o.getAbbreviation().isEmpty())
 //                                    && (v.getAbbreviation() != null && !v.getAbbreviation().isEmpty()) ) {
 //                                o.setAbbreviation(v.getAbbreviation());
 //                            }
+//                                debugLog("o.getFullVariableName(): " + o.getFullVariableName());
+//                                debugLog("v.getFullVariableName(): " + v.getFullVariableName());
 //                            if ( (o.getFullVariableName() == null || o.getFullVariableName().isEmpty())
 //                                    && (v.getFullVariableName() != null && !v.getFullVariableName().isEmpty()) ) {
 //                                o.setFullVariableName(v.getFullVariableName());
 //                            }
-                            if ( (o.getObservationType() == null || o.getObservationType().isEmpty())
-                                    && (v.getObservationType() != null && !v.getObservationType().isEmpty()) ) {
-                                o.setObservationType(v.getObservationType());
-                            }
-                            if ( (o.getSamplingInstrument() == null || o.getSamplingInstrument().isEmpty())
-                                    && (v.getSamplingInstrument() != null && !v.getSamplingInstrument().isEmpty()) ) {
-                                o.setSamplingInstrument(v.getSamplingInstrument());
-                            }
-                            if ( (o.getAnalyzingInstrument() == null || o.getAnalyzingInstrument().isEmpty())
-                                    && (v.getAnalyzingInstrument() != null && !v.getAnalyzingInstrument().isEmpty()) ) {
-                                o.setAnalyzingInstrument(v.getAnalyzingInstrument());
-                            }
-//                            if ( (o.getUnits() == null || o.getUnits().isEmpty())
+                                if ((o.getObservationType() == null || o.getObservationType().isEmpty())
+                                        && (v.getObservationType() != null && !v.getObservationType().isEmpty())) {
+                                    o.setObservationType(v.getObservationType());
+                                }
+                                if ((o.getSamplingInstrument() == null || o.getSamplingInstrument().isEmpty())
+                                        && (v.getSamplingInstrument() != null && !v.getSamplingInstrument().isEmpty())) {
+                                    o.setSamplingInstrument(v.getSamplingInstrument());
+                                }
+                                if ((o.getAnalyzingInstrument() == null || o.getAnalyzingInstrument().isEmpty())
+                                        && (v.getAnalyzingInstrument() != null && !v.getAnalyzingInstrument().isEmpty())) {
+                                    o.setAnalyzingInstrument(v.getAnalyzingInstrument());
+                                }
+//                                debugLog("o.getUnits(): " + o.getUnits());
+//                                debugLog("v.getUnits(): " + v.getUnits());
+//                            if ( (o.getUnits() == null || o.getUnits().isEmpty() )
 //                                    && (v.getUnits() != null && !v.getUnits().isEmpty()) ) {
 //                                o.setUnits(v.getUnits());
 //                            }
-                            if ( (o.getObservationDetail() == null || o.getObservationDetail().isEmpty())
-                                    && (v.getObservationDetail() != null && !v.getObservationDetail().isEmpty()) ) {
-                                o.setObservationDetail(v.getObservationDetail());
-                            }
-                            if ( (o.getMeasured() == null || o.getMeasured().isEmpty())
-                                    && (v.getMeasured() != null && !v.getMeasured().isEmpty()) ) {
-                                o.setMeasured(v.getMeasured());
-                            }
-                            if ( (o.getManipulationMethod() == null || o.getManipulationMethod().isEmpty())
-                                    && (v.getManipulationMethod() != null && !v.getManipulationMethod().isEmpty()) ) {
-                                o.setManipulationMethod(v.getManipulationMethod());
-                            }
-                            if ( (o.getCalculationMethod() == null || o.getCalculationMethod().isEmpty())
-                                    && (v.getCalculationMethod() != null && !v.getCalculationMethod().isEmpty()) ) {
-                                o.setCalculationMethod(v.getCalculationMethod());
-                            }
-                            if ( (o.getReferenceMethod() == null || o.getReferenceMethod().isEmpty())
-                                    && (v.getReferenceMethod() != null && !v.getReferenceMethod().isEmpty()) ) {
-                                o.setReferenceMethod(v.getReferenceMethod());
-                            }
-                            if ( (o.getDetailedInformation() != null & o.getDetailedInformation().isEmpty())
-                                    && (v.getDetailedInformation() != null & !v.getDetailedInformation().isEmpty()) ) {
-                                o.setDetailedInformation(v.getDetailedInformation());
-                            }
-                            if ( (o.getUncertainty() == null || o.getUncertainty().isEmpty())
-                                    && (v.getUncertainty() != null && !v.getUncertainty().isEmpty()) ) {
-                                o.setUncertainty(v.getUncertainty());
-                            }
-                            if ( (o.getQualityFlag() == null || o.getQualityFlag().isEmpty())
-                                    && (v.getQualityFlag() != null && !v.getQualityFlag().isEmpty()) ) {
-                                o.setQualityFlag(v.getQualityFlag());
-                            }
-                            if ( (o.getResearcherName() == null || o.getResearcherName().isEmpty())
-                                    && (v.getResearcherName() != null && !v.getResearcherName().isEmpty()) ) {
-                                o.setResearcherName(v.getResearcherName());
-                            }
-                            if ( (o.getResearcherInstitution() == null || o.getResearcherInstitution().isEmpty())
-                                    && (v.getResearcherInstitution() != null && !v.getResearcherInstitution().isEmpty()) ) {
-                                o.setResearcherInstitution(v.getResearcherInstitution());
-                            }
-                            if ( (o.getFieldReplicate() == null || o.getFieldReplicate().isEmpty())
-                                    && (v.getFieldReplicate() != null && !v.getFieldReplicate().isEmpty()) ) {
-                                o.setFieldReplicate(v.getFieldReplicate());
-                            }
-                            if ( (o.getBiologicalSubject() == null || o.getBiologicalSubject().isEmpty())
-                                    && (v.getBiologicalSubject() != null && !v.getBiologicalSubject().isEmpty()) ) {
-                                o.setBiologicalSubject(v.getBiologicalSubject());
-                            }
-                            if ( (o.getDuration() == null || o.getDuration().isEmpty())
-                                    && (v.getDuration() != null && !v.getDuration().isEmpty()) ) {
-                                o.setDuration(v.getDuration());
-                            }
-                            debugLog("o.getLifeStage = " + o.getLifeStage());
-                            debugLog("v.getLifeStage = " + v.getLifeStage());
-                            if ( (o.getLifeStage() == null || o.getLifeStage().isEmpty())
-                                    && (v.getLifeStage() != null && !v.getLifeStage().isEmpty()) ) {
-                                o.setLifeStage(v.getLifeStage());
-                            }
-                            if ( (o.getSpeciesIdCode() == null || o.getSpeciesIdCode().isEmpty())
-                                    && (v.getSpeciesIdCode() != null && !v.getSpeciesIdCode().isEmpty()) ) {
-                                o.setSpeciesIdCode(v.getSpeciesIdCode());
-                            }
+                                if ((o.getObservationDetail() == null || o.getObservationDetail().isEmpty())
+                                        && (v.getObservationDetail() != null && !v.getObservationDetail().isEmpty())) {
+                                    o.setObservationDetail(v.getObservationDetail());
+                                }
+                                if ((o.getMeasured() == null || o.getMeasured().isEmpty())
+                                        && (v.getMeasured() != null && !v.getMeasured().isEmpty())) {
+                                    o.setMeasured(v.getMeasured());
+                                }
+                                if ((o.getManipulationMethod() == null || o.getManipulationMethod().isEmpty())
+                                        && (v.getManipulationMethod() != null && !v.getManipulationMethod().isEmpty())) {
+                                    o.setManipulationMethod(v.getManipulationMethod());
+                                }
+                                if ((o.getCalculationMethod() == null || o.getCalculationMethod().isEmpty())
+                                        && (v.getCalculationMethod() != null && !v.getCalculationMethod().isEmpty())) {
+                                    o.setCalculationMethod(v.getCalculationMethod());
+                                }
+                                if ((o.getReferenceMethod() == null || o.getReferenceMethod().isEmpty())
+                                        && (v.getReferenceMethod() != null && !v.getReferenceMethod().isEmpty())) {
+                                    o.setReferenceMethod(v.getReferenceMethod());
+                                }
+                                if ((o.getDetailedInformation() == null || o.getDetailedInformation().isEmpty())
+                                        && (v.getDetailedInformation() != null && !v.getDetailedInformation().isEmpty())) {
+                                    o.setDetailedInformation(v.getDetailedInformation());
+                                }
+                                if ((o.getUncertainty() == null || o.getUncertainty().isEmpty())
+                                        && (v.getUncertainty() != null && !v.getUncertainty().isEmpty())) {
+                                    o.setUncertainty(v.getUncertainty());
+                                }
+                                if ((o.getQualityFlag() == null || o.getQualityFlag().isEmpty())
+                                        && (v.getQualityFlag() != null && !v.getQualityFlag().isEmpty())) {
+                                    o.setQualityFlag(v.getQualityFlag());
+                                }
+                                if ((o.getResearcherName() == null || o.getResearcherName().isEmpty())
+                                        && (v.getResearcherName() != null && !v.getResearcherName().isEmpty())) {
+                                    o.setResearcherName(v.getResearcherName());
+                                }
+                                if ((o.getResearcherInstitution() == null || o.getResearcherInstitution().isEmpty())
+                                        && (v.getResearcherInstitution() != null && !v.getResearcherInstitution().isEmpty())) {
+                                    o.setResearcherInstitution(v.getResearcherInstitution());
+                                }
+                                if ((o.getFieldReplicate() == null || o.getFieldReplicate().isEmpty())
+                                        && (v.getFieldReplicate() != null && !v.getFieldReplicate().isEmpty())) {
+                                    o.setFieldReplicate(v.getFieldReplicate());
+                                }
+                                if ((o.getBiologicalSubject() == null || o.getBiologicalSubject().isEmpty())
+                                        && (v.getBiologicalSubject() != null && !v.getBiologicalSubject().isEmpty())) {
+                                    o.setBiologicalSubject(v.getBiologicalSubject());
+                                }
+                                if ((o.getDuration() == null || o.getDuration().isEmpty())
+                                        && (v.getDuration() != null && !v.getDuration().isEmpty())) {
+                                    o.setDuration(v.getDuration());
+                                }
+                                if ((o.getLifeStage() == null || o.getLifeStage().isEmpty())
+                                        && (v.getLifeStage() != null && !v.getLifeStage().isEmpty())) {
+                                    o.setLifeStage(v.getLifeStage());
+                                }
+                                if ((o.getSpeciesIdCode() == null || o.getSpeciesIdCode().isEmpty())
+                                        && (v.getSpeciesIdCode() != null && !v.getSpeciesIdCode().isEmpty())) {
+                                    o.setSpeciesIdCode(v.getSpeciesIdCode());
+                                }
 
-                            debugLog("end process all variables" );
+                                debugLog("end process all variables");
 
-                            variableIterator.remove(); // remove from this variablelist
+                                variableIterator.remove(); // remove from this variablelist
+                            }
                         }
                     }
                 }
