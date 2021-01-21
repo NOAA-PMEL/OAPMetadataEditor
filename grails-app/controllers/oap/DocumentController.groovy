@@ -205,8 +205,7 @@ class DocumentController {
             d.dbId = d.id
             d.dbVersion = d.version
             JSON.use("deep") {
-                def jsond = d as JSON
-                render jsond
+                render d as JSON
             }
         } else {
             log.info("No document found for id : " + id)
@@ -223,14 +222,14 @@ class DocumentController {
         if ( d ) {
             try {
                 d.delete()
-                render "deleted " + id
+                respond "deleted " + id
             } catch (Exception ex) {
                 ex.printStackTrace()
-                render "There was an error deleting the document: " + ex.getMessage()
+                respond "There was an error deleting the document: " + ex.getMessage()
             }
         }
         else {
-            render id + " not found"
+            respond id + " not found"
         }
     }
 
@@ -414,8 +413,7 @@ class DocumentController {
 //            }
 
             JSON.use("deep") {
-                def jsond = document as JSON
-                render jsond
+                render document as JSON
             }
         } catch (Exception ex) {
             ex.printStackTrace()
