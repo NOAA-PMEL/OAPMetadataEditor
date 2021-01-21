@@ -1243,19 +1243,32 @@ public class OAPMetadataEditor implements EntryPoint {
 //                genericVariablePanel.addVariables(variablesList);
 //
 //            }
+
             if (document.getVariables() != null) {
                 List<Variable> variablesList = document.getVariables();
                 debugLog("Overwrite merge");
 
                 if (originalDocument.getVariables() != null) {
                     List<Variable> oVariablesList = originalDocument.getVariables();
-                    Map<String, Variable> map = oVariablesList.stream().collect(
-                            Collectors.toMap(
-                                    s -> createVariableKeyIndex(s.getAbbreviation(), s.getUnits()),
-                                    s -> s,
-                                    (variable1, variable2) -> variable1)
-                    );
-//                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
+
+                    Map<String, Variable> matchMap = new HashMap<String, Variable>();
+                    for (Variable ovl : oVariablesList) {
+
+                        // has abbreviation and units then use as key
+                        if ((ovl.getAbbreviation() != null && !ovl.getAbbreviation().isEmpty())) {
+//                            debugLog("**has abbreviation ovl (" + ovl.getAbbreviation() + ")");
+                            if (ovl.getUnits() != null && !ovl.getUnits().isEmpty()) {
+//                                debugLog("**has units ovl (" + ovl.getUnits() + ")");
+                                matchMap.put(createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits()), ovl);
+                            }
+                            else {
+//                                debugLog("**has NO units ovl adding just abbrevation to hash");
+                                matchMap.put(ovl.getAbbreviation().toLowerCase(), ovl);
+                            }
+                        }
+
+                    }
+//                    matchMap.forEach((key, value) -> debugLog("ovlKEY: " + key + " = ovlVALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
                     while (variableIterator.hasNext()) {
@@ -1263,17 +1276,62 @@ public class OAPMetadataEditor implements EntryPoint {
 
                         // original list contains this Variable
                         if (oVariablesList.contains(v)) {
+//                            debugLog("*** oVariableList contains the var v for " + v.getAbbreviation());
                             variableIterator.remove();  // is same; remove from this variableslist
                             continue;
                         }
 
-                        String variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
-                        debugLog("(jsonDoc) variableKey is " + variableKey);
+                        if (v.getAbbreviation() != null && !v.getAbbreviation().isEmpty()) {
+                            String combinedKey = null;
+                            String abbrevationKey = null;
 
-                        // variableKey exists in the hash from the original variablelist, then remove from orignal variablelist
-                        if (map.containsKey(variableKey)) {
-                            Variable o = map.get(variableKey);
-                            oVariablesList.remove(o);
+                            if (v.getUnits() != null && !v.getUnits().isEmpty()) {
+//                                debugLog("*> merge looking for has units " + v.getUnits());
+                                combinedKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
+                                abbrevationKey = v.getAbbreviation().toLowerCase();
+
+                                // has same units, merge
+                                if (matchMap.containsKey(combinedKey)) {
+//                                    debugLog("**> matched with combinedKey: " + combinedKey);
+                                    Variable o = matchMap.get(combinedKey);
+                                    oVariablesList.remove(o);
+//                                    debugLog("***> DO remove o from oVarList 1");
+                                }
+
+                                // has same abrevation, check og var units
+//                                debugLog("**> Check with abbrevationKey: " + abbrevationKey);
+                                if (matchMap.containsKey(abbrevationKey)) {
+//                                    debugLog("**> matched with abbrevationKey: " + abbrevationKey);
+                                    Variable o = matchMap.get(abbrevationKey);
+
+                                    if (o.getUnits() != null && !o.getUnits().isEmpty()) {
+                                        debugLog("**> o has units (" + o.getUnits() + ")");
+                                        debugLog("***> DO nothing");
+                                    }
+                                    else {
+//                                        debugLog("**> o has no units (" + o.getUnits() + ")");
+                                        oVariablesList.remove(o);
+//                                        debugLog("***> DO remove o from oVarList 2");
+                                    }
+
+                                }
+                            }
+                            else {
+//                                debugLog("****> merge looking for has NO units (" + v.getAbbreviation() + ")");
+
+                                // has no units and has no units is a match
+                                String variableKey = v.getAbbreviation().toLowerCase();
+                                if (matchMap.containsKey(variableKey)) {
+//                                    debugLog("***> matched withOUT units: " + variableKey);
+                                    Variable o = matchMap.get(abbrevationKey);
+                                    oVariablesList.remove(o);
+//                                    debugLog("***> DO remove o from oVarList 3");
+                                }
+
+                                // TODO has no units and has units replace or append?
+
+                            }
+
                         }
                     }
                 }
@@ -1320,6 +1378,122 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
                 }
             }
+
+//            if (document.getVariables() != null) {
+//                List<Variable> variablesList = document.getVariables();
+//                debugLog("Overwrite merge");
+//
+//                if (originalDocument.getVariables() != null) {
+//                    List<Variable> oVariablesList = originalDocument.getVariables();
+//
+//                    Map<String, Variable> matchMap = new HashMap<String, Variable>();
+//                    for (Variable ovl : oVariablesList) {
+//
+//                        // has abbreviation and units then use as key
+////                        if ((ovl.getAbbreviation() != null && !ovl.getAbbreviation().isEmpty())) {
+////                            debugLog("**abbreviation is not null and is not empty");
+////                        }
+////                        if ((ovl.getUnits() != null && !ovl.getUnits().isEmpty())) {
+////                            debugLog("**has units is not null and is not empty");
+////                        }
+//
+//                        if ((ovl.getAbbreviation() != null && !ovl.getAbbreviation().isEmpty())
+//                                && (ovl.getUnits() != null && !ovl.getUnits().isEmpty())) {
+////                            debugLog("has abbreviation + units: " + ovl.getAbbreviation() + " + " + ovl.getUnits());
+////                            String matchKey = createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits());
+////                            debugLog("matchKey: " + matchKey);
+//
+//                            String variableKey = createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits());
+//                            boolean isKeyPresent = matchMap.containsKey(variableKey);
+//                            if (isKeyPresent) {
+//                                debugLog("** " + variableKey + " already exists");
+//                                Variable previous = matchMap.get(variableKey);
+//                                if (previous.equals(ovl)) {
+//                                    debugLog("Variable @" + variableKey + " is equal");
+//                                }
+//                                else {
+//                                    debugLog("Variable @" + variableKey + " is NOT equal");
+//                                }
+//                            }
+//                            else {
+//                                matchMap.put(createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits()), ovl);
+//                            }
+//
+//                        }
+////                        else {
+////                            debugLog("missing abbreviation (" + ovl.getAbbreviation() + ") and/or units (" + ovl.getUnits() + ")");
+////                        }
+//
+//                    }
+//                    matchMap.forEach((key, value) -> debugLog("nKEY: " + key + " = nVALUE: " + value));
+//
+//                    Iterator<Variable> variableIterator = variablesList.iterator();
+//                    while (variableIterator.hasNext()) {
+//                        Variable v = variableIterator.next();
+//
+//                        // original list contains this Variable
+//                        if (oVariablesList.contains(v)) {
+//                            variableIterator.remove();  // is same; remove from this variableslist
+//                            continue;
+//                        }
+//
+//                        String variableKey = null;
+//                        if ((v.getAbbreviation() != null && !v.getAbbreviation().isEmpty())
+//                                && (v.getUnits() != null && !v.getUnits().isEmpty())) {
+//                            variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
+////                            debugLog("(jsonDoc) variableKey is " + variableKey);
+//
+//                            // variableKey exists in the map from the original variablelist, then remove from orignal variablelist
+//                            if (matchMap.containsKey(variableKey)) {
+//                                Variable o = matchMap.get(variableKey);
+//                                oVariablesList.remove(o);
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                // validate
+//                // Load
+//                genericVariablePanel.addVariables(variablesList);
+//
+//                // verify
+//                boolean hasValidData = false;
+//                boolean hasInvalidData = false;
+//                for (int i = 0; i < variablesList.size(); i++) {
+//                    Variable v = variablesList.get(i);
+//                    genericVariablePanel.show(v);
+//                    if (!genericVariablePanel.valid()) {
+//                        hasInvalidData = true;
+//                    } else {
+//                        hasValidData = true;
+//                    }
+//                    genericVariablePanel.reset();
+//                }
+//
+//                if (hasValidData == true && hasInvalidData == true) {
+////                    debugLog("warning genericVariablePanel valid and invalid");
+//                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+//                }
+//                if (hasValidData == true && hasInvalidData == false) {
+////                    debugLog("success genericVariablePanel has only valid data");
+//                    topLayout.setChecked(Constants.SECTION_GENERIC);
+//                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
+//                }
+//                if (hasValidData == false && hasInvalidData == true) {
+////                    debugLog("danger genericVariablePanel has no valid data");
+//                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+//                }
+//                if (hasValidData == false && hasInvalidData == false) {
+////                    debugLog("danger genericVariablePanel has no data");
+//                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+//                }
+//
+//                if (variablesList.size() == 0) {
+//                    genericVariablePanel.setTableVisible(false);
+//                    topLayout.uncheck(Constants.SECTION_GENERIC);
+//                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
+//                }
+//            }
 
             if (!clearFirst) {
                 _currentDocument = getDocument();
@@ -2364,12 +2538,12 @@ public class OAPMetadataEditor implements EntryPoint {
         StringBuilder sb = new StringBuilder();
 
         if (abbreviation != null && !abbreviation.isEmpty()) {
-            sb.append(abbreviation);
+            sb.append(abbreviation.toLowerCase());
         }
         if (units != null && !units.isEmpty()) {
-            sb.append(units);
+            sb.append(units.toLowerCase());
         }
-        debugLog(sb.toString());
+//        debugLog(sb.toString());
 
         return sb.toString();
     }
