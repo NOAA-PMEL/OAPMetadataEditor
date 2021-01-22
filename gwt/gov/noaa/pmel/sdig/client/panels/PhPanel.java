@@ -186,10 +186,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
 
         if ( common.isDirty() ) {
             return true;
-        } else if ( common._displayedVariable != null ) {
-            return true;
         }
-
         if ( standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {
             return true;
         }
