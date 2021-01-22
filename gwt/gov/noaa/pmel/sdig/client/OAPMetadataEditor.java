@@ -2399,12 +2399,14 @@ public class OAPMetadataEditor implements EntryPoint {
 //                                    && (v.getAbbreviation() != null && !v.getAbbreviation().isEmpty()) ) {
 //                                o.setAbbreviation(v.getAbbreviation());
 //                            }
-//                                debugLog("o.getFullVariableName(): " + o.getFullVariableName());
-//                                debugLog("v.getFullVariableName(): " + v.getFullVariableName());
-//                            if ( (o.getFullVariableName() == null || o.getFullVariableName().isEmpty())
-//                                    && (v.getFullVariableName() != null && !v.getFullVariableName().isEmpty()) ) {
-//                                o.setFullVariableName(v.getFullVariableName());
-//                            }
+                                debugLog("o.getFullVariableName(): " + o.getFullVariableName());
+                                debugLog("v.getFullVariableName(): " + v.getFullVariableName());
+                            if ( (o.getFullVariableName() == null || o.getFullVariableName().isEmpty())
+//                                  || o.getFullVariableName().equalsIgnoreCase("unspecified")
+//                                  || o.getFullVariableName().equalsIgnoreCase("ignored"))
+                                    && (v.getFullVariableName() != null && !v.getFullVariableName().isEmpty()) ) {
+                                o.setFullVariableName(v.getFullVariableName());
+                            }
                                 if ((o.getObservationType() == null || o.getObservationType().isEmpty())
                                         && (v.getObservationType() != null && !v.getObservationType().isEmpty())) {
                                     o.setObservationType(v.getObservationType());
