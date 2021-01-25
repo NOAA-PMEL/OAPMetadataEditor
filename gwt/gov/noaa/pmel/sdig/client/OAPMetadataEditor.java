@@ -179,7 +179,8 @@ public class OAPMetadataEditor implements EntryPoint {
                 if (source instanceof Button) {
                     Button b = (Button) source;
                     if (b.getText().equals("Clear All")) {
-
+                            //#DEBUG
+//                        debugLog("Called Clear ALL: ");
                         if (currentDocumentIsDirty() && !saved) {
 
                             final Modal sure = new Modal();
@@ -783,10 +784,13 @@ public class OAPMetadataEditor implements EntryPoint {
                 return;
             }
 
-            // Overwrite (default) to overwrite the existing metadata panels.
+            // prompt for merge while metadata panels have data.
+            // Overwrite to overwrite the existing metadata panels.
             // Preserve exiting data and merge only empty values
-            if (currentDocumentIsDirty() && _loadedDocument != null) {
-//                debugLog("currentDocumentIsDirty()->" + currentDocumentIsDirty() + " Modal");
+//            if (currentDocumentIsDirty() && _loadedDocument != null) {
+           if (currentDocumentIsDirty()) {
+                 //#DEBUG
+//               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
 
                 final Modal mergeOptions = new Modal();
                 ModalHeader header = new ModalHeader();
@@ -840,34 +844,87 @@ public class OAPMetadataEditor implements EntryPoint {
                 });
 
             } else {
-//                debugLog("currentDocumentIsDirty()->" + currentDocumentIsDirty() + " No Modal");
+                //#DEBUG
+//               debugLog("currentDocumentIsDirty()onSubmitComplete is false: " + currentDocumentIsDirty() + " --overwrite empty doc");
                 mergeJsonDocument(jsonString);
             }
         }
     };
 
     private boolean currentDocumentIsDirty() {
-        debugLog("_loadedDoc:" + _loadedDocument);
+//        debugLog("_loadedDoc@currentDocumentIsDirty():" + _loadedDocument);
         Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
-        debugLog("Checking dirty against " + compDoc);
-        boolean isDirty =
-                submitterPanel.isDirty(compDoc.getDataSubmitter()) ||
-                        investigatorPanel.isDirty(compDoc.getInvestigators()) ||
-                        citationPanel.isDirty(compDoc.getCitation()) ||
-                        timeAndLocationPanel.isDirty(compDoc.getTimeAndLocation()) ||
-                        fundingPanel.isDirty(compDoc.getFunding()) ||
-                        platformPanel.isDirty(compDoc.getPlatforms()) ||
-                        dicPanel.isDirty(compDoc.getDic()) ||
-                        taPanel.isDirty(compDoc.getTa()) ||
-                        phPanel.isDirty(compDoc.getPh()) ||
-                        pco2aPanel.isDirty(compDoc.getPco2a()) ||
-                        pco2dPanel.isDirty(compDoc.getPco2d()) ||
-                        genericVariablePanel.isDirty(compDoc.getVariables());
-        debugLog("Found dirty: " + isDirty);
+//        debugLog("compDoc@currentDocumentIsDirty():" + compDoc);
+
+//        debugLog("Checking dirty against " + compDoc);
+//        boolean isDirty =
+//                submitterPanel.isDirty(compDoc.getDataSubmitter()) ||
+//                        investigatorPanel.isDirty(compDoc.getInvestigators()) ||
+//                        citationPanel.isDirty(compDoc.getCitation()) ||
+//                        timeAndLocationPanel.isDirty(compDoc.getTimeAndLocation()) ||
+//                        fundingPanel.isDirty(compDoc.getFunding()) ||
+//                        platformPanel.isDirty(compDoc.getPlatforms()) ||
+//                        dicPanel.isDirty(compDoc.getDic()) ||
+//                        taPanel.isDirty(compDoc.getTa()) ||
+//                        phPanel.isDirty(compDoc.getPh()) ||
+//                        pco2aPanel.isDirty(compDoc.getPco2a()) ||
+//                        pco2dPanel.isDirty(compDoc.getPco2d()) ||
+//                        genericVariablePanel.isDirty(compDoc.getVariables());
+//        debugLog("Found dirty: " + isDirty);
+
+        boolean isDirty = false;
+        if (submitterPanel.isDirty(compDoc.getDataSubmitter())) {
+            debugLog("submitterPanel is Dirty");
+            isDirty = true;
+        }
+        if (citationPanel.isDirty(compDoc.getCitation())) {
+            debugLog("citationPanel is Dirty");
+            isDirty = true;
+        }
+        if (timeAndLocationPanel.isDirty(compDoc.getTimeAndLocation())) {
+            debugLog("timeAndLocationPanel is Dirty");
+            isDirty = true;
+        }
+        if (fundingPanel.isDirty(compDoc.getFunding())) {
+            debugLog("fundingPanel is Dirty");
+            isDirty = true;
+        }
+        if (platformPanel.isDirty(compDoc.getPlatforms())) {
+            debugLog("platformPanel is Dirty");
+            isDirty = true;
+        }
+        if (dicPanel.isDirty(compDoc.getDic())) {
+            debugLog("dicPanel is Dirty");
+            isDirty = true;
+        }
+        if (taPanel.isDirty(compDoc.getTa())) {
+            debugLog("taPanel is Dirty");
+            isDirty = true;
+        }
+        if (phPanel.isDirty(compDoc.getPh())) {
+            debugLog("phPanel is Dirty");
+            isDirty = true;
+        }
+        if (pco2aPanel.isDirty(compDoc.getPco2a())) {
+            debugLog("pco2aPanel is Dirty");
+            isDirty = true;
+        }
+        if (pco2dPanel.isDirty(compDoc.getPco2d())) {
+            debugLog("pco2dPanel is Dirty");
+            isDirty = true;
+        }
+        if (genericVariablePanel.isDirty(compDoc.getVariables())) {
+            debugLog("genericVariablePanel is Dirty");
+            isDirty = true;
+        }
+
+//        debugLog("isDirty@currentDocumentIsDirty(): " + isDirty);
         return isDirty;
     }
 
     private void startOver(boolean clearIds) {
+        //#DEBUG
+        debugLog("Called startOver()");
         // Reset containers for all information being collected to null.
         _loadedDocument = null;
         _currentDocument = null;
@@ -907,6 +964,10 @@ public class OAPMetadataEditor implements EntryPoint {
         topLayout.removeCheckmarks();
         topLayout.removeSectionHiglightStyle("pill-warning");
         topLayout.removeSectionHiglightStyle("pill-danger");
+
+        //#DEBUG
+//        debugLog("_loadedDocument@startOver() " + _loadedDocument);
+
     }
 
     private void notSaved() {
@@ -2362,14 +2423,24 @@ public class OAPMetadataEditor implements EntryPoint {
 //                                    s -> s,
 //                                    (variable1, variable2) -> variable1)
 //                    );
-                    // for now just match abbrevation name handle units later
-                    Map<String, Variable> map = oVariablesList.stream().collect(
-                            Collectors.toMap(
-                                    s -> s.getAbbreviation().toLowerCase(),
-                                    s -> s,
-                                    (variable1, variable2) -> variable1)
-                    );
-//                    map.forEach((key, value) -> debugLog("KEY: " + key + " = VALUE: " + value));
+                    Map<String, Variable> matchMap = new HashMap<String, Variable>();
+                    for (Variable ovl : oVariablesList) {
+
+                        // has abbreviation and units then use as key
+                        if ((ovl.getAbbreviation() != null && !ovl.getAbbreviation().isEmpty())) {
+//                            debugLog("**has abbreviation ovl (" + ovl.getAbbreviation() + ")");
+                            if (ovl.getUnits() != null && !ovl.getUnits().isEmpty()) {
+//                                debugLog("**has units ovl (" + ovl.getUnits() + ")");
+                                matchMap.put(createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits()), ovl);
+                            }
+                            else {
+//                                debugLog("**has NO units ovl adding just abbrevation to hash");
+                                matchMap.put(ovl.getAbbreviation().toLowerCase(), ovl);
+                            }
+                        }
+
+                    }
+//                    matchMap.forEach((key, value) -> debugLog("ovlKEY: " + key + " = ovlVALUE: " + value));
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
                     while (variableIterator.hasNext()) {
@@ -2387,9 +2458,9 @@ public class OAPMetadataEditor implements EntryPoint {
                             debugLog("(jsonDoc) variableKey is " + variableKey);
 
                             // variableKey exists in the hash from the original variablelist, then overwrite empty values
-                            if (map.containsKey(variableKey)) {
+                            if (matchMap.containsKey(variableKey)) {
                                 debugLog("containsKey: " + variableKey);
-                                Variable o = map.get(variableKey);
+                                Variable o = matchMap.get(variableKey);
 
                                 debugLog("begin process variables");
 
@@ -2419,12 +2490,12 @@ public class OAPMetadataEditor implements EntryPoint {
                                         && (v.getAnalyzingInstrument() != null && !v.getAnalyzingInstrument().isEmpty())) {
                                     o.setAnalyzingInstrument(v.getAnalyzingInstrument());
                                 }
-//                                debugLog("o.getUnits(): " + o.getUnits());
-//                                debugLog("v.getUnits(): " + v.getUnits());
-//                            if ( (o.getUnits() == null || o.getUnits().isEmpty() )
-//                                    && (v.getUnits() != null && !v.getUnits().isEmpty()) ) {
-//                                o.setUnits(v.getUnits());
-//                            }
+                                debugLog("o.getUnits(): " + o.getUnits());
+                                debugLog("v.getUnits(): " + v.getUnits());
+                            if ( (o.getUnits() == null || o.getUnits().isEmpty() )
+                                    && (v.getUnits() != null && !v.getUnits().isEmpty()) ) {
+                                o.setUnits(v.getUnits());
+                            }
                                 if ((o.getObservationDetail() == null || o.getObservationDetail().isEmpty())
                                         && (v.getObservationDetail() != null && !v.getObservationDetail().isEmpty())) {
                                     o.setObservationDetail(v.getObservationDetail());
@@ -2490,6 +2561,9 @@ public class OAPMetadataEditor implements EntryPoint {
 
                                 variableIterator.remove(); // remove from this variablelist
                             }
+                        }
+                        else {
+                            debugLog("!!!has no abbreviation? ");
                         }
                     }
                 }
