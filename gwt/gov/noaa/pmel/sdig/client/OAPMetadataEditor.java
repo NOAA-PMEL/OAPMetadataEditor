@@ -788,7 +788,7 @@ public class OAPMetadataEditor implements EntryPoint {
             // Overwrite to overwrite the existing metadata panels.
             // Preserve exiting data and merge only empty values
 //            if (currentDocumentIsDirty() && _loadedDocument != null) {
-           if (currentDocumentIsDirty()) {
+           if (getDocument().hasContent()) {
                  //#DEBUG
 //               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
 

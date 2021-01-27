@@ -1,5 +1,6 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Created by rhs on 4/11/17.
  */
-public class Document extends DbItem {
+public class Document extends DbItem implements HasContent {
 
     private Long dbId;
     public Long getDbId() { return dbId; }
@@ -84,6 +85,35 @@ public class Document extends DbItem {
 //       empty.setTimeAndLocation(new TimeAndLocation());
        empty.setVariables(Arrays.asList(new Variable[0]));
        return empty;
+    }
+
+    private static boolean hasContent(HasContent field) {
+        return field != null && field.hasContent();
+    }
+    private static boolean hasContent(List<? extends HasContent> list) {
+        if ( list == null || list.isEmpty()) { return false; }
+        for (HasContent item : list ) {
+            if ( hasContent(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean hasContent() {
+        boolean hasContent =
+                    hasContent(platforms) ||
+                    hasContent(investigators) ||
+                    hasContent(variables) ||
+                    hasContent(dataSubmitter) ||
+                    hasContent(citation) ||
+                    hasContent(timeAndLocation) ||
+                    hasContent(funding) ||
+                    hasContent(dic) ||
+                    hasContent(ta) ||
+                    hasContent(ph) ||
+                    hasContent(pco2a) ||
+                    hasContent(pco2d);
+        return hasContent;
     }
 
     public List<Platform> getPlatforms() {

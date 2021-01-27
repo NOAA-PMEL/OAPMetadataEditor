@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 /**
  * Created by rhs on 3/7/17.
  */
-public class Platform extends Ordered implements Comparable<Platform>, Stringy {
+public class Platform extends Ordered implements Comparable<Platform>, Stringy, HasContent {
     String name;
     String platformId;
     String country;
@@ -93,4 +94,14 @@ public class Platform extends Ordered implements Comparable<Platform>, Stringy {
         return sCompare(country, p.country);
     }
 
+    @Override
+    public boolean hasContent() {
+        boolean hasContent = ! (
+                    isEmpty(name) &&
+                    isEmpty(platformId) &&
+                    isEmpty(country) &&
+                    isEmpty(owner) &&
+                    isEmpty(platformType));
+        return hasContent;
+    }
 }

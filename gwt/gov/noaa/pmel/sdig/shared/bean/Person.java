@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 /**
  * Created by rhs on 2/28/17.
  */
-public class Person extends Ordered implements Comparable<Person>, Stringy {
+public class Person extends Ordered implements Comparable<Person>, Stringy, HasContent {
     String lastName;
     String mi;
     String firstName;
@@ -215,5 +216,26 @@ public class Person extends Ordered implements Comparable<Person>, Stringy {
         newPerson.country = this.country;
         newPerson.idType = this.idType;
         return newPerson;
+    }
+
+    @Override
+    public boolean hasContent() {
+        boolean hasContent = ! (
+                    isEmpty(lastName) &&
+                    isEmpty(mi) &&
+                    isEmpty(firstName) &&
+                    isEmpty(institution) &&
+                    isEmpty(address1) &&
+                    isEmpty(address2) &&
+                    isEmpty(telephone) &&
+                    isEmpty(extension) &&
+                    isEmpty(email) &&
+                    isEmpty(rid) &&
+                    isEmpty(city) &&
+                    isEmpty(state) &&
+                    isEmpty(zip) &&
+                    isEmpty(country) &&
+                    isEmpty(idType));
+        return hasContent;
     }
 }

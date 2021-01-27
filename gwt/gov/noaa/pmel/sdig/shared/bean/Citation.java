@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 /**
  * Created by rhs on 3/3/17.
  */
-public class Citation extends DbItem implements Stringy {
+public class Citation extends DbItem implements Stringy, HasContent {
 
     String title;
     String datasetAbstract;
@@ -118,5 +119,22 @@ public class Citation extends DbItem implements Stringy {
         newc.supplementalInformation = this.supplementalInformation;
         newc.researchProjects = this.researchProjects;
         return newc;
+    }
+
+    @Override
+    public boolean hasContent() {
+        boolean hasContent = ! (
+                    isEmpty(title) &&
+                    isEmpty(datasetAbstract) &&
+                    isEmpty(useLimitation) &&
+                    isEmpty(purpose) &&
+                    isEmpty(expocode) &&
+                    isEmpty(cruiseId) &&
+                    isEmpty(section) &&
+                    isEmpty(citationAuthorList) &&
+                    isEmpty(scientificReferences) &&
+                    isEmpty(supplementalInformation) &&
+                    isEmpty(researchProjects));
+        return hasContent;
     }
 }

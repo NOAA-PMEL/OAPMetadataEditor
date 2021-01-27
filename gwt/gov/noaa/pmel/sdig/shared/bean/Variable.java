@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 /**
  * Created by rhs on 3/8/17.
  */
-public class Variable extends Ordered implements Comparable<Variable>, Stringy {
+public class Variable extends Ordered implements Comparable<Variable>, Stringy, HasContent {
 
     String abbreviation;
     String manipulationMethod;
@@ -284,17 +285,29 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
         this.vaporCorrection = vaporCorrection;
     }
 
-    public String getPhTemperature() { return phTemperature; }
+    public String getPhTemperature() {
+        return phTemperature;
+    }
 
-    public void setPhTemperature(String pHtemperature) { this.phTemperature = pHtemperature; }
+    public void setPhTemperature(String pHtemperature) {
+        this.phTemperature = pHtemperature;
+    }
 
-    public String getPhScale() { return phScale; }
+    public String getPhScale() {
+        return phScale;
+    }
 
-    public void setPhScale(String pHscale) { this.phScale = pHscale; }
+    public void setPhScale(String pHscale) {
+        this.phScale = pHscale;
+    }
 
-    public String getPhStandards() { return phStandards; }
+    public String getPhStandards() {
+        return phStandards;
+    }
 
-    public void setPhStandards(String pHstandards) { this.phStandards = pHstandards; }
+    public void setPhStandards(String pHstandards) {
+        this.phStandards = pHstandards;
+    }
 
     public String getTemperatureCorrectionMethod() {
         return temperatureCorrectionMethod;
@@ -539,7 +552,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
     @Override
     public int compareTo(Variable v) {
         int z = sCompare(abbreviation, v.abbreviation);
-        if ( z != 0 ) { return z; }
+        if (z != 0) {
+            return z;
+        }
         return sCompare(fullVariableName, v.fullVariableName);
     }
 
@@ -611,72 +626,78 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
 
     @Override
     public boolean equals(Object other) {
-        if ( other == null ) { return false; }
-        if ( this == other ) { return true; }
-        if ( ! this.getClass().equals(other.getClass())) { return false; }
-        Variable v = (Variable)other;
+        if (other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        if (!this.getClass().equals(other.getClass())) {
+            return false;
+        }
+        Variable v = (Variable) other;
         return
-            sCompare(abbreviation, v.abbreviation) == 0 &&
-            sCompare(fullVariableName, v.fullVariableName) == 0 &&
-            sCompare(manipulationMethod, v.manipulationMethod) == 0 &&
-            sCompare(observationType, v.observationType) == 0 &&
-            sCompare(observationDetail, v.observationDetail) == 0 &&
-            sCompare(units, v.units) == 0 &&
-            sCompare(measured, v.measured) == 0 &&
-            sCompare(calculationMethod, v.calculationMethod) == 0 &&
-            sCompare(samplingInstrument, v.samplingInstrument) == 0 &&
-            sCompare(analyzingInstrument, v.analyzingInstrument) == 0 &&
-            sCompare(detailedInformation, v.detailedInformation) == 0 &&
-            sCompare(fieldReplicate, v.fieldReplicate) == 0 &&
-            sCompare(uncertainty, v.uncertainty) == 0 &&
-            sCompare(qualityFlag, v.qualityFlag) == 0 &&
-            sCompare(researcherName, v.researcherName) == 0 &&
-            sCompare(researcherInstitution, v.researcherInstitution) == 0 &&
-            sCompare(referenceMethod, v.referenceMethod) == 0 &&
-            sCompare(standardizationTechnique, v.standardizationTechnique) == 0 &&
-            sCompare(crmManufacture, v.crmManufacture) == 0 &&
-            sCompare(batchNumber, v.batchNumber) == 0 &&
-            sCompare(poison, v.poison) == 0 &&
-            sCompare(poisonVolume, v.poisonVolume) == 0 &&
-            sCompare(poisonDescription, v.poisonDescription) == 0 &&
-            sCompare(cellType, v.cellType) == 0 &&
-            sCompare(curveFittingMethod, v.curveFittingMethod) == 0 &&
-            sCompare(magnitudeOfBlankCorrection, v.magnitudeOfBlankCorrection) == 0 &&
-            sCompare(phTemperature, v.phTemperature) == 0 &&
-            sCompare(phScale, v.phScale) == 0 &&
-            sCompare(phStandards, v.phStandards) == 0 &&
-            sCompare(titrationType, v.titrationType) == 0 &&
-            sCompare(intakeDepth, v.intakeDepth) == 0 &&
-            sCompare(dryingMethod, v.dryingMethod) == 0 &&
-            sCompare(equilibratorType, v.equilibratorType) == 0 &&
-            sCompare(equilibratorVolume, v.equilibratorVolume) == 0 &&
-            sCompare(gasFlowRate, v.gasFlowRate) == 0 &&
-            sCompare(equilibratorPressureMeasureMethod, v.equilibratorPressureMeasureMethod) == 0 &&
-            sCompare(equilibratorTemperatureMeasureMethod, v.equilibratorTemperatureMeasureMethod) == 0 &&
-            sCompare(intakeLocation, v.intakeLocation) == 0 &&
-            sCompare(flowRate, v.flowRate) == 0 &&
-            sCompare(freqencyOfStandardization, v.freqencyOfStandardization) == 0 &&
-            sCompare(storageMethod, v.storageMethod) == 0 &&
-            sCompare(pco2Temperature, v.pco2Temperature) == 0 &&
-            sCompare(gasConcentration, v.gasConcentration) == 0 &&
-            sCompare(headspaceVolume, v.headspaceVolume) == 0 &&
-            sCompare(standardGasManufacture, v.standardGasManufacture) == 0 &&
-            sCompare(gasDetectorManufacture, v.gasDetectorManufacture) == 0 &&
-            sCompare(gasDetectorModel, v.gasDetectorModel) == 0 &&
-            sCompare(gasDectectorResolution, v.gasDectectorResolution) == 0 &&
-            sCompare(seawaterVolume, v.seawaterVolume) == 0 &&
-            sCompare(temperatureCorrectionMethod, v.temperatureCorrectionMethod) == 0 &&
+                sCompare(abbreviation, v.abbreviation) == 0 &&
+                        sCompare(fullVariableName, v.fullVariableName) == 0 &&
+                        sCompare(manipulationMethod, v.manipulationMethod) == 0 &&
+                        sCompare(observationType, v.observationType) == 0 &&
+                        sCompare(observationDetail, v.observationDetail) == 0 &&
+                        sCompare(units, v.units) == 0 &&
+                        sCompare(measured, v.measured) == 0 &&
+                        sCompare(calculationMethod, v.calculationMethod) == 0 &&
+                        sCompare(samplingInstrument, v.samplingInstrument) == 0 &&
+                        sCompare(analyzingInstrument, v.analyzingInstrument) == 0 &&
+                        sCompare(detailedInformation, v.detailedInformation) == 0 &&
+                        sCompare(fieldReplicate, v.fieldReplicate) == 0 &&
+                        sCompare(uncertainty, v.uncertainty) == 0 &&
+                        sCompare(qualityFlag, v.qualityFlag) == 0 &&
+                        sCompare(researcherName, v.researcherName) == 0 &&
+                        sCompare(researcherInstitution, v.researcherInstitution) == 0 &&
+                        sCompare(referenceMethod, v.referenceMethod) == 0 &&
+                        sCompare(standardizationTechnique, v.standardizationTechnique) == 0 &&
+                        sCompare(crmManufacture, v.crmManufacture) == 0 &&
+                        sCompare(batchNumber, v.batchNumber) == 0 &&
+                        sCompare(poison, v.poison) == 0 &&
+                        sCompare(poisonVolume, v.poisonVolume) == 0 &&
+                        sCompare(poisonDescription, v.poisonDescription) == 0 &&
+                        sCompare(cellType, v.cellType) == 0 &&
+                        sCompare(curveFittingMethod, v.curveFittingMethod) == 0 &&
+                        sCompare(magnitudeOfBlankCorrection, v.magnitudeOfBlankCorrection) == 0 &&
+                        sCompare(phTemperature, v.phTemperature) == 0 &&
+                        sCompare(phScale, v.phScale) == 0 &&
+                        sCompare(phStandards, v.phStandards) == 0 &&
+                        sCompare(titrationType, v.titrationType) == 0 &&
+                        sCompare(intakeDepth, v.intakeDepth) == 0 &&
+                        sCompare(dryingMethod, v.dryingMethod) == 0 &&
+                        sCompare(equilibratorType, v.equilibratorType) == 0 &&
+                        sCompare(equilibratorVolume, v.equilibratorVolume) == 0 &&
+                        sCompare(gasFlowRate, v.gasFlowRate) == 0 &&
+                        sCompare(equilibratorPressureMeasureMethod, v.equilibratorPressureMeasureMethod) == 0 &&
+                        sCompare(equilibratorTemperatureMeasureMethod, v.equilibratorTemperatureMeasureMethod) == 0 &&
+                        sCompare(intakeLocation, v.intakeLocation) == 0 &&
+                        sCompare(flowRate, v.flowRate) == 0 &&
+                        sCompare(freqencyOfStandardization, v.freqencyOfStandardization) == 0 &&
+                        sCompare(storageMethod, v.storageMethod) == 0 &&
+                        sCompare(pco2Temperature, v.pco2Temperature) == 0 &&
+                        sCompare(gasConcentration, v.gasConcentration) == 0 &&
+                        sCompare(headspaceVolume, v.headspaceVolume) == 0 &&
+                        sCompare(standardGasManufacture, v.standardGasManufacture) == 0 &&
+                        sCompare(gasDetectorManufacture, v.gasDetectorManufacture) == 0 &&
+                        sCompare(gasDetectorModel, v.gasDetectorModel) == 0 &&
+                        sCompare(gasDectectorResolution, v.gasDectectorResolution) == 0 &&
+                        sCompare(seawaterVolume, v.seawaterVolume) == 0 &&
+                        sCompare(temperatureCorrectionMethod, v.temperatureCorrectionMethod) == 0 &&
 //            sCompare(temperatureCorrection, v.temperatureCorrection) == 0 &&
-            sCompare(temperatureMeasurement, v.temperatureMeasurement) == 0 &&
-            sCompare(temperatureStandarization, v.temperatureStandarization) == 0 &&
-            sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&
-            sCompare(gasDectectorUncertainty, v.gasDectectorUncertainty) == 0 &&
-            sCompare(vaporCorrection, v.vaporCorrection) == 0 &&
-            sCompare(vented, v.vented) == 0 &&
-            sCompare(biologicalSubject, v.biologicalSubject) == 0 &&
-            sCompare(duration, v.duration) == 0 &&
-            sCompare(lifeStage, v.lifeStage) == 0 &&
-            sCompare(speciesIdCode, v.speciesIdCode) == 0;
+                        sCompare(temperatureMeasurement, v.temperatureMeasurement) == 0 &&
+                        sCompare(temperatureStandarization, v.temperatureStandarization) == 0 &&
+                        sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&
+                        sCompare(gasDectectorUncertainty, v.gasDectectorUncertainty) == 0 &&
+                        sCompare(vaporCorrection, v.vaporCorrection) == 0 &&
+                        sCompare(vented, v.vented) == 0 &&
+                        sCompare(biologicalSubject, v.biologicalSubject) == 0 &&
+                        sCompare(duration, v.duration) == 0 &&
+                        sCompare(lifeStage, v.lifeStage) == 0 &&
+                        sCompare(speciesIdCode, v.speciesIdCode) == 0;
     }
 
     @Override
@@ -746,5 +767,71 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy {
         newv.lifeStage = this.lifeStage;
         newv.speciesIdCode = this.speciesIdCode;
         return newv;
+    }
+
+    @Override
+    public boolean hasContent() {
+        boolean hasConent = ! (
+                    isEmpty(abbreviation) &&
+                    isEmpty(manipulationMethod) &&
+                    isEmpty(observationType) &&
+                    isEmpty(observationDetail) &&
+                    isEmpty(units) &&
+                    isEmpty(measured) &&
+                    isEmpty(calculationMethod) &&
+                    isEmpty(samplingInstrument) &&
+                    isEmpty(analyzingInstrument) &&
+                    isEmpty(detailedInformation) &&
+                    isEmpty(fieldReplicate) &&
+                    isEmpty(uncertainty) &&
+                    isEmpty(qualityFlag) &&
+                    isEmpty(researcherName) &&
+                    isEmpty(researcherInstitution) &&
+                    isEmpty(fullVariableName) &&
+                    isEmpty(referenceMethod) &&
+                    isEmpty(standardizationTechnique) &&
+                    isEmpty(crmManufacture) &&
+                    isEmpty(batchNumber) &&
+                    isEmpty(poison) &&
+                    isEmpty(poisonVolume) &&
+                    isEmpty(poisonDescription) &&
+                    isEmpty(cellType) &&
+                    isEmpty(curveFittingMethod) &&
+                    isEmpty(magnitudeOfBlankCorrection) &&
+                    isEmpty(phTemperature) &&
+                    isEmpty(phScale) &&
+                    isEmpty(phStandards) &&
+                    isEmpty(titrationType) &&
+                    isEmpty(intakeDepth) &&
+                    isEmpty(dryingMethod) &&
+                    isEmpty(equilibratorType) &&
+                    isEmpty(equilibratorVolume) &&
+                    isEmpty(gasFlowRate) &&
+                    isEmpty(equilibratorPressureMeasureMethod) &&
+                    isEmpty(equilibratorTemperatureMeasureMethod) &&
+                    isEmpty(intakeLocation) &&
+                    isEmpty(flowRate) &&
+                    isEmpty(freqencyOfStandardization) &&
+                    isEmpty(storageMethod) &&
+                    isEmpty(pco2Temperature) &&
+                    isEmpty(gasConcentration) &&
+                    isEmpty(headspaceVolume) &&
+                    isEmpty(standardGasManufacture) &&
+                    isEmpty(gasDetectorManufacture) &&
+                    isEmpty(gasDetectorModel) &&
+                    isEmpty(gasDectectorResolution) &&
+                    isEmpty(seawaterVolume) &&
+                    isEmpty(temperatureCorrectionMethod) &&
+                    isEmpty(temperatureMeasurement) &&
+                    isEmpty(temperatureStandarization) &&
+                    isEmpty(standardGasUncertainties) &&
+                    isEmpty(gasDectectorUncertainty) &&
+                    isEmpty(vaporCorrection) &&
+                    isEmpty(vented) &&
+                    isEmpty(biologicalSubject) &&
+                    isEmpty(duration) &&
+                    isEmpty(lifeStage) &&
+                    isEmpty(speciesIdCode));
+        return hasConent;
     }
 }

@@ -1,12 +1,13 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 /**
  * Created by rhs on 3/7/17.
  */
-public class Funding extends Ordered implements Comparable<Funding>, Stringy {
+public class Funding extends Ordered implements Comparable<Funding>, Stringy, HasContent {
 
     String agencyName;
     String grantTitle;
@@ -76,5 +77,14 @@ public class Funding extends Ordered implements Comparable<Funding>, Stringy {
         newf.grantTitle = this.grantTitle;
         newf.grantNumber = this.grantNumber;
         return newf;
+    }
+
+    @Override
+    public boolean hasContent() {
+        boolean hasContent = ! (
+                isEmpty(agencyName) &&
+                isEmpty(grantTitle) &&
+                isEmpty(grantNumber));
+        return hasContent;
     }
 }

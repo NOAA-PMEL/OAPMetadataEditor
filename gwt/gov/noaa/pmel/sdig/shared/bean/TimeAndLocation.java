@@ -1,11 +1,12 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocation extends DbItem implements Stringy {
+public class TimeAndLocation extends DbItem implements Stringy, HasContent {
     String startDate;
     String endDate;
     String northLat;
@@ -103,5 +104,20 @@ public class TimeAndLocation extends DbItem implements Stringy {
         newt.organismLoc = this.organismLoc;
         newt.spatialRef = this.spatialRef;
         return newt;
+    }
+
+    @Override
+    public boolean hasContent() {
+        boolean hasContent = ! (
+                    isEmpty(startDate) &&
+                    isEmpty(endDate) &&
+                    isEmpty(northLat) &&
+                    isEmpty(southLat) &&
+                    isEmpty(westLon) &&
+                    isEmpty(eastLon) &&
+                    isEmpty(geoNames) &&
+                    isEmpty(organismLoc) &&
+                    isEmpty(spatialRef));
+        return hasContent;
     }
 }
