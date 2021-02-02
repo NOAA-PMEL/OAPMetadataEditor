@@ -87,10 +87,10 @@ public class Document extends DbItem implements HasContent {
        return empty;
     }
 
-    private static boolean hasContent(HasContent field) {
+    private boolean hasContent(HasContent field) {
         return field != null && field.hasContent();
     }
-    private static boolean hasContent(List<? extends HasContent> list) {
+    private boolean hasContent(List<? extends HasContent> list) {
         if ( list == null || list.isEmpty()) { return false; }
         for (HasContent item : list ) {
             if ( hasContent(item)) {
