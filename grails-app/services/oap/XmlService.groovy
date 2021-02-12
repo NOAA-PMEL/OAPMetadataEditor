@@ -1073,7 +1073,7 @@ class XmlService {
         if ( doc.getVariables() ) {
             for(int i = 0; i < doc.getVariables().size(); i++ ) {
                 Variable v = doc.getVariables().get(i)
-                Element variable = fillGeneralVariable(v, "0")
+                Element variable = fillGeneralVariable(v)
                 metadata.addContent(variable)
             }
         }
