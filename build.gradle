@@ -84,11 +84,11 @@ dependencies {
 }
 
 task GWTCompile (type: Exec) {
-    //on *nix
-    commandLine 'sh', './GWT-compile'
-
-    //on windows
-    commandLine 'cmd', '/c', 'GWT-compile.bat'
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine 'cmd', '/c', 'GWT-compile.bat'
+    } else {
+        commandLine 'sh', './GWT-compile'
+    }
 }
 
 war.dependsOn(GWTCompile)
