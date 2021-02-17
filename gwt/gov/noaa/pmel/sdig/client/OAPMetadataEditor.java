@@ -474,9 +474,9 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private void saveDocToServer(TextCallback callback) {
         debugLog("saveDocToServer has been called");
-        if (!topLayout.isSufficientlyComplete()) {
-            warn(Constants.DOCUMENT_NOT_COMPLETE);
-        }
+//        if (!topLayout.isSufficientlyComplete()) {
+//            warn(Constants.DOCUMENT_NOT_COMPLETE);
+//        }
         Document doc = getDocument();
         saveDocumentService.save(getDatasetId(doc), doc, callback);
         saved = true;
@@ -653,13 +653,22 @@ public class OAPMetadataEditor implements EntryPoint {
 //        $wnd.attachEvent('onmessage', postMsgListener);
     }-*/;
 
+    public static native String getUserAgent() /*-{
+        return navigator.userAgent.toLowerCase();
+    }-*/;
+
     // "Save" button
     TextCallback saveNotify = new TextCallback() {
         @Override
         public void onFailure(Method method, Throwable throwable) {
-            Window.alert("There was an error saving your document.  Please try again later.");
             String msg = "saveNotify " + method.toString() + " error : " + throwable.toString();
             logToConsole(msg);
+            String useragent = getUserAgent();
+            // Chrome useragent contains both Safari and Chrome references
+            // Safari gets a false failure
+            if ( ! (useragent.contains("safari") && ! useragent.contains("chrome"))) {
+                Window.alert("There was an error saving your document.  Please try again later.");
+            }
         }
 
         @Override
