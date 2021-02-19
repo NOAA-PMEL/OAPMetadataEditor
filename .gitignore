@@ -9,10 +9,11 @@ gwt-unitCache/*
 .gradle
 .idea/libraries
 .gradle
-.idea
+.idea/*
 **/gwt-unitCache
 build
 *.cache.js
 OM_master.iml
 /scratch/
 /gwt/gov/noaa/pmel/sdig/client/DashboardLayout.ui.xml.sed-backup*
+/.idea/**
