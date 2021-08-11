@@ -444,6 +444,10 @@ class DocumentController {
             String pid = params.id
             String version = params.v
             Document doc = findDocById(pid)
+            if ( ! doc ) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + pid)
+                return;
+            }
             String docId = doc.datasetIdentifier ? doc.datasetIdentifier : pid
             String filename = "oap_metadata_" + docId + ".xml"
             String output
