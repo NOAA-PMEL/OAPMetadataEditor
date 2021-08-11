@@ -33,7 +33,14 @@ public class VariableSuggestOracle extends SuggestOracle {
         @POST
         public void getVariableSuggestions(SuggestQuery query, MethodCallback<List<NceiSuggestion>> suggestions);
     }
-
+    @Override
+    public void requestDefaultSuggestions(Request request, Callback callback) {
+        this.callback = callback;
+        this.request = request;
+        SuggestQuery query = new SuggestQuery();
+        query.setQuery("");
+        variableSuggesionService.getVariableSuggestions(query, processSuggestions);
+    }
     @Override
     public void requestSuggestions(Request request, SuggestOracle.Callback callback) {
         this.callback = callback;
