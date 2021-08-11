@@ -2,8 +2,11 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -304,6 +307,15 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     public GenericVariablePanel() {
 
         fullVariableName = new SuggestBox(variableSuggestOracle);
+        fullVariableName.getValueBox().addDoubleClickHandler(new DoubleClickHandler() {
+            @Override
+            public void onDoubleClick(DoubleClickEvent event) {
+                NativeEvent nevent = event.getNativeEvent();
+                String type = nevent.getType();
+                fullVariableName.showSuggestionList();
+            }
+        });
+
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
         analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
         observationType = new SuggestBox(observationTypeSuggestOracle);
