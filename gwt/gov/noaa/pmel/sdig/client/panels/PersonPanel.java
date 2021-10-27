@@ -2,10 +2,10 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -78,6 +78,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     TextBox firstName;
     @UiField(provided = true)
     SuggestBox institution;
+    @UiField
+    Button showInstitutionListButton;
     @UiField
     TextBox address1;
     @UiField
@@ -547,6 +549,15 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         peopleData.addDataDisplay(people);
 
+        institution.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( institution.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)institution.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
+
 //        country.addValueChangeHandler(new ValueChangeHandler<String>() {
 //                  @Override
 //                  public void onValueChange(ValueChangeEvent<String> event) {
@@ -574,6 +585,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         peoplePagination.rebuild(cellTablePager);
     }
 
+    @UiHandler("showInstitutionListButton")
+    public void setShowInstutionListButtonClick(ClickEvent clickEvent) {
+        institution.showSuggestionList();
+    }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oa:oads_metadata xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+ xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+ xmlns:annox="http://annox.dev.java.net"
+ xmlns:xew="http://github.com/jaxb-xew-plugin"
+ xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+ xmlns:oa="http://ncei.noaa.gov/oads/v_a0_2_2s"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ncei.noaa.gov/oads/v_a0_2_2s file:/Users/kamb/workspace/oap_metadata_v0.2.2/schema/oads_metadata.xsd" version="a0.2.2">
+  <oa:metadataRecordCreationDate>2006-05-04</oa:metadataRecordCreationDate>
+  <oa:submissionDate>2006-05-04</oa:submissionDate>
+  <oa:relatedDataSets>
+    <oa:dataset>
+      <oa:name>name0</oa:name>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+      <oa:accession>accession0</oa:accession>
+    </oa:dataset>
+    <oa:dataset>
+      <oa:name>name1</oa:name>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+      <oa:accession>accession1</oa:accession>
+    </oa:dataset>
+  </oa:relatedDataSets>
+  <oa:metadataURL>http://www.oxygenxml.com/</oa:metadataURL>
+  <oa:datasetURL>http://www.oxygenxml.com/</oa:datasetURL>
+  <oa:datasetDOI>http://www.oxygenxml.com/</oa:datasetDOI>
+  <oa:investigators>
+    <oa:investigator>
+      <oa:name>
+        <oa:title>title0</oa:title>
+        <oa:first>first0</oa:first>
+        <oa:middle>middle0</oa:middle>
+        <oa:last>last0</oa:last>
+        <oa:suffix>suffix0</oa:suffix>
+      </oa:name>
+      <oa:organization>organization0</oa:organization>
+      <oa:organizationID type="type0">ORCID</oa:organizationID>
+      <oa:contactInfo>
+        <oa:address type="type1">
+          <oa:deliveryPoint index="0">deliveryPoint0</oa:deliveryPoint>
+          <oa:deliveryPoint index="0">deliveryPoint1</oa:deliveryPoint>
+          <oa:city>city0</oa:city>
+          <oa:administrativeArea>administrativeArea0</oa:administrativeArea>
+          <oa:postalCode>postalCode0</oa:postalCode>
+          <oa:country>country0</oa:country>
+        </oa:address>
+        <oa:phone>phone0</oa:phone>
+        <oa:email>email0</oa:email>
+        <oa:link>http://www.oxygenxml.com/</oa:link>
+      </oa:contactInfo>
+      <oa:identifier type="type2">ORCID</oa:identifier>
+      <oa:identifier type="type3">ORCID</oa:identifier>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+    </oa:investigator>
+    <oa:investigator>
+      <oa:name>
+        <oa:title>title1</oa:title>
+        <oa:first>first1</oa:first>
+        <oa:middle>middle1</oa:middle>
+        <oa:last>last1</oa:last>
+        <oa:suffix>suffix1</oa:suffix>
+      </oa:name>
+      <oa:organization>organization1</oa:organization>
+      <oa:organizationID type="type4">ORCID</oa:organizationID>
+      <oa:contactInfo>
+        <oa:address type="type5">
+          <oa:deliveryPoint index="0">deliveryPoint2</oa:deliveryPoint>
+          <oa:deliveryPoint index="0">deliveryPoint3</oa:deliveryPoint>
+          <oa:city>city1</oa:city>
+          <oa:administrativeArea>administrativeArea1</oa:administrativeArea>
+          <oa:postalCode>postalCode1</oa:postalCode>
+          <oa:country>country1</oa:country>
+        </oa:address>
+        <oa:phone>phone1</oa:phone>
+        <oa:email>email1</oa:email>
+        <oa:link>http://www.oxygenxml.com/</oa:link>
+      </oa:contactInfo>
+      <oa:identifier type="type6">ORCID</oa:identifier>
+      <oa:identifier type="type7">ORCID</oa:identifier>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+    </oa:investigator>
+  </oa:investigators>
+  <oa:dataSubmitter>
+    <oa:name>
+      <oa:title>title2</oa:title>
+      <oa:first>first2</oa:first>
+      <oa:middle>middle2</oa:middle>
+      <oa:last>last2</oa:last>
+      <oa:suffix>suffix2</oa:suffix>
+    </oa:name>
+    <oa:organization>organization2</oa:organization>
+    <oa:organizationID type="type8">ORCID</oa:organizationID>
+    <oa:contactInfo>
+      <oa:address type="type9">
+        <oa:deliveryPoint index="0">deliveryPoint4</oa:deliveryPoint>
+        <oa:deliveryPoint index="0">deliveryPoint5</oa:deliveryPoint>
+        <oa:city>city2</oa:city>
+        <oa:administrativeArea>administrativeArea2</oa:administrativeArea>
+        <oa:postalCode>postalCode2</oa:postalCode>
+        <oa:country>country2</oa:country>
+      </oa:address>
+      <oa:phone>phone2</oa:phone>
+      <oa:email>email2</oa:email>
+      <oa:link>http://www.oxygenxml.com/</oa:link>
+    </oa:contactInfo>
+    <oa:identifier type="type10">ORCID</oa:identifier>
+    <oa:identifier type="type11">ORCID</oa:identifier>
+    <oa:link>http://www.oxygenxml.com/</oa:link>
+    <oa:link>http://www.oxygenxml.com/</oa:link>
+  </oa:dataSubmitter>
+  <oa:title>title3</oa:title>
+  <oa:abstract>abstract0</oa:abstract>
+  <oa:useLimitation>useLimitation0</oa:useLimitation>
+  <oa:purpose>purpose0</oa:purpose>
+  <oa:methods>methods0</oa:methods>
+  <oa:temporalExtents>
+    <oa:startDate>2006-05-04</oa:startDate>
+    <oa:endDate>2006-05-04</oa:endDate>
+  </oa:temporalExtents>
+  <oa:spatialExtents>
+    <oa:location>
+      <oa:latitude>0</oa:latitude>
+      <oa:longitude>0</oa:longitude>
+    </oa:location>
+<!--    <oa:bounds>
+      <oa:westernBounds>0</oa:westernBounds>
+      <oa:easternBounds>0</oa:easternBounds>
+      <oa:northernBounds>0</oa:northernBounds>
+      <oa:southernBounds>0</oa:southernBounds>
+    </oa:bounds>-->
+  </oa:spatialExtents>
+  <oa:spatialReference>spatialReference0</oa:spatialReference>
+  <oa:sampleCollectionRegions>
+    <oa:region>region0</oa:region>
+    <oa:region>region1</oa:region>
+  </oa:sampleCollectionRegions>
+  <oa:organismCollectionRegions>
+    <oa:region>region2</oa:region>
+    <oa:region>region3</oa:region>
+  </oa:organismCollectionRegions>
+  <oa:fundingInfo>
+    <oa:source>
+      <oa:agency>agency0</oa:agency>
+      <oa:title>title4</oa:title>
+      <oa:identifier type="type12">ORCID</oa:identifier>
+    </oa:source>
+    <oa:source>
+      <oa:agency>agency1</oa:agency>
+      <oa:title>title5</oa:title>
+      <oa:identifier type="type13">ORCID</oa:identifier>
+    </oa:source>
+  </oa:fundingInfo>
+  <oa:researchProjects>
+    <oa:project>project0</oa:project>
+    <oa:project>project1</oa:project>
+  </oa:researchProjects>
+  <oa:platforms>
+    <oa:platform>
+      <oa:name>name2</oa:name>
+      <oa:identifier type="type14">ORCID</oa:identifier>
+      <oa:type>type0</oa:type>
+      <oa:owner>owner0</oa:owner>
+      <oa:country>country3</oa:country>
+    </oa:platform>
+    <oa:platform>
+      <oa:name>name3</oa:name>
+      <oa:identifier type="type15">ORCID</oa:identifier>
+      <oa:type>type1</oa:type>
+      <oa:owner>owner1</oa:owner>
+      <oa:country>country4</oa:country>
+    </oa:platform>
+  </oa:platforms>
+  <oa:expocodes>
+    <oa:expocode>expocode0</oa:expocode>
+    <oa:expocode>expocode1</oa:expocode>
+  </oa:expocodes>
+  <oa:cruiseIds>
+    <oa:cruiseId type="type16">ORCID</oa:cruiseId>
+    <oa:cruiseId type="type17">ORCID</oa:cruiseId>
+  </oa:cruiseIds>
+  <oa:sections>
+    <oa:section>section0</oa:section>
+    <oa:section>section1</oa:section>
+  </oa:sections>
+  <oa:authors>
+    <oa:author>author0</oa:author>
+    <oa:author>author1</oa:author>
+  </oa:authors>
+  <oa:citation>citation0</oa:citation>
+  <oa:references>
+    <oa:reference>reference0</oa:reference>
+    <oa:reference>reference1</oa:reference>
+  </oa:references>
+  <oa:supplementalInfo>supplementalInfo0</oa:supplementalInfo>
+  <oa:keywords>
+    <oa:keyword>keyword0</oa:keyword>
+    <oa:keyword>keyword1</oa:keyword>
+  </oa:keywords>
+  <oa:variables>
+    <oa:variable name="name0">
+      <oa:fullName>fullName0</oa:fullName>
+      <oa:datasetVarName>datasetVarName0</oa:datasetVarName>
+      <oa:variableType>variableType0</oa:variableType>
+      <oa:measuredOrCalculated>measuredOrCalculated0</oa:measuredOrCalculated>
+      <oa:observationType>observationType0</oa:observationType>
+      <oa:units>units0</oa:units>
+      <oa:missingValue>missingValue0</oa:missingValue>
+      <oa:uncertainty>uncertainty0</oa:uncertainty>
+      <oa:qcFlag>
+        <oa:scheme>scheme0</oa:scheme>
+        <oa:description>description0</oa:description>
+        <oa:qcFlagVarName>qcFlagVarName0</oa:qcFlagVarName>
+      </oa:qcFlag>
+      <oa:researcher>
+        <oa:name>name4</oa:name>
+        <oa:organization>organization3</oa:organization>
+      </oa:researcher>
+      <oa:methodReference>methodReference0</oa:methodReference>
+      <oa:variationsFromMethod>variationsFromMethod0</oa:variationsFromMethod>
+      <oa:calculationMethod>
+        <oa:description>description1</oa:description>
+        <oa:parameter name="name1">parameter0</oa:parameter>
+        <oa:parameter name="name2">parameter1</oa:parameter>
+      </oa:calculationMethod>
+      <oa:manipulationMethod>manipulationMethod0</oa:manipulationMethod>
+      <oa:samplingInstrument>samplingInstrument0</oa:samplingInstrument>
+      <oa:detailedSamplingInfo>detailedSamplingInfo0</oa:detailedSamplingInfo>
+      <oa:analyzingInstrument>analyzingInstrument0</oa:analyzingInstrument>
+      <oa:detailedAnalyzingInfo>detailedAnalyzingInfo0</oa:detailedAnalyzingInfo>
+      <oa:fieldReplicateHandling>fieldReplicateHandling0</oa:fieldReplicateHandling>
+      <oa:standardization>
+        <oa:description>description2</oa:description>
+        <oa:frequency>frequency0</oa:frequency>
+        <oa:temperature>temperature0</oa:temperature>
+        <oa:standardGas>
+          <oa:manufacturer>manufacturer0</oa:manufacturer>
+          <oa:concentration>concentration0</oa:concentration>
+          <oa:uncertainty>uncertainty1</oa:uncertainty>
+          <oa:traceabilityToWmoStandards>traceabilityToWmoStandards0</oa:traceabilityToWmoStandards>
+        </oa:standardGas>
+        <oa:standardGas>
+          <oa:manufacturer>manufacturer1</oa:manufacturer>
+          <oa:concentration>concentration1</oa:concentration>
+          <oa:uncertainty>uncertainty2</oa:uncertainty>
+          <oa:traceabilityToWmoStandards>traceabilityToWmoStandards1</oa:traceabilityToWmoStandards>
+        </oa:standardGas>
+        <oa:crm>
+          <oa:manufacturer>manufacturer2</oa:manufacturer>
+          <oa:batch>batch0</oa:batch>
+          <oa:bottle>bottle0</oa:bottle>
+        </oa:crm>
+        <oa:phOfStandards>phOfStandards0</oa:phOfStandards>
+      </oa:standardization>
+    </oa:variable>
+    <oa:variable name="name3">
+      <oa:fullName>fullName1</oa:fullName>
+      <oa:datasetVarName>datasetVarName1</oa:datasetVarName>
+      <oa:variableType>variableType1</oa:variableType>
+      <oa:measuredOrCalculated>measuredOrCalculated1</oa:measuredOrCalculated>
+      <oa:observationType>observationType1</oa:observationType>
+      <oa:units>units1</oa:units>
+      <oa:missingValue>missingValue1</oa:missingValue>
+      <oa:uncertainty>uncertainty3</oa:uncertainty>
+      <oa:qcFlag>
+        <oa:scheme>scheme1</oa:scheme>
+        <oa:description>description3</oa:description>
+        <oa:qcFlagVarName>qcFlagVarName1</oa:qcFlagVarName>
+      </oa:qcFlag>
+      <oa:researcher>
+        <oa:name>name5</oa:name>
+        <oa:organization>organization4</oa:organization>
+      </oa:researcher>
+      <oa:methodReference>methodReference1</oa:methodReference>
+      <oa:variationsFromMethod>variationsFromMethod1</oa:variationsFromMethod>
+      <oa:calculationMethod>
+        <oa:description>description4</oa:description>
+        <oa:parameter name="name4">parameter2</oa:parameter>
+        <oa:parameter name="name5">parameter3</oa:parameter>
+      </oa:calculationMethod>
+      <oa:manipulationMethod>manipulationMethod1</oa:manipulationMethod>
+      <oa:samplingInstrument>samplingInstrument1</oa:samplingInstrument>
+      <oa:detailedSamplingInfo>detailedSamplingInfo1</oa:detailedSamplingInfo>
+      <oa:analyzingInstrument>analyzingInstrument1</oa:analyzingInstrument>
+      <oa:detailedAnalyzingInfo>detailedAnalyzingInfo1</oa:detailedAnalyzingInfo>
+      <oa:fieldReplicateHandling>fieldReplicateHandling1</oa:fieldReplicateHandling>
+      <oa:standardization>
+        <oa:description>description5</oa:description>
+        <oa:frequency>frequency1</oa:frequency>
+        <oa:temperature>temperature1</oa:temperature>
+        <oa:standardGas>
+          <oa:manufacturer>manufacturer3</oa:manufacturer>
+          <oa:concentration>concentration2</oa:concentration>
+          <oa:uncertainty>uncertainty4</oa:uncertainty>
+          <oa:traceabilityToWmoStandards>traceabilityToWmoStandards2</oa:traceabilityToWmoStandards>
+        </oa:standardGas>
+        <oa:standardGas>
+          <oa:manufacturer>manufacturer4</oa:manufacturer>
+          <oa:concentration>concentration3</oa:concentration>
+          <oa:uncertainty>uncertainty5</oa:uncertainty>
+          <oa:traceabilityToWmoStandards>traceabilityToWmoStandards3</oa:traceabilityToWmoStandards>
+        </oa:standardGas>
+        <oa:crm>
+          <oa:manufacturer>manufacturer5</oa:manufacturer>
+          <oa:batch>batch1</oa:batch>
+          <oa:bottle>bottle1</oa:bottle>
+        </oa:crm>
+        <oa:phOfStandards>phOfStandards1</oa:phOfStandards>
+      </oa:standardization>
+    </oa:variable>
+  </oa:variables>
+  <oa:update>2006-05-04</oa:update>
+</oa:oads_metadata>

@@ -24,7 +24,12 @@
                                 <b:FormLabel for="grantNumber" text="Grant Number"></b:FormLabel>
                                 <b:Modal title="13.3 The ID of your funded project" closable="true" b:id="modalGrantNumber"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGrantNumber" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="grantNumber" allowBlank="true" placeholder="Grant Number" b:id="grantNumber"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="grantNumber" allowBlank="true" placeholder="Grant Number" b:id="grantNumber"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showGrantNumberListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show grant numbers"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_8">

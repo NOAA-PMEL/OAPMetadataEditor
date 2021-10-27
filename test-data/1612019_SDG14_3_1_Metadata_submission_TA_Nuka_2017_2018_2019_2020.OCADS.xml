@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <datasubmitter>
+    <name>Meike Becker</name>
+    <organization>Geophysical Institute, University of Bergen</organization>
+    <deliverypoint1>Allegaten 70, 5007 NO-Bergen;</deliverypoint1>
+    <email>meike.becker@uib.no;</email>
+    <phone>+47 55 58 26 72;</phone>
+    <ID>0000-0001-7650-0923</ID>
+  </datasubmitter>
+  <person>
+    <role>investigator</role>
+    <name>Meike Becker</name>
+    <organization>Geophysical Institute, University of Bergen</organization>
+    <deliverypoint1>Allegaten 70, 5007 NO-Bergen;</deliverypoint1>
+    <email>meike.becker@uib.no;</email>
+    <phone>+47 55 58 26 72;</phone>
+    <ID>0000-0001-7650-0923</ID>
+  </person>
+  <person>
+    <role>investigator</role>
+    <name>Are Olsen</name>
+    <organization>Geophysical Institute, University of Bergen</organization>
+    <deliverypoint1>Allegaten 70, 5007 NO-Bergen;</deliverypoint1>
+    <email>are.olsen@gfi.uib.no;</email>
+    <phone>+4755584781;</phone>
+    <ID>0000-0003-1696-9142</ID>
+  </person>
+  <geographicName />
+  <fundingAgency>
+    <agency>Norges Forskningsråd</agency>
+    <title>ICOS</title>
+  </fundingAgency>
+  <platform>
+    <name>Nuka Arctica</name>
+    <ID>26NA</ID>
+    <type>Voluntary Observing Ship</type>
+  </platform>
+  <citationAuthorList>Becker, Meike; Olsen, Are</citationAuthorList>
+  <variable>
+    <fullname>Total alkalinity</fullname>
+    <abbrev>TA</abbrev>
+    <observationType>underway</observationType>
+    <unit>µmol kg-1</unit>
+    <measured>measured</measured>
+    <analyzingInstrument>Marianda Company VINDTA 3S system</analyzingInstrument>
+    <cellType>Open</cellType>
+    <standard>
+      <crm>
+        <manufacturer>Andrew Dickson</manufacturer>
+      </crm>
+    </standard>
+    <poison>
+      <volume>0</volume>
+    </poison>
+    <uncertainty>±3 micro-mol per kg</uncertainty>
+    <internal>2</internal>
+  </variable>
+  <variable>
+    <abbrev>DEPTH</abbrev>
+    <fullname>Depth</fullname>
+    <unit>m</unit>
+  </variable>
+  <variable>
+    <abbrev>SAL</abbrev>
+    <fullname>Depth</fullname>
+    <observationType>underway</observationType>
+    <unit>psu</unit>
+    <analyzingInstrument>Portasal 8410A</analyzingInstrument>
+    <uncertainty>0.003</uncertainty>
+  </variable>
+</metadata>

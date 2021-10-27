@@ -19,6 +19,13 @@
     margin-top: 2px !important;
     margin-bottom: 5px !important;
 }
+.co2table {
+    margin: 5px;
+    margin-right: 10px !important;
+}
+.twentypct {
+   width:20%;
+}
 .buttonBar {
    padding-top: 10px;
 }
@@ -58,7 +65,6 @@
         /*width: 34%;*/
         width: 100%;
     }
-    /*.inputgroupoverlay.input-group .input-group-btn .btn:last-child {*/
     .inputgroupoverlay.input-group .input-group-btn .btn:last-child {
         border-radius:4px 4px 4px 4px
     }
@@ -128,9 +134,6 @@ h1 {
   color: red;
 }
 
-/*.fakeinputposition {*/
-/*    position: relative;*/
-/*}*/
 .fakeinputposition {
     position: relative;
     height: 3em;
@@ -143,6 +146,13 @@ h1 {
     display: inline-block;
     z-index: 1;
     /*background-color: rgba(0,0,0,0.5); !*dim the background*!*/
+}
+
+.over {
+    cursor: pointer !important;
+}
+.pointer-cursor {
+    cursor: pointer !important;
 }
 
 /*.over {*/

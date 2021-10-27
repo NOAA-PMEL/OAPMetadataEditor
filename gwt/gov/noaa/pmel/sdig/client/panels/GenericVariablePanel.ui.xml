@@ -42,7 +42,12 @@
                                 <b:FormLabel color="#B22222" for="fullVariableName" text="Full Variable Name *"></b:FormLabel>
                                 <b:Modal title="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables." closable="true" b:id="modalFullVariableName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFullVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="fullVariableName" allowBlank="false" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="fullVariableName" allowBlank="false" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showVariableListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show variables"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6 MD_4 LG_4">
@@ -51,7 +56,12 @@
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
                                 <b:Modal title="27.4 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc" closable="true" b:id="modalObservationType"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showObservationListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show observation types"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -62,7 +72,12 @@
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
                                 <b:Modal title="Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument." closable="true" b:id="modalSamplingInstrument"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSamplingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showSamplingInstrumentListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show variables"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="MD_4 LG_4" offset="LG_1">
@@ -71,7 +86,12 @@
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
                                 <b:Modal title="27.11 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here." closable="true" b:id="modalAnalyzingInstrument"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showAnalyzingInstrumentListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show variables"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="MD_4 LG_3" offset="LG_1">

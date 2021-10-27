@@ -14,18 +14,7 @@ import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
-import gov.noaa.pmel.sdig.client.panels.CitationPanel;
-import gov.noaa.pmel.sdig.client.panels.DataSubmitterPanel;
-import gov.noaa.pmel.sdig.client.panels.DicPanel;
-import gov.noaa.pmel.sdig.client.panels.FundingPanel;
-import gov.noaa.pmel.sdig.client.panels.GenericVariablePanel;
-import gov.noaa.pmel.sdig.client.panels.InvestigatorPanel;
-import gov.noaa.pmel.sdig.client.panels.Pco2aPanel;
-import gov.noaa.pmel.sdig.client.panels.Pco2dPanel;
-import gov.noaa.pmel.sdig.client.panels.PhPanel;
-import gov.noaa.pmel.sdig.client.panels.PlatformPanel;
-import gov.noaa.pmel.sdig.client.panels.TaPanel;
-import gov.noaa.pmel.sdig.client.panels.TimeAndLocationPanel;
+import gov.noaa.pmel.sdig.client.panels.*;
 import gov.noaa.pmel.sdig.shared.bean.*;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
@@ -109,10 +98,14 @@ public class OAPMetadataEditor implements EntryPoint {
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
+    static final boolean SOCAT_DEFAULT = true;
+
     Document _loadedDocument = null;
     Document _currentDocument = null;
     String _requestedDocumentId = null;
     String _datasetId = null;
+    String _docType = Document.DOC_OCADS;
+    boolean _isSocat = SOCAT_DEFAULT;
     Long _documentDbId = null;
     Long _documentDbVersion = null;
 
@@ -130,6 +123,8 @@ public class OAPMetadataEditor implements EntryPoint {
 //    Funding funding = null;
 
     PlatformPanel platformPanel = new PlatformPanel();
+
+    Co2Panel co2Panel = new Co2Panel();
 
     DicPanel dicPanel = new DicPanel();
 //    Variable dic = null;
@@ -282,6 +277,9 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (platformPanel.getPlatforms().size() > 0) {
                         platformPanel.setTableVisible(true);
                     }
+                } else if (link.getText().equals(Constants.SECTION_CO2)) {
+                    topLayout.setMain(co2Panel);
+                    topLayout.setActive(Constants.SECTION_CO2);
                 } else if (link.getText().equals(Constants.SECTION_DIC)) {
                     topLayout.setMain(dicPanel);
                     topLayout.setActive(Constants.SECTION_DIC);
@@ -342,6 +340,21 @@ public class OAPMetadataEditor implements EntryPoint {
 
         setupMessageListener(this);
 
+        String socat = Window.Location.getParameter("socat");
+        debugLog("socat:"+socat+"|");
+        if (socat != null) {
+            if (socat.trim().length() == 0 ||
+                    "true".equals(socat.trim().toLowerCase())) {
+                _isSocat = true;
+            } else {
+                _isSocat = false;
+            }
+        }
+        if (_isSocat) {
+            _docType = Document.DOC_SOCAT;
+            _isSocat = true;
+            topLayout.setIsSocat(true);
+        }
         String docId = Window.Location.getParameter("id");
         if (docId != null) {
             debugLog("OAME: Loading document " + docId);
@@ -499,6 +512,7 @@ public class OAPMetadataEditor implements EntryPoint {
         debugLog("getDocument has been called");
 
         Document doc = new Document();
+        doc.setDocType(_docType);
         doc.setDatasetIdentifier(_datasetId);
 //        doc.setId(_documentDbId);
 //        doc.setVersion(_documentDbVersion);
@@ -586,9 +600,16 @@ public class OAPMetadataEditor implements EntryPoint {
             doc.setPh(ph);
         }
         // pco2a
-        if (pco2aPanel.isDirty()) {
-            Variable pco2a = pco2aPanel.getPco2a();
-            doc.setPco2a(pco2a);
+        if ( _isSocat ) {
+            if (co2Panel.isDirty()) {
+                List<Variable> co2vars = co2Panel.getCO2variables();
+                doc.setCo2vars(co2vars);
+            }
+        } else {
+            if (pco2aPanel.isDirty()) {
+                Variable pco2a = pco2aPanel.getPco2a();
+                doc.setPco2a(pco2a);
+            }
         }
         // pco2d
         if (pco2dPanel.isDirty()) {
@@ -855,7 +876,7 @@ public class OAPMetadataEditor implements EntryPoint {
             } else {
                 //#DEBUG
 //               debugLog("currentDocumentIsDirty()onSubmitComplete is false: " + currentDocumentIsDirty() + " --overwrite empty doc");
-                mergeJsonDocument(jsonString);
+                loadJsonDocument(jsonString, false, true);
             }
         }
     };
@@ -922,6 +943,10 @@ public class OAPMetadataEditor implements EntryPoint {
             debugLog("pco2dPanel is Dirty");
             isDirty = true;
         }
+        if (co2Panel.isDirty(compDoc.getPco2a())) {
+            debugLog("co2Panel is Dirty");
+            isDirty = true;
+        }
         if (genericVariablePanel.isDirty(compDoc.getVariables())) {
             debugLog("genericVariablePanel is Dirty");
             isDirty = true;
@@ -955,6 +980,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //        pco2a = null;
 //        pco2d = null;
         if (genericVariablePanel != null) genericVariablePanel.clearVariables();
+        if (co2Panel != null) co2Panel.clearVariables();
 
         // Reset all forms
         if (submitterPanel != null) submitterPanel.reset();
@@ -966,6 +992,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if (dicPanel != null) dicPanel.reset();
         if (taPanel != null) taPanel.reset();
         if (phPanel != null) phPanel.reset();
+        if (co2Panel != null) co2Panel.reset();
         if (pco2aPanel != null) pco2aPanel.reset();
         if (pco2dPanel != null) pco2dPanel.reset();
         if (genericVariablePanel != null) genericVariablePanel.reset();
@@ -1043,6 +1070,9 @@ public class OAPMetadataEditor implements EntryPoint {
             }
 
             Document document = documentFromJson(jsonString);
+            _docType = document.getDocType();
+            _isSocat = Document.DOC_SOCAT.equals(_docType);
+            topLayout.setIsSocat(_isSocat);
             if (updateIds) {
                 debugLog("has updateIds: " + updateIds);
                 loadDocumentElements(document);
@@ -1272,10 +1302,10 @@ public class OAPMetadataEditor implements EntryPoint {
                 Variable pco2a = document.getPco2a();
                 pco2aPanel.show(pco2a);
                 if (!pco2aPanel.valid()) {
-//                    debugLog("danger pco2aPanel has no valid data");
+                    //                    debugLog("danger pco2aPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PCO2A, "pill-danger");
                 } else {
-//                    debugLog("success pco2aPanel has only valid data");
+                    //                    debugLog("success pco2aPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_PCO2A);
                     topLayout.removehighlight(Constants.SECTION_PCO2A, "pill-danger");
                 }
@@ -1292,6 +1322,19 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.removehighlight(Constants.SECTION_PCO2D, "pill-danger");
                 }
             }
+            List<Variable> co2vars = document.getCo2vars();
+            if ( co2vars != null && ! co2vars.isEmpty()) {
+                co2Panel.addCO2variables(co2vars);
+                if (!co2Panel.valid()) {
+                    //                    debugLog("danger pco2aPanel has no valid data");
+                    topLayout.sethighlight(Constants.SECTION_CO2, "pill-danger");
+                } else {
+                    //                    debugLog("success pco2aPanel has only valid data");
+                    topLayout.setChecked(Constants.SECTION_CO2);
+                    topLayout.removehighlight(Constants.SECTION_CO2, "pill-danger");
+                }
+            }
+
             // TODO this has to be redone to work with the data provider
             // what does that mean?
 //            List<Variable> variablesList = document.getVariables();
@@ -1343,6 +1386,11 @@ public class OAPMetadataEditor implements EntryPoint {
                     Iterator<Variable> variableIterator = variablesList.iterator();
                     while (variableIterator.hasNext()) {
                         Variable v = variableIterator.next();
+
+                        if ( "AquGasConc".equals(v.getVariableType())) {
+                            variableIterator.remove();
+                            continue;
+                        }
 
                         // original list contains this Variable
                         if (oVariablesList.contains(v)) {

@@ -33,6 +33,15 @@ public class InstrumentSuggestOracle extends SuggestOracle {
         ((RestServiceProxy) instrumentSuggesionService).setResource(instrumentSuggestResource);
     }
 
+    @Override
+    public void requestDefaultSuggestions(Request request, Callback callback) {
+        this.callback = callback;
+        this.request = request;
+        SuggestQuery query = new SuggestQuery();
+        query.setQuery("");
+        instrumentSuggesionService.getInstrumentSuggestions(query, processSuggestions);
+    }
+    @Override
     public void requestSuggestions(Request request, SuggestOracle.Callback callback) {
         this.callback = callback;
         this.request = request;

@@ -77,6 +77,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     TextBox title;
     @UiField(provided = true)
     SuggestBox grantNumber;
+    @UiField
+    Button showGrantNumberListButton;
 
     @UiField
     CellTable fundings;
@@ -120,12 +122,12 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         ((RestServiceProxy) getFundingService).setResource(getFundingResource);
 
         grantNumber = new SuggestBox(fundingSuggestOracle);
-        grantNumber.getValueBox().addDoubleClickHandler(new DoubleClickHandler() {
+        grantNumber.getValueBox().addClickHandler(new ClickHandler() {
             @Override
-            public void onDoubleClick(DoubleClickEvent event) {
-                NativeEvent nevent = event.getNativeEvent();
-                String type = nevent.getType();
-                grantNumber.showSuggestionList();
+            public void onClick(ClickEvent event) {
+                if ( grantNumber.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)grantNumber.getSuggestionDisplay()).hideSuggestions();
+                }
             }
         });
         grantNumber.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
@@ -394,6 +396,10 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         reset();
     }
 
+    @UiHandler("showGrantNumberListButton")
+    public void setShowInstutionListButtonClick(ClickEvent clickEvent) {
+        grantNumber.showSuggestionList();
+    }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 

@@ -57,7 +57,12 @@ Unnamed variables have "Full variable name in addition.
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="observationTypeModal" b:id="modalObservationType"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showObservationListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show observation types"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -68,7 +73,12 @@ Unnamed variables have "Full variable name in addition.
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="samplingInstrumentModal" b:id="modalSamplingInstrument"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSamplingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showSamplingInstrumentListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show instrument list"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="MD_4 LG_4" offset="LG_1">
@@ -77,7 +87,12 @@ Unnamed variables have "Full variable name in addition.
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="analyzingInstrumentModal" b:id="modalAnalyzingInstrument"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
+                                <b:InputGroup>
+                                    <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
+                                    <b:InputGroupButton>
+                                        <b:Button ui:field="showAnalyzingInstrumentListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show variables"></b:Button>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="MD_4 LG_3" offset="LG_1">

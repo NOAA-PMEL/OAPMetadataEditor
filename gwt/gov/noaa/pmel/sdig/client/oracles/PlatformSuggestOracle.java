@@ -31,6 +31,15 @@ public class PlatformSuggestOracle extends SuggestOracle {
     }
 
     @Override
+    public void requestDefaultSuggestions(Request request, Callback callback) {
+        this.callback = callback;
+        this.request = request;
+        SuggestQuery query = new SuggestQuery();
+        query.setQuery("");
+        platformSuggesionService.getPlatformSuggestions(query, processSuggestions);
+    }
+
+    @Override
     public void requestSuggestions(Request request, Callback callback) {
         this.callback = callback;
         this.request = request;

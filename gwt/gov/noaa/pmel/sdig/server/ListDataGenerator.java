@@ -17,6 +17,7 @@ public class ListDataGenerator extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+	    System.out.println("List data get from :"+ req);
 	
 		PrintWriter out = resp.getWriter();
         String fileName = "resources/CountryCodes.json";

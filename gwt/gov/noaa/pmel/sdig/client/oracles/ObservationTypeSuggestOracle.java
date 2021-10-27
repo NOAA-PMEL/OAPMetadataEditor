@@ -33,6 +33,15 @@ public class ObservationTypeSuggestOracle extends SuggestOracle {
         ((RestServiceProxy) observationTypeSuggesionService).setResource(observationTypeSuggestResource);
     }
 
+    @Override
+    public void requestDefaultSuggestions(Request request, Callback callback) {
+        this.callback = callback;
+        this.request = request;
+        SuggestQuery query = new SuggestQuery();
+        query.setQuery("");
+        observationTypeSuggesionService.getObservationTypeSuggestions(query, processSuggestions);
+    }
+    @Override
     public void requestSuggestions(Request request, Callback callback) {
         this.callback = callback;
         this.request = request;

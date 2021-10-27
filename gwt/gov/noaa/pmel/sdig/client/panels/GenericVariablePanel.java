@@ -3,10 +3,7 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -26,6 +23,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionUpdater;
@@ -34,13 +32,7 @@ import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.FormGroup;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.SuggestBox;
-import org.gwtbootstrap3.client.ui.TextArea;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
@@ -75,6 +67,9 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     @UiField (provided = true)
     SuggestBox observationType;
 
+    @UiField
+    Button showObservationListButton;
+
     // 003 Manipulation method
     @UiField
     TextBox manipulationMethod;
@@ -103,6 +98,9 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     @UiField (provided = true)
     SuggestBox analyzingInstrument;
 
+    @UiField Button showSamplingInstrumentListButton;
+    @UiField Button showAnalyzingInstrumentListButton;
+
     // 010 Detailed sampling and analyzing information
     @UiField
     TextArea detailedInformation;
@@ -130,6 +128,9 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     // 035 Full variable name
     @UiField (provided = true)
     SuggestBox fullVariableName;
+
+    @UiField
+    Button showVariableListButton;
 
     // 045 Method reference (citation)
     @UiField
@@ -307,18 +308,43 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     public GenericVariablePanel() {
 
         fullVariableName = new SuggestBox(variableSuggestOracle);
-        fullVariableName.getValueBox().addDoubleClickHandler(new DoubleClickHandler() {
+        fullVariableName.getValueBox().addClickHandler(new ClickHandler() {
             @Override
-            public void onDoubleClick(DoubleClickEvent event) {
-                NativeEvent nevent = event.getNativeEvent();
-                String type = nevent.getType();
-                fullVariableName.showSuggestionList();
+            public void onClick(ClickEvent event) {
+                GWT.log("click samplebox:"+event.getNativeEvent().getType());
+                if ( fullVariableName.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)fullVariableName.getSuggestionDisplay()).hideSuggestions();
+                }
             }
         });
-
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
         analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
+        samplingInstrument.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                GWT.log("click samplebox:"+event.getNativeEvent().getType());
+                if ( samplingInstrument.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)samplingInstrument.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
+        analyzingInstrument.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( analyzingInstrument.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)analyzingInstrument.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
         observationType = new SuggestBox(observationTypeSuggestOracle);
+        observationType.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( observationType.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)observationType.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
@@ -364,6 +390,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             @Override
             public void update(int index, Variable variable, String value) {
                 editIndex = variableData.getList().indexOf(variable);
+
                 GWT.log("update " + variable + "["+index+"] at " + editIndex );
                 variable.setPosition(editIndex);
                 if ( editIndex < 0 ) {
@@ -698,7 +725,35 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         setTableVisible(true);
     }
 
+    @UiHandler("showVariableListButton")
+    public void onVariablesListClick(ClickEvent clickEvent) {
+        NativeEvent nevent = clickEvent.getNativeEvent();
+        String type = nevent.getType();
+        OAPMetadataEditor.logToConsole("ShowVars:"+nevent.toString());
+        fullVariableName.showSuggestionList();
+    }
 
+    @UiHandler("showObservationListButton")
+    public void onObservationListClick(ClickEvent clickEvent) {
+        NativeEvent nevent = clickEvent.getNativeEvent();
+        OAPMetadataEditor.logToConsole("ShowObs:"+nevent.toString());
+        String type = nevent.getType();
+        if ( observationType.isSuggestionListShowing()) {
+            observationType.hideSuggestionList();
+        } else {
+            observationType.showSuggestionList();
+        }
+    }
+
+    @UiHandler("showSamplingInstrumentListButton")
+    public void onSamplingIntrumentListClick(ClickEvent clickEvent) {
+        samplingInstrument.showSuggestionList();
+    }
+
+    @UiHandler("showAnalyzingInstrumentListButton")
+    public void onAnalyzingIntrumentListClick(ClickEvent clickEvent) {
+        analyzingInstrument.showSuggestionList();
+    }
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {

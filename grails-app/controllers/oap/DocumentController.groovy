@@ -1,5 +1,7 @@
 package oap
 
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.OadsMetadataDocumentType
+import gov.noaa.pmel.excel2oap.Excel2OAP
 import grails.converters.JSON
 import org.apache.catalina.core.ApplicationPart
 import org.grails.web.json.JSONArray
@@ -35,9 +37,9 @@ class DocumentController {
         try {
             try {
                 long lid = Long.valueOf(id)
-                doc = Document.findById(lid)
+                doc = oap.Document.findById(lid)
             } catch (NumberFormatException nfe) {
-                doc = Document.findByDatasetIdentifier(id)
+                doc = oap.Document.findByDatasetIdentifier(id)
             }
             if ( ! doc ) {
                 Citation savedCitation = Citation.findByExpocode(id)
@@ -108,9 +110,9 @@ class DocumentController {
                 public void run() {
                     dul.notifyListener(oadsXmlService.createOadsXml(doc))
                 }
-            };
-            Timer t = new Timer();
-            t.schedule(tt, 50);
+            }
+            Timer t = new Timer()
+            t.schedule(tt, 50)
         }
         render documentLocation
     }
@@ -147,10 +149,10 @@ class DocumentController {
             } catch (Throwable t) {
                 log.warn("Error saving document " + doc)
                 t.printStackTrace()
-                throw t;
+                throw t
             }
         } else {
-            doc.errors.each {Error error -> log.info(error.getMessage())            }
+            doc.errors.each {Error error -> log.info(error.getMessage())}
         }
         return d
     }
@@ -238,16 +240,16 @@ class DocumentController {
         String ctype = request.getContentType()
         String postedDocId = params.id
         log.info("posting: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + postedDocId)
-        InputStream ins;
+        InputStream ins
         if ( ! ctype.startsWith("multipart/form-data")) {
             // bad post
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Post Document requires Content-Type: multipart/form-data")
             return
         }
         def f = request.getPart('xmlFile')
-        ins = f?.getInputStream();
+        ins = f?.getInputStream()
         // Create the document
-        Document document;
+        Document document
         try {
             document = createDocumentFromXml(ins)
         } catch (Exception ex) {
@@ -261,7 +263,7 @@ class DocumentController {
         def notificationUrlPart = request.getPart("notificationUrl")
         ins = notificationUrlPart.getInputStream()
         String notificationUrl = readStream(ins)
-        String docLocation = _getDocumentLocation(savedDoc, "postit", "getXml");
+        String docLocation = _getDocumentLocation(savedDoc, "postit", "getXml")
         DocumentUpdateListener dul = DocumentUpdateListener.findByDocumentId(postedDocId)
         if ( dul == null ) {
             dul = new DocumentUpdateListener()
@@ -269,14 +271,14 @@ class DocumentController {
         dul.notificationUrl = notificationUrl
         dul.documentId = savedDoc.datasetIdentifier ? savedDoc.datasetIdentifier : savedDoc.id
         dul.documentLocation = docLocation
-        log.info("saving dul for docId " + dul.documentId + ", notify: " + notificationUrl);
+        log.info("saving dul for docId " + dul.documentId + ", notify: " + notificationUrl)
         dul.save(flush:true)
         render docLocation
     }
 
     private def _getDocumentLocation(Document doc, String requestMethod, String accessMethod) {
         String url = request.getRequestURL().toString()
-        log.info("docUrl request:"+url);
+        log.info("docUrl request:"+url)
         if ( url.indexOf("www.pmel") > 0 ) {
             int contextIdx = url.indexOf(".gov") + 3
             url = "https://www.pmel.noaa.gov" + url.substring(contextIdx) // url.indexOf("/sdig"))
@@ -290,13 +292,13 @@ class DocumentController {
     }
 
     private revise(String url, String from, String to) {
-        System.out.println("Url: " + url);
-        int idx1 = url.indexOf(":") + 3;
-        int idx2 = url.indexOf('/', idx1);
-        int idx3 = url.indexOf(from);
-        String base = url.substring(0, idx3);
-        String revised = base + to;
-        return revised;
+        System.out.println("Url: " + url)
+        int idx1 = url.indexOf(":") + 3
+        int idx2 = url.indexOf('/', idx1)
+        int idx3 = url.indexOf(from)
+        String base = url.substring(0, idx3)
+        String revised = base + to
+        return revised
     }
 
     private def setDocumentExpocode(Document doc, String docId) {
@@ -340,15 +342,15 @@ class DocumentController {
             query = queryJSON
         }
 
-        String method = request.getMethod();
+        String method = request.getMethod()
         String myResponse = method + ": " + query
-        response.outputStream << myResponse;
+        response.outputStream << myResponse
         response.outputStream.flush()
     }
 
     private def _createXDoc(String xml) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance()
-        dbf.setNamespaceAware(true);
+        dbf.setNamespaceAware(true)
         DocumentBuilder db = dbf.newDocumentBuilder()
         org.w3c.dom.Document doc = db.parse(new ByteArrayInputStream(xml.bytes))
         return doc
@@ -356,15 +358,20 @@ class DocumentController {
     private def createDocumentFromXml(InputStream inStream) {
         log.debug("Creating xml document")
         String xml = new BufferedReader(new InputStreamReader(inStream))
-                .lines().parallel().collect(Collectors.joining("\n"));
+                .lines().parallel().collect(Collectors.joining("\n"))
         org.w3c.dom.Document xdoc = _createXDoc(xml)
         org.w3c.dom.Element rootElem = xdoc.getDocumentElement()
+        Document uploadedDoc
         String version = rootElem.getAttribute("version")
         if (version) {
-            return oadsXmlService.createMetadataDocumentFromVersionedXml(xdoc, version)
+            uploadedDoc = oadsXmlService.createMetadataDocumentFromVersionedXml(xdoc, version)
+        } else if (rootElem.getTagName().equals("x_tags")) {
+            String ocadsXml = xmlService.translateOme(xml)
+            uploadedDoc = xmlService.createDocumentFromLegacyXML(new ByteArrayInputStream(ocadsXml.bytes), "socat")
         } else {
-            return xmlService.createDocumentFromLegacyXML(new ByteArrayInputStream(xml.bytes))
+            uploadedDoc = xmlService.createDocumentFromLegacyXML(new ByteArrayInputStream(xml.bytes))
         }
+        return uploadedDoc
     }
 
     def upload() {
@@ -379,7 +386,7 @@ class DocumentController {
         File stashed = utilsService.stash(f)
         InputStream ins = new FileInputStream(stashed)
 
-        Document document;
+        Document document
 
         try {
             String name = f.getSubmittedFileName()
@@ -388,7 +395,7 @@ class DocumentController {
             if (name.toLowerCase().endsWith(".xml")) {
                 document = createDocumentFromXml(ins)
             } else {
-                document = xmlService.translateSpreadsheet(ins) // TODO: pull this from xmlService
+                document = translateSpreadsheet(ins) // TODO: pull this from xmlService
             }
 
             if ( document ) {
@@ -421,17 +428,31 @@ class DocumentController {
             render msg
         }
     }
+
+    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+//        Excel2OAP.ConvertExcelToOADS(inputStream, baos)
+//        ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
+        OadsMetadataDocumentType doc = Excel2OAP.ConvertExcelToOADS_doc(inputStream)
+        return oadsXmlService.buildDocumentFromMetadata(doc)
+    }
+
+
     /**
      * @return an XML represntation of the metadata
      */
     def getXml() {
-        String docId = params.id;
+        String docId = params.id
+        log
         Document doc = findDocById(docId)
         if ( ! doc ) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + docId)
-            return;
+            return
         }
-        String output = oadsXmlService.createXml(doc);
+        if ( "socat".equals(doc.getDocType())) {
+            makeSocatAdjustments(doc)
+        }
+        String output = oadsXmlService.createXml(doc)
         response.contentType = 'text/xml'
         response.outputStream << output
         response.outputStream.flush()
@@ -446,15 +467,18 @@ class DocumentController {
             Document doc = findDocById(pid)
             if ( ! doc ) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + pid)
-                return;
+                return
             }
+//            if ( "socat".equals(doc.getDocType())) {
+//                makeSocatAdjustments(doc)
+//            }
             String docId = doc.datasetIdentifier ? doc.datasetIdentifier : pid
             String filename = "oap_metadata_" + docId + ".xml"
             String output
             if ( version && "ocads".equalsIgnoreCase(version)) {
-                output = xmlService.createXml(doc);
+                output = xmlService.createXml(doc)
             } else {
-                output = oadsXmlService.createXml(doc);
+                output = oadsXmlService.createXml(doc)
             }
             response.setHeader "Content-disposition", "attachment; filename=${filename}"
             response.contentType = 'text/xml'
@@ -465,15 +489,19 @@ class DocumentController {
             response.sendError(500, "There was an error on the server. Please try again later.")
         }
     }
+
+    def _xml(Document doc) {
+
+    }
     /**
      * @return a preview of the metadata produced by a version of the NCEI xsl template
      */
     def preview() {
         try {
-            String pid = params.id;
+            String pid = params.id
             Document doc = Document.findByDatasetIdentifier(pid)
             ByteArrayOutputStream baos = new ByteArrayOutputStream()
-            oadsXmlService.transformDoc(doc, baos);
+            oadsXmlService.transformDoc(doc, baos)
             String output = new String(baos.toByteArray())
             response.contentType = 'text/html'
             response.outputStream << output
@@ -512,5 +540,19 @@ class DocumentController {
 
     def boolean nullValue(Object o) {
         return o == null || String.valueOf(o).equalsIgnoreCase("null")
+    }
+
+    def void makeSocatAdjustments(Document doc) {
+        List<Co2> co2vars = doc.getCo2vars()
+        if ( !co2vars || co2vars.isEmpty() ) {
+            log.warn("No CO2 vars for SOCAT document " + doc.getDatasetIdentifier())
+            return
+        }
+        List<Variable> variables = doc.getVariables()
+        int idx = 0
+        for ( Co2 co2 : co2vars ) {
+            Variable v = Variable.from(co2)
+            variables.add(idx++, v)
+        }
     }
 }

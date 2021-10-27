@@ -1,43 +1,47 @@
 package oap
 
-import gov.noaa.ncei.oads.xml.v_a0_2_2.AddressType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.BaseVariableType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.BaseVariableType.BaseVariableTypeBuilder
-import gov.noaa.ncei.oads.xml.v_a0_2_2.BiologicalVariable
-import gov.noaa.ncei.oads.xml.v_a0_2_2.CalculationMethodType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.Co2Autonomous
-import gov.noaa.ncei.oads.xml.v_a0_2_2.Co2Base
-import gov.noaa.ncei.oads.xml.v_a0_2_2.Co2Discrete
-import gov.noaa.ncei.oads.xml.v_a0_2_2.CrmType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.DicVariableType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.DicVariableType.DicVariableTypeBuilder
-import gov.noaa.ncei.oads.xml.v_a0_2_2.EquilibratorSensorType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.EquilibratorType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.FundingSourceType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.GasDetectorType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.OrderedStringElementType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonContactInfoType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonNameType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonReferenceType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PhVariableType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PlatformType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PoisonType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.QcFlagInfoType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.ReferenceType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.SpatialExtentsType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.StandardGasType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.StandardizationType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.TaVariableType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.TemporalExtentsType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.TypedIdentifierType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.TypedStringType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.OadsMetadataDocumentType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType
-import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType.PersonTypeBuilder
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.AddressType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.BaseVariableType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.BaseVariableType.BaseVariableTypeBuilder
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.BiologicalVariable
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.CalculationMethodType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Autonomous
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Base
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Discrete
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Socat
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.CrmType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.DicVariableType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.DicVariableType.DicVariableTypeBuilder
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.EquilibratorMeasurementType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.EquilibratorType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.FundingSourceType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.GasDetectorType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.GeospatialExtentsType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.OrderedStringElementType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonContactInfoType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonNameType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonReferenceType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PhVariableType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PlatformType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PoisonType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.QcFlagInfoType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.SpatialExtentsType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.SpatialLocationType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.StandardGasType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.StandardizationType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.TaVariableType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.TemporalExtentsType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.TypedIdentifierType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.TypedStringType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.OadsMetadataDocumentType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonType.PersonTypeBuilder
 import gov.noaa.pmel.oads.util.TimeUtils
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
+import gov.noaa.pmel.oads.xml.a0_2_2.StandardizedVariable
 import grails.transaction.Transactional
+import org.aspectj.weaver.ast.Var
 
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
@@ -124,9 +128,16 @@ class OadsXmlService {
             platform.setCountry(p.country)
             mdDoc.addToPlatforms(platform)
         }
+        mdDoc.setDocType("oads")
         for (BaseVariableType baseVar : xmlMetadata.getVariables()) {
-            GenericVariable variable = fillVariableDomain(baseVar)
-            mdDoc.addVariable(variable)
+            if (baseVar instanceof Co2Socat) {
+                mdDoc.setDocType("socat")
+                Co2 co2 = fillVariableDomain(baseVar)
+                mdDoc.addToCo2vars(co2)
+            } else {
+                GenericVariable genV = fillVariableDomain(baseVar)
+                mdDoc.addVariable(genV)
+            }
         }
         return mdDoc
     }
@@ -204,13 +215,23 @@ class OadsXmlService {
                 timeAndLocation.setEndDate(TimeUtils.formatUTCdate(tempExtents.endDate))
         }
 
-        SpatialExtentsType spatialExtents = metadata.getSpatialExtents()
-        if ( spatialExtents != null ) {
-            timeAndLocation.setWestLon(nonNullString(spatialExtents.westernBounds))
-            timeAndLocation.setEastLon(nonNullString(spatialExtents.easternBounds))
-            timeAndLocation.setNorthLat(nonNullString(spatialExtents.northernBounds))
-            timeAndLocation.setSouthLat(nonNullString(spatialExtents.southernBounds))
-            timeAndLocation.setSpatialRef(metadata.getSpatialReference())
+        GeospatialExtentsType geospatialExtents = metadata.getSpatialExtents()
+        if ( geospatialExtents ) {
+            if ( geospatialExtents.isSetBounds()) {
+                SpatialExtentsType spatialExtents = geospatialExtents.getBounds();
+                timeAndLocation.setWestLon(nonNullString(spatialExtents.westernBounds))
+                timeAndLocation.setEastLon(nonNullString(spatialExtents.easternBounds))
+                timeAndLocation.setNorthLat(nonNullString(spatialExtents.northernBounds))
+                timeAndLocation.setSouthLat(nonNullString(spatialExtents.southernBounds))
+                timeAndLocation.setSpatialRef(metadata.getSpatialReference())
+            } else if ( geospatialExtents.isSetLocation()) {
+                SpatialLocationType location = geospatialExtents.getLocation();
+                timeAndLocation.setWestLon(nonNullString(location.getLongitude()))
+                timeAndLocation.setEastLon(nonNullString(location.getLongitude()))
+                timeAndLocation.setNorthLat(nonNullString(location.getLatitude()))
+                timeAndLocation.setSouthLat(nonNullString(location.getLatitude()))
+                timeAndLocation.setSpatialRef(metadata.getSpatialReference())
+            }
         }
         def sampleRegions = ""
         def comma = ""
@@ -246,7 +267,7 @@ class OadsXmlService {
 //            }
 //            Element poisonDescription = poison.getChild("correction")
 //            if ( ! isEmpty(poisonDescription) ) {
-            variable.setPoisonDescription(dicVar.poison.description)
+            variable.setPoisonDescription(dicVar.poison.correction)
 //            }
         }
 
@@ -292,6 +313,10 @@ class OadsXmlService {
 //        }
 
         return variable
+    }
+
+    private GenericVariable fillVariableDomain(Co2Socat co2socat) {
+        GenericVariable variable = fillVariableCo2(co2socat, new Co2())
     }
 
     private GenericVariable fillVariableDomain(Co2Autonomous co2aVar) {
@@ -345,7 +370,7 @@ class OadsXmlService {
             // TextBox dryingMethod;
 //            Element dryMethod = variable.getChild("dryMethod")
 //            if ( ! isEmpty(dryMethod) ) {
-            variable.setDryingMethod(co2aVar.equilibrator.dryMethod)
+            variable.setDryingMethod(co2aVar.co2GasDryingMethod)
 //            }
         }
 
@@ -794,7 +819,7 @@ class OadsXmlService {
 //        }
 //        Element detailedInfo = variable.getChild("detailedInfo")
 //        if ( ! isEmpty(detailedInfo) ) {
-        v.setDetailedInformation(source.getDetailedInfo())
+        v.setDetailedInformation(source.getDetailedSamplingInfo() + "\n" + source.getDetailedAnalyzingInfo())
 //        }
 //        Element replicate = variable.getChild("replicate")
 //        if ( ! isEmpty(replicate) ) {
@@ -806,43 +831,48 @@ class OadsXmlService {
 //        if ( isEmpty( standard )) {
 //            standard = variable.getChild("standardization")
 //        }
-        if (source.getStandardization()) {
-            StandardizationType std = source.standardization
-//            Element technique = standard.getChild("description")
-//            if ( ! isEmpty(technique) ) {
-            v.setStandardizationTechnique(std.description)
-//            }
-//            Element frequency = standard.getChild("frequency")
-//            if ( ! isEmpty(frequency) ) {
-            v.setFreqencyOfStandardization(std.frequency)
-//            }
-            v.setPhStandards(std.phOfStandards)
-            v.setTemperatureStandarization(std.temperature)
-//            Element crm = standard.getChild("crm")
-            if (std.crm) {
-//                Element manufacture = crm.getChild("manufacturer")
-//                if ( ! isEmpty(manufacture) ) {
-                v.setCrmManufacture(std.crm.manufacturer)
-//                }
-//                Element batch = crm.getChild("batch")
-//                if ( ! isEmpty(batch) ) {
-                v.setBatchNumber(std.crm.batch)
-//                }
-            }
-//            Element stdGas = standard.getChild("standardgas")
-            if (!isEmpty(std.standardGas)) {
-//                Element sgasMfc = stdGas.getChild("manufacturer")
-//                if ( !isEmpty( sgasMfc )) {
-                v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
-//                }
-//                Element sgasConc = stdGas.getChild("concentration")
-//                if ( !isEmpty( sgasConc )) {
-                v.setGasConcentration(std.standardGas.get(0).concentration)
-//                }
-//                Element sgasUnc = stdGas.getChild("uncertainty")
-//                if ( !isEmpty( sgasUnc )) {
-                v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
-//                }
+        if ( source instanceof StandardizedVariable ) {
+            StandardizedVariable stdVar = (StandardizedVariable)source
+            if (stdVar.getStandardization()) {
+                StandardizationType std = source.standardization
+//                Element technique = standard.getChild("description")
+    //            if ( ! isEmpty(technique) ) {
+                v.setStandardizationTechnique(std.description)
+    //            }
+    //            Element frequency = standard.getChild("frequency")
+    //            if ( ! isEmpty(frequency) ) {
+                v.setFreqencyOfStandardization(std.frequency)
+    //            }
+                if ( source instanceof PhVariableType ) {
+                    v.setPhStandards(std.phOfStandards)
+                }
+                v.setTemperatureStandarization(std.temperature)
+    //            Element crm = standard.getChild("crm")
+                if (std.crm) {
+    //                Element manufacture = crm.getChild("manufacturer")
+    //                if ( ! isEmpty(manufacture) ) {
+                    v.setCrmManufacture(std.crm.manufacturer)
+    //                }
+    //                Element batch = crm.getChild("batch")
+    //                if ( ! isEmpty(batch) ) {
+                    v.setBatchNumber(std.crm.batch)
+    //                }
+                }
+    //            Element stdGas = standard.getChild("standardgas")
+                if (!isEmpty(std.standardGas)) {
+    //                Element sgasMfc = stdGas.getChild("manufacturer")
+    //                if ( !isEmpty( sgasMfc )) {
+                    v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
+    //                }
+    //                Element sgasConc = stdGas.getChild("concentration")
+    //                if ( !isEmpty( sgasConc )) {
+                    v.setGasConcentration(std.standardGas.get(0).concentration)
+    //                }
+    //                Element sgasUnc = stdGas.getChild("uncertainty")
+    //                if ( !isEmpty( sgasUnc )) {
+                    v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
+    //                }
+                }
             }
         }
 //
@@ -1018,7 +1048,7 @@ class OadsXmlService {
                 String[] cruises = cruiseIdField.split("[, ;]")
                 for (String cruiseId : cruises) {
                     if ( ! cruiseId.trim().isEmpty()) {
-                        metadata.addCruiseId(cruiseId)
+                        metadata.addCruiseId(TypedIdentifierType.builder().value(cruiseId).build())
                     }
                 }
             }
@@ -1059,12 +1089,17 @@ class OadsXmlService {
 
         TimeAndLocation timeAndLocation = doc.getTimeAndLocation()
         if ( timeAndLocation ) {
-            metadata.spatialExtents(SpatialExtentsType.builder()
-                        .easternBounds(timeAndLocation.getEastLon() != null ? new BigDecimal(timeAndLocation.getEastLon()) : null )
-                        .northernBounds(timeAndLocation.getNorthLat() != null ? new BigDecimal(timeAndLocation.getNorthLat()) : null )
-                        .southernBounds(timeAndLocation.getSouthLat() != null ? new BigDecimal(timeAndLocation.getSouthLat()) : null )
-                        .westernBounds(timeAndLocation.getWestLon() != null ? new BigDecimal(timeAndLocation.getWestLon()) : null )
-                        .build()
+            metadata.spatialExtents(GeospatialExtentsType.builder()
+                                        .bounds(SpatialExtentsType.builder()
+                                            .easternBounds(timeAndLocation.getEastLon() != null ?
+                                                    new BigDecimal(timeAndLocation.getEastLon()) : null )
+                                            .northernBounds(timeAndLocation.getNorthLat() != null ?
+                                                    new BigDecimal(timeAndLocation.getNorthLat()) : null )
+                                            .southernBounds(timeAndLocation.getSouthLat() != null ?
+                                                    new BigDecimal(timeAndLocation.getSouthLat()) : null )
+                                            .westernBounds(timeAndLocation.getWestLon() != null ?
+                                                    new BigDecimal(timeAndLocation.getWestLon()) : null )
+                                            .build()).build()
             )
             metadata.temporalExtents(TemporalExtentsType.builder()
                         .startDate(TimeUtils.parseUTCdate(timeAndLocation.getStartDate()))
@@ -1142,6 +1177,13 @@ class OadsXmlService {
         if ( doc.getPco2d() ) {
             metadata.addVariable(fillPCO2d(doc.getPco2d()))
         }
+        if ( doc.getCo2vars() ) {
+            for (int i = 0; i < doc.getCo2vars().size(); i++) {
+                GenericVariable v = doc.getCo2vars().get(i)
+                BaseVariableType var = fillPCO2a(v)
+                metadata.addVariable(var)
+            }
+        }
         if ( doc.getVariables() ) {
             for(int i = 0; i < doc.getVariables().size(); i++ ) {
                 Variable v = doc.getVariables().get(i)
@@ -1171,7 +1213,7 @@ class OadsXmlService {
         DicVariableType.DicVariableTypeBuilder dicVarBuilder = (DicVariableType.DicVariableTypeBuilder) fillVariable(v, builder)
         if ( v.getPoison()) {
             dicVarBuilder.poison(PoisonType.builder()
-                .description(v.getPoisonDescription())
+                .correction(v.getPoisonDescription())
                 .name(v.getPoison())
                 .volume(v.getPoisonVolume())
                 .build()
@@ -1231,19 +1273,19 @@ class OadsXmlService {
         */
         co2Builder.locationSeawaterIntake(v.getIntakeLocation())
                 .depthSeawaterIntake(v.getIntakeDepth())
+                .co2GasDryingMethod(v.getDryingMethod())
 
         co2Builder.equilibrator(EquilibratorType.builder()
-                .type(v.getEquilibratorType())
-                .volume(v.getEquilibratorVolume())
-                .vented(v.getVented())
-                .waterFlowRate(v.getFlowRate())
-                .temperatureMeasurement(EquilibratorSensorType.builder()
-                        .method(v.getEquilibratorTemperatureMeasureMethod())
+                        .type(v.getEquilibratorType())
+                        .volume(v.getEquilibratorVolume())
+                        .vented(v.getVented())
+                        .waterFlowRate(v.getFlowRate())
+                        .temperatureMeasurement(EquilibratorMeasurementType.builder()
+                                .method(v.getEquilibratorTemperatureMeasureMethod())
+                                .build())
+                        .pressureMeasurement(EquilibratorMeasurementType.builder()
+                        .method(v.getEquilibratorPressureMeasureMethod())
                         .build())
-                .pressureMeasurement(EquilibratorSensorType.builder()
-                .method(v.getEquilibratorPressureMeasureMethod())
-                .build())
-                .dryMethod(v.getDryingMethod())
                 .build()
         )
         return co2Builder.build()
@@ -1342,7 +1384,7 @@ class OadsXmlService {
             .measuredOrCalculated(v.getMeasured())
             .samplingInstrument(v.getSamplingInstrument())
             .analyzingInstrument(v.getAnalyzingInstrument())
-            .detailedInfo(v.getDetailedInformation())
+            .detailedAnalyzingInfo(v.getDetailedInformation())
             .fieldReplicateHandling(v.getFieldReplicate())
 
         if (v.getCalculationMethod())
@@ -1353,11 +1395,12 @@ class OadsXmlService {
              v.getPhStandards() || v.getTemperatureStandarization()) {
 
             StandardizationType.StandardizationTypeBuilder standard = StandardizationType.builder()
-                    .description(v.getStandardizationTechnique())
+            standard.description(v.getStandardizationTechnique())
                     .frequency(v.getFreqencyOfStandardization())
-                    .phOfStandards(v.getPhStandards())
                     .temperature(v.getTemperatureStandarization())
-
+            if ( v instanceof PhVariableType ) {
+                standard.phOfStandards(v.getPhStandards())
+            }
             if ( v.getCrmManufacture() || v.getBatchNumber() ) {
                 standard.crm(CrmType.builder()
                         .manufacturer(v.getCrmManufacture())

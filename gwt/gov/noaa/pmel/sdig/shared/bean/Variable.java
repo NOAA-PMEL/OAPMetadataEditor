@@ -6,7 +6,7 @@ import gov.noaa.pmel.sdig.shared.Stringy;
 /**
  * Created by rhs on 3/8/17.
  */
-public class Variable extends Ordered implements Comparable<Variable>, Stringy, HasContent {
+public class Variable extends Ordered implements Comparable<Variable>, Cloneable, Stringy, HasContent {
 
     String abbreviation;
     String manipulationMethod;
@@ -68,11 +68,206 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     String duration;
     String lifeStage;
     String speciesIdCode;
+    String variableType;
+
+    public Variable clone() {
+        Variable newV = new Variable(
+            this.abbreviation,
+            this.manipulationMethod,
+            this.observationType,
+            this.observationDetail,
+            this.units,
+            this.measured,
+            this.calculationMethod,
+            this.samplingInstrument,
+            this.analyzingInstrument,
+            this.detailedInformation,
+            this.fieldReplicate,
+            this.uncertainty,
+            this.qualityFlag,
+            this.researcherName,
+            this.researcherInstitution,
+            this.fullVariableName,
+            this.referenceMethod,
+            this.standardizationTechnique,
+            this.crmManufacture,
+            this.batchNumber,
+            this.poison,
+            this.poisonVolume,
+            this.poisonDescription,
+            this.cellType,
+            this.curveFittingMethod,
+            this.magnitudeOfBlankCorrection,
+            this.phTemperature,
+            this.phScale,
+            this.phStandards,
+            this.titrationType,
+            this.intakeDepth,
+            this.dryingMethod,
+            this.equilibratorType,
+            this.equilibratorVolume,
+            this.gasFlowRate,
+            this.equilibratorPressureMeasureMethod,
+            this.equilibratorTemperatureMeasureMethod,
+            this.intakeLocation,
+            this.flowRate,
+            this.freqencyOfStandardization,
+            this.storageMethod,
+            this.pco2Temperature,
+            this.gasConcentration,
+            this.headspaceVolume,
+            this.standardGasManufacture,
+            this.gasDetectorManufacture,
+            this.gasDetectorModel,
+            this.gasDectectorResolution,
+            this.seawaterVolume,
+            this.temperatureCorrectionMethod,
+            this.temperatureMeasurement,
+            this.temperatureStandarization,
+            this.standardGasUncertainties,
+            this.gasDectectorUncertainty,
+            this.vaporCorrection,
+            this.vented,
+            this.biologicalSubject,
+            this.duration,
+            this.lifeStage,
+            this.speciesIdCode,
+            this.variableType
+        );
+        return newV;
+    }
+    public Variable() { super(); }
+    Variable(
+            String abbreviation,
+            String manipulationMethod,
+            String observationType,
+            String observationDetail,
+            String units,
+            String measured,
+            String calculationMethod,
+            String samplingInstrument,
+            String analyzingInstrument,
+            String detailedInformation,
+            String fieldReplicate,
+            String uncertainty,
+            String qualityFlag,
+            String researcherName,
+            String researcherInstitution,
+            String fullVariableName,
+            String referenceMethod,
+            String standardizationTechnique,
+            String crmManufacture,
+            String batchNumber,
+            String poison,
+            String poisonVolume,
+            String poisonDescription,
+            String cellType,
+            String curveFittingMethod,
+            String magnitudeOfBlankCorrection,
+            String phTemperature,
+            String phScale,
+            String phStandards,
+            String titrationType,
+            String intakeDepth,
+            String dryingMethod,
+            String equilibratorType,
+            String equilibratorVolume,
+            String gasFlowRate,
+            String equilibratorPressureMeasureMethod,
+            String equilibratorTemperatureMeasureMethod,
+            String intakeLocation,
+            String flowRate,
+            String freqencyOfStandardization,
+            String storageMethod,
+            String pco2Temperature,
+            String gasConcentration,
+            String headspaceVolume,
+            String standardGasManufacture,
+            String gasDetectorManufacture,
+            String gasDetectorModel,
+            String gasDectectorResolution,
+            String seawaterVolume,
+            String temperatureCorrectionMethod,
+            String temperatureMeasurement,
+            String temperatureStandarization,
+            String standardGasUncertainties,
+            String gasDectectorUncertainty,
+            String vaporCorrection,
+            String vented,
+            String biologicalSubject,
+            String duration,
+            String lifeStage,
+            String speciesIdCode,
+            String variableType
+    ) {
+        this.abbreviation = abbreviation;
+        this.manipulationMethod = manipulationMethod;
+        this.observationType = observationType;
+        this.observationDetail = observationDetail;
+        this.units = units;
+        this.measured = measured;
+        this.calculationMethod = calculationMethod;
+        this.samplingInstrument = samplingInstrument;
+        this.analyzingInstrument = analyzingInstrument;
+        this.detailedInformation = detailedInformation;
+        this.fieldReplicate = fieldReplicate;
+        this.uncertainty = uncertainty;
+        this.qualityFlag = qualityFlag;
+        this.researcherName = researcherName;
+        this.researcherInstitution = researcherInstitution;
+        this.fullVariableName = fullVariableName;
+        this.referenceMethod = referenceMethod;
+        this.standardizationTechnique = standardizationTechnique;
+        this.crmManufacture = crmManufacture;
+        this.batchNumber = batchNumber;
+        this.poison = poison;
+        this.poisonVolume = poisonVolume;
+        this.poisonDescription = poisonDescription;
+        this.cellType = cellType;
+        this.curveFittingMethod = curveFittingMethod;
+        this.magnitudeOfBlankCorrection = magnitudeOfBlankCorrection;
+        this.phTemperature = phTemperature;
+        this.phScale = phScale;
+        this.phStandards = phStandards;
+        this.titrationType = titrationType;
+        this.intakeDepth = intakeDepth;
+        this.dryingMethod = dryingMethod;
+        this.equilibratorType = equilibratorType;
+        this.equilibratorVolume = equilibratorVolume;
+        this.gasFlowRate = gasFlowRate;
+        this.equilibratorPressureMeasureMethod = equilibratorPressureMeasureMethod;
+        this.equilibratorTemperatureMeasureMethod = equilibratorTemperatureMeasureMethod;
+        this.intakeLocation = intakeLocation;
+        this.flowRate = flowRate;
+        this.freqencyOfStandardization = freqencyOfStandardization;
+        this.storageMethod = storageMethod;
+        this.pco2Temperature = pco2Temperature;
+        this.gasConcentration = gasConcentration;
+        this.headspaceVolume = headspaceVolume;
+        this.standardGasManufacture = standardGasManufacture;
+        this.gasDetectorManufacture = gasDetectorManufacture;
+        this.gasDetectorModel = gasDetectorModel;
+        this.gasDectectorResolution = gasDectectorResolution;
+        this.seawaterVolume = seawaterVolume;
+        this.temperatureCorrectionMethod = temperatureCorrectionMethod;
+        this.temperatureMeasurement = temperatureMeasurement;
+        this.temperatureStandarization = temperatureStandarization;
+        this.standardGasUncertainties = standardGasUncertainties;
+        this.gasDectectorUncertainty = gasDectectorUncertainty;
+        this.vaporCorrection = vaporCorrection;
+        this.vented = vented;
+        this.biologicalSubject = biologicalSubject;
+        this.duration = duration;
+        this.lifeStage = lifeStage;
+        this.speciesIdCode = speciesIdCode;
+        this.variableType = variableType;
+    }
+    public String getVariableType() { return variableType; }
+    public void setVariableType(String variableType) { this.variableType = variableType; }
 
     public String getCalculationMethod() {
         return calculationMethod;
     }
-
     public void setCalculationMethod(String calculationMethod) {
         this.calculationMethod = calculationMethod;
     }
@@ -80,7 +275,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getBiologicalSubject() {
         return biologicalSubject;
     }
-
     public void setBiologicalSubject(String biologicalSubject) {
         this.biologicalSubject = biologicalSubject;
     }
@@ -88,7 +282,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getDuration() {
         return duration;
     }
-
     public void setDuration(String duration) {
         this.duration = duration;
     }
@@ -96,7 +289,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getLifeStage() {
         return lifeStage;
     }
-
     public void setLifeStage(String lifeStage) {
         this.lifeStage = lifeStage;
     }
@@ -104,7 +296,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getSpeciesIdCode() {
         return speciesIdCode;
     }
-
     public void setSpeciesIdCode(String speciesIdCode) {
         this.speciesIdCode = speciesIdCode;
     }
@@ -112,7 +303,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getStorageMethod() {
         return storageMethod;
     }
-
     public void setStorageMethod(String storageMethod) {
         this.storageMethod = storageMethod;
     }
@@ -120,7 +310,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getHeadspaceVolume() {
         return headspaceVolume;
     }
-
     public void setHeadspaceVolume(String headspaceVolume) {
         this.headspaceVolume = headspaceVolume;
     }
@@ -128,7 +317,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getSeawaterVolume() {
         return seawaterVolume;
     }
-
     public void setSeawaterVolume(String seawaterVolume) {
         this.seawaterVolume = seawaterVolume;
     }
@@ -136,7 +324,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPco2Temperature() {
         return pco2Temperature;
     }
-
     public void setPco2Temperature(String pco2Temperature) {
         this.pco2Temperature = pco2Temperature;
     }
@@ -144,15 +331,11 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getGasConcentration() {
         return gasConcentration;
     }
-
-    public void setGasConcentration(String gasConcentration) {
-        this.gasConcentration = gasConcentration;
-    }
+    public void setGasConcentration(String gasConcentration) { this.gasConcentration = gasConcentration; }
 
     public String getIntakeDepth() {
         return intakeDepth;
     }
-
     public void setIntakeDepth(String intakeDepth) {
         this.intakeDepth = intakeDepth;
     }
@@ -160,7 +343,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getDryingMethod() {
         return dryingMethod;
     }
-
     public void setDryingMethod(String dryingMethod) {
         this.dryingMethod = dryingMethod;
     }
@@ -168,7 +350,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getEquilibratorType() {
         return equilibratorType;
     }
-
     public void setEquilibratorType(String equilibratorType) {
         this.equilibratorType = equilibratorType;
     }
@@ -176,7 +357,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getEquilibratorVolume() {
         return equilibratorVolume;
     }
-
     public void setEquilibratorVolume(String equilibratorVolume) {
         this.equilibratorVolume = equilibratorVolume;
     }
@@ -184,7 +364,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getGasFlowRate() {
         return gasFlowRate;
     }
-
     public void setGasFlowRate(String gasFlowRate) {
         this.gasFlowRate = gasFlowRate;
     }
@@ -192,7 +371,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getEquilibratorPressureMeasureMethod() {
         return equilibratorPressureMeasureMethod;
     }
-
     public void setEquilibratorPressureMeasureMethod(String equilibratorPressureMeasureMethod) {
         this.equilibratorPressureMeasureMethod = equilibratorPressureMeasureMethod;
     }
@@ -200,7 +378,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getEquilibratorTemperatureMeasureMethod() {
         return equilibratorTemperatureMeasureMethod;
     }
-
     public void setEquilibratorTemperatureMeasureMethod(String equilibratorTemperatureMeasureMethod) {
         this.equilibratorTemperatureMeasureMethod = equilibratorTemperatureMeasureMethod;
     }
@@ -208,7 +385,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getIntakeLocation() {
         return intakeLocation;
     }
-
     public void setIntakeLocation(String intakeLocation) {
         this.intakeLocation = intakeLocation;
     }
@@ -216,7 +392,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getStandardGasManufacture() {
         return standardGasManufacture;
     }
-
     public void setStandardGasManufacture(String standardGasManufacture) {
         this.standardGasManufacture = standardGasManufacture;
     }
@@ -224,7 +399,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getGasDetectorManufacture() {
         return gasDetectorManufacture;
     }
-
     public void setGasDetectorManufacture(String gasDetectorManufacture) {
         this.gasDetectorManufacture = gasDetectorManufacture;
     }
@@ -232,7 +406,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getGasDetectorModel() {
         return gasDetectorModel;
     }
-
     public void setGasDetectorModel(String gasDetectorModel) {
         this.gasDetectorModel = gasDetectorModel;
     }
@@ -240,7 +413,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getGasDectectorResolution() {
         return gasDectectorResolution;
     }
-
     public void setGasDectectorResolution(String gasDectectorResolution) {
         this.gasDectectorResolution = gasDectectorResolution;
     }
@@ -248,7 +420,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getStandardGasUncertainties() {
         return standardGasUncertainties;
     }
-
     public void setStandardGasUncertainties(String standardGasUncertainties) {
         this.standardGasUncertainties = standardGasUncertainties;
     }
@@ -256,7 +427,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getGasDectectorUncertainty() {
         return gasDectectorUncertainty;
     }
-
     public void setGasDectectorUncertainty(String gasDectectorUncertainty) {
         this.gasDectectorUncertainty = gasDectectorUncertainty;
     }
@@ -264,7 +434,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getVented() {
         return vented;
     }
-
     public void setVented(String vented) {
         this.vented = vented;
     }
@@ -272,7 +441,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getFlowRate() {
         return flowRate;
     }
-
     public void setFlowRate(String flowRate) {
         this.flowRate = flowRate;
     }
@@ -280,7 +448,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getVaporCorrection() {
         return vaporCorrection;
     }
-
     public void setVaporCorrection(String vaporCorrection) {
         this.vaporCorrection = vaporCorrection;
     }
@@ -288,7 +455,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPhTemperature() {
         return phTemperature;
     }
-
     public void setPhTemperature(String pHtemperature) {
         this.phTemperature = pHtemperature;
     }
@@ -296,7 +462,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPhScale() {
         return phScale;
     }
-
     public void setPhScale(String pHscale) {
         this.phScale = pHscale;
     }
@@ -304,7 +469,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPhStandards() {
         return phStandards;
     }
-
     public void setPhStandards(String pHstandards) {
         this.phStandards = pHstandards;
     }
@@ -312,7 +476,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getTemperatureCorrectionMethod() {
         return temperatureCorrectionMethod;
     }
-
     public void setTemperatureCorrectionMethod(String temperatureCorrectionMethod) {
         this.temperatureCorrectionMethod = temperatureCorrectionMethod;
     }
@@ -320,7 +483,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getTemperatureMeasurement() {
         return temperatureMeasurement;
     }
-
     public void setTemperatureMeasurement(String temperatureMeasurement) {
         this.temperatureMeasurement = temperatureMeasurement;
     }
@@ -328,7 +490,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getTemperatureStandarization() {
         return temperatureStandarization;
     }
-
     public void setTemperatureStandarization(String temperatureStandarization) {
         this.temperatureStandarization = temperatureStandarization;
     }
@@ -336,7 +497,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getCurveFittingMethod() {
         return curveFittingMethod;
     }
-
     public void setCurveFittingMethod(String curveFittingMethod) {
         this.curveFittingMethod = curveFittingMethod;
     }
@@ -344,7 +504,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getMagnitudeOfBlankCorrection() {
         return magnitudeOfBlankCorrection;
     }
-
     public void setMagnitudeOfBlankCorrection(String magnitudeOfBlankCorrection) {
         this.magnitudeOfBlankCorrection = magnitudeOfBlankCorrection;
     }
@@ -352,7 +511,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getTitrationType() {
         return titrationType;
     }
-
     public void setTitrationType(String titrationType) {
         this.titrationType = titrationType;
     }
@@ -360,7 +518,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getAbbreviation() {
         return abbreviation;
     }
-
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
@@ -368,7 +525,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getManipulationMethod() {
         return manipulationMethod;
     }
-
     public void setManipulationMethod(String manipulationMethod) {
         this.manipulationMethod = manipulationMethod;
     }
@@ -376,7 +532,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getObservationType() {
         return observationType;
     }
-
     public void setObservationType(String observationType) {
         this.observationType = observationType;
     }
@@ -384,7 +539,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getObservationDetail() {
         return observationDetail;
     }
-
     public void setObservationDetail(String observationDetail) {
         this.observationDetail = observationDetail;
     }
@@ -392,7 +546,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getUnits() {
         return units;
     }
-
     public void setUnits(String units) {
         this.units = units;
     }
@@ -400,7 +553,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getMeasured() {
         return measured;
     }
-
     public void setMeasured(String measured) {
         this.measured = measured;
     }
@@ -408,7 +560,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getSamplingInstrument() {
         return samplingInstrument;
     }
-
     public void setSamplingInstrument(String samplingInstrument) {
         this.samplingInstrument = samplingInstrument;
     }
@@ -416,7 +567,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getAnalyzingInstrument() {
         return analyzingInstrument;
     }
-
     public void setAnalyzingInstrument(String analyzingInstrument) {
         this.analyzingInstrument = analyzingInstrument;
     }
@@ -424,7 +574,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getDetailedInformation() {
         return detailedInformation;
     }
-
     public void setDetailedInformation(String detailedInformation) {
         this.detailedInformation = detailedInformation;
     }
@@ -432,7 +581,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getFieldReplicate() {
         return fieldReplicate;
     }
-
     public void setFieldReplicate(String fieldReplicate) {
         this.fieldReplicate = fieldReplicate;
     }
@@ -440,7 +588,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getUncertainty() {
         return uncertainty;
     }
-
     public void setUncertainty(String uncertainty) {
         this.uncertainty = uncertainty;
     }
@@ -448,7 +595,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getQualityFlag() {
         return qualityFlag;
     }
-
     public void setQualityFlag(String qualityFlag) {
         this.qualityFlag = qualityFlag;
     }
@@ -456,7 +602,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getResearcherName() {
         return researcherName;
     }
-
     public void setResearcherName(String researcherName) {
         this.researcherName = researcherName;
     }
@@ -464,7 +609,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getResearcherInstitution() {
         return researcherInstitution;
     }
-
     public void setResearcherInstitution(String researcherInstitution) {
         this.researcherInstitution = researcherInstitution;
     }
@@ -472,7 +616,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getFullVariableName() {
         return fullVariableName;
     }
-
     public void setFullVariableName(String fullVariableName) {
         this.fullVariableName = fullVariableName;
     }
@@ -480,7 +623,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getReferenceMethod() {
         return referenceMethod;
     }
-
     public void setReferenceMethod(String referenceMethod) {
         this.referenceMethod = referenceMethod;
     }
@@ -488,7 +630,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getStandardizationTechnique() {
         return standardizationTechnique;
     }
-
     public void setStandardizationTechnique(String standardizationTechnique) {
         this.standardizationTechnique = standardizationTechnique;
     }
@@ -496,7 +637,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getFreqencyOfStandardization() {
         return freqencyOfStandardization;
     }
-
     public void setFreqencyOfStandardization(String freqencyOfStandardization) {
         this.freqencyOfStandardization = freqencyOfStandardization;
     }
@@ -504,7 +644,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getCrmManufacture() {
         return crmManufacture;
     }
-
     public void setCrmManufacture(String crmManufacture) {
         this.crmManufacture = crmManufacture;
     }
@@ -512,7 +651,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getBatchNumber() {
         return batchNumber;
     }
-
     public void setBatchNumber(String batchNumber) {
         this.batchNumber = batchNumber;
     }
@@ -520,7 +658,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPoison() {
         return poison;
     }
-
     public void setPoison(String poison) {
         this.poison = poison;
     }
@@ -528,7 +665,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPoisonVolume() {
         return poisonVolume;
     }
-
     public void setPoisonVolume(String poisonVolume) {
         this.poisonVolume = poisonVolume;
     }
@@ -536,7 +672,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getPoisonDescription() {
         return poisonDescription;
     }
-
     public void setPoisonDescription(String poisonDescription) {
         this.poisonDescription = poisonDescription;
     }
@@ -544,7 +679,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Stringy, 
     public String getCellType() {
         return cellType;
     }
-
     public void setCellType(String cellType) {
         this.cellType = cellType;
     }

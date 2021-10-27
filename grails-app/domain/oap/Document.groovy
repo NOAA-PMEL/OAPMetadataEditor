@@ -4,15 +4,17 @@ class Document {
 
     public static final String NOT_FOUND = "Not Found"
 
-    String datasetIdentifier;
-    String lastModified;
-    transient Long dbId;
-    transient Long dbVersion;
+    String docType
+    String datasetIdentifier
+    String lastModified
+    transient Long dbId
+    transient Long dbVersion
 
     List<Platform> platforms
     List<Investigator> investigators
     List<Variable> variables
-    List<Funding> funding;
+    List<Co2> co2vars
+    List<Funding> funding
 
     static hasOne = [dataSubmitter: DataSubmitter,
                      citation: Citation,
@@ -21,15 +23,18 @@ class Document {
                      pco2a: Pco2a,
                      ta: Ta,
                      ph: Ph,
-                     pco2d: Pco2d]
+                     pco2d: Pco2d,
+                     docType: String]
     static hasMany = [platforms:Platform,
                       investigators: Investigator,
                       variables: Variable,
+                      co2vars: Co2,
                       funding: Funding]
     static mapping = {
         platforms (cascade: 'all-delete-orphan')
         investigators (cascade: 'all-delete-orphan')
         variables (cascade: 'all-delete-orphan',lazy: false)
+        co2vars (cascade: 'all-delete-orphan',lazy: false)
         dataSubmitter (cascade: 'all-delete-orphan')
         citation (cascade: 'all-delete-orphan')
         timeAndLocation (cascade: 'all-delete-orphan')
@@ -44,6 +49,7 @@ class Document {
         platforms (nullable: true)
         investigators (nullable: true)
         variables (nullable: true)
+        co2vars (nullable: true)
         dataSubmitter (nullable: true)
         citation (nullable: true)
         timeAndLocation (nullable: true)
@@ -55,22 +61,22 @@ class Document {
         funding (nullable: true)
     }
 
-    def addVariable(Variable var) {
-        addToVariables(var)
+    def addVariable(Variable v) {
+        addToVariables(v)
     }
-    def addVariable(Dic var) {
-        dic = var
+    def addVariable(Dic v) {
+        dic = v
     }
-    def addVariable(Ta var) {
-        ta = var
+    def addVariable(Ta v) {
+        ta = v
     }
-    def addVariable(Ph var) {
-        ph = var
+    def addVariable(Ph v) {
+        ph = v
     }
-    def addVariable(Pco2a var) {
-        pco2a = var
+    def addVariable(Pco2a v) {
+        pco2a = v
     }
-    def addVariable(Pco2d var) {
-        pco2d = var
+    def addVariable(Pco2d v) {
+        pco2d = v
     }
 }

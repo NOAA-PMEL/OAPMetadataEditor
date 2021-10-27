@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<oads_metadata xmlns="http://ncei.noaa.gov/oads/v_a0_2_2s" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="a0.2.2" xsi:schemaLocation="http://ncei.noaa.gov/oads/v_a0_2_2s https://www.pmel.noaa.gov/sdig/oap/a0.2.2/oads_metadata_a0.2.2.xsd">
+    <investigators>
+        <investigator>
+            <name>
+                <first>Meike</first>
+                <last>Becker</last>
+            </name>
+            <organization>Geophysical Institute, University of Bergen</organization>
+            <contactInfo>
+                <address>
+                    <deliveryPoint index="0">Allegaten 70, 5007 NO-Bergen;</deliveryPoint>
+                </address>
+                <phone>+47 55 58 26 72;</phone>
+                <email>meike.becker@uib.no;</email>
+            </contactInfo>
+            <identifier>0000-0001-7650-0923</identifier>
+        </investigator>
+        <investigator>
+            <name>
+                <first>Are</first>
+                <last>Olsen</last>
+            </name>
+            <organization>Geophysical Institute, University of Bergen</organization>
+            <contactInfo>
+                <address>
+                    <deliveryPoint index="0">Allegaten 70, 5007 NO-Bergen;</deliveryPoint>
+                </address>
+                <phone>+4755584781;</phone>
+                <email>are.olsen@gfi.uib.no;</email>
+            </contactInfo>
+            <identifier>0000-0003-1696-9142</identifier>
+        </investigator>
+    </investigators>
+    <dataSubmitter>
+        <name>
+            <first>Meike</first>
+            <last>Becker</last>
+        </name>
+        <organization>Geophysical Institute, University of Bergen</organization>
+        <contactInfo>
+            <address>
+                <deliveryPoint index="0">Allegaten 70, 5007 NO-Bergen;</deliveryPoint>
+            </address>
+            <phone>+47 55 58 26 72;</phone>
+            <email>meike.becker@uib.no;</email>
+        </contactInfo>
+        <identifier>0000-0001-7650-0923</identifier>
+    </dataSubmitter>
+    <title>Underway measurements of total alkalinity on Nuka Arctica 2017-2020</title>
+    <abstract>Underway measurements of total alkalinity on Nuka Arctica until 2020</abstract>
+    <purpose></purpose>
+    <temporalExtents/>
+    <fundingInfo>
+        <source>
+            <agency>Norges Forskningsråd</agency>
+            <title>ICOS</title>
+            <identifier/>
+        </source>
+    </fundingInfo>
+    <researchProjects>
+        <project></project>
+    </researchProjects>
+    <platforms>
+        <platform>
+            <name>Nuka Arctica</name>
+            <identifier>26NA</identifier>
+            <type>Voluntary Observing Ship</type>
+            <owner>Royal Arctic Line</owner>
+            <country>Danmark</country>
+        </platform>
+    </platforms>
+    <expocodes>
+        <expocode></expocode>
+    </expocodes>
+    <cruiseIds>
+        <cruiseId></cruiseId>
+    </cruiseIds>
+    <sections>
+        <section></section>
+    </sections>
+    <citation>Becker, Meike; Olsen, Are</citation>
+    <references>
+        <reference></reference>
+    </references>
+    <supplementalInfo></supplementalInfo>
+    <variables>
+        <variable>
+            <datasetVarName>DEPTH</datasetVarName>
+            <units>m</units>
+            <researcher/>
+        </variable>
+        <variable>
+            <datasetVarName>SAL</datasetVarName>
+            <observationType>underway</observationType>
+            <units>psu</units>
+            <uncertainty>0.003</uncertainty>
+            <researcher/>
+            <methodReference></methodReference>
+            <analyzingInstrument>Portasal 8410A</analyzingInstrument>
+            <fieldReplicateHandling></fieldReplicateHandling>
+        </variable>
+    </variables>
+</oads_metadata>

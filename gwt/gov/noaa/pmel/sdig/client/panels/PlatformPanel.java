@@ -4,6 +4,9 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -19,6 +22,7 @@ import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -58,6 +62,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     @UiField ( provided = true )
     SuggestBox name;
+    @UiField
+    Button showPlatformNameListButton;
+
     @UiField
     TextBox platformId;
     @UiField (provided = true)
@@ -113,6 +120,26 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     public PlatformPanel() {
         name = new SuggestBox(platformSuggestionOracle);
+        name.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( name.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)name.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
+        name.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+            @Override
+            public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
+                String selectedName = name.getValue().trim();
+                int sidx = selectedName.indexOf('(');
+                String platformName = selectedName.substring(0, sidx);
+                String platformCode = selectedName.substring(sidx+1, selectedName.length()-1);
+                name.setValue(platformName.trim());
+                platformId.setValue(platformCode);
+                country.setFocus(true);
+            }
+        });
         country = new SuggestBox(countrySuggestionOracle);
         initWidget(ourUiBinder.createAndBindUi(this));
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
@@ -367,6 +394,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         setTableVisible(true);
         reset();
     }
+
+    @UiHandler("showPlatformNameListButton")
+    public void onClick(ClickEvent clickEvent) { name.showSuggestionList(); }
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {

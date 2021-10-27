@@ -1,6 +1,7 @@
 package gov.noaa.pmel.sdig.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -24,14 +25,7 @@ import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Input;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.constants.IconSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
-import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
-import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
-import org.gwtbootstrap3.extras.notify.client.ui.Notify;
-import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 /**
  * Created by rhs on 2/27/17.
@@ -76,6 +70,9 @@ public class DashboardLayout extends Composite {
 
     @UiField
     AnchorListItem platformsLink;
+
+    @UiField
+    AnchorListItem co2Link;
 
     @UiField
     AnchorListItem dicLink;
@@ -126,9 +123,18 @@ public class DashboardLayout extends Composite {
 
     private static DashboardLayoutUiBinder ourUiBinder = GWT.create(DashboardLayoutUiBinder.class);
 
+    private boolean isSocat = false;
+
     public DashboardLayout() {
+        this(false);
+    }
+    public DashboardLayout(boolean asSocat) {
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        // sets all the nav link's text (possibly overriding the .ui.xml) so the are all from Constants file
+        setNavLinkNames();
+
+        this.isSocat = asSocat;
         buttonBarCaption.setCaptionHTML("Metadata");
         filename.addStyleName("disappear");
         filename.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -145,6 +151,8 @@ public class DashboardLayout extends Composite {
                 }
             }
         });
+        filename.getElement().getStyle().setCursor(Style.Cursor.POINTER);
+        filebutton.getElement().getStyle().setCursor(Style.Cursor.POINTER);
         filebutton.addStyleName("over");
         fakeinput.addStyleName("fakeinputposition");
         faketextbox.addStyleName("overright");
@@ -185,30 +193,42 @@ public class DashboardLayout extends Composite {
                 eventBus.fireEventFromSource(new NavLink(), platformsLink);
             }
         });
+        co2Link.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                eventBus.fireEventFromSource(new NavLink(), co2Link);
+            }
+        });
+        co2Link.setVisible(isSocat);
+        dicLink.setVisible(!isSocat);
         dicLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), dicLink);
             }
         });
+        taLink.setVisible(!isSocat);
         taLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), taLink);
             }
         });
+        phLink.setVisible(!isSocat);
         phLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), phLink);
             }
         });
+        pco2aLink.setVisible(!isSocat);
         pco2aLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 eventBus.fireEventFromSource(new NavLink(), pco2aLink);
             }
         });
+        pco2dLink.setVisible(!isSocat);
         pco2dLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -289,6 +309,33 @@ public class DashboardLayout extends Composite {
         });
     }
 
+    private void setNavLinkNames() {
+        submittersLink.setText(Constants.SECTION_SUBMITTER);
+        investigatorsLink.setText(Constants.SECTION_INVESTIGATOR);
+        citationLink.setText(Constants.SECTION_CITATION);
+        timeAndLocationLink.setText(Constants.SECTION_TIMEANDLOCATION);
+        fundingLink.setText(Constants.SECTION_FUNDING);
+        platformsLink.setText(Constants.SECTION_PLATFORMS);
+        co2Link.setText(Constants.SECTION_CO2);
+        dicLink.setText(Constants.SECTION_DIC);
+        taLink.setText(Constants.SECTION_TA);
+        phLink.setText(Constants.SECTION_PH);
+        pco2aLink.setText(Constants.SECTION_PCO2A);
+        pco2dLink.setText(Constants.SECTION_PCO2D);
+        genericVariableLink.setText(Constants.SECTION_GENERIC);
+    }
+
+    void setIsSocat(boolean socat) {
+        isSocat = socat;
+        co2Link.setVisible(isSocat);
+        dicLink.setVisible(!isSocat);
+        taLink.setVisible(!isSocat);
+        phLink.setVisible(!isSocat);
+        pco2aLink.setVisible(!isSocat);
+        pco2dLink.setVisible(!isSocat);
+    }
+    boolean isSocat() { return isSocat; }
+
     public static boolean showConfirmationDialog(String msg) {
         return false;
     }
@@ -346,6 +393,8 @@ public class DashboardLayout extends Composite {
             taLink.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.setIcon(IconType.CHECK);
+        } else if ( section.equals(Constants.SECTION_CO2) ) {
+            co2Link.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
@@ -376,6 +425,8 @@ public class DashboardLayout extends Composite {
             taLink.setIcon(null);
         } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.setIcon(null);
+        } else if ( section.equals(Constants.SECTION_CO2) ) {
+            co2Link.setIcon(null);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.setIcon(null);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
@@ -407,6 +458,8 @@ public class DashboardLayout extends Composite {
             taLink.removeStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.removeStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_CO2) ) {
+            co2Link.removeStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.removeStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
@@ -438,6 +491,8 @@ public class DashboardLayout extends Composite {
             taLink.addStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.addStyleName(highlightStyle);
+        } else if ( section.equals(Constants.SECTION_CO2) ) {
+            co2Link.addStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.addStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
@@ -610,6 +665,7 @@ public class DashboardLayout extends Composite {
         dicLink.setIcon(null);
         taLink.setIcon(null);
         phLink.setIcon(null);
+        co2Link.setIcon(null);
         pco2aLink.setIcon(null);
         pco2dLink.setIcon(null);
         genericVariableLink.setIcon(null);
@@ -625,6 +681,7 @@ public class DashboardLayout extends Composite {
         dicLink.removeStyleName(highlightStyle);
         taLink.removeStyleName(highlightStyle);
         phLink.removeStyleName(highlightStyle);
+        co2Link.removeStyleName(highlightStyle);
         pco2aLink.removeStyleName(highlightStyle);
         pco2dLink.removeStyleName(highlightStyle);
         genericVariableLink.removeStyleName(highlightStyle);
@@ -657,6 +714,7 @@ public class DashboardLayout extends Composite {
         dicLink.setActive(false);
         taLink.setActive(false);
         phLink.setActive(false);
+        co2Link.setActive(false);
         pco2aLink.setActive(false);
         pco2dLink.setActive(false);
         genericVariableLink.setActive(false);
@@ -678,6 +736,8 @@ public class DashboardLayout extends Composite {
             taLink.setActive(true);
         } else if ( section.equals(Constants.SECTION_PH) ) {
             phLink.setActive(true);
+        } else if ( section.equals(Constants.SECTION_CO2) ) {
+            co2Link.setActive(true);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
             pco2aLink.setActive(true);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {

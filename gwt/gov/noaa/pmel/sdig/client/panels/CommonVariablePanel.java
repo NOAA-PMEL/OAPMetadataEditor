@@ -1,22 +1,27 @@
 package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import gov.noaa.pmel.sdig.client.ClientFactory;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import org.gwtbootstrap3.client.ui.FormGroup;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.SuggestBox;
-import org.gwtbootstrap3.client.ui.TextArea;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     @UiField (provided = true)
     SuggestBox observationType;
 
+    @UiField
+    Button showObservationListButton;
+
     // 003 Manipulation method
     @UiField
     TextBox manipulationMethod;
@@ -62,10 +70,14 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     // 008 Sampling instrument
     @UiField (provided = true)
     SuggestBox samplingInstrument;
+    @UiField
+    Button showSamplingInstrumentListButton;
 
     // 009 Analyzing instrument
     @UiField (provided = true)
     SuggestBox analyzingInstrument;
+    @UiField
+    Button showAnalyzingInstrumentListButton;
 
     // 010 Detailed sampling and analyzing information
     @UiField
@@ -256,6 +268,30 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         samplingInstrument = new SuggestBox(instrumentSuggestOracle);
         analyzingInstrument = new SuggestBox(instrumentSuggestOracle);
         observationType = new SuggestBox(observationTypeOracle);
+        samplingInstrument.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( samplingInstrument.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)samplingInstrument.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
+        analyzingInstrument.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( analyzingInstrument.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)analyzingInstrument.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
+        observationType.getValueBox().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if ( observationType.isSuggestionListShowing()) {
+                    ((SuggestBox.DefaultSuggestionDisplay)observationType.getSuggestionDisplay()).hideSuggestions();
+                }
+            }
+        });
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
@@ -293,8 +329,20 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         researcherInstitutionModal.setTitle("");
         fullVariableNameModal.setTitle("");
         referenceMethodModal.setTitle("");
-
     }
+    @UiHandler("showObservationListButton")
+    public void onObservationListClick(ClickEvent clickEvent) { observationType.showSuggestionList(); }
+
+    @UiHandler("showSamplingInstrumentListButton")
+    public void onSamplingIntrumentListClick(ClickEvent clickEvent) {
+        samplingInstrument.showSuggestionList();
+    }
+
+    @UiHandler("showAnalyzingInstrumentListButton")
+    public void onAnalyzingIntrumentListClick(ClickEvent clickEvent) {
+        analyzingInstrument.showSuggestionList();
+    }
+
     void reset() {
         observationDetail.reset();
         measured.reset();

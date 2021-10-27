@@ -12,6 +12,13 @@ import java.util.List;
  */
 public class Document extends DbItem implements HasContent {
 
+    public static final String DOC_SOCAT = "socat";
+    public static final String DOC_OADS = "oads";
+    public static final String DOC_OCADS = "ocads";
+
+    private String docType = DOC_OCADS;
+    public String getDocType() { return docType; }
+    public void setDocType(String type) { docType = type; }
     private Long dbId;
     public Long getDbId() { return dbId; }
     public void setDbId(Long dbId) { this.dbId = dbId; }
@@ -27,6 +34,7 @@ public class Document extends DbItem implements HasContent {
     List<Platform> platforms;
     List<Person> investigators;
     List<Variable> variables;
+    List<Variable> co2vars;
     Person dataSubmitter;
     Citation citation;
     TimeAndLocation timeAndLocation;
@@ -56,6 +64,7 @@ public class Document extends DbItem implements HasContent {
         Document copyDoc = new Document();
 //        copyDoc.id = doc.id;
         copyDoc.datasetIdentifier = doc.datasetIdentifier;
+        copyDoc.docType = doc.docType;
         copyDoc.setCitation((Citation)copyOf(doc.getCitation()));
         copyDoc.setDataSubmitter((Person)copyOf(doc.getDataSubmitter()));
         copyDoc.setInvestigators((List<Person>) getArrayCopy(doc.getInvestigators()));
@@ -68,6 +77,7 @@ public class Document extends DbItem implements HasContent {
         copyDoc.setTa((Variable)copyOf(doc.getTa()));
         copyDoc.setTimeAndLocation((TimeAndLocation) copyOf(doc.getTimeAndLocation()));
         copyDoc.setVariables((List<Variable>) getArrayCopy(doc.getVariables()));
+        copyDoc.setCo2vars((List<Variable>) getArrayCopy(doc.getVariables()));
         return copyDoc;
     }
     public static Document EmptyDocument() {
@@ -104,6 +114,7 @@ public class Document extends DbItem implements HasContent {
                     hasContent(platforms) ||
                     hasContent(investigators) ||
                     hasContent(variables) ||
+                    hasContent(co2vars) ||
                     hasContent(dataSubmitter) ||
                     hasContent(citation) ||
                     hasContent(timeAndLocation) ||
@@ -139,6 +150,14 @@ public class Document extends DbItem implements HasContent {
     public void setVariables(List<Variable> variables) {
         this.variables = variables;
     }
+
+    public List<Variable> getCo2vars() {
+        return co2vars;
+    }
+    public void setCo2vars(List<Variable> variables) {
+        this.co2vars = variables;
+    }
+
     public List<Funding> getFunding() {
         return funding;
     }

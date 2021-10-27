@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<?xml-stylesheet type="text/xsl" href="/ocd/gcc/xml/xmlunderway2.xsl"?>
+<x_tags>
+  <User>
+    <Name>Sullivan, Kevin</Name>
+    <Organization>NOAA/AOML CIMAS</Organization>
+    <Address>4301 Rickenbacker Causeway, Miami, Fl 33149</Address>
+    <Phone>305-361-4382</Phone>
+    <Email>kevin.sullivan@noaa.gov</Email>
+  </User>
+  <Investigator>
+    <Name>Pierrot, Denis</Name>
+    <Organization>NOAA/Atlantic Oceanographic &amp; Meteorological Laboratory</Organization>
+    <Address>4301 Rickenbacker Causeway, Miami Fl, 33149</Address>
+    <Phone>305-361-4441</Phone>
+    <Email>Denis.Pierrot@noaa.gov</Email>
+  </Investigator>
+  <Investigator>
+    <Name>Wanninkhof, Rik</Name>
+    <Organization>NOAA/Atlantic Oceanographic &amp; Meteorological Laboratory</Organization>
+    <Address>4301 Rickenbacker Causeway, Miami Fl, 33149</Address>
+    <Phone>305-361-4379</Phone>
+    <Email>Rik.Wanninkhof@noaa.gov</Email>
+  </Investigator>
+  <Dataset_Info>
+    <Funding_Info>NOAA Climate Program Office; NOAA Ocean Acidification Program</Funding_Info>
+    <Submission_Dates>
+      <Initial_Submission>2020 </Initial_Submission>
+      <Revised_Submission>2020 </Revised_Submission>
+    </Submission_Dates>
+  </Dataset_Info>
+  <Cruise_Info>
+    <Experiment>
+      <Experiment_Name>WS0523-Leg1, transit</Experiment_Name>
+      <Experiment_Type>Research Cruise</Experiment_Type>
+      <Platform_Type>Ship</Platform_Type>
+      <Co2_Instrument_type>Equilibrator-IR or CRDS or GC</Co2_Instrument_type>
+      <Cruise>
+        <Cruise_ID>33WA20051004 </Cruise_ID>
+        <Cruise_Info>AOML_SOOP_CO2</Cruise_Info>
+        <Geographical_Coverage>
+          <Bounds>
+            <Westernmost_Longitude>-81.5</Westernmost_Longitude>
+            <Easternmost_Longitude>-79.9</Easternmost_Longitude>
+            <Northernmost_Latitude>32.0</Northernmost_Latitude>
+            <Southernmost_Latitude>25.7</Southernmost_Latitude>			
+          </Bounds>
+        </Geographical_Coverage>
+        <Temporal_Coverage>
+          <Start_Date>20051004 </Start_Date>
+          <End_Date>20051006 </End_Date>
+        </Temporal_Coverage>
+        <Ports_of_Call>Miami, FL, USA</Ports_of_Call>
+        <Ports_of_Call>Savannah, GA, USA</Ports_of_Call>
+      </Cruise>
+    </Experiment>
+    <Vessel>
+      <Vessel_Name>R/V F.G. Walton Smith</Vessel_Name>
+      <Vessel_ID>33WA</Vessel_ID>
+      <Vessel_Owner>University of Miami</Vessel_Owner>
+    </Vessel>
+  </Cruise_Info>
+  <Variables_Info>
+    <Variable>
+      <Variable_Name>xCO2_EQU_ppm</Variable_Name>
+      <Description_of_Variable>Mole fraction of CO2 in the equilibrator headspace (dry) at equilibrator temperature (ppm)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>xCO2_ATM_ppm</Variable_Name>
+      <Description_of_Variable>Mole fraction of CO2 measured in dry outside air (ppm)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>xCO2_ATM_interpolated_ppm</Variable_Name>
+      <Description_of_Variable>Mole fraction of CO2 in outside air associated with each water analysis.  These values are interpolated between the bracketing averaged good xCO2_ATM analyses (ppm)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>PRES_EQU_hPa</Variable_Name>
+      <Description_of_Variable>Barometric pressure in the equilibrator headspace (hPa)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>PRES_ATM@SSP_hPa</Variable_Name>
+      <Description_of_Variable>Barometric pressure measured outside, corrected to sea level (hPa)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>TEMP_EQU_C</Variable_Name>
+      <Description_of_Variable>Water temperature in equilibrator (&#176;C)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>SST_C</Variable_Name>
+      <Description_of_Variable>Sea surface temperature (&#176;C)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>SAL_permil</Variable_Name>
+      <Description_of_Variable>Sea surface salinity on Practical Salinity Scale (o/oo)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>fCO2_SW@SST_uatm</Variable_Name>
+      <Description_of_Variable>Fugacity of CO2 in sea water at SST and 100% humidity (&#956;atm)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>fCO2_ATM_interpolated_uatm</Variable_Name>
+      <Description_of_Variable>Fugacity of CO2 in air corresponding to the interpolated xCO2 at SST and 100% humidity (&#956;atm)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>dfCO2_uatm</Variable_Name>
+      <Description_of_Variable>Sea water fCO2 minus interpolated air fCO2 (&#956;atm)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>WOCE_QC_FLAG</Variable_Name>
+      <Description_of_Variable>Quality control flag for fCO2 values (2=good, 3=questionable)</Description_of_Variable>
+    </Variable>
+    <Variable>
+      <Variable_Name>QC_SUBFLAG</Variable_Name>
+      <Description_of_Variable>Quality control subflag for fCO2 values, provides explanation when QC flag=3</Description_of_Variable>
+    </Variable>
+  </Variables_Info>
+  <Method_Description>
+    <Equilibrator_Design>
+      <Depth_of_Sea_Water_Intake>1.5 meters</Depth_of_Sea_Water_Intake>
+      <Location_of_Sea_Water_Intake>Bow</Location_of_Sea_Water_Intake>
+      <Equilibrator_Type>Spray head above dynamic pool, no thermal jacket</Equilibrator_Type>
+      <Equilibrator_Volume>0.95 L (0.4 L water, 0.55 L headspace)</Equilibrator_Volume>
+      <Water_Flow_Rate>1.5 - 2.0 L/min</Water_Flow_Rate>
+      <Headspace_Gas_Flow_Rate>70 - 150 ml/min</Headspace_Gas_Flow_Rate>
+      <Vented>Yes</Vented>
+      <Drying_Method_for_CO2_in_water>Gas stream passes through a thermoelectric condenser (~5 &#176;C) and then through a Perma Pure (Nafion) dryer before reaching the analyzer (90% dry).</Drying_Method_for_CO2_in_water>
+      <Additional_Information>Primary equilibrator is vented through a secondary equilibrator. The system is a CCN-Gen2 system. </Additional_Information>
+    </Equilibrator_Design>
+    <CO2_in_Marine_Air>
+      <Measurement>Yes, 5 readings in a group every 2.1 hours</Measurement>
+      <Location_and_Height>On mast above the bridge at ~13 meters above the sea surface</Location_and_Height>
+      <Drying_Method>Gas stream passes through a thermoelectric condenser (~5 &#176;C) and then through a Perma Pure (Nafion) dryer before reaching the analyzer (90% dry).</Drying_Method>
+    </CO2_in_Marine_Air>
+    <CO2_Sensors>
+      <CO2_Sensor>
+        <Measurement_Method>IR</Measurement_Method>
+        <Manufacturer>LI-COR</Manufacturer>
+        <Model>6262</Model>
+        <Frequency>Every 140 seconds, except during calibration</Frequency>
+        <Resolution_Water>&#177; 0.01 &#956;atm in fCO2_SW</Resolution_Water>
+        <Uncertainty_Water>&#177; 2 &#956;atm in fCO2_SW</Uncertainty_Water>
+        <Resolution_Air>&#177; 0.01 &#956;atm in fCO2_ATM</Resolution_Air>
+        <Uncertainty_Air>&#177; 0.5 &#956;atm in fCO2_ATM</Uncertainty_Air>
+        <Manufacturer_of_Calibration_Gas>
+          Std 1: CA01433, 293.79 ppm, owned by ESRL, used every ~2.1 hours.
+          Std 2: CA05098, 358.98 ppm, owned by ESRL, used every ~2.1 hours.
+          Std 3: CC71655, 423.51 ppm, owned by ESRL, used every ~2.1 hours.
+          Std 4: CC106643, 519.15 ppm, owned by ESRL, used every ~2.1 hours.
+        </Manufacturer_of_Calibration_Gas>
+        <CO2_Sensor_Calibration>The analyzer is calibrated every ~2.1 hours using field standards that were calibrated with primary standards at AOML that are directly traceable to the WMO scale (CO2_X2019). </CO2_Sensor_Calibration>
+        <Sensor_Calibration></Sensor_Calibration>
+        <Environmental_Control>Instrument is located in the air-conditioned dry lab </Environmental_Control>
+        <Method_References>Pierrot, D., C. Neil, K. Sullivan, R. Castle, R. Wanninkhof, H. Lueger, T. Johannessen, A. Olsen, R. A. Feely, and C. E. Cosca (2009), Recommendations for autonomous underway pCO2 measuring systems and data reduction routines, Deep-Sea Res II, 56, 512-522.</Method_References>
+        <Details_Co2_Sensing>details of CO2 sensing (not required)</Details_Co2_Sensing>
+        <Analysis_of_Co2_Comparision></Analysis_of_Co2_Comparision>
+        <Measured_Co2_Params>xco2(dry)</Measured_Co2_Params>
+        <No_Of_Non_Zero_Gas_Stds>4</No_Of_Non_Zero_Gas_Stds>
+      </CO2_Sensor>
+    </CO2_Sensors>
+    <Sea_Surface_Temperature>
+      <Location>After sea water pump in the forward, port hull </Location>
+      <Manufacturer>Seabird, Inc.</Manufacturer>
+      <Model>SBE 38</Model>
+      <Accuracy>&#177; 0.001</Accuracy>
+      <Precision>0.0003</Precision>
+      <Calibration>Factory calibration, degree Celsius</Calibration>
+      <Other_Comments>Manufacturer's Resolution is taken as Precision; Maintained by ship.</Other_Comments>
+    </Sea_Surface_Temperature>
+    <Equilibrator_Temperature>
+      <Location>Inserted into equilibrator ~5 cm below water level</Location>	  
+      <Manufacturer>Omega Engineering, Inc </Manufacturer>
+      <Model>RTD Probe, IEC/DIN Class A</Model>
+      <Accuracy>&#177; 0.15</Accuracy>
+      <Precision>0.01</Precision>
+      <Calibration>Factory calibration, degree Celsius</Calibration>
+      <Other_Comments>Resolution is taken as Precision.</Other_Comments>
+    </Equilibrator_Temperature>
+    <Equilibrator_Pressure>
+      <Location>Attached to equilibrator headspace. Differential pressure reading from Setra 239 attached to the equilibrator headspace is added to the pressure reading from the LI-COR. </Location>
+      <Manufacturer>LI-COR internal sensor </Manufacturer>
+      <Model>6262-03</Model>
+      <Accuracy>&#177; 1.15 </Accuracy>
+      <Precision>0.02 </Precision>
+      <Calibration>Factory calibration, hPa</Calibration>
+      <Normalized>no</Normalized>
+      <Other_Comments>Manufacturer's Resolution is taken as Precision.</Other_Comments>	  
+    </Equilibrator_Pressure>
+    <Atmospheric_Pressure>
+      <Location>In deck box above winch control shack, ~10 m above sea surface.</Location>	  
+      <Manufacturer>Druck</Manufacturer>
+      <Model>RPT350</Model>
+      <Accuracy>&#177; 0.08 </Accuracy>
+      <Precision>0.01 </Precision>
+      <Calibration>Factory calibration, hPa </Calibration>
+      <Normalized>no</Normalized>
+      <Other_Comments>Manufacturer's Resolution is taken as Precision. </Other_Comments>
+    </Atmospheric_Pressure>
+    <Sea_Surface_Salinity>
+      <Location>In the dry lab along with pCO2 system </Location>
+      <Manufacturer>Seabird</Manufacturer>
+      <Model>SBE 45</Model>
+      <Accuracy>&#177; 0.005 </Accuracy>
+      <Precision>0.0002 </Precision>
+      <Calibration>Factory calibration, o/oo psu </Calibration>
+      <Other_Comments>Manufacturer's Resolution is taken as Precision. Maintained by the ship. </Other_Comments>
+    </Sea_Surface_Salinity>
+  </Method_Description>
+  <Data_set_References></Data_set_References>
+  <Additional_Information> The analytical system operated well during the cruise.  The seawater system was secured for an operational stop in Jacksonville, FL. 
+  Original Data Location: http://www.aoml.noaa.gov/ocd/ocdweb/occ.html under "Completed Collections" 
+  Full unprocessed data files from analytical instrument including flow information plus meteorological and TSG data at time of sampling can be obtained upon request. </Additional_Information>
+  <Citation></Citation>
+  <Preliminary_Quality_control>NA</Preliminary_Quality_control>
+  <form_type>underway</form_type>
+</x_tags>

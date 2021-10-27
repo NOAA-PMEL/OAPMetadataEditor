@@ -836,22 +836,22 @@ class OracleController {
                 }
             }
         } else {
-            suggestions = getAllSuggestions();
+            suggestions = getAllVariables();
         }
         render suggestions as JSON;
     }
-    List<NceiSuggestion> allSuggestions = new ArrayList<NceiSuggestion>()
-    def getAllSuggestions() {
-        synchronized (allSuggestions) {
-            if ( allSuggestions.isEmpty()) {
+    List<NceiSuggestion> allVariables = new ArrayList<NceiSuggestion>()
+    def getAllVariables() {
+        synchronized (allVariables) {
+            if ( allVariables.isEmpty()) {
                 for (int i = 0; i < ncei_variables.size(); i++) {
                     NceiSuggestion v = new NceiSuggestion();
                     v.setSuggestion(ncei_variables.get(i))
-                    allSuggestions.add(v)
+                    allVariables.add(v)
                 }
             }
         }
-        return allSuggestions
+        return allVariables
     }
     def ncei_instruments = [
     "Acoustic doppler current profiler (ADCP)",
@@ -904,6 +904,19 @@ class OracleController {
     "XCTD",
     "YSI - handheld multi-parameter instrument"
     ]
+    List<NceiSuggestion> allInstruments = new ArrayList<NceiSuggestion>()
+    def getAllInstruments() {
+        synchronized (allInstruments) {
+            if ( allInstruments.isEmpty()) {
+                for (int i = 0; i < ncei_instruments.size(); i++) {
+                    NceiSuggestion v = new NceiSuggestion();
+                    v.setSuggestion(ncei_instruments.get(i))
+                    allInstruments.add(v)
+                }
+            }
+        }
+        return allInstruments
+    }
     def instruments = [
             "ACOUSTIC DOPPLER CURRENT PROFILER (ADCP)",
             "ALKALINITY TITRATOR",
@@ -1035,6 +1048,8 @@ class OracleController {
                     suggestions.add(v)
                 }
             }
+        } else {
+            suggestions = getAllInstruments()
         }
         render suggestions as JSON;
     }
@@ -1054,6 +1069,19 @@ class OracleController {
             "Marine mammal observation",
 			"Other"
     ]
+    List<NceiSuggestion> allObservations = new ArrayList<NceiSuggestion>()
+    def getAllObservations() {
+        synchronized (allObservations) {
+            if ( allObservations.isEmpty()) {
+                for (int i = 0; i < ncei_observationTypes.size(); i++) {
+                    NceiSuggestion v = new NceiSuggestion();
+                    v.setSuggestion(ncei_observationTypes.get(i))
+                    allObservations.add(v)
+                }
+            }
+        }
+        return allObservations
+    }
     def observationTypes = [
             "ATLAS",
             "BENTHIC STUDY",
@@ -1139,6 +1167,8 @@ class OracleController {
                     suggestions.add(v)
                 }
             }
+        } else {
+            suggestions = getAllObservations()
         }
         render suggestions as JSON
     }
@@ -1349,6 +1379,19 @@ class OracleController {
             "Xue Long (76XL)",
             "Ymer (77YM)"
     ]
+    List<NceiSuggestion> allPlatforms = new ArrayList<NceiSuggestion>()
+    def getAllPlatforms() {
+        synchronized (allPlatforms) {
+            if ( allPlatforms.isEmpty()) {
+                for (int i = 0; i < ncei_platforms.size(); i++) {
+                    NceiSuggestion v = new NceiSuggestion();
+                    v.setSuggestion(ncei_platforms.get(i))
+                    allPlatforms.add(v)
+                }
+            }
+        }
+        return allPlatforms
+    }
 
     def platform() {
         def queryJSON = request.JSON
@@ -1363,6 +1406,8 @@ class OracleController {
                     suggestions.add(v)
                 }
             }
+        } else {
+            suggestions = getAllPlatforms()
         }
         render suggestions as JSON
     }
@@ -1552,6 +1597,19 @@ class OracleController {
 		"Uppsala University, Sweden",
 		"Woods Hole Oceanographic Institution (WHOI), Woods Hole, MA, USA"
     ]
+    List<NceiSuggestion> allInstitutions = new ArrayList<NceiSuggestion>()
+    def getAllInstitutions() {
+        synchronized (allInstitutions) {
+            if ( allInstitutions.isEmpty()) {
+                for (int i = 0; i < ncei_institutions.size(); i++) {
+                    NceiSuggestion v = new NceiSuggestion();
+                    v.setSuggestion(ncei_institutions.get(i))
+                    allInstitutions.add(v)
+                }
+            }
+        }
+        return allInstitutions
+    }
 
     def institution() {
         def queryJSON = request.JSON
@@ -1566,6 +1624,8 @@ class OracleController {
                     suggestions.add(v)
                 }
             }
+        } else {
+            suggestions = getAllInstitutions()
         }
         render suggestions as JSON
     }
