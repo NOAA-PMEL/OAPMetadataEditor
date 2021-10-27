@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<oads_metadata xmlns="http://ncei.noaa.gov/oads/v_a0_2_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="a0.2.2" xsi:schemaLocation="http://ncei.noaa.gov/oads/v_a0_2_2 https://www.pmel.noaa.gov/sdig/oap/a0.2.2/oads_metadata_a0.2.2.xsd">
+    <dataSubmitter>
+        <name>
+            <first>Devious</first>
+            <last>Modious</last>
+        </name>
+        <contactInfo>
+            <phone></phone>
+            <email>devmode@gmail.com</email>
+        </contactInfo>
+    </dataSubmitter>
+    <temporalExtents>
+        <startDate>2016-05-08</startDate>
+        <endDate>2016-06-06</endDate>
+    </temporalExtents>
+    <spatialExtents>
+        <westernBounds>-130.876</westernBounds>
+        <easternBounds>-112.629</easternBounds>
+        <northernBounds>52.399</northernBounds>
+        <southernBounds>25.589</southernBounds>
+    </spatialExtents>
+    <variables>
+        <variable xsi:type="dic_variable_type" name="inorganic_carbon">
+            <fullName>dissolved_inorganic_carbon</fullName>
+            <datasetVarName>DIC_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable xsi:type="ta_variable_type" name="total_alkalinity">
+            <fullName>total_alkalinity</fullName>
+            <datasetVarName>TA_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable xsi:type="ph_variable_type" name="ph_total">
+            <fullName>pH_total</fullName>
+            <datasetVarName>PH_TOT_MEA</datasetVarName>
+        </variable>
+        <variable name="expocode">
+            <fullName>expocode</fullName>
+            <datasetVarName>EXPOCODE</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="cruise_name">
+            <fullName>cruise/dataset name</fullName>
+            <datasetVarName>CRUISE_ID</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="station">
+            <fullName>station ID</fullName>
+            <datasetVarName>STATION_NO</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="cast">
+            <fullName>cast ID</fullName>
+            <datasetVarName>CAST_NO</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="niskin">
+            <fullName>bottle ID</fullName>
+            <datasetVarName>NISKIN_NO</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="NISKIN_FLAG_W">
+            <fullName>NISKIN_FLAG_W</fullName>
+            <datasetVarName>NISKIN_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="">
+            <fullName>sample ID</fullName>
+            <datasetVarName>SAMPLE_ID</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="year">
+            <fullName>year</fullName>
+            <datasetVarName>YEAR_UTC</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="month_of_year">
+            <fullName>month of year</fullName>
+            <datasetVarName>MONTH_UTC</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="day_of_month">
+            <fullName>day of month</fullName>
+            <datasetVarName>DAY_UTC</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="time_of_day">
+            <fullName>time of day</fullName>
+            <datasetVarName>TIME_UTC</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="latitude">
+            <fullName>latitude</fullName>
+            <datasetVarName>LATITUDE_DEC</datasetVarName>
+            <units>deg N</units>
+        </variable>
+        <variable name="longitude">
+            <fullName>longitude</fullName>
+            <datasetVarName>LONGITUDE_DEC</datasetVarName>
+            <units>deg E</units>
+        </variable>
+        <variable name="sea_floor_depth">
+            <fullName>sea floor depth</fullName>
+            <datasetVarName>DEPTH_BTM_METER</datasetVarName>
+            <units>meters</units>
+        </variable>
+        <variable name="water_pressure">
+            <fullName>CTD pressure</fullName>
+            <datasetVarName>CTDPRS_DBAR</datasetVarName>
+            <units>decibars</units>
+        </variable>
+        <variable name="water_temperature">
+            <fullName>CTD temperature</fullName>
+            <datasetVarName>CTDTMP_ITS90_DEG_C</datasetVarName>
+            <units>degrees C</units>
+        </variable>
+        <variable name="water_salinity">
+            <fullName>CTD salinity</fullName>
+            <datasetVarName>CTDSAL_PSS78</datasetVarName>
+            <units>PSU</units>
+        </variable>
+        <variable name="water_salinity">
+            <fullName>(bottle) salinity</fullName>
+            <datasetVarName>SALINITY_PSS78</datasetVarName>
+            <units>PSU</units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>(bottle) salinity QC</fullName>
+            <datasetVarName>SALINITY_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="oxygen_in_water">
+            <fullName>CTD oxygen</fullName>
+            <datasetVarName>CTDOXY_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="oxygen_in_water">
+            <fullName>(bottle) oxygen</fullName>
+            <datasetVarName>OXYGEN_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>(bottle) oxygen QC</fullName>
+            <datasetVarName>OXYGEN_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>DIC QC</fullName>
+            <datasetVarName>DIC_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>alkalinity QC</fullName>
+            <datasetVarName>TA_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="water_temperature">
+            <fullName>pH sample temp.</fullName>
+            <datasetVarName>TMP_PH_MEA_DEG_C</datasetVarName>
+            <units>degrees C</units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>pH total QC</fullName>
+            <datasetVarName>PH_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="co2_in_water">
+            <fullName>carbonate ion</fullName>
+            <datasetVarName>CARBONATE_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>carbonate ion QC</fullName>
+            <datasetVarName>CARBONATE_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="silicate_in_water">
+            <fullName>silicate</fullName>
+            <datasetVarName>SILICATE_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="ammonium_in_water">
+            <fullName>ammonium</fullName>
+            <datasetVarName>AMMONIUM_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="nitrate_in_water">
+            <fullName>nitrate</fullName>
+            <datasetVarName>NITRATE_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="nitrate_in_water">
+            <fullName>nitrite</fullName>
+            <datasetVarName>NITRITE_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="phosphate_in_water">
+            <fullName>phosphate</fullName>
+            <datasetVarName>PHOSPHATE_UMOL_KG</datasetVarName>
+            <units>umol/kg</units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>nutrients QC</fullName>
+            <datasetVarName>NUTRIENTS_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="CHL_A_UG_L_GFF">
+            <fullName>CHL_A_UG_L_GFF</fullName>
+            <datasetVarName>CHL_A_UG_L_GFF</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="CHL_A_UG_L_PC">
+            <fullName>CHL_A_UG_L_PC</fullName>
+            <datasetVarName>CHL_A_UG_L_PC</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="QC_flag">
+            <fullName>chlorophyll QC</fullName>
+            <datasetVarName>CHL_A_FLAG_W</datasetVarName>
+            <units></units>
+        </variable>
+        <variable name="mooring_line">
+            <fullName>line</fullName>
+            <datasetVarName>Line</datasetVarName>
+            <units></units>
+        </variable>
+    </variables>
+</oads_metadata>
