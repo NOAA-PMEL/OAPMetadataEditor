@@ -12,6 +12,7 @@ import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Citation;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -21,6 +22,11 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
+import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.Modal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rhs on 3/3/17.
@@ -56,6 +62,24 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     @UiField
     Button save;
 
+
+    @UiField
+    ButtonDropDown cruiseIdType;
+
+    @UiField
+    FormLabel purposeLabel;
+    @UiField
+    Modal purposePopover;
+
+    @UiField
+    FormLabel referencesLabel;
+    @UiField
+    Modal referencesPopover;
+
+    // assume it is true for now
+    boolean isSocat = true;
+
+
     String type = Constants.SECTION_CITATION;
 
     interface CitationUiBinder extends UiBinder<HTMLPanel, CitationPanel> {
@@ -65,6 +89,26 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 
     public CitationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        List<String> idNames = new ArrayList<String>();
+        List<String> idValues = new ArrayList<String>();
+        idNames.add("ICES ");
+        idValues.add("ices");
+        idNames.add("IMO ");
+        idValues.add("imo");
+        idNames.add("WMO ");
+        idValues.add("wmo");
+        cruiseIdType.init("Select ID Type ", idNames, idValues);
+
+        if (isSocat) {
+            // TODO Name of sampling site or title of related research project: is Title or is Research Project?
+            purposePopover.setTitle("9 A narrative summary of the data set, including a description of the purpose of the observations.");
+            purposeLabel.setText("Short description including purpose of observation");
+            purpose.getElement().setAttribute("placeHolder", "Short description including purpose of observation");
+
+            referencesPopover.setTitle("10 Specify the methodologies applied to charactarize the carbonate system, including references/citations. Please describe if you made any changes to the method as it is described in the literature, e.g. modications of sampling procedures, different bottles used for storage of samples, changes to the dye, etc. Describe precisely how the method differed and what was done instead.");
+            referencesLabel.setText("Method(s) Applied");
+            references.getElement().setAttribute("placeHolder", "Method(s) Applied");
+        }
     }
 
     public Citation getCitation() {

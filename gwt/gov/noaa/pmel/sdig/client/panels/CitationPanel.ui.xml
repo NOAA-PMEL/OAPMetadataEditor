@@ -85,9 +85,13 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="purpose" text="Purpose"></b:FormLabel>
-                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" b:id="modalPurpose"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPurpose" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                <b:FormLabel for="purpose" text="Purpose"></b:FormLabel>-->
+<!--                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" b:id="modalPurpose"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPurpose" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextArea ui:field="purpose" visibleLines="6" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextArea>-->
+                                <b:FormLabel for="purpose" ui:field="purposeLabel" text="Purpose"></b:FormLabel>
+                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" ui:field="purposePopover" b:id="purposePopover"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#purposePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="purpose" visibleLines="6" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
@@ -119,6 +123,16 @@
                                 <b:TextBox ui:field="cruiseId" allowBlank="true" placeholder="Cruise ID" b:id="cruiseId"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+
+                        <b:Column size="SM_4">
+                            <b:FormGroup>
+                                <b:FormLabel for="cruiseIdType" text="Cruise ID Type"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="cruiseIdTypePopover" b:id="cruiseIdTypePopover"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#cruiseIdTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <mde:ButtonDropDown ui:field="cruiseIdType"></mde:ButtonDropDown>
+                            </b:FormGroup>
+                        </b:Column>
+
                         <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="section" text="Section"></b:FormLabel>
@@ -131,9 +145,13 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="references" text="References"></b:FormLabel>
-                                <b:Modal title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set." b:id="modalReferences"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferences" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                <b:FormLabel for="references" text="References"></b:FormLabel>-->
+<!--                                <b:Modal title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set." b:id="modalReferences"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferences" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="references" allowBlank="true" placeholder="References" b:id="references"></b:TextBox>-->
+                                <b:FormLabel for="references" ui:field="referencesLabel" text="References"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="referencesPopover" b:id="referencesPopover" title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#referencesPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="references" allowBlank="true" placeholder="References" b:id="references"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
