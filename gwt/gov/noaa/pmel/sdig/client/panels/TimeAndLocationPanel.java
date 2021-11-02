@@ -24,6 +24,8 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
+import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.Modal;
 
 import java.util.Date;
 
@@ -54,6 +56,47 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     @UiField
     Button save;
 
+
+    // new fields for 14.3.1
+    @UiField
+    TextBox siteSpecificLon;
+    @UiField
+    TextBox siteSpecificLat;
+
+    // modified for 14.3.1
+    @UiField
+    Modal startDatePopover;
+    @UiField
+    FormLabel startDateLabel;
+    @UiField
+    Modal endDatePopover;
+    @UiField
+    FormLabel endDateLabel;
+
+    @UiField
+    FormLabel westLonLabel;
+    @UiField
+    Modal westLonPopover;
+
+    @UiField
+    FormLabel eastLonLabel;
+    @UiField
+    Modal eastLonPopover;
+
+    @UiField
+    FormLabel northLatLabel;
+    @UiField
+    Modal northLatPopover;
+
+    @UiField
+    FormLabel southLatLabel;
+    @UiField
+    Modal southLatPopover;
+
+    // assume it is true for now
+    boolean isSocat = true;
+
+
     String type = Constants.SECTION_TIMEANDLOCATION;
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
@@ -66,6 +109,27 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     public TimeAndLocationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        if (isSocat) {
+            startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+            startDateLabel.setText("First day of measurement included in data file");
+            startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+
+            endDatePopover.setTitle("11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+            endDateLabel.setText("Last day of measurement included in data file");
+            endDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+
+            westLonPopover.setTitle("12.3 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).");
+            westLonLabel.setText("Transect measurement longitude westernmost");
+
+            eastLonPopover.setTitle("12.4 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)");
+            eastLonLabel.setText("Transect measurement longitude easternmost");
+
+            northLatPopover.setTitle("12.5 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+            northLatLabel.setText("Transect measurement latitude northernmost");
+
+            southLatPopover.setTitle("12.6 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+            southLatLabel.setText("Transect measurement latitude southernmost");
+        }
     }
 
     public void reset() {

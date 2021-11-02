@@ -26,17 +26,25 @@
                     <b:Row>
                         <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="startDate" text="Start Date *"></b:FormLabel>
-                                <b:Modal title="8.1 Start date of the first measurement (e.g., 2001-02-25). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalStartDate"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStartDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                <b:FormLabel color="#B22222" for="startDate" text="Start Date *"></b:FormLabel>-->
+<!--                                <b:Modal title="8.1 Start date of the first measurement (e.g., 2001-02-25). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalStartDate"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStartDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="startDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD " b:id="startDate"></b2:DatePicker>-->
+                                <b:FormLabel color="#B22222" for="startDate" ui:field="startDateLabel" text="Start Date *"></b:FormLabel>
+                                <b:Modal title="8.1 Start date of the first measurement (e.g., 2001-02-25). Please use ISO date format (YYYY-MM-DD)." closable="true" ui:field="startDatePopover" b:id="startDatePopover"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#startDatePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="startDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD " b:id="startDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="endDate" text="End Date *"></b:FormLabel>
-                                <b:Modal title="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalEndDate"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEndDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                <b:FormLabel color="#B22222" for="endDate" text="End Date *"></b:FormLabel>-->
+<!--                                <b:Modal title="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalEndDate"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEndDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>-->
+                                <b:FormLabel color="#B22222" for="endDate" ui:field="endDateLabel" text="End Date *"></b:FormLabel>
+                                <b:Modal title="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD)." closable="true" ui:field="endDatePopover" b:id="endDatePopover"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#endDatePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
@@ -49,6 +57,26 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup>
+                                <b:FormLabel for="siteSpecificLon" text="Site specific measurement longitude"></b:FormLabel>
+                                <b:Modal title="12.1 Longitude of sampling site (one station only)  (decimal degrees, negative for Western Hemisphere longitude)." closable="true" b:id="modalGeoNames"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalsiteSpecificLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="siteSpecificLon" allowBlank="true" placeholder="decimal degrees, negative for Western Hemisphere longitude" b:id="siteSpecificLon"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup>
+                                <b:FormLabel for="siteSpecificLat" text="Site specific measurement latitude"></b:FormLabel>
+                                <b:Modal title="12.2 Latitude of sampling site (one station only)  (decimal degrees, negative for Southern  Hemisphere longitude)." closable="true" b:id="modalOrganismLoc"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalsiteSpecificLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="siteSpecificLat" allowBlank="true" placeholder="decimal degrees, negative for Southern  Hemisphere longitude" b:id="siteSpecificLat"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
                     <!-- GEO START -->
                     <b:Row>
                         <b:Column size="SM_12 MD_8" offset="MD_2">
@@ -63,10 +91,14 @@
                                         <b:Row>
                                             <b:Column offset="SM_4 MD_3" size="SM_4 MD_6">
                                                 <b:FormGroup>
-                                                    <b:Modal title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" b:id="modalNorthLat"/>
-                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalNorthLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                                    <b:Modal title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" b:id="modalNorthLat"/>-->
+<!--                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalNorthLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
 <!--                                                    <b:FormLabel color="#B22222" for="northLat" text="North Latitude *"></b:FormLabel>-->
-                                                    <b:FormLabel for="northLat" text="North Latitude"></b:FormLabel>
+<!--                                                    <b:FormLabel for="northLat" text="North Latitude"></b:FormLabel>-->
+<!--                                                    <b:TextBox ui:field="northLat" allowBlank="true" placeholder="North Latitude (-90.000 to 90.000)" b:id="northLat"></b:TextBox>-->
+                                                    <b:Modal title="9.3 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" ui:field="northLatPopover" b:id="northLatPopover"/>
+                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#northLatPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                                    <b:FormLabel for="northLat" ui:field="northLatLabel" text="North Latitude"></b:FormLabel>
                                                     <b:TextBox ui:field="northLat" allowBlank="true" placeholder="North Latitude (-90.000 to 90.000)" b:id="northLat"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
@@ -75,18 +107,26 @@
                                             <b:Column offset="SM_2 MD_0" size="SM_4 MD_6">
                                                 <b:FormGroup>
 <!--                                                    <b:FormLabel color="#B22222" for="westLon" text="West Longitude *"></b:FormLabel>-->
-                                                    <b:FormLabel for="westLon" text="West Longitude"></b:FormLabel>
-                                                    <b:Modal title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)." closable="true" b:id="modalWestLon"/>
-                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalWestLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                                    <b:FormLabel for="westLon" text="West Longitude"></b:FormLabel>-->
+<!--                                                    <b:Modal title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)." closable="true" b:id="modalWestLon"/>-->
+<!--                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalWestLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                                    <b:TextBox ui:field="westLon" allowBlank="true" placeholder="West Longitude (-180.000 to 180.000)" b:id="westLon"></b:TextBox>-->
+                                                    <b:FormLabel for="westLon" ui:field="westLonLabel" text="West Longitude"></b:FormLabel>
+                                                    <b:Modal title="9.1 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)." closable="true" ui:field="westLonPopover" b:id="modalWestLon"/>
+                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#westLonPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                                     <b:TextBox ui:field="westLon" allowBlank="true" placeholder="West Longitude (-180.000 to 180.000)" b:id="westLon"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
                                             <b:Column size="SM_4 MD_6">
                                                 <b:FormGroup>
 <!--                                                    <b:FormLabel color="#B22222" for="eastLon" text="East Longitude *"></b:FormLabel>-->
-                                                    <b:FormLabel for="eastLon" text="East Longitude"></b:FormLabel>
-                                                    <b:Modal title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)" closable="true" b:id="modalEastLon"/>
-                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEastLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                                    <b:FormLabel for="eastLon" text="East Longitude"></b:FormLabel>-->
+<!--                                                    <b:Modal title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)" closable="true" b:id="modalEastLon"/>-->
+<!--                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEastLon" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                                    <b:TextBox ui:field="eastLon" allowBlank="true" placeholder="East Longitude (-180.000 to 180.000)" b:id="eastLon"></b:TextBox>-->
+                                                    <b:FormLabel for="eastLon" ui:field="eastLonLabel" text="East Longitude"></b:FormLabel>
+                                                    <b:Modal title="9.2 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)" closable="true" ui:field="eastLonPopover" b:id="modalEastLon"/>
+                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#eastLonPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                                     <b:TextBox ui:field="eastLon" allowBlank="true" placeholder="East Longitude (-180.000 to 180.000)" b:id="eastLon"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
@@ -95,9 +135,13 @@
                                             <b:Column offset="SM_4 MD_3" size="SM_4 MD_6">
                                                 <b:FormGroup>
 <!--                                                    <b:FormLabel color="#B22222" for="southLat" text="South Latitude *"></b:FormLabel>-->
-                                                    <b:FormLabel for="southLat" text="South Latitude"></b:FormLabel>
-                                                    <b:Modal title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" b:id="modalSouthLat"/>
-                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSouthLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                                    <b:FormLabel for="southLat" text="South Latitude"></b:FormLabel>-->
+<!--                                                    <b:Modal title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" b:id="modalSouthLat"/>-->
+<!--                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSouthLat" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                                    <b:TextBox ui:field="southLat" allowBlank="true" placeholder="South Latitude (-90.000 to 90.000)" b:id="southLat"></b:TextBox>-->
+                                                    <b:FormLabel for="southLat" ui:field="southLatLabel" text="South Latitude"></b:FormLabel>
+                                                    <b:Modal title="9.4 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)" closable="true" ui:field="southLatPopover" b:id="modalSouthLat"/>
+                                                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#southLatPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                                     <b:TextBox ui:field="southLat" allowBlank="true" placeholder="South Latitude (-90.000 to 90.000)" b:id="southLat"></b:TextBox>
                                                 </b:FormGroup>
                                             </b:Column>
