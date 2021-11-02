@@ -174,7 +174,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idValues.add("oceanExpert");
         idNames.add("Researcher ID ");
         idValues.add("researcherId");
-        idType.init("Pick and ID Type ", idNames, idValues);
+        idType.init("Pick an ID Type ", idNames, idValues);
 
         namePopover.setTitle("3.1 Full name of the " + personType + " (First Middle Last).");
         institutionPopover.setTitle("3.2 Affiliated institution of the " + personType + " (e.g., Woods Hole Oceanographic Institution).");
