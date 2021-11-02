@@ -170,6 +170,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         List<String> idValues = new ArrayList<String>();
         idNames.add("ORCID ");
         idValues.add("orcid");
+        idNames.add("OceanExpert ");
+        idValues.add("oceanExpert");
         idNames.add("Researcher ID ");
         idValues.add("researcherId");
         idType.init("Pick and ID Type ", idNames, idValues);
@@ -983,6 +985,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         displayedPerson = null;
         editIndex = -1;
         editing = false;
+        idType.reset();
         if (editPerson != null) {
             show(editPerson);
             editPerson = null;

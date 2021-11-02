@@ -172,8 +172,8 @@ class OadsXmlService {
         }
         citation.setExpocode(expocode.trim())
         def cruiseId = ""
-        for (String code : metadata.getCruiseIds()) {
-            cruiseId += code + " "
+        for (TypedIdentifierType code : metadata.getCruiseIds()) {
+            cruiseId += code.getType()+":"+code.getValue() + " "
         }
         citation.setCruiseId(cruiseId.trim())
 
@@ -819,7 +819,11 @@ class OadsXmlService {
 //        }
 //        Element detailedInfo = variable.getChild("detailedInfo")
 //        if ( ! isEmpty(detailedInfo) ) {
-        v.setDetailedInformation(source.getDetailedSamplingInfo() + "\n" + source.getDetailedAnalyzingInfo())
+        String samplingInfo = source.getDetailedSamplingInfo()
+        String analizingInfo = source.getDetailedAnalyzingInfo()
+        String detailedInfo = samplingInfo ? samplingInfo + "\n" : ""
+        detailedInfo = detailedInfo + analizingInfo ? analizingInfo : ""
+        v.setDetailedInformation( detailedInfo )
 //        }
 //        Element replicate = variable.getChild("replicate")
 //        if ( ! isEmpty(replicate) ) {
