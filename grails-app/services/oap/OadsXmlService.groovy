@@ -1,47 +1,14 @@
 package oap
 
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.AddressType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.BaseVariableType
+import gov.noaa.ncei.oads.xml.v_a0_2_2s.*
 import gov.noaa.ncei.oads.xml.v_a0_2_2s.BaseVariableType.BaseVariableTypeBuilder
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.BiologicalVariable
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.CalculationMethodType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Autonomous
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Base
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Discrete
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.Co2Socat
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.CrmType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.DicVariableType
 import gov.noaa.ncei.oads.xml.v_a0_2_2s.DicVariableType.DicVariableTypeBuilder
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.EquilibratorMeasurementType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.EquilibratorType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.FundingSourceType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.GasDetectorType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.GeospatialExtentsType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.OrderedStringElementType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonContactInfoType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonNameType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonReferenceType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PhVariableType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PlatformType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PoisonType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.QcFlagInfoType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.SpatialExtentsType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.SpatialLocationType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.StandardGasType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.StandardizationType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.TaVariableType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.TemporalExtentsType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.TypedIdentifierType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.TypedStringType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.OadsMetadataDocumentType
-import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonType
 import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonType.PersonTypeBuilder
 import gov.noaa.pmel.oads.util.TimeUtils
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
 import gov.noaa.pmel.oads.xml.a0_2_2.StandardizedVariable
 import grails.transaction.Transactional
-import org.aspectj.weaver.ast.Var
 
 import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
@@ -311,6 +278,7 @@ class OadsXmlService {
 //        if ( ! isEmpty(phReportTemperature) ) {
         variable.setPhTemperature(phVar.phReportTemperature)
 //        }
+        variable.setPhDyeTypeManuf(phVar.typeOfDye)
 
         return variable
     }
@@ -1255,6 +1223,7 @@ class OadsXmlService {
         phBuilder.measurementTemperature(v.getTemperatureMeasurement())
         phBuilder.temperatureCorrectionMethod(v.getTemperatureCorrectionMethod())
         phBuilder.phReportTemperature(v.getPhTemperature())
+        phBuilder.typeOfDye(v.getPhDyeTypeManuf())
 
         // doing this in fillVariable, since you cannot access the standardization element from the builder.
 //        ph.standardization.phOfStandards(v.getPhStandards())
