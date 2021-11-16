@@ -70,6 +70,13 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String speciesIdCode;
     String variableType;
 
+    String qualityControl;
+    String abbreviationQualityFlag;
+    String sopChanges;
+    String collectionMethod;
+    String analyzingInformation;
+    String phDyeTypeManuf;
+
     public Variable clone() {
         Variable newV = new Variable(
             this.abbreviation,
@@ -132,6 +139,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.duration,
             this.lifeStage,
             this.speciesIdCode,
+            this.qualityControl,
+            this.abbreviationQualityFlag,
+            this.sopChanges,
+            this.collectionMethod,
+            this.analyzingInformation,
+            this.phDyeTypeManuf,
             this.variableType
         );
         return newV;
@@ -198,6 +211,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String duration,
             String lifeStage,
             String speciesIdCode,
+            String qualityControl,
+            String abbreviationQualityFlag,
+            String sopChanges,
+            String collectionMethod,
+            String phDyeTypeManuf,
+            String analyzingInformation,
             String variableType
     ) {
         this.abbreviation = abbreviation;
@@ -260,6 +279,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.duration = duration;
         this.lifeStage = lifeStage;
         this.speciesIdCode = speciesIdCode;
+        this.qualityControl = qualityControl;
+        this.abbreviationQualityFlag = abbreviationQualityFlag;
+        this.sopChanges = sopChanges;
+        this.collectionMethod=collectionMethod;
+        this.phDyeTypeManuf = phDyeTypeManuf;
+        this.analyzingInformation = analyzingInformation;
         this.variableType = variableType;
     }
     public String getVariableType() { return variableType; }
@@ -420,6 +445,56 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     public String getStandardGasUncertainties() {
         return standardGasUncertainties;
     }
+
+
+    public String getQualityControl() {
+        return qualityControl;
+    }
+
+    public void setQualityControl(String qualityControl) {
+        this.qualityControl = qualityControl;
+    }
+
+    public String getAbbreviationQualityFlag() {
+        return abbreviationQualityFlag;
+    }
+
+    public void setAbbreviationQualityFlag(String abbreviationQualityFlag) {
+        this.abbreviationQualityFlag = abbreviationQualityFlag;
+    }
+
+    public String getSopChanges() {
+        return sopChanges;
+    }
+
+    public void setSopChanges(String sopChanges) {
+        this.sopChanges = sopChanges;
+    }
+
+    public String getCollectionMethod() {
+        return collectionMethod;
+    }
+
+    public void setCollectionMethod(String collectionMethod) {
+        this.collectionMethod = collectionMethod;
+    }
+
+    public String getAnalyzingInformation() {
+        return analyzingInformation;
+    }
+
+    public void setAnalyzingInformation(String analyzingInformation) {
+        this.analyzingInformation = analyzingInformation;
+    }
+
+    public String getPhDyeTypeManuf() {
+        return phDyeTypeManuf;
+    }
+
+    public void setPhDyeTypeManuf(String phDyeTypeManuf) {
+        this.phDyeTypeManuf = phDyeTypeManuf;
+    }
+
     public void setStandardGasUncertainties(String standardGasUncertainties) {
         this.standardGasUncertainties = standardGasUncertainties;
     }
@@ -755,6 +830,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
         result = 31 * result + (lifeStage != null ? lifeStage.hashCode() : 0);
         result = 31 * result + (speciesIdCode != null ? speciesIdCode.hashCode() : 0);
+        result = 31 * result + (qualityControl != null ? qualityControl.hashCode() : 0);
+        result = 31 * result + (abbreviationQualityFlag != null ? abbreviationQualityFlag.hashCode() : 0);
+        result = 31 * result + (sopChanges != null ? sopChanges.hashCode() : 0);
+        result = 31 * result + (collectionMethod != null ? collectionMethod.hashCode() : 0);
+        result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
+        result = 31 * result + (phDyeTypeManuf != null ? phDyeTypeManuf.hashCode() : 0);
         return result;
     }
 
@@ -831,7 +912,13 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                         sCompare(biologicalSubject, v.biologicalSubject) == 0 &&
                         sCompare(duration, v.duration) == 0 &&
                         sCompare(lifeStage, v.lifeStage) == 0 &&
-                        sCompare(speciesIdCode, v.speciesIdCode) == 0;
+                        sCompare(speciesIdCode, v.speciesIdCode) == 0 &&
+                        sCompare(qualityControl, v.qualityControl) == 0 &&
+                        sCompare(abbreviationQualityFlag, v.abbreviationQualityFlag) == 0 &&
+                        sCompare(sopChanges, v.sopChanges) == 0 &&
+                        sCompare(collectionMethod, v.collectionMethod) == 0 &&
+                        sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
+                        sCompare(phDyeTypeManuf, v.phDyeTypeManuf) == 0;
     }
 
     @Override
@@ -900,6 +987,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.duration = this.duration;
         newv.lifeStage = this.lifeStage;
         newv.speciesIdCode = this.speciesIdCode;
+        newv.qualityControl = this.qualityControl;
+        newv.abbreviationQualityFlag = this.abbreviationQualityFlag;
+        newv.sopChanges = this.sopChanges;
+        newv.collectionMethod = this.collectionMethod;
+        newv.analyzingInformation = this.analyzingInformation;
+        newv.phDyeTypeManuf = this.phDyeTypeManuf;
         return newv;
     }
 
@@ -965,7 +1058,13 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(biologicalSubject) &&
                     isEmpty(duration) &&
                     isEmpty(lifeStage) &&
-                    isEmpty(speciesIdCode));
+                    isEmpty(speciesIdCode) &&
+                    isEmpty(qualityControl) &&
+                    isEmpty(abbreviationQualityFlag) &&
+                    isEmpty(sopChanges) &&
+                    isEmpty(collectionMethod) &&
+                    isEmpty(analyzingInformation) &&
+                    isEmpty(phDyeTypeManuf));
         return hasConent;
     }
 }

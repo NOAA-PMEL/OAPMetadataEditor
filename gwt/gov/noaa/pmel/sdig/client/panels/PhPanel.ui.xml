@@ -25,7 +25,7 @@
                         <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" text="Standardization technique description"></b:FormLabel>
+                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization technique description"></b:FormLabel>
                                 <b:Modal title="24.13.1 Description of the pH calibration procedures." closable="true" b:id="modalStandardizationTechnique"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -36,7 +36,7 @@
                         <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
                                 <b:Modal title="24.13.2 How frequent was the calibration carried out, e.g., every 6 hours, etc." closable="true" b:id="modalFreqencyOfStandardizationl"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardizationl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
@@ -49,6 +49,17 @@
                                 <b:Modal title="24.15 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc." closable="true" b:id="modalpHtemperature"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHtemperature" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="pHtemperature" allowBlank="true" placeholder="at what temperature was pH reported" b:id="pHtemperature"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="pHdyeTypeManufForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pHdyeTypeManuf" text="Type of dye and manufacturer information"></b:FormLabel>
+                                <b:Modal title="22.15 Please state the exact type of dye used and the name and address of the manufacturer and brand of the dye." closable="true" b:id="modalpHdyeTypeManuf"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHdyeTypeManuf" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pHdyeTypeManuf" allowBlank="true" placeholder="Type of dye and manufacturer" b:id="pHscale"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="MD_6 LG_3">
@@ -92,7 +103,7 @@
                         <b:Column size="MD_4 LG_3" offset="LG_1">
                             <b:FormGroup ui:field="temperatureStandarizationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="temperatureStandarization" text="Temperature of standardization"></b:FormLabel>
+                                <b:FormLabel for="temperatureStandarization" ui:field="temperatureStandarizationLabel" text="Temperature of standardization"></b:FormLabel>
                                 <b:Modal title="24.13.4 Temperature at which the calibration was done." closable="true" b:id="modalTemperatureStandarization"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureStandarization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of standardization" b:id="temperatureStandarization"></b:TextBox>

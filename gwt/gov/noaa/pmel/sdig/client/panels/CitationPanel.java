@@ -67,6 +67,11 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     ButtonDropDown cruiseIdType;
 
     @UiField
+    FormLabel researchProjectsLabel;
+    @UiField
+    Modal researchProjectsPopover;
+
+    @UiField
     FormLabel purposeLabel;
     @UiField
     Modal purposePopover;
@@ -76,8 +81,8 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     @UiField
     Modal referencesPopover;
 
-    // assume it is true for now
-    boolean isSocat = true;
+//    // assume it is true for now
+//    boolean isSocat = true;
 
 
     String type = Constants.SECTION_CITATION;
@@ -89,6 +94,9 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 
     public CitationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
+
+//        isSocat = OAPMetadataEditor.getIsSocatParam();
+
         List<String> idNames = new ArrayList<String>();
         List<String> idValues = new ArrayList<String>();
         idNames.add("ICES ");
@@ -99,12 +107,18 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         idValues.add("wmo");
         cruiseIdType.init("Select ID Type ", idNames, idValues);
 
-        if (isSocat) {
-            // TODO Name of sampling site or title of related research project: is Title or is Research Project?
+        if (OAPMetadataEditor.getIsSocatParam()) {
+            // researchProjects -> Name of sampling site or title of related research project
+            researchProjectsPopover.setTitle("8 Provide the name of the sampling site/related research project, e.g. BATS, CARIACO.");
+            researchProjectsLabel.setText("Name of sampling site or title of related research project");
+            researchProjects.getElement().setAttribute("placeHolder", "Name of sampling site or title of related research project");
+
+            // purpose (or abstract?) -> Short description including purpose of observation
             purposePopover.setTitle("9 A narrative summary of the data set, including a description of the purpose of the observations.");
             purposeLabel.setText("Short description including purpose of observation");
             purpose.getElement().setAttribute("placeHolder", "Short description including purpose of observation");
 
+            // references -> Method(s) applied
             referencesPopover.setTitle("10 Specify the methodologies applied to charactarize the carbonate system, including references/citations. Please describe if you made any changes to the method as it is described in the literature, e.g. modications of sampling procedures, different bottles used for storage of samples, changes to the dye, etc. Describe precisely how the method differed and what was done instead.");
             referencesLabel.setText("Method(s) Applied");
             references.getElement().setAttribute("placeHolder", "Method(s) Applied");

@@ -10,9 +10,11 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -100,6 +102,12 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     CommonVariablePanel common;
 
+
+    @UiField
+    FormLabel standardizationTechniqueLabel;
+    @UiField
+    FormLabel freqencyOfStandardizationLabel;
+
     interface Pco2dPanelUiBinder extends UiBinder<HTMLPanel, Pco2dPanel> {
     }
 
@@ -130,7 +138,18 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         common.referenceMethodModal.setTitle("26.23 Citation for the pCO2 method.");
         common.unitsModal.setTitle("26.5 Units of the variable, e.g., μatm.");
 
+        common.qualityControlModal.setTitle("22.7 Indicate if quality control procedures were applied.");
+        common.abbreviationQualityFlagModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
+        common.sopChangesModal.setTitle("20.2 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
+        common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
+        common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
+        if (OAPMetadataEditor.getIsSocatParam()) {
+
+            common.qualityFlagLabel.setText("Data quality scheme (name of scheme)");
+            standardizationTechniqueLabel.setText("Calibration method");
+            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+        }
     }
 
     private void setDefaults() {

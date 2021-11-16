@@ -69,6 +69,14 @@ class Variable extends GenericVariable {
         v.lifeStage = genV.lifeStage
         v.speciesIdCode = genV.speciesIdCode
         v.variableType = genV.variableType
+        v.qualityControl = genV.qualityControl
+        v.abbreviationQualityFlag = genV.abbreviationQualityFlag
+        v.sopChanges = genV.sopChanges
+        v.collectionMethod = genV.collectionMethod
+        v.analyzingInformation =genV.analyzingInformation
+        v.phDyeTypeManuf = genV.phDyeTypeManuf
+
+
         /*
         new VariableBuilder()
                 .abbreviation(genV.abbreviation)

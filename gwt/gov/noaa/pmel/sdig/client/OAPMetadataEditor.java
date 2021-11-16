@@ -1161,6 +1161,8 @@ public class OAPMetadataEditor implements EntryPoint {
 
             if (document.getTimeAndLocation() != null) {
                 TimeAndLocation timeAndLocation = document.getTimeAndLocation();
+//                timeAndLocationPanel.setIsSocat(_isSocat);
+                debugLog("show timeAndLocationPanel wiht isSocat =" + _isSocat);
                 timeAndLocationPanel.show(timeAndLocation);
                 if (!timeAndLocationPanel.valid()) {
 //                    debugLog("danger timeAndLocationPanel has no valid data");
@@ -1218,6 +1220,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
             if (document.getPlatforms() != null) {
                 List<Platform> platforms = document.getPlatforms();
+//                platformPanel.setIsSocat(_isSocat);
 
                 // Load
                 platformPanel.addPlatforms(platforms);
@@ -1844,6 +1847,12 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalTimeAndLocation.getOrganismLoc() != null && !initalTimeAndLocation.getOrganismLoc().isEmpty()) {
                         timeAndLocation.setOrganismLoc(initalTimeAndLocation.getOrganismLoc());
                     }
+                    if (initalTimeAndLocation.getSiteSpecificLon() != null && !initalTimeAndLocation.getSiteSpecificLon().isEmpty()) {
+                        timeAndLocation.setSiteSpecificLon(initalTimeAndLocation.getSiteSpecificLon());
+                    }
+                    if (initalTimeAndLocation.getSiteSpecificLat() != null && !initalTimeAndLocation.getSiteSpecificLat().isEmpty()) {
+                        timeAndLocation.setSiteSpecificLat(initalTimeAndLocation.getSiteSpecificLat());
+                    }
                 }
 
                 timeAndLocationPanel.show(timeAndLocation);
@@ -2015,6 +2024,20 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalDic.getReferenceMethod() != null && !initalDic.getReferenceMethod().isEmpty()) {
                         dic.setReferenceMethod(initalDic.getReferenceMethod());
                     }
+
+                    if (initalDic.getSopChanges() != null && !initalDic.getSopChanges().isEmpty()) {
+                        dic.setSopChanges(initalDic.getSopChanges());
+                    }
+                    if (initalDic.getAbbreviationQualityFlag() != null && !initalDic.getAbbreviationQualityFlag().isEmpty()) {
+                        dic.setAbbreviationQualityFlag(initalDic.getAbbreviationQualityFlag());
+                    }
+                    if (initalDic.getCollectionMethod() != null && !initalDic.getCollectionMethod().isEmpty()) {
+                        dic.setCollectionMethod(initalDic.getCollectionMethod());
+                    }
+                    if (initalDic.getAnalyzingInformation() != null && !initalDic.getAnalyzingInformation().isEmpty()) {
+                        dic.setAnalyzingInformation(initalDic.getAnalyzingInformation());
+                    }
+
                 }
 
                 dicPanel.show(dic);
@@ -2110,6 +2133,19 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalTa.getReferenceMethod() != null && !initalTa.getReferenceMethod().isEmpty()) {
                         ta.setReferenceMethod(initalTa.getReferenceMethod());
                     }
+
+                    if (initalTa.getSopChanges() != null && !initalTa.getSopChanges().isEmpty()) {
+                        ta.setSopChanges(initalTa.getSopChanges());
+                    }
+                    if (initalTa.getAbbreviationQualityFlag() != null && !initalTa.getAbbreviationQualityFlag().isEmpty()) {
+                        ta.setAbbreviationQualityFlag(initalTa.getAbbreviationQualityFlag());
+                    }
+                    if (initalTa.getCollectionMethod() != null && !initalTa.getCollectionMethod().isEmpty()) {
+                        ta.setCollectionMethod(initalTa.getCollectionMethod());
+                    }
+                    if (initalTa.getAnalyzingInformation() != null && !initalTa.getAnalyzingInformation().isEmpty()) {
+                        ta.setAnalyzingInformation(initalTa.getAnalyzingInformation());
+                    }
                 }
 
                 taPanel.show(ta);
@@ -2137,6 +2173,11 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPh.getPhTemperature() != null && !initalPh.getPhTemperature().isEmpty()) {
                         ph.setPhTemperature(initalPh.getPhTemperature());
                     }
+
+                    if (initalPh.getPhDyeTypeManuf() != null && !initalPh.getPhDyeTypeManuf().isEmpty()) {
+                        ph.setPhDyeTypeManuf(initalPh.getPhDyeTypeManuf());
+                    }
+
                     if (initalPh.getPhScale() != null && !initalPh.getPhScale().isEmpty()) {
                         ph.setPhScale(initalPh.getPhScale());
                     }
@@ -2194,6 +2235,19 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     if (initalPh.getReferenceMethod() != null && !initalPh.getReferenceMethod().isEmpty()) {
                         ph.setReferenceMethod(initalPh.getReferenceMethod());
+                    }
+
+                    if (initalPh.getSopChanges() != null && !initalPh.getSopChanges().isEmpty()) {
+                        ph.setSopChanges(initalPh.getSopChanges());
+                    }
+                    if (initalPh.getAbbreviationQualityFlag() != null && !initalPh.getAbbreviationQualityFlag().isEmpty()) {
+                        ph.setAbbreviationQualityFlag(initalPh.getAbbreviationQualityFlag());
+                    }
+                    if (initalPh.getCollectionMethod() != null && !initalPh.getCollectionMethod().isEmpty()) {
+                        ph.setCollectionMethod(initalPh.getCollectionMethod());
+                    }
+                    if (initalPh.getAnalyzingInformation() != null && !initalPh.getAnalyzingInformation().isEmpty()) {
+                        ph.setAnalyzingInformation(initalPh.getAnalyzingInformation());
                     }
                 }
 
@@ -2323,6 +2377,19 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getReferenceMethod() != null && !initalPco2a.getReferenceMethod().isEmpty()) {
                         pco2a.setReferenceMethod(initalPco2a.getReferenceMethod());
                     }
+
+                    if (initalPco2a.getSopChanges() != null && !initalPco2a.getSopChanges().isEmpty()) {
+                        pco2a.setSopChanges(initalPco2a.getSopChanges());
+                    }
+                    if (initalPco2a.getAbbreviationQualityFlag() != null && !initalPco2a.getAbbreviationQualityFlag().isEmpty()) {
+                        pco2a.setAbbreviationQualityFlag(initalPco2a.getAbbreviationQualityFlag());
+                    }
+                    if (initalPco2a.getCollectionMethod() != null && !initalPco2a.getCollectionMethod().isEmpty()) {
+                        pco2a.setCollectionMethod(initalPco2a.getCollectionMethod());
+                    }
+                    if (initalPco2a.getAnalyzingInformation() != null && !initalPco2a.getAnalyzingInformation().isEmpty()) {
+                        pco2a.setAnalyzingInformation(initalPco2a.getAnalyzingInformation());
+                    }
                 }
 
                 pco2aPanel.show(pco2a);
@@ -2431,6 +2498,19 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     if (initalPco2d.getReferenceMethod() != null && !initalPco2d.getReferenceMethod().isEmpty()) {
                         pco2d.setReferenceMethod(initalPco2d.getReferenceMethod());
+                    }
+
+                    if (initalPco2d.getSopChanges() != null && !initalPco2d.getSopChanges().isEmpty()) {
+                        pco2d.setSopChanges(initalPco2d.getSopChanges());
+                    }
+                    if (initalPco2d.getAbbreviationQualityFlag() != null && !initalPco2d.getAbbreviationQualityFlag().isEmpty()) {
+                        pco2d.setAbbreviationQualityFlag(initalPco2d.getAbbreviationQualityFlag());
+                    }
+                    if (initalPco2d.getCollectionMethod() != null && !initalPco2d.getCollectionMethod().isEmpty()) {
+                        pco2d.setCollectionMethod(initalPco2d.getCollectionMethod());
+                    }
+                    if (initalPco2d.getAnalyzingInformation() != null && !initalPco2d.getAnalyzingInformation().isEmpty()) {
+                        pco2d.setAnalyzingInformation(initalPco2d.getAnalyzingInformation());
                     }
                 }
 
@@ -2614,6 +2694,23 @@ public class OAPMetadataEditor implements EntryPoint {
                                     o.setSpeciesIdCode(v.getSpeciesIdCode());
                                 }
 
+                                if ((o.getSopChanges() == null || o.getSopChanges().isEmpty())
+                                        && (v.getSopChanges() != null && !v.getSopChanges().isEmpty())) {
+                                    o.setSopChanges(v.getSopChanges());
+                                }
+                                if ((o.getAbbreviationQualityFlag() == null || o.getAbbreviationQualityFlag().isEmpty())
+                                        && (v.getAbbreviationQualityFlag() != null && !v.getAbbreviationQualityFlag().isEmpty())) {
+                                    o.setAbbreviationQualityFlag(v.getAbbreviationQualityFlag());
+                                }
+                                if ((o.getCollectionMethod() == null || o.getCollectionMethod().isEmpty())
+                                        && (v.getCollectionMethod() != null && !v.getCollectionMethod().isEmpty())) {
+                                    o.setCollectionMethod(v.getCollectionMethod());
+                                }
+                                if ((o.getAnalyzingInformation() == null || o.getAnalyzingInformation().isEmpty())
+                                        && (v.getAnalyzingInformation() != null && !v.getAnalyzingInformation().isEmpty())) {
+                                    o.setAnalyzingInformation(v.getAnalyzingInformation());
+                                }
+
                                 debugLog("end process all variables");
 
                                 variableIterator.remove(); // remove from this variablelist
@@ -2694,6 +2791,36 @@ public class OAPMetadataEditor implements EntryPoint {
 //        debugLog(sb.toString());
 
         return sb.toString();
+    }
+
+    public static boolean getIsSocatParam() {
+        String socat = Window.Location.getParameter("socat");
+        OAPMetadataEditor.debugLog("OAPMetadataEditor.getIsSocatParam(" + socat + ")");
+        if (socat != null) {
+            if (socat.trim().length() == 0 ||
+                    "true".equals(socat.trim().toLowerCase())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        // assume socat is true for now if null
+        return true;
+    }
+
+    public static boolean getDocType() {
+        String socat = Window.Location.getParameter("socat");
+        OAPMetadataEditor.debugLog("OAPMetadataEditor.getIsSocatParam(" + socat + ")");
+        if (socat != null) {
+            if (socat.trim().length() == 0 ||
+                    "true".equals(socat.trim().toLowerCase())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        // assume socat is true for now if null
+        return true;
     }
 
 }

@@ -59,9 +59,13 @@
                     <b:Row>
                         <b:Column size="SM_6">
                             <b:FormGroup>
-                                <b:FormLabel for="type" text="Platform Type"></b:FormLabel>
-                                <b:Modal title="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc." closable="true" b:id="modalPlatformType"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                <b:FormLabel for="type" text="Platform Type"></b:FormLabel>-->
+<!--                                <b:Modal title="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc." closable="true" b:id="modalPlatformType"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="platformType" allowBlank="true" placeholder="Platform Type" b:id="type"></b:TextBox>-->
+                                <b:FormLabel for="type" ui:field="platformTypeLabel" text="Platform Type"></b:FormLabel>
+                                <b:Modal title="15.3 Type of the platform, e.g., research vessel, voluntary observing ships, fishing vessel, cargo ship, mooring, glider, etc." closable="true" ui:field="platformTypePopover" b:id="modalPlatformType"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#platformTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="platformType" allowBlank="true" placeholder="Platform Type" b:id="type"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>

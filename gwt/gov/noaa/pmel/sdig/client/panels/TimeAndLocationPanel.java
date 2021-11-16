@@ -94,7 +94,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     Modal southLatPopover;
 
     // assume it is true for now
-    boolean isSocat = true;
+//    boolean isSocat = false;
 
 
     String type = Constants.SECTION_TIMEANDLOCATION;
@@ -109,7 +109,10 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     public TimeAndLocationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
-        if (isSocat) {
+//        GWT.log("gwt.T&LPanel isSocat = " + isSocat);
+//        OAPMetadataEditor.debugLog("debug.T&LPanel isSocat = " + isSocat );
+
+        if (OAPMetadataEditor.getIsSocatParam()) {
             startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
             startDateLabel.setText("First day of measurement included in data file");
             startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
@@ -160,6 +163,27 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     }
 
     public void show(TimeAndLocation timeAndLocation) {
+        if (OAPMetadataEditor.getIsSocatParam()) {
+            startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+            startDateLabel.setText("First day of measurement included in data file");
+            startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+
+            endDatePopover.setTitle("11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+            endDateLabel.setText("Last day of measurement included in data file");
+            endDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+
+            westLonPopover.setTitle("12.3 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).");
+            westLonLabel.setText("Transect measurement longitude westernmost");
+
+            eastLonPopover.setTitle("12.4 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)");
+            eastLonLabel.setText("Transect measurement longitude easternmost");
+
+            northLatPopover.setTitle("12.5 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+            northLatLabel.setText("Transect measurement latitude northernmost");
+
+            southLatPopover.setTitle("12.6 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+            southLatLabel.setText("Transect measurement latitude southernmost");
+        }
         setDbItem(timeAndLocation);
         // TODO use joda and store an ISO string on both get and show
         if (timeAndLocation.getStartDate() != null && timeAndLocation.getStartDate().length() > 0) {
@@ -202,6 +226,12 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         if (timeAndLocation.getOrganismLoc() != null) {
             organismLoc.setText(timeAndLocation.getOrganismLoc());
         }
+        if (timeAndLocation.getSiteSpecificLon() != null) {
+            siteSpecificLon.setText(timeAndLocation.getSiteSpecificLon());
+        }
+        if (timeAndLocation.getSiteSpecificLat() != null) {
+            siteSpecificLat.setText(timeAndLocation.getSiteSpecificLat());
+        }
     }
 
     public TimeAndLocation getTimeAndLocation() {
@@ -217,6 +247,8 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         timeAndLocation.setSouthLat(southLat.getText().trim());
         timeAndLocation.setSpatialRef(spatialRef.getText().trim());
         timeAndLocation.setWestLon(westLon.getText().trim());
+        timeAndLocation.setSiteSpecificLon(siteSpecificLon.getText().trim());
+        timeAndLocation.setSiteSpecificLat(siteSpecificLat.getText().trim());
         return timeAndLocation;
     }
 
@@ -243,7 +275,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
                                 isDirty(organismLoc, original.getOrganismLoc()) ||
                                 isDirty(southLat, original.getSouthLat()) ||
                                 isDirty(spatialRef, original.getSpatialRef()) ||
-                                isDirty(westLon, original.getWestLon());
+                                isDirty(westLon, original.getWestLon())||
+                                isDirty(siteSpecificLon, original.getSiteSpecificLon())||
+                                isDirty(siteSpecificLat, original.getSiteSpecificLat());
         return isDirty;
     }
 
@@ -275,6 +309,12 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         if (westLon.getText().trim() != null && !westLon.getText().isEmpty()) {
             return true;
         }
+        if (siteSpecificLon.getText().trim() != null && !siteSpecificLon.getText().isEmpty()) {
+            return true;
+        }
+        if (siteSpecificLat.getText().trim() != null && !siteSpecificLat.getText().isEmpty()) {
+            return true;
+        }
         return false;
     }
 
@@ -302,4 +342,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
             return true;
         }
     }
+//    public void setIsSocat(boolean socat) {
+//        OAPMetadataEditor.debugLog("TimeAndLocation.setIsSocat(" + socat + ")");
+//        isSocat = socat;
+//    }
+
 }

@@ -20,6 +20,7 @@ import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.*;
+import org.gwtbootstrap3.client.ui.FormLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,6 +245,49 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     Modal referenceMethodModal;
 
 
+    @UiField
+    FormLabel qualityFlagLabel;
+
+    // new var for 14.3.1
+    // Quality control
+    @UiField
+    TextBox qualityControl;
+    @UiField
+    Modal qualityControlModal;
+    @UiField
+    FormGroup qualityControlForm;
+
+    // Abbreviation of data quality flag scheme
+    @UiField
+    TextBox abbreviationQualityFlag;
+    @UiField
+    Modal abbreviationQualityFlagModal;
+    @UiField
+    FormGroup abbreviationQualityFlagForm;
+
+    // Changes to Method or SOP
+    @UiField
+    TextArea sopChanges;
+    @UiField
+    Modal sopChangesModal;
+    @UiField
+    FormGroup sopChangesForm;
+
+    // Collection Method(e.g. bottle sampling)
+    @UiField
+    TextBox collectionMethod;
+    @UiField
+    Modal collectionMethodModal;
+    @UiField
+    FormGroup collectionMethodForm;
+
+    // Analyzing information with citation
+    @UiField
+    TextArea analyzingInformation;
+    @UiField
+    Modal analyzingInformationModal;
+    @UiField
+    FormGroup analyzingInformationForm;
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -315,6 +359,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         researcherInstitutionModal.setTitle("");
 //        fullVariableNameModal.setTitle("");
         referenceMethodModal.setTitle("");
+
+        qualityControl.setTitle("");
+        abbreviationQualityFlag.setTitle("");
+        sopChanges.setTitle("");
+        collectionMethod.setTitle("");
+        analyzingInformation.setTitle("");
 
 //        showSamplingInstrumentListButton.add
     }
@@ -391,6 +441,22 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         if ( variable.getReferenceMethod() != null ) {
             referenceMethod.setText(variable.getReferenceMethod());
         }
+
+        if ( variable.getQualityControl() != null ) {
+            qualityControl.setText(variable.getQualityControl());
+        }
+        if ( variable.getAbbreviationQualityFlag() != null ) {
+            abbreviationQualityFlag.setText(variable.getAbbreviationQualityFlag());
+        }
+        if ( variable.getSopChanges() != null ) {
+            sopChanges.setText(variable.getSopChanges());
+        }
+        if ( variable.getCollectionMethod() != null ) {
+            collectionMethod.setText(variable.getCollectionMethod());
+        }
+        if ( variable.getAnalyzingInformation() != null ) {
+            analyzingInformation.setText(variable.getAnalyzingInformation());
+        }
     }
 
     public Variable getCommonVariable() {
@@ -420,6 +486,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
 //        commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
+
+        commonVariable.setQualityControl(qualityControl.getText());
+        commonVariable.setAbbreviationQualityFlag(abbreviationQualityFlag.getText());
+        commonVariable.setSopChanges(sopChanges.getText());
+        commonVariable.setCollectionMethod(collectionMethod.getText());
+        commonVariable.setAnalyzingInformation(analyzingInformation.getText());
         return commonVariable;
     }
     public boolean isDirty(Variable original) {
@@ -441,7 +513,13 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
                    isDirty(qualityFlag, original.getQualityFlag() ) ||
                    isDirty(researcherName, original.getResearcherName() ) ||
                    isDirty(researcherInstitution, original.getResearcherInstitution() ) ||
-                   isDirty(referenceMethod, original.getReferenceMethod() );
+                   isDirty(referenceMethod, original.getReferenceMethod() ) ||
+                   isDirty(qualityControl, original.getQualityControl() ) ||
+                   isDirty(abbreviationQualityFlag, original.getAbbreviationQualityFlag() ) ||
+                   isDirty(sopChanges, original.getSopChanges() ) ||
+                   isDirty(collectionMethod, original.getCollectionMethod() ) ||
+                   isDirty(analyzingInformation, original.getAnalyzingInformation() );
+
         return isDirty;
     }
     public boolean isDirty() {
@@ -482,6 +560,17 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         if (researcherInstitution.getText().trim() != null && !researcherInstitution.getValue().isEmpty() )
             return true;
         if (referenceMethod.getText().trim() != null && !referenceMethod.getValue().isEmpty() )
+            return true;
+
+        if (qualityControl.getText().trim() != null && !qualityControl.getValue().isEmpty() )
+            return true;
+        if (abbreviationQualityFlag.getText().trim() != null && !abbreviationQualityFlag.getValue().isEmpty() )
+            return true;
+        if (sopChanges.getText().trim() != null && !sopChanges.getValue().isEmpty() )
+            return true;
+        if (collectionMethod.getText().trim() != null && !collectionMethod.getValue().isEmpty() )
+            return true;
+        if (analyzingInformation.getText().trim() != null && !analyzingInformation.getValue().isEmpty() )
             return true;
         return false;
     }

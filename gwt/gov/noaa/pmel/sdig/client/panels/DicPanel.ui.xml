@@ -22,7 +22,7 @@
                         <b:Column size="SM_12 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
+                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization Technique Description"></b:FormLabel>
                                 <b:Modal title="22.12.1 Description of the standardization procedure." closable="true" b:id="modalStandardizationTechnique"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -33,7 +33,7 @@
                         <b:Column size="MD_4 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
                                 <b:Modal title="22.12.2 How frequent was the calibration carried out, e.g., every 6 hours, etc." closable="true" b:id="modalFrequencyOfStandardization"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFrequencyOfStandardization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
@@ -62,7 +62,7 @@
                         <b:Column size="SM_6 LG_4"> <!-- b:Column size="MD_4 LG_3" -->
                             <b:FormGroup ui:field="poisonForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poison" text="How were the samples preserved (HgCl2, or others)"></b:FormLabel>
+                                <b:FormLabel for="poison" ui:field="poisonLabel" text="How were the samples preserved (HgCl2, or others)"></b:FormLabel>
                                 <b:Modal title="22.13.1 As described, e.g., Mercury Chloride." closable="true" b:id="modalPoison"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoison" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="poison" allowBlank="true" placeholder="How were the samples preserved (HgCl2, or others)" b:id="poison"></b:TextBox>
@@ -71,7 +71,7 @@
                         <b:Column size="SM_6 LG_4"> <!-- b:Column size="SM_6 LG_4" offset="LG_1" -->
                             <b:FormGroup ui:field="poisonVolumeForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poisonVolume" text="Concentration and amount of the preservative"></b:FormLabel>
+                                <b:FormLabel for="poisonVolume" ui:field="poisonVolumeLabel" text="Concentration and amount of the preservative"></b:FormLabel>
                                 <b:Modal title="22.13.2 How much preservative is added to each sample to eliminate the microbes. For example, 20 μL Mercury Chloride is added to 500 mL samples." closable="true" b:id="modalPoisonVolume"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoisonVolume" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="poisonVolume" allowBlank="true" placeholder="Concentration and amount of the preservative added" b:id="poisonVolume"></b:TextBox>
@@ -80,7 +80,7 @@
                         <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="poisonDescriptionForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="poisonDescription" text="Preservative Correction Description"></b:FormLabel>
+                                <b:FormLabel for="poisonDescription" ui:field="poisonDescriptionLabel" text="Preservative Correction Description"></b:FormLabel>
                                 <b:Modal title="22.13.3 Please specify whether the reported variables were corrected for preservative usage, and if so, how they were corrected." closable="true" b:id="modalPoisonDescription"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPoisonDescription" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="poisonDescription" allowBlank="true" placeholder="Preservative correction description" b:id="poisonDescription"></b:TextBox>

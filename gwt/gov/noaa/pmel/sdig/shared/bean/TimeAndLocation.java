@@ -16,6 +16,8 @@ public class TimeAndLocation extends DbItem implements Stringy, HasContent {
     String geoNames;
     String organismLoc;
     String spatialRef;
+    String siteSpecificLon;
+    String siteSpecificLat;
 
     public String getStartDate() {
         return startDate;
@@ -89,6 +91,22 @@ public class TimeAndLocation extends DbItem implements Stringy, HasContent {
         this.spatialRef = spatialRef;
     }
 
+    public String getSiteSpecificLon() {
+        return spatialRef;
+    }
+
+    public void setSiteSpecificLon(String siteSpecificLon) {
+        this.siteSpecificLon = siteSpecificLon;
+    }
+
+    public String getSiteSpecificLat() {
+        return spatialRef;
+    }
+
+    public void setSiteSpecificLat(String siteSpecificLat) {
+        this.siteSpecificLat = siteSpecificLat;
+    }
+
     @Override
     public TimeAndLocation sClone() {
         TimeAndLocation newt = new TimeAndLocation();
@@ -103,6 +121,8 @@ public class TimeAndLocation extends DbItem implements Stringy, HasContent {
         newt.geoNames = this.geoNames;
         newt.organismLoc = this.organismLoc;
         newt.spatialRef = this.spatialRef;
+        newt.siteSpecificLon = this.siteSpecificLon;
+        newt.siteSpecificLat = this.siteSpecificLat;
         return newt;
     }
 
@@ -117,7 +137,9 @@ public class TimeAndLocation extends DbItem implements Stringy, HasContent {
                     isEmpty(eastLon) &&
                     isEmpty(geoNames) &&
                     isEmpty(organismLoc) &&
-                    isEmpty(spatialRef));
+                    isEmpty(spatialRef) &&
+                    isEmpty(siteSpecificLon) &&
+                    isEmpty(siteSpecificLat));
         return hasContent;
     }
 }

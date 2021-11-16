@@ -11,9 +11,11 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -65,6 +67,17 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     Button save;
 
+    @UiField
+    TextBox pHdyeTypeManuf;
+
+    @UiField
+    FormLabel standardizationTechniqueLabel;
+    @UiField
+    FormLabel freqencyOfStandardizationLabel;
+    @UiField
+    FormLabel temperatureStandarizationLabel;
+
+
     interface PhPanelUiBinder extends UiBinder<HTMLPanel, PhPanel> {
     }
 
@@ -100,6 +113,20 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         common.fullVariableNameModal.setTitle("The full name of the variable.");
         common.referenceMethodModal.setTitle("24.18 Citation for the pH method.");
 
+        common.qualityControlModal.setTitle("22.7 Indicate if quality control procedures were applied.");
+        common.abbreviationQualityFlagModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
+        common.sopChangesModal.setTitle("20.2 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
+        common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
+        common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
+
+        if (OAPMetadataEditor.getIsSocatParam()) {
+
+            common.qualityFlagLabel.setText("Data quality scheme (name of scheme)");
+            standardizationTechniqueLabel.setText("Calibration method");
+            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+            temperatureStandarizationLabel.setText("Temperature of calibration");
+        }
+
         save.addClickHandler(saveIt);
     }
 
@@ -114,6 +141,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         ph.setPhTemperature(pHtemperature.getText());
         ph.setPhScale(pHscale.getText());
+        ph.setPhDyeTypeManuf(pHdyeTypeManuf.getText());
         ph.setPhStandards(pHstandards.getText());
         ph.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         ph.setTemperatureMeasurement(temperatureMeasurement.getText());
@@ -127,6 +155,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         ph.setPhTemperature(pHtemperature.getText());
         ph.setPhScale(pHscale.getText());
+        ph.setPhDyeTypeManuf(pHdyeTypeManuf.getText());
         ph.setPhStandards(pHstandards.getText());
         ph.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         ph.setTemperatureMeasurement(temperatureMeasurement.getText());
@@ -175,6 +204,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
             isDirty( freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
             isDirty( pHtemperature, original.getPhTemperature() ) ||
             isDirty( pHscale, original.getPhScale() ) ||
+            isDirty( pHdyeTypeManuf, original.getPhDyeTypeManuf() ) ||
             isDirty( pHstandards, original.getPhStandards() ) ||
             isDirty( temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
             isDirty( temperatureMeasurement, original.getTemperatureMeasurement() ) ||
@@ -198,6 +228,9 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
             return true;
         }
         if ( pHscale.getText().trim() != null && !pHscale.getText().isEmpty() ) {
+            return true;
+        }
+        if (pHdyeTypeManuf.getText().trim() != null && !pHdyeTypeManuf.getText().isEmpty()) {
             return true;
         }
         if (pHstandards.getText().trim() != null && !pHstandards.getText().isEmpty()) {
@@ -245,6 +278,10 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
 
         if ( ph.getPhScale() != null ) {
             pHscale.setText(ph.getPhScale());
+        }
+
+        if ( ph.getPhDyeTypeManuf() != null ) {
+            pHdyeTypeManuf.setText(ph.getPhDyeTypeManuf());
         }
 
         if ( ph.getPhStandards() != null ) {

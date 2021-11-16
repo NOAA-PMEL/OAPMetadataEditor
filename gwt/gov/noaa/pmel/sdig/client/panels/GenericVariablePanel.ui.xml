@@ -80,6 +80,15 @@
                                 </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
+                        <b:Column size="SM_4 LG_4">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="collectionMethodForm">
+                                <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="DIC: Collection method" b:id="collectionMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
                         <b:Column size="MD_4 LG_4" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
@@ -168,6 +177,18 @@
                     </b:Row>
 
                     <b:Row>
+                        <b:Column size="SM_12">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="analyzingInformationForm">
+                                <b:FormLabel for="analyzingInformation" text="Analyzing information with citation"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="analyzingInformationModal" b:id="modalAnalyzingInformation"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextArea visibleLines="9" ui:field="analyzingInformation" allowBlank="true" placeholder="Analyzing information with citation" b:id="detailedInformation"></b:TextArea>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+                    <b:Row>
                         <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
@@ -186,6 +207,26 @@
                                 <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                    </b:Row>
+                    <b:Column size="MD_6 LG_3">
+                        <!-- Keep -->
+                        <b:FormGroup ui:field="qualityControlForm">
+                            <b:FormLabel for="qualityControl" text="Quality Control"></b:FormLabel>
+                            <b:Modal title="" closable="true" ui:field="qualityControlModal" b:id="modalqualityControl"/>
+                            <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityControl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                            <b:TextBox ui:field="qualityControl" allowBlank="true" placeholder="Quality Control" b:id="qualityControl"></b:TextBox>
+                        </b:FormGroup>
+                    </b:Column>
+                    <b:Column size="MD_6 LG_3">
+                        <!-- Keep -->
+                        <b:FormGroup ui:field="abbreviationQualityFlagForm">
+                            <b:FormLabel for="abbreviationQualityFlag" text="Abbreviation of data quality flag scheme"></b:FormLabel>
+                            <b:Modal title="" closable="true" ui:field="abbreviationQualityFlagModal" b:id="modalAbbreviationQualityFlag"/>
+                            <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviationQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                            <b:TextBox ui:field="abbreviationQualityFlag" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="abbreviationQualityFlag"></b:TextBox>
+                        </b:FormGroup>
+                    </b:Column>
+                    <b:Row>
                         <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
@@ -216,6 +257,19 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="sopChangesForm">
+                                <b:FormLabel for="sopChanges" text="Changes to Method or SOP"></b:FormLabel>
+                                <b:Modal title="27.14 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made. " closable="true" b:id="modalsopChanges"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalsopChanges" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextArea visibleLines="9" ui:field="sopChanges" allowBlank="true" placeholder="Changes to Method or SOP" b:id="sopChanges"></b:TextArea>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_6">
                             <b:FormGroup ui:field="biologicalSubjectForm">

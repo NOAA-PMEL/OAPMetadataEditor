@@ -240,6 +240,40 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     @UiField
     FormGroup speciesIdCodeForm;
 
+    // new var for 14.3.1
+    // Quality control
+    @UiField
+    TextBox qualityControl;
+    @UiField
+    FormGroup qualityControlForm;
+
+    // Abbreviation of data quality flag scheme
+    @UiField
+    TextBox abbreviationQualityFlag;
+    @UiField
+    FormGroup abbreviationQualityFlagForm;
+
+    // Changes to Method or SOP
+    @UiField
+    TextArea sopChanges;
+    @UiField
+    FormGroup sopChangesForm;
+
+    // Collection method (e.g. bottle sampling)
+    @UiField
+    TextBox collectionMethod;
+    @UiField
+    FormGroup collectionMethodForm;
+
+    // Analyzing information with citation
+    @UiField
+    TextArea analyzingInformation;
+    @UiField
+    Modal analyzingInformationModal;
+    @UiField
+    FormGroup analyzingInformationForm;
+
+
     @UiField
     CellTable<Variable> variables;
 
@@ -507,6 +541,12 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         duration.setEnabled(editable);
         lifeStage.setEnabled(editable);
         speciesIdCode.setEnabled(editable);
+
+        qualityControl.setEnabled(editable);
+        abbreviationQualityFlag.setEnabled(editable);
+        sopChanges.setEnabled(editable);
+        collectionMethod.setEnabled(editable);
+        analyzingInformation.setEnabled(editable);
     }
     public void show(Variable variable, boolean editable) {
         setAllEditable(editable);
@@ -582,6 +622,22 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         if ( variable.getSpeciesIdCode() != null ) {
             speciesIdCode.setText(variable.getSpeciesIdCode());
         }
+
+        if ( variable.getQualityControl() != null ) {
+            qualityControl.setText(variable.getQualityControl());
+        }
+        if ( variable.getAbbreviationQualityFlag() != null ) {
+            abbreviationQualityFlag.setText(variable.getAbbreviationQualityFlag());
+        }
+        if ( variable.getSopChanges() != null ) {
+            sopChanges.setText(variable.getSopChanges());
+        }
+        if ( variable.getCollectionMethod() != null ) {
+            collectionMethod.setText(variable.getCollectionMethod());
+        }
+        if ( variable.getAnalyzingInformation() != null ) {
+            analyzingInformation.setText(variable.getAnalyzingInformation());
+        }
     }
 
     public Variable getGenericVariable() {
@@ -615,6 +671,13 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         commonVariable.setDuration(duration.getText());
         commonVariable.setLifeStage(lifeStage.getText());
         commonVariable.setSpeciesIdCode(speciesIdCode.getText());
+
+        commonVariable.setQualityControl(qualityControl.getText());
+        commonVariable.setAbbreviationQualityFlag(abbreviationQualityFlag.getText());
+        commonVariable.setSopChanges(sopChanges.getText());
+        commonVariable.setCollectionMethod(collectionMethod.getText());
+        commonVariable.setAnalyzingInformation(analyzingInformation.getText());
+
         if ( editing ) {
             commonVariable.setPosition(editIndex);
         }
@@ -696,6 +759,22 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             hasContent = true;
         }
         if (speciesIdCode.getText() != null && !speciesIdCode.getText().isEmpty() ) {
+            hasContent = true;
+        }
+
+        if (qualityControl.getText() != null && !qualityControl.getText().isEmpty() ) {
+            hasContent = true;
+        }
+        if (abbreviationQualityFlag.getText() != null && !abbreviationQualityFlag.getText().isEmpty() ) {
+            hasContent = true;
+        }
+        if (sopChanges.getText() != null && !sopChanges.getText().isEmpty() ) {
+            hasContent = true;
+        }
+        if (collectionMethod.getText() != null && !collectionMethod.getText().isEmpty() ) {
+            hasContent = true;
+        }
+        if (analyzingInformation.getText() != null && !analyzingInformation.getText().isEmpty() ) {
             hasContent = true;
         }
 
@@ -846,7 +925,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     @UiHandler({"abbreviation","manipulationMethod","units","calculationMethod",
             "detailedInformation","fieldReplicate","uncertainty","qualityFlag",
             "researcherName","researcherInstitution","referenceMethod",
-            "biologicalSubject","duration","lifeStage", "speciesIdCode"})
+            "biologicalSubject","duration","lifeStage", "speciesIdCode",
+            "qualityControl", "abbreviationQualityFlag","sopChanges", "collectionMethod", "analyzingInformation"})
     public void onChange(ChangeEvent event) {
 //        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
         save.setEnabled(true);

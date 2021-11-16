@@ -21,7 +21,17 @@ import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import org.gwtbootstrap3.client.ui.*;
+//import org.gwtbootstrap3.client.ui.*;
+import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Form;
+import org.gwtbootstrap3.client.ui.FormGroup;
+import org.gwtbootstrap3.client.ui.Modal;
+import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.TextArea;
+import org.gwtbootstrap3.client.ui.SuggestBox;
+import org.gwtbootstrap3.client.ui.DefaultSuggestionDisplay;
+import org.gwtbootstrap3.client.ui.Heading;
+import org.gwtbootstrap3.client.ui.FormLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -251,6 +261,55 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     Modal referenceMethodModal;
 
 
+    // new var for 14.3.1
+    // Quality control
+    @UiField
+    TextBox qualityControl;
+    @UiField
+    Modal qualityControlModal;
+    @UiField
+    FormGroup qualityControlForm;
+
+    // Abbreviation of data quality flag scheme
+    @UiField
+    TextBox abbreviationQualityFlag;
+    @UiField
+    Modal abbreviationQualityFlagModal;
+    @UiField
+    FormGroup abbreviationQualityFlagForm;
+
+    // Changes to Method or SOP
+    @UiField
+    TextArea sopChanges;
+    @UiField
+    Modal sopChangesModal;
+    @UiField
+    FormGroup sopChangesForm;
+
+    // Collection Method(e.g. bottle sampling)
+    @UiField
+    TextBox collectionMethod;
+    @UiField
+    Modal collectionMethodModal;
+    @UiField
+    FormGroup collectionMethodForm;
+
+    // Analyzing information with citation
+    @UiField
+    TextArea analyzingInformation;
+    @UiField
+    Modal analyzingInformationModal;
+    @UiField
+    FormGroup analyzingInformationForm;
+
+    // modified for 14.3.1
+    @UiField
+    FormLabel qualityFlagLabel;
+
+
+
+
+
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -329,6 +388,10 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         researcherInstitutionModal.setTitle("");
         fullVariableNameModal.setTitle("");
         referenceMethodModal.setTitle("");
+        abbreviationQualityFlag.setTitle("");
+        collectionMethod.setTitle("");
+        analyzingInformation.setTitle("");
+        sopChangesModal.setTitle("");
     }
     @UiHandler("showObservationListButton")
     public void onObservationListClick(ClickEvent clickEvent) { observationType.showSuggestionList(); }
@@ -404,6 +467,19 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if ( variable.getReferenceMethod() != null ) {
             referenceMethod.setText(variable.getReferenceMethod());
         }
+
+        if ( variable.getSopChanges() != null ) {
+            sopChanges.setText(variable.getSopChanges());
+        }
+        if ( variable.getAbbreviationQualityFlag() != null ) {
+            sopChanges.setText(variable.getAbbreviationQualityFlag());
+        }
+        if ( variable.getCollectionMethod() != null ) {
+            collectionMethod.setText(variable.getCollectionMethod());
+        }
+        if ( variable.getAnalyzingInformation() != null ) {
+            analyzingInformation.setText(variable.getAnalyzingInformation());
+        }
     }
 
     public Variable getCommonVariable() {
@@ -433,6 +509,10 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
         commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
+        commonVariable.setSopChanges(sopChanges.getText());
+        commonVariable.setAbbreviationQualityFlag(abbreviationQualityFlag.getText());
+        commonVariable.setCollectionMethod(collectionMethod.getText());
+        commonVariable.setAnalyzingInformation(analyzingInformation.getText());
         return commonVariable;
     }
     public boolean isDirty(Variable original) {
@@ -454,7 +534,11 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
                    isDirty(qualityFlag, original.getQualityFlag() ) ||
                    isDirty(researcherName, original.getResearcherName() ) ||
                    isDirty(researcherInstitution, original.getResearcherInstitution() ) ||
-                   isDirty(referenceMethod, original.getReferenceMethod() );
+                   isDirty(referenceMethod, original.getReferenceMethod() ) ||
+                   isDirty(sopChanges, original.getSopChanges() ) ||
+                   isDirty(abbreviationQualityFlag, original.getAbbreviationQualityFlag() ) ||
+                   isDirty(analyzingInformation, original.getAnalyzingInformation() ) ||
+                   isDirty(collectionMethod, original.getCollectionMethod() );
         return isDirty;
     }
     public boolean isDirty() {
@@ -495,6 +579,15 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if (researcherInstitution.getText().trim() != null && !researcherInstitution.getValue().isEmpty() )
             return true;
         if (referenceMethod.getText().trim() != null && !referenceMethod.getValue().isEmpty() )
+            return true;
+
+        if (sopChanges.getText().trim() != null && !sopChanges.getValue().isEmpty() )
+            return true;
+        if (abbreviationQualityFlag.getText().trim() != null && !abbreviationQualityFlag.getValue().isEmpty() )
+            return true;
+        if (collectionMethod.getText().trim() != null && !collectionMethod.getValue().isEmpty() )
+            return true;
+        if (analyzingInformation.getText().trim() != null && !analyzingInformation.getValue().isEmpty() )
             return true;
         return false;
     }

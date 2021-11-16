@@ -99,9 +99,13 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="researchProjects" text="Research Projects"></b:FormLabel>
-                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" b:id="modalResearchProjects"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearchProjects" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+<!--                                <b:FormLabel for="researchProjects" text="Research Projects"></b:FormLabel>-->
+<!--                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" b:id="modalResearchProjects"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearchProjects" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="researchProjects" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextBox>-->
+                                <b:FormLabel for="researchProjects" ui:field="researchProjectsLabel" text="Research Projects"></b:FormLabel>
+                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" ui:field="researchProjectsPopover" b:id="researchProjectsPopover"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#researchProjectsPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="researchProjects" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>

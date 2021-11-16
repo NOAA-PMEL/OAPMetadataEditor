@@ -57,7 +57,7 @@
                         <b:Column size="SM_6 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
+                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization Technique Description"></b:FormLabel>
                                 <b:Modal title="25.16.1 Please describe the calibration procedure." closable="true" b:id="modalStandardizationTechnique"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -66,7 +66,7 @@
                         <b:Column size="SM_4 MD_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
                                 <b:Modal title="25.16.2 How frequent was the calibration carried out, e.g., every 6 hours, etc." closable="true" b:id="modalFreqencyOfStandardization"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
@@ -95,7 +95,7 @@
                         <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="flowRateForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="flowRate" text="Water Flow Rate (L/min)"></b:FormLabel>
+                                <b:FormLabel for="flowRate" ui:field="flowRateLabel" text="Water Flow Rate (L/min)"></b:FormLabel>
                                 <b:Modal title="25.13.4 Flow rate of the flow through seawater." closable="true" b:id="modalFlowRate"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFlowRate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
@@ -104,7 +104,7 @@
                         <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="ventedForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="vented" text="Vented or Not"></b:FormLabel>
+                                <b:FormLabel for="vented" ui:field="ventedLabel" text="Vented or Not"></b:FormLabel>
                                 <b:Modal title="25.13.3 Is the equilibrator vented or not?" closable="true" b:id="modalVented"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalVented" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="vented" allowBlank="true" placeholder="Vented or not" b:id="vented"></b:TextBox>
@@ -153,7 +153,7 @@
                         <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="gasFlowRateForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="gasFlowRate" text="Headspace Gas Flow Rate (L/min)"></b:FormLabel>
+                                <b:FormLabel for="gasFlowRate" ui:field="gasFlowRateLabel" text="Headspace Gas Flow Rate (L/min)"></b:FormLabel>
                                 <b:Modal title="25.13.5 Flow rate of the gas from the equilibrator to the CO2 analyzer." closable="true" b:id="modalGasFlowRate"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasFlowRate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="gasFlowRate" allowBlank="true" placeholder="Headspace gas flow rate (L/min)" b:id="gasFlowRate"></b:TextBox>
@@ -219,6 +219,64 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_6 MD_3">
+                            <b:FormGroup ui:field="stdGasTraceabilityForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="stdGasTraceability" text="Traceability of standard gases to WMO standards"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalStdGasTraceability"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStdGasTraceability" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="stdGasTraceability" allowBlank="true" placeholder="Traceability of standard gases to WMO standards" b:id="stdGasTraceability"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6 MD_3">
+                            <b:FormGroup ui:field="pco2FromXco2MethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pco2FromXco2Method" text="Method to calculate pCO2 from xCO2 (reference)"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalPco2FromXco2Method"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPco2FromXco2Method" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pco2FromXco2Method" allowBlank="true" placeholder="Method to calculate pCO2 from xCO2 (reference)" b:id="pco2FromXco2Method"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6 MD_3">
+                            <b:FormGroup ui:field="fco2FromPco2MethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="fco2FromPco2Method" text="Method to calculate fCO2 from pCO2 (reference)"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalFco2FromPco2Method"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFco2FromPco2Method" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="fco2FromPco2Method" allowBlank="true" placeholder="Method to calculate fCO2 from pCO2 (reference)" b:id="fco2FromPco2Method"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6 MD_3">
+                            <b:FormGroup ui:field="equilibratorTemperatureSensorCalibrationMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="equilibratorTemperatureSensorCalibrationMethod" text="Calibration method and frequency for temperature sensor inside the equlibrator"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalEquilibratorTemperatureSensorCalibrationMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEquilibratorTemperatureSensorCalibrationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="equilibratorTemperatureSensorCalibrationMethod" allowBlank="true" placeholder="Calibration method and frequency for temperature sensor inside the equlibrator" b:id="equilibratorTemperatureSensorCalibrationMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6 MD_3">
+                            <b:FormGroup ui:field="equilibratorTemperatureMeasureUncertaintyForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="equilibratorTemperatureMeasureUncertainty" text="Uncertainty of temperature measured inside the equlibrator"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalEquilibratorTemperatureMeasureUncertainty"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEquilibratorTemperatureMeasureUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="equilibratorTemperatureMeasureUncertainty" allowBlank="true" placeholder="Uncertainty of temperature measured inside the equlibrator" b:id="equilibratorTemperatureMeasureUncertainty"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6 MD_3">
+                            <b:FormGroup ui:field="calibrationMethodPressureSensorFrequencyForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="calibrationMethodPressureSensorFrequency" text="Calibration method and frequency for pressure sensor(s)"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalCalibrationMethodPressureSensorFrequency"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCalibrationMethodPressureSensorFrequency" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="calibrationMethodPressureSensorFrequency" allowBlank="true" placeholder="Calibration method and frequency for pressure sensor(s)" b:id="calibrationMethodPressureSensorFrequency"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+
+                    <b:Row>
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup ui:field="dryingMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="dryingMethod" text="Drying Method for CO2 Gas"></b:FormLabel>
@@ -263,6 +321,26 @@
                                 <b:Modal title="25.13.6 Please specify whether temperatrure inside the equilibrator is measured or not. If so, please describe how the temperature was measured." closable="true" b:id="modalEquilibratorTemperatureMeasureMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEquilibratorTemperatureMeasureMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="equilibratorTemperatureMeasureMethod" allowBlank="true" placeholder="How was temperature inside the equilibrator measured?" b:id="equilibratorTemperatureMeasureMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="totalMeasurementPressureDeterminedForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="totalMeasurementPressureDetermined" text="How was the total measurement pressure determined?"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modaltotalMeasurementPressureDetermined"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modaltotalMeasurementPressureDetermined" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="totalMeasurementPressureDetermined" allowBlank="true" placeholder="How was pressure inside the equilibrator measured?" b:id="totalMeasurementPressureDetermined"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="totalMeasurementPressureUncertaintyCalculatedForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="totalMeasurementPressureUncertaintyCalculated" text="Uncertainty of total measurement pressure, and how was this calculated?"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modaltotalMeasurementPressureUncertaintyCalculated"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modaltotalMeasurementPressureUncertaintyCalculated" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="totalMeasurementPressureUncertaintyCalculated" allowBlank="true" placeholder="Uncertainty of total measurement pressure, and how was this calculated?" b:id="totalMeasurementPressureUncertaintyCalculated"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

@@ -11,6 +11,8 @@ class TimeAndLocation {
     String geoNames;
     String organismLoc;
     String spatialRef;
+    String siteSpecificLon;
+    String siteSpecificLat;
 
     static constraints = {
         document (nullable: true)
@@ -23,5 +25,7 @@ class TimeAndLocation {
         geoNames (nullable: true, type: 'text')
         organismLoc (nullable: true)
         spatialRef (nullable: true)
+        siteSpecificLon (nullable: true)
+        siteSpecificLat (nullable: true)
     }
 }

@@ -42,7 +42,7 @@
                         <b:Column size="SM_6 MD_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" text="Standardization Technique Description"></b:FormLabel>
+                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization Technique Description"></b:FormLabel>
                                 <b:Modal title="25.16.1 Please describe the calibration procedure." closable="true" b:id="modalStandardizationTechnique"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
@@ -51,7 +51,7 @@
                         <b:Column size="SM_4 MD_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="freqencyOfStandardization" text="Frequency of Standardization"></b:FormLabel>
+                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
                                 <b:Modal title="25.16.2 How frequent was the calibration carried out, e.g., every 6 hours, etc." closable="true" b:id="modalFreqencyOfStandardization"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>

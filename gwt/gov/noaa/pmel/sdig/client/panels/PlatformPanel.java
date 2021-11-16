@@ -49,6 +49,8 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
+import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.Modal;
 
 import java.util.*;
 
@@ -84,6 +86,16 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     @UiField
     Pagination platformPagination;
+
+    // modified for 14.3.1
+    @UiField
+    Modal platformTypePopover;
+    @UiField
+    FormLabel platformTypeLabel;
+
+//    TextHeader textHeader = new TextHeader("Platform Category");
+
+//    boolean isSocat = false;
 
 
     boolean showTable = true;
@@ -197,7 +209,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                 return object.getPlatformType();
             }
         };
-        platforms.addColumn(platformTypeColumn, "Platform Type");
+        if (OAPMetadataEditor.getIsSocatParam()) {
+            platforms.addColumn(platformTypeColumn, "Platform Category");
+        }
+        else {
+            platforms.addColumn(platformTypeColumn, "Platform Type");
+        }
 
         TextColumn<Platform> platformIdColumn = new TextColumn<Platform>() {
             @Override
@@ -357,6 +374,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public void show(Platform platform) {
+        if (OAPMetadataEditor.getIsSocatParam()) {
+            platformTypePopover.setTitle("14.2 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+            platformTypeLabel.setText("Platform category");
+            platformType.getElement().setAttribute("placeHolder", "Platform category");
+
+        }
 
         if ( platform == null ) {
             reset();
@@ -477,6 +500,24 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public void setTableVisible(boolean v) {
+//        platforms.getTableHeadElement().
+//        platforms.getHeader(2).getCell().setValue("Platform Category");
+        OAPMetadataEditor.debugLog("m in setTableVisible" + platforms.getHeader(2).getValue());
+//        platforms.getHeader(2).setUpdater("hi");
+        if (OAPMetadataEditor.getIsSocatParam() && platforms.getHeader(2).getValue() == "Platform Type") {
+            platforms.removeColumn(2);
+            TextColumn<Platform> platformTypeColumn = new TextColumn<Platform>() {
+                @Override
+                public String getValue(Platform object) {
+                    return object.getPlatformType();
+                }
+            };
+            platforms.insertColumn(2, platformTypeColumn, "Platform Category");
+        }
+
+        OAPMetadataEditor.debugLog("m in setTableVisible" + platforms.getHeader(2).getValue());
+        GWT.log("g in setTableVisible" + platforms.getHeader(2));
+
         platforms.setVisible(v);
         if ( v ) {
             int page = cellTablePager.getPage();
@@ -549,6 +590,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             button.setEnabled(false);
         }
     }
-
+//    public void setIsSocat(boolean socat) {
+//        OAPMetadataEditor.debugLog("Platform.setIsSocat(" + socat + ")");
+//        isSocat = socat;
+//    }
 
 }
