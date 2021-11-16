@@ -62,6 +62,12 @@ class GenericVariable {
     String lifeStage
     String speciesIdCode
     String variableType
+    String qualityControl
+    String abbreviationQualityFlag
+    String sopChanges
+    String collectionMethod
+    String analyzingInformation
+    String phDyeTypeManuf
 
 //    static transients = ['variableType']
     static constraints = {
@@ -128,5 +134,11 @@ class GenericVariable {
         lifeStage (nullable: true)
         speciesIdCode (nullable: true)
         variableType (nullable: true)
+        qualityControl (nullable: true, type: 'text')
+        abbreviationQualityFlag (nullable: true, type: 'text')
+        sopChanges (nullable: true, type: 'text')
+        collectionMethod (nullable: true, type: 'text')
+        analyzingInformation (nullable: true, type: 'text')
+        phDyeTypeManuf (nullable: true, type: 'text')
     }
 }
