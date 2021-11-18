@@ -854,11 +854,16 @@ class OadsXmlService {
 //        }
 //        Element flag = variable.getChild("flag")
         if (source.getQcFlag()) {
-            v.setQualityFlag(source.getQcFlag().getDescription())
+            QcFlagInfoType qc = source.getQcFlag()
+            v.setQualityFlag(qc.getScheme())
+            v.setQualityControl(qc.getDescription())
+            v.setAbbreviationQualityFlag(qc.getQcFlagVarName())
         }
 //        Element methodReference = variable.getChild("methodReference")
 //        if ( ! isEmpty(methodReference) ) {
         v.setReferenceMethod(source.methodReference)
+
+        v.setSopChanges(source.getVariationsFromMethod())
 //        }
 //        Element researcherName = variable.getChild("researcherName")
         if (source.researcher) {
