@@ -7,25 +7,25 @@ import org.jdom2.input.SAXBuilder
 import org.jdom2.output.Format
 import org.jdom2.output.XMLOutputter
 
-import gov.noaa.pmel.excel2oap.PoiReader2;
+import gov.noaa.pmel.excel2oap.Excel2OAP
 
 @Transactional
 class XmlService {
 
     private static boolean isEmpty(Element e) {
         if ( e == null ) {
-            return true;
+            return true
         }
         if ( e.getTextTrim().length() > 0 || e.hasAttributes()) {
-            return false;
+            return false
         }
-        boolean emptyChildren = true;
-        Iterator<Element> children = e.getChildren().iterator();
+        boolean emptyChildren = true
+        Iterator<Element> children = e.getChildren().iterator()
         while ( emptyChildren && children.hasNext()) {
-            Element child = children.next();
-            emptyChildren = isEmpty(child);
+            Element child = children.next()
+            emptyChildren = isEmpty(child)
         }
-        return emptyChildren;
+        return emptyChildren
     }
 
     def createDocumentFromLegacyXML(InputStream ins) {
@@ -56,7 +56,7 @@ class XmlService {
         Citation citation = new Citation()
         Element title = root.getChild("title")
         if ( ! isEmpty(title) ) {
-            citation.setTitle(title.getTextTrim());
+            citation.setTitle(title.getTextTrim())
         }
 
         Element datasetAbstract = root.getChild("abstract")
@@ -221,11 +221,11 @@ class XmlService {
 
         // Funding
 
-        List<Element> funding = root.getChildren("fundingAgency");
-        List<Funding> fundingList = new ArrayList<>();
+        List<Element> funding = root.getChildren("fundingAgency")
+        List<Funding> fundingList = new ArrayList<>()
         for ( int i = 0; i < funding.size(); i++ ) {
-            Element fund = funding.get(i);
-            Funding finst = new Funding();
+            Element fund = funding.get(i)
+            Funding finst = new Funding()
             Element agency = fund.getChild("agency")
 
             if ( ! isEmpty(agency) ) {
@@ -362,7 +362,7 @@ class XmlService {
 
     def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        PoiReader2.ConvertExcelToOADS(inputStream, baos)
+        Excel2OAP.ConvertExcelToOCADS_xml(inputStream, baos)
         ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
         return createDocumentFromLegacyXML(convertedIS)
 
@@ -384,7 +384,7 @@ class XmlService {
         }
         Element insitu = varElement.getChild("insitu")
         if ( ! isEmpty(insitu)) {
-            String insituText = insitu.getTextTrim().toLowerCase();
+            String insituText = insitu.getTextTrim().toLowerCase()
             if ( insituText.startsWith("in-situ") )
                 domainVar.setObservationDetail("In-situ observation")
             else
@@ -542,12 +542,12 @@ class XmlService {
 
         Element co2ReportTemperature = varElement.getChild("co2ReportTemperature")
         if ( ! isEmpty(co2ReportTemperature) ) {
-            domainVar.setPco2Temperature(co2ReportTemperature.getTextTrim());
+            domainVar.setPco2Temperature(co2ReportTemperature.getTextTrim())
         }
 
         // 025 at what temperature was pH reported
         // <phReportTemperature>
-        // TextBox pHtemperature;
+        // TextBox pHtemperature
         Element phReportTemperature = varElement.getChild("phReportTemperature")
         if ( ! isEmpty(phReportTemperature) ) {
             domainVar.setPhTemperature(phReportTemperature.getTextTrim())
@@ -555,7 +555,7 @@ class XmlService {
 
         // 026 Biological subject
         // <biologicalSubject>
-        // TextBox biologicalSubject;
+        // TextBox biologicalSubject
         Element biologicalSubject = varElement.getChild("biologicalSubject")
         if ( ! isEmpty(biologicalSubject) ) {
             domainVar.setBiologicalSubject(biologicalSubject.getTextTrim())
@@ -563,7 +563,7 @@ class XmlService {
 
         // 032 Duration (for settlement/colonization methods)
         // <duration>
-        // TextBox duration;
+        // TextBox duration
         Element duration = varElement.getChild("duration")
         if ( ! isEmpty(duration) ) {
             domainVar.setDuration(duration.getTextTrim())
@@ -581,7 +581,7 @@ class XmlService {
 
         // 027 Cell type (open or closed)
         // <cellType>
-        // ButtonDropDown cellType;
+        // ButtonDropDown cellType
         Element cellType = varElement.getChild("cellType")
         if ( ! isEmpty(cellType) ) {
             domainVar.setCellType(cellType.getTextTrim())
@@ -589,7 +589,7 @@ class XmlService {
 
         // 029 Curve fitting method
         // <curveFitting>
-        // TextBox curveFittingMethod;
+        // TextBox curveFittingMethod
 
         Element curveFitting = varElement.getChild("curveFitting")
         if ( ! isEmpty(curveFitting) ) {
@@ -598,7 +598,7 @@ class XmlService {
 
         // 030 Depth of seawater intake
         // <DepthSeawaterIntake>
-        // TextBox intakeDepth;
+        // TextBox intakeDepth
         Element DepthSeawaterIntake = varElement.getChild("DepthSeawaterIntake")
         if ( ! isEmpty(DepthSeawaterIntake) ) {
             domainVar.setIntakeDepth(DepthSeawaterIntake.getTextTrim())
@@ -637,7 +637,7 @@ class XmlService {
 
             // 031 Drying method for CO2 gas
             // <dryMethod>
-            // TextBox dryingMethod;
+            // TextBox dryingMethod
 
             Element dryMethod = equilibrator.getChild("dryMethod")
             if ( ! isEmpty(dryMethod) ) {
@@ -645,7 +645,7 @@ class XmlService {
             }
         }
 
-        Element headspacevol = varElement.getChild("headspacevol");
+        Element headspacevol = varElement.getChild("headspacevol")
         if ( ! isEmpty(headspacevol) ) {
             domainVar.setHeadspaceVolume(headspacevol.getTextTrim())
         }
@@ -717,14 +717,14 @@ class XmlService {
 
     private Person fillPersonDomain(Element p, Person human) {
         if ( p == null ) { return null }
-//        def human;
+//        def human
 //        if ( p.getChild("role") != null && p.getChild("role").getText().equals("investigator") ) {
 //            human = new Investigator()
 //        } else {
 //            human = new DataSubmitter()
 //        }
         if ( p.getChild("name") ) {
-            String name = p.getChild("name").getText().trim();
+            String name = p.getChild("name").getText().trim()
             if (name.length() > 0 ) {
                 // TODO mi????
                 int firstSpace = name.indexOf(' ')
@@ -743,33 +743,33 @@ class XmlService {
                     human.setFirstName(name)
                 }
             }
-            Element organization = p.getChild("organization");
+            Element organization = p.getChild("organization")
             if ( ! isEmpty(organization) ) {
                 human.setInstitution(organization.getTextTrim())
             }
-            Element deliverypoint1 = p.getChild("deliverypoint1");
+            Element deliverypoint1 = p.getChild("deliverypoint1")
             if ( ! isEmpty(deliverypoint1) ) {
                 human.setAddress1(deliverypoint1.getTextTrim())
             }
-            Element deliverypoint2 = p.getChild("deliverypoint2");
+            Element deliverypoint2 = p.getChild("deliverypoint2")
             if ( ! isEmpty(deliverypoint2) ) {
                 human.setAddress2(deliverypoint2.getTextTrim())
             }
-            Element city = p.getChild("city");
+            Element city = p.getChild("city")
             if ( ! isEmpty(city) ) {
                 human.setCity(city.getTextTrim())
             }
-            Element administrativeArea = p.getChild("administrativeArea");
+            Element administrativeArea = p.getChild("administrativeArea")
             if ( ! isEmpty(administrativeArea) ) {
                 human.setState(administrativeArea.getTextTrim())
             }
-            Element zip = p.getChild("zip");
+            Element zip = p.getChild("zip")
             if ( ! isEmpty(zip) ) {
                 human.setZip(zip.getTextTrim())
             }
-            Element country = p.getChild("country");
+            Element country = p.getChild("country")
             if ( ! isEmpty(country) ) {
-                String proposedCountry = country.getTextTrim();
+                String proposedCountry = country.getTextTrim()
                 String countryName = OracleController.getCountryName(country.getTextTrim())
                 if ( countryName !=  null ) {
                     human.setCountry(countryName)
@@ -777,24 +777,24 @@ class XmlService {
                     human.setCountry(proposedCountry)
                 }
             }
-            Element phone = p.getChild("phone");
+            Element phone = p.getChild("phone")
             if ( ! isEmpty( phone )) {
                 human.setTelephone(phone.getTextTrim())
             }
-            Element email = p.getChild("email");
+            Element email = p.getChild("email")
             if ( ! isEmpty(email) ) {
                 human.setEmail(email.getTextTrim())
             }
-            Element ID = p.getChild("ID");
+            Element ID = p.getChild("ID")
             if ( ! isEmpty(ID) ) {
                 human.setRid(ID.getTextTrim())
             }
-            Element IDtype = p.getChild("IDtype");
+            Element IDtype = p.getChild("IDtype")
             if ( ! isEmpty(IDtype) ) {
                 human.setIdType(IDtype.getTextTrim())
             }
         }
-        return human;
+        return human
     }
 
     def addNceiStuff(Element metadata) {
@@ -832,8 +832,8 @@ class XmlService {
     }
     def createXml(Document doc) {
 
-        org.jdom2.Document xmlDoc = new org.jdom2.Document();
-        Element metadata = new Element("metadata");
+        org.jdom2.Document xmlDoc = new org.jdom2.Document()
+        Element metadata = new Element("metadata")
         xmlDoc.setRootElement(metadata)
 
         addNceiStuff(metadata)
@@ -850,13 +850,13 @@ class XmlService {
         }
 
         if ( doc.getDataSubmitter() ) {
-            Person ds = doc.getDataSubmitter();
-            Element dataSubmitter = new Element("datasubmitter");
+            Person ds = doc.getDataSubmitter()
+            Element dataSubmitter = new Element("datasubmitter")
             fillPerson(ds, dataSubmitter, null)
             metadata.addContent(dataSubmitter)
         }
 
-        Citation citation = doc.getCitation();
+        Citation citation = doc.getCitation()
         if ( citation ) {
             if (citation.getTitle()) {
                 Element title = new Element("title")
@@ -979,7 +979,7 @@ class XmlService {
             }
         }
 
-        List<Funding> fundingList = doc.getFunding();
+        List<Funding> fundingList = doc.getFunding()
         for (int i = 0; i < fundingList.size(); i++) {
             Funding funding = fundingList.get(i)
             if ( funding ) {
@@ -1009,7 +1009,7 @@ class XmlService {
         if ( platforms ) {
             for (int i = 0; i < platforms.size(); i++) {
                 Platform platform = platforms.get(i)
-                Element platformE = new Element("platform");
+                Element platformE = new Element("platform")
                 if (platform.getName()) {
                     Element platformName = new Element("name")
                     platformName.setText(platform.getName())
@@ -1032,7 +1032,7 @@ class XmlService {
                 }
                 if (platform.getCountry()) {
                     Element platformCountry = new Element("country")
-                    String proposedCountry = platform.getCountry();
+                    String proposedCountry = platform.getCountry()
                     String countryName = OracleController.getCountryName(proposedCountry)
                     if ( countryName != null ) {
                         platformCountry.setText(countryName)
@@ -1100,17 +1100,17 @@ class XmlService {
      * @return
      */
     def count(String peak, char c) {
-        int count = 0;
+        int count = 0
         for (int i = 0; i < peak.length(); i++) {
             if ( peak.charAt(i) == c) {
-                count += 1;
+                count += 1
             }
         }
-        return new Integer(count);
+        return new Integer(count)
     }
 
     private Element fillGeneralVariable(GenericVariable v) {
-        Element variable = fillVariable(v, "0");
+        Element variable = fillVariable(v, "0")
         // biologicalSubject
         if ( v.getBiologicalSubject()) {
             Element biologicalSubject = new Element("biologicalSubject")
@@ -1135,15 +1135,15 @@ class XmlService {
             speciesID.setText(v.getSpeciesIdCode())
             variable.addContent(speciesID)
         }
-        return variable;
+        return variable
     }
 
     private Element fillDic(GenericVariable v) {
-        Element element = fillVariable(v, "1");
-        return element;
+        Element element = fillVariable(v, "1")
+        return element
     }
     private Element fillTa(GenericVariable v) {
-        Element element = fillVariable(v, "2");
+        Element element = fillVariable(v, "2")
         /*
         TA: Type of titration
         TA: Cell type (open or closed)
@@ -1170,10 +1170,10 @@ class XmlService {
             e.setText(v.getMagnitudeOfBlankCorrection())
             element.addContent(e)
         }
-        return element;
+        return element
     }
     private Element fillPh(GenericVariable v) {
-        Element element = fillVariable(v, "3");
+        Element element = fillVariable(v, "3")
         /*
         pH: pH scale
         pH: Temperature of measurement
@@ -1201,10 +1201,10 @@ class XmlService {
             e.setText(v.getPhTemperature())
             element.addContent(e)
         }
-        return element;
+        return element
     }
     private Element fillPCO2a(GenericVariable v) {
-        Element element = fillPCO2x(v, "4");
+        Element element = fillPCO2x(v, "4")
         /*
         pCO2A: Location of seawater intake
         pCO2A: Depth of seawater intake
@@ -1269,10 +1269,10 @@ class XmlService {
             eq.addContent(e)
         }
         element.addContent(eq)
-        return element;
+        return element
     }
     private Element fillPCO2d(GenericVariable v) {
-        Element element = fillPCO2x(v, "5");
+        Element element = fillPCO2x(v, "5")
         /*
         pCO2D: Storage method
         pCO2D: Seawater volume (mL)
@@ -1299,10 +1299,10 @@ class XmlService {
             e.setText(v.getTemperatureMeasurement())
             element.addContent(e)
         }
-        return element;
+        return element
     }
     private Element fillPCO2x(GenericVariable v, String internalId) {
-        Element element = fillVariable(v, internalId);
+        Element element = fillVariable(v, internalId)
         /*
         pCO2A: Manufacturer of the gas detector
         pCO2A: Model of the gas detector
@@ -1360,7 +1360,7 @@ class XmlService {
             e.setText(v.getPco2Temperature())
             element.addContent(e)
         }
-        return element;
+        return element
     }
     /*
     fullname
@@ -1559,9 +1559,9 @@ class XmlService {
         }
         // TODO set the internal variable number
 
-        Element internal = new Element("internal");
-        internal.addContent(internalId);
-        variable.addContent(internal);
+        Element internal = new Element("internal")
+        internal.addContent(internalId)
+        variable.addContent(internal)
         return variable
     }
 
@@ -1606,7 +1606,7 @@ class XmlService {
         if ( p.getZip() )
             person.addContent(new Element("zip").setText(p.getZip()))
         if ( p.getCountry() ) {
-            String proposedCountry = p.getCountry();
+            String proposedCountry = p.getCountry()
             String countryName = OracleController.getThreeLetter(proposedCountry)
             if ( countryName != null ) {
                 person.addContent(new Element("country").setText(countryName))
