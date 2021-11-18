@@ -359,7 +359,9 @@ class DocumentController {
         log.debug("Creating xml document")
         String xml = new BufferedReader(new InputStreamReader(inStream))
                 .lines().parallel().collect(Collectors.joining("\n"))
+        log.trace("xml:"+xml);
         org.w3c.dom.Document xdoc = _createXDoc(xml)
+        log.trace("xdoc:"+xdoc)
         org.w3c.dom.Element rootElem = xdoc.getDocumentElement()
         Document uploadedDoc
         String version = rootElem.getAttribute("version")

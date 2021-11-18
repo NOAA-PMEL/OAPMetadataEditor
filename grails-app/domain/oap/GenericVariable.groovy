@@ -62,6 +62,7 @@ class GenericVariable {
     String lifeStage
     String speciesIdCode
     String variableType
+
     String qualityControl
     String abbreviationQualityFlag
     String sopChanges

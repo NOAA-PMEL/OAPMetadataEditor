@@ -1,35 +1,25 @@
 package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.SuggestOracle;
 import gov.noaa.pmel.sdig.client.ClientFactory;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-//import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.SuggestBox;
-import org.gwtbootstrap3.client.ui.DefaultSuggestionDisplay;
 import org.gwtbootstrap3.client.ui.Heading;
 import org.gwtbootstrap3.client.ui.FormLabel;
 
