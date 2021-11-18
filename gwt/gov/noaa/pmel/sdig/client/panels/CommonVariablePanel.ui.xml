@@ -96,7 +96,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="DIC: Collection method" b:id="collectionMethod"></b:TextBox>
+                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="VAR: Collection method" b:id="collectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="MD_4 LG_4" offset="LG_1">
