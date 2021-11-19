@@ -284,11 +284,15 @@ class OadsXmlService {
     }
 
     private GenericVariable fillVariableDomain(Co2Socat co2socat) {
-        GenericVariable variable = fillVariableCo2(co2socat, new Co2())
+        GenericVariable variable = fillVariableCo2a(co2socat, new Co2())
     }
 
     private GenericVariable fillVariableDomain(Co2Autonomous co2aVar) {
-        GenericVariable variable = fillVariableCo2(co2aVar, new Pco2a())
+        GenericVariable variable = fillVariableCo2a(co2aVar, new Pco2a())
+    }
+
+    private GenericVariable fillVariableCo2a(Co2Autonomous co2aVar, GenericVariable co2x) {
+        GenericVariable variable = fillVariableCo2(co2aVar, co2x)
         // 030 Depth of seawater intake
         // <DepthSeawaterIntake>
         // TextBox intakeDepth;
