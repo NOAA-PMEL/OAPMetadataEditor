@@ -7,6 +7,7 @@ class Platform {
     String country;
     String owner;
     String platformType;
+    String platformIdType;
     static constraints = {
         document (nullable: true)
         name(nullable: true)
@@ -14,5 +15,6 @@ class Platform {
         country(nullable: true)
         owner(nullable: true)
         platformType(nullable: true)
+        platformIdType (nullable: true)
     }
 }

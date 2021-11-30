@@ -26,19 +26,23 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
+
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionUpdater;
+
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.PlatformSuggestOracle;
+import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Pagination;
 import org.gwtbootstrap3.client.ui.SuggestBox;
+import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
@@ -86,6 +90,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     @UiField
     Pagination platformPagination;
+
+    @UiField
+    ButtonDropDown platformIdType;
 
     // modified for 14.3.1
     @UiField
@@ -154,6 +161,22 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         });
         country = new SuggestBox(countrySuggestionOracle);
         initWidget(ourUiBinder.createAndBindUi(this));
+
+        // platformIdType
+        List<String> idNames = new ArrayList<String>();
+        List<String> idValues = new ArrayList<String>();
+        idNames.add("ICES ");
+        idValues.add("ices");
+        idNames.add("IMO ");
+        idValues.add("imo");
+        idNames.add("WMO ");
+        idValues.add("wmo");
+        platformIdType.init("Select PlatformID Type ", idNames, idValues);
+
+        if (OAPMetadataEditor.getIsSocatParam()) {
+
+        }
+
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         platforms.addCellPreviewHandler(new CellPreviewEvent.Handler<Platform>() {
             @Override
@@ -289,6 +312,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         platform.setOwner(owner.getText().trim());
         platform.setPlatformId(platformId.getText().trim());
         platform.setPlatformType(platformType.getText().trim());
+        platform.setPlatformIdType(platformIdType.getValue());
+
         platform.setPosition(editIndex);
         return platform;
     }
@@ -399,6 +424,10 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         }
         if ( platform.getPlatformType() != null ) {
             platformType.setText(platform.getPlatformType());
+        }
+
+        if ( platform.getPlatformIdType() != null ) {
+            platformIdType.setSelected(platform.getPlatformIdType());
         }
     }
 
@@ -544,6 +573,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         displayedPlatform = null;
         editIndex = -1;
         editing = false;
+        platformIdType.reset();
         if ( editPlatform != null ) {
             show(editPlatform);
             editPlatform = null;
