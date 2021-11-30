@@ -12,8 +12,8 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="title" text="Title *"></b:FormLabel>
-                                <b:Modal title="5 Provide a descriptive title for the data set." closable="true" b:id="modalTitle">
+                                <b:FormLabel color="#B22222" for="title" ui:field="titleLabel" text="Title *"></b:FormLabel>
+                                <b:Modal title="5 Provide a descriptive title for the data set." closable="true" ui:field="titlePopover" b:id="modalTitle">
                                     <b:ModalBody>
                                         <g:HTML>
                                              Please consider to create a title in the following form:<br/><br/>
@@ -35,8 +35,8 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="datasetAbstract" text="Abstract *"></b:FormLabel>
-                                <b:Modal title="6 A narrative summary of the data set." closable="true" b:id="modalAbstract">
+                                <b:FormLabel color="#B22222" for="datasetAbstract" ui:field="datasetAbstractLabel" text="Abstract *"></b:FormLabel>
+                                <b:Modal title="6 A narrative summary of the data set." closable="true" ui:field="datasetAbstractPopover" b:id="modalAbstract">
                                     <b:ModalBody>
                                         <g:HTML>
                                             Please consider an abstract that generally follows the following example:<br/><br/>
@@ -89,8 +89,8 @@
 <!--                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" b:id="modalPurpose"/>-->
 <!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPurpose" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
 <!--                                <b:TextArea ui:field="purpose" visibleLines="6" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextArea>-->
-                                <b:FormLabel for="purpose" ui:field="purposeLabel" text="Purpose"></b:FormLabel>
-                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" ui:field="purposePopover" b:id="purposePopover"/>
+                                <b:FormLabel for="purpose" text="Purpose"></b:FormLabel>
+                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" b:id="purposePopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#purposePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="purpose" visibleLines="6" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextArea>
                             </b:FormGroup>
@@ -103,8 +103,8 @@
 <!--                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" b:id="modalResearchProjects"/>-->
 <!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearchProjects" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
 <!--                                <b:TextBox ui:field="researchProjects" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextBox>-->
-                                <b:FormLabel for="researchProjects" ui:field="researchProjectsLabel" text="Research Projects"></b:FormLabel>
-                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" ui:field="researchProjectsPopover" b:id="researchProjectsPopover"/>
+                                <b:FormLabel for="researchProjects" text="Research Projects"></b:FormLabel>
+                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" b:id="researchProjectsPopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#researchProjectsPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="researchProjects" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextBox>
                             </b:FormGroup>
@@ -128,14 +128,14 @@
                             </b:FormGroup>
                         </b:Column>
 
-                        <b:Column size="SM_4">
-                            <b:FormGroup>
-                                <b:FormLabel for="cruiseIdType" text="Cruise ID Type"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="cruiseIdTypePopover" b:id="cruiseIdTypePopover"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#cruiseIdTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <mde:ButtonDropDown ui:field="cruiseIdType"></mde:ButtonDropDown>
-                            </b:FormGroup>
-                        </b:Column>
+<!--                        <b:Column size="SM_4">-->
+<!--                            <b:FormGroup>-->
+<!--                                <b:FormLabel for="cruiseIdType" text="Cruise ID Type"></b:FormLabel>-->
+<!--                                <b:Modal closable="true" ui:field="cruiseIdTypePopover" b:id="cruiseIdTypePopover"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#cruiseIdTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <mde:ButtonDropDown ui:field="cruiseIdType"></mde:ButtonDropDown>-->
+<!--                            </b:FormGroup>-->
+<!--                        </b:Column>-->
 
                         <b:Column size="SM_4">
                             <b:FormGroup>
@@ -153,13 +153,26 @@
 <!--                                <b:Modal title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set." b:id="modalReferences"/>-->
 <!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferences" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
 <!--                                <b:TextBox ui:field="references" allowBlank="true" placeholder="References" b:id="references"></b:TextBox>-->
-                                <b:FormLabel for="references" ui:field="referencesLabel" text="References"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="referencesPopover" b:id="referencesPopover" title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set."/>
+                                <b:FormLabel for="references" text="References"></b:FormLabel>
+                                <b:Modal closable="true" b:id="referencesPopover" title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#referencesPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="references" allowBlank="true" placeholder="References" b:id="references"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
+                    <!-- methodsApplied block -->
+<!--                    <b:Row>-->
+<!--                        <b:Column size="SM_12">-->
+<!--                            <b:FormGroup>-->
+<!--                                <b:FormLabel for="methodsApplied" text="Method(s) Applied"></b:FormLabel>-->
+<!--                                <b:Modal closable="true" b:id="methodsAppliedPopover" title="10 Specify the methodologies applied to charactarize the carbonate system, including references/citations. Please describe if you made any changes to the method as it is described in the literature, e.g. modications of sampling procedures, different bottles used for storage of samples, changes to the dye, etc. Describe precisely how the method differed and what was done instead. "/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#methodsAppliedPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextArea ui:field="methodsApplied" allowBlank="true" placeholder="Method(s) Applied" b:id="methodsApplied"></b:TextArea>-->
+<!--                            </b:FormGroup>-->
+<!--                        </b:Column>-->
+<!--                    </b:Row>-->
+
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>

@@ -63,26 +63,36 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     Button save;
 
 
-    @UiField
-    ButtonDropDown cruiseIdType;
+//    @UiField
+//    TextArea methodsApplied;
+
+//    @UiField
+//    ButtonDropDown cruiseIdType;
 
     @UiField
-    FormLabel researchProjectsLabel;
+    FormLabel titleLabel;
     @UiField
-    Modal researchProjectsPopover;
+    Modal titlePopover;
 
     @UiField
-    FormLabel purposeLabel;
+    FormLabel datasetAbstractLabel;
     @UiField
-    Modal purposePopover;
+    Modal datasetAbstractPopover;
 
-    @UiField
-    FormLabel referencesLabel;
-    @UiField
-    Modal referencesPopover;
+//    @UiField
+//    FormLabel researchProjectsLabel;
+//    @UiField
+//    Modal researchProjectsPopover;
 
-//    // assume it is true for now
-//    boolean isSocat = true;
+//    @UiField
+//    FormLabel purposeLabel;
+//    @UiField
+//    Modal purposePopover;
+
+//    @UiField
+//    FormLabel referencesLabel;
+//    @UiField
+//    Modal referencesPopover;
 
 
     String type = Constants.SECTION_CITATION;
@@ -95,33 +105,27 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     public CitationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
 
-//        isSocat = OAPMetadataEditor.getIsSocatParam();
-
-        List<String> idNames = new ArrayList<String>();
-        List<String> idValues = new ArrayList<String>();
-        idNames.add("ICES ");
-        idValues.add("ices");
-        idNames.add("IMO ");
-        idValues.add("imo");
-        idNames.add("WMO ");
-        idValues.add("wmo");
-        cruiseIdType.init("Select ID Type ", idNames, idValues);
-
         if (OAPMetadataEditor.getIsSocatParam()) {
-            // researchProjects -> Name of sampling site or title of related research project
-            researchProjectsPopover.setTitle("8 Provide the name of the sampling site/related research project, e.g. BATS, CARIACO.");
-            researchProjectsLabel.setText("Name of sampling site or title of related research project");
-            researchProjects.getElement().setAttribute("placeHolder", "Name of sampling site or title of related research project");
+//            List<String> idNames = new ArrayList<String>();
+//            List<String> idValues = new ArrayList<String>();
+//            idNames.add("ICES ");
+//            idValues.add("ices");
+//            idNames.add("IMO ");
+//            idValues.add("imo");
+//            idNames.add("WMO ");
+//            idValues.add("wmo");
+//            cruiseIdType.init("Select ID Type ", idNames, idValues);
 
-            // purpose (or abstract?) -> Short description including purpose of observation
-            purposePopover.setTitle("9 A narrative summary of the data set, including a description of the purpose of the observations.");
-            purposeLabel.setText("Short description including purpose of observation");
-            purpose.getElement().setAttribute("placeHolder", "Short description including purpose of observation");
+            // Title -> Name of sampling site or title of related research project
+            titlePopover.setTitle("8 Provide the name of the sampling site/related research project, e.g. BATS, CARIACO.");
+            titleLabel.setText("Name of sampling site or title of related research project");
+            title.getElement().setAttribute("placeHolder", "Name of sampling site or title of related research project");
 
-            // references -> Method(s) applied
-            referencesPopover.setTitle("10 Specify the methodologies applied to charactarize the carbonate system, including references/citations. Please describe if you made any changes to the method as it is described in the literature, e.g. modications of sampling procedures, different bottles used for storage of samples, changes to the dye, etc. Describe precisely how the method differed and what was done instead.");
-            referencesLabel.setText("Method(s) Applied");
-            references.getElement().setAttribute("placeHolder", "Method(s) Applied");
+            // Abstract -> Short description including purpose of observation
+            datasetAbstract.setTitle("9 A narrative summary of the data set, including a description of the purpose of the observations.");
+            datasetAbstractLabel.setText("Short description including purpose of observation");
+            datasetAbstract.getElement().setAttribute("placeHolder", "Short description including purpose of observation");
+
         }
     }
 
@@ -138,6 +142,8 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         citation.setCitationAuthorList(citationAuthorList.getText().trim());
         citation.setScientificReferences(references.getText().trim());
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
+//        citation.setMethodsApplied(methodsApplied.getText().trim());
+//        citation.setCruiseIdType(cruiseIdType.getValue);
         return citation;
     }
     public boolean isDirty(Citation original) {
@@ -157,6 +163,9 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
             isDirty(references, original.getScientificReferences() ) ||
             isDirty(supplementalInformation, original.getSupplementalInformation() );
+//        ||
+//            isDirty(methodsApplied, original.getMethodsApplied() ) ||
+//            isDirty(cruiseIdType, original.getCruiseIdType() );
         OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
     }
@@ -194,6 +203,12 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         if (supplementalInformation.getText().trim() != null && !supplementalInformation.getText().isEmpty() ) {
             return true;
         }
+//        if (methodsApplied.getText().trim() != null && !methodsApplied.getText().isEmpty() ) {
+//            return true;
+//        }
+//        if (cruiseIdType.getText().trim() != null && !cruiseIdType.getText().isEmpty() ) {
+//            return true;
+//        }
         return false;
     }
     public void show(Citation citation) {
@@ -231,6 +246,12 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         if ( citation.getSupplementalInformation() != null ) {
             supplementalInformation.setText(citation.getSupplementalInformation());
         }
+//        if ( citation.getMethodsApplied() != null ) {
+//            methodsApplied.setText(citation.getMethodsApplied());
+//        }
+//        if ( citation.getCruiseIdType() != null ) {
+//            cruiseIdType.setSelected(citation.getSetSelected());
+//        }
     }
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
