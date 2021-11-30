@@ -233,7 +233,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         common.researcherInstitutionModal.setTitle("25.23.2 The institution of the PI, whose research team measured or derived this parameter.");
 //        common.fullVariableNameModal.setTitle("Full variable name.");
         common.referenceMethodModal.setTitle("25.22 Citation for the pCO2 method.");
-        common.unitsModal.setTitle("25.5 Units of the variable, e.g., μatm.");
+//        common.unitsModal.setTitle("25.5 Units of the variable, e.g., μatm.");
 
         common.qualityControlModal.setTitle("22.7 Indicate if quality control procedures were applied.");
         common.abbreviationQualityFlagModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");

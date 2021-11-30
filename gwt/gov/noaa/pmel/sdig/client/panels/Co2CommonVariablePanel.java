@@ -51,8 +51,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     ButtonDropDown observationDetail;
 
     // 005 Variable unit
-    @UiField
-    TextBox units;
+//    @UiField
+//    TextBox units;
 
     // 006 Measured or calculated
     @UiField
@@ -125,8 +125,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     FormGroup observationDetailForm;
 
     // 005 Variable unit
-    @UiField
-    FormGroup unitsForm;
+//    @UiField
+//    FormGroup unitsForm;
 
     // 006 Measured or calculated
     @UiField
@@ -193,8 +193,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     Modal observationDetailModal;
 
     // 005 Variable unit
-    @UiField
-    Modal unitsModal;
+//    @UiField
+//    Modal unitsModal;
 
     // 006 Measured or calculated
     @UiField
@@ -400,9 +400,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //        if ( variable.getObservationType() != null ) {
 //            observationType.setText(variable.getObservationType());
 //        }
-        if ( variable.getUnits() != null ) {
-            units.setText(variable.getUnits());
-        }
+//        if ( variable.getUnits() != null ) {
+//            units.setText(variable.getUnits());
+//        }
         if ( variable.getMeasured() != null ) {
             measured.setSelected(variable.getMeasured());
         } else {
@@ -473,7 +473,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         commonVariable.setObservationType(observationType); //.getText());
         commonVariable.setManipulationMethod(manipulationMethod.getText());
         commonVariable.setObservationDetail(observationDetail.getValue());
-        commonVariable.setUnits(units.getText());
+//        commonVariable.setUnits(units.getText());
         commonVariable.setMeasured(measured.getValue());
         commonVariable.setCalculationMethod(calculationMethod.getValue());
         commonVariable.setSamplingInstrument(samplingInstrument.getText());
@@ -502,7 +502,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
                    isDirty(observationType, original.getObservationType() ) ||
                    isDirty(manipulationMethod, original.getManipulationMethod() ) ||
                    isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
-                   isDirty(units, original.getUnits() ) ||
+//                   isDirty(units, original.getUnits() ) ||
                    isDirty(measured.getValue(), original.getMeasured() ) ||
                    isDirty(samplingInstrument, original.getSamplingInstrument() ) ||
                    isDirty(analyzingInstrument, original.getAnalyzingInstrument() ) ||
@@ -539,8 +539,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
             return true;
         if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
             return true;
-        if (units.getText().trim() != null && !units.getValue().isEmpty() )
-            return true;
+//        if (units.getText().trim() != null && !units.getValue().isEmpty() )
+//            return true;
         if (measured.getValue() != null && !measured.getValue().isEmpty() )
             return true;
         if (samplingInstrument.getText().trim() != null && !samplingInstrument.getValue().isEmpty() )
