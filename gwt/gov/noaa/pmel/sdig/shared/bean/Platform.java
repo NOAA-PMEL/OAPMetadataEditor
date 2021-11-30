@@ -12,6 +12,16 @@ public class Platform extends Ordered implements Comparable<Platform>, Stringy, 
     String country;
     String owner;
     String platformType;
+    String platformIdType;
+
+
+    public String getPlatformIdType() {
+        return platformIdType;
+    }
+
+    public void setPlatformIdType(String platformIdType) {
+        this.platformIdType = platformIdType;
+    }
 
     public String getName() {
         return name;
@@ -64,6 +74,7 @@ public class Platform extends Ordered implements Comparable<Platform>, Stringy, 
         newp.country = this.country;
         newp.owner = this.owner;
         newp.platformType = this.platformType;
+        newp.platformIdType = this.platformIdType;
         return newp;
     }
     @Override
@@ -77,6 +88,7 @@ public class Platform extends Ordered implements Comparable<Platform>, Stringy, 
         if ( ! sAreTheSame(country, platform.country)) return false;
         if ( ! sAreTheSame(owner, platform.owner)) return false;
         if ( ! sAreTheSame(platformId, platform.platformId)) return false;
+        if ( ! sAreTheSame(platformIdType, platform.platformIdType)) return false;
         return sAreTheSame(platformType,platform.platformType);
     }
 
@@ -91,6 +103,8 @@ public class Platform extends Ordered implements Comparable<Platform>, Stringy, 
         if ( z != 0 ) { return z; }
         z = sCompare(owner, p.owner);
         if ( z != 0 ) { return z; }
+        z = sCompare(platformIdType, p.platformIdType);
+        if ( z != 0 ) { return z; }
         return sCompare(country, p.country);
     }
 
@@ -101,7 +115,8 @@ public class Platform extends Ordered implements Comparable<Platform>, Stringy, 
                     isEmpty(platformId) &&
                     isEmpty(country) &&
                     isEmpty(owner) &&
-                    isEmpty(platformType));
+                    isEmpty(platformType) &&
+                    isEmpty(platformIdType));
         return hasContent;
     }
 }
