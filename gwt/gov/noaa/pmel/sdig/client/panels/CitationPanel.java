@@ -136,12 +136,17 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         citation.setResearchProjects(researchProjects.getText().trim());
         citation.setTitle(title.getText().trim());
         citation.setExpocode(expocode.getText().trim());
-        citation.setCruiseId(cruiseId.getText().trim());
+        String cruise = cruiseId.getText().trim();
+        String idType = cruiseIdType.getValue();
+        if ( idType != null && ! idType.isEmpty()) {
+            cruise = idType + ":" + cruise;
+        }
+        citation.setCruiseId(cruise);
         citation.setSection(section.getText().trim());
         citation.setCitationAuthorList(citationAuthorList.getText().trim());
         citation.setScientificReferences(references.getText().trim());
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
-//        citation.setMethodsApplied(methodsApplied.getText().trim());
+        citation.setMethodsApplied(methodsApplied.getText().trim());
 //        citation.setCruiseIdType(cruiseIdType.getValue);
         return citation;
     }
@@ -161,7 +166,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             isDirty(section, original.getSection() ) ||
             isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
             isDirty(references, original.getScientificReferences() ) ||
-            isDirty(methodsApplied, original.getScientificReferences() ) ||
+            isDirty(methodsApplied, original.getMethodsApplied() ) ||
             isDirty(supplementalInformation, original.getSupplementalInformation() );
         OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
@@ -219,16 +224,27 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 //        if ( citation.getPurpose() != null ) {
 //            purpose.setText(citation.getPurpose() );
 //        }
-        if ( citation.getResearchProjects() != null && ! citation.getResearchProjects().trim().equals("null")) {
+        if ( citation.getResearchProjects() != null &&
+             ! citation.getResearchProjects().trim().equals("null")) { // XXX TODO: workaround for oads xml issue
             researchProjects.setText(citation.getResearchProjects());
         }
         if ( citation.getExpocode() != null ) {
             expocode.setText(citation.getExpocode());
         }
         if ( citation.getCruiseId() != null ) {
-            cruiseId.setText(citation.getCruiseId());
+            String cruiseInfo = citation.getCruiseId();
+            int idx = cruiseInfo.indexOf(':');
+            if ( idx > 0 ) {
+                String idType = cruiseInfo.substring(0, idx);
+                cruiseIdType.setSelected(idType);
+                String id = cruiseInfo.substring(idx+1);
+                cruiseId.setText(id);
+            } else {
+                cruiseId.setText(citation.getCruiseId());
+            }
         }
-        if ( citation.getSection() != null && ! citation.getSection().trim().equals("null")) {
+        if ( citation.getSection() != null &&
+             ! citation.getSection().trim().equals("null")) { // XXX TODO: workaround for oads xml issue
             section.setText(citation.getSection());
         }
         if ( citation.getCitationAuthorList() != null ) {
