@@ -144,6 +144,24 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox vaporCorrection;
 
+    /*
+    TextBox equilibratorTemperatureMeasureUncertainty
+    String uncertaintyOfTemperature
+    TextBox equilibratorTemperatureSensorCalibrationMethod
+    String temperatureMeasurementCalibrationMethod
+    TextBox totalMeasurementPressureDetermined
+    String totalPressureCalcMethod
+    TextBox totalMeasurementPressureUncertaintyCalculated
+    String uncertaintyOfTotalPressure
+    TextBox calibrationMethodPressureSensorFrequency
+    String pressureMeasurementCalibrationMethod
+    TextBox stdGasTraceability
+    String traceabilityOfStdGas
+    TextBox pco2FromXco2Method
+    String pCo2CalcMethod
+    TextBox fco2FromPco2Method
+    String fCo2CalcMethod
+     */
 
     // Uncertainty of temperature measured inside the equlibrator
     @UiField
@@ -547,6 +565,32 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 
         if ( pco2a.getVaporCorrection() != null ) {
             vaporCorrection.setText(pco2a.getVaporCorrection());
+        }
+
+        // SDG 14.3.1 + SOCAT additions
+        if ( pco2a.getUncertaintyOfTemperature() != null ) {
+            equilibratorTemperatureSensorCalibrationMethod.setText(pco2a.getUncertaintyOfTemperature());
+        }
+        if ( pco2a.getUncertaintyOfTotalPressure() != null ) {
+            totalMeasurementPressureUncertaintyCalculated.setText(pco2a.getUncertaintyOfTotalPressure());
+        }
+        if ( pco2a.getPressureMeasurementCalibrationMethod() != null ) {
+            calibrationMethodPressureSensorFrequency.setText(pco2a.getPressureMeasurementCalibrationMethod());
+        }
+        if ( pco2a.getTraceabilityOfStdGas() != null ) {
+            stdGasTraceability.setText(pco2a.getTraceabilityOfStdGas());
+        }
+        if ( pco2a.getpCo2CalcMethod() != null ) {
+            pco2FromXco2Method.setText(pco2a.getpCo2CalcMethod());
+        }
+        if ( pco2a.getfCo2CalcMethod() != null ) {
+            fco2FromPco2Method.setText(pco2a.getfCo2CalcMethod());
+        }
+        if ( pco2a.getTotalPressureCalcMethod() != null ) {
+            totalMeasurementPressureDetermined.setText(pco2a.getTotalPressureCalcMethod());
+        }
+        if ( pco2a.getUncertaintyOfTotalPressure() != null ) {
+            totalMeasurementPressureUncertaintyCalculated.setText(pco2a.getUncertaintyOfTotalPressure());
         }
     }
     public ClickHandler saveIt = new ClickHandler() {

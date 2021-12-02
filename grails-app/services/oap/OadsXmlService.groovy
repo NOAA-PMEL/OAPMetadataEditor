@@ -8,6 +8,7 @@ import gov.noaa.pmel.oads.util.TimeUtils
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
 import gov.noaa.pmel.oads.xml.a0_2_2.StandardizedVariable
+import gov.noaa.pmel.tws.util.StringUtils
 import grails.transaction.Transactional
 
 import javax.xml.transform.Transformer
@@ -148,13 +149,17 @@ class OadsXmlService {
         for (String code : metadata.getSections()) {
             section += code + " "
         }
-        citation.setSection(section)
-
+        if ( !StringUtils.emptyOrNull(section)) {
+            citation.setSection(section)
+        }
         def reference = ""
         for (String ref : metadata.getReferences()) {
             reference += ref + "\n"
         }
         citation.setScientificReferences(reference.trim())
+        if ( metadata.getMethods()) {
+            citation.setMethodsApplied(metadata.getMethods())
+        }
 
         def authorList = ""
         def semi = ""
@@ -285,6 +290,9 @@ class OadsXmlService {
 
     private GenericVariable fillVariableDomain(Co2Socat co2socat) {
         GenericVariable variable = fillVariableCo2a(co2socat, new Co2())
+        variable.totalPressureCalcMethod = co2socat.totalMeasurementPressure.method
+        variable.uncertaintyOfTotalPressure = co2socat.totalMeasurementPressure.uncertainty
+        return variable
     }
 
     private GenericVariable fillVariableDomain(Co2Autonomous co2aVar) {
@@ -336,6 +344,19 @@ class OadsXmlService {
             variable.setEquilibratorPressureMeasureMethod(co2aVar.equilibrator.pressureMeasurement.method)
 //            }
 
+            // need null checks all down the line... (and above.)
+            // eg if ( co2var.equilibrator && co2aVar.equilibrator.temperatureMeasurement && ... )
+            // OR change back to nonNullHashMap..
+            variable.setUncertaintyOfTemperature(co2aVar.equilibrator.temperatureMeasurement.uncertainty)
+            variable.setTemperatureMeasurementCalibrationMethod(co2aVar.equilibrator.temperatureMeasurement.sensor.calibration)
+            variable.setPressureMeasurementCalibrationMethod(co2aVar.equilibrator.pressureMeasurement.sensor.calibration)
+            List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
+            if ( stdGases != null && !stdGases.isEmpty()) {
+                StandardGasType stdGas = stdGases.get(0)
+                variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+            }
+            variable.setpCo2CalcMethod(co2aVar.calculationMethodForPCO2)
+            variable.setfCo2CalcMethod(co2aVar.calculationMethodForFCO2)
 
             // 031 Drying method for CO2 gas
             // <dryMethod>

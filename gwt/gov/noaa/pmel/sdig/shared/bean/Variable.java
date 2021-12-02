@@ -77,6 +77,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String analyzingInformation;
     String phDyeTypeManuf;
 
+    String traceabilityOfStdGas;
+    String fCo2CalcMethod;
+    String pCo2CalcMethod;
+    String temperatureMeasurementCalibrationMethod;
+    String pressureMeasurementCalibrationMethod;
+    String uncertaintyOfTemperature;
+    String uncertaintyOfTotalPressure;
+    String totalPressureCalcMethod;
+
     public Variable clone() {
         Variable newV = new Variable(
             this.abbreviation,
@@ -145,7 +154,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.collectionMethod,
             this.analyzingInformation,
             this.phDyeTypeManuf,
-            this.variableType
+            this.variableType,
+            this.traceabilityOfStdGas,
+            this.fCo2CalcMethod,
+            this.pCo2CalcMethod,
+            this.temperatureMeasurementCalibrationMethod,
+            this.pressureMeasurementCalibrationMethod,
+            this.uncertaintyOfTemperature,
+            this.uncertaintyOfTotalPressure,
+            this.totalPressureCalcMethod
         );
         return newV;
     }
@@ -217,7 +234,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String collectionMethod,
             String phDyeTypeManuf,
             String analyzingInformation,
-            String variableType
+            String variableType,
+            String traceabilityOfStdGas,
+            String fCo2CalcMethod,
+            String pCo2CalcMethod,
+            String temperatureMeasurementCalibrationMethod,
+            String pressureMeasurementCalibrationMethod,
+            String uncertaintyOfTemperature,
+            String uncertaintyOfTotalPressure,
+            String totalPressureCalcMethod
     ) {
         this.abbreviation = abbreviation;
         this.manipulationMethod = manipulationMethod;
@@ -286,7 +311,357 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.phDyeTypeManuf = phDyeTypeManuf;
         this.analyzingInformation = analyzingInformation;
         this.variableType = variableType;
+        this.traceabilityOfStdGas = traceabilityOfStdGas;
+        this.fCo2CalcMethod = fCo2CalcMethod;
+        this.pCo2CalcMethod = pCo2CalcMethod;
+        this.temperatureMeasurementCalibrationMethod = temperatureMeasurementCalibrationMethod;
+        this.pressureMeasurementCalibrationMethod = pressureMeasurementCalibrationMethod;
+        this.uncertaintyOfTemperature = uncertaintyOfTemperature;
+        this.uncertaintyOfTotalPressure = uncertaintyOfTotalPressure;
+        this.totalPressureCalcMethod = totalPressureCalcMethod;
     }
+    @Override
+    public int compareTo(Variable v) {
+        int z = sCompare(abbreviation, v.abbreviation);
+        if (z != 0) {
+            return z;
+        }
+        return sCompare(fullVariableName, v.fullVariableName);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = abbreviation != null ? abbreviation.hashCode() : 0;
+        result = 31 * result + (manipulationMethod != null ? manipulationMethod.hashCode() : 0);
+        result = 31 * result + (observationType != null ? observationType.hashCode() : 0);
+        result = 31 * result + (observationDetail != null ? observationDetail.hashCode() : 0);
+        result = 31 * result + (units != null ? units.hashCode() : 0);
+        result = 31 * result + (measured != null ? measured.hashCode() : 0);
+        result = 31 * result + (calculationMethod != null ? calculationMethod.hashCode() : 0);
+        result = 31 * result + (samplingInstrument != null ? samplingInstrument.hashCode() : 0);
+        result = 31 * result + (analyzingInstrument != null ? analyzingInstrument.hashCode() : 0);
+        result = 31 * result + (detailedInformation != null ? detailedInformation.hashCode() : 0);
+        result = 31 * result + (fieldReplicate != null ? fieldReplicate.hashCode() : 0);
+        result = 31 * result + (uncertainty != null ? uncertainty.hashCode() : 0);
+        result = 31 * result + (qualityFlag != null ? qualityFlag.hashCode() : 0);
+        result = 31 * result + (researcherName != null ? researcherName.hashCode() : 0);
+        result = 31 * result + (researcherInstitution != null ? researcherInstitution.hashCode() : 0);
+        result = 31 * result + (fullVariableName != null ? fullVariableName.hashCode() : 0);
+        result = 31 * result + (referenceMethod != null ? referenceMethod.hashCode() : 0);
+        result = 31 * result + (standardizationTechnique != null ? standardizationTechnique.hashCode() : 0);
+        result = 31 * result + (crmManufacture != null ? crmManufacture.hashCode() : 0);
+        result = 31 * result + (batchNumber != null ? batchNumber.hashCode() : 0);
+        result = 31 * result + (poison != null ? poison.hashCode() : 0);
+        result = 31 * result + (poisonVolume != null ? poisonVolume.hashCode() : 0);
+        result = 31 * result + (poisonDescription != null ? poisonDescription.hashCode() : 0);
+        result = 31 * result + (cellType != null ? cellType.hashCode() : 0);
+        result = 31 * result + (curveFittingMethod != null ? curveFittingMethod.hashCode() : 0);
+        result = 31 * result + (magnitudeOfBlankCorrection != null ? magnitudeOfBlankCorrection.hashCode() : 0);
+        result = 31 * result + (phTemperature != null ? phTemperature.hashCode() : 0);
+        result = 31 * result + (phScale != null ? phScale.hashCode() : 0);
+        result = 31 * result + (phStandards != null ? phStandards.hashCode() : 0);
+        result = 31 * result + (titrationType != null ? titrationType.hashCode() : 0);
+        result = 31 * result + (intakeDepth != null ? intakeDepth.hashCode() : 0);
+        result = 31 * result + (dryingMethod != null ? dryingMethod.hashCode() : 0);
+        result = 31 * result + (equilibratorType != null ? equilibratorType.hashCode() : 0);
+        result = 31 * result + (equilibratorVolume != null ? equilibratorVolume.hashCode() : 0);
+        result = 31 * result + (gasFlowRate != null ? gasFlowRate.hashCode() : 0);
+        result = 31 * result + (equilibratorPressureMeasureMethod != null ? equilibratorPressureMeasureMethod.hashCode() : 0);
+        result = 31 * result + (equilibratorTemperatureMeasureMethod != null ? equilibratorTemperatureMeasureMethod.hashCode() : 0);
+        result = 31 * result + (intakeLocation != null ? intakeLocation.hashCode() : 0);
+        result = 31 * result + (flowRate != null ? flowRate.hashCode() : 0);
+        result = 31 * result + (freqencyOfStandardization != null ? freqencyOfStandardization.hashCode() : 0);
+        result = 31 * result + (storageMethod != null ? storageMethod.hashCode() : 0);
+        result = 31 * result + (pco2Temperature != null ? pco2Temperature.hashCode() : 0);
+        result = 31 * result + (gasConcentration != null ? gasConcentration.hashCode() : 0);
+        result = 31 * result + (headspaceVolume != null ? headspaceVolume.hashCode() : 0);
+        result = 31 * result + (standardGasManufacture != null ? standardGasManufacture.hashCode() : 0);
+        result = 31 * result + (gasDetectorManufacture != null ? gasDetectorManufacture.hashCode() : 0);
+        result = 31 * result + (gasDetectorModel != null ? gasDetectorModel.hashCode() : 0);
+        result = 31 * result + (gasDectectorResolution != null ? gasDectectorResolution.hashCode() : 0);
+        result = 31 * result + (seawaterVolume != null ? seawaterVolume.hashCode() : 0);
+        result = 31 * result + (temperatureCorrectionMethod != null ? temperatureCorrectionMethod.hashCode() : 0);
+//        result = 31 * result + (temperatureCorrection != null ? temperatureCorrection.hashCode() : 0);
+        result = 31 * result + (temperatureMeasurement != null ? temperatureMeasurement.hashCode() : 0);
+        result = 31 * result + (temperatureStandarization != null ? temperatureStandarization.hashCode() : 0);
+        result = 31 * result + (standardGasUncertainties != null ? standardGasUncertainties.hashCode() : 0);
+        result = 31 * result + (gasDectectorUncertainty != null ? gasDectectorUncertainty.hashCode() : 0);
+        result = 31 * result + (vaporCorrection != null ? vaporCorrection.hashCode() : 0);
+        result = 31 * result + (vented != null ? vented.hashCode() : 0);
+        result = 31 * result + (biologicalSubject != null ? biologicalSubject.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (lifeStage != null ? lifeStage.hashCode() : 0);
+        result = 31 * result + (speciesIdCode != null ? speciesIdCode.hashCode() : 0);
+        result = 31 * result + (qualityControl != null ? qualityControl.hashCode() : 0);
+        result = 31 * result + (abbreviationQualityFlag != null ? abbreviationQualityFlag.hashCode() : 0);
+        result = 31 * result + (sopChanges != null ? sopChanges.hashCode() : 0);
+        result = 31 * result + (collectionMethod != null ? collectionMethod.hashCode() : 0);
+        result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
+        result = 31 * result + (phDyeTypeManuf != null ? phDyeTypeManuf.hashCode() : 0);
+        result = 31 * result + (traceabilityOfStdGas != null ? traceabilityOfStdGas.hashCode() : 0);
+        result = 31 * result + (fCo2CalcMethod != null ? fCo2CalcMethod.hashCode() : 0);
+        result = 31 * result + (pCo2CalcMethod != null ? pCo2CalcMethod.hashCode() : 0);
+        result = 31 * result + (temperatureMeasurementCalibrationMethod != null ? temperatureMeasurementCalibrationMethod.hashCode() : 0);
+        result = 31 * result + (pressureMeasurementCalibrationMethod != null ? pressureMeasurementCalibrationMethod.hashCode() : 0);
+        result = 31 * result + (uncertaintyOfTemperature != null ? uncertaintyOfTemperature.hashCode() : 0);
+        result = 31 * result + (uncertaintyOfTotalPressure != null ? uncertaintyOfTotalPressure.hashCode() : 0);
+        result = 31 * result + (totalPressureCalcMethod != null ? totalPressureCalcMethod.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        if (!this.getClass().getName().equals(other.getClass().getName())) {
+            return false;
+        }
+        Variable v = (Variable) other;
+        return
+                sCompare(abbreviation, v.abbreviation) == 0 &&
+                sCompare(fullVariableName, v.fullVariableName) == 0 &&
+                sCompare(manipulationMethod, v.manipulationMethod) == 0 &&
+                sCompare(observationType, v.observationType) == 0 &&
+                sCompare(observationDetail, v.observationDetail) == 0 &&
+                sCompare(units, v.units) == 0 &&
+                sCompare(measured, v.measured) == 0 &&
+                sCompare(calculationMethod, v.calculationMethod) == 0 &&
+                sCompare(samplingInstrument, v.samplingInstrument) == 0 &&
+                sCompare(analyzingInstrument, v.analyzingInstrument) == 0 &&
+                sCompare(detailedInformation, v.detailedInformation) == 0 &&
+                sCompare(fieldReplicate, v.fieldReplicate) == 0 &&
+                sCompare(uncertainty, v.uncertainty) == 0 &&
+                sCompare(qualityFlag, v.qualityFlag) == 0 &&
+                sCompare(researcherName, v.researcherName) == 0 &&
+                sCompare(researcherInstitution, v.researcherInstitution) == 0 &&
+                sCompare(referenceMethod, v.referenceMethod) == 0 &&
+                sCompare(standardizationTechnique, v.standardizationTechnique) == 0 &&
+                sCompare(crmManufacture, v.crmManufacture) == 0 &&
+                sCompare(batchNumber, v.batchNumber) == 0 &&
+                sCompare(poison, v.poison) == 0 &&
+                sCompare(poisonVolume, v.poisonVolume) == 0 &&
+                sCompare(poisonDescription, v.poisonDescription) == 0 &&
+                sCompare(cellType, v.cellType) == 0 &&
+                sCompare(curveFittingMethod, v.curveFittingMethod) == 0 &&
+                sCompare(magnitudeOfBlankCorrection, v.magnitudeOfBlankCorrection) == 0 &&
+                sCompare(phTemperature, v.phTemperature) == 0 &&
+                sCompare(phScale, v.phScale) == 0 &&
+                sCompare(phStandards, v.phStandards) == 0 &&
+                sCompare(titrationType, v.titrationType) == 0 &&
+                sCompare(intakeDepth, v.intakeDepth) == 0 &&
+                sCompare(dryingMethod, v.dryingMethod) == 0 &&
+                sCompare(equilibratorType, v.equilibratorType) == 0 &&
+                sCompare(equilibratorVolume, v.equilibratorVolume) == 0 &&
+                sCompare(gasFlowRate, v.gasFlowRate) == 0 &&
+                sCompare(equilibratorPressureMeasureMethod, v.equilibratorPressureMeasureMethod) == 0 &&
+                sCompare(equilibratorTemperatureMeasureMethod, v.equilibratorTemperatureMeasureMethod) == 0 &&
+                sCompare(intakeLocation, v.intakeLocation) == 0 &&
+                sCompare(flowRate, v.flowRate) == 0 &&
+                sCompare(freqencyOfStandardization, v.freqencyOfStandardization) == 0 &&
+                sCompare(storageMethod, v.storageMethod) == 0 &&
+                sCompare(pco2Temperature, v.pco2Temperature) == 0 &&
+                sCompare(gasConcentration, v.gasConcentration) == 0 &&
+                sCompare(headspaceVolume, v.headspaceVolume) == 0 &&
+                sCompare(standardGasManufacture, v.standardGasManufacture) == 0 &&
+                sCompare(gasDetectorManufacture, v.gasDetectorManufacture) == 0 &&
+                sCompare(gasDetectorModel, v.gasDetectorModel) == 0 &&
+                sCompare(gasDectectorResolution, v.gasDectectorResolution) == 0 &&
+                sCompare(seawaterVolume, v.seawaterVolume) == 0 &&
+                sCompare(temperatureCorrectionMethod, v.temperatureCorrectionMethod) == 0 &&
+//            sCompare(temperatureCorrection, v.temperatureCorrection) == 0 &&
+                sCompare(temperatureMeasurement, v.temperatureMeasurement) == 0 &&
+                sCompare(temperatureStandarization, v.temperatureStandarization) == 0 &&
+                sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&
+                sCompare(gasDectectorUncertainty, v.gasDectectorUncertainty) == 0 &&
+                sCompare(vaporCorrection, v.vaporCorrection) == 0 &&
+                sCompare(vented, v.vented) == 0 &&
+                sCompare(biologicalSubject, v.biologicalSubject) == 0 &&
+                sCompare(duration, v.duration) == 0 &&
+                sCompare(lifeStage, v.lifeStage) == 0 &&
+                sCompare(speciesIdCode, v.speciesIdCode) == 0 &&
+                sCompare(qualityControl, v.qualityControl) == 0 &&
+                sCompare(abbreviationQualityFlag, v.abbreviationQualityFlag) == 0 &&
+                sCompare(sopChanges, v.sopChanges) == 0 &&
+                sCompare(collectionMethod, v.collectionMethod) == 0 &&
+                sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
+                sCompare(phDyeTypeManuf, v.phDyeTypeManuf) == 0 &&
+                sCompare(traceabilityOfStdGas, v.traceabilityOfStdGas) == 0 &&
+                sCompare(fCo2CalcMethod, v.fCo2CalcMethod) == 0 &&
+                sCompare(pCo2CalcMethod, v.pCo2CalcMethod) == 0 &&
+                sCompare(temperatureMeasurementCalibrationMethod, v.temperatureMeasurementCalibrationMethod) == 0 &&
+                sCompare(pressureMeasurementCalibrationMethod, v.pressureMeasurementCalibrationMethod) == 0 &&
+                sCompare(uncertaintyOfTemperature, v.uncertaintyOfTemperature) == 0 &&
+                sCompare(uncertaintyOfTotalPressure, v.uncertaintyOfTotalPressure) == 0 &&
+                sCompare(totalPressureCalcMethod, v.totalPressureCalcMethod) == 0;
+    }
+
+    @Override
+    public Variable sClone() {
+        Variable newv = new Variable();
+        newv.position = this.position;
+//        newv.id = this.id;
+//        newv.version = this.version;
+        newv.abbreviation = this.abbreviation;
+        newv.manipulationMethod = this.manipulationMethod;
+        newv.observationType = this.observationType;
+        newv.observationDetail = this.observationDetail;
+        newv.units = this.units;
+        newv.measured = this.measured;
+        newv.calculationMethod = this.calculationMethod;
+        newv.samplingInstrument = this.samplingInstrument;
+        newv.analyzingInstrument = this.analyzingInstrument;
+        newv.detailedInformation = this.detailedInformation;
+        newv.fieldReplicate = this.fieldReplicate;
+        newv.uncertainty = this.uncertainty;
+        newv.qualityFlag = this.qualityFlag;
+        newv.researcherName = this.researcherName;
+        newv.researcherInstitution = this.researcherInstitution;
+        newv.fullVariableName = this.fullVariableName;
+        newv.referenceMethod = this.referenceMethod;
+        newv.standardizationTechnique = this.standardizationTechnique;
+        newv.crmManufacture = this.crmManufacture;
+        newv.batchNumber = this.batchNumber;
+        newv.poison = this.poison;
+        newv.poisonVolume = this.poisonVolume;
+        newv.poisonDescription = this.poisonDescription;
+        newv.cellType = this.cellType;
+        newv.curveFittingMethod = this.curveFittingMethod;
+        newv.magnitudeOfBlankCorrection = this.magnitudeOfBlankCorrection;
+        newv.phTemperature = this.phTemperature;
+        newv.phScale = this.phScale;
+        newv.phStandards = this.phStandards;
+        newv.titrationType = this.titrationType;
+        newv.intakeDepth = this.intakeDepth;
+        newv.dryingMethod = this.dryingMethod;
+        newv.equilibratorType = this.equilibratorType;
+        newv.equilibratorVolume = this.equilibratorVolume;
+        newv.gasFlowRate = this.gasFlowRate;
+        newv.equilibratorPressureMeasureMethod = this.equilibratorPressureMeasureMethod;
+        newv.equilibratorTemperatureMeasureMethod = this.equilibratorTemperatureMeasureMethod;
+        newv.intakeLocation = this.intakeLocation;
+        newv.flowRate = this.flowRate;
+        newv.freqencyOfStandardization = this.freqencyOfStandardization;
+        newv.storageMethod = this.storageMethod;
+        newv.pco2Temperature = this.pco2Temperature;
+        newv.gasConcentration = this.gasConcentration;
+        newv.headspaceVolume = this.headspaceVolume;
+        newv.standardGasManufacture = this.standardGasManufacture;
+        newv.gasDetectorManufacture = this.gasDetectorManufacture;
+        newv.gasDetectorModel = this.gasDetectorModel;
+        newv.gasDectectorResolution = this.gasDectectorResolution;
+        newv.seawaterVolume = this.seawaterVolume;
+        newv.temperatureCorrectionMethod = this.temperatureCorrectionMethod;
+        newv.temperatureMeasurement = this.temperatureMeasurement;
+        newv.temperatureStandarization = this.temperatureStandarization;
+        newv.standardGasUncertainties = this.standardGasUncertainties;
+        newv.gasDectectorUncertainty = this.gasDectectorUncertainty;
+        newv.vaporCorrection = this.vaporCorrection;
+        newv.vented = this.vented;
+        newv.biologicalSubject = this.biologicalSubject;
+        newv.duration = this.duration;
+        newv.lifeStage = this.lifeStage;
+        newv.speciesIdCode = this.speciesIdCode;
+        newv.qualityControl = this.qualityControl;
+        newv.abbreviationQualityFlag = this.abbreviationQualityFlag;
+        newv.sopChanges = this.sopChanges;
+        newv.collectionMethod = this.collectionMethod;
+        newv.analyzingInformation = this.analyzingInformation;
+        newv.phDyeTypeManuf = this.phDyeTypeManuf;
+        newv.traceabilityOfStdGas = this.traceabilityOfStdGas;
+        newv.fCo2CalcMethod = this.fCo2CalcMethod;
+        newv.pCo2CalcMethod = this.pCo2CalcMethod;
+        newv.temperatureMeasurementCalibrationMethod = this.temperatureMeasurementCalibrationMethod;
+        newv.pressureMeasurementCalibrationMethod = this.pressureMeasurementCalibrationMethod;
+        newv.uncertaintyOfTemperature = this.uncertaintyOfTemperature;
+        newv.uncertaintyOfTotalPressure = this.uncertaintyOfTotalPressure;
+        newv.totalPressureCalcMethod = this.totalPressureCalcMethod;
+        return newv;
+    }
+
+    @Override
+    public boolean hasContent() {
+        boolean hasConent = ! (
+                    isEmpty(abbreviation) &&
+                    isEmpty(manipulationMethod) &&
+                    isEmpty(observationType) &&
+                    isEmpty(observationDetail) &&
+                    isEmpty(units) &&
+                    isEmpty(measured) &&
+                    isEmpty(calculationMethod) &&
+                    isEmpty(samplingInstrument) &&
+                    isEmpty(analyzingInstrument) &&
+                    isEmpty(detailedInformation) &&
+                    isEmpty(fieldReplicate) &&
+                    isEmpty(uncertainty) &&
+                    isEmpty(qualityFlag) &&
+                    isEmpty(researcherName) &&
+                    isEmpty(researcherInstitution) &&
+                    isEmpty(fullVariableName) &&
+                    isEmpty(referenceMethod) &&
+                    isEmpty(standardizationTechnique) &&
+                    isEmpty(crmManufacture) &&
+                    isEmpty(batchNumber) &&
+                    isEmpty(poison) &&
+                    isEmpty(poisonVolume) &&
+                    isEmpty(poisonDescription) &&
+                    isEmpty(cellType) &&
+                    isEmpty(curveFittingMethod) &&
+                    isEmpty(magnitudeOfBlankCorrection) &&
+                    isEmpty(phTemperature) &&
+                    isEmpty(phScale) &&
+                    isEmpty(phStandards) &&
+                    isEmpty(titrationType) &&
+                    isEmpty(intakeDepth) &&
+                    isEmpty(dryingMethod) &&
+                    isEmpty(equilibratorType) &&
+                    isEmpty(equilibratorVolume) &&
+                    isEmpty(gasFlowRate) &&
+                    isEmpty(equilibratorPressureMeasureMethod) &&
+                    isEmpty(equilibratorTemperatureMeasureMethod) &&
+                    isEmpty(intakeLocation) &&
+                    isEmpty(flowRate) &&
+                    isEmpty(freqencyOfStandardization) &&
+                    isEmpty(storageMethod) &&
+                    isEmpty(pco2Temperature) &&
+                    isEmpty(gasConcentration) &&
+                    isEmpty(headspaceVolume) &&
+                    isEmpty(standardGasManufacture) &&
+                    isEmpty(gasDetectorManufacture) &&
+                    isEmpty(gasDetectorModel) &&
+                    isEmpty(gasDectectorResolution) &&
+                    isEmpty(seawaterVolume) &&
+                    isEmpty(temperatureCorrectionMethod) &&
+                    isEmpty(temperatureMeasurement) &&
+                    isEmpty(temperatureStandarization) &&
+                    isEmpty(standardGasUncertainties) &&
+                    isEmpty(gasDectectorUncertainty) &&
+                    isEmpty(vaporCorrection) &&
+                    isEmpty(vented) &&
+                    isEmpty(biologicalSubject) &&
+                    isEmpty(duration) &&
+                    isEmpty(lifeStage) &&
+                    isEmpty(speciesIdCode) &&
+                    isEmpty(qualityControl) &&
+                    isEmpty(abbreviationQualityFlag) &&
+                    isEmpty(sopChanges) &&
+                    isEmpty(collectionMethod) &&
+                    isEmpty(analyzingInformation) &&
+                    isEmpty(phDyeTypeManuf) &&
+                    isEmpty(traceabilityOfStdGas) &&
+                    isEmpty(fCo2CalcMethod) &&
+                    isEmpty(pCo2CalcMethod) &&
+                    isEmpty(temperatureMeasurementCalibrationMethod) &&
+                    isEmpty(pressureMeasurementCalibrationMethod) &&
+                    isEmpty(uncertaintyOfTemperature) &&
+                    isEmpty(uncertaintyOfTotalPressure) &&
+                    isEmpty(totalPressureCalcMethod));
+        return hasConent;
+    }
+
     public String getVariableType() { return variableType; }
     public void setVariableType(String variableType) { this.variableType = variableType; }
 
@@ -758,313 +1133,48 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.cellType = cellType;
     }
 
-    @Override
-    public int compareTo(Variable v) {
-        int z = sCompare(abbreviation, v.abbreviation);
-        if (z != 0) {
-            return z;
-        }
-        return sCompare(fullVariableName, v.fullVariableName);
+    public String getTraceabilityOfStdGas() { return traceabilityOfStdGas; }
+    public void setTraceabilityOfStdGas(String traceabilityOfStdGas) {
+        this.traceabilityOfStdGas = traceabilityOfStdGas;
     }
 
-    @Override
-    public int hashCode() {
-        int result = abbreviation != null ? abbreviation.hashCode() : 0;
-        result = 31 * result + (manipulationMethod != null ? manipulationMethod.hashCode() : 0);
-        result = 31 * result + (observationType != null ? observationType.hashCode() : 0);
-        result = 31 * result + (observationDetail != null ? observationDetail.hashCode() : 0);
-        result = 31 * result + (units != null ? units.hashCode() : 0);
-        result = 31 * result + (measured != null ? measured.hashCode() : 0);
-        result = 31 * result + (calculationMethod != null ? calculationMethod.hashCode() : 0);
-        result = 31 * result + (samplingInstrument != null ? samplingInstrument.hashCode() : 0);
-        result = 31 * result + (analyzingInstrument != null ? analyzingInstrument.hashCode() : 0);
-        result = 31 * result + (detailedInformation != null ? detailedInformation.hashCode() : 0);
-        result = 31 * result + (fieldReplicate != null ? fieldReplicate.hashCode() : 0);
-        result = 31 * result + (uncertainty != null ? uncertainty.hashCode() : 0);
-        result = 31 * result + (qualityFlag != null ? qualityFlag.hashCode() : 0);
-        result = 31 * result + (researcherName != null ? researcherName.hashCode() : 0);
-        result = 31 * result + (researcherInstitution != null ? researcherInstitution.hashCode() : 0);
-        result = 31 * result + (fullVariableName != null ? fullVariableName.hashCode() : 0);
-        result = 31 * result + (referenceMethod != null ? referenceMethod.hashCode() : 0);
-        result = 31 * result + (standardizationTechnique != null ? standardizationTechnique.hashCode() : 0);
-        result = 31 * result + (crmManufacture != null ? crmManufacture.hashCode() : 0);
-        result = 31 * result + (batchNumber != null ? batchNumber.hashCode() : 0);
-        result = 31 * result + (poison != null ? poison.hashCode() : 0);
-        result = 31 * result + (poisonVolume != null ? poisonVolume.hashCode() : 0);
-        result = 31 * result + (poisonDescription != null ? poisonDescription.hashCode() : 0);
-        result = 31 * result + (cellType != null ? cellType.hashCode() : 0);
-        result = 31 * result + (curveFittingMethod != null ? curveFittingMethod.hashCode() : 0);
-        result = 31 * result + (magnitudeOfBlankCorrection != null ? magnitudeOfBlankCorrection.hashCode() : 0);
-        result = 31 * result + (phTemperature != null ? phTemperature.hashCode() : 0);
-        result = 31 * result + (phScale != null ? phScale.hashCode() : 0);
-        result = 31 * result + (phStandards != null ? phStandards.hashCode() : 0);
-        result = 31 * result + (titrationType != null ? titrationType.hashCode() : 0);
-        result = 31 * result + (intakeDepth != null ? intakeDepth.hashCode() : 0);
-        result = 31 * result + (dryingMethod != null ? dryingMethod.hashCode() : 0);
-        result = 31 * result + (equilibratorType != null ? equilibratorType.hashCode() : 0);
-        result = 31 * result + (equilibratorVolume != null ? equilibratorVolume.hashCode() : 0);
-        result = 31 * result + (gasFlowRate != null ? gasFlowRate.hashCode() : 0);
-        result = 31 * result + (equilibratorPressureMeasureMethod != null ? equilibratorPressureMeasureMethod.hashCode() : 0);
-        result = 31 * result + (equilibratorTemperatureMeasureMethod != null ? equilibratorTemperatureMeasureMethod.hashCode() : 0);
-        result = 31 * result + (intakeLocation != null ? intakeLocation.hashCode() : 0);
-        result = 31 * result + (flowRate != null ? flowRate.hashCode() : 0);
-        result = 31 * result + (freqencyOfStandardization != null ? freqencyOfStandardization.hashCode() : 0);
-        result = 31 * result + (storageMethod != null ? storageMethod.hashCode() : 0);
-        result = 31 * result + (pco2Temperature != null ? pco2Temperature.hashCode() : 0);
-        result = 31 * result + (gasConcentration != null ? gasConcentration.hashCode() : 0);
-        result = 31 * result + (headspaceVolume != null ? headspaceVolume.hashCode() : 0);
-        result = 31 * result + (standardGasManufacture != null ? standardGasManufacture.hashCode() : 0);
-        result = 31 * result + (gasDetectorManufacture != null ? gasDetectorManufacture.hashCode() : 0);
-        result = 31 * result + (gasDetectorModel != null ? gasDetectorModel.hashCode() : 0);
-        result = 31 * result + (gasDectectorResolution != null ? gasDectectorResolution.hashCode() : 0);
-        result = 31 * result + (seawaterVolume != null ? seawaterVolume.hashCode() : 0);
-        result = 31 * result + (temperatureCorrectionMethod != null ? temperatureCorrectionMethod.hashCode() : 0);
-//        result = 31 * result + (temperatureCorrection != null ? temperatureCorrection.hashCode() : 0);
-        result = 31 * result + (temperatureMeasurement != null ? temperatureMeasurement.hashCode() : 0);
-        result = 31 * result + (temperatureStandarization != null ? temperatureStandarization.hashCode() : 0);
-        result = 31 * result + (standardGasUncertainties != null ? standardGasUncertainties.hashCode() : 0);
-        result = 31 * result + (gasDectectorUncertainty != null ? gasDectectorUncertainty.hashCode() : 0);
-        result = 31 * result + (vaporCorrection != null ? vaporCorrection.hashCode() : 0);
-        result = 31 * result + (vented != null ? vented.hashCode() : 0);
-        result = 31 * result + (biologicalSubject != null ? biologicalSubject.hashCode() : 0);
-        result = 31 * result + (duration != null ? duration.hashCode() : 0);
-        result = 31 * result + (lifeStage != null ? lifeStage.hashCode() : 0);
-        result = 31 * result + (speciesIdCode != null ? speciesIdCode.hashCode() : 0);
-        result = 31 * result + (qualityControl != null ? qualityControl.hashCode() : 0);
-        result = 31 * result + (abbreviationQualityFlag != null ? abbreviationQualityFlag.hashCode() : 0);
-        result = 31 * result + (sopChanges != null ? sopChanges.hashCode() : 0);
-        result = 31 * result + (collectionMethod != null ? collectionMethod.hashCode() : 0);
-        result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
-        result = 31 * result + (phDyeTypeManuf != null ? phDyeTypeManuf.hashCode() : 0);
-        return result;
+    public String getfCo2CalcMethod() { return fCo2CalcMethod; }
+    public void setfCo2CalcMethod(String fCo2CalcMethod) {
+        this.fCo2CalcMethod = fCo2CalcMethod;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        }
-        if (this == other) {
-            return true;
-        }
-        if (!this.getClass().equals(other.getClass())) {
-            return false;
-        }
-        Variable v = (Variable) other;
-        return
-                sCompare(abbreviation, v.abbreviation) == 0 &&
-                        sCompare(fullVariableName, v.fullVariableName) == 0 &&
-                        sCompare(manipulationMethod, v.manipulationMethod) == 0 &&
-                        sCompare(observationType, v.observationType) == 0 &&
-                        sCompare(observationDetail, v.observationDetail) == 0 &&
-                        sCompare(units, v.units) == 0 &&
-                        sCompare(measured, v.measured) == 0 &&
-                        sCompare(calculationMethod, v.calculationMethod) == 0 &&
-                        sCompare(samplingInstrument, v.samplingInstrument) == 0 &&
-                        sCompare(analyzingInstrument, v.analyzingInstrument) == 0 &&
-                        sCompare(detailedInformation, v.detailedInformation) == 0 &&
-                        sCompare(fieldReplicate, v.fieldReplicate) == 0 &&
-                        sCompare(uncertainty, v.uncertainty) == 0 &&
-                        sCompare(qualityFlag, v.qualityFlag) == 0 &&
-                        sCompare(researcherName, v.researcherName) == 0 &&
-                        sCompare(researcherInstitution, v.researcherInstitution) == 0 &&
-                        sCompare(referenceMethod, v.referenceMethod) == 0 &&
-                        sCompare(standardizationTechnique, v.standardizationTechnique) == 0 &&
-                        sCompare(crmManufacture, v.crmManufacture) == 0 &&
-                        sCompare(batchNumber, v.batchNumber) == 0 &&
-                        sCompare(poison, v.poison) == 0 &&
-                        sCompare(poisonVolume, v.poisonVolume) == 0 &&
-                        sCompare(poisonDescription, v.poisonDescription) == 0 &&
-                        sCompare(cellType, v.cellType) == 0 &&
-                        sCompare(curveFittingMethod, v.curveFittingMethod) == 0 &&
-                        sCompare(magnitudeOfBlankCorrection, v.magnitudeOfBlankCorrection) == 0 &&
-                        sCompare(phTemperature, v.phTemperature) == 0 &&
-                        sCompare(phScale, v.phScale) == 0 &&
-                        sCompare(phStandards, v.phStandards) == 0 &&
-                        sCompare(titrationType, v.titrationType) == 0 &&
-                        sCompare(intakeDepth, v.intakeDepth) == 0 &&
-                        sCompare(dryingMethod, v.dryingMethod) == 0 &&
-                        sCompare(equilibratorType, v.equilibratorType) == 0 &&
-                        sCompare(equilibratorVolume, v.equilibratorVolume) == 0 &&
-                        sCompare(gasFlowRate, v.gasFlowRate) == 0 &&
-                        sCompare(equilibratorPressureMeasureMethod, v.equilibratorPressureMeasureMethod) == 0 &&
-                        sCompare(equilibratorTemperatureMeasureMethod, v.equilibratorTemperatureMeasureMethod) == 0 &&
-                        sCompare(intakeLocation, v.intakeLocation) == 0 &&
-                        sCompare(flowRate, v.flowRate) == 0 &&
-                        sCompare(freqencyOfStandardization, v.freqencyOfStandardization) == 0 &&
-                        sCompare(storageMethod, v.storageMethod) == 0 &&
-                        sCompare(pco2Temperature, v.pco2Temperature) == 0 &&
-                        sCompare(gasConcentration, v.gasConcentration) == 0 &&
-                        sCompare(headspaceVolume, v.headspaceVolume) == 0 &&
-                        sCompare(standardGasManufacture, v.standardGasManufacture) == 0 &&
-                        sCompare(gasDetectorManufacture, v.gasDetectorManufacture) == 0 &&
-                        sCompare(gasDetectorModel, v.gasDetectorModel) == 0 &&
-                        sCompare(gasDectectorResolution, v.gasDectectorResolution) == 0 &&
-                        sCompare(seawaterVolume, v.seawaterVolume) == 0 &&
-                        sCompare(temperatureCorrectionMethod, v.temperatureCorrectionMethod) == 0 &&
-//            sCompare(temperatureCorrection, v.temperatureCorrection) == 0 &&
-                        sCompare(temperatureMeasurement, v.temperatureMeasurement) == 0 &&
-                        sCompare(temperatureStandarization, v.temperatureStandarization) == 0 &&
-                        sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&
-                        sCompare(gasDectectorUncertainty, v.gasDectectorUncertainty) == 0 &&
-                        sCompare(vaporCorrection, v.vaporCorrection) == 0 &&
-                        sCompare(vented, v.vented) == 0 &&
-                        sCompare(biologicalSubject, v.biologicalSubject) == 0 &&
-                        sCompare(duration, v.duration) == 0 &&
-                        sCompare(lifeStage, v.lifeStage) == 0 &&
-                        sCompare(speciesIdCode, v.speciesIdCode) == 0 &&
-                        sCompare(qualityControl, v.qualityControl) == 0 &&
-                        sCompare(abbreviationQualityFlag, v.abbreviationQualityFlag) == 0 &&
-                        sCompare(sopChanges, v.sopChanges) == 0 &&
-                        sCompare(collectionMethod, v.collectionMethod) == 0 &&
-                        sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
-                        sCompare(phDyeTypeManuf, v.phDyeTypeManuf) == 0;
+    public String getpCo2CalcMethod() { return pCo2CalcMethod; }
+    public void setpCo2CalcMethod(String pCo2CalcMethod) {
+        this.pCo2CalcMethod = pCo2CalcMethod;
     }
 
-    @Override
-    public Variable sClone() {
-        Variable newv = new Variable();
-        newv.position = this.position;
-//        newv.id = this.id;
-//        newv.version = this.version;
-        newv.abbreviation = this.abbreviation;
-        newv.manipulationMethod = this.manipulationMethod;
-        newv.observationType = this.observationType;
-        newv.observationDetail = this.observationDetail;
-        newv.units = this.units;
-        newv.measured = this.measured;
-        newv.calculationMethod = this.calculationMethod;
-        newv.samplingInstrument = this.samplingInstrument;
-        newv.analyzingInstrument = this.analyzingInstrument;
-        newv.detailedInformation = this.detailedInformation;
-        newv.fieldReplicate = this.fieldReplicate;
-        newv.uncertainty = this.uncertainty;
-        newv.qualityFlag = this.qualityFlag;
-        newv.researcherName = this.researcherName;
-        newv.researcherInstitution = this.researcherInstitution;
-        newv.fullVariableName = this.fullVariableName;
-        newv.referenceMethod = this.referenceMethod;
-        newv.standardizationTechnique = this.standardizationTechnique;
-        newv.crmManufacture = this.crmManufacture;
-        newv.batchNumber = this.batchNumber;
-        newv.poison = this.poison;
-        newv.poisonVolume = this.poisonVolume;
-        newv.poisonDescription = this.poisonDescription;
-        newv.cellType = this.cellType;
-        newv.curveFittingMethod = this.curveFittingMethod;
-        newv.magnitudeOfBlankCorrection = this.magnitudeOfBlankCorrection;
-        newv.phTemperature = this.phTemperature;
-        newv.phScale = this.phScale;
-        newv.phStandards = this.phStandards;
-        newv.titrationType = this.titrationType;
-        newv.intakeDepth = this.intakeDepth;
-        newv.dryingMethod = this.dryingMethod;
-        newv.equilibratorType = this.equilibratorType;
-        newv.equilibratorVolume = this.equilibratorVolume;
-        newv.gasFlowRate = this.gasFlowRate;
-        newv.equilibratorPressureMeasureMethod = this.equilibratorPressureMeasureMethod;
-        newv.equilibratorTemperatureMeasureMethod = this.equilibratorTemperatureMeasureMethod;
-        newv.intakeLocation = this.intakeLocation;
-        newv.flowRate = this.flowRate;
-        newv.freqencyOfStandardization = this.freqencyOfStandardization;
-        newv.storageMethod = this.storageMethod;
-        newv.pco2Temperature = this.pco2Temperature;
-        newv.gasConcentration = this.gasConcentration;
-        newv.headspaceVolume = this.headspaceVolume;
-        newv.standardGasManufacture = this.standardGasManufacture;
-        newv.gasDetectorManufacture = this.gasDetectorManufacture;
-        newv.gasDetectorModel = this.gasDetectorModel;
-        newv.gasDectectorResolution = this.gasDectectorResolution;
-        newv.seawaterVolume = this.seawaterVolume;
-        newv.temperatureCorrectionMethod = this.temperatureCorrectionMethod;
-        newv.temperatureMeasurement = this.temperatureMeasurement;
-        newv.temperatureStandarization = this.temperatureStandarization;
-        newv.standardGasUncertainties = this.standardGasUncertainties;
-        newv.gasDectectorUncertainty = this.gasDectectorUncertainty;
-        newv.vaporCorrection = this.vaporCorrection;
-        newv.vented = this.vented;
-        newv.biologicalSubject = this.biologicalSubject;
-        newv.duration = this.duration;
-        newv.lifeStage = this.lifeStage;
-        newv.speciesIdCode = this.speciesIdCode;
-        newv.qualityControl = this.qualityControl;
-        newv.abbreviationQualityFlag = this.abbreviationQualityFlag;
-        newv.sopChanges = this.sopChanges;
-        newv.collectionMethod = this.collectionMethod;
-        newv.analyzingInformation = this.analyzingInformation;
-        newv.phDyeTypeManuf = this.phDyeTypeManuf;
-        return newv;
+    public String getTemperatureMeasurementCalibrationMethod() {
+        return temperatureMeasurementCalibrationMethod;
+    }
+    public void setTemperatureMeasurementCalibrationMethod(String temperatureMeasurementCalibrationMethod) {
+        this.temperatureMeasurementCalibrationMethod = temperatureMeasurementCalibrationMethod;
     }
 
-    @Override
-    public boolean hasContent() {
-        boolean hasConent = ! (
-                    isEmpty(abbreviation) &&
-                    isEmpty(manipulationMethod) &&
-                    isEmpty(observationType) &&
-                    isEmpty(observationDetail) &&
-                    isEmpty(units) &&
-                    isEmpty(measured) &&
-                    isEmpty(calculationMethod) &&
-                    isEmpty(samplingInstrument) &&
-                    isEmpty(analyzingInstrument) &&
-                    isEmpty(detailedInformation) &&
-                    isEmpty(fieldReplicate) &&
-                    isEmpty(uncertainty) &&
-                    isEmpty(qualityFlag) &&
-                    isEmpty(researcherName) &&
-                    isEmpty(researcherInstitution) &&
-                    isEmpty(fullVariableName) &&
-                    isEmpty(referenceMethod) &&
-                    isEmpty(standardizationTechnique) &&
-                    isEmpty(crmManufacture) &&
-                    isEmpty(batchNumber) &&
-                    isEmpty(poison) &&
-                    isEmpty(poisonVolume) &&
-                    isEmpty(poisonDescription) &&
-                    isEmpty(cellType) &&
-                    isEmpty(curveFittingMethod) &&
-                    isEmpty(magnitudeOfBlankCorrection) &&
-                    isEmpty(phTemperature) &&
-                    isEmpty(phScale) &&
-                    isEmpty(phStandards) &&
-                    isEmpty(titrationType) &&
-                    isEmpty(intakeDepth) &&
-                    isEmpty(dryingMethod) &&
-                    isEmpty(equilibratorType) &&
-                    isEmpty(equilibratorVolume) &&
-                    isEmpty(gasFlowRate) &&
-                    isEmpty(equilibratorPressureMeasureMethod) &&
-                    isEmpty(equilibratorTemperatureMeasureMethod) &&
-                    isEmpty(intakeLocation) &&
-                    isEmpty(flowRate) &&
-                    isEmpty(freqencyOfStandardization) &&
-                    isEmpty(storageMethod) &&
-                    isEmpty(pco2Temperature) &&
-                    isEmpty(gasConcentration) &&
-                    isEmpty(headspaceVolume) &&
-                    isEmpty(standardGasManufacture) &&
-                    isEmpty(gasDetectorManufacture) &&
-                    isEmpty(gasDetectorModel) &&
-                    isEmpty(gasDectectorResolution) &&
-                    isEmpty(seawaterVolume) &&
-                    isEmpty(temperatureCorrectionMethod) &&
-                    isEmpty(temperatureMeasurement) &&
-                    isEmpty(temperatureStandarization) &&
-                    isEmpty(standardGasUncertainties) &&
-                    isEmpty(gasDectectorUncertainty) &&
-                    isEmpty(vaporCorrection) &&
-                    isEmpty(vented) &&
-                    isEmpty(biologicalSubject) &&
-                    isEmpty(duration) &&
-                    isEmpty(lifeStage) &&
-                    isEmpty(speciesIdCode) &&
-                    isEmpty(qualityControl) &&
-                    isEmpty(abbreviationQualityFlag) &&
-                    isEmpty(sopChanges) &&
-                    isEmpty(collectionMethod) &&
-                    isEmpty(analyzingInformation) &&
-                    isEmpty(phDyeTypeManuf));
-        return hasConent;
+    public String getPressureMeasurementCalibrationMethod() {
+        return pressureMeasurementCalibrationMethod;
     }
+    public void setPressureMeasurementCalibrationMethod(String pressureMeasurementCalibrationMethod) {
+        this.pressureMeasurementCalibrationMethod = pressureMeasurementCalibrationMethod;
+    }
+
+    public String getUncertaintyOfTemperature() { return uncertaintyOfTemperature; }
+    public void setUncertaintyOfTemperature(String uncertaintyOfTemperature) {
+        this.uncertaintyOfTemperature = uncertaintyOfTemperature;
+    }
+
+    public String getUncertaintyOfTotalPressure() { return uncertaintyOfTotalPressure; }
+    public void setUncertaintyOfTotalPressure(String uncertaintyOfTotalPressure) {
+        this.uncertaintyOfTotalPressure = uncertaintyOfTotalPressure;
+    }
+
+    public String getTotalPressureCalcMethod() { return totalPressureCalcMethod; }
+    public void setTotalPressureCalcMethod(String totalPressureCalcMethod) {
+        this.totalPressureCalcMethod = totalPressureCalcMethod;
+    }
+
 }

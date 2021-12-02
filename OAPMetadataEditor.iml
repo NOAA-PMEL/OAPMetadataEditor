@@ -9,6 +9,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/war" relative="/" />
         </webroots>
+        <sourceRoots />
       </configuration>
     </facet>
     <facet type="gwt" name="GWT">
@@ -34,6 +35,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="excel2oap" level="project" />
   </component>
 </module>

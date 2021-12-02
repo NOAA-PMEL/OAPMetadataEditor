@@ -216,7 +216,7 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="MD_6 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationQualityFlagForm">
-                                <b:FormLabel for="abbreviationQualityFlag" text="Abbreviation of data quality flag scheme"></b:FormLabel>
+                                <b:FormLabel for="abbreviationQualityFlag" text="Abbreviation of variable QC flag column"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="abbreviationQualityFlagModal" b:id="modalAbbreviationQualityFlag"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviationQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="abbreviationQualityFlag" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="abbreviationQualityFlag"></b:TextBox>

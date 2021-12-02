@@ -70,6 +70,15 @@ class GenericVariable {
     String analyzingInformation
     String phDyeTypeManuf
 
+    String traceabilityOfStdGas
+    String fCo2CalcMethod
+    String pCo2CalcMethod
+    String temperatureMeasurementCalibrationMethod
+    String pressureMeasurementCalibrationMethod
+    String uncertaintyOfTemperature
+    String uncertaintyOfTotalPressure
+    String totalPressureCalcMethod
+
 //    static transients = ['variableType']
     static constraints = {
 
@@ -135,11 +144,19 @@ class GenericVariable {
         lifeStage (nullable: true)
         speciesIdCode (nullable: true)
         variableType (nullable: true)
-        qualityControl (nullable: true, type: 'text')
-        abbreviationQualityFlag (nullable: true, type: 'text')
+        qualityControl (nullable: true)
+        abbreviationQualityFlag (nullable: true)
         sopChanges (nullable: true, type: 'text')
         collectionMethod (nullable: true, type: 'text')
         analyzingInformation (nullable: true, type: 'text')
-        phDyeTypeManuf (nullable: true, type: 'text')
+        phDyeTypeManuf (nullable: true)
+        traceabilityOfStdGas (nullable: true, type: 'text')
+        fCo2CalcMethod (nullable: true, type: 'text')
+        pCo2CalcMethod (nullable: true, type: 'text')
+        temperatureMeasurementCalibrationMethod (nullable: true, type: 'text')
+        pressureMeasurementCalibrationMethod (nullable: true, type: 'text')
+        uncertaintyOfTemperature (nullable: true)
+        uncertaintyOfTotalPressure (nullable: true)
+        totalPressureCalcMethod (nullable: true)
     }
 }

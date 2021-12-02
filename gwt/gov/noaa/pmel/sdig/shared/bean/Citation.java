@@ -20,6 +20,8 @@ public class Citation extends DbItem implements Stringy, HasContent {
     String supplementalInformation;
     String researchProjects;
 
+    String methodsApplied;
+
     public String getResearchProjects() {
         return researchProjects;
     }
@@ -102,6 +104,10 @@ public class Citation extends DbItem implements Stringy, HasContent {
 
     public void setUseLimitation(String useLimitation) { this.useLimitation = useLimitation; }
 
+    public void setMethodsApplied(String methods) { this.methodsApplied = methods; }
+
+    public String getMethodsApplied() { return this.methodsApplied; }
+
     @Override
     public Citation sClone() {
         Citation newc = new Citation();
@@ -118,6 +124,7 @@ public class Citation extends DbItem implements Stringy, HasContent {
         newc.scientificReferences = this.scientificReferences;
         newc.supplementalInformation = this.supplementalInformation;
         newc.researchProjects = this.researchProjects;
+        newc.methodsApplied = this.methodsApplied;
         return newc;
     }
 
@@ -134,6 +141,7 @@ public class Citation extends DbItem implements Stringy, HasContent {
                     isEmpty(citationAuthorList) &&
                     isEmpty(scientificReferences) &&
                     isEmpty(supplementalInformation) &&
+                    isEmpty(methodsApplied) &&
                     isEmpty(researchProjects));
         return hasContent;
     }
