@@ -78,8 +78,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String phDyeTypeManuf;
 
     String traceabilityOfStdGas;
-    String fCo2CalcMethod;
-    String pCo2CalcMethod;
+    String fco2CalcMethod;
+    String pco2CalcMethod;
     String temperatureMeasurementCalibrationMethod;
     String pressureMeasurementCalibrationMethod;
     String uncertaintyOfTemperature;
@@ -156,8 +156,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.phDyeTypeManuf,
             this.variableType,
             this.traceabilityOfStdGas,
-            this.fCo2CalcMethod,
-            this.pCo2CalcMethod,
+            this.fco2CalcMethod,
+            this.pco2CalcMethod,
             this.temperatureMeasurementCalibrationMethod,
             this.pressureMeasurementCalibrationMethod,
             this.uncertaintyOfTemperature,
@@ -308,12 +308,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.abbreviationQualityFlag = abbreviationQualityFlag;
         this.sopChanges = sopChanges;
         this.collectionMethod=collectionMethod;
-        this.phDyeTypeManuf = phDyeTypeManuf;
         this.analyzingInformation = analyzingInformation;
         this.variableType = variableType;
+        this.phDyeTypeManuf = phDyeTypeManuf;
         this.traceabilityOfStdGas = traceabilityOfStdGas;
-        this.fCo2CalcMethod = fCo2CalcMethod;
-        this.pCo2CalcMethod = pCo2CalcMethod;
+        this.fco2CalcMethod = fCo2CalcMethod;
+        this.pco2CalcMethod = pCo2CalcMethod;
         this.temperatureMeasurementCalibrationMethod = temperatureMeasurementCalibrationMethod;
         this.pressureMeasurementCalibrationMethod = pressureMeasurementCalibrationMethod;
         this.uncertaintyOfTemperature = uncertaintyOfTemperature;
@@ -399,8 +399,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
         result = 31 * result + (phDyeTypeManuf != null ? phDyeTypeManuf.hashCode() : 0);
         result = 31 * result + (traceabilityOfStdGas != null ? traceabilityOfStdGas.hashCode() : 0);
-        result = 31 * result + (fCo2CalcMethod != null ? fCo2CalcMethod.hashCode() : 0);
-        result = 31 * result + (pCo2CalcMethod != null ? pCo2CalcMethod.hashCode() : 0);
+        result = 31 * result + (fco2CalcMethod != null ? fco2CalcMethod.hashCode() : 0);
+        result = 31 * result + (pco2CalcMethod != null ? pco2CalcMethod.hashCode() : 0);
         result = 31 * result + (temperatureMeasurementCalibrationMethod != null ? temperatureMeasurementCalibrationMethod.hashCode() : 0);
         result = 31 * result + (pressureMeasurementCalibrationMethod != null ? pressureMeasurementCalibrationMethod.hashCode() : 0);
         result = 31 * result + (uncertaintyOfTemperature != null ? uncertaintyOfTemperature.hashCode() : 0);
@@ -490,8 +490,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
                 sCompare(phDyeTypeManuf, v.phDyeTypeManuf) == 0 &&
                 sCompare(traceabilityOfStdGas, v.traceabilityOfStdGas) == 0 &&
-                sCompare(fCo2CalcMethod, v.fCo2CalcMethod) == 0 &&
-                sCompare(pCo2CalcMethod, v.pCo2CalcMethod) == 0 &&
+                sCompare(fco2CalcMethod, v.fco2CalcMethod) == 0 &&
+                sCompare(pco2CalcMethod, v.pco2CalcMethod) == 0 &&
                 sCompare(temperatureMeasurementCalibrationMethod, v.temperatureMeasurementCalibrationMethod) == 0 &&
                 sCompare(pressureMeasurementCalibrationMethod, v.pressureMeasurementCalibrationMethod) == 0 &&
                 sCompare(uncertaintyOfTemperature, v.uncertaintyOfTemperature) == 0 &&
@@ -572,8 +572,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.analyzingInformation = this.analyzingInformation;
         newv.phDyeTypeManuf = this.phDyeTypeManuf;
         newv.traceabilityOfStdGas = this.traceabilityOfStdGas;
-        newv.fCo2CalcMethod = this.fCo2CalcMethod;
-        newv.pCo2CalcMethod = this.pCo2CalcMethod;
+        newv.fco2CalcMethod = this.fco2CalcMethod;
+        newv.pco2CalcMethod = this.pco2CalcMethod;
         newv.temperatureMeasurementCalibrationMethod = this.temperatureMeasurementCalibrationMethod;
         newv.pressureMeasurementCalibrationMethod = this.pressureMeasurementCalibrationMethod;
         newv.uncertaintyOfTemperature = this.uncertaintyOfTemperature;
@@ -652,8 +652,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(analyzingInformation) &&
                     isEmpty(phDyeTypeManuf) &&
                     isEmpty(traceabilityOfStdGas) &&
-                    isEmpty(fCo2CalcMethod) &&
-                    isEmpty(pCo2CalcMethod) &&
+                    isEmpty(fco2CalcMethod) &&
+                    isEmpty(pco2CalcMethod) &&
                     isEmpty(temperatureMeasurementCalibrationMethod) &&
                     isEmpty(pressureMeasurementCalibrationMethod) &&
                     isEmpty(uncertaintyOfTemperature) &&
@@ -1138,14 +1138,14 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.traceabilityOfStdGas = traceabilityOfStdGas;
     }
 
-    public String getfCo2CalcMethod() { return fCo2CalcMethod; }
-    public void setfCo2CalcMethod(String fCo2CalcMethod) {
-        this.fCo2CalcMethod = fCo2CalcMethod;
+    public String getFco2CalcMethod() { return fco2CalcMethod; }
+    public void setFco2CalcMethod(String fco2CalcMethod) {
+        this.fco2CalcMethod = fco2CalcMethod;
     }
 
-    public String getpCo2CalcMethod() { return pCo2CalcMethod; }
-    public void setpCo2CalcMethod(String pCo2CalcMethod) {
-        this.pCo2CalcMethod = pCo2CalcMethod;
+    public String getPco2CalcMethod() { return pco2CalcMethod; }
+    public void setPco2CalcMethod(String pco2CalcMethod) {
+        this.pco2CalcMethod = pco2CalcMethod;
     }
 
     public String getTemperatureMeasurementCalibrationMethod() {

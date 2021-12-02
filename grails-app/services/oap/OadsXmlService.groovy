@@ -355,8 +355,8 @@ class OadsXmlService {
                 StandardGasType stdGas = stdGases.get(0)
                 variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
             }
-            variable.setpCo2CalcMethod(co2aVar.calculationMethodForPCO2)
-            variable.setfCo2CalcMethod(co2aVar.calculationMethodForFCO2)
+            variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
+            variable.setFco2CalcMethod(co2aVar.calculationMethodForFCO2)
 
             // 031 Drying method for CO2 gas
             // <dryMethod>

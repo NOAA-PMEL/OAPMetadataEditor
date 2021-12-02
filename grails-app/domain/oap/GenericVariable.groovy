@@ -71,8 +71,8 @@ class GenericVariable {
     String phDyeTypeManuf
 
     String traceabilityOfStdGas
-    String fCo2CalcMethod
-    String pCo2CalcMethod
+    String fco2CalcMethod
+    String pco2CalcMethod
     String temperatureMeasurementCalibrationMethod
     String pressureMeasurementCalibrationMethod
     String uncertaintyOfTemperature
@@ -132,7 +132,6 @@ class GenericVariable {
         gasDectectorResolution (nullable: true)
         seawaterVolume (nullable: true)
         temperatureCorrectionMethod (nullable: true, type: 'text')
-//        temperatureCorrection (nullable: true)
         temperatureMeasurement (nullable: true)
         temperatureStandarization (nullable: true, type: 'text')
         standardGasUncertainties (nullable: true, type: 'text')
@@ -151,8 +150,8 @@ class GenericVariable {
         analyzingInformation (nullable: true, type: 'text')
         phDyeTypeManuf (nullable: true)
         traceabilityOfStdGas (nullable: true, type: 'text')
-        fCo2CalcMethod (nullable: true, type: 'text')
-        pCo2CalcMethod (nullable: true, type: 'text')
+        fco2CalcMethod (nullable: true)
+        pco2CalcMethod (nullable: true)
         temperatureMeasurementCalibrationMethod (nullable: true, type: 'text')
         pressureMeasurementCalibrationMethod (nullable: true, type: 'text')
         uncertaintyOfTemperature (nullable: true)

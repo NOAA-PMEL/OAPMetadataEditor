@@ -75,7 +75,14 @@ class Variable extends GenericVariable {
         v.collectionMethod = genV.collectionMethod
         v.analyzingInformation =genV.analyzingInformation
         v.phDyeTypeManuf = genV.phDyeTypeManuf
-
+        v.traceabilityOfStdGas = genV.traceabilityOfStdGas
+        v.fCo2CalcMethod = genV.fco2CalcMethod
+        v.pCo2CalcMethod = genV.pco2CalcMethod
+        v.temperatureMeasurementCalibrationMethod = genV.temperatureMeasurementCalibrationMethod
+        v.pressureMeasurementCalibrationMethod = genV.pressureMeasurementCalibrationMethod
+        v.uncertaintyOfTemperature = genV.uncertaintyOfTemperature
+        v.uncertaintyOfTotalPressure = genV.uncertaintyOfTotalPressure
+        v.totalPressureCalcMethod = genV.totalPressureCalcMethod
 
         /*
         new VariableBuilder()

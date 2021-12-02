@@ -20,7 +20,6 @@ import com.google.gwt.view.client.ListDataProvider;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
-import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
@@ -580,11 +579,11 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if ( pco2a.getTraceabilityOfStdGas() != null ) {
             stdGasTraceability.setText(pco2a.getTraceabilityOfStdGas());
         }
-        if ( pco2a.getpCo2CalcMethod() != null ) {
-            pco2FromXco2Method.setText(pco2a.getpCo2CalcMethod());
+        if ( pco2a.getPco2CalcMethod() != null ) {
+            pco2FromXco2Method.setText(pco2a.getPco2CalcMethod());
         }
-        if ( pco2a.getfCo2CalcMethod() != null ) {
-            fco2FromPco2Method.setText(pco2a.getfCo2CalcMethod());
+        if ( pco2a.getFco2CalcMethod() != null ) {
+            fco2FromPco2Method.setText(pco2a.getFco2CalcMethod());
         }
         if ( pco2a.getTotalPressureCalcMethod() != null ) {
             totalMeasurementPressureDetermined.setText(pco2a.getTotalPressureCalcMethod());
