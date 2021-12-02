@@ -21,11 +21,13 @@
                             <b:gwt.CellTable ui:field="variables" addStyleNames="tightenTBmargins" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:Pagination ui:field="variablePagination" addStyleNames="tightenTBmargins" visible="false" />
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_6 MD_4 LG_3">
                             <!-- Keep -->
@@ -65,6 +67,28 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_6">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="unitsForm">
+                                <b:FormLabel for="units" text="Units"></b:FormLabel> <!-- color="#B22222" -->
+                                <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="collectionMethodForm">
+                                <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="Collection method" b:id="collectionMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
@@ -81,26 +105,7 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_6">
-                            <!-- Keep -->
-                            <b:FormGroup ui:field="collectionMethodForm">
-                                <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="Collection method" b:id="collectionMethod"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6">
-                            <!-- Keep -->
-                            <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel for="units" text="Units"></b:FormLabel> <!-- color="#B22222" -->
-                                <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
@@ -118,7 +123,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_6 LG_4">
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation (Biological Study Only)"></b:FormLabel>
@@ -127,7 +132,7 @@
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 LG_4">
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
@@ -136,7 +141,7 @@
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 LG_4">
+                        <b:Column size="SM_12 MD_12 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
                                 <b:FormLabel for="manipulationMethod" text="Manipulation Method (Biological Study Only)"></b:FormLabel>
@@ -145,8 +150,8 @@
                                 <b:TextBox ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-
                     </b:Row>
+
                     <b:Row>
                         <!-- Keep -->
                         <b:Column size="MD_6 LG_4">
@@ -168,6 +173,7 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
@@ -193,16 +199,25 @@
                     </b:Row>
 
                     <b:Row>
-                        <b:Column size="MD_6 LG_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="uncertaintyForm">
-                                <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
-                                <b:Modal title="27.15 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable." closable="true" b:id="modalUncertainty"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextBox>
+                            <b:FormGroup ui:field="qualityControlForm">
+                                <b:FormLabel for="qualityControl" text="Quality Control"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="qualityControlModal" b:id="modalqualityControl"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityControl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="qualityControl" allowBlank="true" placeholder="Quality Control" b:id="qualityControl"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_6 LG_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="abbreviationQualityFlagForm">
+                                <b:FormLabel for="abbreviationQualityFlag" text="Abbreviation of data quality flag scheme"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="abbreviationQualityFlagModal" b:id="modalAbbreviationQualityFlag"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviationQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="abbreviationQualityFlag" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="abbreviationQualityFlag"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qualityFlagForm">
                                 <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
@@ -212,26 +227,8 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
-                    <b:Column size="MD_6 LG_3">
-                        <!-- Keep -->
-                        <b:FormGroup ui:field="qualityControlForm">
-                            <b:FormLabel for="qualityControl" text="Quality Control"></b:FormLabel>
-                            <b:Modal title="" closable="true" ui:field="qualityControlModal" b:id="modalqualityControl"/>
-                            <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityControl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                            <b:TextBox ui:field="qualityControl" allowBlank="true" placeholder="Quality Control" b:id="qualityControl"></b:TextBox>
-                        </b:FormGroup>
-                    </b:Column>
-                    <b:Column size="MD_6 LG_3">
-                        <!-- Keep -->
-                        <b:FormGroup ui:field="abbreviationQualityFlagForm">
-                            <b:FormLabel for="abbreviationQualityFlag" text="Abbreviation of data quality flag scheme"></b:FormLabel>
-                            <b:Modal title="" closable="true" ui:field="abbreviationQualityFlagModal" b:id="modalAbbreviationQualityFlag"/>
-                            <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviationQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                            <b:TextBox ui:field="abbreviationQualityFlag" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="abbreviationQualityFlag"></b:TextBox>
-                        </b:FormGroup>
-                    </b:Column>
                     <b:Row>
-                        <b:Column size="MD_6 LG_3">
+                        <b:Column size="SM_12 LG_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherNameForm">
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
@@ -240,7 +237,7 @@
                                 <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_6 LG_3">
+                        <b:Column size="SM_12 LG_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="researcherInstitutionForm">
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
@@ -250,8 +247,18 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
-                        <b:Column size="SM_12 MD_9">
+                        <b:Column size="SM_12 LG_3">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="uncertaintyForm">
+                                <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
+                                <b:Modal title="27.15 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable." closable="true" b:id="modalUncertainty"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 LG_9">
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
@@ -274,46 +281,47 @@
                         </b:Column>
                     </b:Row>
 
-                    <b:Row>
-                        <b:Column size="SM_6">
-                            <b:FormGroup ui:field="biologicalSubjectForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="biologicalSubject" text="Biological Subject (Biological Study Only)"></b:FormLabel>
-                                <b:Modal title="27.18 For biological variables, please state the taxonomy (a specific species genus or a community), upon which the variable is studied. For example, if you study the growth rate of a certain type of Salmon. The 'variable/parameter' is growth rate, and is that specific type of salmon." closable="true" b:id="modalBiologicalSubject"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalBiologicalSubject" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="biologicalSubject" allowBlank="true" placeholder="Biological subject" b:id="biologicalSubject"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6">
-                            <b:FormGroup ui:field="durationForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="duration" text="Duration (for settlement/colonization methods) (Biological Study Only)"></b:FormLabel>
-                                <b:Modal title="27.12 The duration for settlement, colonization, or experiment studies." closable="true" b:id="modalDuration"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDuration" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="duration" allowBlank="true" placeholder="Duration (for settlement/colonization methods)" b:id="duration"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_6">
-                            <b:FormGroup ui:field="lifeStageForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="lifeStage" text="Life Stage of the Biological Subject (Biological Study Only)"></b:FormLabel>
-                                <b:Modal title="27.20 Life stage of the biological subject (a specific species genus or a community)." closable="true" b:id="modalLifeStage"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLifeStage" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="lifeStage" allowBlank="true" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6">
-                            <b:FormGroup ui:field="speciesIdCodeForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="speciesIdCode" text="Species Identification Code (Biological Study Only)"></b:FormLabel>
-                                <b:Modal title="27.19 It is recommended to use the species reference databases from the Integrated Taxonomic Information System (or ITIS, http://www.itis.gov/), or World Register of Marine Species (or WoRMS, http://marinespecies.org/). We also recommend you to include the reference databases that are used in this field." closable="true" b:id="modalSpeciesIdCode"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSpeciesIdCode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="speciesIdCode" allowBlank="true" placeholder="Species Identification code" b:id="speciesIdCode"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
+                    <!-- Remove Biological Fields -->
+<!--                    <b:Row>-->
+<!--                        <b:Column size="SM_6">-->
+<!--                            <b:FormGroup ui:field="biologicalSubjectForm">-->
+<!--                                &lt;!&ndash; Keep &ndash;&gt;-->
+<!--                                <b:FormLabel for="biologicalSubject" text="Biological Subject (Biological Study Only)"></b:FormLabel>-->
+<!--                                <b:Modal title="27.18 For biological variables, please state the taxonomy (a specific species genus or a community), upon which the variable is studied. For example, if you study the growth rate of a certain type of Salmon. The 'variable/parameter' is growth rate, and is that specific type of salmon." closable="true" b:id="modalBiologicalSubject"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalBiologicalSubject" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="biologicalSubject" allowBlank="true" placeholder="Biological subject" b:id="biologicalSubject"></b:TextBox>-->
+<!--                            </b:FormGroup>-->
+<!--                        </b:Column>-->
+<!--                        <b:Column size="SM_6">-->
+<!--                            <b:FormGroup ui:field="durationForm">-->
+<!--                                &lt;!&ndash; Keep &ndash;&gt;-->
+<!--                                <b:FormLabel for="duration" text="Duration (for settlement/colonization methods) (Biological Study Only)"></b:FormLabel>-->
+<!--                                <b:Modal title="27.12 The duration for settlement, colonization, or experiment studies." closable="true" b:id="modalDuration"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDuration" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="duration" allowBlank="true" placeholder="Duration (for settlement/colonization methods)" b:id="duration"></b:TextBox>-->
+<!--                            </b:FormGroup>-->
+<!--                        </b:Column>-->
+<!--                    </b:Row>-->
+<!--                    <b:Row>-->
+<!--                        <b:Column size="SM_6">-->
+<!--                            <b:FormGroup ui:field="lifeStageForm">-->
+<!--                                &lt;!&ndash; Keep &ndash;&gt;-->
+<!--                                <b:FormLabel for="lifeStage" text="Life Stage of the Biological Subject (Biological Study Only)"></b:FormLabel>-->
+<!--                                <b:Modal title="27.20 Life stage of the biological subject (a specific species genus or a community)." closable="true" b:id="modalLifeStage"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLifeStage" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="lifeStage" allowBlank="true" placeholder="Life stage of the biological subject" b:id="lifeStage"></b:TextBox>-->
+<!--                            </b:FormGroup>-->
+<!--                        </b:Column>-->
+<!--                        <b:Column size="SM_6">-->
+<!--                            <b:FormGroup ui:field="speciesIdCodeForm">-->
+<!--                                &lt;!&ndash; Keep &ndash;&gt;-->
+<!--                                <b:FormLabel for="speciesIdCode" text="Species Identification Code (Biological Study Only)"></b:FormLabel>-->
+<!--                                <b:Modal title="27.19 It is recommended to use the species reference databases from the Integrated Taxonomic Information System (or ITIS, http://www.itis.gov/), or World Register of Marine Species (or WoRMS, http://marinespecies.org/). We also recommend you to include the reference databases that are used in this field." closable="true" b:id="modalSpeciesIdCode"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSpeciesIdCode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="speciesIdCode" allowBlank="true" placeholder="Species Identification code" b:id="speciesIdCode"></b:TextBox>-->
+<!--                            </b:FormGroup>-->
+<!--                        </b:Column>-->
+<!--                    </b:Row>-->
                     <b:Row>
                         <b:Column size="SM_2">
                             <b:Button ui:field="save" type="PRIMARY" text="SAVE VARIABLE"/>
