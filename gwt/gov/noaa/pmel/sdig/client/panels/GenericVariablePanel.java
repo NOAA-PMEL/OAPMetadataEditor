@@ -443,6 +443,15 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         variables.addColumn(edit);
         edit.setCellStyleNames("text-center");
 
+        // abbrevation
+        TextColumn<Variable> abbrevColumn = new TextColumn<Variable>() {
+            @Override
+            public String getValue(Variable object) {
+                return object.getAbbreviation();
+            }
+        };
+        variables.addColumn(abbrevColumn, "Abbrevation");
+
         // Add a text column to show the name.
         TextColumn<Variable> nameColumn = new TextColumn<Variable>() {
             @Override
@@ -457,6 +466,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                 return "Delete";
             }
         };
+
         delete.setFieldUpdater(new FieldUpdater<Variable, String>() {
             @Override
             public void update(int index, Variable variable, String value) {

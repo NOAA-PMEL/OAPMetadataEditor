@@ -50,7 +50,7 @@
                                 </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_4 LG_4">
+                        <b:Column size="SM_12 MD_4 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
@@ -66,7 +66,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="MD_4 LG_3">
+                        <b:Column size="SM_12">
                             <!-- Keep -->
                             <b:FormGroup ui:field="samplingInstrumentForm">
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
@@ -80,16 +80,29 @@
                                 </b:InputGroup>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4 LG_4">
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="collectionMethodForm">
                                 <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="DIC: Collection method" b:id="collectionMethod"></b:TextBox>
+                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="Collection method" b:id="collectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_4 LG_4" offset="LG_1">
+                        <b:Column size="SM_6">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="unitsForm">
+                                <b:FormLabel for="units" text="Units"></b:FormLabel> <!-- color="#B22222" -->
+                                <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_12">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
@@ -101,15 +114,6 @@
                                         <b:Button ui:field="showAnalyzingInstrumentListButton" icon="ANGLE_DOWN" pull="RIGHT" title="Show variables"></b:Button>
                                     </b:InputGroupButton>
                                 </b:InputGroup>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="MD_4 LG_3" offset="LG_1">
-                            <!-- Keep -->
-                            <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel for="units" text="Units"></b:FormLabel> <!-- color="#B22222" -->
-                                <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
