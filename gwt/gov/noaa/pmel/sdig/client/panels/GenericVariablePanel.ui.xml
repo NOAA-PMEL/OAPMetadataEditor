@@ -126,7 +126,7 @@
                         <b:Column size="SM_12 MD_6 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationDetailForm">
-                                <b:FormLabel for="observationDetail" text="Details about the Observation (Biological Study Only)"></b:FormLabel>
+                                <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
                                 <b:Modal title="27.5 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study." closable="true" b:id="modalObservationDetail"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationDetail" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
@@ -144,7 +144,7 @@
                         <b:Column size="SM_12 MD_12 LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="manipulationMethodForm">
-                                <b:FormLabel for="manipulationMethod" text="Manipulation Method (Biological Study Only)"></b:FormLabel>
+                                <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
                                 <b:Modal title="22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc." closable="true" b:id="modalManipulationMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextBox>
@@ -162,7 +162,6 @@
                                 <b:TextBox ui:field="calculationMethod" allowBlank="true" placeholder="Calculation method and parameters" b:id="calculationMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-
                         <b:Column size="MD_6 LG_4" offset="LG_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
@@ -219,11 +218,17 @@
                         </b:Column>
                         <b:Column size="SM_12 LG_4">
                             <!-- Keep -->
+<!--                            <b:FormGroup ui:field="qualityFlagForm">-->
+<!--                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>-->
+<!--                                <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>-->
+<!--                            </b:FormGroup>-->
                             <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>
+                                <b:FormLabel for="qualityFlag" text="Data quality scheme (name of scheme)"></b:FormLabel>
                                 <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
+                                <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality scheme" b:id="qualityFlag"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
