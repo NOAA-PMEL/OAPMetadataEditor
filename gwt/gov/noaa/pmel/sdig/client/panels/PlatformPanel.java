@@ -311,13 +311,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         platform.setName(name.getText().trim());
         platform.setOwner(owner.getText().trim());
         platform.setPlatformType(platformType.getText().trim());
-//        platform.setPlatformIdType(platformIdType.getValue());
-        String plat = platformId.getText().trim();
-        String idType = platformIdType.getValue();
-        if ( idType != null && ! idType.isEmpty()) {
-            plat = idType + ":" + plat;
-        }
-        platform.setPlatformId(plat);
+        platform.setPlatformIdType(platformIdType.getValue());
+        platform.setPlatformId(platformId.getValue());
 
         platform.setPosition(editIndex);
         return platform;
@@ -372,10 +367,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         if (platformId.getText().trim() != null && !platformId.getText().isEmpty() ) {
             hasContent = true;
         }
-//        if (platformType.getText().trim() != null && !platformType.getText().isEmpty() ) {
-//            hasContent = true;
-//        }
-
+        if (platformType.getText().trim() != null && !platformType.getText().isEmpty() ) {
+            hasContent = true;
+        }
         if ( hasContent == true ) {
             save.setEnabled(true);
         }
@@ -424,31 +418,17 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         if ( platform.getOwner() != null ) {
             owner.setText(platform.getOwner());
         }
-//        if ( platform.getPlatformId() != null ) {
-//            platformId.setText(platform.getPlatformId());
-//        }
         if ( platform.getPlatformId() != null ) {
-            String platformInfo = platform.getPlatformId();
-            OAPMetadataEditor.debugLog("platformInfo string: " + platformInfo);
-            int idx = platformInfo.indexOf(':');
-            if ( idx > 0 ) {
-                String idType = platformInfo.substring(0, idx);
-                platformIdType.setSelected(idType);
-                String id = platformInfo.substring(idx+1);
-                platformId.setText(id);
-            } else {
-                platformId.setText(platform.getPlatformId());
-            }
+            platformId.setText(platform.getPlatformId());
         }
-
 
         if ( platform.getPlatformType() != null ) {
             platformType.setText(platform.getPlatformType());
         }
 
-//        if ( platform.getPlatformIdType() != null ) {
-//            platformIdType.setSelected(platform.getPlatformIdType());
-//        }
+        if ( platform.getPlatformIdType() != null ) {
+            platformIdType.setSelected(platform.getPlatformIdType());
+        }
 
     }
 

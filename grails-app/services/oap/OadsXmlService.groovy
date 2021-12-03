@@ -92,6 +92,7 @@ class OadsXmlService {
             platform.setName(p.name)
             platform.setOwner(p.owner)
             platform.setPlatformId(p.identifier.value)
+            platform.setPlatformIdType(p.identifier.type)
             platform.setPlatformType(p.type)
             platform.setCountry(p.country)
             mdDoc.addToPlatforms(platform)
