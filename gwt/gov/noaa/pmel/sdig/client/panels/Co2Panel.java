@@ -71,9 +71,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox gasConcentration;
 
-    // 030 Depth of seawater intake
-    @UiField
-    TextBox intakeDepth;
+    // 030 Depth of seawater intake -> move to Co2CommonVariablePanel
+//    @UiField
+//    TextBox intakeDepth;
 
     // 031 Drying method for CO2 gas
     @UiField
@@ -99,9 +99,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox equilibratorTemperatureMeasureMethod;
 
-    // 041 Location of seawater intake
-    @UiField
-    TextBox intakeLocation;
+    // 041 Location of seawater intake -> move to Co2CommonVariablePanel
+//    @UiField
+//    TextBox intakeLocation;
 
     // 043 Manufacturer of standard gas
     @UiField
@@ -403,14 +403,14 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             co2.setFreqencyOfStandardization(freqencyOfStandardization.getText());
             co2.setPco2Temperature(pco2Temperature.getText());
             co2.setGasConcentration(gasConcentration.getText());
-            co2.setIntakeDepth(intakeDepth.getText());
+//            co2.setIntakeDepth(intakeDepth.getText());
             co2.setDryingMethod(dryingMethod.getText());
             co2.setEquilibratorType(equilibratorType.getText());
             co2.setEquilibratorVolume(equilibratorVolume.getText());
             co2.setGasFlowRate(gasFlowRate.getText());
             co2.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
             co2.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-            co2.setIntakeLocation(intakeLocation.getText());
+//            co2.setIntakeLocation(intakeLocation.getText());
             co2.setStandardGasManufacture(standardGasManufacture.getText());
             co2.setGasDetectorManufacture(gasDetectorManufacture.getText());
             co2.setGasDetectorModel(gasDetectorModel.getText());
@@ -430,14 +430,14 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         co2.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         co2.setPco2Temperature(pco2Temperature.getText());
         co2.setGasConcentration(gasConcentration.getText());
-        co2.setIntakeDepth(intakeDepth.getText());
+//        co2.setIntakeDepth(intakeDepth.getText());
         co2.setDryingMethod(dryingMethod.getText());
         co2.setEquilibratorType(equilibratorType.getText());
         co2.setEquilibratorVolume(equilibratorVolume.getText());
         co2.setGasFlowRate(gasFlowRate.getText());
         co2.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         co2.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-        co2.setIntakeLocation(intakeLocation.getText());
+//        co2.setIntakeLocation(intakeLocation.getText());
         co2.setStandardGasManufacture(standardGasManufacture.getText());
         co2.setGasDetectorManufacture(gasDetectorManufacture.getText());
         co2.setGasDetectorModel(gasDetectorModel.getText());
@@ -456,14 +456,14 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         pco2a.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2a.setPco2Temperature(pco2Temperature.getText());
         pco2a.setGasConcentration(gasConcentration.getText());
-        pco2a.setIntakeDepth(intakeDepth.getText());
+//        pco2a.setIntakeDepth(intakeDepth.getText());
         pco2a.setDryingMethod(dryingMethod.getText());
         pco2a.setEquilibratorType(equilibratorType.getText());
         pco2a.setEquilibratorVolume(equilibratorVolume.getText());
         pco2a.setGasFlowRate(gasFlowRate.getText());
         pco2a.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-        pco2a.setIntakeLocation(intakeLocation.getText());
+//        pco2a.setIntakeLocation(intakeLocation.getText());
         pco2a.setStandardGasManufacture(standardGasManufacture.getText());
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
@@ -493,9 +493,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             gasConcentration.setText(pco2a.getGasConcentration());
         }
 
-        if ( pco2a.getIntakeDepth() != null ) {
-            intakeDepth.setText(pco2a.getIntakeDepth());
-        }
+//        if ( pco2a.getIntakeDepth() != null ) {
+//            intakeDepth.setText(pco2a.getIntakeDepth());
+//        }
 
         if (pco2a.getDryingMethod() != null ) {
             dryingMethod.setText(pco2a.getDryingMethod());
@@ -521,9 +521,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             equilibratorTemperatureMeasureMethod.setText(pco2a.getEquilibratorTemperatureMeasureMethod());
         }
 
-        if ( pco2a.getIntakeLocation() != null ) {
-            intakeLocation.setText(pco2a.getIntakeLocation());
-        }
+//        if ( pco2a.getIntakeLocation() != null ) {
+//            intakeLocation.setText(pco2a.getIntakeLocation());
+//        }
 
         if ( pco2a.getStandardGasManufacture() != null ) {
             standardGasManufacture.setText(pco2a.getStandardGasManufacture());
@@ -632,14 +632,14 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
             isDirty(pco2Temperature, original.getPco2Temperature() ) ||
             isDirty(gasConcentration, original.getGasConcentration() ) ||
-            isDirty(intakeDepth, original.getIntakeDepth() ) ||
+//            isDirty(intakeDepth, original.getIntakeDepth() ) ||
             isDirty(dryingMethod, original.getDryingMethod() ) ||
             isDirty(equilibratorType, original.getEquilibratorType() ) ||
             isDirty(equilibratorVolume, original.getEquilibratorVolume() ) ||
             isDirty(gasFlowRate, original.getGasFlowRate() ) ||
             isDirty(equilibratorPressureMeasureMethod, original.getEquilibratorPressureMeasureMethod() ) ||
             isDirty(equilibratorTemperatureMeasureMethod, original.getEquilibratorTemperatureMeasureMethod() ) ||
-            isDirty(intakeLocation, original.getIntakeLocation() ) ||
+//            isDirty(intakeLocation, original.getIntakeLocation() ) ||
             isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
             isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
             isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
@@ -668,9 +668,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if (gasConcentration.getText().trim() != null && !gasConcentration.getText().isEmpty() ) {
             return true;
         }
-        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() ) {
-            return true;
-        }
+//        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() ) {
+//            return true;
+//        }
         if (dryingMethod.getText().trim() != null && !dryingMethod.getText().isEmpty() ) {
             return true;
         }
@@ -689,9 +689,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if (equilibratorTemperatureMeasureMethod.getText().trim() != null && !equilibratorTemperatureMeasureMethod.getText().isEmpty() ) {
             return true;
         }
-        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() ) {
-            return true;
-        }
+//        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() ) {
+//            return true;
+//        }
         if (standardGasManufacture.getText().trim() != null && !standardGasManufacture.getText().isEmpty() ) {
             return true;
         }

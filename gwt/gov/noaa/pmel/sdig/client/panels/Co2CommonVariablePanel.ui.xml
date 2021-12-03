@@ -100,6 +100,27 @@ Unnamed variables have "Full variable name in addition.
                     </b:Row>
 
                     <b:Row>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="intakeLocationForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="intakeLocation" text="Location of Seawater Intake"></b:FormLabel>
+                                <b:Modal title="25.9 Whereabout of the seawater intake" closable="true" b:id="modalIntakeLocation"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeLocation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="intakeDepthForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="intakeDepth" text="Depth of Seawater Intake"></b:FormLabel>
+                                <b:Modal title="25.10 Water depth of the seawater intake" closable="true" b:id="modalIntakeDepth"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeDepth" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+                    <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">

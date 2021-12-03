@@ -289,6 +289,14 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     @UiField
     FormGroup analyzingInformationForm;
 
+    // move from Co2CommonVariablePanel
+    // 030 Depth of seawater intake
+    @UiField
+    TextBox intakeDepth;
+    // 041 Location of seawater intake
+    @UiField
+    TextBox intakeLocation;
+
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
 
@@ -365,6 +373,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         sopChanges.setTitle("");
         collectionMethod.setTitle("");
         analyzingInformation.setTitle("");
+
+        intakeDepth.setTitle("");
+        intakeLocation.setTitle("");
 
 //        showSamplingInstrumentListButton.add
     }
@@ -457,6 +468,14 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         if ( variable.getAnalyzingInformation() != null ) {
             analyzingInformation.setText(variable.getAnalyzingInformation());
         }
+
+
+        if ( variable.getIntakeDepth() != null ) {
+            intakeDepth.setText(variable.getIntakeDepth());
+        }
+        if ( variable.getIntakeLocation() != null ) {
+            intakeLocation.setText(variable.getIntakeLocation());
+        }
     }
 
     public Variable getCommonVariable() {
@@ -492,6 +511,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         commonVariable.setSopChanges(sopChanges.getText());
         commonVariable.setCollectionMethod(collectionMethod.getText());
         commonVariable.setAnalyzingInformation(analyzingInformation.getText());
+
+        commonVariable.setIntakeDepth(intakeDepth.getText());
+        commonVariable.setIntakeLocation(intakeLocation.getText());
         return commonVariable;
     }
     public boolean isDirty(Variable original) {
@@ -518,8 +540,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
                    isDirty(abbreviationQualityFlag, original.getAbbreviationQualityFlag() ) ||
                    isDirty(sopChanges, original.getSopChanges() ) ||
                    isDirty(collectionMethod, original.getCollectionMethod() ) ||
-                   isDirty(analyzingInformation, original.getAnalyzingInformation() );
-
+                   isDirty(analyzingInformation, original.getAnalyzingInformation() ) ||
+                   isDirty(intakeDepth, original.getIntakeDepth() ) ||
+                   isDirty(intakeLocation, original.getIntakeLocation() );
         return isDirty;
     }
     public boolean isDirty() {
@@ -572,6 +595,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
             return true;
         if (analyzingInformation.getText().trim() != null && !analyzingInformation.getValue().isEmpty() )
             return true;
+
+        if (intakeDepth.getText().trim() != null && !intakeDepth.getValue().isEmpty() )
+            return true;
+        if (intakeLocation.getText().trim() != null && !intakeLocation.getValue().isEmpty() )
+            return true;
+
         return false;
     }
 
