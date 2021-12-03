@@ -306,64 +306,115 @@ class OadsXmlService {
         // TextBox intakeDepth;
 //        Element DepthSeawaterIntake = variable.getChild("DepthSeawaterIntake")
 //        if ( ! isEmpty(DepthSeawaterIntake) ) {
-        variable.setIntakeDepth(co2aVar.depthSeawaterIntake)
+        if (co2aVar.depthSeawaterIntake) {
+            variable.setIntakeDepth(co2aVar.depthSeawaterIntake)
+        }
 //        }
+
 //        Element locationSeawaterIntake = variable.getChild("locationSeawaterIntake")
 //        if ( ! isEmpty(locationSeawaterIntake) ) {
-        variable.setIntakeLocation(co2aVar.locationSeawaterIntake)
+        if (co2aVar.locationSeawaterIntake) {
+            variable.setIntakeLocation(co2aVar.locationSeawaterIntake)
+        }
 //        }
 
 //        Element equilibrator = variable.getChild("equilibrator")
         if (co2aVar.equilibrator) {
 //            Element type = equilibrator.getChild("type")
 //            if ( ! isEmpty(type) ) {
-            variable.setEquilibratorType(co2aVar.equilibrator.type)
+            if (co2aVar.equilibrator.type) {
+                variable.setEquilibratorType(co2aVar.equilibrator.type)
+            }
 //            }
+
 //            Element volume = equilibrator.getChild("volume")
 //            if ( ! isEmpty(volume) ) {
-            variable.setEquilibratorVolume(co2aVar.equilibrator.volume)
+            if (co2aVar.equilibrator.volume) {
+                variable.setEquilibratorVolume(co2aVar.equilibrator.volume)
+            }
 //            }
+
 //            Element vented = equilibrator.getChild("vented")
 //            if ( ! isEmpty(vented) ) {
-            variable.setVented(co2aVar.equilibrator.vented)
+            if (co2aVar.equilibrator.vented) {
+                variable.setVented(co2aVar.equilibrator.vented)
+            }
 //            }
+
 //            Element waterFlowRate = equilibrator.getChild("waterFlowRate")
 //            if ( ! isEmpty(waterFlowRate) ) {
-            variable.setFlowRate(co2aVar.equilibrator.waterFlowRate)
+            if (co2aVar.equilibrator.waterFlowRate) {
+                variable.setFlowRate(co2aVar.equilibrator.waterFlowRate)
+            }
 //            }
+
 //            Element gasFlowRate = equilibrator.getChild("gasFlowRate")
 //            if ( ! isEmpty(gasFlowRate) ) {
-            variable.setGasFlowRate(co2aVar.equilibrator.gasFlowRate)
+            if (co2aVar.equilibrator.gasFlowRate) {
+                variable.setGasFlowRate(co2aVar.equilibrator.gasFlowRate)
+            }
 //            }
+
 //            Element temperatureEquilibratorMethod = equilibrator.getChild("temperatureEquilibratorMethod")
 //            if ( ! isEmpty(temperatureEquilibratorMethod) ) {
-            variable.setEquilibratorTemperatureMeasureMethod(co2aVar.equilibrator.temperatureMeasurement.method)
+            if (co2aVar.equilibrator.temperatureMeasurement
+                    && co2aVar.equilibrator.temperatureMeasurement.method) {
+                variable.setEquilibratorTemperatureMeasureMethod(co2aVar.equilibrator.temperatureMeasurement.method)
+            }
 //            }
+
 //            Element pressureEquilibratorMethod = equilibrator.getChild("pressureEquilibratorMethod")
 //            if ( ! isEmpty(pressureEquilibratorMethod) ) {
-            variable.setEquilibratorPressureMeasureMethod(co2aVar.equilibrator.pressureMeasurement.method)
+            if (co2aVar.equilibrator.pressureMeasurement
+                    && co2aVar.equilibrator.pressureMeasurement.method) {
+                variable.setEquilibratorPressureMeasureMethod(co2aVar.equilibrator.pressureMeasurement.method)
+            }
 //            }
 
             // need null checks all down the line... (and above.)
             // eg if ( co2var.equilibrator && co2aVar.equilibrator.temperatureMeasurement && ... )
             // OR change back to nonNullHashMap..
-            variable.setUncertaintyOfTemperature(co2aVar.equilibrator.temperatureMeasurement.uncertainty)
-            variable.setTemperatureMeasurementCalibrationMethod(co2aVar.equilibrator.temperatureMeasurement.sensor.calibration)
-            variable.setPressureMeasurementCalibrationMethod(co2aVar.equilibrator.pressureMeasurement.sensor.calibration)
+            if (co2aVar.equilibrator.temperatureMeasurement
+                    && co2aVar.equilibrator.temperatureMeasurement.uncertainty) {
+                variable.setUncertaintyOfTemperature(co2aVar.equilibrator.temperatureMeasurement.uncertainty)
+            }
+
+            if (co2aVar.equilibrator.temperatureMeasurement
+                    && co2aVar.equilibrator.temperatureMeasurement.sensor
+                    && co2aVar.equilibrator.temperatureMeasurement.sensor.calibration) {
+                variable.setTemperatureMeasurementCalibrationMethod(co2aVar.equilibrator.temperatureMeasurement.sensor.calibration)
+            }
+
+            if (co2aVar.equilibrator.pressureMeasurement
+                    && co2aVar.equilibrator.pressureMeasurement.sensor
+                    && co2aVar.equilibrator.pressureMeasurement.sensor.calibration) {
+                variable.setPressureMeasurementCalibrationMethod(co2aVar.equilibrator.pressureMeasurement.sensor.calibration)
+            }
+
             List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
             if ( stdGases != null && !stdGases.isEmpty()) {
                 StandardGasType stdGas = stdGases.get(0)
-                variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+                if (stdGas.traceabilityToWmoStandards) {
+                    variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+                }
             }
-            variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
-            variable.setFco2CalcMethod(co2aVar.calculationMethodForFCO2)
+
+            if (co2aVar.calculationMethodForPCO2) {
+                variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
+            }
+
+            if (co2aVar.calculationMethodForFCO2) {
+                variable.setFco2CalcMethod(co2aVar.calculationMethodForFCO2)
+            }
 
             // 031 Drying method for CO2 gas
             // <dryMethod>
             // TextBox dryingMethod;
 //            Element dryMethod = variable.getChild("dryMethod")
 //            if ( ! isEmpty(dryMethod) ) {
-            variable.setDryingMethod(co2aVar.co2GasDryingMethod)
+            if (co2aVar.co2GasDryingMethod) {
+                variable.setDryingMethod(co2aVar.co2GasDryingMethod)
+            }
 //            }
         }
 
