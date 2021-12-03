@@ -141,7 +141,11 @@ class OadsXmlService {
         citation.setExpocode(expocode.trim())
         def cruiseId = ""
         for (TypedIdentifierType code : metadata.getCruiseIds()) {
-            cruiseId += code.getType()+":"+code.getValue() + " "
+            if ( code.getType() && ! code.getType().isEmpty() ) {
+                cruiseId = code.getType()+":"+code.getValue() + " "
+            } else {
+                cruiseId = code.getValue()
+            }
         }
         citation.setCruiseId(cruiseId.trim())
 
@@ -229,18 +233,9 @@ class OadsXmlService {
     private GenericVariable fillVariableDic(DicVariableType dicVar, GenericVariable dicType) {
         GenericVariable variable = fillVariableGeneric(dicVar, dicType)
         if (dicVar.poison) {
-//            Element poisonName = poison.getChild("poisonName")
-//            if ( ! isEmpty(poisonName) ) {
             variable.setPoison(dicVar.poison.name)
-//            }
-//            Element volume = poison.getChild("volume")
-//            if ( ! isEmpty(volume) ) {
             variable.setPoisonVolume(dicVar.poison.volume)
-//            }
-//            Element poisonDescription = poison.getChild("correction")
-//            if ( ! isEmpty(poisonDescription) ) {
             variable.setPoisonDescription(dicVar.poison.correction)
-//            }
         }
 
         return variable
@@ -249,18 +244,9 @@ class OadsXmlService {
     private GenericVariable fillVariableDomain(TaVariableType taVar) {
         GenericVariable variable = fillVariableDic(taVar, new Ta())
 
-//        Element titrationType = variable.getChild("titrationType")
-//        if ( ! isEmpty(titrationType) ) {
         variable.setTitrationType(taVar.titrationType)
-//        }
-//        Element cellType = variable.getChild("cellType")
-//        if ( ! isEmpty(cellType) ) {
         variable.setCellType(taVar.cellType)
-//        }
-//        Element curveFitting = variable.getChild("curveFitting")
-//        if ( ! isEmpty(curveFitting) ) {
         variable.setCurveFittingMethod(taVar.curveFitting)
-//        }
         variable.setMagnitudeOfBlankCorrection(taVar.blankCorrection)
 
         return variable
@@ -268,21 +254,10 @@ class OadsXmlService {
 
     private GenericVariable fillVariableDomain(PhVariableType phVar) {
         GenericVariable variable = fillVariableGeneric(phVar, new Ph())
-        // 025 at what temperature was pH reported
-        // <phReportTemperature>
-        // TextBox pHtemperature;
-//        Element phscale = variable.getChild("phscale")
-//        if ( ! isEmpty(phscale) ) {
         variable.setPhScale(phVar.phScale)
-//        }
-//        if ( phVar.temperatureCorrection ) {
         variable.setTemperatureCorrectionMethod(phVar.temperatureCorrectionMethod)
         variable.setTemperatureMeasurement(phVar.getMeasurementTemperature())
-//        }
-//        Element phReportTemperature = variable.getChild("phReportTemperature")
-//        if ( ! isEmpty(phReportTemperature) ) {
         variable.setPhTemperature(phVar.phReportTemperature)
-//        }
         variable.setPhDyeTypeManuf(phVar.typeOfDye)
 
         return variable
@@ -301,177 +276,67 @@ class OadsXmlService {
 
     private GenericVariable fillVariableCo2a(Co2Autonomous co2aVar, GenericVariable co2x) {
         GenericVariable variable = fillVariableCo2(co2aVar, co2x)
-        // 030 Depth of seawater intake
-        // <DepthSeawaterIntake>
-        // TextBox intakeDepth;
-//        Element DepthSeawaterIntake = variable.getChild("DepthSeawaterIntake")
-//        if ( ! isEmpty(DepthSeawaterIntake) ) {
-        if (co2aVar.depthSeawaterIntake) {
-            variable.setIntakeDepth(co2aVar.depthSeawaterIntake)
-        }
-//        }
+        variable.setIntakeDepth(co2aVar.depthSeawaterIntake)
+        variable.setIntakeLocation(co2aVar.locationSeawaterIntake)
 
-//        Element locationSeawaterIntake = variable.getChild("locationSeawaterIntake")
-//        if ( ! isEmpty(locationSeawaterIntake) ) {
-        if (co2aVar.locationSeawaterIntake) {
-            variable.setIntakeLocation(co2aVar.locationSeawaterIntake)
-        }
-//        }
-
-//        Element equilibrator = variable.getChild("equilibrator")
         if (co2aVar.equilibrator) {
-//            Element type = equilibrator.getChild("type")
-//            if ( ! isEmpty(type) ) {
-            if (co2aVar.equilibrator.type) {
-                variable.setEquilibratorType(co2aVar.equilibrator.type)
-            }
-//            }
-
-//            Element volume = equilibrator.getChild("volume")
-//            if ( ! isEmpty(volume) ) {
-            if (co2aVar.equilibrator.volume) {
-                variable.setEquilibratorVolume(co2aVar.equilibrator.volume)
-            }
-//            }
-
-//            Element vented = equilibrator.getChild("vented")
-//            if ( ! isEmpty(vented) ) {
-            if (co2aVar.equilibrator.vented) {
-                variable.setVented(co2aVar.equilibrator.vented)
-            }
-//            }
-
-//            Element waterFlowRate = equilibrator.getChild("waterFlowRate")
-//            if ( ! isEmpty(waterFlowRate) ) {
-            if (co2aVar.equilibrator.waterFlowRate) {
-                variable.setFlowRate(co2aVar.equilibrator.waterFlowRate)
-            }
-//            }
-
-//            Element gasFlowRate = equilibrator.getChild("gasFlowRate")
-//            if ( ! isEmpty(gasFlowRate) ) {
-            if (co2aVar.equilibrator.gasFlowRate) {
-                variable.setGasFlowRate(co2aVar.equilibrator.gasFlowRate)
-            }
-//            }
-
-//            Element temperatureEquilibratorMethod = equilibrator.getChild("temperatureEquilibratorMethod")
-//            if ( ! isEmpty(temperatureEquilibratorMethod) ) {
-            if (co2aVar.equilibrator.temperatureMeasurement
-                    && co2aVar.equilibrator.temperatureMeasurement.method) {
-                variable.setEquilibratorTemperatureMeasureMethod(co2aVar.equilibrator.temperatureMeasurement.method)
-            }
-//            }
-
-//            Element pressureEquilibratorMethod = equilibrator.getChild("pressureEquilibratorMethod")
-//            if ( ! isEmpty(pressureEquilibratorMethod) ) {
-            if (co2aVar.equilibrator.pressureMeasurement
-                    && co2aVar.equilibrator.pressureMeasurement.method) {
-                variable.setEquilibratorPressureMeasureMethod(co2aVar.equilibrator.pressureMeasurement.method)
-            }
-//            }
-
-            // need null checks all down the line... (and above.)
-            // eg if ( co2var.equilibrator && co2aVar.equilibrator.temperatureMeasurement && ... )
-            // OR change back to nonNullHashMap..
-            if (co2aVar.equilibrator.temperatureMeasurement
-                    && co2aVar.equilibrator.temperatureMeasurement.uncertainty) {
-                variable.setUncertaintyOfTemperature(co2aVar.equilibrator.temperatureMeasurement.uncertainty)
-            }
-
-            if (co2aVar.equilibrator.temperatureMeasurement
-                    && co2aVar.equilibrator.temperatureMeasurement.sensor
-                    && co2aVar.equilibrator.temperatureMeasurement.sensor.calibration) {
-                variable.setTemperatureMeasurementCalibrationMethod(co2aVar.equilibrator.temperatureMeasurement.sensor.calibration)
-            }
-
-            if (co2aVar.equilibrator.pressureMeasurement
-                    && co2aVar.equilibrator.pressureMeasurement.sensor
-                    && co2aVar.equilibrator.pressureMeasurement.sensor.calibration) {
-                variable.setPressureMeasurementCalibrationMethod(co2aVar.equilibrator.pressureMeasurement.sensor.calibration)
-            }
-
-            List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
-            if ( stdGases != null && !stdGases.isEmpty()) {
-                StandardGasType stdGas = stdGases.get(0)
-                if (stdGas.traceabilityToWmoStandards) {
-                    variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+            EquilibratorType eq = co2aVar.equilibrator
+            variable.setEquilibratorType(eq.type)
+            variable.setEquilibratorVolume(eq.volume)
+            variable.setVented(eq.vented)
+            variable.setFlowRate(eq.waterFlowRate)
+            variable.setGasFlowRate(eq.gasFlowRate)
+            if ( eq.temperatureMeasurement ) {
+                variable.setEquilibratorTemperatureMeasureMethod(eq.temperatureMeasurement.method)
+                variable.setUncertaintyOfTemperature(eq.temperatureMeasurement.uncertainty)
+                if (eq.temperatureMeasurement.sensor) {
+                    variable.setTemperatureMeasurementCalibrationMethod(eq.temperatureMeasurement.sensor.calibration)
                 }
             }
-
-            if (co2aVar.calculationMethodForPCO2) {
-                variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
+            if ( eq.pressureMeasurement ) {
+                variable.setEquilibratorPressureMeasureMethod(eq.pressureMeasurement.method)
+                if ( eq.pressureMeasurement.sensor )
+                    variable.setPressureMeasurementCalibrationMethod(eq.pressureMeasurement.sensor.calibration)
             }
 
-            if (co2aVar.calculationMethodForFCO2) {
-                variable.setFco2CalcMethod(co2aVar.calculationMethodForFCO2)
-            }
-
-            // 031 Drying method for CO2 gas
-            // <dryMethod>
-            // TextBox dryingMethod;
-//            Element dryMethod = variable.getChild("dryMethod")
-//            if ( ! isEmpty(dryMethod) ) {
-            if (co2aVar.co2GasDryingMethod) {
-                variable.setDryingMethod(co2aVar.co2GasDryingMethod)
-            }
-//            }
         }
+        List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
+        if ( stdGases != null && !stdGases.isEmpty()) {
+            StandardGasType stdGas = stdGases.get(0)
+            variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+        }
+        variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
+        variable.setFco2CalcMethod(co2aVar.calculationMethodForFCO2)
+
+        // 031 Drying method for CO2 gas
+        // <dryMethod>
+        // TextBox dryingMethod;
+        variable.setDryingMethod(co2aVar.co2GasDryingMethod)
 
         return variable
     }
 
     private GenericVariable fillVariableDomain(Co2Discrete co2dVar) {
         GenericVariable co2d = fillVariableCo2(co2dVar, new Pco2d())
-//        Element storageMethod = variable.getChild("storageMethod")
-//        if ( ! isEmpty(storageMethod) ) {
         co2d.setStorageMethod(co2dVar.storageMethod)
-//        }
-//        Element headspacevol = variable.getChild("headspacevol");
-//        if ( ! isEmpty(headspacevol) ) {
         co2d.setHeadspaceVolume(co2dVar.headspaceVolume)
-//        }
-//        Element seawatervol = variable.getChild("seawatervol")
-//        if ( ! isEmpty(seawatervol) ) {
         co2d.setSeawaterVolume(co2dVar.seawaterVolume)
         co2d.setTemperatureMeasurement(co2dVar.getMeasurementTemperature())
-//        }
 
         return co2d
     }
 
     private GenericVariable fillVariableCo2(Co2Base co2Var, GenericVariable co2x) {
         co2x = fillVariableGeneric(co2Var, co2x)
-//        Element gasDetector = variable.getChild("gasDetector")
         if (co2Var.gasDetector) {
-//            Element manufacturer = gasDetector.getChild("manufacturer")
-//            if (! isEmpty(manufacturer)  ) {
             co2x.setGasDetectorManufacture(co2Var.gasDetector.manufacturer)
-//            }
-//            Element model = gasDetector.getChild("model")
-//            if ( ! isEmpty(model) ) {
             co2x.setGasDetectorModel(co2Var.gasDetector.model)
-//            }
-//            Element resolution = gasDetector.getChild("resolution")
-//            if ( ! isEmpty(resolution) ) {
             co2x.setGasDectectorResolution(co2Var.gasDetector.resolution)
-//            }
-//            Element gasuncertainty = gasDetector.getChild("uncertainty")
-//            if ( ! isEmpty(gasuncertainty) ) {
             co2x.setGasDectectorUncertainty(co2Var.gasDetector.uncertainty)
-//            }
         }
-//        Element waterVaporCorrection = variable.getChild("waterVaporCorrection")
-//        if ( ! isEmpty(waterVaporCorrection) ) {
         co2x.setVaporCorrection(co2Var.waterVaporCorrection)
-//        }
-//        if ( co2Var.temperatureCorrection ) {
         co2x.setTemperatureCorrectionMethod(co2Var.temperatureCorrectionMethod)
-//        }
-//        Element co2ReportTemperature = variable.getChild("co2ReportTemperature")
-//        if ( ! isEmpty(co2ReportTemperature) ) {
         co2x.setPco2Temperature(co2Var.co2ReportTemperature)
-//        }
 
         return co2x
     }
@@ -481,22 +346,10 @@ class OadsXmlService {
         // 026 Biological subject
         // <biologicalSubject>
         // TextBox biologicalSubject;
-//        Element biologicalSubject = variable.getChild("biologicalSubject")
-//        if ( ! isEmpty(biologicalSubject) ) {
         variable.setBiologicalSubject(bioVar.biologicalSubject)
-//        }
-//        Element duration = variable.getChild("duration")
-//        if ( ! isEmpty(duration) ) {
         variable.setDuration(bioVar.duration)
-//        }
-//        Element lifeStage = variable.getChild("lifeStage")
-//        if ( ! isEmpty(lifeStage) ) {
         variable.setLifeStage(bioVar.lifeStage)
-//        }
-//        Element speciesID = variable.getChild("speciesID")
-//        if ( ! isEmpty(speciesID) ) {
         variable.setSpeciesIdCode(bioVar.speciesID)
-//        }
 
         return variable
     }
@@ -504,305 +357,6 @@ class OadsXmlService {
     private GenericVariable fillVariableDomain(BaseVariableType variable) {
         return fillVariableGeneric(variable, new Variable())
     }
-    /*
-
-    // 001 Variable abbreviation in data files
-    // <abbrev>
-    @UiField
-    TextBox abbreviation;
-
-    // 002 Observation type
-    // <observationType>
-    @UiField
-    TextBox observationType;
-
-    // 003 Manipulation method
-    // <manipulationMethod>
-    @UiField
-    TextBox manipulationMethod;
-
-    // 004 In-situ observation / manipulation condition / response variable
-    // <insitu>
-    @UiField
-    ButtonDropDown observationDetail;
-
-    // 005 Variable unit
-    // <unit>
-    @UiField
-    TextBox units;
-
-    // 006 Measured or calculated
-    // <measured>
-    @UiField
-    ButtonDropDown measured;
-
-    // 007 Calculation method and parameters
-    // <calcMethod>
-    @UiField
-    TextBox calculationMethod;
-
-    // 008 Sampling instrument
-    // <samplingInstrument>
-    @UiField
-    ButtonDropDown samplingInstrument;
-
-    // 009 Analyzing instrument
-    // <analyzingInstrument>
-    @UiField
-    ButtonDropDown analyzingInstrument;
-
-    // 010 Detailed sampling and analyzing information
-    // <detailedInfo>
-    @UiField
-    TextArea detailedInformation;
-
-    // 011 Field replicate information
-    // <replicate>
-    @UiField
-    TextBox fieldReplicate;
-
-    // 012 Standardization technique description
-    // <standardization><description>
-    @UiField
-    TextBox standardizationTechnique;
-
-    // 013 Frequency of standardization
-    // <standardization><frequency>
-    @UiField
-    TextBox freqencyOfStandardization;
-
-    // 014 CRM manufacturer
-    // <crm><manufacturer>
-    @UiField
-    TextBox crmManufacture;
-
-    // 015 Batch Number
-    // <crm><batch>
-    @UiField
-    TextBox batchNumber;
-
-    // 016 Storage method
-    // <storageMethod>
-    @UiField
-    TextBox storageMethod;
-
-    // 017 Poison used to kill the sample
-    // <poison><poisonName>
-    @UiField
-    TextBox poison;
-
-    // 018 Poison volume
-    @UiField
-    TextBox poisonVolume;
-
-    // 019 Poisoning correction description
-    @UiField
-    TextBox poisonDescription;
-
-    // TODO standard gas uncertainty
-    // 020 Uncertainty
-    // <standardization><standardgas><uncertainty>
-    @UiField
-    TextBox uncertainty;
-
-    // 021 Data quality flag description
-    // <flag>
-    @UiField
-    TextBox qualityFlag;
-
-    // 022 Researcher Name
-    // <researcherName>
-    @UiField
-    TextBox researcherName;
-
-    // 023 Researcher Institution
-    // <researcherInstitution>
-    @UiField
-    TextBox researcherInstitution;
-
-    // 024 at what temperature was pCO2 reported
-    // <co2ReportTemperature>
-    @UiField
-    TextBox pCO2temperature;
-
-    // 025 at what temperature was pH reported
-    // <phReportTemperature>
-    @UiField
-    TextBox pHtemperature;
-
-    // 026 Biological subject
-    // <biologicalSubject>
-    @UiField
-    TextBox biologicalSubject;
-
-    // 027 Cell type (open or closed)
-    // <cellType>
-    @UiField
-    ButtonDropDown cellType;
-
-    // 028 Concentrations of standard gas
-    // <standardization><standardgas><concentration>
-    @UiField
-    TextBox gasConcentration;
-
-    // 029 Curve fitting method
-    // <curveFitting>
-    @UiField
-    TextBox curveFittingMethod;
-
-    // 030 Depth of seawater intake
-    // <DepthSeawaterIntake>
-    @UiField
-    TextBox intakeDepth;
-
-    // 031 Drying method for CO2 gas
-    // <dryMethod>
-    @UiField
-    TextBox dryingMethod;
-
-    // 032 Duration (for settlement/colonization methods)
-    // <duration>
-    @UiField
-    TextBox duration;
-
-    // 033 Equilibrator type
-    // <equilibrator><type>
-    @UiField
-    TextBox equilibratorType;
-
-    // 034 Equilibrator volume (L)
-    // <equilibrator><volume>
-    @UiField
-    TextBox equilibratorVolume;
-
-    // 035 Full variable name
-    // <fullname>
-    @UiField
-    TextBox fullVariableName;
-
-    // 036 Headspace gas flow rate (L/min)
-    // <gasFlowRate>
-    @UiField
-    TextBox gasFlowRate;
-
-    // 037 Headspace volume (mL)
-    // <headspacevol>
-    @UiField
-    TextBox headspaceVolume;
-
-    // 038 How was pressure inside the equilibrator measured.
-    // <equilibrator><pressureEquilibratorMethod>
-    @UiField
-    TextBox equilibratorPressureMeasureMethod;
-
-    // 039 How was temperature inside the equilibrator measured .
-    // <equilibrator><temperatureEquilibratorMethod>
-    @UiField
-    TextBox equilibratorTemperatureMeasureMethod;
-
-    // 040 Life stage of the biological subject
-    // <lifeStage>
-    @UiField
-    TextBox lifeStage;
-
-    // 041 Location of seawater intake
-    // <locationSeawaterIntake>
-    @UiField
-    TextBox intakeLocation;
-
-    // 042 Magnitude of blank correction
-    // <blank>
-    @UiField
-    TextBox magnitudeOfBlankCorrection;
-
-    // 043 Manufacturer of standard gas
-    // <standardization><standardgas><manufacture>
-    @UiField
-    TextBox standardGasManufacture;
-
-    // 044 Manufacturer of the gas detector
-    // <gasDetector> ???
-    @UiField
-    TextBox gasDetectorManufacture;
-
-    // 045 Method reference (citation)
-    // <methodReference>
-    @UiField
-    TextBox referenceMethod;
-
-    // 046 Model of the gas detector
-    @UiField
-    TextBox gasDetectorModel;
-
-    // 047 pH scale
-    // <phscale>
-    @UiField
-    TextBox pHscale;
-
-    // 048 pH values of the standards
-    @UiField
-    TextBox pHstandards;
-
-    // 049 Resolution of the gas detector
-    // <resolution>
-    @UiField
-    TextBox gasDectectorResolution;
-
-    // 050 Seawater volume (mL)
-    // <seawatervol>
-    @UiField
-    TextBox seawaterVolume;
-
-    // 051 Species Identification code
-    // <speciesID>
-    @UiField
-    TextBox speciesIdCode;
-
-    // 052 Temperature correction method
-    // <temperatureCorrectionMethod>
-    @UiField
-    TextBox temperatureCorrectionMethod;
-
-    // 053 Temperature of measurement
-    // <temperatureMeasure>
-    @UiField
-    TextBox temperatureMeasurement;
-
-    // 054 Temperature of standardization
-    // <temperatureStandardization>
-    // <temperatureStd
-    @UiField
-    TextBox temperatureStandarization;
-
-    // 055 Type of titration
-    // <titrationType>
-    @UiField
-    TextBox titrationType;
-
-    // 056 Uncertainties of standard gas
-    // <standard
-    @UiField
-    TextBox standardGasUncertainties;
-
-    // 057 Uncertainty of the gas detector
-    @UiField
-    TextBox gasDectectorUncertainty;
-
-    // 058 Vented or not
-    // <equilibrator><vented>
-    @UiField
-    TextBox vented;
-
-    // 059 Water flow rate (L/min)
-    // <equilabrator><waterFlowRate>
-    @UiField
-    TextBox flowRate;
-
-    // 060 Water vapor correction method
-    // <waterVaporCorrection>
-    @UiField
-    TextBox vaporCorrection;
-         */
 
     private GenericVariable fillVariableGeneric(BaseVariableType source, GenericVariable v) {
 //        def v
@@ -820,128 +374,57 @@ class OadsXmlService {
 //            v = new Variable()
 //        }
 
-//        Element fullname = variable.getChild("fullname")
-//        if ( ! isEmpty(fullname) ) {
         v.setFullVariableName(source.getFullName())
-//        }
-//        Element abbrev = variable.getChild("abbrev")
-//        if ( ! isEmpty(abbrev) ) {
         v.setAbbreviation(source.getDatasetVarName())
-//        }
-//        Element observationType = variable.getChild("observationType")
-//        if ( ! isEmpty(observationType) ) {
         v.setObservationType(source.getObservationType())
-//        }
-//        Element insitu = variable.getChild("insitu")
-//        if ( ! isEmpty(insitu) ) {
         v.setObservationDetail(source.getVariableType())
-//        }
-//        Element manipulationMethod = variable.getChild("manipulationMethod")
-//        if ( ! isEmpty(manipulationMethod) ) {
         v.setManipulationMethod(source.getManipulationMethod())
-//        }
-//        Element unit = variable.getChild("unit")
-//        if ( ! isEmpty(unit) ) {
         v.setUnits(source.getUnits())
-//        }
-//        Element measured = variable.getChild("measured")
-//        if ( ! isEmpty(measured) ) {
         v.setMeasured(source.getMeasuredOrCalculated())
-//            v.setMeasured(measured.getTextTrim())
-//        }
-//        Element calcMethod = variable.getChild("calcMethod")
         if (source.getCalculationMethod()) {
             v.setCalculationMethod(source.getCalculationMethod().description)
         }
-//        Element samplingInstrument = variable.getChild("samplingInstrument")
-//        if ( ! isEmpty(samplingInstrument) ) {
         v.setSamplingInstrument(source.getSamplingInstrument())
-//        }
-//        Element analyzingInstrument = variable.getChild("analyzingInstrument")
-//        if ( ! isEmpty(analyzingInstrument) ) {
         v.setAnalyzingInstrument(source.getAnalyzingInstrument())
-//        }
-//        Element detailedInfo = variable.getChild("detailedInfo")
-//        if ( ! isEmpty(detailedInfo) ) {
         String samplingInfo = source.getDetailedSamplingInfo()
         String analizingInfo = source.getDetailedAnalyzingInfo()
         String detailedInfo = samplingInfo ? samplingInfo + "\n" : ""
         detailedInfo = detailedInfo + analizingInfo ? analizingInfo : ""
         v.setDetailedInformation( detailedInfo )
-//        }
-//        Element replicate = variable.getChild("replicate")
-//        if ( ! isEmpty(replicate) ) {
         v.setFieldReplicate(source.getFieldReplicateHandling())
-//        }
 
         // TODO this is in two different parent elements in the example <standard> and <standardization>
-//        Element standard = variable.getChild("standard")
-//        if ( isEmpty( standard )) {
-//            standard = variable.getChild("standardization")
-//        }
         if ( source instanceof StandardizedVariable ) {
             StandardizedVariable stdVar = (StandardizedVariable)source
             if (stdVar.getStandardization()) {
                 StandardizationType std = source.standardization
-//                Element technique = standard.getChild("description")
-    //            if ( ! isEmpty(technique) ) {
                 v.setStandardizationTechnique(std.description)
-    //            }
-    //            Element frequency = standard.getChild("frequency")
-    //            if ( ! isEmpty(frequency) ) {
                 v.setFreqencyOfStandardization(std.frequency)
-    //            }
                 if ( source instanceof PhVariableType ) {
                     v.setPhStandards(std.phOfStandards)
                 }
                 v.setTemperatureStandarization(std.temperature)
-    //            Element crm = standard.getChild("crm")
                 if (std.crm) {
-    //                Element manufacture = crm.getChild("manufacturer")
-    //                if ( ! isEmpty(manufacture) ) {
                     v.setCrmManufacture(std.crm.manufacturer)
-    //                }
-    //                Element batch = crm.getChild("batch")
-    //                if ( ! isEmpty(batch) ) {
                     v.setBatchNumber(std.crm.batch)
-    //                }
                 }
-    //            Element stdGas = standard.getChild("standardgas")
                 if (!isEmpty(std.standardGas)) {
-    //                Element sgasMfc = stdGas.getChild("manufacturer")
-    //                if ( !isEmpty( sgasMfc )) {
                     v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
-    //                }
-    //                Element sgasConc = stdGas.getChild("concentration")
-    //                if ( !isEmpty( sgasConc )) {
                     v.setGasConcentration(std.standardGas.get(0).concentration)
-    //                }
-    //                Element sgasUnc = stdGas.getChild("uncertainty")
-    //                if ( !isEmpty( sgasUnc )) {
                     v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
-    //                }
                 }
             }
         }
-//
-//        Element uncertainty = variable.getChild("uncertainty")
-//        if ( ! isEmpty(uncertainty) ) {
         v.setUncertainty(source.getUncertainty())
-//        }
-//        Element flag = variable.getChild("flag")
         if (source.getQcFlag()) {
             QcFlagInfoType qc = source.getQcFlag()
             v.setQualityFlag(qc.getScheme())
             v.setQualityControl(qc.getDescription())
             v.setAbbreviationQualityFlag(qc.getQcFlagVarName())
         }
-//        Element methodReference = variable.getChild("methodReference")
-//        if ( ! isEmpty(methodReference) ) {
         v.setReferenceMethod(source.methodReference)
 
         v.setSopChanges(source.getVariationsFromMethod())
-//        }
-//        Element researcherName = variable.getChild("researcherName")
         if (source.researcher) {
             v.setResearcherName(source.researcher.name)
             v.setResearcherInstitution(source.researcher.organization)
@@ -1277,13 +760,6 @@ class OadsXmlService {
     private TaVariableType fillTa(GenericVariable v) {
         TaVariableType.TaVariableTypeBuilder taBuilder = _fillDic(v, TaVariableType.builder())
         taBuilder.name("total_alkalinity")
-        /*
-        TA: Type of titration
-        TA: Cell type (open or closed)
-        TA: Curve fitting method
-        TA: Magnitude of blank correction
-        *
-        */
         taBuilder.titrationType(v.getTitrationType())
         taBuilder.cellType(v.getCellType())
         taBuilder.curveFitting(v.getCurveFittingMethod())
@@ -1293,20 +769,14 @@ class OadsXmlService {
     private PhVariableType fillPh(GenericVariable v) {
         PhVariableType.PhVariableTypeBuilder phBuilder = fillVariable(v, PhVariableType.builder())
         phBuilder.name("ph_total")
-        /*
-        pH: pH scale
-        pH: Temperature of measurement
-        XXX Standardization element !!! TODO: pH: pH values of the standards
-        pH: Temperature correction method
-        pH: at what temperature was pH reported
-        */
         phBuilder.phScale(v.getPhScale())
         phBuilder.measurementTemperature(v.getTemperatureMeasurement())
         phBuilder.temperatureCorrectionMethod(v.getTemperatureCorrectionMethod())
         phBuilder.phReportTemperature(v.getPhTemperature())
         phBuilder.typeOfDye(v.getPhDyeTypeManuf())
 
-        // doing this in fillVariable, since you cannot access the standardization element from the builder.
+//        XXX Standardization element !!! TODO: pH: pH values of the standards
+//        doing this in fillVariable, since you cannot access the standardization element from the builder.
 //        ph.standardization.phOfStandards(v.getPhStandards())
         return phBuilder.build()
     }
@@ -1528,21 +998,6 @@ class OadsXmlService {
         } else {
             return null
         }
-    }
-
-    // This actually is likely to get it wrong.
-    def _lookForDelimiter(String peak) {
-        SortedMap<Integer, Character> sort = new TreeMap<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2.intValue() - o1.intValue();
-            }
-        });
-        sort.put(count(peak, ',' as char), new Character(',' as char));
-        sort.put(count(peak, ';' as char), new Character(';' as char));
-        sort.put(count(peak, '\t' as char), new Character('\t' as char));
-        sort.put(count(peak, '|' as char), new Character('|' as char));
-        return sort.values().iterator().next().charValue();
     }
 
     /**
