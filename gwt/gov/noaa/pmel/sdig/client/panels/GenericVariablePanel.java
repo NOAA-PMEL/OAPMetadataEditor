@@ -72,7 +72,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     // 003 Manipulation method
     @UiField
-    TextBox manipulationMethod;
+    TextArea manipulationMethod;
 
     // 004 In-situ observation / manipulation condition / response variable
     @UiField
@@ -88,7 +88,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     // 007 Calculation method and parameters
     @UiField
-    TextBox calculationMethod;
+    TextArea calculationMethod;
 
     // 008 Sampling instrument
     @UiField (provided = true)
@@ -107,11 +107,11 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     // 011 Field replicate information
     @UiField
-    TextBox fieldReplicate;
+    TextArea fieldReplicate;
 
     // 020 Uncertainty
     @UiField
-    TextBox uncertainty;
+    TextArea uncertainty;
 
     // 021 Data quality flag description
     @UiField
@@ -134,7 +134,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     // 045 Method reference (citation)
     @UiField
-    TextBox referenceMethod;
+    TextArea referenceMethod;
 
 // biological fields
 //    // 026 Biological subject
@@ -244,7 +244,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     // new var for 14.3.1
     // Quality control
     @UiField
-    TextBox qualityControl;
+    TextArea qualityControl;
     @UiField
     FormGroup qualityControlForm;
 

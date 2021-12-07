@@ -139,15 +139,14 @@ DIC: Researcher Institution
         common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
         common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
-        if (OAPMetadataEditor.getIsSocatParam()) {
-
+//        if (OAPMetadataEditor.getIsSocatParam()) {
             common.qualityFlagLabel.setText("Data quality scheme (name of scheme)");
             standardizationTechniqueLabel.setText("Calibration method");
             freqencyOfStandardizationLabel.setText("Frequency of calibration");
             poisonLabel.setText("Poison used to kill the sample");
             poisonVolumeLabel.setText("Poison volume");
             poisonDescriptionLabel.setText("Poisoning correction description");
-        }
+//        }
     }
 
     private void setDefaults() {

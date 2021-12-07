@@ -96,34 +96,7 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="cellTypeForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="cellType" text="Cell Type"></b:FormLabel>
-                                <b:Modal title="23.11 Whether the titration cell is open or closed." closable="true" b:id="modalCellType"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCellType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <mde:ButtonDropDown ui:field="cellType"></mde:ButtonDropDown>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="curveFittingMethodForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="curveFittingMethod" text="Curve fitting method"></b:FormLabel>
-                                <b:Modal title="23.12 Curve fitting method used to determine the alkalinity." closable="true" b:id="modalCurveFittingMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCurveFittingMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="curveFittingMethod" allowBlank="true" placeholder="Curve fitting method" b:id="curveFittingMethod"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="magnitudeOfBlankCorrectionForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="magnitudeOfBlankCorrection" text="Magnitude of blank correction"></b:FormLabel>
-                                <b:Modal title="23.17 Please specify whether the reported variables were corrected for blank, and if so, how they were corrected." closable="true" b:id="modalMagnitudeOfBlankCorrection"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalMagnitudeOfBlankCorrection" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="magnitudeOfBlankCorrection" allowBlank="true" placeholder="Magnitude of blank correction" b:id="magnitudeOfBlankCorrection"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="titrationTypeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="titrationType" text="Type of titration"></b:FormLabel>
@@ -132,6 +105,34 @@
                                 <b:TextBox ui:field="titrationType" allowBlank="true" placeholder="Type of titration" b:id="titrationType"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="cellTypeForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="cellType" text="Cell Type"></b:FormLabel>
+                                <b:Modal title="23.11 Whether the titration cell is open or closed." closable="true" b:id="modalCellType"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCellType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <mde:ButtonDropDown ui:field="cellType"></mde:ButtonDropDown>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="curveFittingMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="curveFittingMethod" text="Curve fitting method"></b:FormLabel>
+                                <b:Modal title="23.12 Curve fitting method used to determine the alkalinity." closable="true" b:id="modalCurveFittingMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCurveFittingMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="curveFittingMethod" allowBlank="true" placeholder="Curve fitting method" b:id="curveFittingMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="magnitudeOfBlankCorrectionForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="magnitudeOfBlankCorrection" text="Magnitude of blank correction"></b:FormLabel>
+                                <b:Modal title="23.17 Please specify whether the reported variables were corrected for blank, and if so, how they were corrected." closable="true" b:id="modalMagnitudeOfBlankCorrection"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalMagnitudeOfBlankCorrection" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="magnitudeOfBlankCorrection" allowBlank="true" placeholder="Magnitude of blank correction" b:id="magnitudeOfBlankCorrection"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">

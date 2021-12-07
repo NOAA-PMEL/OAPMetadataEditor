@@ -37,7 +37,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     EventBus eventBus = clientFactory.getEventBus();
 
     @UiField
-    TextBox title;
+    TextArea title;
     @UiField
     TextArea datasetAbstract;
     @UiField
@@ -46,7 +46,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 //    @UiField
 //    TextArea purpose;
     @UiField
-    TextBox researchProjects;
+    TextArea researchProjects;
     @UiField
     TextBox expocode;
     @UiField
@@ -56,7 +56,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     @UiField
     TextBox section;
     @UiField
-    TextBox citationAuthorList;
+    TextArea citationAuthorList;
     @UiField
     TextArea methodsApplied;
     @UiField

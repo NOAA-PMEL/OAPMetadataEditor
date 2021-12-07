@@ -246,6 +246,10 @@ h1 {
     vertical-align: middle !important;
 }
 
+textarea {
+    resize: vertical;
+}
+
 /*.text-muted {*/
 /*    color: #777777;*/
 /*}*/

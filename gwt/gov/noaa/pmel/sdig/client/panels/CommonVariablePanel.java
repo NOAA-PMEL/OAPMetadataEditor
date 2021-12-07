@@ -50,7 +50,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 003 Manipulation method
     @UiField
-    TextBox manipulationMethod;
+    TextArea manipulationMethod;
 
     // 004 In-situ observation / manipulation condition / response variable
     @UiField
@@ -65,7 +65,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     ButtonDropDown measured;
 
     @UiField
-    TextBox calculationMethod;
+    TextArea calculationMethod;
 
     // 008 Sampling instrument
     @UiField (provided = true)
@@ -85,11 +85,11 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 011 Field replicate information
     @UiField
-    TextBox fieldReplicate;
+    TextArea fieldReplicate;
 
     // 020 Uncertainty
     @UiField
-    TextBox uncertainty;
+    TextArea uncertainty;
 
     // 021 Data quality flag description
     @UiField
@@ -109,7 +109,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 045 Method reference (citation)
     @UiField
-    TextBox referenceMethod;
+    TextArea referenceMethod;
 
 
     // The form groups that hold the labels and form entry widgets (textbox, textarea and dropdowns).
@@ -254,7 +254,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     // new var for 14.3.1
     // Quality control
     @UiField
-    TextBox qualityControl;
+    TextArea qualityControl;
     @UiField
     Modal qualityControlModal;
     @UiField

@@ -148,7 +148,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
         value.add("closed");
         cellType.init("Cell Type: Open or Closed", name, value);
 
-        if (OAPMetadataEditor.getIsSocatParam()) {
+//        if (OAPMetadataEditor.getIsSocatParam()) {
 
             common.qualityFlagLabel.setText("Data quality scheme (name of scheme)");
             standardizationTechniqueLabel.setText("Calibration method");
@@ -156,7 +156,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
             poisonLabel.setText("Poison used to kill the sample");
             poisonVolumeLabel.setText("Poison volume");
             poisonDescriptionLabel.setText("Poisoning correction description");
-        }
+//        }
     }
     private void setDefaults() {
         common.isBig5 = true;

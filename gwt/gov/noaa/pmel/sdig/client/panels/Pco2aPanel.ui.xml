@@ -39,7 +39,7 @@
             <b:FieldSet>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_6 MD_9">
+                        <b:Column size="SM_12 MD_8 LG_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization Technique Description"></b:FormLabel>
@@ -48,7 +48,7 @@
                                 <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_4 MD_3">
+                        <b:Column size="SM_12 MD_4 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
@@ -58,93 +58,9 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="intakeLocationForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="intakeLocation" text="Location of Seawater Intake"></b:FormLabel>
-                                <b:Modal title="25.9 Whereabout of the seawater intake" closable="true" b:id="modalIntakeLocation"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeLocation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="intakeDepthForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="intakeDepth" text="Depth of Seawater Intake"></b:FormLabel>
-                                <b:Modal title="25.10 Water depth of the seawater intake" closable="true" b:id="modalIntakeDepth"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeDepth" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="flowRateForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="flowRate" text="Water Flow Rate (L/min)"></b:FormLabel>
-                                <b:Modal title="25.13.4 Flow rate of the flow through seawater." closable="true" b:id="modalFlowRate"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFlowRate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="ventedForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="vented" text="Vented or Not"></b:FormLabel>
-                                <b:Modal title="25.13.3 Is the equilibrator vented or not?" closable="true" b:id="modalVented"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalVented" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="vented" allowBlank="true" placeholder="Vented or not" b:id="vented"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="gasDetectorManufactureForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the Gas Detector"></b:FormLabel>
-                                <b:Modal title="25.15.1 Manufacturer of the CO2 sensor." closable="true" b:id="modalGasDetectorManufacture"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDetectorManufacture" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="gasDetectorModelForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="gasDetectorModel" text="Model of the Gas Detector"></b:FormLabel>
-                                <b:Modal title="25.15.2 Model number of the CO2 sensor." closable="true" b:id="modalGasDetectorModel"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDetectorModel" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="gasDectectorResolutionForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="gasDectectorResolution" text="Resolution of the Gas Detector"></b:FormLabel>
-                                <b:Modal title="25.15.3 Resolution of the CO2 sensor." closable="true" b:id="modalGasDectectorResolution"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDectectorResolution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="gasDectectorUncertaintyForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the Gas Detector"></b:FormLabel>
-                                <b:Modal title="25.15.4 Uncertainity of the CO2 sensor." closable="true" b:id="modalGasDectectorUncertainty"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDectectorUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="gasFlowRateForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="gasFlowRate" text="Headspace Gas Flow Rate (L/min)"></b:FormLabel>
-                                <b:Modal title="25.13.5 Flow rate of the gas from the equilibrator to the CO2 analyzer." closable="true" b:id="modalGasFlowRate"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasFlowRate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasFlowRate" allowBlank="true" placeholder="Headspace gas flow rate (L/min)" b:id="gasFlowRate"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="standardGasManufactureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasManufacture" text="Manufacturer of Standard Gas"></b:FormLabel>
@@ -153,7 +69,7 @@
                                 <b:TextBox ui:field="standardGasManufacture" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="gasConcentrationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="gasConcentration" text="Concentrations of Standard Gas"></b:FormLabel>
@@ -162,7 +78,7 @@
                                 <b:TextBox ui:field="gasConcentration" allowBlank="true" placeholder="Concentrations of standard gas" b:id="gasConcentration"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_12 LG_4">
                             <b:FormGroup ui:field="standardGasUncertaintiesForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="standardGasUncertainties" text="Uncertainties of Standard Gas"></b:FormLabel>
@@ -172,17 +88,48 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="temperatureCorrectionMethodForm">
+                        <b:Column size="SM_12 MD_6 LG_3">
+                            <b:FormGroup ui:field="gasDetectorManufactureForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="temperatureCorrectionMethod" text="Temperature Correction Method"></b:FormLabel>
-                                <b:Modal title="25.18 How the temperature effect was corrected." closable="true" b:id="modalTemperatureCorrectionMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureCorrectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
+                                <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the Gas Detector"></b:FormLabel>
+                                <b:Modal title="25.15.1 Manufacturer of the CO2 sensor." closable="true" b:id="modalGasDetectorManufacture"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDetectorManufacture" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_12 MD_6 LG_3">
+                            <b:FormGroup ui:field="gasDetectorModelForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDetectorModel" text="Model of the Gas Detector"></b:FormLabel>
+                                <b:Modal title="25.15.2 Model number of the CO2 sensor." closable="true" b:id="modalGasDetectorModel"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDetectorModel" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6 LG_3">
+                            <b:FormGroup ui:field="gasDectectorResolutionForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDectectorResolution" text="Resolution of the Gas Detector"></b:FormLabel>
+                                <b:Modal title="25.15.3 Resolution of the CO2 sensor." closable="true" b:id="modalGasDectectorResolution"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDectectorResolution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6 LG_3">
+                            <b:FormGroup ui:field="gasDectectorUncertaintyForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the Gas Detector"></b:FormLabel>
+                                <b:Modal title="25.15.4 Uncertainity of the CO2 sensor." closable="true" b:id="modalGasDectectorUncertainty"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDectectorUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="vaporCorrectionForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="vaporCorrection" text="Water Vapor Correction Method"></b:FormLabel>
@@ -191,8 +138,16 @@
                                 <b:TextBox ui:field="vaporCorrection" allowBlank="true" placeholder="Water vapor correction method" b:id="vaporCorrection"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
+                            <b:FormGroup ui:field="temperatureCorrectionMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureCorrectionMethod" text="Temperature Correction Method"></b:FormLabel>
+                                <b:Modal title="25.18 How the temperature effect was corrected." closable="true" b:id="modalTemperatureCorrectionMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureCorrectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="pco2TemperatureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pco2Temperature" text="At What Temperature was pCO2 Reported?"></b:FormLabel>
@@ -202,17 +157,30 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup ui:field="dryingMethodForm">
+                        <b:Column size="SM_12 MD_8 LG_9">
+                            <b:FormGroup ui:field="intakeLocationForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="dryingMethod" text="Drying Method for CO2 Gas"></b:FormLabel>
-                                <b:Modal title="25.14 The method used to dry the gas coming out of CO2 equilibrator, before it is pumped into the CO2 sensor." closable="true" b:id="modalDryingMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDryingMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="dryingMethod" allowBlank="true" placeholder="Drying method for CO2 gas" b:id="dryingMethod"></b:TextBox>
+                                <b:FormLabel for="intakeLocation" text="Location of Seawater Intake"></b:FormLabel>
+                                <b:Modal title="25.9 Whereabout of the seawater intake" closable="true" b:id="modalIntakeLocation"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeLocation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_12 MD_4 LG_3">
+                            <b:FormGroup ui:field="intakeDepthForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="intakeDepth" text="Depth of Seawater Intake"></b:FormLabel>
+                                <b:Modal title="25.10 Water depth of the seawater intake" closable="true" b:id="modalIntakeDepth"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeDepth" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="equilibratorTypeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorType" text="Equilibrator Type"></b:FormLabel>
@@ -221,7 +189,7 @@
                                 <b:TextBox ui:field="equilibratorType" allowBlank="true" placeholder="Equilibrator type" b:id="equilibratorType"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_3">
+                        <b:Column size="SM_6 LG_4">
                             <b:FormGroup ui:field="equilibratorVolumeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="equilibratorVolume" text="Equilibrator Volume (L)"></b:FormLabel>
@@ -230,7 +198,38 @@
                                 <b:TextBox ui:field="equilibratorVolume" allowBlank="true" placeholder="Equilibrator volume (L)" b:id="equilibratorVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                        <b:Column size="SM_6 LG_4">
+                            <b:FormGroup ui:field="flowRateForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="flowRate" text="Water Flow Rate (L/min)"></b:FormLabel>
+                                <b:Modal title="25.13.4 Flow rate of the flow through seawater." closable="true" b:id="modalFlowRate"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFlowRate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="flowRate" allowBlank="true" placeholder="Water flow rate (L/min)" b:id="flowRate"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
                     </b:Row>
+
+                    <b:Row>
+                        <b:Column size="MD_6 LG_4">
+                            <b:FormGroup ui:field="ventedForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="vented" text="Vented or Not"></b:FormLabel>
+                                <b:Modal title="25.13.3 Is the equilibrator vented or not?" closable="true" b:id="modalVented"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalVented" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="vented" allowBlank="true" placeholder="Vented or not" b:id="vented"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="MD_6 LG_4" offset="LG_4">
+                            <b:FormGroup ui:field="gasFlowRateForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="gasFlowRate" text="Headspace Gas Flow Rate (L/min)"></b:FormLabel>
+                                <b:Modal title="25.13.5 Flow rate of the gas from the equilibrator to the CO2 analyzer." closable="true" b:id="modalGasFlowRate"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasFlowRate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="gasFlowRate" allowBlank="true" placeholder="Headspace gas flow rate (L/min)" b:id="gasFlowRate"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_12 MD_6">
                             <b:FormGroup ui:field="equilibratorPressureMeasureMethodForm">
@@ -248,6 +247,18 @@
                                 <b:Modal title="25.13.6 Please specify whether temperatrure inside the equilibrator is measured or not. If so, please describe how the temperature was measured." closable="true" b:id="modalEquilibratorTemperatureMeasureMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEquilibratorTemperatureMeasureMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="equilibratorTemperatureMeasureMethod" allowBlank="true" placeholder="How was temperature inside the equilibrator measured?" b:id="equilibratorTemperatureMeasureMethod"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="dryingMethodForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="dryingMethod" text="Drying Method for CO2 Gas"></b:FormLabel>
+                                <b:Modal title="25.14 The method used to dry the gas coming out of CO2 equilibrator, before it is pumped into the CO2 sensor." closable="true" b:id="modalDryingMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDryingMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="dryingMethod" allowBlank="true" placeholder="Drying method for CO2 gas" b:id="dryingMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

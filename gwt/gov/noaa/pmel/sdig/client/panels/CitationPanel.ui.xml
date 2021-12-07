@@ -28,7 +28,7 @@
                                     </b:ModalBody>
                                 </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTitle" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="title" allowBlank="false" placeholder="Title - Please see Help for suggested format." b:id="title"></b:TextBox>
+                                <b:TextArea ui:field="title" visibleLines="1" allowBlank="false" placeholder="Title - Please see Help for suggested format." b:id="title"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -68,7 +68,7 @@
                                 <!--    <b:FormLabel for="citationAuthorList" text="List of Authors for Citation"></b:FormLabel> -->
                                 <b:Modal title="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of LastName1, FirstName1, Middle1; LastName2, FirstName2, Middle2; … for this field." b:id="modalCitationAuthorList"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCitationAuthorList" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="citationAuthorList" allowBlank="false" placeholder="List of authors for citation (LastName, FirstName, MI; LastName, FirstName, MI; ...)" b:id="citationAuthorList"></b:TextBox>
+                                <b:TextArea ui:field="citationAuthorList" visibleLines="3" allowBlank="false" placeholder="List of authors for citation (LastName, FirstName, MI; LastName, FirstName, MI; ...)" b:id="citationAuthorList"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -98,7 +98,7 @@
                                 <b:FormLabel for="researchProjects" ui:field="researchProjectsLabel" text="Research Projects"></b:FormLabel>
                                 <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" ui:field="researchProjectsPopover" b:id="researchProjectsPopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#researchProjectsPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="researchProjects" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextBox>
+                                <b:TextArea ui:field="researchProjects" visibleLines="1" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -142,7 +142,7 @@
                                 <b:FormLabel for="methods" ui:field="methodsLabel" text="Method(s) Applied"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="methodsPopover" b:id="methodsPopover" title="10 Scientific methods applied within the study." />
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#methodsPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea ui:field="methodsApplied" visibleLines="6" allowBlank="true" placeholder="Method(s) Applied" b:id="methods"></b:TextArea>
+                                <b:TextArea ui:field="methodsApplied" visibleLines="3" allowBlank="true" placeholder="Method(s) Applied" b:id="methods"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -162,7 +162,7 @@
                                 <b:FormLabel for="supplementalInformation" text="Supplemental Information"></b:FormLabel>
                                 <b:Modal title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields." b:id="modalSupplementalInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSupplementalInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="6" ui:field="supplementalInformation" allowBlank="true" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextArea>
+                                <b:TextArea visibleLines="4" ui:field="supplementalInformation" allowBlank="true" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
