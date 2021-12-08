@@ -1431,15 +1431,15 @@ class XmlService {
     */
     private Element fillVariable(GenericVariable v, String internalId) {
         Element variable = new Element("variable")
-        if ( v.getFullVariableName() ) {
-            Element fullname = new Element("fullname")
-            fullname.setText(v.getFullVariableName())
-            variable.addContent(fullname)
-        }
         if ( v.getAbbreviation() ) {
             Element abbrev = new Element("abbrev")
             abbrev.setText(v.getAbbreviation())
             variable.addContent(abbrev)
+        }
+        if ( v.getFullVariableName() ) {
+            Element fullname = new Element("fullname")
+            fullname.setText(v.getFullVariableName())
+            variable.addContent(fullname)
         }
         if ( v.getUnits() ) {
             Element unit = new Element("unit")
