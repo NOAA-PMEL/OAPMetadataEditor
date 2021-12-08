@@ -314,7 +314,7 @@
                                 <b:FormLabel for="calibrationMethodPressureSensorFrequency" text="Calibration method and frequency for pressure sensor(s)"></b:FormLabel>
                                 <b:Modal title="SOCAT" closable="true" b:id="modalCalibrationMethodPressureSensorFrequency"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCalibrationMethodPressureSensorFrequency" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="calibrationMethodPressureSensorFrequency" allowBlank="true" placeholder="Calibration method and frequency for pressure sensor(s)" b:id="calibrationMethodPressureSensorFrequency"></b:TextBox>
+                                <b:TextBox ui:field="equilibratorPressureSensorCalibrationMethod" allowBlank="true" placeholder="Calibration method and frequency for pressure sensor(s)" b:id="calibrationMethodPressureSensorFrequency"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

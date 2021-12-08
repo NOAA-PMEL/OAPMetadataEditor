@@ -463,6 +463,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         pco2a.setGasFlowRate(gasFlowRate.getText());
         pco2a.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
+        pco2a.setUncertaintyOfTemperature(equilibratorTemperatureMeasureUncertainty.getText());
 //        pco2a.setIntakeLocation(intakeLocation.getText());
         pco2a.setStandardGasManufacture(standardGasManufacture.getText());
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
