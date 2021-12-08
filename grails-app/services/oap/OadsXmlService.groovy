@@ -584,8 +584,12 @@ class OadsXmlService {
             if ( cruiseIdField ) {
                 String[] cruises = cruiseIdField.split("[, ;]")
                 for (String cruiseId : cruises) {
-                    if ( ! cruiseId.trim().isEmpty()) {
-                        metadata.addCruiseId(TypedIdentifierType.builder().value(cruiseId).build())
+                    if ( cruiseId != null && ! cruiseId.trim().isEmpty()) {
+                        String[] parts = cruiseId.split(":")
+                        metadata.addCruiseId(TypedIdentifierType.builder()
+                                                .value(parts[0])
+                                                .type(parts.length > 1 ? parts[1] : null)
+                                                .build())
                     }
                 }
             }
@@ -681,7 +685,10 @@ class OadsXmlService {
                 Platform p = platforms.get(i)
                 PlatformType.PlatformTypeBuilder platform = PlatformType.builder()
                     .name(p.getName())
-                    .identifier(TypedIdentifierType.builder().value(p.getPlatformId()).build())
+                    .identifier(TypedIdentifierType.builder()
+                                .value(p.getPlatformId())
+                                .type(p.getPlatformIdType())
+                                .build())
                     .type(p.getPlatformType())
                     .owner(p.getOwner())
                     .country(p.getCountry())
@@ -717,7 +724,7 @@ class OadsXmlService {
         if ( doc.getCo2vars() ) {
             for (int i = 0; i < doc.getCo2vars().size(); i++) {
                 GenericVariable v = doc.getCo2vars().get(i)
-                BaseVariableType var = fillPCO2a(v)
+                BaseVariableType var = fillCO2socat(v)
                 metadata.addVariable(var)
             }
         }
@@ -778,12 +785,25 @@ class OadsXmlService {
 
 //        XXX Standardization element !!! TODO: pH: pH values of the standards
 //        doing this in fillVariable, since you cannot access the standardization element from the builder.
+//        alternatively could build the PhVariable and set it directly.
 //        ph.standardization.phOfStandards(v.getPhStandards())
         return phBuilder.build()
     }
+    private Co2Socat fillCO2socat(GenericVariable v) {
+        Co2Socat.Co2SocatBuilder co2SocatBuilder = fillPCO2a(Co2Socat.builder())
+        co2SocatBuilder.totalMeasurementPressure(EquilibratorMeasurementType.builder()
+                                                 .method(v.getTotalPressureCalcMethod())
+                                                 .uncertainty(v.getUncertaintyOfTotalPressure())
+                                                 .build())
+        return co2SocatBuilder.build()
+    }
     private Co2Autonomous fillPCO2a(GenericVariable v) {
         Co2Autonomous.Co2AutonomousBuilder co2Builder = fillPCO2x(v, Co2Autonomous.builder())
+    }
+    private Co2Autonomous.Co2AutonomousBuilder fillPCO2a(GenericVariable v,
+                                                         Co2Autonomous.Co2AutonomousBuilder co2Builder) {
         co2Builder.name("pco2/fco2 (autonomous)")
+        co2Builder = fillPCO2x(v, co2Builder)
         /*
         pCO2A: Location of seawater intake
         pCO2A: Depth of seawater intake
@@ -807,13 +827,22 @@ class OadsXmlService {
                         .waterFlowRate(v.getFlowRate())
                         .temperatureMeasurement(EquilibratorMeasurementType.builder()
                                 .method(v.getEquilibratorTemperatureMeasureMethod())
+                                .uncertainty(v.getUncertaintyOfTemperature())
+                                .sensor(InstrumentType.builder()
+                                        .calibration(v.getTemperatureMeasurementCalibrationMethod())
+                                        .build())
                                 .build())
                         .pressureMeasurement(EquilibratorMeasurementType.builder()
-                        .method(v.getEquilibratorPressureMeasureMethod())
-                        .build())
+                                .method(v.getEquilibratorPressureMeasureMethod())
+                                .sensor(InstrumentType.builder()
+                                        .calibration(v.getPressureMeasurementCalibrationMethod())
+                                        .build())
+                                .build())
                 .build()
         )
-        return co2Builder.build()
+        co2Builder.calculationMethodForPCO2(v.getPco2CalcMethod())
+        co2Builder.calculationMethodForFCO2(v.getFco2CalcMethod())
+        return co2Builder
     }
     private Co2Discrete fillPCO2d(GenericVariable v) {
         Co2Discrete.Co2DiscreteBuilder co2Builder = fillPCO2x(v, Co2Discrete.builder())
