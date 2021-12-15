@@ -180,7 +180,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 
     // Calibration method and frequency for pressure sensor(s)
     @UiField
-    TextBox calibrationMethodPressureSensorFrequency;
+    TextBox equilibratorPressureSensorCalibrationMethod;
 
     // Traceability of standard gases to WMO standards
     @UiField
@@ -436,7 +436,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         co2.setEquilibratorVolume(equilibratorVolume.getText());
         co2.setGasFlowRate(gasFlowRate.getText());
         co2.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
+        co2.setPressureMeasurementCalibrationMethod(equilibratorPressureSensorCalibrationMethod.getText());
         co2.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
+        co2.setTemperatureMeasurementCalibrationMethod(equilibratorTemperatureSensorCalibrationMethod.getText());
 //        co2.setIntakeLocation(intakeLocation.getText());
         co2.setStandardGasManufacture(standardGasManufacture.getText());
         co2.setGasDetectorManufacture(gasDetectorManufacture.getText());
@@ -575,7 +577,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             totalMeasurementPressureUncertaintyCalculated.setText(pco2a.getUncertaintyOfTotalPressure());
         }
         if ( pco2a.getPressureMeasurementCalibrationMethod() != null ) {
-            calibrationMethodPressureSensorFrequency.setText(pco2a.getPressureMeasurementCalibrationMethod());
+            equilibratorPressureSensorCalibrationMethod.setText(pco2a.getPressureMeasurementCalibrationMethod());
         }
         if ( pco2a.getTraceabilityOfStdGas() != null ) {
             stdGasTraceability.setText(pco2a.getTraceabilityOfStdGas());

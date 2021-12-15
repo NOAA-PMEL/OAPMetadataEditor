@@ -35,7 +35,7 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="datasetAbstract" text="Short Dessciption Including Purpose of Observation *"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="datasetAbstract" text="Short Description Including Purpose of Observation *"></b:FormLabel>
                                 <b:Modal title="6 A narrative summary of the data set." closable="true" b:id="modalAbstract">
                                     <b:ModalBody>
                                         <g:HTML>
