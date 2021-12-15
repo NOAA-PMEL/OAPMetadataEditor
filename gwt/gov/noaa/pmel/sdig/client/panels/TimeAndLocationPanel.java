@@ -16,16 +16,12 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.extras.datepicker.client.ui.DatePicker;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
-import org.gwtbootstrap3.client.ui.FormLabel;
-import org.gwtbootstrap3.client.ui.Modal;
 
 import java.util.Date;
 
@@ -52,6 +48,8 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     TextBox southLat;
     @UiField
     TextBox organismLoc;
+    @UiField
+    FormGroup organismForm;
 
     @UiField
     Button save;
@@ -113,6 +111,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 //        OAPMetadataEditor.debugLog("debug.T&LPanel isSocat = " + isSocat );
 
         if (OAPMetadataEditor.getIsSocatParam()) {
+            organismForm.setVisible(false);
             startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
             startDateLabel.setText("First day of measurement included in data file");
             startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
@@ -205,17 +204,26 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
                 Window.alert("Could not convert end date string:" + timeAndLocation.getEndDate());
             }
         }
-        if (timeAndLocation.getNorthLat() != null) {
-            northLat.setText(timeAndLocation.getNorthLat());
-        }
-        if (timeAndLocation.getSpatialRef() != null) {
-            spatialRef.setText(timeAndLocation.getSpatialRef());
-        }
-        if (timeAndLocation.getWestLon() != null) {
-            westLon.setText(timeAndLocation.getWestLon());
-        }
-        if (timeAndLocation.getEastLon() != null) {
-            eastLon.setText(timeAndLocation.getEastLon());
+        if ( timeAndLocation.isSiteLocation()) {
+            if (timeAndLocation.getSiteSpecificLat() != null) {
+                siteSpecificLat.setText(timeAndLocation.getSiteSpecificLat());
+            }
+            if (timeAndLocation.getSiteSpecificLon() != null) {
+                siteSpecificLon.setText(timeAndLocation.getSiteSpecificLon());
+            }
+        } else {
+            if (timeAndLocation.getNorthLat() != null) {
+                northLat.setText(timeAndLocation.getNorthLat());
+            }
+            if (timeAndLocation.getSpatialRef() != null) {
+                spatialRef.setText(timeAndLocation.getSpatialRef());
+            }
+            if (timeAndLocation.getWestLon() != null) {
+                westLon.setText(timeAndLocation.getWestLon());
+            }
+            if (timeAndLocation.getEastLon() != null) {
+                eastLon.setText(timeAndLocation.getEastLon());
+            }
         }
         if (timeAndLocation.getGeoNames() != null) {
             geoNames.setText(timeAndLocation.getGeoNames());
@@ -236,19 +244,23 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     public TimeAndLocation getTimeAndLocation() {
         TimeAndLocation timeAndLocation = dbItem != null ? (TimeAndLocation) dbItem : new TimeAndLocation();
-        timeAndLocation.setEastLon(eastLon.getText().trim());
         String end = endDate.getTextBox().getValue();
         timeAndLocation.setEndDate(end != null ? end.toString() : null);
         String start = startDate.getTextBox().getValue();
-        timeAndLocation.setStartDate(start != null ? start.toString() : null);
-        timeAndLocation.setGeoNames(geoNames.getText().trim());
-        timeAndLocation.setNorthLat(northLat.getText().trim());
-        timeAndLocation.setOrganismLoc(organismLoc.getText().trim());
-        timeAndLocation.setSouthLat(southLat.getText().trim());
         timeAndLocation.setSpatialRef(spatialRef.getText().trim());
-        timeAndLocation.setWestLon(westLon.getText().trim());
-        timeAndLocation.setSiteSpecificLon(siteSpecificLon.getText().trim());
-        timeAndLocation.setSiteSpecificLat(siteSpecificLat.getText().trim());
+        timeAndLocation.setStartDate(start != null ? start.toString() : null);
+        if ( timeAndLocation.isSiteLocation() || ! siteSpecificLon.getText().isEmpty()) {
+            timeAndLocation.setSiteSpecificLon(siteSpecificLon.getText().trim());
+            timeAndLocation.setSiteSpecificLat(siteSpecificLat.getText().trim());
+            timeAndLocation.setSiteLocation(true);
+        } else {
+            timeAndLocation.setNorthLat(northLat.getText().trim());
+            timeAndLocation.setSouthLat(southLat.getText().trim());
+            timeAndLocation.setEastLon(eastLon.getText().trim());
+            timeAndLocation.setWestLon(westLon.getText().trim());
+        }
+        timeAndLocation.setGeoNames(geoNames.getText().trim());
+        timeAndLocation.setOrganismLoc(organismLoc.getText().trim());
         return timeAndLocation;
     }
 
