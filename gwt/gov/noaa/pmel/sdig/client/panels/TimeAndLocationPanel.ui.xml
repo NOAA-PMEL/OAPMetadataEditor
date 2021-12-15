@@ -163,7 +163,7 @@
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_6">
-                            <b:FormGroup>
+                            <b:FormGroup ui:field="organismForm">
                                 <b:FormLabel for="organismLoc" text="Location of Organism Collection (Biological Study Only)"></b:FormLabel>
                                 <b:Modal title="12 For biological studies, please provide the location of the organism collection here, and use the above bounding box and geographic names for the water collection site." closable="true" b:id="modalOrganismLoc"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalOrganismLoc" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>

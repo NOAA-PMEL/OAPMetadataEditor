@@ -200,15 +200,13 @@ class OadsXmlService {
                 timeAndLocation.setEastLon(nonNullString(spatialExtents.easternBounds))
                 timeAndLocation.setNorthLat(nonNullString(spatialExtents.northernBounds))
                 timeAndLocation.setSouthLat(nonNullString(spatialExtents.southernBounds))
-                timeAndLocation.setSpatialRef(metadata.getSpatialReference())
             } else if ( geospatialExtents.isSetLocation()) {
                 SpatialLocationType location = geospatialExtents.getLocation();
-                timeAndLocation.setWestLon(nonNullString(location.getLongitude()))
-                timeAndLocation.setEastLon(nonNullString(location.getLongitude()))
-                timeAndLocation.setNorthLat(nonNullString(location.getLatitude()))
-                timeAndLocation.setSouthLat(nonNullString(location.getLatitude()))
-                timeAndLocation.setSpatialRef(metadata.getSpatialReference())
+                timeAndLocation.setSiteSpecificLon(nonNullString(location.getLongitude()))
+                timeAndLocation.setSiteSpecificLat(nonNullString(location.getLatitude()))
+                timeAndLocation.setSiteLocation(true)
             }
+            timeAndLocation.setSpatialRef(metadata.getSpatialReference())
         }
         def sampleRegions = ""
         def comma = ""
@@ -630,18 +628,25 @@ class OadsXmlService {
 
         TimeAndLocation timeAndLocation = doc.getTimeAndLocation()
         if ( timeAndLocation ) {
-            metadata.spatialExtents(GeospatialExtentsType.builder()
-                                        .bounds(SpatialExtentsType.builder()
-                                            .easternBounds(timeAndLocation.getEastLon() != null ?
-                                                    new BigDecimal(timeAndLocation.getEastLon()) : null )
-                                            .northernBounds(timeAndLocation.getNorthLat() != null ?
-                                                    new BigDecimal(timeAndLocation.getNorthLat()) : null )
-                                            .southernBounds(timeAndLocation.getSouthLat() != null ?
-                                                    new BigDecimal(timeAndLocation.getSouthLat()) : null )
-                                            .westernBounds(timeAndLocation.getWestLon() != null ?
-                                                    new BigDecimal(timeAndLocation.getWestLon()) : null )
-                                            .build()).build()
-            )
+            if ( timeAndLocation.isSiteLocation()) {
+                metadata.spatialExtents(GeospatialExtentsType.builder()
+                                .location(SpatialLocationType.builder()
+                                          .latitude(new BigDecimal(timeAndLocation.getSiteSpecificLat()))
+                                          .longitude(new BigDecimal(timeAndLocation.getSiteSpecificLon()))
+                                          .build()).build())
+            } else {
+                metadata.spatialExtents(GeospatialExtentsType.builder()
+                                .bounds(SpatialExtentsType.builder()
+                                    .easternBounds(timeAndLocation.getEastLon() != null ?
+                                            new BigDecimal(timeAndLocation.getEastLon()) : null )
+                                    .northernBounds(timeAndLocation.getNorthLat() != null ?
+                                            new BigDecimal(timeAndLocation.getNorthLat()) : null )
+                                    .southernBounds(timeAndLocation.getSouthLat() != null ?
+                                            new BigDecimal(timeAndLocation.getSouthLat()) : null )
+                                    .westernBounds(timeAndLocation.getWestLon() != null ?
+                                            new BigDecimal(timeAndLocation.getWestLon()) : null )
+                                    .build()).build())
+            }
             metadata.temporalExtents(TemporalExtentsType.builder()
                         .startDate(TimeUtils.parseUTCdate(timeAndLocation.getStartDate()))
                         .endDate(TimeUtils.parseUTCdate(timeAndLocation.getEndDate()))
@@ -790,7 +795,7 @@ class OadsXmlService {
         return phBuilder.build()
     }
     private Co2Socat fillCO2socat(GenericVariable v) {
-        Co2Socat.Co2SocatBuilder co2SocatBuilder = fillPCO2a(Co2Socat.builder())
+        Co2Socat.Co2SocatBuilder co2SocatBuilder = fillPCO2a(v, Co2Socat.builder())
         co2SocatBuilder.totalMeasurementPressure(EquilibratorMeasurementType.builder()
                                                  .method(v.getTotalPressureCalcMethod())
                                                  .uncertainty(v.getUncertaintyOfTotalPressure())

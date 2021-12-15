@@ -8,6 +8,7 @@ class TimeAndLocation {
     String southLat;
     String westLon;
     String eastLon;
+    boolean siteLocation;
     String geoNames;
     String organismLoc;
     String spatialRef;
@@ -22,10 +23,15 @@ class TimeAndLocation {
         southLat (nullable: true)
         westLon (nullable: true)
         eastLon (nullable: true)
+        siteLocation (nullable: false)
         geoNames (nullable: true, type: 'text')
         organismLoc (nullable: true)
         spatialRef (nullable: true)
         siteSpecificLon (nullable: true)
         siteSpecificLat (nullable: true)
+    }
+
+    static mapping = {
+        siteLocation defaultValue: false
     }
 }
