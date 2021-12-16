@@ -143,7 +143,7 @@ class OadsXmlService {
         def cruiseId = ""
         for (TypedIdentifierType code : metadata.getCruiseIds()) {
             if ( code.getType() && ! code.getType().isEmpty() ) {
-                cruiseId = code.getType()+":"+code.getValue() + " "
+                cruiseId = code.getValue()+":"+code.getType() + " "
             } else {
                 cruiseId = code.getValue()
             }

@@ -139,7 +139,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         String cruise = cruiseId.getText().trim();
         String idType = cruiseIdType.getValue();
         if ( idType != null && ! idType.isEmpty()) {
-            cruise = idType + ":" + cruise;
+            cruise = cruise + ":" + idType;
         }
         citation.setCruiseId(cruise);
         citation.setSection(section.getText().trim());
@@ -235,10 +235,10 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             String cruiseInfo = citation.getCruiseId();
             int idx = cruiseInfo.indexOf(':');
             if ( idx > 0 ) {
-                String idType = cruiseInfo.substring(0, idx);
-                cruiseIdType.setSelected(idType);
-                String id = cruiseInfo.substring(idx+1);
+                String id = cruiseInfo.substring(0, idx);
                 cruiseId.setText(id);
+                String idType = cruiseInfo.substring(idx+1);
+                cruiseIdType.setSelected(idType);
             } else {
                 cruiseId.setText(citation.getCruiseId());
             }
