@@ -602,6 +602,8 @@ class OadsXmlService {
                 }
             }
 
+            metadata.methods(citation.getMethodsApplied())
+
             // XXX TODO: use single string, multiple strings, or ScientificReferenceType ???
             if ( citation.getScientificReferences() ) {
                 metadata.addReference(citation.getScientificReferences())
