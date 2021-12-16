@@ -236,8 +236,8 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         save.addClickHandler(saveIt);
 //        common.abbreviationModal.setTitle("25.1 Column header name of the variable in the data files, e.g., pCO2, etc.");
 //        common.observationTypeModal.setTitle("25.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
-        common.manipulationMethodModal.setTitle("25.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
-        common.observationDetailModal.setTitle("25.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study");
+//        common.manipulationMethodModal.setTitle("25.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
+//        common.observationDetailModal.setTitle("25.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study");
         common.measuredModal.setTitle("25.6 Whether the variable is measured in-situ, or calculated from other variables");
         common.calculationMethodModal.setTitle("25.7 Variables can be calculated using different sets of constants or different software.");
         common.samplingInstrumentModal.setTitle("25.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument.");
@@ -388,9 +388,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             co2.setSamplingInstrument(displayed.getSamplingInstrument());
             co2.setAnalyzingInstrument(displayed.getAnalyzingInstrument());
             co2.setUnits(displayed.getUnits());
-            co2.setObservationDetail(displayed.getObservationDetail());
+//            co2.setObservationDetail(displayed.getObservationDetail());
             co2.setMeasured(displayed.getMeasured());
-            co2.setManipulationMethod(displayed.getManipulationMethod());
+//            co2.setManipulationMethod(displayed.getManipulationMethod());
             co2.setCalculationMethod(displayed.getCalculationMethod());
             co2.setReferenceMethod(displayed.getReferenceMethod());
             co2.setDetailedInformation(displayed.getDetailedInformation());
@@ -607,11 +607,11 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                 warning = Constants.MEASURED;
                 type = NotifyType.DANGER;
             }
-            if ( isDirty() && common.observationDetail.getValue() == null ) {
-                valid="false";
-                warning = Constants.DETAILS;
-                type = NotifyType.DANGER;
-            }
+//            if ( isDirty() && common.observationDetail.getValue() == null ) {
+//                valid="false";
+//                warning = Constants.DETAILS;
+//                type = NotifyType.DANGER;
+//            }
             if ( valid.equals("false") ||
                     valid.equals("0")) {
                 NotifySettings settings = NotifySettings.newSettings();

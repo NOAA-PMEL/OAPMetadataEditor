@@ -123,17 +123,28 @@
                         </b:Column>
                     </b:Row>
 
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6 LG_4">
-                            <!-- Keep -->
+                        <!-- Remove -->
+                        <!-- b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
                                 <b:Modal title="27.5 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study." closable="true" b:id="modalObservationDetail"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationDetail" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_12 MD_6 LG_4" offset="LG_4">
+                        </b:Column-->
+
+                        <!-- Remove -->
+                        <!-- b:Column size="SM_12 MD_4 LG_4">
+                            <b:FormGroup ui:field="manipulationMethodForm">
+                                <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
+                                <b:Modal title="22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc." closable="true" b:id="modalManipulationMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextArea visibleLines="2" ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextArea>
+                            </b:FormGroup>
+                        </b:Column -->
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
@@ -142,20 +153,9 @@
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                    </b:Row>
 
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6">
+                        <b:Column size="SM_12 MD_8">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="manipulationMethodForm">
-                                <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
-                                <b:Modal title="22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc." closable="true" b:id="modalManipulationMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="2" ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextArea>
-                            </b:FormGroup>
-                        </b:Column>
-                        <!-- Keep -->
-                        <b:Column size="SM_12 MD_6">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Modal title="27.9 Variables can be calculated using different sets of constants or different software." closable="true" b:id="modalCalculationMethod"/>

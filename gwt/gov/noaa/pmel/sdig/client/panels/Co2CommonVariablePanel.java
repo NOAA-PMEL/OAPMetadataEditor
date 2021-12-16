@@ -43,12 +43,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     String observationType = "Surface Underway";
 
     // 003 Manipulation method
-    @UiField
-    TextArea manipulationMethod;
+//    @UiField
+//    TextArea manipulationMethod;
 
     // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    ButtonDropDown observationDetail;
+//    @UiField
+//    ButtonDropDown observationDetail;
 
     // 005 Variable unit
 //    @UiField
@@ -117,12 +117,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //    FormGroup observationTypeForm;
 
     // 003 Manipulation method
-    @UiField
-    FormGroup manipulationMethodForm;
+//    @UiField
+//    FormGroup manipulationMethodForm;
 
     // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    FormGroup observationDetailForm;
+//    @UiField
+//    FormGroup observationDetailForm;
 
     // 005 Variable unit
 //    @UiField
@@ -185,12 +185,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //    Modal observationTypeModal;
 
     // 003 Manipulation method
-    @UiField
-    Modal manipulationMethodModal;
+//    @UiField
+//    Modal manipulationMethodModal;
 
     // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    Modal observationDetailModal;
+//    @UiField
+//    Modal observationDetailModal;
 
     // 005 Variable unit
 //    @UiField
@@ -341,7 +341,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         detailValues.add("manipulation condition");
         detailNames.add("response variable");
         detailValues.add("response variable");
-        observationDetail.init("Pick One ", detailNames, detailValues);
+//        observationDetail.init("Pick One ", detailNames, detailValues);
 
         List<String> measuredNames = new ArrayList<String>();
         List<String> measuredValues = new ArrayList<String>();
@@ -353,8 +353,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
 //        abbreviationModal.setTitle("");
 //        observationTypeModal.setTitle("");
-        manipulationMethodModal.setTitle("");
-        observationDetailModal.setTitle("");
+//        manipulationMethodModal.setTitle("");
+//        observationDetailModal.setTitle("");
         measuredModal.setTitle("");
         calculationMethodModal.setTitle("");
         samplingInstrumentModal.setTitle("");
@@ -392,7 +392,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     }
 
     void reset() {
-        observationDetail.reset();
+//        observationDetail.reset();
         measured.reset();
     }
     public void show(Variable variable) {
@@ -400,14 +400,14 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //        if ( variable.getAbbreviation() != null ) {
 //            abbreviation.setText(variable.getAbbreviation());
 //        }
-        if ( variable.getObservationDetail() != null ) {
-            observationDetail.setSelected(variable.getObservationDetail());
-        } else {
-            observationDetail.reset();
-        }
-        if ( variable.getManipulationMethod() != null ) {
-            manipulationMethod.setText(variable.getManipulationMethod());
-        }
+//        if ( variable.getObservationDetail() != null ) {
+//            observationDetail.setSelected(variable.getObservationDetail());
+//        } else {
+//            observationDetail.reset();
+//        }
+//        if ( variable.getManipulationMethod() != null ) {
+//            manipulationMethod.setText(variable.getManipulationMethod());
+//        }
 //        if ( variable.getObservationType() != null ) {
 //            observationType.setText(variable.getObservationType());
 //        }
@@ -490,8 +490,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     public Variable fillCommonVariable(Variable commonVariable) {
         commonVariable.setAbbreviation(abbreviation); // .getText());
         commonVariable.setObservationType(observationType); //.getText());
-        commonVariable.setManipulationMethod(manipulationMethod.getText());
-        commonVariable.setObservationDetail(observationDetail.getValue());
+//        commonVariable.setManipulationMethod(manipulationMethod.getText());
+//        commonVariable.setObservationDetail(observationDetail.getValue());
 //        commonVariable.setUnits(units.getText());
         commonVariable.setMeasured(measured.getValue());
         commonVariable.setCalculationMethod(calculationMethod.getValue());
@@ -522,8 +522,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
                   isDirty() :
                    // Don't check abbreviation and full name since they are filled automatically.
                    isDirty(observationType, original.getObservationType() ) ||
-                   isDirty(manipulationMethod, original.getManipulationMethod() ) ||
-                   isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
+//                   isDirty(manipulationMethod, original.getManipulationMethod() ) ||
+//                   isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
 //                   isDirty(units, original.getUnits() ) ||
                    isDirty(measured.getValue(), original.getMeasured() ) ||
                    isDirty(samplingInstrument, original.getSamplingInstrument() ) ||
@@ -558,10 +558,10 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //        if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
 //            return true;
 //        }
-        if (manipulationMethod.getText().trim() != null && !manipulationMethod.getValue().isEmpty() )
-            return true;
-        if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
-            return true;
+//        if (manipulationMethod.getText().trim() != null && !manipulationMethod.getValue().isEmpty() )
+//            return true;
+//        if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
+//            return true;
 //        if (units.getText().trim() != null && !units.getValue().isEmpty() )
 //            return true;
         if (measured.getValue() != null && !measured.getValue().isEmpty() )

@@ -137,17 +137,28 @@ Unnamed variables have "Full variable name in addition.
                         </b:Column>
                     </b:Row>
 
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6 LG_4">
-                            <!-- Keep -->
+                        <!-- Remove -->
+                        <!-- b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="observationDetailForm">
                                 <b:FormLabel for="observationDetail" text="Details about the Observation"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="observationDetailModal" b:id="modalObservationDetail"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationDetail" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="observationDetail"></mde:ButtonDropDown>
                             </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_12 MD_6 LG_4" offset="LG_4">
+                        </b:Column -->
+
+                        <!-- Remove -->
+                        <!-- b:Column size="SM_12 MD_4 LG_4">
+                            <b:FormGroup ui:field="manipulationMethodForm">
+                                <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="manipulationMethodModal" b:id="modalManipulationMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextArea visibleLines="2" ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextArea>
+                            </b:FormGroup>
+                        </b:Column -->
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_4">
                             <!--Keep -->
                             <b:FormGroup ui:field="measuredForm">
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
@@ -156,20 +167,9 @@ Unnamed variables have "Full variable name in addition.
                                 <mde:ButtonDropDown ui:field="measured"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                    </b:Row>
 
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6">
-                            <!-- Keep -->
-                            <b:FormGroup ui:field="manipulationMethodForm">
-                                <b:FormLabel for="manipulationMethod" text="Manipulation Method"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="manipulationMethodModal" b:id="modalManipulationMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalManipulationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="2" ui:field="manipulationMethod" allowBlank="true" placeholder="Manipulation Method" b:id="manipulationMethod"></b:TextArea>
-                            </b:FormGroup>
-                        </b:Column>
                         <!-- Keep -->
-                        <b:Column size="SM_12 MD_6">
+                        <b:Column size="SM_12 MD_8">
                             <b:FormGroup ui:field="calculationMethodForm">
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="calculationMethodModal" b:id="modalCalculationMethod"/>

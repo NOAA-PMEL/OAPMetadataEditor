@@ -71,12 +71,12 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     Button showObservationListButton;
 
     // 003 Manipulation method
-    @UiField
-    TextArea manipulationMethod;
+//    @UiField
+//    TextArea manipulationMethod;
 
     // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    ButtonDropDown observationDetail;
+//    @UiField
+//    ButtonDropDown observationDetail;
 
     // 005 Variable unit
     @UiField
@@ -165,12 +165,12 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     FormGroup observationTypeForm;
 
     // 003 Manipulation method
-    @UiField
-    FormGroup manipulationMethodForm;
+//    @UiField
+//    FormGroup manipulationMethodForm;
 
     // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    FormGroup observationDetailForm;
+//    @UiField
+//    FormGroup observationDetailForm;
 
     // 005 Variable unit
     @UiField
@@ -319,7 +319,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     }
 
     private void resetDropDowns() {
-        observationDetail.reset();
+//        observationDetail.reset();
         measured.reset();
     }
 
@@ -391,7 +391,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         detailValues.add("manipulation condition");
         detailNames.add("response variable");
         detailValues.add("response variable");
-        observationDetail.init("Pick One ", detailNames, detailValues);
+//        observationDetail.init("Pick One ", detailNames, detailValues);
 
         List<String> measuredNames = new ArrayList<String>();
         List<String> measuredValues = new ArrayList<String>();
@@ -533,7 +533,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     private void setAllEditable(boolean editable) {
         abbreviation.setEnabled(editable);
         observationType.setEnabled(editable);
-        manipulationMethod.setEnabled(editable);
+//        manipulationMethod.setEnabled(editable);
 //        observationDetail.setEnabled(editable);
         units.setEnabled(editable);
 //        measured.setEnabled(editable);
@@ -573,12 +573,12 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         if ( variable.getAbbreviation() != null ) {
             abbreviation.setText(variable.getAbbreviation());
         }
-        if ( variable.getObservationDetail() != null ) {
-            observationDetail.setSelected(variable.getObservationDetail());
-        }
-        if ( variable.getManipulationMethod() != null ) {
-            manipulationMethod.setText(variable.getManipulationMethod());
-        }
+//        if ( variable.getObservationDetail() != null ) {
+//            observationDetail.setSelected(variable.getObservationDetail());
+//        }
+//        if ( variable.getManipulationMethod() != null ) {
+//            manipulationMethod.setText(variable.getManipulationMethod());
+//        }
         if ( variable.getObservationType() != null ) {
             observationType.setText(variable.getObservationType());
         }
@@ -663,8 +663,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     public Variable fillGenericVariable(Variable commonVariable) {
         commonVariable.setAbbreviation(abbreviation.getText());
         commonVariable.setObservationType(observationType.getText());
-        commonVariable.setManipulationMethod(manipulationMethod.getText());
-        commonVariable.setObservationDetail(observationDetail.getValue());
+//        commonVariable.setManipulationMethod(manipulationMethod.getText());
+//        commonVariable.setObservationDetail(observationDetail.getValue());
         commonVariable.setUnits(units.getText());
         commonVariable.setMeasured(measured.getValue());
         commonVariable.setSamplingInstrument(samplingInstrument.getText());
@@ -721,9 +721,9 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
             hasContent = true;
         }
-        if (manipulationMethod.getText() != null && !manipulationMethod.getText().isEmpty() ) {
-            hasContent = true;
-        }
+//        if (manipulationMethod.getText() != null && !manipulationMethod.getText().isEmpty() ) {
+//            hasContent = true;
+//        }
         if (units.getText() != null && !units.getText().isEmpty() ) {
             hasContent = true;
         }
@@ -858,11 +858,11 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             warning = Constants.MEASURED;
             type = NotifyType.DANGER;
         }
-        if ( strict && observationDetail.getValue() == null ) {
-            valid="false";
-            warning = Constants.DETAILS;
-            type = NotifyType.DANGER;
-        }
+//        if ( strict && observationDetail.getValue() == null ) {
+//            valid="false";
+//            warning = Constants.DETAILS;
+//            type = NotifyType.DANGER;
+//        }
         if ( valid.equals("false") ||
                 valid.equals("0")) {
             NotifySettings settings = NotifySettings.newSettings();
@@ -933,10 +933,10 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 //    @UiField
 //    ButtonDropDown measured;
 
-    @UiHandler({"abbreviation","manipulationMethod","units","calculationMethod",
+    @UiHandler({"abbreviation","units","calculationMethod",
             "detailedInformation","fieldReplicate","uncertainty","qualityFlag",
             "researcherName","researcherInstitution","referenceMethod",
-//            "biologicalSubject","duration","lifeStage", "speciesIdCode",
+//            "manipulationMethod","biologicalSubject","duration","lifeStage", "speciesIdCode",
             "qualityControl", "abbreviationQualityFlag","sopChanges", "collectionMethod", "analyzingInformation"})
     public void onChange(ChangeEvent event) {
 //        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
