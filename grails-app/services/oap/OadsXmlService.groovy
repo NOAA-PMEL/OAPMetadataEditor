@@ -803,7 +803,8 @@ class OadsXmlService {
         return co2SocatBuilder.build()
     }
     private Co2Autonomous fillPCO2a(GenericVariable v) {
-        Co2Autonomous.Co2AutonomousBuilder co2Builder = fillPCO2x(v, Co2Autonomous.builder())
+        Co2Autonomous.Co2AutonomousBuilder co2Builder = fillPCO2a(v, Co2Autonomous.builder())
+        return co2Builder.build()
     }
     private Co2Autonomous.Co2AutonomousBuilder fillPCO2a(GenericVariable v,
                                                          Co2Autonomous.Co2AutonomousBuilder co2Builder) {
