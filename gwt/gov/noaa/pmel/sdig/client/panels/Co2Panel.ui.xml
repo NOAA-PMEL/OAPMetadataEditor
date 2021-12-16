@@ -310,13 +310,20 @@
                     <b:Row>
                         <b:Column size="SM_12 LG_6">
                             <b:FormGroup ui:field="calibrationMethodPressureSensorFrequencyForm">
-                                <!-- Keep -->
+                                <!-- Remove>
                                 <b:FormLabel for="calibrationMethodPressureSensorFrequency" text="Calibration method and frequency for pressure sensor(s)"></b:FormLabel>
                                 <b:Modal title="SOCAT" closable="true" b:id="modalCalibrationMethodPressureSensorFrequency"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCalibrationMethodPressureSensorFrequency" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="calibrationMethodPressureSensorFrequency" allowBlank="true" placeholder="Calibration method and frequency for pressure sensor(s)" b:id="calibrationMethodPressureSensorFrequency"></b:TextBox>
-                                <!-- equilibratorPressureSensorCalibrationMethod -->
+                                -->
+
+                                <!-- Keep -->
+                                <b:FormLabel for="equilibratorPressureSensorCalibrationMethod" text="Calibration method and frequency for pressure sensor(s)"></b:FormLabel>
+                                <b:Modal title="SOCAT" closable="true" b:id="modalequilibratorPressureSensorCalibrationMethod"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalequilibratorPressureSensorCalibrationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="equilibratorPressureSensorCalibrationMethod" allowBlank="true" placeholder="Calibration method and frequency for pressure sensor(s)" b:id="calibrationMethodPressureSensorFrequency"></b:TextBox>
                             </b:FormGroup>
+
                         </b:Column>
                     </b:Row>
 
