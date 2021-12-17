@@ -417,9 +417,9 @@ class OadsXmlService {
         v.setUncertainty(source.getUncertainty())
         if (source.getQcFlag()) {
             QcFlagInfoType qc = source.getQcFlag()
-            v.setQualityFlag(qc.getScheme())
-            v.setQualityControl(qc.getDescription())
-            v.setAbbreviationQualityFlag(qc.getQcFlagVarName())
+            v.setQcApplied(qc.getDescription())
+            v.setQcSchemeName(qc.getScheme())
+            v.setQcVariableName(qc.getQcFlagVarName())
         }
         v.setReferenceMethod(source.methodReference)
 
@@ -802,7 +802,8 @@ class OadsXmlService {
                                                  .method(v.getTotalPressureCalcMethod())
                                                  .uncertainty(v.getUncertaintyOfTotalPressure())
                                                  .build())
-        return co2SocatBuilder.build()
+        Co2Socat co2Socat = co2SocatBuilder.build()
+        return co2Socat
     }
     private Co2Autonomous fillPCO2a(GenericVariable v) {
         Co2Autonomous.Co2AutonomousBuilder co2Builder = fillPCO2a(v, Co2Autonomous.builder())
@@ -833,6 +834,7 @@ class OadsXmlService {
                         .volume(v.getEquilibratorVolume())
                         .vented(v.getVented())
                         .waterFlowRate(v.getFlowRate())
+                        .gasFlowRate(v.getGasFlowRate())
                         .temperatureMeasurement(EquilibratorMeasurementType.builder()
                                 .method(v.getEquilibratorTemperatureMeasureMethod())
                                 .uncertainty(v.getUncertaintyOfTemperature())
@@ -949,6 +951,7 @@ class OadsXmlService {
             .detailedAnalyzingInfo(v.getDetailedInformation())
             .fieldReplicateHandling(v.getFieldReplicate())
 
+
         if (v.getCalculationMethod())
             variable.calculationMethod(CalculationMethodType.builder().description(v.getCalculationMethod()).build())
 
@@ -975,14 +978,18 @@ class OadsXmlService {
                         .manufacturer(v.getStandardGasManufacture())
                         .uncertainty(v.getStandardGasUncertainties())
                         .concentration(v.getGasConcentration())
+                        .traceabilityToWmoStandards(v.getTraceabilityOfStdGas())
                         .build()
                 )
             }
             variable.standardization(standard.build())
         }
+        variable.variationsFromMethod(v.getSopChanges())
         variable.uncertainty(v.getUncertainty())
         variable.qcFlag(QcFlagInfoType.builder()
-                    .description(v.getQualityFlag())
+                    .description(v.getQcApplied())
+                    .scheme(v.getQcSchemeName())
+                    .qcFlagVarName(v.getQcVariableName())
                     .build())
         variable.methodReference(v.getReferenceMethod())
         variable.researcher(PersonReferenceType.builder()

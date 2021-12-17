@@ -20,7 +20,7 @@ class Variable extends GenericVariable {
         v.detailedInformation = genV.detailedInformation
         v.fieldReplicate = genV.fieldReplicate
         v.uncertainty = genV.uncertainty
-        v.qualityFlag = genV.qualityFlag
+        v.qcApplied = genV.qcApplied
         v.researcherName = genV.researcherName
         v.researcherInstitution = genV.researcherInstitution
         v.fullVariableName = genV.fullVariableName
@@ -69,8 +69,8 @@ class Variable extends GenericVariable {
         v.lifeStage = genV.lifeStage
         v.speciesIdCode = genV.speciesIdCode
         v.variableType = genV.variableType
-        v.qualityControl = genV.qualityControl
-        v.abbreviationQualityFlag = genV.abbreviationQualityFlag
+        v.qcSchemeName = genV.qcSchemeName
+        v.qcVariableName = genV.qcVariableName
         v.sopChanges = genV.sopChanges
         v.collectionMethod = genV.collectionMethod
         v.analyzingInformation =genV.analyzingInformation
@@ -98,7 +98,7 @@ class Variable extends GenericVariable {
                 .detailedInformation(genV.detailedInformation)
                 .fieldReplicate(genV.fieldReplicate)
                 .uncertainty(genV.uncertainty)
-                .qualityFlag(genV.qualityFlag)
+                .qcApplied(genV.qcApplied)
                 .researcherName(genV.researcherName)
                 .researcherInstitution(genV.researcherInstitution)
                 .fullVariableName(genV.fullVariableName)

@@ -126,21 +126,21 @@ DIC: Researcher Institution
         common.detailedInformationModal.setTitle("22.10 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
         common.fieldReplicateModal.setTitle("22.11 Repetition of sample collection and measurement, e.g., triplicate samples.");
         common.uncertaintyModal.setTitle("22.14 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
-        common.qualityFlagModal.setTitle("22.15 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
+        common.qcAppliedModal.setTitle("22.15 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
         common.researcherNameModal.setTitle("22.17.1 The name of the PI, whose research team measured or derived this parameter.");
         common.researcherInstitutionModal.setTitle("22.17.2 The institution of the PI, whose research team measured or derived this parameter.");
         common.fullVariableNameModal.setTitle("The full variable name.");
         common.referenceMethodModal.setTitle("22.16 Citation for the dissolved inorganic carbon method.");
         common.unitsModal.setTitle("22.5 Units of the variable (e.g., μmol/kg).");
 
-        common.qualityControlModal.setTitle("22.7 Indicate if quality control procedures were applied.");
-        common.abbreviationQualityFlagModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
+        common.qcSchemeNameModal.setTitle("22.7 Indicate if quality control procedures were applied.");
+        common.qcVariableNameModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
         common.sopChangesModal.setTitle("20.2 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
         common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
         common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
 //        if (OAPMetadataEditor.getIsSocatParam()) {
-            common.qualityFlagLabel.setText("Data quality scheme (name of scheme)");
+            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
             standardizationTechniqueLabel.setText("Calibration method");
             freqencyOfStandardizationLabel.setText("Frequency of calibration");
             poisonLabel.setText("Poison used to kill the sample");

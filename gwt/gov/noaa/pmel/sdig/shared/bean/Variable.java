@@ -20,7 +20,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String detailedInformation;
     String fieldReplicate;
     String uncertainty;
-    String qualityFlag;
+    String qcApplied;
     String researcherName;
     String researcherInstitution;
     String fullVariableName;
@@ -70,8 +70,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String speciesIdCode;
     String variableType;
 
-    String qualityControl;
-    String abbreviationQualityFlag;
+    String qcSchemeName;
+    String qcVariableName;
     String sopChanges;
     String collectionMethod;
     String analyzingInformation;
@@ -100,7 +100,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.detailedInformation,
             this.fieldReplicate,
             this.uncertainty,
-            this.qualityFlag,
+            this.qcApplied,
             this.researcherName,
             this.researcherInstitution,
             this.fullVariableName,
@@ -148,8 +148,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.duration,
             this.lifeStage,
             this.speciesIdCode,
-            this.qualityControl,
-            this.abbreviationQualityFlag,
+            this.qcSchemeName,
+            this.qcVariableName,
             this.sopChanges,
             this.collectionMethod,
             this.analyzingInformation,
@@ -180,7 +180,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String detailedInformation,
             String fieldReplicate,
             String uncertainty,
-            String qualityFlag,
+            String qcApplied,
             String researcherName,
             String researcherInstitution,
             String fullVariableName,
@@ -228,8 +228,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String duration,
             String lifeStage,
             String speciesIdCode,
-            String qualityControl,
-            String abbreviationQualityFlag,
+            String qcSchemeName,
+            String qcVariableName,
             String sopChanges,
             String collectionMethod,
             String phDyeTypeManuf,
@@ -256,7 +256,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.detailedInformation = detailedInformation;
         this.fieldReplicate = fieldReplicate;
         this.uncertainty = uncertainty;
-        this.qualityFlag = qualityFlag;
+        this.qcApplied = qcApplied;
         this.researcherName = researcherName;
         this.researcherInstitution = researcherInstitution;
         this.fullVariableName = fullVariableName;
@@ -304,8 +304,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.duration = duration;
         this.lifeStage = lifeStage;
         this.speciesIdCode = speciesIdCode;
-        this.qualityControl = qualityControl;
-        this.abbreviationQualityFlag = abbreviationQualityFlag;
+        this.qcSchemeName = qcSchemeName;
+        this.qcVariableName = qcVariableName;
         this.sopChanges = sopChanges;
         this.collectionMethod=collectionMethod;
         this.analyzingInformation = analyzingInformation;
@@ -343,7 +343,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (detailedInformation != null ? detailedInformation.hashCode() : 0);
         result = 31 * result + (fieldReplicate != null ? fieldReplicate.hashCode() : 0);
         result = 31 * result + (uncertainty != null ? uncertainty.hashCode() : 0);
-        result = 31 * result + (qualityFlag != null ? qualityFlag.hashCode() : 0);
+        result = 31 * result + (qcApplied != null ? qcApplied.hashCode() : 0);
         result = 31 * result + (researcherName != null ? researcherName.hashCode() : 0);
         result = 31 * result + (researcherInstitution != null ? researcherInstitution.hashCode() : 0);
         result = 31 * result + (fullVariableName != null ? fullVariableName.hashCode() : 0);
@@ -392,8 +392,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
         result = 31 * result + (lifeStage != null ? lifeStage.hashCode() : 0);
         result = 31 * result + (speciesIdCode != null ? speciesIdCode.hashCode() : 0);
-        result = 31 * result + (qualityControl != null ? qualityControl.hashCode() : 0);
-        result = 31 * result + (abbreviationQualityFlag != null ? abbreviationQualityFlag.hashCode() : 0);
+        result = 31 * result + (qcSchemeName != null ? qcSchemeName.hashCode() : 0);
+        result = 31 * result + (qcVariableName != null ? qcVariableName.hashCode() : 0);
         result = 31 * result + (sopChanges != null ? sopChanges.hashCode() : 0);
         result = 31 * result + (collectionMethod != null ? collectionMethod.hashCode() : 0);
         result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
@@ -435,7 +435,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(detailedInformation, v.detailedInformation) == 0 &&
                 sCompare(fieldReplicate, v.fieldReplicate) == 0 &&
                 sCompare(uncertainty, v.uncertainty) == 0 &&
-                sCompare(qualityFlag, v.qualityFlag) == 0 &&
+                sCompare(qcApplied, v.qcApplied) == 0 &&
                 sCompare(researcherName, v.researcherName) == 0 &&
                 sCompare(researcherInstitution, v.researcherInstitution) == 0 &&
                 sCompare(referenceMethod, v.referenceMethod) == 0 &&
@@ -483,8 +483,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(duration, v.duration) == 0 &&
                 sCompare(lifeStage, v.lifeStage) == 0 &&
                 sCompare(speciesIdCode, v.speciesIdCode) == 0 &&
-                sCompare(qualityControl, v.qualityControl) == 0 &&
-                sCompare(abbreviationQualityFlag, v.abbreviationQualityFlag) == 0 &&
+                sCompare(qcSchemeName, v.qcSchemeName) == 0 &&
+                sCompare(qcVariableName, v.qcVariableName) == 0 &&
                 sCompare(sopChanges, v.sopChanges) == 0 &&
                 sCompare(collectionMethod, v.collectionMethod) == 0 &&
                 sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
@@ -517,7 +517,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.detailedInformation = this.detailedInformation;
         newv.fieldReplicate = this.fieldReplicate;
         newv.uncertainty = this.uncertainty;
-        newv.qualityFlag = this.qualityFlag;
+        newv.qcApplied = this.qcApplied;
         newv.researcherName = this.researcherName;
         newv.researcherInstitution = this.researcherInstitution;
         newv.fullVariableName = this.fullVariableName;
@@ -565,8 +565,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.duration = this.duration;
         newv.lifeStage = this.lifeStage;
         newv.speciesIdCode = this.speciesIdCode;
-        newv.qualityControl = this.qualityControl;
-        newv.abbreviationQualityFlag = this.abbreviationQualityFlag;
+        newv.qcSchemeName = this.qcSchemeName;
+        newv.qcVariableName = this.qcVariableName;
         newv.sopChanges = this.sopChanges;
         newv.collectionMethod = this.collectionMethod;
         newv.analyzingInformation = this.analyzingInformation;
@@ -597,7 +597,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(detailedInformation) &&
                     isEmpty(fieldReplicate) &&
                     isEmpty(uncertainty) &&
-                    isEmpty(qualityFlag) &&
+                    isEmpty(qcApplied) &&
                     isEmpty(researcherName) &&
                     isEmpty(researcherInstitution) &&
                     isEmpty(fullVariableName) &&
@@ -645,8 +645,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(duration) &&
                     isEmpty(lifeStage) &&
                     isEmpty(speciesIdCode) &&
-                    isEmpty(qualityControl) &&
-                    isEmpty(abbreviationQualityFlag) &&
+                    isEmpty(qcSchemeName) &&
+                    isEmpty(qcVariableName) &&
                     isEmpty(sopChanges) &&
                     isEmpty(collectionMethod) &&
                     isEmpty(analyzingInformation) &&
@@ -822,20 +822,20 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     }
 
 
-    public String getQualityControl() {
-        return qualityControl;
+    public String getQcSchemeName() {
+        return qcSchemeName;
     }
 
-    public void setQualityControl(String qualityControl) {
-        this.qualityControl = qualityControl;
+    public void setQcSchemeName(String qcSchemeName) {
+        this.qcSchemeName = qcSchemeName;
     }
 
-    public String getAbbreviationQualityFlag() {
-        return abbreviationQualityFlag;
+    public String getQcVariableName() {
+        return qcVariableName;
     }
 
-    public void setAbbreviationQualityFlag(String abbreviationQualityFlag) {
-        this.abbreviationQualityFlag = abbreviationQualityFlag;
+    public void setQcVariableName(String qcVariableName) {
+        this.qcVariableName = qcVariableName;
     }
 
     public String getSopChanges() {
@@ -1042,11 +1042,11 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.uncertainty = uncertainty;
     }
 
-    public String getQualityFlag() {
-        return qualityFlag;
+    public String getQcApplied() {
+        return qcApplied;
     }
-    public void setQualityFlag(String qualityFlag) {
-        this.qualityFlag = qualityFlag;
+    public void setQcApplied(String qcApplied) {
+        this.qcApplied = qcApplied;
     }
 
     public String getResearcherName() {

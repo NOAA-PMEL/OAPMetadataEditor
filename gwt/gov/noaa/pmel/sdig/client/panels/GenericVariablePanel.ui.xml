@@ -204,11 +204,11 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="qualityControlForm">
-                                <b:FormLabel for="qualityControl" text="Quality Control"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="qualityControlModal" b:id="modalqualityControl"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityControl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="1" ui:field="qualityControl" allowBlank="true" placeholder="Quality Control" b:id="qualityControl"></b:TextArea>
+                            <b:FormGroup ui:field="qcSchemeNameForm">
+                                <b:FormLabel for="qcSchemeName" text="Quality Control"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="qcSchemeNameModal" b:id="modalqcSchemeName"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcSchemeName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextArea visibleLines="1" ui:field="qcSchemeName" allowBlank="true" placeholder="Quality Control" b:id="qcSchemeName"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -216,26 +216,26 @@
                     <b:Row>
                         <b:Column size="SM_12 MD_6">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="abbreviationQualityFlagForm">
-                                <b:FormLabel for="abbreviationQualityFlag" text="Abbreviation of data quality flag scheme"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="abbreviationQualityFlagModal" b:id="modalAbbreviationQualityFlag"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviationQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="abbreviationQualityFlag" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="abbreviationQualityFlag"></b:TextBox>
+                            <b:FormGroup ui:field="qcVariableNameForm">
+                                <b:FormLabel for="qcVariableName" text="Abbreviation of data quality flag scheme"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="qcVariableNameModal" b:id="modalQcVariableName"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="qcVariableName" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="qcVariableName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_6">
                             <!-- Keep -->
-<!--                            <b:FormGroup ui:field="qualityFlagForm">-->
-<!--                                <b:FormLabel for="qualityFlag" text="Data Quality Flag Description"></b:FormLabel>-->
-<!--                                <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>-->
-<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
-<!--                                <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>-->
+<!--                            <b:FormGroup ui:field="qcAppliedForm">-->
+<!--                                <b:FormLabel for="qcApplied" text="Data Quality Flag Description"></b:FormLabel>-->
+<!--                                <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQcApplied"/>-->
+<!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcApplied" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
+<!--                                <b:TextBox ui:field="qcApplied" allowBlank="true" placeholder="Data quality flag description" b:id="qcApplied"></b:TextBox>-->
 <!--                            </b:FormGroup>-->
-                            <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel for="qualityFlag" text="Data quality scheme (name of scheme)"></b:FormLabel>
-                                <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQualityFlag"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQualityFlag" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="qualityFlag" allowBlank="true" placeholder="Data quality scheme" b:id="qualityFlag"></b:TextBox>
+                            <b:FormGroup ui:field="qcAppliedForm">
+                                <b:FormLabel for="qcApplied" text="Data quality scheme (name of scheme)"></b:FormLabel>
+                                <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQcApplied"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcApplied" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="qcApplied" allowBlank="true" placeholder="Data quality scheme" b:id="qcApplied"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

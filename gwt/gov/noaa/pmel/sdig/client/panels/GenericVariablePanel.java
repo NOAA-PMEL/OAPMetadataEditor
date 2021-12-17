@@ -115,7 +115,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     // 021 Data quality flag description
     @UiField
-    TextBox qualityFlag;
+    TextBox qcApplied;
 
     // 022 Researcher Name
     @UiField
@@ -206,7 +206,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     // 021 Data quality flag description
     @UiField
-    FormGroup qualityFlagForm;
+    FormGroup qcAppliedForm;
 
     // 022 Researcher Name
     @UiField
@@ -244,15 +244,15 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     // new var for 14.3.1
     // Quality control
     @UiField
-    TextArea qualityControl;
+    TextArea qcSchemeName;
     @UiField
-    FormGroup qualityControlForm;
+    FormGroup qcSchemeNameForm;
 
     // Abbreviation of data quality flag scheme
     @UiField
-    TextBox abbreviationQualityFlag;
+    TextBox qcVariableName;
     @UiField
-    FormGroup abbreviationQualityFlagForm;
+    FormGroup qcVariableNameForm;
 
     // Changes to Method or SOP
     @UiField
@@ -543,7 +543,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         detailedInformation.setEnabled(editable);
         fieldReplicate.setEnabled(editable);
         uncertainty.setEnabled(editable);
-        qualityFlag.setEnabled(editable);
+        qcApplied.setEnabled(editable);
         researcherName.setEnabled(editable);
         researcherInstitution.setEnabled(editable);
         fullVariableName.setEnabled(editable);
@@ -553,8 +553,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 //        lifeStage.setEnabled(editable);
 //        speciesIdCode.setEnabled(editable);
 
-        qualityControl.setEnabled(editable);
-        abbreviationQualityFlag.setEnabled(editable);
+        qcSchemeName.setEnabled(editable);
+        qcVariableName.setEnabled(editable);
         sopChanges.setEnabled(editable);
         collectionMethod.setEnabled(editable);
         analyzingInformation.setEnabled(editable);
@@ -606,8 +606,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         if ( variable.getUncertainty() != null ) {
             uncertainty.setText(variable.getUncertainty());
         }
-        if ( variable.getQualityFlag() != null ) {
-            qualityFlag.setText(variable.getQualityFlag());
+        if ( variable.getQcApplied() != null ) {
+            qcApplied.setText(variable.getQcApplied());
         }
         if ( variable.getResearcherName() != null ) {
             researcherName.setText(variable.getResearcherName());
@@ -634,11 +634,11 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 //            speciesIdCode.setText(variable.getSpeciesIdCode());
 //        }
 
-        if ( variable.getQualityControl() != null ) {
-            qualityControl.setText(variable.getQualityControl());
+        if ( variable.getQcSchemeName() != null ) {
+            qcSchemeName.setText(variable.getQcSchemeName());
         }
-        if ( variable.getAbbreviationQualityFlag() != null ) {
-            abbreviationQualityFlag.setText(variable.getAbbreviationQualityFlag());
+        if ( variable.getQcVariableName() != null ) {
+            qcVariableName.setText(variable.getQcVariableName());
         }
         if ( variable.getSopChanges() != null ) {
             sopChanges.setText(variable.getSopChanges());
@@ -673,7 +673,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         commonVariable.setDetailedInformation(detailedInformation.getText());
         commonVariable.setFieldReplicate(fieldReplicate.getText());
         commonVariable.setUncertainty(uncertainty.getText());
-        commonVariable.setQualityFlag(qualityFlag.getText());
+        commonVariable.setQcApplied(qcApplied.getText());
         commonVariable.setResearcherName(researcherName.getText());
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
         commonVariable.setFullVariableName(fullVariableName.getText());
@@ -683,8 +683,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 //        commonVariable.setLifeStage(lifeStage.getText());
 //        commonVariable.setSpeciesIdCode(speciesIdCode.getText());
 
-        commonVariable.setQualityControl(qualityControl.getText());
-        commonVariable.setAbbreviationQualityFlag(abbreviationQualityFlag.getText());
+        commonVariable.setQcSchemeName(qcSchemeName.getText());
+        commonVariable.setQcVariableName(qcVariableName.getText());
         commonVariable.setSopChanges(sopChanges.getText());
         commonVariable.setCollectionMethod(collectionMethod.getText());
         commonVariable.setAnalyzingInformation(analyzingInformation.getText());
@@ -745,7 +745,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         if (uncertainty.getText() != null && !uncertainty.getText().isEmpty() ) {
             hasContent = true;
         }
-        if (qualityFlag.getText() != null && !qualityFlag.getText().isEmpty() ) {
+        if (qcApplied.getText() != null && !qcApplied.getText().isEmpty() ) {
             hasContent = true;
         }
         if (researcherName.getText() != null && !researcherName.getText().isEmpty() ) {
@@ -773,10 +773,10 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 //            hasContent = true;
 //        }
 
-        if (qualityControl.getText() != null && !qualityControl.getText().isEmpty() ) {
+        if (qcSchemeName.getText() != null && !qcSchemeName.getText().isEmpty() ) {
             hasContent = true;
         }
-        if (abbreviationQualityFlag.getText() != null && !abbreviationQualityFlag.getText().isEmpty() ) {
+        if (qcVariableName.getText() != null && !qcVariableName.getText().isEmpty() ) {
             hasContent = true;
         }
         if (sopChanges.getText() != null && !sopChanges.getText().isEmpty() ) {
@@ -934,10 +934,10 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 //    ButtonDropDown measured;
 
     @UiHandler({"abbreviation","units","calculationMethod",
-            "detailedInformation","fieldReplicate","uncertainty","qualityFlag",
+            "detailedInformation","fieldReplicate","uncertainty","qcApplied",
             "researcherName","researcherInstitution","referenceMethod",
 //            "manipulationMethod","biologicalSubject","duration","lifeStage", "speciesIdCode",
-            "qualityControl", "abbreviationQualityFlag","sopChanges", "collectionMethod", "analyzingInformation"})
+            "qcSchemeName", "qcVariableName","sopChanges", "collectionMethod", "analyzingInformation"})
     public void onChange(ChangeEvent event) {
 //        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
         save.setEnabled(true);

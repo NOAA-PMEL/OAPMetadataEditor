@@ -13,7 +13,7 @@ class GenericVariable {
     String detailedInformation
     String fieldReplicate
     String uncertainty
-    String qualityFlag
+    String qcApplied
     String researcherName
     String researcherInstitution
     String fullVariableName
@@ -63,8 +63,8 @@ class GenericVariable {
     String speciesIdCode
     String variableType
 
-    String qualityControl
-    String abbreviationQualityFlag
+    String qcSchemeName
+    String qcVariableName
     String sopChanges
     String collectionMethod
     String analyzingInformation
@@ -94,7 +94,7 @@ class GenericVariable {
         detailedInformation (nullable: true, type: 'text')
         fieldReplicate (nullable: true, type: 'text')
         uncertainty (nullable: true, type: 'text')
-        qualityFlag (nullable: true, type: 'text')
+        qcApplied (nullable: true, type: 'text')
         researcherName (nullable: true)
         researcherInstitution (nullable: true, type: 'text')
         fullVariableName (nullable: true, type: 'text')
@@ -143,8 +143,8 @@ class GenericVariable {
         lifeStage (nullable: true)
         speciesIdCode (nullable: true)
         variableType (nullable: true)
-        qualityControl (nullable: true)
-        abbreviationQualityFlag (nullable: true)
+        qcSchemeName (nullable: true)
+        qcVariableName (nullable: true)
         sopChanges (nullable: true, type: 'text')
         collectionMethod (nullable: true, type: 'text')
         analyzingInformation (nullable: true, type: 'text')

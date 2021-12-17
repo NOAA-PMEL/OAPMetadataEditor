@@ -200,9 +200,9 @@
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">
-                            <b:FormGroup ui:field="qualityFlagForm">
-                                <b:FormLabel for="qualityFlag" text="Data quality flag description"></b:FormLabel>
-                                <b:TextBox ui:field="qualityFlag" allowBlank="false" placeholder="Data quality flag description" b:id="qualityFlag"></b:TextBox>
+                            <b:FormGroup ui:field="qcAppliedForm">
+                                <b:FormLabel for="qcApplied" text="Data quality flag description"></b:FormLabel>
+                                <b:TextBox ui:field="qcApplied" allowBlank="false" placeholder="Data quality flag description" b:id="qcApplied"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">

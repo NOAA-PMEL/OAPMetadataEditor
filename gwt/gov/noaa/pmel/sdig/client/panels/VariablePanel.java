@@ -135,7 +135,7 @@ Don't know which of several that these belongs to
     // 021 Data quality flag description
     // <flag>
     @UiField
-    TextBox qualityFlag;
+    TextBox qcApplied;
 
     // 022 Researcher Name
     // <researcherName>
@@ -416,7 +416,7 @@ Don't know which of several that these belongs to
 
     // 021 Data quality flag description
     @UiField
-    FormGroup qualityFlagForm;
+    FormGroup qcAppliedForm;
 
     // 022 Researcher Name
     @UiField

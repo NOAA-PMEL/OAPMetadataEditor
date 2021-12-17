@@ -550,7 +550,7 @@ class XmlService {
         }
         Element flag = varElement.getChild("flag")
         if ( ! isEmpty(flag) ) {
-            domainVar.setQualityFlag(flag.getText())
+            domainVar.setQcApplied(flag.getText())
         }
         Element methodReference = varElement.getChild("methodReference")
         if ( ! isEmpty(methodReference) ) {
@@ -1574,9 +1574,9 @@ class XmlService {
             uncertainty.setText(v.getUncertainty())
             variable.addContent(uncertainty)
         }
-        if ( v.getQualityFlag() ) {
+        if ( v.getQcApplied() ) {
             Element flag = new Element("flag")
-            flag.setText(v.getQualityFlag())
+            flag.setText(v.getQcApplied())
             variable.addContent(flag)
         }
         if ( v.getReferenceMethod() ) {
