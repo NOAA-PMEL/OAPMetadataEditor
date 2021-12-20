@@ -1,5 +1,6 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
@@ -996,9 +997,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     public String getUnits() {
         return units;
     }
-    public void setUnits(String units) {
-        this.units = units;
-    }
+    public void setUnits(String units) { this.units = units; }
 
     public String getMeasured() {
         return measured;

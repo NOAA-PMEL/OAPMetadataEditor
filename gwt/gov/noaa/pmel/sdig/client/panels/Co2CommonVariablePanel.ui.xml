@@ -243,7 +243,7 @@ Unnamed variables have "Full variable name in addition.
                                 <b:FormLabel for="qcSchemeName" text="Data quality scheme name"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="qcSchemeNameModal" b:id="modalqcSchemeName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcSchemeName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="1" ui:field="qcSchemeName" allowBlank="true" placeholder="Data quality scheme name" b:id="qcSchemeName"></b:TextArea>
+                                <b:TextBox ui:field="qcSchemeName" allowBlank="true" placeholder="Data quality scheme name" b:id="qcSchemeName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

@@ -251,7 +251,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     // new var for 14.3.1
     // Quality control
     @UiField
-    TextArea qcSchemeName;
+    TextBox qcSchemeName;
     @UiField
     Modal qcSchemeNameModal;
     @UiField
@@ -488,7 +488,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
     }
     public Variable fillCommonVariable(Variable commonVariable) {
-        commonVariable.setAbbreviation(abbreviation); // .getText());
+//        commonVariable.setAbbreviation(abbreviation); // .getText());
         commonVariable.setObservationType(observationType); //.getText());
 //        commonVariable.setManipulationMethod(manipulationMethod.getText());
 //        commonVariable.setObservationDetail(observationDetail.getValue());
