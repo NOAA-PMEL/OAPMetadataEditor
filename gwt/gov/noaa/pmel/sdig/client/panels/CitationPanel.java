@@ -6,7 +6,6 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
@@ -14,16 +13,11 @@ import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Citation;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.TextArea;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
-import org.gwtbootstrap3.client.ui.FormLabel;
-import org.gwtbootstrap3.client.ui.Modal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +147,12 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     public boolean isDirty(Citation original) {
         OAPMetadataEditor.debugLog("CitationPanel.isDirty("+original+")");
         boolean isDirty = false;
+
+//        String[] cruiseInfo;
+//        if (original != null && original.getCruiseId() != null) {
+//            cruiseInfo = original.getCruiseId().split(":", 2);
+//        }
+
         isDirty =
             original == null ?
             this.hasContent() :
@@ -162,7 +162,9 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             isDirty(researchProjects, original.getResearchProjects() ) ||
             isDirty(title, original.getTitle() ) ||
             isDirty(expocode, original.getExpocode() ) ||
-            isDirty(cruiseId, original.getCruiseId() ) ||
+//            isDirty(cruiseId, original.getCruiseId() ) ||
+            isDirty(cruiseId, ((original.getCruiseId().split(":", 2)[0] != null)
+                    ? original.getCruiseId().split(":", 2)[0] : original.getCruiseId() )) ||
             isDirty(section, original.getSection() ) ||
             isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
             isDirty(references, original.getScientificReferences() ) ||
@@ -285,5 +287,8 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         } else {
             return true;
         }
+    }
+    public void reset() {
+        form.reset();
     }
 }
