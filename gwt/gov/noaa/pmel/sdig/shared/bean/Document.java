@@ -94,6 +94,7 @@ public class Document extends DbItem implements HasContent {
 //       empty.setTa(new Variable());
 //       empty.setTimeAndLocation(new TimeAndLocation());
        empty.setVariables(Arrays.asList(new Variable[0]));
+        empty.setCo2vars(Arrays.asList(new Variable[0]));
        return empty;
     }
 

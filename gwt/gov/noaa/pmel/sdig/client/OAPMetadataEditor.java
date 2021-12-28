@@ -16,20 +16,8 @@ import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
 import gov.noaa.pmel.sdig.client.panels.*;
 import gov.noaa.pmel.sdig.shared.bean.*;
-import org.fusesource.restygwt.client.JsonEncoderDecoder;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.Resource;
-import org.fusesource.restygwt.client.RestService;
-import org.fusesource.restygwt.client.RestServiceProxy;
-import org.fusesource.restygwt.client.TextCallback;
-import org.gwtbootstrap3.client.ui.AnchorListItem;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.ModalBody;
-import org.gwtbootstrap3.client.ui.ModalFooter;
-import org.gwtbootstrap3.client.ui.ModalHeader;
+import org.fusesource.restygwt.client.*;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.HeadingSize;
@@ -38,13 +26,13 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import javax.print.Doc;
-import javax.ws.rs.*;
-import java.util.ArrayList;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.*;
+import java.util.Map;
 
 
 /**
@@ -818,7 +806,7 @@ public class OAPMetadataEditor implements EntryPoint {
             // Overwrite to overwrite the existing metadata panels.
             // Preserve exiting data and merge only empty values
 //            if (currentDocumentIsDirty() && _loadedDocument != null) {
-           if (getDocument().hasContent()) {
+           if (getDocument().hasContent() && _loadedDocument != null) {
                  //#DEBUG
 //               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
 
@@ -996,6 +984,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if (pco2aPanel != null) pco2aPanel.reset();
         if (pco2dPanel != null) pco2dPanel.reset();
         if (genericVariablePanel != null) genericVariablePanel.reset();
+        if (co2Panel != null) co2Panel.reset();
         topLayout.resetFileForm();
         topLayout.removeCheckmarks();
         topLayout.removeSectionHiglightStyle("pill-warning");
