@@ -39,20 +39,13 @@
                                 <b:TextBox ui:field="platformId" allowBlank="true" placeholder="Platform ID" b:id="platformId"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_3">
+
+                        <b:Column size="SM_6">
                             <b:FormGroup>
-                                <b:FormLabel for="country" text="Country"></b:FormLabel>
-                                <b:Modal title="15.5 Country of the platform" closable="true" b:id="modalCountry"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCountry" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:SuggestBox ui:field="country" allowBlank="true" placeholder="Country" b:id="country"></b:SuggestBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_6 MD_3">
-                            <b:FormGroup>
-                                <b:FormLabel for="owner" text="Owner"></b:FormLabel>
-                                <b:Modal title="15.4 Owner of the platform" closable="true" b:id="modalOwner"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalOwner" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="owner" allowBlank="true" placeholder="Owner" b:id="owner"></b:TextBox>
+                                <b:FormLabel for="platformIdType" text="Platform ID Type"></b:FormLabel>
+                                <b:Modal title="Please specify which type of Platform ID was used: ICES, IMO or WMO." closable="true" b:id="platformIdTypePopover"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#platformIdTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <mde:ButtonDropDown ui:field="platformIdType"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -70,12 +63,20 @@
                             </b:FormGroup>
                         </b:Column>
 
-                        <b:Column size="SM_6">
+                        <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
-                                <b:FormLabel for="platformIdType" text="Platform ID Type"></b:FormLabel>
-                                <b:Modal title="Please specify which type of Platform ID was used: ICES, IMO or WMO." closable="true" b:id="platformIdTypePopover"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#platformIdTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <mde:ButtonDropDown ui:field="platformIdType"></mde:ButtonDropDown>
+                                <b:FormLabel for="country" text="Country"></b:FormLabel>
+                                <b:Modal title="15.5 Country of the platform" closable="true" b:id="modalCountry"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCountry" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:SuggestBox ui:field="country" allowBlank="true" placeholder="Country" b:id="country"></b:SuggestBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_6 MD_3">
+                            <b:FormGroup>
+                                <b:FormLabel for="owner" text="Owner"></b:FormLabel>
+                                <b:Modal title="15.4 Owner of the platform" closable="true" b:id="modalOwner"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalOwner" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="owner" allowBlank="true" placeholder="Owner" b:id="owner"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
 
