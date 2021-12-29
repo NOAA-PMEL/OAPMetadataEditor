@@ -213,6 +213,11 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         return false;
     }
     public void show(Citation citation) {
+        if (citation == null) {
+            reset();
+            return;
+        }
+
         setDbItem(citation);
         if ( citation.getTitle() != null ) {
             title.setText(citation.getTitle());
@@ -290,5 +295,6 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     }
     public void reset() {
         form.reset();
+        cruiseIdType.reset();
     }
 }

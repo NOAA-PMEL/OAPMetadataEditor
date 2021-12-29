@@ -973,7 +973,8 @@ public class OAPMetadataEditor implements EntryPoint {
         // Reset all forms
         if (submitterPanel != null) submitterPanel.reset();
         if (investigatorPanel != null) investigatorPanel.reset();
-        if (citationPanel != null) citationPanel.reset(clearIds);
+//        if (citationPanel != null) citationPanel.reset(clearIds);
+        if (citationPanel != null) citationPanel.reset();
         if (timeAndLocationPanel != null) timeAndLocationPanel.reset();
         if (fundingPanel != null) fundingPanel.reset();
         if (platformPanel != null) platformPanel.reset();
