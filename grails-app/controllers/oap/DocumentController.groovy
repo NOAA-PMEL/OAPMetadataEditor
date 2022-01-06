@@ -399,7 +399,7 @@ class DocumentController {
             } else {
                 document = translateSpreadsheet(ins) // TODO: pull this from xmlService
                 if ( document.isEmpty()) {
-                    throw new IllegalArgumentException("No metadata found in uploaded document.")
+                    throw new IllegalStateException("No metadata found in uploaded document.")
                 }
             }
 
@@ -427,7 +427,7 @@ class DocumentController {
             JSON.use("deep") {
                 render document as JSON
             }
-        } catch (IllegalArgumentException iax) {
+        } catch (IllegalStateException isx) {
             String msg = "NO_METADATA_FOUND"
             render msg
         } catch (Exception ex) {
