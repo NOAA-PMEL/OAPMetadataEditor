@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet version="2.0" xmlns:oa="http://ncei.noaa.gov/oads/v_a0_2_2" 
+<xsl:stylesheet version="2.0" xmlns:oa="http://ncei.noaa.gov/oads/v_a0_2_2"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
    >
@@ -848,7 +848,7 @@ td.desc {
 
           <!-- pCO2 autonomous -->
 
-          <xsl:for-each select="oa:variable[@xsi:type='co2d_variable_type']|oa:co2a">
+          <xsl:for-each select="oa:variable[@xsi:type='co2a_variable_type']|oa:co2a">
             <hr/>
 
             <table width="940"><tr>

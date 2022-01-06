@@ -534,7 +534,7 @@ class OadsXmlService {
 //    }
 
     def doXslTransformation(InputStream inXml, OutputStream outXfrm) {
-        def resource = this.class.getResource("/xsl/a0.2.2/ocads_a0.2.2.xsl")
+        def resource = this.class.getResource("/xsl/a0.2.2s/ocads_a0.2.2.xsl")
         String absFile = resource?.getFile()
         System.out.println("using XSL file " + absFile)
         absFile = URLDecoder.decode(absFile)
