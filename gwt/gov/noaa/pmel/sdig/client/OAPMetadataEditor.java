@@ -800,6 +800,13 @@ public class OAPMetadataEditor implements EntryPoint {
                 String msg = "submitComplete failed error : " + jsonString;
                 logToConsole(msg);
                 return;
+            } else if (noMetadata(jsonString)) {
+                Window.alert("No metadata was found in the uploaded file. \n" +
+                        "This could perhaps be because the file could not parsed.\n" +
+                        "Only OADS Metadata documents in Excel, CSV, or XML format can be uploaded.");
+                String msg = "submitComplete failed no metadata : " + jsonString;
+                logToConsole(msg);
+                return;
             }
 
             // prompt for merge while metadata panels have data.
@@ -1012,6 +1019,10 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private boolean wasError(String response) {
         return response != null && response.trim().startsWith("ERROR:");
+    }
+
+    private boolean noMetadata(String response) {
+        return response != null && response.trim().startsWith("NO_METADATA");
     }
 
     private void mergeJsonDocument(String jsonString) {

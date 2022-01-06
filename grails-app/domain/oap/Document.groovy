@@ -79,4 +79,26 @@ class Document {
     def addVariable(Pco2d v) {
         pco2d = v
     }
+
+    public boolean isEmpty() {
+        return (( dataSubmitter == null ) &&
+                ( citation == null || citation.isEmpty()) &&
+                ( timeAndLocation == null || timeAndLocation.isEmpty() ) &&
+                ( dic == null ) &&
+                ( pco2a == null ) &&
+                ( ta == null ) &&
+                ( ph == null ) &&
+                ( pco2d == null ) &&
+
+                ( platforms == null || platforms.isEmpty() ) &&
+                ( investigators == null || investigators.isEmpty()) &&
+                ( variables == null || variables.isEmpty()) &&
+                ( co2vars == null || co2vars.isEmpty()) &&
+                ( funding == null || funding.isEmpty()))
+    }
+
+    public static boolean emptyOrNull(String s) {
+        return ( s == null ||
+                 s.trim().isEmpty());
+    }
 }

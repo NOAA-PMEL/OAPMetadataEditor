@@ -398,6 +398,9 @@ class DocumentController {
                 document = createDocumentFromXml(ins)
             } else {
                 document = translateSpreadsheet(ins) // TODO: pull this from xmlService
+                if ( document.isEmpty()) {
+                    throw new IllegalArgumentException("No metadata found in uploaded document.")
+                }
             }
 
             if ( document ) {
@@ -424,6 +427,9 @@ class DocumentController {
             JSON.use("deep") {
                 render document as JSON
             }
+        } catch (IllegalArgumentException iax) {
+            String msg = "NO_METADATA_FOUND"
+            render msg
         } catch (Exception ex) {
             ex.printStackTrace()
             String msg = "ERROR: There was an error processing your uploaded file: "+ ex.getMessage()
