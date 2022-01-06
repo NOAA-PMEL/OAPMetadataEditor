@@ -366,7 +366,7 @@ class XmlService {
                        ( fullname != null &&
                            ( fullname.equals("pco2 (fco2) autonomous") ||
                              fullname.equals("pco2 (or fco2) autonomous"))) ||
-                         varType.contains("AquGasConc")) {
+                         varType.contains("GasConc")) { // "AquGasConc")) {
                 if ( isSocat ) {
                     Co2 p = fillVariableDomain(variableE, new Co2())
                     mdDoc.addToCo2vars(p)

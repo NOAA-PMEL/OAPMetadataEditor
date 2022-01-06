@@ -333,6 +333,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        collectionMethodForm.setVisible(false); // XXX hide this for now
+        analyzingInformationForm.setVisible(false); // XXX ditto
+
         List<String> detailNames = new ArrayList<String>();
         List<String> detailValues = new ArrayList<String>();
         detailNames.add("in-situ observation");

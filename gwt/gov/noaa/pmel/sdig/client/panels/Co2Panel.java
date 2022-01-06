@@ -217,7 +217,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     Form form;
 
-    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    ButtonCell addButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
     ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     interface Co2aPanelUiBinder extends UiBinder<HTMLPanel, Co2Panel> {
@@ -300,7 +300,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //            }
 //        };
 //        variablesTable.addColumn(nameColumn, "Variable Full Name");
-        addColumn(new EditTextCell(), "Units", new GetValue<String>() {
+        Column<Variable, String> unitsColumn = addColumn(new EditTextCell(), "Units", new GetValue<String>() {
             @Override
             public String getValue(Variable var) {
 //                OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
@@ -311,6 +311,19 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             public void update(int index, Variable var, String value) {
                 OAPMetadataEditor.logToConsole("UPDATE units for " + var.getAbbreviation() + " as " + value);
                 var.setUnits(value);
+            }
+        });
+        Column<Variable, String> fullNameColumn = addColumn(new EditTextCell(), "Description", new GetValue<String>() {
+            @Override
+            public String getValue(Variable var) {
+//                OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
+                return var.getFullVariableName();
+            }
+        }, new FieldUpdater<Variable, String>() {
+            @Override
+            public void update(int index, Variable var, String value) {
+                OAPMetadataEditor.logToConsole("UPDATE var name for " + var.getAbbreviation() + " as " + value);
+                var.setFullVariableName(value);
             }
         });
         Column<Variable, String> deleteColumn = new com.google.gwt.user.cellview.client.Column<Variable, String>(deleteButton) {
@@ -335,7 +348,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                 }
             }
         });
-        Header<String> addVariableHeader = new Header<String>(editButton) {
+        Header<String> addVariableHeader = new Header<String>(addButton) {
             @Override
             public String getValue() {
                 return "Add";
@@ -351,6 +364,8 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         variablesTable.addColumn(deleteColumn, addVariableHeader);
 
         variablesTable.setColumnWidth(abbrevColumn,20., Style.Unit.PCT);
+        variablesTable.setColumnWidth(unitsColumn,10., Style.Unit.PCT);
+        variablesTable.setColumnWidth(fullNameColumn,60., Style.Unit.PCT);
 
         variableData.addDataDisplay(variablesTable);
 
