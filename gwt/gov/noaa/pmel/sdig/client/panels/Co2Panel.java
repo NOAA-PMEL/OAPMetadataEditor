@@ -20,6 +20,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.widgets.SizedEditTextCell;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
@@ -271,16 +272,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             gasFlowRateLabel.setText("Equilibrator headspace gas flow rate (L min-1)");
         }
 
-//        variablesTable.setHeaderBuilder(new Co2VarHeaderBuilder(variablesTable, false));
-
-//        TextColumn<Variable> abbrevColumn = new TextColumn<Variable>() {
-//            @Override
-//            public String getValue(Variable object) {
-//                return object.getAbbreviation();
-//            }
-//        };
-//        variablesTable.addColumn(abbrevColumn, "Variable Abbreviation");
-        Column<Variable, String> abbrevColumn = addColumn(new EditTextCell(), "Abbreviation", new GetValue<String>() {
+        Column<Variable, String> abbrevColumn = addColumn(new SizedEditTextCell(25), "Abbreviation", new GetValue<String>() {
             @Override
             public String getValue(Variable var) {
                 return var.getAbbreviation();
@@ -293,14 +285,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             }
         });
 
-//        TextColumn<Variable> nameColumn = new TextColumn<Variable>() {
-//            @Override
-//            public String getValue(Variable object) {
-//                return object.getFullVariableName();
-//            }
-//        };
-//        variablesTable.addColumn(nameColumn, "Variable Full Name");
-        Column<Variable, String> unitsColumn = addColumn(new EditTextCell(), "Units", new GetValue<String>() {
+        Column<Variable, String> unitsColumn = addColumn(new SizedEditTextCell(10), "Units", new GetValue<String>() {
             @Override
             public String getValue(Variable var) {
 //                OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
@@ -313,10 +298,10 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                 var.setUnits(value);
             }
         });
-        Column<Variable, String> fullNameColumn = addColumn(new EditTextCell(), "Description", new GetValue<String>() {
+        Column<Variable, String> fullNameColumn = addColumn(new SizedEditTextCell(72), "Full Name", new GetValue<String>() {
             @Override
             public String getValue(Variable var) {
-//                OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
+//                OAPMetadataEditor.logToConsole("var name for " + var.getAbbreviation() + ":" + var.getFullVariableName());
                 return var.getFullVariableName();
             }
         }, new FieldUpdater<Variable, String>() {
