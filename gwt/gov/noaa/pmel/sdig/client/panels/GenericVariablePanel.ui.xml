@@ -206,7 +206,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInformationForm">
                                 <b:FormLabel for="analyzingInformation" text="Analyzing information with citation"></b:FormLabel>
-                                <b:Modal  closable="true" ui:field="analyzingInformationModal" b:id="modalAnalyzingInformation" title="27.7 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc."/>
+                                <b:Modal  closable="true" b:id="modalAnalyzingInformation" title="27.7 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="9" ui:field="analyzingInformation" allowBlank="true" placeholder="Analyzing information with citation" b:id="detailedInformation"></b:TextArea>
                             </b:FormGroup>
@@ -218,7 +218,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="qcSchemeNameForm">
                                 <b:FormLabel for="qcSchemeName" text="Quality Control"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="qcSchemeNameModal" b:id="modalqcSchemeName" title="27.8 Indicate if quality control procedures were applied."/>
+                                <b:Modal closable="true" b:id="modalQcSchemeName" title="27.8 Indicate if quality control procedures were applied."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcSchemeName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="1" ui:field="qcSchemeName" allowBlank="true" placeholder="Quality Control" b:id="qcSchemeName"></b:TextArea>
                             </b:FormGroup>
@@ -230,7 +230,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="qcVariableNameForm">
                                 <b:FormLabel for="qcVariableName" text="Abbreviation of data quality flag scheme"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="qcVariableNameModal" b:id="modalQcVariableName" title="27.9 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc."/>
+                                <b:Modal closable="true" b:id="modalQcVariableName" title="27.9 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qcVariableName" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="qcVariableName"></b:TextBox>
                             </b:FormGroup>
