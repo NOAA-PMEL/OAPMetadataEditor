@@ -22,7 +22,7 @@
                         <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel for="grantNumber" text="Grant Number"></b:FormLabel>
-                                <b:Modal title="13.3 The ID of your funded project" closable="true" b:id="modalGrantNumber"/>
+                                <b:Modal closable="true" b:id="modalGrantNumber" title="13.3 The ID of your funded project."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGrantNumber" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:InputGroup>
                                     <b:SuggestBox ui:field="grantNumber" allowBlank="true" placeholder="Grant Number" b:id="grantNumber"></b:SuggestBox>
@@ -35,7 +35,7 @@
                         <b:Column size="SM_8">
                             <b:FormGroup>
                                 <b:FormLabel for="agencyName" text="Agency Name"></b:FormLabel>
-                                <b:Modal title="13.1 Funding agency of the data collection. Examples include, National Science Foundation, NOAA's Ocean Acidificaiton Program, etc." closable="true" b:id="modalAgencyName"/>
+                                <b:Modal closable="true" b:id="modalAgencyName" title="13.1 Funding agency of the data collection. Examples include, National Science Foundation, NOAA's Ocean Acidificaiton Program, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAgencyName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="agencyName" allowBlank="true" placeholder="Agency Name" b:id="agencyName"></b:TextBox>
                             </b:FormGroup>
@@ -45,7 +45,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="title" text="Project Title"></b:FormLabel>
-                                <b:Modal title="13.2 The title of your funded project" closable="true" b:id="modalProjectTitle"/>
+                                <b:Modal closable="true" b:id="modalProjectTitle" title="13.2 The title of your funded project"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalProjectTitle" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="title" allowBlank="true" placeholder="Project Title" b:id="title"></b:TextBox>
                             </b:FormGroup>

@@ -33,7 +33,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
                                 <b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
-                                <b:Modal title="27.1 Column header name of the variable in the data files, e.g., T, DO, etc." closable="true" b:id="modalAbbreviation"/>
+                                <b:Modal title="27.1 Column header name of the variable in the data files, e.g., DO, NIT, DIP etc." closable="true" b:id="modalAbbreviation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="abbreviation" allowBlank="false" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
                             </b:FormGroup>
@@ -56,7 +56,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="observationTypeForm">
                                 <b:FormLabel for="observationType" text="Observation Type"></b:FormLabel>
-                                <b:Modal title="27.4 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc" closable="true" b:id="modalObservationType"/>
+                                <b:Modal title="27.3 How the variable was observed, e.g., surface underway, profile, time series." closable="true" b:id="modalObservationType"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalObservationType" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:InputGroup>
                                     <b:SuggestBox ui:field="observationType" allowBlank="true" placeholder="Observation Type" b:id="observationType"></b:SuggestBox>
@@ -82,7 +82,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="collectionMethodForm">
                                 <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
+                                <b:Modal title="27.5 Method that was used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method." closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="Collection method" b:id="collectionMethod"></b:TextBox>
                             </b:FormGroup>
@@ -92,9 +92,9 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="samplingInstrumentForm">
+                            <b:FormGroup ui:field="samplingInstrumentForm"> <!-- OCADS_v7 -->
                                 <b:FormLabel for="samplingInstrument" text="Sampling Instrument"></b:FormLabel>
-                                <b:Modal title="Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument." closable="true" b:id="modalSamplingInstrument"/>
+                                <b:Modal title="27.10 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument." closable="true" b:id="modalSamplingInstrument"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSamplingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:InputGroup>
                                     <b:SuggestBox ui:field="samplingInstrument" allowBlank="true" placeholder="Sampling Instrument" b:id="samplingInstrument"></b:SuggestBox>
@@ -111,7 +111,19 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInstrumentForm">
                                 <b:FormLabel for="analyzingInstrument" text="Analyzing Instrument"></b:FormLabel>
-                                <b:Modal title="27.11 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here." closable="true" b:id="modalAnalyzingInstrument"/>
+                                <b:Modal closable="true" b:id="modalAnalyzingInstrument" title="27.6 Analyzing Instrument.">
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            <p>Instrument that was used to analyze the water samples collected with the
+                                            'collection method' above, or the sensors that are mounted on the 'platform'
+                                            to measure the water body continuously. </p><p>For example, a coulometer, winkler
+                                            titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI
+                                            Multiparameter Meter, etc is an analyzing instrument.</p><p>We encourage you to
+                                            document as many details (such as the make, model, resolution, precisions,
+                                            etc) of the instrument as you can here.</p>
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInstrument" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:InputGroup>
                                     <b:SuggestBox ui:field="analyzingInstrument" allowBlank="true" placeholder="Analyzing Instrument" b:id="analyzingInstrument"></b:SuggestBox>
@@ -146,7 +158,7 @@
                     <b:Row>
                         <b:Column size="SM_12 MD_4">
                             <!--Keep -->
-                            <b:FormGroup ui:field="measuredForm">
+                            <b:FormGroup ui:field="measuredForm"> <!-- OCADS_v7 -->
                                 <b:FormLabel for="measured" text="Measured or Calculated"></b:FormLabel>
                                 <b:Modal title="27.8 Whether the variable is measured in-situ, or calculated from other variables." closable="true" b:id="modalMeasured"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalMeasured" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -156,7 +168,7 @@
 
                         <b:Column size="SM_12 MD_8">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="calculationMethodForm">
+                            <b:FormGroup ui:field="calculationMethodForm"> <!-- OCADS_v7 -->
                                 <b:FormLabel for="calculationMethod" text="Calculation Method and Parameters"></b:FormLabel>
                                 <b:Modal title="27.9 Variables can be calculated using different sets of constants or different software." closable="true" b:id="modalCalculationMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCalculationMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -170,7 +182,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="referenceMethodForm">
                                 <b:FormLabel for="referenceMethod" text="Method Reference (citation)"></b:FormLabel>
-                                <b:Modal title="27.17 Citation for the method." closable="true" b:id="modalReferenceMethod"/>
+                                <b:Modal closable="true" b:id="modalReferenceMethod" title="27.13 Citation for the method."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferenceMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="3" ui:field="referenceMethod" allowBlank="true" placeholder="Method reference (citation)" b:id="referenceMethod"></b:TextArea>
                             </b:FormGroup>
@@ -180,7 +192,7 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="detailedInformationForm">
+                            <b:FormGroup ui:field="detailedInformationForm"> <!-- OCADS_v7 -->
                                 <b:FormLabel for="detailedInformation" text="Detailed Sampling and Analyzing Information"></b:FormLabel>
                                 <b:Modal title="27.13 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc." closable="true" b:id="modalDetailedInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDetailedInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -194,7 +206,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInformationForm">
                                 <b:FormLabel for="analyzingInformation" text="Analyzing information with citation"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="analyzingInformationModal" b:id="modalAnalyzingInformation"/>
+                                <b:Modal  closable="true" ui:field="analyzingInformationModal" b:id="modalAnalyzingInformation" title="27.7 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="9" ui:field="analyzingInformation" allowBlank="true" placeholder="Analyzing information with citation" b:id="detailedInformation"></b:TextArea>
                             </b:FormGroup>
@@ -206,7 +218,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="qcSchemeNameForm">
                                 <b:FormLabel for="qcSchemeName" text="Quality Control"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="qcSchemeNameModal" b:id="modalqcSchemeName"/>
+                                <b:Modal closable="true" ui:field="qcSchemeNameModal" b:id="modalqcSchemeName" title="27.8 Indicate if quality control procedures were applied."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcSchemeName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="1" ui:field="qcSchemeName" allowBlank="true" placeholder="Quality Control" b:id="qcSchemeName"></b:TextArea>
                             </b:FormGroup>
@@ -218,7 +230,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="qcVariableNameForm">
                                 <b:FormLabel for="qcVariableName" text="Abbreviation of data quality flag scheme"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="qcVariableNameModal" b:id="modalQcVariableName"/>
+                                <b:Modal closable="true" ui:field="qcVariableNameModal" b:id="modalQcVariableName" title="27.9 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qcVariableName" allowBlank="true" placeholder="Abbreviation of data quality flag scheme" b:id="qcVariableName"></b:TextBox>
                             </b:FormGroup>
@@ -233,7 +245,14 @@
 <!--                            </b:FormGroup>-->
                             <b:FormGroup ui:field="qcAppliedForm">
                                 <b:FormLabel for="qcApplied" text="Data quality scheme (name of scheme)"></b:FormLabel>
-                                <b:Modal title="27.16 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended." closable="true" b:id="modalQcApplied"/>
+                                <b:Modal closable="true" b:id="modalQcApplied" title="27.10 Describe which data quality flag scheme was applied.">
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            <p>For more details on the quality flag code definitions please see: </p>
+                                            <a href="https://odv.awi.de/fileadmin/user_upload/odv/misc/ODV4_QualityFlagSets.pdf" target="_blank">ODV4_QualityFlagSets.pdf</a>
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcApplied" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qcApplied" allowBlank="true" placeholder="Data quality scheme" b:id="qcApplied"></b:TextBox>
                             </b:FormGroup>
@@ -242,7 +261,7 @@
                     <b:Row>
                         <b:Column size="SM_12 LG_6">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="researcherNameForm">
+                            <b:FormGroup ui:field="researcherNameForm"> <!-- OCADS_v7 -->
                                 <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
                                 <b:Modal title="27.21.1 The name of the PI, whose research team measured or derived this parameter." closable="true" b:id="modalResearcherName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -251,7 +270,7 @@
                         </b:Column>
                         <b:Column size="SM_12 LG_6">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="researcherInstitutionForm">
+                            <b:FormGroup ui:field="researcherInstitutionForm"> <!-- OCADS_v7 -->
                                 <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
                                 <b:Modal title="27.21.2 The institution of the PI, whose research team measured or derived this parameter." closable="true" b:id="modalResearcherInstitution"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherInstitution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -265,7 +284,7 @@
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
                                 <b:FormLabel for="uncertainty" text="Uncertainty"></b:FormLabel>
-                                <b:Modal title="27.15 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable." closable="true" b:id="modalUncertainty"/>
+                                <b:Modal title="27.11 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable." closable="true" b:id="modalUncertainty"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="2" ui:field="uncertainty" allowBlank="true" placeholder="Uncertainty" b:id="uncertainty"></b:TextArea>
                             </b:FormGroup>
@@ -274,7 +293,7 @@
                             <b:FormGroup ui:field="fieldReplicateForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="fieldReplicate" text="Field Replicate Information"></b:FormLabel>
-                                <b:Modal title="27.14 Repetition of sample collection and measurement, e.g., triplicate samples." closable="true" b:id="modalFieldReplicate"/>
+                                <b:Modal title="27.12 Repetition of sample collection and measurement, e.g., triplicate samples." closable="true" b:id="modalFieldReplicate"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFieldReplicate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="2" ui:field="fieldReplicate" allowBlank="true" placeholder="Field replicate information" b:id="fieldReplicate"></b:TextArea>
                             </b:FormGroup>

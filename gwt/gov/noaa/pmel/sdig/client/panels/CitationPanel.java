@@ -77,10 +77,6 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     @UiField
     Modal referencesPopover;
 
-//    // assume it is true for now
-//    boolean isSocat = true;
-
-
     String type = Constants.SECTION_CITATION;
 
     interface CitationUiBinder extends UiBinder<HTMLPanel, CitationPanel> {
@@ -90,8 +86,6 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 
     public CitationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
-
-//        isSocat = OAPMetadataEditor.getIsSocatParam();
 
         List<String> idNames = new ArrayList<String>();
         List<String> idValues = new ArrayList<String>();

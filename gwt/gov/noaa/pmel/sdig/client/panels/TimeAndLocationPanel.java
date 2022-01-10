@@ -60,36 +60,40 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     TextBox siteSpecificLon;
     @UiField
     TextBox siteSpecificLat;
+//    @UiField
+//    Modal siteSpecificLonPopover;
+//    @UiField
+//    Modal siteSpecificLatPopover;
 
     // modified for 14.3.1
-    @UiField
-    Modal startDatePopover;
-    @UiField
-    FormLabel startDateLabel;
-    @UiField
-    Modal endDatePopover;
-    @UiField
-    FormLabel endDateLabel;
-
-    @UiField
-    FormLabel westLonLabel;
-    @UiField
-    Modal westLonPopover;
-
-    @UiField
-    FormLabel eastLonLabel;
-    @UiField
-    Modal eastLonPopover;
-
-    @UiField
-    FormLabel northLatLabel;
-    @UiField
-    Modal northLatPopover;
-
-    @UiField
-    FormLabel southLatLabel;
-    @UiField
-    Modal southLatPopover;
+//    @UiField
+//    Modal startDatePopover;
+//    @UiField
+//    FormLabel startDateLabel;
+//    @UiField
+//    Modal endDatePopover;
+//    @UiField
+//    FormLabel endDateLabel;
+//
+//    @UiField
+//    FormLabel westLonLabel;
+//    @UiField
+//    Modal westLonPopover;
+//
+//    @UiField
+//    FormLabel eastLonLabel;
+//    @UiField
+//    Modal eastLonPopover;
+//
+//    @UiField
+//    FormLabel northLatLabel;
+//    @UiField
+//    Modal northLatPopover;
+//
+//    @UiField
+//    FormLabel southLatLabel;
+//    @UiField
+//    Modal southLatPopover;
 
     // assume it is true for now
 //    boolean isSocat = false;
@@ -112,25 +116,25 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
         if (OAPMetadataEditor.getIsSocatParam()) {
             organismForm.setVisible(false);
-            startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
-            startDateLabel.setText("First day of measurement included in data file");
-            startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
-
-            endDatePopover.setTitle("11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
-            endDateLabel.setText("Last day of measurement included in data file");
-            endDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
-
-            westLonPopover.setTitle("12.3 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).");
-            westLonLabel.setText("Transect measurement longitude westernmost");
-
-            eastLonPopover.setTitle("12.4 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)");
-            eastLonLabel.setText("Transect measurement longitude easternmost");
-
-            northLatPopover.setTitle("12.5 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
-            northLatLabel.setText("Transect measurement latitude northernmost");
-
-            southLatPopover.setTitle("12.6 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
-            southLatLabel.setText("Transect measurement latitude southernmost");
+//            startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+//            startDateLabel.setText("First day of measurement included in data file");
+//            startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+//
+//            endDatePopover.setTitle("11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+//            endDateLabel.setText("Last day of measurement included in data file");
+//            endDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+//
+//            westLonPopover.setTitle("12.3 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).");
+//            westLonLabel.setText("Transect measurement longitude westernmost");
+//
+//            eastLonPopover.setTitle("12.4 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)");
+//            eastLonLabel.setText("Transect measurement longitude easternmost");
+//
+//            northLatPopover.setTitle("12.5 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+//            northLatLabel.setText("Transect measurement latitude northernmost");
+//
+//            southLatPopover.setTitle("12.6 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+//            southLatLabel.setText("Transect measurement latitude southernmost");
         }
 
 
@@ -166,25 +170,25 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     public void show(TimeAndLocation timeAndLocation) {
         if (OAPMetadataEditor.getIsSocatParam()) {
-            startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
-            startDateLabel.setText("First day of measurement included in data file");
-            startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
-
-            endDatePopover.setTitle("11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
-            endDateLabel.setText("Last day of measurement included in data file");
-            endDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
-
-            westLonPopover.setTitle("12.3 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).");
-            westLonLabel.setText("Transect measurement longitude westernmost");
-
-            eastLonPopover.setTitle("12.4 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)");
-            eastLonLabel.setText("Transect measurement longitude easternmost");
-
-            northLatPopover.setTitle("12.5 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
-            northLatLabel.setText("Transect measurement latitude northernmost");
-
-            southLatPopover.setTitle("12.6 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
-            southLatLabel.setText("Transect measurement latitude southernmost");
+//            startDatePopover.setTitle("11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+//            startDateLabel.setText("First day of measurement included in data file");
+//            startDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+//
+//            endDatePopover.setTitle("11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+//            endDateLabel.setText("Last day of measurement included in data file");
+//            endDate.getElement().setAttribute("placeHolder", "YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS");
+//
+//            westLonPopover.setTitle("12.3 Westernmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude).");
+//            westLonLabel.setText("Transect measurement longitude westernmost");
+//
+//            eastLonPopover.setTitle("12.4 Easternmost longitude of the sampling (decimal degrees, negative for Western Hemisphere longitude)");
+//            eastLonLabel.setText("Transect measurement longitude easternmost");
+//
+//            northLatPopover.setTitle("12.5 Northernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+//            northLatLabel.setText("Transect measurement latitude northernmost");
+//
+//            southLatPopover.setTitle("12.6 Southernmost latitude of the sampling (decimal degrees, negative for Southern Hemisphere latitude)");
+//            southLatLabel.setText("Transect measurement latitude southernmost");
         }
         setDbItem(timeAndLocation);
         // TODO use joda and store an ISO string on both get and show

@@ -12,18 +12,18 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="title" text="Title *"></b:FormLabel>
-                                <b:Modal title="5 Provide a descriptive title for the data set." closable="true" b:id="modalTitle">
+                                <b:FormLabel color="#B22222" for="title" text="Name of sampling site or title of related research project *"></b:FormLabel><!-- Title -->
+                                <b:Modal title="8 Provide the name of the sampling site/related research project, e.g. BATS, CARIACO." closable="true" b:id="modalTitle">
                                     <b:ModalBody>
                                         <g:HTML>
-                                             Please consider to create a title in the following form:<br/><br/>
-                                             [Parameters, especially OA related, e.g., Dissolved inorganic carbon,
-                                             total alkalinity, pH, etc.] and other variables collected from
-                                             [observation types, e.g., profile, time-series, laboratory experiment,
-                                             etc.] observations using [instruments] and other instruments from
-                                             [research vessels, if available, e.g., R/V Wecoma] in the [region]
-                                             during the [research projects, e.g., WCOA2007] project from [start
-                                             date, e.g., 2011-08-12] to [end date, e.g., 2011-08-30].;
+                                             <p>Please consider to create a title in the following form:</p>
+                                            <blockquote>[<em>Parameters, especially OA related, e.g., Dissolved inorganic carbon,
+                                             total alkalinity, pH, etc.</em>] and other variables collected from
+                                             [<em>observation types, e.g., profile, time-series, laboratory experiment,
+                                             etc.</em>] observations using [<em>instruments</em>] and other instruments from
+                                            [<em>research vessels, if available, e.g., R/V Wecoma</em>] in the [<em>region</em>]
+                                             during the [<em>research projects, e.g., WCOA2007</em>] project from [<em>start
+                                             date, e.g., 2011-08-12</em>] to [<em>end date, e.g., 2011-08-30</em>].</blockquote>
                                         </g:HTML>
                                     </b:ModalBody>
                                 </b:Modal>
@@ -36,11 +36,11 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="datasetAbstract" text="Short Description Including Purpose of Observation *"></b:FormLabel>
-                                <b:Modal title="6 A narrative summary of the data set." closable="true" b:id="modalAbstract">
+                                <b:Modal closable="true" b:id="modalAbstract" title="9 A narrative summary of the data set, including a description of the purpose of the observations.">
                                     <b:ModalBody>
                                         <g:HTML>
-                                            Please consider an abstract that generally follows the following example:<br/><br/>
-                                            This archival package contains the discrete bottle (CTD profile) data
+                                            <p>Please consider an abstract that generally follows the following example:</p>
+                                            <blockquote>This archival package contains the discrete bottle (CTD profile) data
                                             of the first dedicated West Coast Ocean Acidification cruise
                                             (WCOA2011). The cruise took place August 12-30, 2011 aboard the R/V
                                             Wecoma. Ninety-five stations were occupied from northern Washington to
@@ -52,7 +52,7 @@
                                             some of the same transect lines were occupied as during the 2007 West
                                             Coast Carbon cruise, as well as many CalCOFI stations. This effort was
                                             conducted in support of the coastal monitoring and research objectives
-                                            of the NOAA Ocean Acidification Program (OAP).
+                                            of the NOAA Ocean Acidification Program (OAP).</blockquote>
                                         </g:HTML>
                                     </b:ModalBody>
                                 </b:Modal>
@@ -66,7 +66,17 @@
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="citationAuthorList" text="List of Authors for Citation *"></b:FormLabel>
                                 <!--    <b:FormLabel for="citationAuthorList" text="List of Authors for Citation"></b:FormLabel> -->
-                                <b:Modal title="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of LastName1, FirstName1, Middle1; LastName2, FirstName2, Middle2; … for this field." b:id="modalCitationAuthorList"/>
+                                <b:Modal closable="true"  b:id="modalCitationAuthorList" title="19 List of authors for this data set.">
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            <p>Please provide the list of authors in their correct order for the
+                                                creation of data citation for this data set. We recommend the format of</p>
+                                                <blockquote><em>LastName1, FirstName1, Middle1; LastName2, FirstName2,
+                                                Middle2;</em> …</blockquote> for this field.
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
+
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCitationAuthorList" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="citationAuthorList" visibleLines="3" allowBlank="false" placeholder="List of authors for citation (LastName, FirstName, MI; LastName, FirstName, MI; ...)" b:id="citationAuthorList"></b:TextArea>
                             </b:FormGroup>
@@ -76,7 +86,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="useLimitation" text="Use Limitation"></b:FormLabel>
-                                <b:Modal title="* Use restrictions as specified by the data submitter." closable="true" b:id="modalLimitation"/>
+                                <b:Modal closable="true" b:id="modalLimitation" title="* Use restrictions as specified by the data submitter." />
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLimitation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="useLimitation" visibleLines="6" allowBlank="true" placeholder="Use Limitations" b:id="useLimitation"></b:TextArea>
                             </b:FormGroup>
@@ -86,7 +96,7 @@
 <!--                        <b:Column size="SM_12">-->
 <!--                            <b:FormGroup>-->
 <!--                                <b:FormLabel for="purpose" ui:field="purposeLabel" text="Purpose"></b:FormLabel>-->
-<!--                                <b:Modal title="7 A summary of the intentions with which the data set was developed." closable="true" ui:field="purposePopover" b:id="purposePopover"/>-->
+<!--                                <b:Modal closable="true" ui:field="purposePopover" b:id="purposePopover" title="7 A summary of the intentions with which the data set was developed."/>-->
 <!--                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#purposePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>-->
 <!--                                <b:TextArea ui:field="purpose" visibleLines="6" allowBlank="true" placeholder="Purpose" b:id="purpose"></b:TextArea>-->
 <!--                            </b:FormGroup>-->
@@ -96,7 +106,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="researchProjects" ui:field="researchProjectsLabel" text="Research Projects"></b:FormLabel>
-                                <b:Modal title="14 Project refers to the collaborative research effort, which the data collection is part of . For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project." closable="true" ui:field="researchProjectsPopover" b:id="researchProjectsPopover"/>
+                                <b:Modal closable="true" ui:field="researchProjectsPopover" b:id="researchProjectsPopover" title="14 Project refers to the collaborative research effort, which the data collection is part of. For example, U.S. Joint Global Ocean Flux Study (U.S. JGOFS) is a project."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#researchProjectsPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="researchProjects" visibleLines="1" allowBlank="true" placeholder="Research Projects" b:id="researchProjects"></b:TextArea>
                             </b:FormGroup>
@@ -106,7 +116,21 @@
                         <b:Column size="SM_3">
                             <b:FormGroup>
                                 <b:FormLabel for="expocode" text="EXPOCODE"></b:FormLabel>
-                                <b:Modal title="16 Expedition code consists of the four digit ICES ship code, and the date of the first day of the cruise in the format of YYYYMMDD." closable="true" b:id="modalExpocode"/>
+                                <b:Modal closable="true" b:id="modalExpocode" title="15.1 The EXPOCODE">
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            EXPOCODE, or the &quot;expedition code&quot;, is a unique alphanumeric
+                                            identifier defined by the National Oceanographic Data Center (NODC).
+                                            The code defines a standard nomenclature for cruise labels of research
+                                            vessels and intends to avoid confusion in oceanographic data management.
+                                            Format: NODCYYYYMMDD<br /><em>NODC</em> is NOAA's National Oceanographic Data
+                                            Center's 4-character research vessel identifier, consisting of country and
+                                            ship code.<br />
+                                            <em>YYYYMMDD</em> is the GMT date when the cruise left port.<br />
+                                            <a href="https://www.ncei.noaa.gov/data/oceans/nodc/codelists/platformlist.txt" target="_blank">platformlist.txt</a>
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalExpocode" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="expocode" allowBlank="true" placeholder="EXPOCODE" b:id="expocode"></b:TextBox>
                             </b:FormGroup>
@@ -114,7 +138,7 @@
                         <b:Column size="SM_3">
                             <b:FormGroup>
                                 <b:FormLabel for="cruiseId" text="Cruise ID"></b:FormLabel>
-                                <b:Modal title="17 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g., A16N), and the sampling year (e.g., 2013)." closable="true" b:id="modalCruiseID"/>
+                                <b:Modal closable="true" b:id="modalCruiseID" title="15.2 Cruise ID is the particular ship cruise number (e.g., MT901), or other alias for the cruise. For example, the cruise ID (e.g., A16N_2013) could consist of a Section ID (e.g. A16N), and the sampling year (e.g. 2013). Cruise ID types can include ICES, IMO, WMO."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCruiseID" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="cruiseId" allowBlank="true" placeholder="Cruise ID" b:id="cruiseId"></b:TextBox>
                             </b:FormGroup>
@@ -122,15 +146,15 @@
                         <b:Column size="SM_3">
                             <b:FormGroup>
                                 <b:FormLabel for="cruiseIdType" text="Cruise ID Type"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="cruiseIdTypePopover" b:id="cruiseIdTypePopover"/>
+                                <b:Modal closable="true" ui:field="cruiseIdTypePopover" b:id="cruiseIdTypePopover" title="15.3 Please specify which type of Cruise ID was used: ICES, IMO or WMO."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#cruiseIdTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <mde:ButtonDropDown ui:field="cruiseIdType"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_3">
-                            <b:FormGroup>
+                            <b:FormGroup> <!-- OCADS_v7 -->
                                 <b:FormLabel for="section" text="Section"></b:FormLabel>
-                                <b:Modal title="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N." closable="true" b:id="modalSection"/>
+                                <b:Modal closable="true" b:id="modalSection" title="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSection" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="section" allowBlank="true" placeholder="Section" b:id="section"></b:TextBox>
                             </b:FormGroup>
@@ -140,7 +164,17 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="methods" ui:field="methodsLabel" text="Method(s) Applied"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="methodsPopover" b:id="methodsPopover" title="10 Scientific methods applied within the study." />
+                                <b:Modal closable="true" ui:field="methodsPopover" b:id="methodsPopover" title="10 Scientific methods applied within the study." >
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            Specify the methodologies applied to characterize the carbonate system,
+                                            including references/citations. Please describe if you made any changes to the
+                                            method as it is described in the literature, e.g. modifications of sampling
+                                            procedures, different bottles used for storage of samples, changes to the dye,
+                                            etc. Describe precisely how the method differed and what was done instead.
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#methodsPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="methodsApplied" visibleLines="3" allowBlank="true" placeholder="Method(s) Applied" b:id="methods"></b:TextArea>
                             </b:FormGroup>
@@ -150,7 +184,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="references" ui:field="referencesLabel" text="References"></b:FormLabel>
-                                <b:Modal closable="true" ui:field="referencesPopover" b:id="referencesPopover" title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set."/>
+                                <b:Modal closable="true" ui:field="referencesPopover" b:id="referencesPopover" title="17 References are bibliographic citations of publications or cruise reports etc., describing the data set."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#referencesPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="references" visibleLines="4" allowBlank="true" placeholder="References" b:id="references"></b:TextArea>
                             </b:FormGroup>
@@ -160,7 +194,7 @@
                         <b:Column size="SM_12">
                             <b:FormGroup>
                                 <b:FormLabel for="supplementalInformation" text="Supplemental Information"></b:FormLabel>
-                                <b:Modal title="21 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields." b:id="modalSupplementalInformation"/>
+                                <b:Modal closable="true" b:id="modalSupplementalInformation" title="18 Any additional information that is critical to the understanding of the data set, but does not fit into other existing fields." />
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSupplementalInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="4" ui:field="supplementalInformation" allowBlank="true" placeholder="Supplemental Information" b:id="supplementalInformation"></b:TextArea>
                             </b:FormGroup>
