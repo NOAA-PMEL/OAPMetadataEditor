@@ -2,14 +2,12 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -18,7 +16,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -26,24 +23,16 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
-
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
-import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionUpdater;
-
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.PlatformSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.Pagination;
-import org.gwtbootstrap3.client.ui.SuggestBox;
-import org.gwtbootstrap3.client.ui.TextArea;
-import org.gwtbootstrap3.client.ui.TextBox;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
@@ -53,8 +42,6 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
-import org.gwtbootstrap3.client.ui.FormLabel;
-import org.gwtbootstrap3.client.ui.Modal;
 
 import java.util.*;
 
@@ -78,7 +65,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     @UiField
     TextBox owner;
     @UiField
-    TextBox platformType;
+    ButtonDropDown platformType;
 
     @UiField
     CellTable platforms;
@@ -95,14 +82,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     ButtonDropDown platformIdType;
 
     // modified for 14.3.1
-    @UiField
-    Modal platformTypePopover;
-    @UiField
-    FormLabel platformTypeLabel;
+//    @UiField
+//    Modal platformTypePopover;
+//    @UiField
+//    FormLabel platformTypeLabel;
 
 //    TextHeader textHeader = new TextHeader("Platform Category");
-
-//    boolean isSocat = false;
 
 
     boolean showTable = true;
@@ -172,6 +157,25 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         idNames.add("WMO ");
         idValues.add("wmo");
         platformIdType.init("Select PlatformID Type ", idNames, idValues);
+
+        // platformType (Platform category)
+        List<String> catNames = new ArrayList<String>();
+        List<String> catValues = new ArrayList<String>();
+        idNames.add("Fixed Ocean Time Series ");
+        idValues.add("fixed ocean time series");
+        idNames.add("Mooring ");
+        idValues.add("mooring");
+        idNames.add("Coastal Monitoring Site ");
+        idValues.add("coastal monitoring site");
+        idNames.add("Repeat Hydrography (vessel) ");
+        idValues.add("repeat hydrography (vessel)");
+        idNames.add("Ship-based time series (vessel) ");
+        idValues.add("ship-based time series (vessel)");
+        idNames.add("Glider ");
+        idValues.add("glider");
+        idNames.add("Voluntary Observing Ship ");
+        idValues.add("voluntary observing ship");
+        platformType.init("Select Platform Category ", idNames, idValues);
 
         if (OAPMetadataEditor.getIsSocatParam()) {
 
@@ -310,7 +314,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         platform.setCountry(country.getText().trim());
         platform.setName(name.getText().trim());
         platform.setOwner(owner.getText().trim());
-        platform.setPlatformType(platformType.getText().trim());
+        platform.setPlatformType(platformType.getValue());
         platform.setPlatformIdType(platformIdType.getValue());
         platform.setPlatformId(platformId.getValue());
 
@@ -344,8 +348,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                 isDirty(country, original.getCountry() ) ||
                         isDirty(name, original.getName() ) ||
                         isDirty(owner, original.getOwner() ) ||
-                        isDirty(platformId, original.getPlatformId() ) ||
-                        isDirty(platformType, original.getPlatformType() );
+                        isDirty(platformId, original.getPlatformId() );
         OAPMetadataEditor.debugLog("PlatformPanel.isDirty: "+isDirty);
         return isDirty;
     }
@@ -367,9 +370,6 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         if (platformId.getText().trim() != null && !platformId.getText().isEmpty() ) {
             hasContent = true;
         }
-        if (platformType.getText().trim() != null && !platformType.getText().isEmpty() ) {
-            hasContent = true;
-        }
         if ( hasContent == true ) {
             save.setEnabled(true);
         }
@@ -384,7 +384,6 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         name.setEnabled(editable);
         owner.setEnabled(editable);
         platformId.setEnabled(editable);
-        platformType.setEnabled(editable);
     }
     public void show(Platform platform, boolean editable) {
         setAllEditable(editable);
@@ -398,12 +397,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
     }
 
     public void show(Platform platform) {
-        if (OAPMetadataEditor.getIsSocatParam()) {
-            platformTypePopover.setTitle("14.2 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
-            platformTypeLabel.setText("Platform category");
-            platformType.getElement().setAttribute("placeHolder", "Platform category");
-
-        }
+//        if (OAPMetadataEditor.getIsSocatParam()) {
+//            platformTypePopover.setTitle("14.2 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).");
+//            platformTypeLabel.setText("Platform category");
+//            platformType.getElement().setAttribute("placeHolder", "Platform category");
+//
+//        }
 
         if ( platform == null ) {
             reset();
@@ -423,7 +422,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         }
 
         if ( platform.getPlatformType() != null ) {
-            platformType.setText(platform.getPlatformType());
+            platformType.setSelected(platform.getPlatformType());
         }
 
         if ( platform.getPlatformIdType() != null ) {
@@ -575,6 +574,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         editIndex = -1;
         editing = false;
         platformIdType.reset();
+        platformType.reset();
         if ( editPlatform != null ) {
             show(editPlatform);
             editPlatform = null;
@@ -594,7 +594,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         setTableVisible(false); //add
     }
 
-    @UiHandler({"platformId","owner", "platformType"})
+    @UiHandler({"platformId","owner"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("getsource: "+event.getSource());
         save.setEnabled(true);
