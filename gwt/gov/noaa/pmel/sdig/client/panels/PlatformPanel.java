@@ -161,21 +161,21 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         // platformType (Platform category)
         List<String> catNames = new ArrayList<String>();
         List<String> catValues = new ArrayList<String>();
-        idNames.add("Fixed Ocean Time Series ");
-        idValues.add("fixed ocean time series");
-        idNames.add("Mooring ");
-        idValues.add("mooring");
-        idNames.add("Coastal Monitoring Site ");
-        idValues.add("coastal monitoring site");
-        idNames.add("Repeat Hydrography (vessel) ");
-        idValues.add("repeat hydrography (vessel)");
-        idNames.add("Ship-based time series (vessel) ");
-        idValues.add("ship-based time series (vessel)");
-        idNames.add("Glider ");
-        idValues.add("glider");
-        idNames.add("Voluntary Observing Ship ");
-        idValues.add("voluntary observing ship");
-        platformType.init("Select Platform Category ", idNames, idValues);
+        catNames.add("Fixed Ocean Time Series ");
+        catValues.add("fixed ocean time series");
+        catNames.add("Mooring ");
+        catValues.add("mooring");
+        catNames.add("Coastal Monitoring Site ");
+        catValues.add("coastal monitoring site");
+        catValues.add("Repeat Hydrography (vessel) ");
+        catValues.add("repeat hydrography (vessel)");
+        catNames.add("Ship-based time series (vessel) ");
+        catValues.add("ship-based time series (vessel)");
+        catNames.add("Glider ");
+        catValues.add("glider");
+        catNames.add("Voluntary Observing Ship ");
+        catValues.add("voluntary observing ship");
+        platformType.init("Select Platform Category ", catNames, catValues);
 
         if (OAPMetadataEditor.getIsSocatParam()) {
 
