@@ -15,6 +15,7 @@ import org.joda.time.format.ISODateTimeFormat
 import javax.servlet.http.HttpServletResponse
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
+import java.nio.charset.Charset
 import java.nio.file.Files
 import java.util.stream.Collectors
 
@@ -380,6 +381,12 @@ class DocumentController {
         def datasetId = params.id
 
         log.info("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + datasetId)
+        log.info("User-Agent:"+ request.getHeader("User-Agent"))
+
+        String ua = request.getHeader("User-Agent");
+        Charset charset = ua.toLowerCase().contains( "mac" ) ?
+                            Charset.defaultCharset() :
+                            Charset.forName("windows-1252")
 
         def f = request.getPart('xmlFile')
         if ( !f ) {
@@ -397,7 +404,7 @@ class DocumentController {
             if (name.toLowerCase().endsWith(".xml")) {
                 document = createDocumentFromXml(ins)
             } else {
-                document = translateSpreadsheet(ins) // TODO: pull this from xmlService
+                document = translateSpreadsheet(ins, charset) // TODO: pull this from xmlService
                 if ( document.isEmpty()) {
                     throw new IllegalStateException("No metadata found in uploaded document.")
                 }
@@ -437,11 +444,8 @@ class DocumentController {
         }
     }
 
-    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream()
-//        Excel2OAP.ConvertExcelToOADS(inputStream, baos)
-//        ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
-        OadsMetadataDocumentType doc = Excel2OAP.ConvertExcelToOADS_doc(inputStream)
+    def translateSpreadsheet(InputStream inputStream, Charset charset) {            // TODO: should move this elsewhere
+        OadsMetadataDocumentType doc = Excel2OAP.ConvertExcelToOADS_doc(inputStream, charset)
         return oadsXmlService.buildDocumentFromMetadata(doc)
     }
 
