@@ -9,6 +9,8 @@ import org.jdom2.output.XMLOutputter
 
 import gov.noaa.pmel.excel2oap.Excel2OAP
 
+import java.nio.charset.Charset
+
 @Transactional
 class XmlService {
 
@@ -360,9 +362,9 @@ class XmlService {
         return mdDoc
     }
 
-    def translateSpreadsheet(InputStream inputStream) {            // TODO: should move this elsewhere
+    def translateSpreadsheet(InputStream inputStream, Charset charset) {            // TODO: should move this elsewhere
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        Excel2OAP.ConvertExcelToOCADS_xml(inputStream, baos)
+        Excel2OAP.ConvertExcelToOCADS_xml(inputStream, baos, charset)
         ByteArrayInputStream convertedIS = new ByteArrayInputStream(baos.toByteArray())
         return createDocumentFromLegacyXML(convertedIS)
 
@@ -459,6 +461,9 @@ class XmlService {
                 domainVar.setPhStandards(standardPhValues.getTextTrim())
             }
             Element standardTemp = standard.getChild("temperatureStandardization")
+            if ( isEmpty(standardTemp)) {
+                standardTemp = standard.getChild("temperature")
+            }
             if ( ! isEmpty(standardTemp)) {
                 domainVar.setTemperatureStandarization(standardTemp.getTextTrim())
             }

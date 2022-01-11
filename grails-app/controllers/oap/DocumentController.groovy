@@ -13,6 +13,7 @@ import org.joda.time.format.ISODateTimeFormat
 import javax.servlet.http.HttpServletResponse
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
+import java.nio.charset.Charset
 import java.nio.file.Files
 import java.util.stream.Collectors
 
@@ -371,6 +372,8 @@ class DocumentController {
         def datasetId = params.id
 
         log.info("uploading: " + request.getRequestURL().toString() + " from " + request.getRemoteHost() + " as " + datasetId)
+        String ua = request.getHeader("User-Agent")
+        log.info("Agent: " + ua)
 
         def f = request.getPart('xmlFile')
         if ( !f ) {
@@ -388,7 +391,10 @@ class DocumentController {
             if (name.toLowerCase().endsWith(".xml")) {
                 document = createDocumentFromXml(ins)
             } else {
-                document = xmlService.translateSpreadsheet(ins) // TODO: pull this from xmlService
+                Charset charset = ua.toLowerCase().contains("mac") ?
+                                    Charset.defaultCharset() :
+                                    Charset.forName("windows-1258")
+                document = xmlService.translateSpreadsheet(ins, charset) // TODO: pull this from xmlService
             }
 
             if ( document ) {
