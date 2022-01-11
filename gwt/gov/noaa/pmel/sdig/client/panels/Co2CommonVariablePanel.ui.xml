@@ -249,27 +249,6 @@ Unnamed variables have "Full variable name in addition.
                     </b:Row>
 
                     <b:Row>
-                        <b:Column size="SM_12 LG_6">
-                            <!-- Keep -->
-                            <b:FormGroup ui:field="researcherNameForm">
-                                <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="researcherNameModal" b:id="modalResearcherName"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_12 LG_6">
-                            <!-- Keep -->
-                            <b:FormGroup ui:field="researcherInstitutionForm">
-                                <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="researcherInstitutionModal" b:id="modalResearcherInstitution"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherInstitution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="researcherInstitution" allowBlank="true" placeholder="Researcher Institution" b:id="researcherInstitution"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-
-                    <b:Row>
                         <b:Column size="SM_12 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="uncertaintyForm">
@@ -298,6 +277,27 @@ Unnamed variables have "Full variable name in addition.
                                 <b:Modal title="" closable="true" ui:field="sopChangesModal" b:id="modalSopChanges"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSopChanges" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea visibleLines="6" ui:field="sopChanges" allowBlank="true" placeholder="Changes to Method or SOP" b:id="sopChanges"></b:TextArea>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12 LG_6">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="researcherNameForm">
+                                <b:FormLabel for="researcherName" text="Researcher Name"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="researcherNameModal" b:id="modalResearcherName"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="researcherName" allowBlank="true" placeholder="Researcher Name" b:id="researcherName"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 LG_6">
+                            <!-- Keep -->
+                            <b:FormGroup ui:field="researcherInstitutionForm">
+                                <b:FormLabel for="researcherInstitution" text="Researcher Institution"></b:FormLabel>
+                                <b:Modal title="" closable="true" ui:field="researcherInstitutionModal" b:id="modalResearcherInstitution"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherInstitution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="researcherInstitution" allowBlank="true" placeholder="Researcher Institution" b:id="researcherInstitution"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
