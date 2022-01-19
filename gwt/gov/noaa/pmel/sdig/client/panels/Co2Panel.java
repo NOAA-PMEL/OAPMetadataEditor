@@ -360,7 +360,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         common.isBig5 = true;
     }
 
-    public void addCO2variables(List<Variable> variables) {
+    public void _addCO2variables(List<Variable> variables) {
         List<Variable> dataList = variableData.getList();
         dataList.clear();
         this.reset();
@@ -393,7 +393,50 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                         }
                     }
                     v.setUnits( units );
-                    v.setFullVariableName("wtf " + v.getAbbreviation());
+                    v.setFullVariableName(v.getAbbreviation());
+                    co2vars.add(v);
+                }
+            }
+            dataList.addAll(co2vars);
+        }
+        show(co2var);
+    }
+    public void addCO2variables(List<Variable> variables) {
+        List<Variable> dataList = variableData.getList();
+        dataList.clear();
+        this.reset();
+        if ( variables.isEmpty()) {
+            return;
+        }
+        Variable co2var = variables.get(0);
+        if ( variables.size() > 1 ) {
+            for (int i = 1; i < variables.size(); i++ ) {
+                dataList.add(variables.get(i));
+            }
+        } else {
+            String varList = co2var.getAbbreviation();
+            List<Variable>co2vars = new ArrayList<>();
+            OAPMetadataEditor.logToConsole("Co2Panel varList:"+varList);
+            if ( varList != null && ! varList.isEmpty()) {
+                co2var.setAbbreviation("");
+                String[] vars = split(varList, CO2_VARS_SEPARATOR);
+                for (String var : vars) {
+                    if (var.isEmpty()) {
+                        continue;
+                    }
+                    String[] parts = split(var, ':');
+                    Variable v = new Variable();
+                    v.setAbbreviation(parts[0].trim());
+                    String units = "";
+                    if (parts.length > 1) {
+                        if ( parts[1] != null ) {
+                            units = parts[1].trim();
+                        } else {
+                            OAPMetadataEditor.logToConsole("Null units for " + v.getAbbreviation());
+                        }
+                    }
+                    v.setUnits( units );
+                    v.setFullVariableName(v.getAbbreviation());
                     co2vars.add(v);
                 }
             }
@@ -467,59 +510,64 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //        co2.setFlowRate(flowRate.getText());
 //        co2.setVaporCorrection(vaporCorrection.getText());
     public List<Variable> getCO2variables() {
-        Variable displayed = common.getCommonVariable();
-        for (Variable co2 : variableData.getList()) {
+        List<Variable> co2vars = new ArrayList<>();
+        Variable co2common = common.getCommonVariable();
+//        for (Variable co2 : variableData.getList()) {
             // fill in from common panel
-            co2.setObservationType(displayed.getObservationType());
-            co2.setSamplingInstrument(displayed.getSamplingInstrument());
-            co2.setAnalyzingInstrument(displayed.getAnalyzingInstrument());
-            co2.setMeasured(displayed.getMeasured());
-            co2.setCalculationMethod(displayed.getCalculationMethod());
-            co2.setReferenceMethod(displayed.getReferenceMethod());
-            co2.setDetailedInformation(displayed.getDetailedInformation());
-            co2.setUncertainty(displayed.getUncertainty());
-            co2.setQcApplied(displayed.getQcApplied());
-            co2.setResearcherName(displayed.getResearcherName());
-            co2.setResearcherInstitution(displayed.getResearcherInstitution());
-            // socat missing
-            co2.setIntakeLocation(displayed.getIntakeLocation());
-            co2.setIntakeDepth(displayed.getIntakeDepth());
-            co2.setQcVariableName(displayed.getQcVariableName());
-            co2.setQcSchemeName(displayed.getQcSchemeName());
-            co2.setSopChanges(displayed.getSopChanges());
+        // common fields already filled in by C02CommonPanel
+//            co2.setObservationType(displayed.getObservationType());
+//            co2.setSamplingInstrument(displayed.getSamplingInstrument());
+//            co2.setAnalyzingInstrument(displayed.getAnalyzingInstrument());
+//            co2.setMeasured(displayed.getMeasured());
+//            co2.setCalculationMethod(displayed.getCalculationMethod());
+//            co2.setReferenceMethod(displayed.getReferenceMethod());
+//            co2.setDetailedInformation(displayed.getDetailedInformation());
+//            co2.setUncertainty(displayed.getUncertainty());
+//            co2.setQcApplied(displayed.getQcApplied());
+//            co2.setResearcherName(displayed.getResearcherName());
+//            co2.setResearcherInstitution(displayed.getResearcherInstitution());
+//            // socat missing
+//            co2.setIntakeLocation(displayed.getIntakeLocation());
+//            co2.setIntakeDepth(displayed.getIntakeDepth());
+//            co2.setQcVariableName(displayed.getQcVariableName());
+//            co2.setQcSchemeName(displayed.getQcSchemeName());
+//            co2.setSopChanges(displayed.getSopChanges());
             // fill in from fields
-            co2.setStandardizationTechnique(standardizationTechnique.getText());
-            co2.setFreqencyOfStandardization(freqencyOfStandardization.getText());
-            co2.setPco2Temperature(pco2Temperature.getText());
-            co2.setGasConcentration(gasConcentration.getText());
-            co2.setDryingMethod(dryingMethod.getText());
-            co2.setEquilibratorType(equilibratorType.getText());
-            co2.setEquilibratorVolume(equilibratorVolume.getText());
-            co2.setGasFlowRate(gasFlowRate.getText());
-            co2.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
-            co2.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-            co2.setStandardGasManufacture(standardGasManufacture.getText());
-            co2.setGasDetectorManufacture(gasDetectorManufacture.getText());
-            co2.setGasDetectorModel(gasDetectorModel.getText());
-            co2.setGasDectectorResolution(gasDectectorResolution.getText());
-            co2.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-            co2.setStandardGasUncertainties(standardGasUncertainties.getText());
-            co2.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
-            co2.setVented(vented.getText());
-            co2.setFlowRate(flowRate.getText());
-            co2.setVaporCorrection(vaporCorrection.getText());
+            co2common.setStandardizationTechnique(standardizationTechnique.getText());
+            co2common.setFreqencyOfStandardization(freqencyOfStandardization.getText());
+            co2common.setPco2Temperature(pco2Temperature.getText());
+            co2common.setGasConcentration(gasConcentration.getText());
+            co2common.setDryingMethod(dryingMethod.getText());
+            co2common.setEquilibratorType(equilibratorType.getText());
+            co2common.setEquilibratorVolume(equilibratorVolume.getText());
+            co2common.setGasFlowRate(gasFlowRate.getText());
+            co2common.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
+            co2common.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
+            co2common.setStandardGasManufacture(standardGasManufacture.getText());
+            co2common.setGasDetectorManufacture(gasDetectorManufacture.getText());
+            co2common.setGasDetectorModel(gasDetectorModel.getText());
+            co2common.setGasDectectorResolution(gasDectectorResolution.getText());
+            co2common.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
+            co2common.setStandardGasUncertainties(standardGasUncertainties.getText());
+            co2common.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
+            co2common.setVented(vented.getText());
+            co2common.setFlowRate(flowRate.getText());
+            co2common.setVaporCorrection(vaporCorrection.getText());
             // missing socat
-            co2.setTraceabilityOfStdGas(stdGasTraceability.getText());
-            co2.setPco2CalcMethod(pco2FromXco2Method.getText());
-            co2.setFco2CalcMethod(fco2FromPco2Method.getText());
-            co2.setTemperatureMeasurementCalibrationMethod(equilibratorTemperatureSensorCalibrationMethod.getText());
-            co2.setUncertaintyOfTemperature(equilibratorTemperatureMeasureUncertainty.getText());
-            co2.setPressureMeasurementCalibrationMethod(equilibratorPressureSensorCalibrationMethod.getText());
-            co2.setTotalPressureCalcMethod(totalMeasurementPressureDetermined.getText());
-            co2.setUncertaintyOfTotalPressure(totalMeasurementPressureUncertaintyCalculated.getText());
-        }
-        return variableData.getList();
+            co2common.setTraceabilityOfStdGas(stdGasTraceability.getText());
+            co2common.setPco2CalcMethod(pco2FromXco2Method.getText());
+            co2common.setFco2CalcMethod(fco2FromPco2Method.getText());
+            co2common.setTemperatureMeasurementCalibrationMethod(equilibratorTemperatureSensorCalibrationMethod.getText());
+            co2common.setUncertaintyOfTemperature(equilibratorTemperatureMeasureUncertainty.getText());
+            co2common.setPressureMeasurementCalibrationMethod(equilibratorPressureSensorCalibrationMethod.getText());
+            co2common.setTotalPressureCalcMethod(totalMeasurementPressureDetermined.getText());
+            co2common.setUncertaintyOfTotalPressure(totalMeasurementPressureUncertaintyCalculated.getText());
+//        }
+        co2vars.add(co2common);
+        co2vars.addAll(variableData.getList());
+        return co2vars;
     }
+
     public Variable getDisplayedVariable() {
         Variable co2 = common.getCommonVariable();
         co2.setStandardizationTechnique(standardizationTechnique.getText());

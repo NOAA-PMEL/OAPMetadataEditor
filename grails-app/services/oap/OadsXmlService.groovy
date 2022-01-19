@@ -264,8 +264,10 @@ class OadsXmlService {
 
     private GenericVariable fillVariableDomain(Co2Socat co2socat) {
         GenericVariable variable = fillVariableCo2a(co2socat, new Co2())
-        variable.totalPressureCalcMethod = co2socat.totalMeasurementPressure.method
-        variable.uncertaintyOfTotalPressure = co2socat.totalMeasurementPressure.uncertainty
+        if (co2socat.totalMeasurementPressure ) {
+            variable.totalPressureCalcMethod = co2socat.totalMeasurementPressure.method
+            variable.uncertaintyOfTotalPressure = co2socat.totalMeasurementPressure.uncertainty
+        }
         return variable
     }
 
@@ -299,10 +301,12 @@ class OadsXmlService {
             }
 
         }
-        List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
-        if ( stdGases != null && !stdGases.isEmpty()) {
-            StandardGasType stdGas = stdGases.get(0)
-            variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+        if ( co2aVar.standardization ) {
+            List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
+            if ( stdGases != null && !stdGases.isEmpty()) {
+                StandardGasType stdGas = stdGases.get(0)
+                variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+            }
         }
         variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
         variable.setFco2CalcMethod(co2aVar.calculationMethodForFCO2)
