@@ -6,13 +6,13 @@
     <g:HTMLPanel>
         <b:Form ui:field="form">
             <b:FieldSet>
-                <b:Heading ui:field="heading" size="H3" text="Enter the Information about this Citation."></b:Heading>
+                <b:Heading ui:field="heading" size="H3" text="Enter the Information About this Citation."></b:Heading>
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="title" text="Name of sampling site or title of related research project *"></b:FormLabel><!-- Title -->
+                                <b:FormLabel color="#B22222" for="title" text="Name of Sampling Site or Title of Related Research Project *"></b:FormLabel><!-- Title -->
                                 <b:Modal title="8 Provide the name of the sampling site/related research project, e.g. BATS, CARIACO." closable="true" b:id="modalTitle">
                                     <b:ModalBody>
                                         <g:HTML>
@@ -119,15 +119,16 @@
                                 <b:Modal closable="true" b:id="modalExpocode" title="15.1 The EXPOCODE">
                                     <b:ModalBody>
                                         <g:HTML>
-                                            EXPOCODE, or the &quot;expedition code&quot;, is a unique alphanumeric
+                                            <p>EXPOCODE, or the &quot;expedition code&quot;, is a unique alphanumeric
                                             identifier defined by the National Oceanographic Data Center (NODC).
                                             The code defines a standard nomenclature for cruise labels of research
-                                            vessels and intends to avoid confusion in oceanographic data management.
-                                            Format: NODCYYYYMMDD<br /><em>NODC</em> is NOAA's National Oceanographic Data
+                                            vessels and intends to avoid confusion in oceanographic data management.</p>
+                                            <p><b>Format</b>: NODCYYYYMMDD</p>
+                                            <em>NODC</em> is NOAA's National Oceanographic Data
                                             Center's 4-character research vessel identifier, consisting of country and
                                             ship code.<br />
                                             <em>YYYYMMDD</em> is the GMT date when the cruise left port.<br />
-                                            <a href="https://www.ncei.noaa.gov/data/oceans/nodc/codelists/platformlist.txt" target="_blank">platformlist.txt</a>
+                                            <a href="https://www.ncei.noaa.gov/data/oceans/nodc/codelists/platformlist.txt" target="_blank">https://www.ncei.noaa.gov/data/oceans/nodc/codelists/platformlist.txt</a>
                                         </g:HTML>
                                     </b:ModalBody>
                                 </b:Modal>

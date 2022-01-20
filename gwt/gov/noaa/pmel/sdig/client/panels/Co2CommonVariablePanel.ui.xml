@@ -74,10 +74,10 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_12 MD_6">
                             <!-- Keep -->
                             <b:FormGroup ui:field="collectionMethodForm">
-                                <b:FormLabel for="collectionMethod" text="Collection method (e.g. bottle sampling)"></b:FormLabel>
+                                <b:FormLabel for="collectionMethod" text="Collection Method (e.g. bottle sampling)"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="collectionMethodModal" b:id="modalCollectionMethod"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCollectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="CO2: Collection method" b:id="collectionMethod"></b:TextBox>
+                                <b:TextBox ui:field="collectionMethod" allowBlank="true" placeholder="Collection method" b:id="collectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -104,7 +104,7 @@ Unnamed variables have "Full variable name in addition.
                             <b:FormGroup ui:field="intakeLocationForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeLocation" text="Location of Seawater Intake"></b:FormLabel>
-                                <b:Modal title="25.9 Whereabout of the seawater intake" closable="true" b:id="modalIntakeLocation"/>
+                                <b:Modal title="" closable="true" ui:field="intakeLocationModal" b:id="modalIntakeLocation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeLocation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="intakeLocation" allowBlank="true" placeholder="Location of seawater intake" b:id="intakeLocation"></b:TextBox>
                             </b:FormGroup>
@@ -113,7 +113,7 @@ Unnamed variables have "Full variable name in addition.
                             <b:FormGroup ui:field="intakeDepthForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="intakeDepth" text="Depth of Seawater Intake"></b:FormLabel>
-                                <b:Modal title="25.10 Water depth of the seawater intake" closable="true" b:id="modalIntakeDepth"/>
+                                <b:Modal title="" closable="true" ui:field="intakeDepthModal" b:id="modalIntakeDepth"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalIntakeDepth" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="intakeDepth" allowBlank="true" placeholder="Depth of seawater intake" b:id="intakeDepth"></b:TextBox>
                             </b:FormGroup>
@@ -194,11 +194,11 @@ Unnamed variables have "Full variable name in addition.
                     <b:Row>
                         <b:Column size="SM_12">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="detailedInformationForm">
-                                <b:FormLabel for="detailedInformation" text="Detailed Sampling and Analyzing Information"></b:FormLabel>
+                            <b:FormGroup ui:field="detailedInformationForm"> <!-- Analyzing information with citation -->
+                                <b:FormLabel for="detailedInformation" text="Analyzing Information with Citation (SOP etc)"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="detailedInformationModal" b:id="modalDetailedInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalDetailedInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="9" ui:field="detailedInformation" allowBlank="true" placeholder="Detailed sampling and analyzing information" b:id="detailedInformation"></b:TextArea>
+                                <b:TextArea visibleLines="9" ui:field="detailedInformation" allowBlank="true" placeholder="Analyzing information with citation" b:id="detailedInformation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -207,41 +207,43 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_12">
                             <!-- Keep -->
                             <b:FormGroup ui:field="analyzingInformationForm">
-                                <b:FormLabel for="analyzingInformation" text="Analyzing information with citation"></b:FormLabel>
+                                <b:FormLabel for="analyzingInformation" text="Analyzing Information with Citation"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="analyzingInformationModal" b:id="modalAnalyzingInformation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAnalyzingInformation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea visibleLines="9" ui:field="analyzingInformation" allowBlank="true" placeholder="Analyzing information with citation" b:id="detailedInformation"></b:TextArea>
+                                <b:TextArea visibleLines="9" ui:field="analyzingInformation" allowBlank="true" placeholder="Analyzing information with citation" b:id="analyzingInformation"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
 
                     <b:Row>
-                        <b:Column size="SM_12">
+                        <b:Column size="SM_12 MD_4">
                             <!-- Keep -->
-                            <b:FormGroup ui:field="qcAppliedForm">
-                                <b:FormLabel for="qcApplied" ui:field="qcAppliedLabel" text="Quality Control"></b:FormLabel>
+                            <b:FormGroup ui:field="qcAppliedForm"><!-- Data quality scheme (name of scheme) -->
+                                <b:FormLabel for="qcApplied" ui:field="qcAppliedLabel" text="Data Quality Scheme (name of scheme)"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="qcAppliedModal" b:id="modalQcApplied"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcApplied" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="qcApplied" allowBlank="true" placeholder="Quality Control" b:id="qcApplied"></b:TextBox>
+                                <mde:ButtonDropDown ui:field="qcApplied"></mde:ButtonDropDown>
                             </b:FormGroup>
                         </b:Column>
-                    </b:Row>
-
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6 LG_6">
+                        <b:Column size="SM_12 MD_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qcVariableNameForm">
-                                <b:FormLabel for="qcVariableName" text="Name of QC flag variable"></b:FormLabel>
+                                <b:FormLabel for="qcVariableName" text="Name of QC Flag Variable"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="qcVariableNameModal" b:id="modalQcVariableName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qcVariableName" allowBlank="true" placeholder="Name of QC flag variable" b:id="qcVariableName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 LG_6">
+                        <b:Column size="SM_12 MD_4">
                             <!-- Keep -->
                             <b:FormGroup ui:field="qcSchemeNameForm">
-                                <b:FormLabel for="qcSchemeName" text="Data quality scheme name"></b:FormLabel>
-                                <b:Modal title="" closable="true" ui:field="qcSchemeNameModal" b:id="modalqcSchemeName"/>
+                                <b:FormLabel for="qcSchemeName" text="Data Quality Scheme Name"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="modalQcSchemeName" b:id="modalQcSchemeName" title="">
+                                    <b:ModalBody>
+                                        <g:HTML ui:field="modalContentQcSchemeName">
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalQcSchemeName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="qcSchemeName" allowBlank="true" placeholder="Data quality scheme name" b:id="qcSchemeName"></b:TextBox>
                             </b:FormGroup>

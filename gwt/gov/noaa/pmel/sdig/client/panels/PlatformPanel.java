@@ -177,9 +177,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         catValues.add("voluntary observing ship");
         platformType.init("Select Platform Category ", catNames, catValues);
 
-        if (OAPMetadataEditor.getIsSocatParam()) {
-
-        }
+//        if (OAPMetadataEditor.getIsSocatParam()) {
+//
+//        }
 
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         platforms.addCellPreviewHandler(new CellPreviewEvent.Handler<Platform>() {
@@ -251,7 +251,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         };
         platforms.addColumn(platformIdColumn, "Platform ID");
 
-        Column<Platform, String> delete = new Column<Platform, String>(new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL)) {
+        Column<Platform, String> delete = new Column<Platform, String>(deleteButton) {
             @Override
             public String getValue(Platform object) {
                 return "Delete";
@@ -348,7 +348,9 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
                 isDirty(country, original.getCountry() ) ||
                         isDirty(name, original.getName() ) ||
                         isDirty(owner, original.getOwner() ) ||
-                        isDirty(platformId, original.getPlatformId() );
+                        isDirty(platformId, original.getPlatformId() ) ||
+                        isDirty(platformType.getValue(), original.getPlatformType() ) ||
+                        isDirty(platformIdType.getValue(), original.getPlatformIdType() );
         OAPMetadataEditor.debugLog("PlatformPanel.isDirty: "+isDirty);
         return isDirty;
     }
@@ -368,6 +370,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
             hasContent = true;
         }
         if (platformId.getText().trim() != null && !platformId.getText().isEmpty() ) {
+            hasContent = true;
+        }
+        if (platformType.getValue() != null && !platformType.getValue().isEmpty() ) {
+            hasContent = true;
+        }
+        if (platformIdType.getValue() != null && !platformIdType.getValue().isEmpty() ) {
             hasContent = true;
         }
         if ( hasContent == true ) {
@@ -570,11 +578,11 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     public void reset() {
         form.reset();
+        platformIdType.reset();
+        platformType.reset();
         displayedPlatform = null;
         editIndex = -1;
         editing = false;
-        platformIdType.reset();
-        platformType.reset();
         if ( editPlatform != null ) {
             show(editPlatform);
             editPlatform = null;

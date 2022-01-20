@@ -97,23 +97,23 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         idValues.add("wmo");
         cruiseIdType.init("Select ID Type ", idNames, idValues);
 
-        if (OAPMetadataEditor.getIsSocatParam()) {
-            // researchProjects -> Name of sampling site or title of related research project
-            // No.
+//        if (OAPMetadataEditor.getIsSocatParam()) {
+//            // researchProjects -> Name of sampling site or title of related research project
+//            // No.
 //            researchProjectsPopover.setTitle("8 Provide the name of the sampling site/related research project, e.g. BATS, CARIACO.");
 //            researchProjectsLabel.setText("Name of sampling site or title of related research project");
 //            researchProjects.getElement().setAttribute("placeHolder", "Name of sampling site or title of related research project");
-
-            // purpose (or abstract?) -> Short description including purpose of observation
-            // SDG 14.3 / SOCAT puts purpose into abstract.
+//
+//            // purpose (or abstract?) -> Short description including purpose of observation
+//            // SDG 14.3 / SOCAT puts purpose into abstract.
 //            purposePopover.setTitle("9 A narrative summary of the data set, including a description of the purpose of the observations.");
 //            purposeLabel.setText("Short description including purpose of observation");
 //            purpose.getElement().setAttribute("placeHolder", "Short description including purpose of observation");
-
+//
 //            referencesPopover.setTitle("10 Specify the methodologies applied to charactarize the carbonate system, including references/citations. Please describe if you made any changes to the method as it is described in the literature, e.g. modications of sampling procedures, different bottles used for storage of samples, changes to the dye, etc. Describe precisely how the method differed and what was done instead.");
 //            referencesLabel.setText("Method(s) Applied");
 //            references.getElement().setAttribute("placeHolder", "Method(s) Applied");
-        }
+//        }
     }
 
     public Citation getCitation() {
@@ -141,11 +141,6 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     public boolean isDirty(Citation original) {
         OAPMetadataEditor.debugLog("CitationPanel.isDirty("+original+")");
         boolean isDirty = false;
-
-//        String[] cruiseInfo;
-//        if (original != null && original.getCruiseId() != null) {
-//            cruiseInfo = original.getCruiseId().split(":", 2);
-//        }
 
         isDirty =
             original == null ?

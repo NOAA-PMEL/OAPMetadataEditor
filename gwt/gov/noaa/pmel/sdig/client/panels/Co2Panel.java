@@ -78,7 +78,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox gasConcentration;
 
-    // 030 Depth of seawater intake -> move to Co2CommonVariablePanel
+//    // 030 Depth of seawater intake -> move to Co2CommonVariablePanel
 //    @UiField
 //    TextBox intakeDepth;
 
@@ -106,7 +106,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox equilibratorTemperatureMeasureMethod;
 
-    // 041 Location of seawater intake -> move to Co2CommonVariablePanel
+//    // 041 Location of seawater intake -> move to Co2CommonVariablePanel
 //    @UiField
 //    TextBox intakeLocation;
 
@@ -201,16 +201,16 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox fco2FromPco2Method;
 
-    @UiField
-    FormLabel ventedLabel;
-    @UiField
-    FormLabel flowRateLabel;
-    @UiField
-    FormLabel gasFlowRateLabel;
-    @UiField
-    FormLabel standardizationTechniqueLabel;
-    @UiField
-    FormLabel freqencyOfStandardizationLabel;
+//    @UiField
+//    FormLabel ventedLabel;
+//    @UiField
+//    FormLabel flowRateLabel;
+//    @UiField
+//    FormLabel gasFlowRateLabel;
+//    @UiField
+//    FormLabel standardizationTechniqueLabel;
+//    @UiField
+//    FormLabel freqencyOfStandardizationLabel;
 
 
     @UiField
@@ -233,7 +233,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     public Co2Panel() {
         initWidget(ourUiBinder.createAndBindUi(this));
         setDefaults();
-        // common.abbreviation.setEnabled(false);
+//        common.abbreviation.setEnabled(false);
 //        common.abbreviation.setVisible(false);
 //        common.fullVariableName.setText("CO2 variables recorded.");
 //        common.fullVariableName.setEnabled(false);
@@ -241,35 +241,62 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         common.fieldReplicate.setAllowBlank(true);
         common.fieldReplicateForm.setVisible(false);
         save.addClickHandler(saveIt);
-//        common.abbreviationModal.setTitle("25.1 Column header name of the variable in the data files, e.g., pCO2, etc.");
-//        common.observationTypeModal.setTitle("25.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
+//        common.abbreviationModal.setTitle("24.1 Column header name of the variable in the data files, e.g., fCO2/pCO2/xCO2, etc.");
+//        common.observationTypeModal.setTitle("24.2 How the variable was observed, e.g., surface underway, profile, time series etc.");
 //        common.manipulationMethodModal.setTitle("25.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
 //        common.observationDetailModal.setTitle("25.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study");
+        // #OADSHELP
         common.measuredModal.setTitle("25.6 Whether the variable is measured in-situ, or calculated from other variables");
+        // #OADSHELP
         common.calculationMethodModal.setTitle("25.7 Variables can be calculated using different sets of constants or different software.");
+        // #OADSHELP
         common.samplingInstrumentModal.setTitle("25.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument.");
-        common.analyzingInstrumentModal.setTitle("25.11 Instrument that is used to analyze the water samples collected with the sampling instrument , or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here");
-        common.detailedInformationModal.setTitle("25.12 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
-        common.fieldReplicateModal.setTitle("??? Does apply here ???");
-        common.uncertaintyModal.setTitle("25.20 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
-        common.qcAppliedModal.setTitle("25.21 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
+
+        common.analyzingInstrumentModal.setTitle("24.7 Instrument that was used to analyze the water samples collected with the 'collection method' above, or the sensors that are mounted on the 'platform' to measure the water body continuously. We encourage you to document as many details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.");
+
+        // #OADSHELP
+        common.intakeLocationModal.setTitle("25.9 Whereabout of the seawater intake");
+        common.intakeDepthModal.setTitle("25.10 Water depth of the seawater intake");
+
+        // Analyzing information with citation (SOP etc)
+        common.detailedInformationModal.setTitle("24.8 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 3a;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
+
+        // #OADSHELP ??? Does apply here ???
+        common.fieldReplicateModal.setTitle("26.15 Repetition of sample collection and measurement, e.g., triplicate samples.");
+
+        common.uncertaintyModal.setTitle("24.12 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
+
+        // Quality control/Data quality scheme (name of scheme)
+        common.qcAppliedModal.setTitle("24.9 Indicate if quality control procedures were applied.");
+
+        // #OADSHELP
         common.researcherNameModal.setTitle("25.23.1 The name of the PI, whose research team measured or derived this parameter.");
         common.researcherInstitutionModal.setTitle("25.23.2 The institution of the PI, whose research team measured or derived this parameter.");
 //        common.fullVariableNameModal.setTitle("Full variable name.");
-        common.referenceMethodModal.setTitle("25.22 Citation for the pCO2 method.");
+        common.referenceMethodModal.setTitle("24.33 Citation for the fCO2 method.");
 //        common.unitsModal.setTitle("25.5 Units of the variable, e.g., μatm.");
 
-        common.qcSchemeNameModal.setTitle("22.7 Indicate if quality control procedures were applied.");
-        common.qcVariableNameModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
-        common.sopChangesModal.setTitle("20.2 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
-        common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
-        common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
+        // Data quality flag scheme
+        common.modalQcSchemeName.setTitle("24.11 Data quality flag scheme");
+        common.modalContentQcSchemeName.setHTML(
+                "<p>Indicate which of the following data quality schemes was used. For "
+                        + "more details: <br /><a href='https://odv.awi.de/fileadmin/user_upload/odv/misc/ODV4_QualityFlagSets.pdf' "
+                        + "target='_blank'>https://odv.awi.de/fileadmin/user_upload/odv/misc/ODV4_QualityFlagSets.pdf</a>"
+                        + "<p>If no data quality scheme was used, please leave blank.</p>");
+
+        // Abbreviation of data quality flag scheme
+        common.qcVariableNameModal.setTitle("24.10 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
+
+        // Changes to Method or SOP
+        common.sopChangesModal.setTitle("24.34 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of all of the changes made.");
+        common.collectionMethodModal.setTitle("24.4 Method that was used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
+        common.analyzingInformationModal.setTitle("24.8 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 3a;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
         if (OAPMetadataEditor.getIsSocatParam()) {
 
-            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
-            standardizationTechniqueLabel.setText("Calibration method");
-            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+//            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
+//            standardizationTechniqueLabel.setText("Calibration method");
+//            freqencyOfStandardizationLabel.setText("Frequency of calibration");
 
 //            ventedLabel.setText("Equilibrator vented or not");
 //            flowRateLabel.setText("Equilibrator water flow rate (L min-1)");
@@ -277,13 +304,13 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         }
 
         // Vented or Not
-        List<String> boolNames = new ArrayList<String>();
-        List<String> boolValues = new ArrayList<String>();
-        boolNames.add("Yes ");
-        boolValues.add("yes");
-        boolNames.add("No ");
-        boolValues.add("no");
-        vented.init("Select Yes or No ", boolNames, boolValues);
+        List<String> ventedNames = new ArrayList<String>();
+        List<String> ventedValues = new ArrayList<String>();
+        ventedNames.add("Vented ");
+        ventedValues.add("vented");
+        ventedNames.add("Not Vented ");
+        ventedValues.add("not vented");
+        vented.init("Select Vented or Not ", ventedNames, ventedValues);
 
         Column<Variable, String> abbrevColumn = addColumn(new SizedEditTextCell(25), "Abbreviation", new GetValue<String>() {
             @Override
@@ -636,6 +663,11 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         pco2a.setVaporCorrection(vaporCorrection.getText());
     }
     public void show(Variable co2common) {
+        if ( co2common == null ) {
+            reset();
+            return;
+        }
+
         common.show(co2common);
         if (co2common.getStandardizationTechnique() != null ) {
             standardizationTechnique.setText(co2common.getStandardizationTechnique());
@@ -889,7 +921,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        vented.reset();
         common.reset();
+        common.qcApplied.reset();
         clearVariables();
         setDefaults();
     }

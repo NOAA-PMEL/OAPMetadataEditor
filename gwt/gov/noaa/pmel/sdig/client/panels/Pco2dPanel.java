@@ -10,11 +10,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -116,6 +115,8 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
     public Pco2dPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
         setDefaults();
+        common.intakeLocationForm.setVisible(false);
+        common.intakeDepthForm.setVisible(false);
         // common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for pCO2 (fCO2) Discreet.");
@@ -145,10 +146,9 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
 //        if (OAPMetadataEditor.getIsSocatParam()) {
-
-            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
-            standardizationTechniqueLabel.setText("Calibration method");
-            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+//            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
+//            standardizationTechniqueLabel.setText("Calibration method");
+//            freqencyOfStandardizationLabel.setText("Frequency of calibration");
 //        }
     }
 

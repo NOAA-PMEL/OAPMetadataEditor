@@ -5,23 +5,17 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by rhs on 3/8/17.
@@ -110,42 +104,65 @@ DIC: Researcher Institution
         initWidget(ourUiBinder.createAndBindUi(this));
 
         setDefaults();
+        common.intakeLocationForm.setVisible(false);
+        common.intakeDepthForm.setVisible(false);
 //        common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Dissolved Inorganic Carbon (DIC).");
         save.addClickHandler(saveIt);
 
-        common.abbreviationModal.setTitle("22.1 Column header name of the variable in the data files, e.g., DIC, TCO2, etc.");
-        common.observationTypeModal.setTitle("22.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
+        common.abbreviationModal.setTitle("20.1 Column header name of the variable in the data files, e.g., DIC, TCO2, CT.");
+        common.observationTypeModal.setTitle("20.2 How the variable is observed, e.g., surface underway, profile, time series, etc.");
+
+        // #OADSHELP
         common.manipulationMethodModal.setTitle("22.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
         common.observationDetailModal.setTitle("22.3 Whether the variable belong to an in-situ observed variable, or a manipulation condition variable, or a response variable in a biological experimental study.");
         common.measuredModal.setTitle("22.6 Whether the variable is measured in-situ, or calculated from other variables.");
         common.calculationMethodModal.setTitle("22.7 Variables can be calculated using different sets of constants or different software.");
         common.samplingInstrumentModal.setTitle("22.8 Instrument that is used to collect water samples, or deploy sensors, etc. For example, a Niskin bottle, pump, CTD, etc is a sampling instrument.");
-        common.analyzingInstrumentModal.setTitle("22.9 Instrument that is used to analyze the water samples collected with the 'sampling instrument', or the sensors that are mounted on the 'sampling instrument' to measure the water body continuously. For example, a coulometer, winkler titrator, spectrophotometer, pH meter, thermosalinograph, oxygen sensor, YSI Multiparameter Meter, etc is an analyzing instrument. We encourage you to document as much details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.");
-        common.detailedInformationModal.setTitle("22.10 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
-        common.fieldReplicateModal.setTitle("22.11 Repetition of sample collection and measurement, e.g., triplicate samples.");
-        common.uncertaintyModal.setTitle("22.14 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
-        common.qcAppliedModal.setTitle("22.15 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
+
+        common.analyzingInstrumentModal.setTitle("20.5 Instrument that was used to analyze the water samples collected with the 'collection method' above, or the sensors that are mounted on the 'platform' to measure the water body continuously. We encourage you to document as many details (such as the make, model, resolution, precisions, etc) of the instrument as you can here.");
+
+        // Analyzing information with citation
+        // common.detailedInformationModal.setTitle("22.10 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
+        common.detailedInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
+        common.fieldReplicateModal.setTitle("20.11 Repetition of sample collection and measurement, e.g., triplicate samples.");
+        common.uncertaintyModal.setTitle("20.10 Uncertainty of the results (e.g., 1%, 2 μmol kg-1), or any pieces of information that are related to the quality control of the variable.");
+
+        // Quality control/Data quality scheme (name of scheme)
+        common.qcAppliedModal.setTitle("20.7 Indicate if quality control procedures were applied.");
+
+        // #OADSHELP
         common.researcherNameModal.setTitle("22.17.1 The name of the PI, whose research team measured or derived this parameter.");
         common.researcherInstitutionModal.setTitle("22.17.2 The institution of the PI, whose research team measured or derived this parameter.");
-        common.fullVariableNameModal.setTitle("The full variable name.");
-        common.referenceMethodModal.setTitle("22.16 Citation for the dissolved inorganic carbon method.");
-        common.unitsModal.setTitle("22.5 Units of the variable (e.g., μmol/kg).");
 
-        common.qcSchemeNameModal.setTitle("22.7 Indicate if quality control procedures were applied.");
-        common.qcVariableNameModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
-        common.sopChangesModal.setTitle("20.2 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
-        common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
+        common.fullVariableNameModal.setTitle("The full variable name.");
+        common.referenceMethodModal.setTitle("20.19 Citation for the dissolved inorganic carbon method.");
+        common.unitsModal.setTitle("20.3 Units of the variable (e.g., μmol/kg).");
+
+        // Data quality flag scheme
+        common.qcSchemeNameModal.setTitle("20.9  Data quality flag scheme");
+        common.modalContentQcSchemeName.setHTML(
+                "<p>Indicate which of the following data quality schemes was used. For "
+                        + "more details: <br /><a href='https://odv.awi.de/fileadmin/user_upload/odv/misc/ODV4_QualityFlagSets.pdf' "
+                        + "target='_blank'>https://odv.awi.de/fileadmin/user_upload/odv/misc/ODV4_QualityFlagSets.pdf</a>"
+                        + "<p>If no data quality scheme was used, please leave blank.</p>");
+
+        // Abbreviation of data quality flag scheme
+        common.qcVariableNameModal.setTitle("20.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
+        common.sopChangesModal.setTitle("20.20 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
+        common.collectionMethodModal.setTitle("20.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, is a collection method.");
+
+        // ??? see detailedInformationModal
         common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
 //        if (OAPMetadataEditor.getIsSocatParam()) {
-            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
-            standardizationTechniqueLabel.setText("Calibration method");
-            freqencyOfStandardizationLabel.setText("Frequency of calibration");
-            poisonLabel.setText("Poison used to kill the sample");
-            poisonVolumeLabel.setText("Poison volume");
-            poisonDescriptionLabel.setText("Poisoning correction description");
+//            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
+//            standardizationTechniqueLabel.setText("Calibration method");
+//            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+//            poisonLabel.setText("Poison used to kill the sample");
+//            poisonVolumeLabel.setText("Poison volume");
+//            poisonDescriptionLabel.setText("Poisoning correction description");
 //        }
     }
 

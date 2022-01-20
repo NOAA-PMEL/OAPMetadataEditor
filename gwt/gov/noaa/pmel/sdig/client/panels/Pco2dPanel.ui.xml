@@ -36,34 +36,22 @@
             <b:FieldSet>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_12">
-                            <b:FormGroup ui:field="standardizationTechniqueForm">
+                        <b:Column size="SM_12 MD_8 LG_9">
+                            <b:FormGroup ui:field="standardizationTechniqueForm"><!-- Calibration method -->
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization Technique Description"></b:FormLabel>
-                                <b:Modal title="26.17.1 Description of the calibration procedure." closable="true" b:id="modalStandardizationTechnique"/>
+                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Calibration Method"></b:FormLabel>
+                                <b:Modal title="23.25 Please describe the calibration procedure." closable="true" b:id="modalStandardizationTechnique"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
+                                <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Calibration method" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                    </b:Row>
-
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="freqencyOfStandardizationForm">
+                        <b:Column size="SM_12 MD_4 LG_3">
+                            <b:FormGroup ui:field="freqencyOfStandardizationForm"><!-- Frequency of calibration -->
                                 <!-- Keep -->
-                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
-                                <b:Modal title="26.17.2 How frequent was the calibration carried out, e.g., every 6 samples, etc." closable="true" b:id="modalFreqencyOfStandardization"/>
+                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Calibration"></b:FormLabel>
+                                <b:Modal title="23.26 How frequently was the calibration carried out, e.g., every 6 hours, after every 10 samples, etc." closable="true" b:id="modalFreqencyOfStandardization"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="temperatureStandarizationForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="temperatureStandarization" text="Temperature of Standardization"></b:FormLabel>
-                                <b:Modal title="26.17.3 Temperature at which normalization was done." closable="true" b:id="modalTemperatureStandarization"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureStandarization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of standardization" b:id="temperatureStandarization"></b:TextBox>
+                                <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of calibration" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -135,19 +123,16 @@
                                 <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                    </b:Row>
-
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6 LG_4">
-                            <b:FormGroup ui:field="vaporCorrectionForm">
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="temperatureStandarizationForm"><!-- Temperature of calibration -->
                                 <!-- Keep -->
-                                <b:FormLabel for="vaporCorrection" text="Water vapor Correction Method"></b:FormLabel>
-                                <b:Modal title="26.18 How the water vapor pressure inside the equilibrator was determined" closable="true" b:id="modalVaporCorrection"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalVaporCorrection" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="vaporCorrection" allowBlank="true" placeholder="Water vapor correction method" b:id="vaporCorrection"></b:TextBox>
+                                <b:FormLabel for="temperatureStandarization" text="Temperature of Calibration"></b:FormLabel>
+                                <b:Modal title="26.17.3 Temperature at which normalization was done." closable="true" b:id="modalTemperatureStandarization"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureStandarization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of calibration" b:id="temperatureStandarization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 MD_6 LG_4">
+                        <b:Column size="SM_12 MD_6">
                             <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="temperatureCorrectionMethod" text="Temperature Correction Method"></b:FormLabel>
@@ -156,13 +141,25 @@
                                 <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 MD_6 LG_4">
+                    </b:Row>
+
+                    <b:Row>
+                        <b:Column size="SM_12 MD_6">
                             <b:FormGroup ui:field="pco2TemperatureForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="pco2Temperature" text="At what temperature was pCO2 reported?"></b:FormLabel>
                                 <b:Modal title="26.20 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc." closable="true" b:id="modalpco2Temperature"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpco2Temperature" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="pco2Temperature" allowBlank="true" placeholder="At what temperature was pCO2 reported?" b:id="pco2Temperature"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6">
+                            <b:FormGroup ui:field="temperatureMeasurementForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureMeasurement" text="Temperature of Measurement"></b:FormLabel>
+                                <b:Modal title="26.20 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc." closable="true" b:id="modalTemperatureMeasurement"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureMeasurement" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -186,7 +183,7 @@
                                 <b:TextBox ui:field="seawaterVolume" allowBlank="true" placeholder="Seawater volume (mL)" b:id="seawaterVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 MD_6">
+                        <b:Column size="SM_12 MD_4">
                             <b:FormGroup ui:field="headspaceVolumeForm">
                                 <!-- Keep -->
                                 <b:FormLabel for="headspaceVolume" text="Headspace Volume (mL)"></b:FormLabel>
@@ -195,13 +192,14 @@
                                 <b:TextBox ui:field="headspaceVolume" allowBlank="true" placeholder="Headspace volume (mL)" b:id="headspaceVolume"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="temperatureMeasurementForm">
+
+                        <b:Column size="MD_6 LG_8">
+                            <b:FormGroup ui:field="vaporCorrectionForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="temperatureMeasurement" text="Temperature of Measurement"></b:FormLabel>
-                                <b:Modal title="26.20 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc." closable="true" b:id="modalTemperatureMeasurement"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureMeasurement" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
+                                <b:FormLabel for="vaporCorrection" text="Water Vapor Correction Method"></b:FormLabel>
+                                <b:Modal title="26.18 How the water vapor pressure inside the equilibrator was determined" closable="true" b:id="modalVaporCorrection"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalVaporCorrection" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="vaporCorrection" allowBlank="true" placeholder="Water vapor correction method" b:id="vaporCorrection"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

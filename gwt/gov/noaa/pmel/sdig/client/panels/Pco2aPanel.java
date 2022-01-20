@@ -9,16 +9,19 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -41,9 +44,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox gasConcentration;
 
-    // 030 Depth of seawater intake
-    @UiField
-    TextBox intakeDepth;
+//    // 030 Depth of seawater intake
+//    @UiField
+//    TextBox intakeDepth;
 
     // 031 Drying method for CO2 gas
     @UiField
@@ -70,9 +73,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox equilibratorTemperatureMeasureMethod;
 
-    // 041 Location of seawater intake
-    @UiField
-    TextBox intakeLocation;
+//    // 041 Location of seawater intake
+//    @UiField
+//    TextBox intakeLocation;
 
     // 043 Manufacturer of standard gas
     @UiField
@@ -105,7 +108,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
 
     // 058 Vented or not
     @UiField
-    TextBox vented;
+    ButtonDropDown vented;
 
     // 059 Water flow rate (L/min)
     @UiField
@@ -169,10 +172,19 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
 //        if (OAPMetadataEditor.getIsSocatParam()) {
-            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
-            standardizationTechniqueLabel.setText("Calibration method");
-            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+//            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
+//            standardizationTechniqueLabel.setText("Calibration method");
+//            freqencyOfStandardizationLabel.setText("Frequency of calibration");
 //        }
+
+        // Vented or Not
+        List<String> ventedNames = new ArrayList<String>();
+        List<String> ventedValues = new ArrayList<String>();
+        ventedNames.add("Vented ");
+        ventedValues.add("vented");
+        ventedNames.add("Not Vented ");
+        ventedValues.add("not vented");
+        vented.init("Select Vented or Not ", ventedNames, ventedValues);
 
     }
     private void setDefaults() {
@@ -186,14 +198,14 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2a.setPco2Temperature(pco2Temperature.getText());
         pco2a.setGasConcentration(gasConcentration.getText());
-        pco2a.setIntakeDepth(intakeDepth.getText());
+//        pco2a.setIntakeDepth(intakeDepth.getText());
         pco2a.setDryingMethod(dryingMethod.getText());
         pco2a.setEquilibratorType(equilibratorType.getText());
         pco2a.setEquilibratorVolume(equilibratorVolume.getText());
         pco2a.setGasFlowRate(gasFlowRate.getText());
         pco2a.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-        pco2a.setIntakeLocation(intakeLocation.getText());
+//        pco2a.setIntakeLocation(intakeLocation.getText());
         pco2a.setStandardGasManufacture(standardGasManufacture.getText());
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
@@ -201,7 +213,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
-        pco2a.setVented(vented.getText());
+        pco2a.setVented(vented.getValue());
         pco2a.setFlowRate(flowRate.getText());
         pco2a.setVaporCorrection(vaporCorrection.getText());
         return pco2a;
@@ -212,14 +224,14 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2a.setPco2Temperature(pco2Temperature.getText());
         pco2a.setGasConcentration(gasConcentration.getText());
-        pco2a.setIntakeDepth(intakeDepth.getText());
+//        pco2a.setIntakeDepth(intakeDepth.getText());
         pco2a.setDryingMethod(dryingMethod.getText());
         pco2a.setEquilibratorType(equilibratorType.getText());
         pco2a.setEquilibratorVolume(equilibratorVolume.getText());
         pco2a.setGasFlowRate(gasFlowRate.getText());
         pco2a.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-        pco2a.setIntakeLocation(intakeLocation.getText());
+//        pco2a.setIntakeLocation(intakeLocation.getText());
         pco2a.setStandardGasManufacture(standardGasManufacture.getText());
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
@@ -227,7 +239,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
-        pco2a.setVented(vented.getText());
+        pco2a.setVented(vented.getValue());
         pco2a.setFlowRate(flowRate.getText());
         pco2a.setVaporCorrection(vaporCorrection.getText());
     }
@@ -249,9 +261,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             gasConcentration.setText(pco2a.getGasConcentration());
         }
 
-        if ( pco2a.getIntakeDepth() != null ) {
-            intakeDepth.setText(pco2a.getIntakeDepth());
-        }
+//        if ( pco2a.getIntakeDepth() != null ) {
+//            intakeDepth.setText(pco2a.getIntakeDepth());
+//        }
 
         if (pco2a.getDryingMethod() != null ) {
             dryingMethod.setText(pco2a.getDryingMethod());
@@ -277,9 +289,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             equilibratorTemperatureMeasureMethod.setText(pco2a.getEquilibratorTemperatureMeasureMethod());
         }
 
-        if ( pco2a.getIntakeLocation() != null ) {
-            intakeLocation.setText(pco2a.getIntakeLocation());
-        }
+//        if ( pco2a.getIntakeLocation() != null ) {
+//            intakeLocation.setText(pco2a.getIntakeLocation());
+//        }
 
         if ( pco2a.getStandardGasManufacture() != null ) {
             standardGasManufacture.setText(pco2a.getStandardGasManufacture());
@@ -311,7 +323,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         }
 
         if ( pco2a.getVented() != null ) {
-            vented.setText(pco2a.getVented());
+            vented.setSelected(pco2a.getVented());
         }
 
         if ( pco2a.getFlowRate() != null ) {
@@ -362,14 +374,14 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
             isDirty(pco2Temperature, original.getPco2Temperature() ) ||
             isDirty(gasConcentration, original.getGasConcentration() ) ||
-            isDirty(intakeDepth, original.getIntakeDepth() ) ||
+//            isDirty(intakeDepth, original.getIntakeDepth() ) ||
             isDirty(dryingMethod, original.getDryingMethod() ) ||
             isDirty(equilibratorType, original.getEquilibratorType() ) ||
             isDirty(equilibratorVolume, original.getEquilibratorVolume() ) ||
             isDirty(gasFlowRate, original.getGasFlowRate() ) ||
             isDirty(equilibratorPressureMeasureMethod, original.getEquilibratorPressureMeasureMethod() ) ||
             isDirty(equilibratorTemperatureMeasureMethod, original.getEquilibratorTemperatureMeasureMethod() ) ||
-            isDirty(intakeLocation, original.getIntakeLocation() ) ||
+//            isDirty(intakeLocation, original.getIntakeLocation() ) ||
             isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
             isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
             isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
@@ -377,7 +389,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
             isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
             isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
-            isDirty(vented, original.getVented() ) ||
+            isDirty(vented.getValue(), original.getVented() ) ||
             isDirty(flowRate, original.getFlowRate() ) ||
             isDirty(vaporCorrection, original.getVaporCorrection() );
         return isDirty;
@@ -398,9 +410,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         if (gasConcentration.getText().trim() != null && !gasConcentration.getText().isEmpty() ) {
             return true;
         }
-        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() ) {
-            return true;
-        }
+//        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() ) {
+//            return true;
+//        }
         if (dryingMethod.getText().trim() != null && !dryingMethod.getText().isEmpty() ) {
             return true;
         }
@@ -419,9 +431,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         if (equilibratorTemperatureMeasureMethod.getText().trim() != null && !equilibratorTemperatureMeasureMethod.getText().isEmpty() ) {
             return true;
         }
-        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() ) {
-            return true;
-        }
+//        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() ) {
+//            return true;
+//        }
         if (standardGasManufacture.getText().trim() != null && !standardGasManufacture.getText().isEmpty() ) {
             return true;
         }
@@ -443,7 +455,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         if (gasDectectorUncertainty.getText().trim() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
             return true;
         }
-        if (vented.getText().trim() != null && !vented.getText().isEmpty() ) {
+        if (vented.getValue() != null && !vented.getValue().isEmpty() ) {
             return true;
         }
         if (flowRate.getText().trim() != null && !flowRate.getText().isEmpty() ) {
@@ -456,6 +468,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
     }
     public void reset() {
         form.reset();
+        vented.reset();
         common.reset();
         setDefaults();
     }
