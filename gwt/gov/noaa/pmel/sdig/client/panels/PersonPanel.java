@@ -655,6 +655,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                         isDirty(institution, original.getInstitution()) ||
                         isDirty(lastName, original.getLastName()) ||
                         isDirty(mi, original.getMi()) ||
+                        isDirty(idType.getValue(), original.getIdType()) ||
                         isDirty(rid, original.getRid()) ||
                         isDirty(telephone, original.getTelephone()) ||
                         isDirty(extension, original.getExtension()) ||
@@ -699,6 +700,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         }
         if (mi.getText().trim() != null && !mi.getText().isEmpty()) {
             OAPMetadataEditor.debugLog("PersonPanel.mi:" + mi.getText());
+            hasContent = true;
+        }
+        if (idType.getValue() != null && !idType.getValue().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.idType:" + idType.getValue());
             hasContent = true;
         }
         if (rid.getText().trim() != null && !rid.getText().isEmpty()) {

@@ -295,6 +295,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
             isDirty(poison, original.getPoison() ) ||
             isDirty(poisonVolume, original.getPoisonVolume() ) ||
             isDirty(poisonDescription, original.getPoisonDescription() ) ||
+            isDirty(cellType.getValue(), original.getCellType() ) ||
             isDirty(curveFittingMethod, original.getCurveFittingMethod() ) ||
             isDirty(magnitudeOfBlankCorrection, original.getMagnitudeOfBlankCorrection() ) ||
             isDirty(titrationType, original.getTitrationType() );
@@ -323,6 +324,9 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
             return true;
         }
         if (poisonDescription.getText().trim() != null && !poisonDescription.getText().isEmpty() ) {
+            return true;
+        }
+        if (cellType.getValue() != null && !cellType.getValue().isEmpty() ) {
             return true;
         }
         if (curveFittingMethod.getText().trim() != null && !curveFittingMethod.getText().isEmpty() ) {
