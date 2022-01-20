@@ -1,6 +1,8 @@
 package gov.noaa.pmel.sdig.client.panels;
 
-import com.google.gwt.cell.client.*;
+import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.builder.shared.DivBuilder;
 import com.google.gwt.dom.builder.shared.InputBuilder;
@@ -12,14 +14,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.*;
+import com.google.gwt.user.cellview.client.AbstractCellTable;
+import com.google.gwt.user.cellview.client.AbstractHeaderOrFooterBuilder;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.client.widgets.SizedEditTextCell;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.*;
@@ -28,7 +33,6 @@ import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
-import org.gwtbootstrap3.client.ui.FormLabel;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -136,7 +140,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 
     // 058 Vented or not
     @UiField
-    TextBox vented;
+    ButtonDropDown vented;
 
     // 059 Water flow rate (L/min)
     @UiField
@@ -267,10 +271,19 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             standardizationTechniqueLabel.setText("Calibration method");
             freqencyOfStandardizationLabel.setText("Frequency of calibration");
 
-            ventedLabel.setText("Equilibrator vented or not");
-            flowRateLabel.setText("Equilibrator water flow rate (L min-1)");
-            gasFlowRateLabel.setText("Equilibrator headspace gas flow rate (L min-1)");
+//            ventedLabel.setText("Equilibrator vented or not");
+//            flowRateLabel.setText("Equilibrator water flow rate (L min-1)");
+//            gasFlowRateLabel.setText("Equilibrator headspace gas flow rate (L min-1)");
         }
+
+        // Vented or Not
+        List<String> boolNames = new ArrayList<String>();
+        List<String> boolValues = new ArrayList<String>();
+        boolNames.add("Yes ");
+        boolValues.add("yes");
+        boolNames.add("No ");
+        boolValues.add("no");
+        vented.init("Select Yes or No ", boolNames, boolValues);
 
         Column<Variable, String> abbrevColumn = addColumn(new SizedEditTextCell(25), "Abbreviation", new GetValue<String>() {
             @Override
@@ -550,7 +563,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             co2common.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
             co2common.setStandardGasUncertainties(standardGasUncertainties.getText());
             co2common.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
-            co2common.setVented(vented.getText());
+            co2common.setVented(vented.getValue());
             co2common.setFlowRate(flowRate.getText());
             co2common.setVaporCorrection(vaporCorrection.getText());
             // missing socat
@@ -591,7 +604,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         co2.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         co2.setStandardGasUncertainties(standardGasUncertainties.getText());
         co2.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
-        co2.setVented(vented.getText());
+        co2.setVented(vented.getValue());
         co2.setFlowRate(flowRate.getText());
         co2.setVaporCorrection(vaporCorrection.getText());
         return co2;
@@ -618,7 +631,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
-        pco2a.setVented(vented.getText());
+        pco2a.setVented(vented.getValue());
         pco2a.setFlowRate(flowRate.getText());
         pco2a.setVaporCorrection(vaporCorrection.getText());
     }
@@ -702,7 +715,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         }
 
         if ( co2common.getVented() != null ) {
-            vented.setText(co2common.getVented());
+            vented.setSelected(co2common.getVented());
         }
 
         if ( co2common.getFlowRate() != null ) {
@@ -797,7 +810,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
             isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
             isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
-            isDirty(vented, original.getVented() ) ||
+            isDirty(vented.getValue(), original.getVented() ) ||
             isDirty(flowRate, original.getFlowRate() ) ||
             isDirty(vaporCorrection, original.getVaporCorrection() );
         return isDirty;
@@ -863,7 +876,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if (gasDectectorUncertainty.getText().trim() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
             return true;
         }
-        if (vented.getText().trim() != null && !vented.getText().isEmpty() ) {
+        if (vented.getValue() != null && !vented.getValue().isEmpty() ) {
             return true;
         }
         if (flowRate.getText().trim() != null && !flowRate.getText().isEmpty() ) {
