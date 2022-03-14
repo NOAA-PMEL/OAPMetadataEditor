@@ -1444,7 +1444,7 @@ td.desc {
 
           <!--Variables-->
 
-          <xsl:for-each select="oa:variable[not(@xsi:type)]">
+    <xsl:for-each select="oa:variable[not(@xsi:type)]|oa:variable[@xsi:type='biological_variable']">
 
             <hr/>
 
