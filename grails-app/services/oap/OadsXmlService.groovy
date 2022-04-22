@@ -34,6 +34,7 @@ import gov.noaa.ncei.oads.xml.v_a0_2_2.TypedStringType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.OadsMetadataDocumentType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PersonType.PersonTypeBuilder
+import gov.noaa.pmel.excel2oap.Excel2OAP
 import gov.noaa.pmel.oads.util.TimeUtils
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
@@ -43,6 +44,7 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
+import java.nio.charset.Charset
 
 @Transactional
 class OadsXmlService {
@@ -77,11 +79,10 @@ class OadsXmlService {
         OadsMetadataDocumentType xmlMetadata = OadsXmlReader.read(inputStream)
         return buildDocumentFromMetadata(xmlMetadata)
     }
-    def createMetadataDocumentFromVersionedXml(org.w3c.dom.Document xDoc, String version) {
 
+    def createMetadataDocumentFromVersionedXml(org.w3c.dom.Document xDoc, String version) {
         log.info("Creating OadsMetadata from " + xDoc + " version " + version)
         OadsMetadataDocumentType xmlMetadata = OadsXmlReader.read(xDoc)
-
         return buildDocumentFromMetadata(xmlMetadata)
     }
 

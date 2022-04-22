@@ -1,10 +1,7 @@
 package oap
 
+
 import grails.converters.JSON
-import org.apache.catalina.core.ApplicationPart
-import org.grails.web.json.JSONArray
-import org.grails.web.json.JSONElement
-import org.grails.web.json.JSONObject
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -14,7 +11,6 @@ import javax.servlet.http.HttpServletResponse
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import java.nio.charset.Charset
-import java.nio.file.Files
 import java.util.stream.Collectors
 
 class DocumentController {
@@ -22,7 +18,7 @@ class DocumentController {
     UtilsService utilsService
     XmlService xmlService
     OadsXmlService oadsXmlService
-    OaMetadataFileService oaMetadataFileService
+    Oads2sXmlService oads2sXmlService
 
     static scaffold = Document
 
@@ -394,7 +390,7 @@ class DocumentController {
                 Charset charset = ua.toLowerCase().contains("mac") ?
                                     Charset.defaultCharset() :
                                     Charset.forName("windows-1258")
-                document = xmlService.translateSpreadsheet(ins, charset) // TODO: pull this from xmlService
+                document = translateSpreadsheet(ins, charset);
             }
 
             if ( document ) {
@@ -427,6 +423,12 @@ class DocumentController {
             render msg
         }
     }
+
+    private translateSpreadsheet(InputStream inputStream, Charset charset) {            // TODO: should move this elsewhere
+        Document doc = oads2sXmlService.translateSpreadsheet(inputStream, charset)
+        return doc
+    }
+
     /**
      * @return an XML represntation of the metadata
      */
