@@ -1425,13 +1425,8 @@ class OadsXmlService {
     }
 
     def lookForDelimiter(String authorList) {
-        if ( authorList.contains(";")) {
-            return authorList.contains(",") ? ";" : null
-        } else if ( count(authorList, ',' as char) > 1 ) {
-            return ","
-        } else {
-            return null
-        }
+        if ( authorList.contains(";")) { return ";" }
+        else { return null }
     }
 
     // This actually is likely to get it wrong.
