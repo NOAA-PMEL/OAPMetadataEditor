@@ -29,7 +29,7 @@
                         <b:Column size="SM_6 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel for="platformId" text="Platform ID"></b:FormLabel>
-                                <b:Modal title="15.2 ICES platform code (e.g., 33RO, optional). For a list of ICES ship code, please check out this link: http://vocab.ices.dk." closable="true" b:id="modalPlatformID"/>
+                                <b:Modal title="15.2 ICES platform code (e.g., 33RO, optional). For a list of ICES ship code, please check out this link: http://vocab.ices.dk/?ref=315" closable="true" b:id="modalPlatformID"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalPlatformID" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="platformId" allowBlank="true" placeholder="Platform ID" b:id="platformId"></b:TextBox>
                             </b:FormGroup>
