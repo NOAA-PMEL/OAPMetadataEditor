@@ -88,6 +88,14 @@ Unnamed variables have "Full variable name in addition.
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
+                            <b:FormGroup ui:field="pHscaleForm" visible="false">
+                                <!-- Keep -->
+                                <b:FormLabel for="pHscale" text="pH scale"></b:FormLabel>
+                                <b:Modal title="24.9 The pH scale for the reported pH results, e.g., total scale, seawater scale, NBS scale, etc." closable="true" b:id="modalpHscale"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHscale" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <!-- b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox -->
+                                <mde:ButtonDropDown ui:field="pHscale"></mde:ButtonDropDown>
+                            </b:FormGroup>
                         </b:Column>
                     </b:Row>
                     <b:Row>

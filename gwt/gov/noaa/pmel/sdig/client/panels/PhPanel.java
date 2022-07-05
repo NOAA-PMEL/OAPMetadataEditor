@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -18,6 +19,10 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by rhs on 3/22/17.
@@ -40,8 +45,9 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
     TextBox pHtemperature;
 
     // 047 pH scale
-    @UiField
-    TextBox pHscale;
+//    @UiField
+    ButtonDropDown pHscale;
+//    TextBox pHscale;
 
     // 048 pH values of the standards
     @UiField
@@ -70,6 +76,11 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
 
     private static PhPanel.PhPanelUiBinder ourUiBinder = GWT.create(PhPanel.PhPanelUiBinder.class);
 
+    private static final String SCALE_TOTAL = "Total scale (T)";
+    private static final String SCALE_SEAWATER = "Seawater scale (SWS)";
+    private static final String SCALE_FREE = "“Free” hydrogen ion content scale (F)";
+    private static final String SCALE_NBS = "NBS scale (NBS or NIST)";
+
     public PhPanel() {
 
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -81,7 +92,21 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         // 005 Variable unit
         common.unitsForm.setVisible(false);
         common.units.setAllowBlank(true);
+        common.pHscaleForm.setVisible(true);
+        pHscale = common.pHscale;
 
+        List<String> scaleNames = new ArrayList<String>();
+        List<String> scaleValues = new ArrayList<String>();
+
+        scaleNames.add(SCALE_TOTAL);
+        scaleValues.add(SCALE_TOTAL);
+        scaleNames.add(SCALE_SEAWATER);
+        scaleValues.add(SCALE_SEAWATER);
+        scaleNames.add(SCALE_FREE);
+        scaleValues.add(SCALE_FREE);
+        scaleNames.add(SCALE_NBS);
+        scaleValues.add(SCALE_NBS);
+        pHscale.init("ph Scale ", scaleNames, scaleValues);
 
         common.abbreviationModal.setTitle("24.1 Column header name of the variable in the data files, e.g., pH");
         common.observationTypeModal.setTitle("24.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
@@ -113,7 +138,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         ph.setStandardizationTechnique(standardizationTechnique.getText().trim());
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         ph.setPhTemperature(pHtemperature.getText());
-        ph.setPhScale(pHscale.getText());
+        ph.setPhScale(pHscale.getValue());
         ph.setPhStandards(pHstandards.getText());
         ph.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         ph.setTemperatureMeasurement(temperatureMeasurement.getText());
@@ -126,7 +151,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         ph.setStandardizationTechnique(standardizationTechnique.getText().trim());
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         ph.setPhTemperature(pHtemperature.getText());
-        ph.setPhScale(pHscale.getText());
+        ph.setPhScale(pHscale.getValue());
         ph.setPhStandards(pHstandards.getText());
         ph.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         ph.setTemperatureMeasurement(temperatureMeasurement.getText());
@@ -174,7 +199,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
             isDirty( standardizationTechnique, original.getStandardizationTechnique() ) ||
             isDirty( freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
             isDirty( pHtemperature, original.getPhTemperature() ) ||
-            isDirty( pHscale, original.getPhScale() ) ||
+            isDirty( pHscale.getValue(), original.getPhScale() ) ||
             isDirty( pHstandards, original.getPhStandards() ) ||
             isDirty( temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
             isDirty( temperatureMeasurement, original.getTemperatureMeasurement() ) ||
@@ -197,7 +222,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         if ( pHtemperature.getText().trim() != null && !pHtemperature.getText().isEmpty() ) {
             return true;
         }
-        if ( pHscale.getText().trim() != null && !pHscale.getText().isEmpty() ) {
+        if ( pHscale.getValue() != null && !pHscale.getValue().isEmpty() ) {
             return true;
         }
         if (pHstandards.getText().trim() != null && !pHstandards.getText().isEmpty()) {
@@ -244,7 +269,20 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         }
 
         if ( ph.getPhScale() != null ) {
-            pHscale.setText(ph.getPhScale());
+            String phScale = ph.getPhScale();
+            String pdown = phScale.toLowerCase();
+            if (pdown.contains("total")) {
+                phScale = SCALE_TOTAL;
+            } else if ( pdown.contains("seawater")) {
+                phScale = SCALE_SEAWATER;
+            } else if ( pdown.contains("free") ||
+                        pdown.contains("hydrogen")) {
+                phScale = SCALE_FREE;
+            } else if ( pdown.contains("nbs") ||
+                        pdown.contains("nist")) {
+                phScale = SCALE_NBS;
+            }
+            pHscale.setSelected(phScale);
         }
 
         if ( ph.getPhStandards() != null ) {

@@ -52,6 +52,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     @UiField
     TextBox units;
 
+    @UiField
+    ButtonDropDown pHscale;
+
     // 006 Measured or calculated
     @UiField
     ButtonDropDown measured;
@@ -121,6 +124,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     // 005 Variable unit
     @UiField
     FormGroup unitsForm;
+
+    @UiField
+    FormGroup pHscaleForm;
 
     // 006 Measured or calculated
     @UiField
