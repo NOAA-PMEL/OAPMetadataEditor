@@ -253,7 +253,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="SAVE pC02A"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="SAVE pCO2A"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
