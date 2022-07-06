@@ -6,9 +6,7 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -19,8 +17,6 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.RowStyles;
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
@@ -28,9 +24,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
-
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
@@ -55,6 +48,8 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
+import org.gwtbootstrap3.extras.select.client.ui.Option;
+import org.gwtbootstrap3.extras.select.client.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +92,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     TextBox zip;
     @UiField(provided = true)
-    SuggestBox country;
+    Select countrySelect;
     @UiField
     FormLabel emailLabel;
     @UiField
@@ -161,7 +156,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public PersonPanel(String personType) {
         institution = new SuggestBox(institutionSuggestOracle);
-        country = new SuggestBox(countrySuggestionOracle);
+//        countrySuggest = new SuggestBox(countrySuggestionOracle);
+        countrySelect = new Select();
+        for (String country : Constants.COUNTRIES) {
+            Option option = new Option();
+            option.setValue(country);
+            option.setText(country);
+            countrySelect.add(option);
+        }
 
         initWidget(ourUiBinder.createAndBindUi(this));
         List<String> idNames = new ArrayList<String>();
@@ -547,7 +549,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
         peopleData.addDataDisplay(people);
 
-//        country.addValueChangeHandler(new ValueChangeHandler<String>() {
+//        countrySelect.addValueChangeHandler(new ValueChangeHandler<String>() {
 //                  @Override
 //                  public void onValueChange(ValueChangeEvent<String> event) {
 //                      modified = true;
@@ -630,7 +632,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         person.setCity(city.getText().trim());
         person.setState(state.getText().trim());
         person.setZip(zip.getText().trim());
-        person.setCountry(country.getText().trim());
+        person.setCountry(countrySelect.getValue().toString());
+//        person.setCountry(countrySelect.getText().trim());
         person.setIdType(idType.getValue());
         person.setComplete(this.valid());
         person.setPosition(editIndex);
@@ -656,7 +659,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                         isDirty(city, original.getCity()) ||
                         isDirty(state, original.getState()) ||
                         isDirty(zip, original.getZip()) ||
-                        isDirty(country, original.getCountry());
+                        isDirty(countrySelect.getValue().toString(), original.getCountry());
         OAPMetadataEditor.debugLog("PersonPanel.isDirty: " + isDirty);
         return isDirty;
     }
@@ -721,8 +724,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             OAPMetadataEditor.debugLog("PersonPanel.zip:" + zip.getText());
             hasContent = true;
         }
-        if (country.getText().trim() != null && !country.getText().isEmpty()) {
-            OAPMetadataEditor.debugLog("PersonPanel.country:" + country.getText());
+        if (countrySelect.getValue() != null ) {
+//        if (countrySelect.getText().trim() != null && !countrySelect.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.countrySelect:" + countrySelect.getValue());
             hasContent = true;
         }
         if (hasContent == true) {
@@ -757,7 +761,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         city.setEnabled(editable);
         state.setEnabled(editable);
         zip.setEnabled(editable);
-        country.setEnabled(editable);
+        countrySelect.setEnabled(editable);
     }
 
     public void show(Person person) {
@@ -792,7 +796,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if (person.getZip() != null)
             zip.setText(person.getZip());
         if (person.getCountry() != null)
-            country.setText(person.getCountry());
+            countrySelect.setValue(person.getCountry());
         if (person.getIdType() != null) {
             idType.setSelected(person.getIdType());
         }
@@ -814,8 +818,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         save.setEnabled(true);
     }
 
-    @UiHandler({"institution", "country"})
-    public void onValueChange(ValueChangeEvent<String> event) {
+    @UiHandler({"institution"})
+    public void onOrgValueChange(ValueChangeEvent<String> event) {
+//            Window.alert("Here be the new value:" + event.getValue());
+        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
+        save.setEnabled(true);
+    }
+    @UiHandler({"countrySelect"})
+    public void onCountryValueChange(ValueChangeEvent<String> event) {
 //            Window.alert("Here be the new value:" + event.getValue());
         OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
         save.setEnabled(true);

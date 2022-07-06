@@ -25,12 +25,21 @@
     <!-- If you add any GWT meta tags, they must   -->
     <!-- be added before this line.                -->
     <!--                                           -->
+    <!--
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+      Using the same version of jquery as is supplied with bootstrap (I guess) in webapp/oapmetadataeditor/js
+    -->
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
 
-      <script type="text/javascript" language="javascript" src="oapmetadataeditor/oapmetadataeditor.nocache.js"></script>
+      <script type="text/javascript" type="javascript" src="oapmetadataeditor/oapmetadataeditor.nocache.js"></script>
 
-      <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- This is necessary to get the gwtbootstrap extras select to work.
+         see https://stackoverflow.com/questions/62319980/selectpicker-is-not-a-function and similar -->
+      <script type="text/javascript" type="javascript" src="oapmetadataeditor/js/bootstrap-select-1.10.0.min.cache.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   </head>
 
