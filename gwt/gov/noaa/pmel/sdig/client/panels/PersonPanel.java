@@ -158,6 +158,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         institution = new SuggestBox(institutionSuggestOracle);
 //        countrySuggest = new SuggestBox(countrySuggestionOracle);
         countrySelect = new Select();
+        countrySelect.setLiveSearch(true);
+        countrySelect.setLiveSearchPlaceholder("Country"); // This doesn't seem to work.  Needs Placeholder in ui.xml
+//        provides accent-insenstive search.  Not available until 0.9.4
+//        countrySelect.setLiveSearchNormalize(true);
         for (String country : Constants.COUNTRIES) {
             Option option = new Option();
             option.setValue(country);

@@ -99,7 +99,7 @@
                             <b:FormGroup>
                                 <b:FormLabel for="country" text="Country"></b:FormLabel>
                                 <!-- b:SuggestBox ui:field="countrySelect" allowBlank="true" placeholder="Country" b:id="countrySelect"></b:SuggestBox -->
-                                <s:Select ui:field="countrySelect"  placeholder="Country"></s:Select>
+                                <s:Select ui:field="countrySelect" liveSearch="true" liveSearchPlaceholder="Country" placeholder="Country" ></s:Select>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
