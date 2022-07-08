@@ -159,6 +159,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        countrySuggest = new SuggestBox(countrySuggestionOracle);
         countrySelect = new Select();
         countrySelect.setLiveSearch(true);
+        countrySelect.setPlaceholder("Country");
         countrySelect.setLiveSearchPlaceholder("Country"); // This doesn't seem to work.  Needs Placeholder in ui.xml
 //        provides accent-insenstive search.  Not available until 0.9.4
 //        countrySelect.setLiveSearchNormalize(true);
@@ -636,8 +637,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         person.setCity(city.getText().trim());
         person.setState(state.getText().trim());
         person.setZip(zip.getText().trim());
-        person.setCountry(countrySelect.getValue().toString());
-//        person.setCountry(countrySelect.getText().trim());
+        Option opt = countrySelect.getSelectedItem();
+        OAPMetadataEditor.debugLog("country opt:"+opt);
+        if ( opt != null ) {
+            person.setCountry(opt.getValue());
+        }
         person.setIdType(idType.getValue());
         person.setComplete(this.valid());
         person.setPosition(editIndex);
@@ -663,14 +667,19 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                         isDirty(city, original.getCity()) ||
                         isDirty(state, original.getState()) ||
                         isDirty(zip, original.getZip()) ||
-                        isDirty(countrySelect.getValue().toString(), original.getCountry());
+                        isDirty(countrySelect, original.getCountry());
         OAPMetadataEditor.debugLog("PersonPanel.isDirty: " + isDirty);
         return isDirty;
     }
 
-    //    public boolean hasBeenModified() {
-//        return modified;
-//    }
+    boolean isDirty(Select cSelect, String originalCountry) {
+        Option selectedOption = cSelect.getSelectedItem();
+        String originalValue = originalCountry != null ? originalCountry.trim() : "";
+        if ( selectedOption == null && ! originalValue.isEmpty()) {
+            return true;
+        }
+        return ! selectedOption.getValue().equals(originalValue);
+    }
     public boolean hasContent() {
         OAPMetadataEditor.debugLog("@PersonPanel.hasContent()");
         boolean hasContent = false;
@@ -728,11 +737,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             OAPMetadataEditor.debugLog("PersonPanel.zip:" + zip.getText());
             hasContent = true;
         }
-        if (countrySelect.getValue() != null ) {
-//        if (countrySelect.getText().trim() != null && !countrySelect.getText().isEmpty()) {
-            OAPMetadataEditor.debugLog("PersonPanel.countrySelect:" + countrySelect.getValue());
-            hasContent = true;
-        }
+        // For some reason, this comes up falsely positive when the person is otherwise empty
+//        if (countrySelect.getSelectedItem() != null ) {
+//            OAPMetadataEditor.debugLog("PersonPanel.countrySelect:" + countrySelect.getValue());
+//            hasContent = true;
+//        }
         if (hasContent == true) {
             save.setEnabled(true);
         }
@@ -804,18 +813,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if (person.getIdType() != null) {
             idType.setSelected(person.getIdType());
         }
-//        modified = false;
-//        editing = false;
     }
 
-    //    @UiHandler({"firstName","mi","lastName", "address1","address2","city","state","zip","telephone","email","rid"})
-//    // can't include "idType", because removed ButtonDropDown addChangeHandler because it was causing other problems...
-//    // can't include "institution" because SuggestionBox doesn't have addHandler method.
-//    public void elementChanged(ChangeEvent changeEvent) {
-//        OAPMetadataEditor.logToConsole("event:"+ changeEvent.getSource()); // .getNativeEvent().getType());
-////        modified = true;
-////        editing = true;
-//    }
     @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("getsource: " + event.getSource());
@@ -830,28 +829,9 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
     @UiHandler({"countrySelect"})
     public void onCountryValueChange(ValueChangeEvent<String> event) {
-//            Window.alert("Here be the new value:" + event.getValue());
-        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
+        OAPMetadataEditor.debugLog("Country changed: " +event.getValue());
         save.setEnabled(true);
     }
-
-//    @UiHandler("idType")
-//    public void onClick(ClickEvent event) {
-//        OAPMetadataEditor.debugLog("Here be the new value:" + event.getSource());
-//    }
-//    public void onDropDownButtonValueChange(@SuppressWarnings("unused") ValueChangeEvent<String> event) {
-//        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
-//    }
-
-//    public void onClick(ClickEvent event) {
-//    public void onClick(ValueChangeEvent event) {
-//        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
-//        save.setEnabled(true);
-//    }
-//    public void onChange(ChangeEvent event) {
-//        OAPMetadataEditor.debugLog("getsource: "+event.getSource());
-//        save.setEnabled(true);
-//    }
 
     public String getType() {
         return type;
