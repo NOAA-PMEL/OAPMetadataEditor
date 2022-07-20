@@ -75,7 +75,7 @@ td.desc {
    
           <xsl:for-each select="oa:investigators/oa:investigator">
 
-            <div style="width:900px; margin-left: 30px; text-indent:-20px;">
+            <div style="width:95%; padding-left: 20px;">
 
               <strong>
                 <xsl:value-of select="concat(concat(oa:name/oa:first,' '),oa:name/oa:last)"/>
@@ -111,12 +111,15 @@ td.desc {
 
           <br/>
 
-          <span style="font-weight:bold">ABSTRACT: </span><xsl:value-of select="oa:abstract"/>
+          <span style="font-weight:bold">ABSTRACT: </span>
+          <div style="width:95%; padding-left:20px;"><xsl:value-of select="oa:abstract"/></div>
           <br/><br/>
-
-          <span style="font-weight:bold">CITE AS: </span><xsl:value-of select="oa:citation"/>
-          <br/><br/>
-
+<!--
+          <xsl:if test="oa:references/oa:reference != ''">
+            <span style="font-weight:bold">CITE AS: </span><xsl:value-of select="oa:references/oa:reference"/>
+            <br/><br/>
+          </xsl:if>
+-->
           <xsl:if test="oa:dataUse != ''">
             <span style="font-weight:bold">DATA USE: </span>
             <xsl:value-of select="oa:dataUse"/>
@@ -415,9 +418,14 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:calcMethod != ''"><tr>
+              <xsl:if test="oa:measuredOrCalculated != ''"><tr>
+                <td class="desc">Measured or Calculated: </td>
+                <td class="val"><xsl:value-of select="oa:measuredOrCalculated"/></td>
+              </tr></xsl:if>
+
+              <xsl:if test="oa:calculationMethod/oa:description != ''"><tr>
                 <td class="desc">Calculation method and parameters: </td>
-                <td class="val"><xsl:value-of select="oa:calcMethod"/></td>
+                <td class="val"><xsl:value-of select="oa:calculationMethod/oa:description"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:samplingInstrument != ''"><tr>
@@ -435,9 +443,9 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:detailedInfo"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:replicate != ''"><tr>
+              <xsl:if test="oa:fieldReplicateHandling != ''"><tr>
                 <td class="desc">Replicate information: </td>
-                <td class="val"><xsl:value-of select="oa:replicate"/></td>
+                <td class="val"><xsl:value-of select="oa:fieldReplicateHandling"/></td>
               </tr></xsl:if>
 
               <!--standard-->
@@ -472,9 +480,9 @@ td.desc {
               <!-- poison -->
               <xsl:for-each select="oa:poison">
 
-                <xsl:if test="oa:poisonName != ''"><tr>
+                <xsl:if test="oa:name != ''"><tr>
                   <td class="desc">Poison name: </td>
-                  <td class="val"><xsl:value-of select="oa:poisonName"/></td>
+                  <td class="val"><xsl:value-of select="oa:name"/></td>
                 </tr></xsl:if>
 
                 <xsl:if test="oa:volume != ''"><tr>
@@ -482,11 +490,22 @@ td.desc {
                   <td class="val"><xsl:value-of select="oa:volume"/></td>
                 </tr></xsl:if>
 
-                <xsl:if test="oa:correction != ''"><tr>
+                <xsl:choose>
+                  <xsl:when test="oa:correction != ''"><tr>
+                    <td class="desc">Poison correction: </td>
+                    <td class="val"><xsl:value-of select="oa:correction"/></td>
+                  </tr></xsl:when>
+                  <xsl:when test="oa:description != ''"><tr>
+                    <td class="desc">Poison correction: </td>
+                    <td class="val"><xsl:value-of select="oa:description"/></td>
+                  </tr></xsl:when>
+                </xsl:choose>
+                <!--                <xsl:if test="oa:correction != ''"><tr>
                   <td class="desc">Poison correction: </td>
                   <td class="val"><xsl:value-of select="oa:correction"/></td>
                 </tr></xsl:if>
-
+-->
+                
               </xsl:for-each>
 
               <xsl:if test="oa:uncertainty != ''"><tr>
@@ -567,14 +586,14 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:measured != ''"><tr>
+              <xsl:if test="oa:measuredOrCalculated != ''"><tr>
                 <td class="desc">Measured or calculated: </td>
-                <td class="val"><xsl:value-of select="oa:measured"/></td>
+                <td class="val"><xsl:value-of select="oa:measuredOrCalculated"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:calcMethod != ''"><tr>
+              <xsl:if test="oa:calculationMethod/oa:description != ''"><tr>
                 <td class="desc">Calculation method and parameters: </td>
-                <td class="val"><xsl:value-of select="oa:calcMethod"/></td>
+                <td class="val"><xsl:value-of select="oa:calculationMethod/oa:description"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:samplingInstrument != ''"><tr>
@@ -613,7 +632,7 @@ td.desc {
               </tr></xsl:if>
 
               <!--standard-->
-              <xsl:for-each select="oa:standard">
+              <xsl:for-each select="oa:standardization">
 
                 <xsl:if test="oa:description != ''"><tr>
                   <td class="desc">Standardization description: </td>
@@ -644,9 +663,9 @@ td.desc {
               <!-- poison -->
               <xsl:for-each select="oa:poison">
 
-                <xsl:if test="oa:poisonName != ''"><tr>
+                <xsl:if test="oa:name != ''"><tr>
                   <td class="desc">Poison name: </td>
-                  <td class="val"><xsl:value-of select="oa:poisonName"/></td>
+                  <td class="val"><xsl:value-of select="oa:name"/></td>
                 </tr></xsl:if>
 
                 <xsl:if test="oa:volume != ''"><tr>
@@ -654,11 +673,21 @@ td.desc {
                   <td class="val"><xsl:value-of select="oa:volume"/></td>
                 </tr></xsl:if>
 
-                <xsl:if test="oa:correction != ''"><tr>
+                <xsl:choose>
+                  <xsl:when test="oa:correction != ''"><tr>
+                    <td class="desc">Poison correction: </td>
+                    <td class="val"><xsl:value-of select="oa:correction"/></td>
+                  </tr></xsl:when>
+                  <xsl:when test="oa:description != ''"><tr>
+                    <td class="desc">Poison correction: </td>
+                    <td class="val"><xsl:value-of select="oa:description"/></td>
+                  </tr></xsl:when>
+                </xsl:choose>
+                <!--                <xsl:if test="oa:correction != ''"><tr>
                   <td class="desc">Poison correction: </td>
                   <td class="val"><xsl:value-of select="oa:correction"/></td>
                 </tr></xsl:if>
-
+-->
               </xsl:for-each>
 
               <xsl:if test="oa:blank != ''"><tr>
@@ -742,14 +771,14 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:measured != ''"><tr>
+              <xsl:if test="oa:measuredOrCalculated != ''"><tr>
                 <td class="desc">Measured or calculated: </td>
-                <td class="val"><xsl:value-of select="oa:measured"/></td>
+                <td class="val"><xsl:value-of select="oa:measuredOrCalculated"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:calcMethod != ''"><tr>
+              <xsl:if test="oa:calculationMethod/oa:description != ''"><tr>
                 <td class="desc">Calculation method and parameters: </td>
-                <td class="val"><xsl:value-of select="oa:calcMethod"/></td>
+                <td class="val"><xsl:value-of select="oa:calculationMethod/oa:description"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:samplingInstrument != ''"><tr>
@@ -848,7 +877,7 @@ td.desc {
 
           <!-- pCO2 autonomous -->
 
-          <xsl:for-each select="oa:variable[@xsi:type='co2d_variable_type']|oa:co2a">
+          <xsl:for-each select="oa:variable[@xsi:type='co2_autonomous']|oa:co2a">
             <hr/>
 
             <table width="940"><tr>
@@ -889,14 +918,14 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:measured != ''"><tr>
+              <xsl:if test="oa:measuredOrCalculated != ''"><tr>
                 <td class="desc">Measured or calculated: </td>
-                <td class="val"><xsl:value-of select="oa:measured"/></td>
+                <td class="val"><xsl:value-of select="oa:measuredOrCalculated"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:calcMethod != ''"><tr>
+              <xsl:if test="oa:calculationMethod/oa:description != ''"><tr>
                 <td class="desc">Calculation method and parameters: </td>
-                <td class="val"><xsl:value-of select="oa:calcMethod"/></td>
+                <td class="val"><xsl:value-of select="oa:calculationMethod/oa:description"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:samplingInstrument != ''"><tr>
@@ -1237,7 +1266,7 @@ td.desc {
 
           <!-- pCO2 discrete -->
 
-          <xsl:for-each select="variable[@xsi:type='co2d_variable_type']|oa:co2d">
+          <xsl:for-each select="oa:variable[@xsi:type='co2_discrete']|oa:co2d">
 
             <hr/>
 
@@ -1279,14 +1308,14 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:measured != ''"><tr>
+              <xsl:if test="oa:measuredOrCalculated != ''"><tr>
                 <td class="desc">Measured or calculated: </td>
-                <td class="val"><xsl:value-of select="oa:measured"/></td>
+                <td class="val"><xsl:value-of select="oa:measuredOrCalculated"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:calcMethod != ''"><tr>
+              <xsl:if test="oa:calculationMethod/oa:description != ''"><tr>
                 <td class="desc">Calculation method and parameters: </td>
-                <td class="val"><xsl:value-of select="oa:calcMethod"/></td>
+                <td class="val"><xsl:value-of select="oa:calculationMethod/oa:description"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:samplingInstrument != ''"><tr>
@@ -1456,7 +1485,7 @@ td.desc {
 
             <table width="940">
 
-<!--
+<!--    In header
               <xsl:if test="oa:fullName != ''"><tr>
                 <td class="desc">Name: </td>
                 <td class="val"><xsl:value-of select="oa:fullName"/></td>
@@ -1487,9 +1516,14 @@ td.desc {
                 <td class="val"><xsl:value-of select="oa:variableType"/></td>
               </tr></xsl:if>
 
-              <xsl:if test="oa:calcMethod != ''"><tr>
+              <xsl:if test="oa:measuredOrCalculated != ''"><tr>
+                <td class="desc">Measured or calculated: </td>
+                <td class="val"><xsl:value-of select="oa:measuredOrCalculated"/></td>
+              </tr></xsl:if>
+
+              <xsl:if test="oa:calculationMethod/oa:description != ''"><tr>
                 <td class="desc">Calculation method and parameters: </td>
-                <td class="val"><xsl:value-of select="oa:calcMethod"/></td>
+                <td class="val"><xsl:value-of select="oa:calculationMethod/oa:description"/></td>
               </tr></xsl:if>
 
               <xsl:if test="oa:samplingInstrument != ''"><tr>
@@ -1566,7 +1600,12 @@ td.desc {
                 <td class="desc">Species ID: </td>
                 <td class="val"><xsl:value-of select="oa:speciesID"/></td>
               </tr></xsl:if>
-
+              
+              <xsl:if test="oa:lifeStage != ''"><tr>
+                <td class="desc">Life Stage: </td>
+                <td class="val"><xsl:value-of select="oa:lifeStage"/></td>
+              </tr></xsl:if>
+              
               <xsl:if test="oa:QC != ''"><tr>
                 <td class="desc">QC steps: </td>
                 <td class="val"><xsl:value-of select="oa:QC"/></td>
