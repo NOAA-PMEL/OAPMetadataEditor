@@ -129,7 +129,11 @@ class DocumentController {
         doc.setLastModified(update)
 
         Document d
-        if ( doc.validate() ) {
+        for ( Variable v : doc.getVariables()) {
+            System.out.println("var: " + v.getClass().getCanonicalName())
+            System.out.println("par: " + v.getClass().getSuperclass().getCanonicalName())
+        }
+//        if ( doc.validate() ) {
             try {
                 if ( removePrior ) {
                     List<Document> prior = Document.findAllByDatasetIdentifier(datasetId)
@@ -152,9 +156,9 @@ class DocumentController {
                 t.printStackTrace()
                 throw t
             }
-        } else {
-            doc.errors.each {Error error -> log.info(error.getMessage())}
-        }
+//        } else {
+//            doc.errors.each {Error error -> log.info(error.getMessage())}
+//        }
         return d
     }
 
