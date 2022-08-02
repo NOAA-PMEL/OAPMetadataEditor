@@ -35,6 +35,10 @@
 /*    display: inline-block !important;*/
 /*}*/
 
+.modal-content, .modal-content blockquote {
+    font-size: 1.6rem;
+}
+
 @media (max-width: 767px) {
     /*applied if browser window width is less than or equal to 767px*/
     .metadata-button-group {
@@ -244,6 +248,10 @@ h1 {
 
 .table > tbody > tr > td {
     vertical-align: middle !important;
+}
+
+textarea {
+    resize: vertical;
 }
 
 /*.text-muted {*/

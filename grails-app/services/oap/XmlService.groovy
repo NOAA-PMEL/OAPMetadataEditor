@@ -366,7 +366,7 @@ class XmlService {
                        ( fullname != null &&
                            ( fullname.equals("pco2 (fco2) autonomous") ||
                              fullname.equals("pco2 (or fco2) autonomous"))) ||
-                         varType.contains("AquGasConc")) {
+                         varType.contains("GasConc")) { // "AquGasConc")) {
                 if ( isSocat ) {
                     Co2 p = fillVariableDomain(variableE, new Co2())
                     mdDoc.addToCo2vars(p)
@@ -550,7 +550,7 @@ class XmlService {
         }
         Element flag = varElement.getChild("flag")
         if ( ! isEmpty(flag) ) {
-            domainVar.setQualityFlag(flag.getText())
+            domainVar.setQcApplied(flag.getText())
         }
         Element methodReference = varElement.getChild("methodReference")
         if ( ! isEmpty(methodReference) ) {
@@ -1431,15 +1431,15 @@ class XmlService {
     */
     private Element fillVariable(GenericVariable v, String internalId) {
         Element variable = new Element("variable")
-        if ( v.getFullVariableName() ) {
-            Element fullname = new Element("fullname")
-            fullname.setText(v.getFullVariableName())
-            variable.addContent(fullname)
-        }
         if ( v.getAbbreviation() ) {
             Element abbrev = new Element("abbrev")
             abbrev.setText(v.getAbbreviation())
             variable.addContent(abbrev)
+        }
+        if ( v.getFullVariableName() ) {
+            Element fullname = new Element("fullname")
+            fullname.setText(v.getFullVariableName())
+            variable.addContent(fullname)
         }
         if ( v.getUnits() ) {
             Element unit = new Element("unit")
@@ -1574,9 +1574,9 @@ class XmlService {
             uncertainty.setText(v.getUncertainty())
             variable.addContent(uncertainty)
         }
-        if ( v.getQualityFlag() ) {
+        if ( v.getQcApplied() ) {
             Element flag = new Element("flag")
-            flag.setText(v.getQualityFlag())
+            flag.setText(v.getQcApplied())
             variable.addContent(flag)
         }
         if ( v.getReferenceMethod() ) {

@@ -1,5 +1,6 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
@@ -20,7 +21,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String detailedInformation;
     String fieldReplicate;
     String uncertainty;
-    String qualityFlag;
+    String qcApplied;
     String researcherName;
     String researcherInstitution;
     String fullVariableName;
@@ -70,16 +71,16 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String speciesIdCode;
     String variableType;
 
-    String qualityControl;
-    String abbreviationQualityFlag;
+    String qcSchemeName;
+    String qcVariableName;
     String sopChanges;
     String collectionMethod;
     String analyzingInformation;
     String phDyeTypeManuf;
 
     String traceabilityOfStdGas;
-    String fCo2CalcMethod;
-    String pCo2CalcMethod;
+    String fco2CalcMethod;
+    String pco2CalcMethod;
     String temperatureMeasurementCalibrationMethod;
     String pressureMeasurementCalibrationMethod;
     String uncertaintyOfTemperature;
@@ -100,7 +101,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.detailedInformation,
             this.fieldReplicate,
             this.uncertainty,
-            this.qualityFlag,
+            this.qcApplied,
             this.researcherName,
             this.researcherInstitution,
             this.fullVariableName,
@@ -148,16 +149,16 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.duration,
             this.lifeStage,
             this.speciesIdCode,
-            this.qualityControl,
-            this.abbreviationQualityFlag,
+            this.qcSchemeName,
+            this.qcVariableName,
             this.sopChanges,
             this.collectionMethod,
             this.analyzingInformation,
             this.phDyeTypeManuf,
             this.variableType,
             this.traceabilityOfStdGas,
-            this.fCo2CalcMethod,
-            this.pCo2CalcMethod,
+            this.fco2CalcMethod,
+            this.pco2CalcMethod,
             this.temperatureMeasurementCalibrationMethod,
             this.pressureMeasurementCalibrationMethod,
             this.uncertaintyOfTemperature,
@@ -180,7 +181,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String detailedInformation,
             String fieldReplicate,
             String uncertainty,
-            String qualityFlag,
+            String qcApplied,
             String researcherName,
             String researcherInstitution,
             String fullVariableName,
@@ -228,8 +229,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String duration,
             String lifeStage,
             String speciesIdCode,
-            String qualityControl,
-            String abbreviationQualityFlag,
+            String qcSchemeName,
+            String qcVariableName,
             String sopChanges,
             String collectionMethod,
             String phDyeTypeManuf,
@@ -256,7 +257,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.detailedInformation = detailedInformation;
         this.fieldReplicate = fieldReplicate;
         this.uncertainty = uncertainty;
-        this.qualityFlag = qualityFlag;
+        this.qcApplied = qcApplied;
         this.researcherName = researcherName;
         this.researcherInstitution = researcherInstitution;
         this.fullVariableName = fullVariableName;
@@ -304,16 +305,16 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.duration = duration;
         this.lifeStage = lifeStage;
         this.speciesIdCode = speciesIdCode;
-        this.qualityControl = qualityControl;
-        this.abbreviationQualityFlag = abbreviationQualityFlag;
+        this.qcSchemeName = qcSchemeName;
+        this.qcVariableName = qcVariableName;
         this.sopChanges = sopChanges;
         this.collectionMethod=collectionMethod;
-        this.phDyeTypeManuf = phDyeTypeManuf;
         this.analyzingInformation = analyzingInformation;
         this.variableType = variableType;
+        this.phDyeTypeManuf = phDyeTypeManuf;
         this.traceabilityOfStdGas = traceabilityOfStdGas;
-        this.fCo2CalcMethod = fCo2CalcMethod;
-        this.pCo2CalcMethod = pCo2CalcMethod;
+        this.fco2CalcMethod = fCo2CalcMethod;
+        this.pco2CalcMethod = pCo2CalcMethod;
         this.temperatureMeasurementCalibrationMethod = temperatureMeasurementCalibrationMethod;
         this.pressureMeasurementCalibrationMethod = pressureMeasurementCalibrationMethod;
         this.uncertaintyOfTemperature = uncertaintyOfTemperature;
@@ -343,7 +344,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (detailedInformation != null ? detailedInformation.hashCode() : 0);
         result = 31 * result + (fieldReplicate != null ? fieldReplicate.hashCode() : 0);
         result = 31 * result + (uncertainty != null ? uncertainty.hashCode() : 0);
-        result = 31 * result + (qualityFlag != null ? qualityFlag.hashCode() : 0);
+        result = 31 * result + (qcApplied != null ? qcApplied.hashCode() : 0);
         result = 31 * result + (researcherName != null ? researcherName.hashCode() : 0);
         result = 31 * result + (researcherInstitution != null ? researcherInstitution.hashCode() : 0);
         result = 31 * result + (fullVariableName != null ? fullVariableName.hashCode() : 0);
@@ -392,15 +393,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
         result = 31 * result + (lifeStage != null ? lifeStage.hashCode() : 0);
         result = 31 * result + (speciesIdCode != null ? speciesIdCode.hashCode() : 0);
-        result = 31 * result + (qualityControl != null ? qualityControl.hashCode() : 0);
-        result = 31 * result + (abbreviationQualityFlag != null ? abbreviationQualityFlag.hashCode() : 0);
+        result = 31 * result + (qcSchemeName != null ? qcSchemeName.hashCode() : 0);
+        result = 31 * result + (qcVariableName != null ? qcVariableName.hashCode() : 0);
         result = 31 * result + (sopChanges != null ? sopChanges.hashCode() : 0);
         result = 31 * result + (collectionMethod != null ? collectionMethod.hashCode() : 0);
         result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
         result = 31 * result + (phDyeTypeManuf != null ? phDyeTypeManuf.hashCode() : 0);
         result = 31 * result + (traceabilityOfStdGas != null ? traceabilityOfStdGas.hashCode() : 0);
-        result = 31 * result + (fCo2CalcMethod != null ? fCo2CalcMethod.hashCode() : 0);
-        result = 31 * result + (pCo2CalcMethod != null ? pCo2CalcMethod.hashCode() : 0);
+        result = 31 * result + (fco2CalcMethod != null ? fco2CalcMethod.hashCode() : 0);
+        result = 31 * result + (pco2CalcMethod != null ? pco2CalcMethod.hashCode() : 0);
         result = 31 * result + (temperatureMeasurementCalibrationMethod != null ? temperatureMeasurementCalibrationMethod.hashCode() : 0);
         result = 31 * result + (pressureMeasurementCalibrationMethod != null ? pressureMeasurementCalibrationMethod.hashCode() : 0);
         result = 31 * result + (uncertaintyOfTemperature != null ? uncertaintyOfTemperature.hashCode() : 0);
@@ -435,7 +436,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(detailedInformation, v.detailedInformation) == 0 &&
                 sCompare(fieldReplicate, v.fieldReplicate) == 0 &&
                 sCompare(uncertainty, v.uncertainty) == 0 &&
-                sCompare(qualityFlag, v.qualityFlag) == 0 &&
+                sCompare(qcApplied, v.qcApplied) == 0 &&
                 sCompare(researcherName, v.researcherName) == 0 &&
                 sCompare(researcherInstitution, v.researcherInstitution) == 0 &&
                 sCompare(referenceMethod, v.referenceMethod) == 0 &&
@@ -483,15 +484,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(duration, v.duration) == 0 &&
                 sCompare(lifeStage, v.lifeStage) == 0 &&
                 sCompare(speciesIdCode, v.speciesIdCode) == 0 &&
-                sCompare(qualityControl, v.qualityControl) == 0 &&
-                sCompare(abbreviationQualityFlag, v.abbreviationQualityFlag) == 0 &&
+                sCompare(qcSchemeName, v.qcSchemeName) == 0 &&
+                sCompare(qcVariableName, v.qcVariableName) == 0 &&
                 sCompare(sopChanges, v.sopChanges) == 0 &&
                 sCompare(collectionMethod, v.collectionMethod) == 0 &&
                 sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
                 sCompare(phDyeTypeManuf, v.phDyeTypeManuf) == 0 &&
                 sCompare(traceabilityOfStdGas, v.traceabilityOfStdGas) == 0 &&
-                sCompare(fCo2CalcMethod, v.fCo2CalcMethod) == 0 &&
-                sCompare(pCo2CalcMethod, v.pCo2CalcMethod) == 0 &&
+                sCompare(fco2CalcMethod, v.fco2CalcMethod) == 0 &&
+                sCompare(pco2CalcMethod, v.pco2CalcMethod) == 0 &&
                 sCompare(temperatureMeasurementCalibrationMethod, v.temperatureMeasurementCalibrationMethod) == 0 &&
                 sCompare(pressureMeasurementCalibrationMethod, v.pressureMeasurementCalibrationMethod) == 0 &&
                 sCompare(uncertaintyOfTemperature, v.uncertaintyOfTemperature) == 0 &&
@@ -517,7 +518,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.detailedInformation = this.detailedInformation;
         newv.fieldReplicate = this.fieldReplicate;
         newv.uncertainty = this.uncertainty;
-        newv.qualityFlag = this.qualityFlag;
+        newv.qcApplied = this.qcApplied;
         newv.researcherName = this.researcherName;
         newv.researcherInstitution = this.researcherInstitution;
         newv.fullVariableName = this.fullVariableName;
@@ -565,15 +566,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.duration = this.duration;
         newv.lifeStage = this.lifeStage;
         newv.speciesIdCode = this.speciesIdCode;
-        newv.qualityControl = this.qualityControl;
-        newv.abbreviationQualityFlag = this.abbreviationQualityFlag;
+        newv.qcSchemeName = this.qcSchemeName;
+        newv.qcVariableName = this.qcVariableName;
         newv.sopChanges = this.sopChanges;
         newv.collectionMethod = this.collectionMethod;
         newv.analyzingInformation = this.analyzingInformation;
         newv.phDyeTypeManuf = this.phDyeTypeManuf;
         newv.traceabilityOfStdGas = this.traceabilityOfStdGas;
-        newv.fCo2CalcMethod = this.fCo2CalcMethod;
-        newv.pCo2CalcMethod = this.pCo2CalcMethod;
+        newv.fco2CalcMethod = this.fco2CalcMethod;
+        newv.pco2CalcMethod = this.pco2CalcMethod;
         newv.temperatureMeasurementCalibrationMethod = this.temperatureMeasurementCalibrationMethod;
         newv.pressureMeasurementCalibrationMethod = this.pressureMeasurementCalibrationMethod;
         newv.uncertaintyOfTemperature = this.uncertaintyOfTemperature;
@@ -597,7 +598,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(detailedInformation) &&
                     isEmpty(fieldReplicate) &&
                     isEmpty(uncertainty) &&
-                    isEmpty(qualityFlag) &&
+                    isEmpty(qcApplied) &&
                     isEmpty(researcherName) &&
                     isEmpty(researcherInstitution) &&
                     isEmpty(fullVariableName) &&
@@ -645,15 +646,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(duration) &&
                     isEmpty(lifeStage) &&
                     isEmpty(speciesIdCode) &&
-                    isEmpty(qualityControl) &&
-                    isEmpty(abbreviationQualityFlag) &&
+                    isEmpty(qcSchemeName) &&
+                    isEmpty(qcVariableName) &&
                     isEmpty(sopChanges) &&
                     isEmpty(collectionMethod) &&
                     isEmpty(analyzingInformation) &&
                     isEmpty(phDyeTypeManuf) &&
                     isEmpty(traceabilityOfStdGas) &&
-                    isEmpty(fCo2CalcMethod) &&
-                    isEmpty(pCo2CalcMethod) &&
+                    isEmpty(fco2CalcMethod) &&
+                    isEmpty(pco2CalcMethod) &&
                     isEmpty(temperatureMeasurementCalibrationMethod) &&
                     isEmpty(pressureMeasurementCalibrationMethod) &&
                     isEmpty(uncertaintyOfTemperature) &&
@@ -822,20 +823,20 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     }
 
 
-    public String getQualityControl() {
-        return qualityControl;
+    public String getQcSchemeName() {
+        return qcSchemeName;
     }
 
-    public void setQualityControl(String qualityControl) {
-        this.qualityControl = qualityControl;
+    public void setQcSchemeName(String qcSchemeName) {
+        this.qcSchemeName = qcSchemeName;
     }
 
-    public String getAbbreviationQualityFlag() {
-        return abbreviationQualityFlag;
+    public String getQcVariableName() {
+        return qcVariableName;
     }
 
-    public void setAbbreviationQualityFlag(String abbreviationQualityFlag) {
-        this.abbreviationQualityFlag = abbreviationQualityFlag;
+    public void setQcVariableName(String qcVariableName) {
+        this.qcVariableName = qcVariableName;
     }
 
     public String getSopChanges() {
@@ -996,9 +997,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     public String getUnits() {
         return units;
     }
-    public void setUnits(String units) {
-        this.units = units;
-    }
+    public void setUnits(String units) { this.units = units; }
 
     public String getMeasured() {
         return measured;
@@ -1042,11 +1041,11 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.uncertainty = uncertainty;
     }
 
-    public String getQualityFlag() {
-        return qualityFlag;
+    public String getQcApplied() {
+        return qcApplied;
     }
-    public void setQualityFlag(String qualityFlag) {
-        this.qualityFlag = qualityFlag;
+    public void setQcApplied(String qcApplied) {
+        this.qcApplied = qcApplied;
     }
 
     public String getResearcherName() {
@@ -1138,14 +1137,14 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.traceabilityOfStdGas = traceabilityOfStdGas;
     }
 
-    public String getfCo2CalcMethod() { return fCo2CalcMethod; }
-    public void setfCo2CalcMethod(String fCo2CalcMethod) {
-        this.fCo2CalcMethod = fCo2CalcMethod;
+    public String getFco2CalcMethod() { return fco2CalcMethod; }
+    public void setFco2CalcMethod(String fco2CalcMethod) {
+        this.fco2CalcMethod = fco2CalcMethod;
     }
 
-    public String getpCo2CalcMethod() { return pCo2CalcMethod; }
-    public void setpCo2CalcMethod(String pCo2CalcMethod) {
-        this.pCo2CalcMethod = pCo2CalcMethod;
+    public String getPco2CalcMethod() { return pco2CalcMethod; }
+    public void setPco2CalcMethod(String pco2CalcMethod) {
+        this.pco2CalcMethod = pco2CalcMethod;
     }
 
     public String getTemperatureMeasurementCalibrationMethod() {

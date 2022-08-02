@@ -2,8 +2,9 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -46,7 +47,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.*;
 
 /**
  * Created by rhs on 3/7/17.
@@ -397,7 +397,7 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     }
 
     @UiHandler("showGrantNumberListButton")
-    public void setShowInstutionListButtonClick(ClickEvent clickEvent) {
+    public void setShowGrantNumberListButtonClick(ClickEvent clickEvent) {
         grantNumber.showSuggestionList();
     }
     @UiHandler("save")

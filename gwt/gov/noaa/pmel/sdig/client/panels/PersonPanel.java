@@ -2,43 +2,31 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
-import com.google.gwt.event.dom.client.*;
-import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.cellview.client.RowStyles;
-import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.AbstractSafeHtmlCell;
-
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
-
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
-
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
-import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
+import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionUpdater;
-
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
@@ -176,13 +164,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idValues.add("researcherId");
         idType.init("Pick an ID Type ", idNames, idValues);
 
-        namePopover.setTitle("3.1 Full name of the " + personType + " (First Middle Last).");
-        institutionPopover.setTitle("3.2 Affiliated institution of the " + personType + " (e.g., Woods Hole Oceanographic Institution).");
-        addressPopover.setTitle("3.3 Address of the affiliated institution of the " + personType + ".");
-        telephonePopover.setTitle("3.4 Phone number of the " + personType + ".");
-        emailPopover.setTitle("3.5 Email address of the " + personType + ".");
-        idTypePopover.setTitle("3.7 Please indicate which type of researcher ID.");
-        idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
+        namePopover.setTitle("6.1 Full name of the " + personType + " (First Middle Last).");
+        institutionPopover.setTitle("6.2 Affiliated institution of the " + personType + " (e.g. University of Bergen, Norway).");
+        addressPopover.setTitle("6.4 Address of the affiliated institution of the " + personType + ".");
+        telephonePopover.setTitle("6.5 Phone number of the " + personType + "(country code + telephone number).");
+        emailPopover.setTitle("6.6 Email address of the " + personType + ".");
+        idTypePopover.setTitle("6.8 Please indicate which type of researcher ID.");
+        idPopover.setTitle("6.7 We recommend to use person identifiers (OceanExpert, ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
         if ("data submitter".equalsIgnoreCase(personType)) {
             emailLabel.setText("Email Address *");
@@ -588,7 +576,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     @UiHandler("showInstitutionListButton")
-    public void setShowInstutionListButtonClick(ClickEvent clickEvent) {
+    public void setShowInstitutionListButtonClick(ClickEvent clickEvent) {
         institution.showSuggestionList();
     }
     @UiHandler("save")
@@ -667,6 +655,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                         isDirty(institution, original.getInstitution()) ||
                         isDirty(lastName, original.getLastName()) ||
                         isDirty(mi, original.getMi()) ||
+                        isDirty(idType.getValue(), original.getIdType()) ||
                         isDirty(rid, original.getRid()) ||
                         isDirty(telephone, original.getTelephone()) ||
                         isDirty(extension, original.getExtension()) ||
@@ -711,6 +700,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         }
         if (mi.getText().trim() != null && !mi.getText().isEmpty()) {
             OAPMetadataEditor.debugLog("PersonPanel.mi:" + mi.getText());
+            hasContent = true;
+        }
+        if (idType.getValue() != null && !idType.getValue().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.idType:" + idType.getValue());
             hasContent = true;
         }
         if (rid.getText().trim() != null && !rid.getText().isEmpty()) {

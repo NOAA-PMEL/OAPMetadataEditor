@@ -13,6 +13,7 @@ public class TimeAndLocation extends DbItem implements Stringy, HasContent {
     String southLat;
     String westLon;
     String eastLon;
+    boolean siteLocation;
     String geoNames;
     String organismLoc;
     String spatialRef;
@@ -91,18 +92,15 @@ public class TimeAndLocation extends DbItem implements Stringy, HasContent {
         this.spatialRef = spatialRef;
     }
 
-    public String getSiteSpecificLon() {
-        return spatialRef;
-    }
+    public boolean isSiteLocation() { return siteLocation; }
+    public void setSiteLocation(boolean isSiteLoc) { this.siteLocation = isSiteLoc; }
 
+    public String getSiteSpecificLon() { return siteSpecificLon; }
     public void setSiteSpecificLon(String siteSpecificLon) {
         this.siteSpecificLon = siteSpecificLon;
     }
 
-    public String getSiteSpecificLat() {
-        return spatialRef;
-    }
-
+    public String getSiteSpecificLat() { return siteSpecificLat; }
     public void setSiteSpecificLat(String siteSpecificLat) {
         this.siteSpecificLat = siteSpecificLat;
     }

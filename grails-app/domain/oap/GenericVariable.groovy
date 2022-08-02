@@ -13,7 +13,7 @@ class GenericVariable {
     String detailedInformation
     String fieldReplicate
     String uncertainty
-    String qualityFlag
+    String qcApplied
     String researcherName
     String researcherInstitution
     String fullVariableName
@@ -63,16 +63,16 @@ class GenericVariable {
     String speciesIdCode
     String variableType
 
-    String qualityControl
-    String abbreviationQualityFlag
+    String qcSchemeName
+    String qcVariableName
     String sopChanges
     String collectionMethod
     String analyzingInformation
     String phDyeTypeManuf
 
     String traceabilityOfStdGas
-    String fCo2CalcMethod
-    String pCo2CalcMethod
+    String fco2CalcMethod
+    String pco2CalcMethod
     String temperatureMeasurementCalibrationMethod
     String pressureMeasurementCalibrationMethod
     String uncertaintyOfTemperature
@@ -94,7 +94,7 @@ class GenericVariable {
         detailedInformation (nullable: true, type: 'text')
         fieldReplicate (nullable: true, type: 'text')
         uncertainty (nullable: true, type: 'text')
-        qualityFlag (nullable: true, type: 'text')
+        qcApplied (nullable: true, type: 'text')
         researcherName (nullable: true)
         researcherInstitution (nullable: true, type: 'text')
         fullVariableName (nullable: true, type: 'text')
@@ -132,7 +132,6 @@ class GenericVariable {
         gasDectectorResolution (nullable: true)
         seawaterVolume (nullable: true)
         temperatureCorrectionMethod (nullable: true, type: 'text')
-//        temperatureCorrection (nullable: true)
         temperatureMeasurement (nullable: true)
         temperatureStandarization (nullable: true, type: 'text')
         standardGasUncertainties (nullable: true, type: 'text')
@@ -144,15 +143,15 @@ class GenericVariable {
         lifeStage (nullable: true)
         speciesIdCode (nullable: true)
         variableType (nullable: true)
-        qualityControl (nullable: true)
-        abbreviationQualityFlag (nullable: true)
+        qcSchemeName (nullable: true)
+        qcVariableName (nullable: true)
         sopChanges (nullable: true, type: 'text')
         collectionMethod (nullable: true, type: 'text')
         analyzingInformation (nullable: true, type: 'text')
         phDyeTypeManuf (nullable: true)
         traceabilityOfStdGas (nullable: true, type: 'text')
-        fCo2CalcMethod (nullable: true, type: 'text')
-        pCo2CalcMethod (nullable: true, type: 'text')
+        fco2CalcMethod (nullable: true)
+        pco2CalcMethod (nullable: true)
         temperatureMeasurementCalibrationMethod (nullable: true, type: 'text')
         pressureMeasurementCalibrationMethod (nullable: true, type: 'text')
         uncertaintyOfTemperature (nullable: true)

@@ -20,7 +20,7 @@ class Variable extends GenericVariable {
         v.detailedInformation = genV.detailedInformation
         v.fieldReplicate = genV.fieldReplicate
         v.uncertainty = genV.uncertainty
-        v.qualityFlag = genV.qualityFlag
+        v.qcApplied = genV.qcApplied
         v.researcherName = genV.researcherName
         v.researcherInstitution = genV.researcherInstitution
         v.fullVariableName = genV.fullVariableName
@@ -69,13 +69,20 @@ class Variable extends GenericVariable {
         v.lifeStage = genV.lifeStage
         v.speciesIdCode = genV.speciesIdCode
         v.variableType = genV.variableType
-        v.qualityControl = genV.qualityControl
-        v.abbreviationQualityFlag = genV.abbreviationQualityFlag
+        v.qcSchemeName = genV.qcSchemeName
+        v.qcVariableName = genV.qcVariableName
         v.sopChanges = genV.sopChanges
         v.collectionMethod = genV.collectionMethod
         v.analyzingInformation =genV.analyzingInformation
         v.phDyeTypeManuf = genV.phDyeTypeManuf
-
+        v.traceabilityOfStdGas = genV.traceabilityOfStdGas
+        v.fco2CalcMethod = genV.fco2CalcMethod
+        v.pco2CalcMethod = genV.pco2CalcMethod
+        v.temperatureMeasurementCalibrationMethod = genV.temperatureMeasurementCalibrationMethod
+        v.pressureMeasurementCalibrationMethod = genV.pressureMeasurementCalibrationMethod
+        v.uncertaintyOfTemperature = genV.uncertaintyOfTemperature
+        v.uncertaintyOfTotalPressure = genV.uncertaintyOfTotalPressure
+        v.totalPressureCalcMethod = genV.totalPressureCalcMethod
 
         /*
         new VariableBuilder()
@@ -91,7 +98,7 @@ class Variable extends GenericVariable {
                 .detailedInformation(genV.detailedInformation)
                 .fieldReplicate(genV.fieldReplicate)
                 .uncertainty(genV.uncertainty)
-                .qualityFlag(genV.qualityFlag)
+                .qcApplied(genV.qcApplied)
                 .researcherName(genV.researcherName)
                 .researcherInstitution(genV.researcherInstitution)
                 .fullVariableName(genV.fullVariableName)

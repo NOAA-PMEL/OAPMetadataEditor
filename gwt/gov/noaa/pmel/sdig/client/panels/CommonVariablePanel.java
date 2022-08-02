@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
@@ -50,7 +51,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 003 Manipulation method
     @UiField
-    TextBox manipulationMethod;
+    TextArea manipulationMethod;
 
     // 004 In-situ observation / manipulation condition / response variable
     @UiField
@@ -65,7 +66,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     ButtonDropDown measured;
 
     @UiField
-    TextBox calculationMethod;
+    TextArea calculationMethod;
 
     // 008 Sampling instrument
     @UiField (provided = true)
@@ -79,21 +80,21 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     @UiField
     Button showAnalyzingInstrumentListButton;
 
-    // 010 Detailed sampling and analyzing information
+    // 010 Detailed sampling and analyzing information -> Analyzing information with citation (SOP etc)
     @UiField
     TextArea detailedInformation;
 
     // 011 Field replicate information
     @UiField
-    TextBox fieldReplicate;
+    TextArea fieldReplicate;
 
     // 020 Uncertainty
     @UiField
-    TextBox uncertainty;
+    TextArea uncertainty;
 
     // 021 Data quality flag description
     @UiField
-    TextBox qualityFlag;
+    ButtonDropDown qcApplied;
 
     // 022 Researcher Name
     @UiField
@@ -109,7 +110,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 045 Method reference (citation)
     @UiField
-    TextBox referenceMethod;
+    TextArea referenceMethod;
 
 
     // The form groups that hold the labels and form entry widgets (textbox, textarea and dropdowns).
@@ -164,7 +165,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 021 Data quality flag description
     @UiField
-    FormGroup qualityFlagForm;
+    FormGroup qcAppliedForm;
 
     // 022 Researcher Name
     @UiField
@@ -232,7 +233,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // 021 Data quality flag description
     @UiField
-    Modal qualityFlagModal;
+    Modal qcAppliedModal;
 
     // 022 Researcher Name
     @UiField
@@ -250,23 +251,24 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     @UiField
     Modal referenceMethodModal;
 
-
     // new var for 14.3.1
     // Quality control
     @UiField
-    TextBox qualityControl;
+    TextArea qcSchemeName;
     @UiField
-    Modal qualityControlModal;
+    Modal qcSchemeNameModal;
     @UiField
-    FormGroup qualityControlForm;
+    HTML modalContentQcSchemeName;
+    @UiField
+    FormGroup qcSchemeNameForm;
 
     // Abbreviation of data quality flag scheme
     @UiField
-    TextBox abbreviationQualityFlag;
+    TextBox qcVariableName;
     @UiField
-    Modal abbreviationQualityFlagModal;
+    Modal qcVariableNameModal;
     @UiField
-    FormGroup abbreviationQualityFlagForm;
+    FormGroup qcVariableNameForm;
 
     // Changes to Method or SOP
     @UiField
@@ -294,9 +296,24 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     // modified for 14.3.1
     @UiField
-    FormLabel qualityFlagLabel;
+    FormLabel qcAppliedLabel;
 
+    // only for Pco2aPanel
+    // 030 Depth of seawater intake
+    @UiField
+    TextBox intakeDepth;
+    @UiField
+    FormGroup intakeDepthForm;
+    @UiField
+    Modal intakeDepthModal;
 
+    // 041 Location of seawater intake
+    @UiField
+    TextBox intakeLocation;
+    @UiField
+    FormGroup intakeLocationForm;
+    @UiField
+    Modal intakeLocationModal;
 
 
 
@@ -362,6 +379,17 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         measuredValues.add("Calculated");
         measured.init("Measured or Calculated ", measuredNames, measuredValues);
 
+        // qcApplied
+        List<String> qcAppliedNames = new ArrayList<String>();
+        List<String> qcAppliedValues = new ArrayList<String>();
+        qcAppliedNames.add("Yes ");
+        qcAppliedValues.add("yes");
+        qcAppliedNames.add("No ");
+        qcAppliedValues.add("No");
+        qcApplied.init("Yes or No ", qcAppliedNames, qcAppliedValues);
+
+        analyzingInformationForm.setVisible(false); // XXX hide this for now
+
         abbreviationModal.setTitle("");
         observationTypeModal.setTitle("");
         manipulationMethodModal.setTitle("");
@@ -373,15 +401,18 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         detailedInformationModal.setTitle("");
         fieldReplicateModal.setTitle("");
         uncertaintyModal.setTitle("");
-        qualityFlagModal.setTitle("");
+        qcAppliedModal.setTitle("");
         researcherNameModal.setTitle("");
         researcherInstitutionModal.setTitle("");
         fullVariableNameModal.setTitle("");
         referenceMethodModal.setTitle("");
-        abbreviationQualityFlag.setTitle("");
+        qcVariableName.setTitle("");
         collectionMethod.setTitle("");
         analyzingInformation.setTitle("");
         sopChangesModal.setTitle("");
+
+        intakeDepth.setTitle("");
+        intakeLocation.setTitle("");
     }
     @UiHandler("showObservationListButton")
     public void onObservationListClick(ClickEvent clickEvent) { observationType.showSuggestionList(); }
@@ -399,6 +430,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     void reset() {
         observationDetail.reset();
         measured.reset();
+        qcApplied.reset();
     }
     public void show(Variable variable) {
         _displayedVariable = variable;
@@ -442,8 +474,8 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if ( variable.getUncertainty() != null ) {
             uncertainty.setText(variable.getUncertainty());
         }
-        if ( variable.getQualityFlag() != null ) {
-            qualityFlag.setText(variable.getQualityFlag());
+        if ( variable.getQcApplied() != null ) {
+            qcApplied.setSelected(variable.getQcApplied());
         }
         if ( variable.getResearcherName() != null ) {
             researcherName.setText(variable.getResearcherName());
@@ -461,14 +493,21 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if ( variable.getSopChanges() != null ) {
             sopChanges.setText(variable.getSopChanges());
         }
-        if ( variable.getAbbreviationQualityFlag() != null ) {
-            sopChanges.setText(variable.getAbbreviationQualityFlag());
+        if ( variable.getQcVariableName() != null ) {
+            sopChanges.setText(variable.getQcVariableName());
         }
         if ( variable.getCollectionMethod() != null ) {
             collectionMethod.setText(variable.getCollectionMethod());
         }
         if ( variable.getAnalyzingInformation() != null ) {
             analyzingInformation.setText(variable.getAnalyzingInformation());
+        }
+
+        if ( variable.getIntakeDepth() != null ) {
+            intakeDepth.setText(variable.getIntakeDepth());
+        }
+        if ( variable.getIntakeLocation() != null ) {
+            intakeLocation.setText(variable.getIntakeLocation());
         }
     }
 
@@ -494,15 +533,18 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         commonVariable.setDetailedInformation(detailedInformation.getText());
         commonVariable.setFieldReplicate(fieldReplicate.getText());
         commonVariable.setUncertainty(uncertainty.getText());
-        commonVariable.setQualityFlag(qualityFlag.getText());
+        commonVariable.setQcApplied(qcApplied.getValue());
         commonVariable.setResearcherName(researcherName.getText());
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
         commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
         commonVariable.setSopChanges(sopChanges.getText());
-        commonVariable.setAbbreviationQualityFlag(abbreviationQualityFlag.getText());
+        commonVariable.setQcVariableName(qcVariableName.getText());
         commonVariable.setCollectionMethod(collectionMethod.getText());
         commonVariable.setAnalyzingInformation(analyzingInformation.getText());
+
+        commonVariable.setIntakeDepth(intakeDepth.getText());
+        commonVariable.setIntakeLocation(intakeLocation.getText());
         return commonVariable;
     }
     public boolean isDirty(Variable original) {
@@ -521,14 +563,16 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
                    isDirty(detailedInformation, original.getDetailedInformation() ) ||
                    isDirty(fieldReplicate, original.getFieldReplicate() ) ||
                    isDirty(uncertainty, original.getUncertainty() ) ||
-                   isDirty(qualityFlag, original.getQualityFlag() ) ||
+                   isDirty(qcApplied.getValue(), original.getQcApplied() ) ||
                    isDirty(researcherName, original.getResearcherName() ) ||
                    isDirty(researcherInstitution, original.getResearcherInstitution() ) ||
                    isDirty(referenceMethod, original.getReferenceMethod() ) ||
                    isDirty(sopChanges, original.getSopChanges() ) ||
-                   isDirty(abbreviationQualityFlag, original.getAbbreviationQualityFlag() ) ||
+                   isDirty(qcVariableName, original.getQcVariableName() ) ||
                    isDirty(analyzingInformation, original.getAnalyzingInformation() ) ||
-                   isDirty(collectionMethod, original.getCollectionMethod() );
+                   isDirty(collectionMethod, original.getCollectionMethod() ) ||
+                   isDirty(intakeDepth, original.getIntakeDepth() ) ||
+                   isDirty(intakeLocation, original.getIntakeLocation() );
         return isDirty;
     }
     public boolean isDirty() {
@@ -562,7 +606,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             return true;
         if (uncertainty.getText().trim() != null && !uncertainty.getValue().isEmpty())
             return true;
-        if (qualityFlag.getText().trim() != null && !qualityFlag.getValue().isEmpty() )
+        if (qcApplied.getValue() != null && !qcApplied.getValue().isEmpty() )
             return true;
         if (researcherName.getText().trim() != null && !researcherName.getValue().isEmpty())
             return true;
@@ -573,11 +617,15 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
         if (sopChanges.getText().trim() != null && !sopChanges.getValue().isEmpty() )
             return true;
-        if (abbreviationQualityFlag.getText().trim() != null && !abbreviationQualityFlag.getValue().isEmpty() )
+        if (qcVariableName.getText().trim() != null && !qcVariableName.getValue().isEmpty() )
             return true;
         if (collectionMethod.getText().trim() != null && !collectionMethod.getValue().isEmpty() )
             return true;
         if (analyzingInformation.getText().trim() != null && !analyzingInformation.getValue().isEmpty() )
+            return true;
+        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() )
+            return true;
+        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() )
             return true;
         return false;
     }

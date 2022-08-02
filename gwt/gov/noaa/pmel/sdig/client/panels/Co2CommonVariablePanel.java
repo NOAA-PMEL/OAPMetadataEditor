@@ -3,15 +3,13 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.UIObject;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
@@ -20,7 +18,6 @@ import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.*;
-import org.gwtbootstrap3.client.ui.FormLabel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     Variable _displayedVariable = null;
     boolean isBig5 = false;
 
-    // 001 Variable abbreviation in data files
+//    // 001 Variable abbreviation in data files
 //    @UiField
 //    TextBox abbreviation;
     final String abbreviation = Constants.SECTION_CO2;
@@ -42,15 +39,15 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //    @UiField (provided = true) SuggestBox
     String observationType = "Surface Underway";
 
-    // 003 Manipulation method
-    @UiField
-    TextBox manipulationMethod;
+//    // 003 Manipulation method
+//    @UiField
+//    TextArea manipulationMethod;
 
-    // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    ButtonDropDown observationDetail;
+//    // 004 In-situ observation / manipulation condition / response variable
+//    @UiField
+//    ButtonDropDown observationDetail;
 
-    // 005 Variable unit
+//    // 005 Variable unit
 //    @UiField
 //    TextBox units;
 
@@ -59,7 +56,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     ButtonDropDown measured;
 
     @UiField
-    TextBox calculationMethod;
+    TextArea calculationMethod;
 
     // 008 Sampling instrument
     @UiField (provided = true)
@@ -73,21 +70,21 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     @UiField
     Button showAnalyzingInstrumentListButton;
 
-    // 010 Detailed sampling and analyzing information
+    // 010 Detailed sampling and analyzing information -> Analyzing information with citation (SOP etc)
     @UiField
     TextArea detailedInformation;
 
     // 011 Field replicate information
     @UiField
-    TextBox fieldReplicate;
+    TextArea fieldReplicate;
 
     // 020 Uncertainty
     @UiField
-    TextBox uncertainty;
+    TextArea uncertainty;
 
     // 021 Data quality flag description
     @UiField
-    TextBox qualityFlag;
+    ButtonDropDown qcApplied;
 
     // 022 Researcher Name
     @UiField
@@ -97,13 +94,13 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     @UiField
     TextBox researcherInstitution;
 
-    // 035 Full variable name
+//    // 035 Full variable name
 //    @UiField
 //    TextBox fullVariableName;
 
     // 045 Method reference (citation)
     @UiField
-    TextBox referenceMethod;
+    TextArea referenceMethod;
 
 
     // The form groups that hold the labels and form entry widgets (textbox, textarea and dropdowns).
@@ -117,12 +114,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //    FormGroup observationTypeForm;
 
     // 003 Manipulation method
-    @UiField
-    FormGroup manipulationMethodForm;
+//    @UiField
+//    FormGroup manipulationMethodForm;
 
     // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    FormGroup observationDetailForm;
+//    @UiField
+//    FormGroup observationDetailForm;
 
     // 005 Variable unit
 //    @UiField
@@ -158,7 +155,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
     // 021 Data quality flag description
     @UiField
-    FormGroup qualityFlagForm;
+    FormGroup qcAppliedForm;
 
     // 022 Researcher Name
     @UiField
@@ -168,7 +165,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     @UiField
     FormGroup researcherInstitutionForm;
 
-    // 035 Full variable name
+//    // 035 Full variable name
 //    @UiField
 //    FormGroup fullVariableNameForm;
 
@@ -176,23 +173,23 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     @UiField
     FormGroup referenceMethodForm;
 
-    // 001 Variable abbreviation in data files
+//    // 001 Variable abbreviation in data files
 //    @UiField
 //    Modal abbreviationModal;
 
-    // 002 Observation type
+//    // 002 Observation type
 //    @UiField
 //    Modal observationTypeModal;
 
-    // 003 Manipulation method
-    @UiField
-    Modal manipulationMethodModal;
+//    // 003 Manipulation method
+//    @UiField
+//    Modal manipulationMethodModal;
 
-    // 004 In-situ observation / manipulation condition / response variable
-    @UiField
-    Modal observationDetailModal;
+//     004 In-situ observation / manipulation condition / response variable
+//    @UiField
+//    Modal observationDetailModal;
 
-    // 005 Variable unit
+//    // 005 Variable unit
 //    @UiField
 //    Modal unitsModal;
 
@@ -226,7 +223,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
     // 021 Data quality flag description
     @UiField
-    Modal qualityFlagModal;
+    Modal qcAppliedModal;
 
     // 022 Researcher Name
     @UiField
@@ -236,7 +233,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     @UiField
     Modal researcherInstitutionModal;
 
-    // 035 Full variable name
+//    // 035 Full variable name
 //    @UiField
 //    Modal fullVariableNameModal;
 
@@ -246,24 +243,27 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
 
     @UiField
-    FormLabel qualityFlagLabel;
+    FormLabel qcAppliedLabel;
 
     // new var for 14.3.1
     // Quality control
     @UiField
-    TextBox qualityControl;
+    TextBox qcSchemeName;
     @UiField
-    Modal qualityControlModal;
+    Modal modalQcSchemeName;
     @UiField
-    FormGroup qualityControlForm;
+    HTML modalContentQcSchemeName;
+
+    @UiField
+    FormGroup qcSchemeNameForm;
 
     // Abbreviation of data quality flag scheme
     @UiField
-    TextBox abbreviationQualityFlag;
+    TextBox qcVariableName;
     @UiField
-    Modal abbreviationQualityFlagModal;
+    Modal qcVariableNameModal;
     @UiField
-    FormGroup abbreviationQualityFlagForm;
+    FormGroup qcVariableNameForm;
 
     // Changes to Method or SOP
     @UiField
@@ -288,6 +288,18 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     Modal analyzingInformationModal;
     @UiField
     FormGroup analyzingInformationForm;
+
+    // move from Co2CommonVariablePanel
+    // 030 Depth of seawater intake
+    @UiField
+    TextBox intakeDepth;
+    @UiField
+    Modal intakeDepthModal;
+    // 041 Location of seawater intake
+    @UiField
+    TextBox intakeLocation;
+    @UiField
+    Modal intakeLocationModal;
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -325,6 +337,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        collectionMethodForm.setVisible(false); // XXX hide this for now
+        analyzingInformationForm.setVisible(false); // XXX ditto
+
         List<String> detailNames = new ArrayList<String>();
         List<String> detailValues = new ArrayList<String>();
         detailNames.add("in-situ observation");
@@ -333,7 +348,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         detailValues.add("manipulation condition");
         detailNames.add("response variable");
         detailValues.add("response variable");
-        observationDetail.init("Pick One ", detailNames, detailValues);
+//        observationDetail.init("Pick One ", detailNames, detailValues);
 
         List<String> measuredNames = new ArrayList<String>();
         List<String> measuredValues = new ArrayList<String>();
@@ -343,10 +358,19 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         measuredValues.add("Calculated");
         measured.init("Measured or Calculated ", measuredNames, measuredValues);
 
+        // qcApplied
+        List<String> qcAppliedNames = new ArrayList<String>();
+        List<String> qcAppliedValues = new ArrayList<String>();
+        qcAppliedNames.add("Yes ");
+        qcAppliedValues.add("yes");
+        qcAppliedNames.add("No ");
+        qcAppliedValues.add("No");
+        qcApplied.init("Yes or No ", qcAppliedNames, qcAppliedValues);
+
 //        abbreviationModal.setTitle("");
 //        observationTypeModal.setTitle("");
-        manipulationMethodModal.setTitle("");
-        observationDetailModal.setTitle("");
+//        manipulationMethodModal.setTitle("");
+//        observationDetailModal.setTitle("");
         measuredModal.setTitle("");
         calculationMethodModal.setTitle("");
         samplingInstrumentModal.setTitle("");
@@ -354,17 +378,20 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         detailedInformationModal.setTitle("");
         fieldReplicateModal.setTitle("");
         uncertaintyModal.setTitle("");
-        qualityFlagModal.setTitle("");
+        qcAppliedModal.setTitle("");
         researcherNameModal.setTitle("");
         researcherInstitutionModal.setTitle("");
 //        fullVariableNameModal.setTitle("");
         referenceMethodModal.setTitle("");
 
-        qualityControl.setTitle("");
-        abbreviationQualityFlag.setTitle("");
+        qcSchemeName.setTitle("");
+        qcVariableName.setTitle("");
         sopChanges.setTitle("");
         collectionMethod.setTitle("");
         analyzingInformation.setTitle("");
+
+        intakeDepth.setTitle("");
+        intakeLocation.setTitle("");
 
 //        showSamplingInstrumentListButton.add
     }
@@ -381,22 +408,23 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
     }
 
     void reset() {
-        observationDetail.reset();
+//        observationDetail.reset();
         measured.reset();
+        qcApplied.reset();
     }
     public void show(Variable variable) {
         _displayedVariable = variable;
 //        if ( variable.getAbbreviation() != null ) {
 //            abbreviation.setText(variable.getAbbreviation());
 //        }
-        if ( variable.getObservationDetail() != null ) {
-            observationDetail.setSelected(variable.getObservationDetail());
-        } else {
-            observationDetail.reset();
-        }
-        if ( variable.getManipulationMethod() != null ) {
-            manipulationMethod.setText(variable.getManipulationMethod());
-        }
+//        if ( variable.getObservationDetail() != null ) {
+//            observationDetail.setSelected(variable.getObservationDetail());
+//        } else {
+//            observationDetail.reset();
+//        }
+//        if ( variable.getManipulationMethod() != null ) {
+//            manipulationMethod.setText(variable.getManipulationMethod());
+//        }
 //        if ( variable.getObservationType() != null ) {
 //            observationType.setText(variable.getObservationType());
 //        }
@@ -426,8 +454,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         if ( variable.getUncertainty() != null ) {
             uncertainty.setText(variable.getUncertainty());
         }
-        if ( variable.getQualityFlag() != null ) {
-            qualityFlag.setText(variable.getQualityFlag());
+        if ( variable.getQcApplied() != null ) {
+            qcApplied.setSelected(variable.getQcApplied());
         }
         if ( variable.getResearcherName() != null ) {
             researcherName.setText(variable.getResearcherName());
@@ -442,11 +470,11 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
             referenceMethod.setText(variable.getReferenceMethod());
         }
 
-        if ( variable.getQualityControl() != null ) {
-            qualityControl.setText(variable.getQualityControl());
+        if ( variable.getQcSchemeName() != null ) {
+            qcSchemeName.setText(variable.getQcSchemeName());
         }
-        if ( variable.getAbbreviationQualityFlag() != null ) {
-            abbreviationQualityFlag.setText(variable.getAbbreviationQualityFlag());
+        if ( variable.getQcVariableName() != null ) {
+            qcVariableName.setText(variable.getQcVariableName());
         }
         if ( variable.getSopChanges() != null ) {
             sopChanges.setText(variable.getSopChanges());
@@ -456,6 +484,14 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         }
         if ( variable.getAnalyzingInformation() != null ) {
             analyzingInformation.setText(variable.getAnalyzingInformation());
+        }
+
+
+        if ( variable.getIntakeDepth() != null ) {
+            intakeDepth.setText(variable.getIntakeDepth());
+        }
+        if ( variable.getIntakeLocation() != null ) {
+            intakeLocation.setText(variable.getIntakeLocation());
         }
     }
 
@@ -469,10 +505,10 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 
     }
     public Variable fillCommonVariable(Variable commonVariable) {
-        commonVariable.setAbbreviation(abbreviation); // .getText());
+//        commonVariable.setAbbreviation(abbreviation); // .getText());
         commonVariable.setObservationType(observationType); //.getText());
-        commonVariable.setManipulationMethod(manipulationMethod.getText());
-        commonVariable.setObservationDetail(observationDetail.getValue());
+//        commonVariable.setManipulationMethod(manipulationMethod.getText());
+//        commonVariable.setObservationDetail(observationDetail.getValue());
 //        commonVariable.setUnits(units.getText());
         commonVariable.setMeasured(measured.getValue());
         commonVariable.setCalculationMethod(calculationMethod.getValue());
@@ -481,17 +517,20 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         commonVariable.setDetailedInformation(detailedInformation.getText());
         commonVariable.setFieldReplicate(fieldReplicate.getText());
         commonVariable.setUncertainty(uncertainty.getText());
-        commonVariable.setQualityFlag(qualityFlag.getText());
+        commonVariable.setQcApplied(qcApplied.getValue());
         commonVariable.setResearcherName(researcherName.getText());
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
 //        commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());
 
-        commonVariable.setQualityControl(qualityControl.getText());
-        commonVariable.setAbbreviationQualityFlag(abbreviationQualityFlag.getText());
+        commonVariable.setQcSchemeName(qcSchemeName.getText());
+        commonVariable.setQcVariableName(qcVariableName.getText());
         commonVariable.setSopChanges(sopChanges.getText());
         commonVariable.setCollectionMethod(collectionMethod.getText());
         commonVariable.setAnalyzingInformation(analyzingInformation.getText());
+
+        commonVariable.setIntakeDepth(intakeDepth.getText());
+        commonVariable.setIntakeLocation(intakeLocation.getText());
         return commonVariable;
     }
     public boolean isDirty(Variable original) {
@@ -500,8 +539,8 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
                   isDirty() :
                    // Don't check abbreviation and full name since they are filled automatically.
                    isDirty(observationType, original.getObservationType() ) ||
-                   isDirty(manipulationMethod, original.getManipulationMethod() ) ||
-                   isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
+//                   isDirty(manipulationMethod, original.getManipulationMethod() ) ||
+//                   isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
 //                   isDirty(units, original.getUnits() ) ||
                    isDirty(measured.getValue(), original.getMeasured() ) ||
                    isDirty(samplingInstrument, original.getSamplingInstrument() ) ||
@@ -510,16 +549,17 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
                    isDirty(detailedInformation, original.getDetailedInformation() ) ||
                    isDirty(fieldReplicate, original.getFieldReplicate() ) ||
                    isDirty(uncertainty, original.getUncertainty() ) ||
-                   isDirty(qualityFlag, original.getQualityFlag() ) ||
+                   isDirty(qcApplied.getValue(), original.getQcApplied() ) ||
                    isDirty(researcherName, original.getResearcherName() ) ||
                    isDirty(researcherInstitution, original.getResearcherInstitution() ) ||
                    isDirty(referenceMethod, original.getReferenceMethod() ) ||
-                   isDirty(qualityControl, original.getQualityControl() ) ||
-                   isDirty(abbreviationQualityFlag, original.getAbbreviationQualityFlag() ) ||
+                   isDirty(qcSchemeName, original.getQcSchemeName() ) ||
+                   isDirty(qcVariableName, original.getQcVariableName() ) ||
                    isDirty(sopChanges, original.getSopChanges() ) ||
                    isDirty(collectionMethod, original.getCollectionMethod() ) ||
-                   isDirty(analyzingInformation, original.getAnalyzingInformation() );
-
+                   isDirty(analyzingInformation, original.getAnalyzingInformation() ) ||
+                   isDirty(intakeDepth, original.getIntakeDepth() ) ||
+                   isDirty(intakeLocation, original.getIntakeLocation() );
         return isDirty;
     }
     public boolean isDirty() {
@@ -535,10 +575,10 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
 //        if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
 //            return true;
 //        }
-        if (manipulationMethod.getText().trim() != null && !manipulationMethod.getValue().isEmpty() )
-            return true;
-        if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
-            return true;
+//        if (manipulationMethod.getText().trim() != null && !manipulationMethod.getValue().isEmpty() )
+//            return true;
+//        if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
+//            return true;
 //        if (units.getText().trim() != null && !units.getValue().isEmpty() )
 //            return true;
         if (measured.getValue() != null && !measured.getValue().isEmpty() )
@@ -553,7 +593,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
             return true;
         if (uncertainty.getText().trim() != null && !uncertainty.getValue().isEmpty())
             return true;
-        if (qualityFlag.getText().trim() != null && !qualityFlag.getValue().isEmpty() )
+        if (qcApplied.getValue() != null && !qcApplied.getValue().isEmpty() )
             return true;
         if (researcherName.getText().trim() != null && !researcherName.getValue().isEmpty())
             return true;
@@ -562,9 +602,9 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         if (referenceMethod.getText().trim() != null && !referenceMethod.getValue().isEmpty() )
             return true;
 
-        if (qualityControl.getText().trim() != null && !qualityControl.getValue().isEmpty() )
+        if (qcSchemeName.getText().trim() != null && !qcSchemeName.getValue().isEmpty() )
             return true;
-        if (abbreviationQualityFlag.getText().trim() != null && !abbreviationQualityFlag.getValue().isEmpty() )
+        if (qcVariableName.getText().trim() != null && !qcVariableName.getValue().isEmpty() )
             return true;
         if (sopChanges.getText().trim() != null && !sopChanges.getValue().isEmpty() )
             return true;
@@ -572,6 +612,12 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
             return true;
         if (analyzingInformation.getText().trim() != null && !analyzingInformation.getValue().isEmpty() )
             return true;
+
+        if (intakeDepth.getText().trim() != null && !intakeDepth.getValue().isEmpty() )
+            return true;
+        if (intakeLocation.getText().trim() != null && !intakeLocation.getValue().isEmpty() )
+            return true;
+
         return false;
     }
 

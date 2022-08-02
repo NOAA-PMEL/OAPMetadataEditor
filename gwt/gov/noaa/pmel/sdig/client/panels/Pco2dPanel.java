@@ -10,11 +10,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.client.ui.FormLabel;
+import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -116,6 +115,8 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
     public Pco2dPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
         setDefaults();
+        common.intakeLocationForm.setVisible(false);
+        common.intakeDepthForm.setVisible(false);
         // common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for pCO2 (fCO2) Discreet.");
@@ -131,25 +132,24 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         common.detailedInformationModal.setTitle("26.14 Detailed description of the sampling and analyzing procedures, including calibration procedures, model number of the instrument, etc.");
         common.fieldReplicateModal.setTitle("26.15 Repetition of sample collection and measurement, e.g., triplicate samples.");
         common.uncertaintyModal.setTitle("26.21 Uncertainty of the results (e.g., 1%, 2 μmol/kg), or any pieces of information that are related to the quality control of the variable.");
-        common.qualityFlagModal.setTitle("26.22 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
+        common.qcAppliedModal.setTitle("26.22 Describe what the quality control flags stand for, e.g., 2 = good value, 3 = questionable value, 4 = bad value. The use of WOCE quality flags are recommended.");
         common.researcherNameModal.setTitle("26.24.1 The name of the PI, whose research team measured or derived this parameter.");
         common.researcherInstitutionModal.setTitle("26.24.2 The institution of the PI, whose research team measured or derived this parameter.");
         common.fullVariableNameModal.setTitle("The full variable name.");
         common.referenceMethodModal.setTitle("26.23 Citation for the pCO2 method.");
         common.unitsModal.setTitle("26.5 Units of the variable, e.g., μatm.");
 
-        common.qualityControlModal.setTitle("22.7 Indicate if quality control procedures were applied.");
-        common.abbreviationQualityFlagModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
+        common.qcSchemeNameModal.setTitle("22.7 Indicate if quality control procedures were applied.");
+        common.qcVariableNameModal.setTitle("22.8 Column header name of the data quality flag scheme applied in the data files, e.g. QC, Quality, etc.");
         common.sopChangesModal.setTitle("20.2 Indicate if any changes were made to the method as described in the SOP, such as changes in the sample collection method, changes in storage of the sample, different volume, changes to the CRM used, etc. Please provide a detailed list of  all of the changes made.");
         common.collectionMethodModal.setTitle("21.4 Method that is used to collect water samples, or deploy sensors, etc. For example, bottle collection with a Niskin bottle, pump, CTD, etc is a collection method.");
         common.analyzingInformationModal.setTitle("20.6 Detailed description of the analyzing procedures, including the citation of the SOP used for the analysis (e.g. SOP 7;  Dickson, A.G., Sabine, C.L. and Christian, J.R.  2007.  Guide to Best Practices for Ocean CO2  Measurements).");
 
-        if (OAPMetadataEditor.getIsSocatParam()) {
-
-            common.qualityFlagLabel.setText("Data quality scheme (name of scheme)");
-            standardizationTechniqueLabel.setText("Calibration method");
-            freqencyOfStandardizationLabel.setText("Frequency of calibration");
-        }
+//        if (OAPMetadataEditor.getIsSocatParam()) {
+//            common.qcAppliedLabel.setText("Data quality scheme (name of scheme)");
+//            standardizationTechniqueLabel.setText("Calibration method");
+//            freqencyOfStandardizationLabel.setText("Frequency of calibration");
+//        }
     }
 
     private void setDefaults() {

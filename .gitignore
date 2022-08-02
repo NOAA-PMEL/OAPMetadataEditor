@@ -17,3 +17,8 @@ OM_master.iml
 /scratch/
 /gwt/gov/noaa/pmel/sdig/client/DashboardLayout.ui.xml.sed-backup*
 /.idea/**
+/classes/**
+/content/**
+/logs/*
+*.OADS.xml
+*.OCADS.xml

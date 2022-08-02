@@ -110,7 +110,7 @@
                         <b:Column size="SM_6 MD_4">
                             <b:FormGroup>
                                 <b:FormLabel for="telephone" ui:field="telephoneLabel" text="Telephone Number"></b:FormLabel> <!-- color="#B22222"  -->
-                                <b:Modal closable="true" ui:field="telephonePopover"/> <!-- "not allowed" b:id="telephonePopover" -->
+                                <b:Modal closable="true" ui:field="telephonePopover" b:id="telephonePopover"/> <!-- "not allowed" -->
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#telephonePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="telephone" allowBlank="true" placeholder="Telephone Number" ></b:TextBox> <!-- "not allowed" b:id="telephone" -->
                            <!--     <b:Label ui:field="telephoneError" ></b:Label>  -->

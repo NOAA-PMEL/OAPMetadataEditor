@@ -22,94 +22,100 @@
 
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_12 MD_9">
-                            <b:FormGroup ui:field="standardizationTechniqueForm">
+                        <b:Column size="SM_12 MD_8 LG_9">
+                            <b:FormGroup ui:field="standardizationTechniqueForm"><!-- Calibration method -->
                                 <!-- Keep -->
-                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Standardization technique description"></b:FormLabel>
-                                <b:Modal title="24.13.1 Description of the pH calibration procedures." closable="true" b:id="modalStandardizationTechnique"/>
+                                <b:FormLabel for="standardizationTechnique" ui:field="standardizationTechniqueLabel" text="Calibration Method"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalStandardizationTechnique" title="22.13 Description of the pH calibration procedures."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Standardization technique description" b:id="standardizationTechnique"></b:TextBox>
+                                <b:TextBox ui:field="standardizationTechnique" allowBlank="true" placeholder="Calibration method" b:id="standardizationTechnique"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                    </b:Row>
-                    <b:Row>
-                        <b:Column size="MD_6 LG_3">
-                            <b:FormGroup ui:field="freqencyOfStandardizationForm">
+                        <b:Column size="SM_12 MD_4 LG_3">
+                            <b:FormGroup ui:field="freqencyOfStandardizationForm"><!-- Frequency of calibration -->
                                 <!-- Keep -->
-                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Standardization"></b:FormLabel>
-                                <b:Modal title="24.13.2 How frequent was the calibration carried out, e.g., every 6 hours, etc." closable="true" b:id="modalFreqencyOfStandardizationl"/>
+                                <b:FormLabel for="freqencyOfStandardization" ui:field="freqencyOfStandardizationLabel" text="Frequency of Calibration"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalFreqencyOfStandardizationl" title="22.14 How frequently was the calibration carried out, e.g., every 6 hours, after every 10 samples, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardizationl" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of Standardization" b:id="freqencyOfStandardization"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="MD_6 LG_3">
-                            <b:FormGroup ui:field="pHtemperatureForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="pHtemperature" text="at what temperature was pH reported"></b:FormLabel>
-                                <b:Modal title="24.15 The input could be a constant temperature value, or something like, in-situ temperature, temperature of analysis, etc." closable="true" b:id="modalpHtemperature"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHtemperature" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="pHtemperature" allowBlank="true" placeholder="at what temperature was pH reported" b:id="pHtemperature"></b:TextBox>
+                                <b:TextBox ui:field="freqencyOfStandardization" allowBlank="true" placeholder="Frequency of calibration" b:id="freqencyOfStandardization"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="MD_6 LG_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
+                            <b:FormGroup ui:field="temperatureStandarizationForm"><!--  Temperature of calibration -->
+                                <!-- Keep -->
+                                <b:FormLabel for="temperatureStandarization" ui:field="temperatureStandarizationLabel" text=" Temperature of Calibration"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalTemperatureStandarization" title="22.17 Temperature at which the calibration was done."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureStandarization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder=" Temperature of calibration" b:id="temperatureStandarization"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="pHdyeTypeManufForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="pHdyeTypeManuf" text="Type of dye and manufacturer information"></b:FormLabel>
+                                <b:FormLabel for="pHdyeTypeManuf" text="Type of Dye and Manufacturer Information"></b:FormLabel>
                                 <b:Modal title="22.15 Please state the exact type of dye used and the name and address of the manufacturer and brand of the dye." closable="true" b:id="modalpHdyeTypeManuf"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHdyeTypeManuf" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="pHdyeTypeManuf" allowBlank="true" placeholder="Type of dye and manufacturer" b:id="pHscale"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_6 LG_3">
-                            <b:FormGroup ui:field="pHscaleForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="pHscale" text="pH scale"></b:FormLabel>
-                                <b:Modal title="24.9 The pH scale for the reported pH results, e.g., total scale, seawater scale, NBS scale, etc." closable="true" b:id="modalpHscale"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHscale" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                        <b:Column size="MD_6 LG_3">
+                        <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="pHstandardsForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="pHstandards" text="pH values of the standards"></b:FormLabel>
-                                <b:Modal title="24.13.3 pH values of the standards, e.g., 4.0, 7.0, 10.0." closable="true" b:id="modalpHstandards"/>
+                                <b:FormLabel for="pHstandards" text="pH Values of the Standards"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalpHstandards" title="22.16 pH values of the standards, e.g., 4.0, 7.0, 10.0."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHstandards" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="pHstandards" allowBlank="true" placeholder="pH values of the standards" b:id="pHstandards"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
+
                     <b:Row>
-                        <b:Column size="MD_4 LG_3">
-                            <b:FormGroup ui:field="temperatureCorrectionMethodForm">
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="pHscaleForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
-                                <b:Modal title="24.14 How the temperature effect was corrected." closable="true" b:id="modalTemperatureCorrectionMethod"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureCorrectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
+                                <b:FormLabel for="pHscale" text="pH Scale"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalpHscale" title="22.6 The pH scale for the reported pH results, e.g. total scale, seawater scale, NBS scale, etc. We strongly recommend the use of the total scale for pH."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHscale" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_4 LG_4" offset="LG_1">
+                        <b:Column size="MD_6 LG_3">
                             <b:FormGroup ui:field="temperatureMeasurementForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="temperatureMeasurement" text="Temperature of measurement"></b:FormLabel>
-                                <b:Modal title="24.10 Temperature at which the samples were measured." closable="true" b:id="modalTemperatureMeasurement"/>
+                                <b:FormLabel for="temperatureMeasurement" text="Temperature of Measurement"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalTemperatureMeasurement" title="22.11 Temperature at which the samples were measured."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureMeasurement" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="temperatureMeasurement" allowBlank="true" placeholder="Temperature of measurement" b:id="temperatureMeasurement"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="MD_4 LG_3" offset="LG_1">
-                            <b:FormGroup ui:field="temperatureStandarizationForm">
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="temperatureCorrectionMethodForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="temperatureStandarization" ui:field="temperatureStandarizationLabel" text="Temperature of standardization"></b:FormLabel>
-                                <b:Modal title="24.13.4 Temperature at which the calibration was done." closable="true" b:id="modalTemperatureStandarization"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureStandarization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="temperatureStandarization" allowBlank="true" placeholder="Temperature of standardization" b:id="temperatureStandarization"></b:TextBox>
+                                <b:FormLabel for="temperatureCorrectionMethod" text="Temperature correction method"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalTemperatureCorrectionMethod" title="22.18 How the temperature effect was corrected."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTemperatureCorrectionMethod" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="temperatureCorrectionMethod" allowBlank="true" placeholder="Temperature correction method" b:id="temperatureCorrectionMethod"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                        <b:Column size="MD_6 LG_3">
+                            <b:FormGroup ui:field="pHtemperatureForm">
+                                <!-- Keep -->
+                                <b:FormLabel for="pHtemperature" text="At what temperature was pH reported"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalpHtemperature" title="22.19 The input could be a constant temperature value, or something like in-situ temperature, temperature of analysis, etc."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHtemperature" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="pHtemperature" allowBlank="true" placeholder="At what temperature was pH reported" b:id="pHtemperature"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+
+
                     </b:Row>
+
+                    <b:Row>
+
+                    </b:Row>
+
                     <b:Row>
                         <b:Column size="SM_2">
                             <b:Button ui:field="save" type="PRIMARY" text="SAVE pH"/>

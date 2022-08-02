@@ -16,20 +16,8 @@ import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
 import gov.noaa.pmel.sdig.client.panels.*;
 import gov.noaa.pmel.sdig.shared.bean.*;
-import org.fusesource.restygwt.client.JsonEncoderDecoder;
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.Resource;
-import org.fusesource.restygwt.client.RestService;
-import org.fusesource.restygwt.client.RestServiceProxy;
-import org.fusesource.restygwt.client.TextCallback;
-import org.gwtbootstrap3.client.ui.AnchorListItem;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.ModalBody;
-import org.gwtbootstrap3.client.ui.ModalFooter;
-import org.gwtbootstrap3.client.ui.ModalHeader;
+import org.fusesource.restygwt.client.*;
+import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.HeadingSize;
@@ -38,13 +26,13 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import javax.print.Doc;
-import javax.ws.rs.*;
-import java.util.ArrayList;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-import java.util.*;
+import java.util.Map;
 
 
 /**
@@ -812,13 +800,20 @@ public class OAPMetadataEditor implements EntryPoint {
                 String msg = "submitComplete failed error : " + jsonString;
                 logToConsole(msg);
                 return;
+            } else if (noMetadata(jsonString)) {
+                Window.alert("No metadata was found in the uploaded file. \n" +
+                        "This could perhaps be because the file could not parsed.\n" +
+                        "Only OADS Metadata documents in Excel, CSV, or XML format can be uploaded.");
+                String msg = "submitComplete failed no metadata : " + jsonString;
+                logToConsole(msg);
+                return;
             }
 
             // prompt for merge while metadata panels have data.
             // Overwrite to overwrite the existing metadata panels.
             // Preserve exiting data and merge only empty values
 //            if (currentDocumentIsDirty() && _loadedDocument != null) {
-           if (getDocument().hasContent()) {
+           if (getDocument().hasContent() && _loadedDocument != null) {
                  //#DEBUG
 //               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
 
@@ -985,7 +980,8 @@ public class OAPMetadataEditor implements EntryPoint {
         // Reset all forms
         if (submitterPanel != null) submitterPanel.reset();
         if (investigatorPanel != null) investigatorPanel.reset();
-        if (citationPanel != null) citationPanel.reset(clearIds);
+//        if (citationPanel != null) citationPanel.reset(clearIds);
+        if (citationPanel != null) citationPanel.reset();
         if (timeAndLocationPanel != null) timeAndLocationPanel.reset();
         if (fundingPanel != null) fundingPanel.reset();
         if (platformPanel != null) platformPanel.reset();
@@ -996,6 +992,7 @@ public class OAPMetadataEditor implements EntryPoint {
         if (pco2aPanel != null) pco2aPanel.reset();
         if (pco2dPanel != null) pco2dPanel.reset();
         if (genericVariablePanel != null) genericVariablePanel.reset();
+        if (co2Panel != null) co2Panel.reset();
         topLayout.resetFileForm();
         topLayout.removeCheckmarks();
         topLayout.removeSectionHiglightStyle("pill-warning");
@@ -1022,6 +1019,10 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private boolean wasError(String response) {
         return response != null && response.trim().startsWith("ERROR:");
+    }
+
+    private boolean noMetadata(String response) {
+        return response != null && response.trim().startsWith("NO_METADATA");
     }
 
     private void mergeJsonDocument(String jsonString) {
@@ -2012,8 +2013,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalDic.getUncertainty() != null && !initalDic.getUncertainty().isEmpty()) {
                         dic.setUncertainty(initalDic.getUncertainty());
                     }
-                    if (initalDic.getQualityFlag() != null && !initalDic.getQualityFlag().isEmpty()) {
-                        dic.setQualityFlag(initalDic.getQualityFlag());
+                    if (initalDic.getQcApplied() != null && !initalDic.getQcApplied().isEmpty()) {
+                        dic.setQcApplied(initalDic.getQcApplied());
                     }
                     if (initalDic.getResearcherName() != null && !initalDic.getResearcherName().isEmpty()) {
                         dic.setResearcherName(initalDic.getResearcherName());
@@ -2028,8 +2029,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalDic.getSopChanges() != null && !initalDic.getSopChanges().isEmpty()) {
                         dic.setSopChanges(initalDic.getSopChanges());
                     }
-                    if (initalDic.getAbbreviationQualityFlag() != null && !initalDic.getAbbreviationQualityFlag().isEmpty()) {
-                        dic.setAbbreviationQualityFlag(initalDic.getAbbreviationQualityFlag());
+                    if (initalDic.getQcVariableName() != null && !initalDic.getQcVariableName().isEmpty()) {
+                        dic.setQcVariableName(initalDic.getQcVariableName());
                     }
                     if (initalDic.getCollectionMethod() != null && !initalDic.getCollectionMethod().isEmpty()) {
                         dic.setCollectionMethod(initalDic.getCollectionMethod());
@@ -2121,8 +2122,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalTa.getUncertainty() != null && !initalTa.getUncertainty().isEmpty()) {
                         ta.setUncertainty(initalTa.getUncertainty());
                     }
-                    if (initalTa.getQualityFlag() != null && !initalTa.getQualityFlag().isEmpty()) {
-                        ta.setQualityFlag(initalTa.getQualityFlag());
+                    if (initalTa.getQcApplied() != null && !initalTa.getQcApplied().isEmpty()) {
+                        ta.setQcApplied(initalTa.getQcApplied());
                     }
                     if (initalTa.getResearcherName() != null && !initalTa.getResearcherName().isEmpty()) {
                         ta.setResearcherName(initalTa.getResearcherName());
@@ -2137,8 +2138,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalTa.getSopChanges() != null && !initalTa.getSopChanges().isEmpty()) {
                         ta.setSopChanges(initalTa.getSopChanges());
                     }
-                    if (initalTa.getAbbreviationQualityFlag() != null && !initalTa.getAbbreviationQualityFlag().isEmpty()) {
-                        ta.setAbbreviationQualityFlag(initalTa.getAbbreviationQualityFlag());
+                    if (initalTa.getQcVariableName() != null && !initalTa.getQcVariableName().isEmpty()) {
+                        ta.setQcVariableName(initalTa.getQcVariableName());
                     }
                     if (initalTa.getCollectionMethod() != null && !initalTa.getCollectionMethod().isEmpty()) {
                         ta.setCollectionMethod(initalTa.getCollectionMethod());
@@ -2224,8 +2225,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPh.getUncertainty() != null && !initalPh.getUncertainty().isEmpty()) {
                         ph.setUncertainty(initalPh.getUncertainty());
                     }
-                    if (initalPh.getQualityFlag() != null && !initalPh.getQualityFlag().isEmpty()) {
-                        ph.setQualityFlag(initalPh.getQualityFlag());
+                    if (initalPh.getQcApplied() != null && !initalPh.getQcApplied().isEmpty()) {
+                        ph.setQcApplied(initalPh.getQcApplied());
                     }
                     if (initalPh.getResearcherName() != null && !initalPh.getResearcherName().isEmpty()) {
                         ph.setResearcherName(initalPh.getResearcherName());
@@ -2240,8 +2241,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPh.getSopChanges() != null && !initalPh.getSopChanges().isEmpty()) {
                         ph.setSopChanges(initalPh.getSopChanges());
                     }
-                    if (initalPh.getAbbreviationQualityFlag() != null && !initalPh.getAbbreviationQualityFlag().isEmpty()) {
-                        ph.setAbbreviationQualityFlag(initalPh.getAbbreviationQualityFlag());
+                    if (initalPh.getQcVariableName() != null && !initalPh.getQcVariableName().isEmpty()) {
+                        ph.setQcVariableName(initalPh.getQcVariableName());
                     }
                     if (initalPh.getCollectionMethod() != null && !initalPh.getCollectionMethod().isEmpty()) {
                         ph.setCollectionMethod(initalPh.getCollectionMethod());
@@ -2365,8 +2366,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getUncertainty() != null && !initalPco2a.getUncertainty().isEmpty()) {
                         pco2a.setUncertainty(initalPco2a.getUncertainty());
                     }
-                    if (initalPco2a.getQualityFlag() != null && !initalPco2a.getQualityFlag().isEmpty()) {
-                        pco2a.setQualityFlag(initalPco2a.getQualityFlag());
+                    if (initalPco2a.getQcApplied() != null && !initalPco2a.getQcApplied().isEmpty()) {
+                        pco2a.setQcApplied(initalPco2a.getQcApplied());
                     }
                     if (initalPco2a.getResearcherName() != null && !initalPco2a.getResearcherName().isEmpty()) {
                         pco2a.setResearcherName(initalPco2a.getResearcherName());
@@ -2381,8 +2382,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getSopChanges() != null && !initalPco2a.getSopChanges().isEmpty()) {
                         pco2a.setSopChanges(initalPco2a.getSopChanges());
                     }
-                    if (initalPco2a.getAbbreviationQualityFlag() != null && !initalPco2a.getAbbreviationQualityFlag().isEmpty()) {
-                        pco2a.setAbbreviationQualityFlag(initalPco2a.getAbbreviationQualityFlag());
+                    if (initalPco2a.getQcVariableName() != null && !initalPco2a.getQcVariableName().isEmpty()) {
+                        pco2a.setQcVariableName(initalPco2a.getQcVariableName());
                     }
                     if (initalPco2a.getCollectionMethod() != null && !initalPco2a.getCollectionMethod().isEmpty()) {
                         pco2a.setCollectionMethod(initalPco2a.getCollectionMethod());
@@ -2487,8 +2488,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2d.getUncertainty() != null && !initalPco2d.getUncertainty().isEmpty()) {
                         pco2d.setUncertainty(initalPco2d.getUncertainty());
                     }
-                    if (initalPco2d.getQualityFlag() != null && !initalPco2d.getQualityFlag().isEmpty()) {
-                        pco2d.setQualityFlag(initalPco2d.getQualityFlag());
+                    if (initalPco2d.getQcApplied() != null && !initalPco2d.getQcApplied().isEmpty()) {
+                        pco2d.setQcApplied(initalPco2d.getQcApplied());
                     }
                     if (initalPco2d.getResearcherName() != null && !initalPco2d.getResearcherName().isEmpty()) {
                         pco2d.setResearcherName(initalPco2d.getResearcherName());
@@ -2503,8 +2504,8 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2d.getSopChanges() != null && !initalPco2d.getSopChanges().isEmpty()) {
                         pco2d.setSopChanges(initalPco2d.getSopChanges());
                     }
-                    if (initalPco2d.getAbbreviationQualityFlag() != null && !initalPco2d.getAbbreviationQualityFlag().isEmpty()) {
-                        pco2d.setAbbreviationQualityFlag(initalPco2d.getAbbreviationQualityFlag());
+                    if (initalPco2d.getQcVariableName() != null && !initalPco2d.getQcVariableName().isEmpty()) {
+                        pco2d.setQcVariableName(initalPco2d.getQcVariableName());
                     }
                     if (initalPco2d.getCollectionMethod() != null && !initalPco2d.getCollectionMethod().isEmpty()) {
                         pco2d.setCollectionMethod(initalPco2d.getCollectionMethod());
@@ -2661,9 +2662,9 @@ public class OAPMetadataEditor implements EntryPoint {
                                         && (v.getUncertainty() != null && !v.getUncertainty().isEmpty())) {
                                     o.setUncertainty(v.getUncertainty());
                                 }
-                                if ((o.getQualityFlag() == null || o.getQualityFlag().isEmpty())
-                                        && (v.getQualityFlag() != null && !v.getQualityFlag().isEmpty())) {
-                                    o.setQualityFlag(v.getQualityFlag());
+                                if ((o.getQcApplied() == null || o.getQcApplied().isEmpty())
+                                        && (v.getQcApplied() != null && !v.getQcApplied().isEmpty())) {
+                                    o.setQcApplied(v.getQcApplied());
                                 }
                                 if ((o.getResearcherName() == null || o.getResearcherName().isEmpty())
                                         && (v.getResearcherName() != null && !v.getResearcherName().isEmpty())) {
@@ -2698,9 +2699,9 @@ public class OAPMetadataEditor implements EntryPoint {
                                         && (v.getSopChanges() != null && !v.getSopChanges().isEmpty())) {
                                     o.setSopChanges(v.getSopChanges());
                                 }
-                                if ((o.getAbbreviationQualityFlag() == null || o.getAbbreviationQualityFlag().isEmpty())
-                                        && (v.getAbbreviationQualityFlag() != null && !v.getAbbreviationQualityFlag().isEmpty())) {
-                                    o.setAbbreviationQualityFlag(v.getAbbreviationQualityFlag());
+                                if ((o.getQcVariableName() == null || o.getQcVariableName().isEmpty())
+                                        && (v.getQcVariableName() != null && !v.getQcVariableName().isEmpty())) {
+                                    o.setQcVariableName(v.getQcVariableName());
                                 }
                                 if ((o.getCollectionMethod() == null || o.getCollectionMethod().isEmpty())
                                         && (v.getCollectionMethod() != null && !v.getCollectionMethod().isEmpty())) {
