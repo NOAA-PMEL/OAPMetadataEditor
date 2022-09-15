@@ -886,6 +886,10 @@ public class OAPMetadataEditor implements EntryPoint {
             debugLog("submitterPanel is Dirty");
             isDirty = true;
         }
+        if (investigatorPanel.isDirty(compDoc.getInvestigators())) {
+            debugLog("investigatorPanel is Dirty");
+            isDirty = true;
+        }
         if (citationPanel.isDirty(compDoc.getCitation())) {
             debugLog("citationPanel is Dirty");
             isDirty = true;
