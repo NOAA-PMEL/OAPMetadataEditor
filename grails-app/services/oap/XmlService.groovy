@@ -503,19 +503,34 @@ class XmlService {
                     domainVar.setBatchNumber(batch.getText())
                 }
             }
-            Element stdGas = standard.getChild("standardgas")
-            if ( ! isEmpty(stdGas) ) {
-                Element sgasMfc = stdGas.getChild("manufacturer")
-                if ( !isEmpty( sgasMfc )) {
-                    domainVar.setStandardGasManufacture(sgasMfc.getText())
+//            Element stdGas = standard.getChild("standardgas")
+            List<Element> stdGases = standard.getChildren("standardgas")
+            if ( stdGases && ! stdGases.isEmpty() ) {
+                String sep = "; "
+                StringBuilder manufs = new StringBuilder()
+                StringBuilder concs = new StringBuilder()
+                StringBuilder uncs = new StringBuilder()
+                for ( Element stdGas : stdGases ) {
+                    Element sgasMfc = stdGas.getChild("manufacturer")
+                    if ( !isEmpty( sgasMfc )) {
+                        manufs.append(sgasMfc.getText()).append(sep)
+                    }
+                    Element sgasConc = stdGas.getChild("concentration")
+                    if ( !isEmpty( sgasConc )) {
+                        concs.append(sgasConc.getText()).append(sep)
+                    }
+                    Element sgasUnc = stdGas.getChild("uncertainty")
+                    if ( !isEmpty( sgasUnc )) {
+                        uncs.append(sgasUnc.getText()).append(sep)
+                    }
                 }
-                Element sgasConc = stdGas.getChild("concentration")
-                if ( !isEmpty( sgasConc )) {
-                    domainVar.setGasConcentration(sgasConc.getText())
-                }
-                Element sgasUnc = stdGas.getChild("uncertainty")
-                if ( !isEmpty( sgasUnc )) {
-                    domainVar.setStandardGasUncertainties(sgasUnc.getText())
+                if ( manufs.length() > 0 ) {
+                    int len = manufs.length()
+                    domainVar.setStandardGasManufacture(manufs.toString().substring(0, len-1))
+                    len = concs.length()
+                    domainVar.setGasConcentration(concs.toString().substring(0, len-1))
+                    len = uncs.length()
+                    domainVar.setStandardGasUncertainties(uncs.toString().substring(0, len-1))
                 }
             }
         }
