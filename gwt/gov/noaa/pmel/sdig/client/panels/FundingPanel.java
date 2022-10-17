@@ -42,6 +42,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -245,10 +246,17 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
 //        grantNumber.addValueChangeHandler()
     }
 
+    public static native String encode(String grant) /*-{
+        return grant.replace(/\./g, "%2E" );
+    }-*/;
+
+
     private void lookForFundingInfo(String grantId) {
         GWT.log("looking for grant info for " + grantId);
         if ( grantId != null ) {
             grantId = grantId.trim();
+            grantId = encode(grantId);
+            GWT.log("query encoded grant id " + grantId);
             getFundingService.get(grantId, new TextCallback() {
                 @Override
                 public void onFailure(Method method, Throwable exception) {
