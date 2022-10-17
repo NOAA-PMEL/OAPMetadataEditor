@@ -49,6 +49,7 @@ public class Constants {
 
 //    public static final List<String> COUNTRIES = Arrays.asList(new String[] {
     public static final String[] COUNTRIES = new String[] {
+            "",
             "Afghanistan",
             "Åland Islands",
             "Albania",
