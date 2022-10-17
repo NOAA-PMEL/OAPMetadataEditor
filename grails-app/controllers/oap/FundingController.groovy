@@ -11,6 +11,7 @@ class FundingController {
     def getGrantInfo() {
         def grant = params.id
         if ( grant ) {
+            grant = URLDecoder.decode(grant, "UTF-8")
             Funding funding = fundingService.fundingInfo(grant)
             if ( funding ) {
                 render funding as JSON
