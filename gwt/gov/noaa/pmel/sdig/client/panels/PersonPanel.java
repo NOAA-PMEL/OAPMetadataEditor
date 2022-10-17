@@ -655,19 +655,19 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         isDirty = original == null ?
                 hasContent() : //       XXX get hasBeenModified() right!
                 isDirty(address1, original.getAddress1()) ||
-                        isDirty(address2, original.getAddress2()) ||
-                        isDirty(email, original.getEmail()) ||
-                        isDirty(firstName, original.getFirstName()) ||
-                        isDirty(institution, original.getInstitution()) ||
-                        isDirty(lastName, original.getLastName()) ||
-                        isDirty(mi, original.getMi()) ||
-                        isDirty(rid, original.getRid()) ||
-                        isDirty(telephone, original.getTelephone()) ||
-                        isDirty(extension, original.getExtension()) ||
-                        isDirty(city, original.getCity()) ||
-                        isDirty(state, original.getState()) ||
-                        isDirty(zip, original.getZip()) ||
-                        isDirty(countrySelect, original.getCountry());
+                isDirty(address2, original.getAddress2()) ||
+                isDirty(email, original.getEmail()) ||
+                isDirty(firstName, original.getFirstName()) ||
+                isDirty(institution, original.getInstitution()) ||
+                isDirty(lastName, original.getLastName()) ||
+                isDirty(mi, original.getMi()) ||
+                isDirty(rid, original.getRid()) ||
+                isDirty(telephone, original.getTelephone()) ||
+                isDirty(extension, original.getExtension()) ||
+                isDirty(city, original.getCity()) ||
+                isDirty(state, original.getState()) ||
+                isDirty(zip, original.getZip()) ||
+                isDirty(countrySelect, original.getCountry());
         OAPMetadataEditor.debugLog("PersonPanel.isDirty: " + isDirty);
         return isDirty;
     }
@@ -675,8 +675,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     boolean isDirty(Select cSelect, String originalCountry) {
         Option selectedOption = cSelect.getSelectedItem();
         String originalValue = originalCountry != null ? originalCountry.trim() : "";
-        if ( selectedOption == null && ! originalValue.isEmpty()) {
-            return true;
+        if ( selectedOption == null || selectedOption.getText().trim().isEmpty()) {
+            return ! originalValue.isEmpty();
         }
         return ! selectedOption.getValue().equals(originalValue);
     }
