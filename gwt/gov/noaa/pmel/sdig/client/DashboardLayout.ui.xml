@@ -63,79 +63,12 @@
                         <b:AnchorListItem ui:field="pco2dLink">pCO2D</b:AnchorListItem>
                         <b:AnchorListItem ui:field="genericVariableLink">Variable</b:AnchorListItem>
                     </b:NavPills>
-<!--                    <g:CaptionPanel addStyleNames="buttonBar" ui:field="buttonBarCaption"/>-->
-<!--                        <b:Row>-->
-<!--                            <b:Column size="MD_6 LG_4">-->
-<!--                                <b:Button ui:field="preview" type="PRIMARY" text="Preview" title="Preview Metadata"/>-->
-<!--                            </b:Column>-->
-<!--                            <b:Column size="MD_6 LG_4">-->
-<!--                                <b:Button ui:field="download" type="PRIMARY" text="Download" title="Download Metadata as XML"/>-->
-<!--                            </b:Column>-->
-<!--                            <b:Column size="MD_6 LG_4">-->
-<!--                                <b:Button ui:field="saveNotify" type="PRIMARY" text="Save" title="Save the current metadata."/>-->
-<!--                            </b:Column>-->
-<!--                            &lt;!&ndash;-->
-<!--                            <b:Column  offset="SM_1" size="SM_3" pull="LEFT">-->
-<!--                                <b:Button ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>-->
-<!--                            </b:Column>-->
-<!--                            &ndash;&gt;-->
-<!--                        </b:Row>-->
-<!--                    </g:CaptionPanel>-->
-
-
-<!--                    <b:ButtonToolBar>-->
-<!--                        <b:ButtonGroup>-->
-<!--                            <b:Button ui:field="preview" type="PRIMARY" text="Preview" title="Preview Metadata"/>-->
-<!--                        </b:ButtonGroup>-->
-
-<!--                        <b:ButtonGroup>-->
-<!--                            <b:Button ui:field="download" type="PRIMARY" text="Download" title="Download Metadata as XML"/>-->
-<!--                        </b:ButtonGroup>-->
-
-<!--                        <b:ButtonGroup>-->
-<!--                            <b:Button ui:field="saveNotify" type="PRIMARY" text="Save" title="Save the current metadata."/>-->
-<!--                        </b:ButtonGroup>-->
-<!--&lt;!&ndash;                        <b:ButtonGroup>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <b:Button ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </b:ButtonGroup>&ndash;&gt;-->
-<!--                    </b:ButtonToolBar>-->
-
-<!--                    <b:ButtonGroup justified="true">-->
-<!--                    <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalResearcherInstitution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT">-->
                     <g:CaptionPanel addStyleNames="buttonBar" ui:field="buttonBarCaption"/>
-                    <b:ButtonGroup addStyleNames="metadata-button-group" justified="true">
+                    <b:ButtonGroup addStyleNames="metadata-button-group auto_table" justified="true">
                         <b:ButtonGroup><b:Button ui:field="preview" type="PRIMARY" text="Preview" title="Preview Metadata" icon="EYE"/></b:ButtonGroup>
-                        <b:ButtonGroup><b:Button ui:field="download" type="PRIMARY" text="Download" title="Download Metadata as XML" icon="DOWNLOAD"/></b:ButtonGroup>
+                        <b:ButtonGroup addStyleNames="middle_button"><b:Button ui:field="download" type="PRIMARY" text="Download XML" title="Download Metadata as XML" icon="DOWNLOAD"/></b:ButtonGroup>
                         <b:ButtonGroup><b:Button ui:field="saveNotify" type="PRIMARY" text="Save" title="Save the current metadata." icon="SAVE"/></b:ButtonGroup>
-<!--                        <b:ButtonGroup><b:Button ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/></b:ButtonGroup>-->
                     </b:ButtonGroup>
-<!--                    </g:CaptionPanel>-->
-
-<!--                    <b:Form ui:field="uploadForm" method="POST" encoding="multipart/form-data" action="document/upload">-->
-<!--                        <b:Input ui:field="filename" name="xmlFile" type="FILE"/>-->
-<!--                        <b:FormLabel marginTop="15" for="upLoad">Upload OADS Metadata File (XML, Excel, or CSV)</b:FormLabel>-->
-<!--                        <b:InputGroup>-->
-<!--                            <b:InputGroupButton>-->
-<!--                                <b:Button text="Choose a File:" ui:field="filebutton" type="PRIMARY"/>-->
-<!--                            </b:InputGroupButton>-->
-<!--                            <b:TextBox enabled="false" ui:field="faketextbox"/>-->
-<!--                        </b:InputGroup>-->
-<!--                        <g:HTMLPanel ui:field="fakeinput"></g:HTMLPanel>-->
-<!--                        <b:SubmitButton ui:field="upload" type="PRIMARY" text="Upload"/>-->
-<!--                        <b:Button pull="RIGHT" ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>-->
-<!--&lt;!&ndash;                            <b:FormGroup>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <b:FormLabel marginTop="15" for="upLoad">Upload OADS Metadata File (XML, Excel, or CSV)</b:FormLabel>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <g:HTMLPanel ui:field="fakeinput">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <b:Input ui:field="filename" name="xmlFile" type="FILE" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <b:Button text="Choose a File:" ui:field="filebutton" type="PRIMARY"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <b:TextBox width="50%" enabled="false" ui:field="faketextbox"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </g:HTMLPanel>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                            </b:FormGroup>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <b:SubmitButton ui:field="upload" type="PRIMARY" text="Upload"/>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <b:Button pull="RIGHT" ui:field="reset" type="PRIMARY" text="Clear All" title="Clear all fields."/>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </b:FieldSet>&ndash;&gt;-->
-<!--                    </b:Form>-->
                     <b:Form ui:field="uploadForm" addStyleNames="nav-sidebar" method="POST" encoding="multipart/form-data" action="document/upload">
                         <b:FieldSet>
                             <b:FormGroup>

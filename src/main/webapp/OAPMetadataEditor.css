@@ -6,7 +6,12 @@
     margin: 0px !important;
     vertical-align: middle;
 }
-
+.auto_table {
+    table-layout: auto !important;
+}
+.middle_button {
+    padding: 0px 5px;
+}
 .control-label {
 /*    overflow: hidden;*/
 /*    white-space: nowrap;*/
