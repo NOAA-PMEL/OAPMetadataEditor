@@ -49,7 +49,7 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import javax.print.Doc;
+//import javax.print.Doc;
 import javax.ws.rs.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +181,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (b.getText().equals("Clear All")) {
                             //#DEBUG
 //                        debugLog("Called Clear ALL: ");
-                        if (currentDocumentIsDirty() && !saved) {
+                        if (true) { // currentDocumentIsDirty() && !saved) {
 
                             final Modal sure = new Modal();
                             ModalHeader header = new ModalHeader();
@@ -190,9 +190,12 @@ public class OAPMetadataEditor implements EntryPoint {
                             header.add(h);
                             sure.add(header);
                             ModalBody body = new ModalBody();
-                            HTML message = new HTML("You appear to have made changes but have not saved them to your local disk." +
-                                    "<br><strong>Click OK to reset the form and LOSE ALL YOUR DATA.</strong>" +
-                                    "<br>Click Canel to go back to what you were doing.");
+//                            HTML message = new HTML("You appear to have made changes but have not saved them to your local disk." +
+//                            "<br><strong>Click OK to reset the form and LOSE ALL YOUR DATA.</strong>" +
+//                            "<br>Click Canel to go back to what you were doing.");
+                            HTML message = new HTML("<strong>This will CLEAR ALL YOUR DATA.</strong>" +
+                                    "<br/>Click OK to reset the form " +
+                                    "or click Canel to go back to what you were doing.");
                             ModalFooter footer = new ModalFooter();
                             Button ok = new Button("OK");
                             ok.setType(ButtonType.DANGER);
