@@ -124,7 +124,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     boolean showTable = true;
     boolean editing = false;
     Person displayedPerson;
-    Person editPerson;
+    Person editPerson = null;
     String type;
     int editIndex = -1;
     int pageSize = 4;
@@ -279,14 +279,16 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         people.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Person> event) {
-//                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
-                if (!editing && "mouseover".equals(event.getNativeEvent().getType())) {
-                    show(event.getValue(), false);
-                } else if (!editing && "mouseout".equals(event.getNativeEvent().getType())) {
+                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+                Person rowPerson = event.getValue();
+                if ( editing ) { // ignore
+                    return;
+                } else if ("mouseover".equals(event.getNativeEvent().getType())) {
+                    show(rowPerson, false);
+                } else if ("mouseout".equals(event.getNativeEvent().getType())) {
                     reset();
                 }
             }
-
         });
 
 //        Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
@@ -492,54 +494,20 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         // set RowStyles on required fields
         people.setRowStyles(new RowStyles<Person>() {
             @Override
-
-
-//            String valueStr = value == null ? "" : value.toString();
-//                if (valueStr.length() == 0) {
-//                return result;
-//            }
-
-
-//            public String getStyleNames(Person row, int rowIndex) {
-//                boolean issue = false;
-//                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
-//                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
-//                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))) {
-//                    issue = true;
-//                }
-//
-//                OAPMetadataEditor.debugLog("row.getEmail(): " + row.getEmail());
-//                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
-//                // has email then check if valid
-//                if (row.getEmail().toString().length() != 0) {
-//                    OAPMetadataEditor.debugLog("email is not null or empty?");
-//                    if (!emailRegex.test(row.getEmail())) {
-//                        issue = true;
-//                    }
-//                }
-//
-//                if (issue == true) {
-//                    OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
-//                    return TableContextualType.DANGER.getCssName();
-//                } else {
-//                    return "";
-//                }
-//            }
-//        });
-        public String getStyleNames(Person row, int rowIndex) {
-            if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
-                    || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
-                    || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
-                    || ((row.getEmail() != null ) && (row.getEmail().toString().length() != 0) && (!emailRegex.test(row.getEmail())))) {
-                OAPMetadataEditor.debugLog("row.getEmail(): \"" + row.getEmail() + "\"");
-//                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
-                OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
-                return TableContextualType.DANGER.getCssName();
-            } else {
-                return "";
+            public String getStyleNames(Person row, int rowIndex) {
+                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
+                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
+                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
+                        || ((row.getEmail() != null ) && (row.getEmail().toString().length() != 0) && (!emailRegex.test(row.getEmail())))) {
+                    OAPMetadataEditor.debugLog("row.getEmail(): \"" + row.getEmail() + "\"");
+    //                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
+                    OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
+                    return TableContextualType.DANGER.getCssName();
+                } else {
+                    return "";
+                }
             }
-        }
-    });
+        });
 
         people.addRangeChangeHandler(new RangeChangeEvent.Handler() {
             @Override
@@ -643,7 +611,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             person.setCountry(opt.getValue());
         }
         person.setIdType(idType.getValue());
-        person.setComplete(this.valid());
+//        person.setComplete(this.valid());  // Don't do this here, screws up form.
         person.setPosition(editIndex);
         return person;
     }
@@ -778,7 +746,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     public void show(Person person) {
-        if (person == null) {
+        if (person == null || ! person.hasContent()) {
             reset();
             return;
         }
@@ -813,11 +781,13 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         if (person.getIdType() != null) {
             idType.setSelected(person.getIdType());
         }
+        OAPMetadataEditor.debugLog("Checking valid person");
+        person.setComplete(this.valid());
     }
 
     @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid"})
     public void onChange(ChangeEvent event) {
-        OAPMetadataEditor.debugLog("getsource: " + event.getSource());
+        OAPMetadataEditor.debugLog("onChange source: " + event.getSource());
         save.setEnabled(true);
     }
 
@@ -959,10 +929,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public void reset() {
         form.reset();
+        form.validate(false);
         displayedPerson = null;
         editIndex = -1;
         editing = false;
-        if (editPerson != null) {
+        if (editPerson != null && editPerson.hasContent()) {
             show(editPerson);
             editPerson = null;
         }
