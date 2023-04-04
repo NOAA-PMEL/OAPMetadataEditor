@@ -53,6 +53,8 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     @UiField
     Button save;
+    @UiField
+    Button clear;
 
     String type = Constants.SECTION_TIMEANDLOCATION;
 
@@ -66,6 +68,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 
     public TimeAndLocationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        clear.addClickHandler(clearIt);
     }
 
     public void reset() {
@@ -183,6 +186,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         return isDirty;
     }
 
+    public boolean hasContent() {
+        return isDirty();
+    }
     public boolean isDirty() {
         if (eastLon.getText().trim() != null && !eastLon.getText().isEmpty()) {
             return true;

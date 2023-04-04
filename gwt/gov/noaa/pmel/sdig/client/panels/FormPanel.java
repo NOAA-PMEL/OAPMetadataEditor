@@ -1,7 +1,10 @@
 package gov.noaa.pmel.sdig.client.panels;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import gov.noaa.pmel.sdig.client.ConfirmClearFormCallback;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.shared.bean.DbItem;
 import org.gwtbootstrap3.client.ui.Form;
@@ -12,6 +15,12 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
 
     DbItem dbItem;
 
+    protected FormPanel formPanelInstance;
+
+    String panelName;
+
+//    abstract boolean isDirty();
+    abstract boolean hasContent();
     public void clear() {
         form.reset();
     }
@@ -25,6 +34,15 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
         }
     }
 
+    protected FormPanel() {
+        formPanelInstance = this;
+    }
+
+    protected FormPanel(String panelName) {
+        this();
+        this.panelName = panelName;
+    }
+
     public void setDbItem(T item) {
 //        if ( dbItem != null && dbItem.getId() != null ) {
 //            if ( item.getId() != null && ! item.getId().equals(dbItem.getId())) {
@@ -34,4 +52,15 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
 //        }
         dbItem = item;
     }
+
+    protected ClickHandler clearIt = new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+            if (hasContent()) {
+                OAPMetadataEditor.ask("Clear Form?", "This will clear all data from this page.",
+                        new ConfirmClearFormCallback(formPanelInstance));
+            }
+        }
+    };
+
 }

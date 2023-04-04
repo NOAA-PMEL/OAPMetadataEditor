@@ -8,8 +8,10 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
@@ -71,6 +73,12 @@ public class OAPMetadataEditor implements EntryPoint {
         public void save(@PathParam("id") String datasetId, Document document, TextCallback textCallback);
     }
 
+    public interface SaveChangeService extends RestService {
+        @POST
+        @Path("{id}")
+        public void save(@PathParam("id") String datasetId, Document document, TextCallback textCallback);
+    }
+
     public interface DocumentCodec extends JsonEncoderDecoder<Document> {
     }
 
@@ -100,6 +108,9 @@ public class OAPMetadataEditor implements EntryPoint {
 
     Resource saveDocumentResource = new Resource(Constants.saveDocument);
     SaveDocumentService saveDocumentService = GWT.create(SaveDocumentService.class);
+
+    Resource saveChangeResource = new Resource(Constants.savePartial);
+    SaveChangeService saveChangeService = GWT.create(SaveChangeService.class);
 
     Resource getDocumentResource = new Resource(Constants.getDocument);
     GetDocumentService getDocumentService = GWT.create(GetDocumentService.class);
@@ -181,7 +192,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (b.getText().equals("Clear All")) {
                             //#DEBUG
 //                        debugLog("Called Clear ALL: ");
-                        if (true) { // currentDocumentIsDirty() && !saved) {
+                        if (true) { // currentDocumentIsDirty() && !saved) { // Always prompt, since isDirty is unreliable...
 
                             final Modal sure = new Modal();
                             ModalHeader header = new ModalHeader();
@@ -235,6 +246,7 @@ public class OAPMetadataEditor implements EntryPoint {
         eventBus.addHandler(SectionSave.TYPE, new SectionSaveHandler() {
             @Override
             public void onSectionSave(SectionSave event) {
+                debugLog("onSectionSave: " + event);
 //                if ( event.getType().equals(Constants.SECTION_DOCUMENT )) { // &&  event.getSectionContents().equals("saveNotify") {
 //                    saveMultiItemPanels();
 //                }
@@ -248,6 +260,7 @@ public class OAPMetadataEditor implements EntryPoint {
         eventBus.addHandler(NavLink.TYPE, new NavLinkHandler() {
             @Override
             public void onNavLink(NavLink event) {
+                Widget current = topLayout.getMain();
                 AnchorListItem link = (AnchorListItem) event.getSource();
                 if (link.getText().equals(Constants.SECTION_INVESTIGATOR)) {
                     topLayout.setMain(investigatorPanel);
@@ -325,6 +338,7 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         });
         ((RestServiceProxy) saveDocumentService).setResource(saveDocumentResource);
+        ((RestServiceProxy) saveChangeService).setResource(saveChangeResource);
         ((RestServiceProxy) getDocumentService).setResource(getDocumentResource);
 //        Window.addWindowClosingHandler(new Window.ClosingHandler() {
 //            @Override
@@ -453,6 +467,9 @@ public class OAPMetadataEditor implements EntryPoint {
                 case "Notify":
                     callback = saveNotify;
                     break;
+                case "Quietly":
+                    callback = saveQuietly;
+                    break;
                 case "Preview":
                     callback = previewDocument;
                     break;
@@ -482,6 +499,13 @@ public class OAPMetadataEditor implements EntryPoint {
 //        }
         Document doc = getDocument();
         saveDocumentService.save(getDatasetId(doc), doc, callback);
+        saved = true;
+    }
+
+    private void saveChangeToServer(TextCallback callback) {
+        debugLog("saveChangeToServer has been called");
+        Document doc = getDocument();
+        saveChangeService.save(getDatasetId(doc), doc, callback);
         saved = true;
     }
 
@@ -685,6 +709,31 @@ public class OAPMetadataEditor implements EntryPoint {
             saved = true;
         }
     };
+    TextCallback saveQuietly = new TextCallback() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+            String msg = "saveQuietly " + method.toString() + " error : " + throwable.toString();
+            logToConsole(msg);
+            String useragent = getUserAgent();
+            // Chrome useragent contains both Safari and Chrome references
+            // Safari gets a false failure
+            if ( ! (useragent.contains("safari") && ! useragent.contains("chrome"))) {
+                Window.alert("There was an error saving your document.  Please try again later.");
+            }
+        }
+        @Override
+        public void onSuccess(Method method, String response) {
+            logToConsole("saved doc @"+response);
+            documentLocation = response;
+            _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/') + 1);
+//            _loadedDocument = Document.copy(_savedDoc);
+//            loadJsonDocument(response, true, true);
+            loadDocumentId(_datasetId);
+//            info("Your document has been saved and is available.");
+            saved = true;
+        }
+    };
+
     // "Download" button
     TextCallback documentSaved = new TextCallback() {
         @Override
@@ -2655,4 +2704,45 @@ public class OAPMetadataEditor implements EntryPoint {
         return sb.toString();
     }
 
+    public static void ask(String questionType, String question, final AsyncCallback<Boolean> callback) {
+        final Modal sure = new Modal();
+        ModalHeader header = new ModalHeader();
+        Heading h = new Heading(HeadingSize.H3);
+        h.setText(questionType);
+        header.add(h);
+        sure.add(header);
+        ModalBody body = new ModalBody();
+        HTML message = new HTML(question);
+        ModalFooter footer = new ModalFooter();
+        Button ok = new Button("OK");
+        ok.setType(ButtonType.DANGER);
+        Button cancel = new Button("Cancel");
+        cancel.setType(ButtonType.PRIMARY);
+
+        footer.add(ok);
+        footer.add(cancel);
+        body.add(message);
+        sure.add(body);
+        sure.add(footer);
+
+        logToConsole("Asking: "+ question);
+        sure.show();
+        ok.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                logToConsole("Ok'd question:" + question);
+                sure.hide();
+                callback.onSuccess(true);
+            }
+        });
+
+        cancel.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                logToConsole("Cancelled question:"+question);
+                sure.hide();
+                callback.onSuccess(false);
+            }
+        });
+    }
 }

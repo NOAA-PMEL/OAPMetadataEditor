@@ -21,10 +21,13 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/30/17.
  */
-public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
+public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
 
     @UiField
     Button save;
+
+    @UiField
+    Button clear;
 
     @UiField
     Form form;
@@ -112,6 +115,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for pCO2 (fCO2) Discreet.");
         save.addClickHandler(saveIt);
+        clear.addClickHandler(clearIt);
         common.abbreviationModal.setTitle("26.1 Column header name of the variable in the data files, e.g., pCO2, etc.");
         common.observationTypeModal.setTitle("26.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
         common.manipulationMethodModal.setTitle("26.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
@@ -288,6 +292,10 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
            isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
            isDirty(vaporCorrection, original.getVaporCorrection() );
        return isDirty;
+    }
+
+    public boolean hasContent() {
+        return isDirty();
     }
     public boolean isDirty() {
         if ( common.isDirty() ) {

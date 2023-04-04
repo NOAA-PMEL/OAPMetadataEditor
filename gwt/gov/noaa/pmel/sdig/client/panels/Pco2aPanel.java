@@ -5,9 +5,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import gov.noaa.pmel.sdig.client.ConfirmClearFormCallback;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
@@ -22,7 +25,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/22/17.
  */
-public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
+public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variable> {
     // 012 Standardization technique description
     @UiField
     TextBox standardizationTechnique;
@@ -120,7 +123,18 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
     Button save;
 
     @UiField
+    Button clear;
+
+    @UiField
     Form form;
+
+    private static Pco2aPanel instance = null;
+    public synchronized static Pco2aPanel instance() {
+        if ( instance == null ) {
+            instance = new Pco2aPanel();
+        }
+        return instance;
+    }
 
     interface Pco2aPanelUiBinder extends UiBinder<HTMLPanel, Pco2aPanel> {
     }
@@ -136,6 +150,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         common.fieldReplicate.setAllowBlank(true);
         common.fieldReplicateForm.setVisible(false);
         save.addClickHandler(saveIt);
+        clear.addClickHandler(clearIt);
         common.abbreviationModal.setTitle("25.1 Column header name of the variable in the data files, e.g., pCO2, etc.");
         common.observationTypeModal.setTitle("25.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
         common.manipulationMethodModal.setTitle("25.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
@@ -302,6 +317,17 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             vaporCorrection.setText(pco2a.getVaporCorrection());
         }
     }
+
+//    protected ClickHandler clearIt = new ClickHandler() {
+//        @Override
+//        public void onClick(ClickEvent event) {
+//            if (hasContent()) {
+//                OAPMetadataEditor.ask("Confirm?", "This will clear all data from this page.",
+//                        new ConfirmClearFormCallback(instance));
+//            }
+//        }
+//    };
+
     public ClickHandler saveIt = new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -331,7 +357,8 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
                 settings.setType(NotifyType.SUCCESS);
                 settings.setPlacement(NotifyPlacement.TOP_CENTER);
                 Notify.notify(Constants.COMPLETE, settings);
-            }        }
+            }
+        }
     };
     public boolean isDirty(Variable original) {
         boolean isDirty =
@@ -361,6 +388,10 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             isDirty(flowRate, original.getFlowRate() ) ||
             isDirty(vaporCorrection, original.getVaporCorrection() );
         return isDirty;
+    }
+
+    public boolean hasContent() {
+        return isDirty();
     }
     public boolean isDirty() {
         if ( common.isDirty() ) {
