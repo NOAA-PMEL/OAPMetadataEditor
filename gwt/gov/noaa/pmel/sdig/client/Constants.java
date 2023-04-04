@@ -35,6 +35,7 @@ public class Constants {
     public static String SECTION_DOCUMENT = " document";
 
     public static final String saveDocument = base + "document/saveDoc";
+    public static final String savePartial = base + "document/savePartial";
     public static final String getDocument = base + "document/getDoc";
     public static final String getFunding = base + "funding/getGrantInfo";
 

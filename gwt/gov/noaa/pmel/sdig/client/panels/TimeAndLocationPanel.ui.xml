@@ -128,8 +128,11 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_3">
                             <b:Button ui:field="save" type="PRIMARY" text="SAVE TIME &amp; LOCATION"/>
+                        </b:Column>
+                        <b:Column size="SM_3">
+                            <b:Button ui:field="clear" type="PRIMARY" text="CLEAR TIME &amp; LOCATION"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>

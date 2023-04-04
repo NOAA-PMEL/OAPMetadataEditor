@@ -57,7 +57,7 @@ import java.util.List;
 /**
  * Created by rhs on 2/27/17.
  */
-public class PersonPanel extends Composite implements GetsDirty<Person> {
+public class PersonPanel extends FormPanel implements GetsDirty<Person> {
 
     @UiField
     Form form;
@@ -65,6 +65,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     ButtonDropDown idType;
     @UiField
     Button save;
+    @UiField
+    Button clear;
     @UiField
     TextBox lastName;
     @UiField
@@ -179,6 +181,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         idValues.add("researcherId");
         idType.init("Pick and ID Type ", idNames, idValues);
 
+        clear.addClickHandler(clearIt);
+
         namePopover.setTitle("3.1 Full name of the " + personType + " (First Middle Last).");
         institutionPopover.setTitle("3.2 Affiliated institution of the " + personType + " (e.g., Woods Hole Oceanographic Institution).");
         addressPopover.setTitle("3.3 Address of the affiliated institution of the " + personType + ".");
@@ -291,7 +295,6 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             }
         });
 
-//        Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
         Column<Person, String> edit = new Column<Person, String>(editButton) {
             @Override
             public String getValue(Person object) {
@@ -551,7 +554,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
-
+        OAPMetadataEditor.logToConsole("Save Person: " + clickEvent);
         if (!valid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);

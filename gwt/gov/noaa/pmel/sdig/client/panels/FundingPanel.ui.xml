@@ -50,6 +50,9 @@
                         <b:Column size="SM_2">
                             <b:Button ui:field="save" type="PRIMARY" text="SAVE FUNDING"/>
                         </b:Column>
+                        <b:Column size="SM_2">
+                            <b:Button ui:field="clear" type="PRIMARY" text="CLEAR FUNDING"/>
+                        </b:Column>
                     </b:Row>
                 </b:Container>
             </b:FieldSet>

@@ -25,9 +25,11 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class TaPanel extends Composite implements GetsDirty<Variable> {
+public class TaPanel extends FormPanel implements GetsDirty<Variable> {
     @UiField
     Button save;
+    @UiField
+    Button clear;
 
     @UiField
     Form form;
@@ -93,6 +95,7 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Total Alkalinity (TA).");
         save.addClickHandler(saveIt);
+        clear.addClickHandler(clearIt);
         common.abbreviationModal.setTitle("23.1 Column header name of the variable in the data files, e.g., TA, Alk, etc.");
         common.observationTypeModal.setTitle("23.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
         common.manipulationMethodModal.setTitle("23.4 In perturbation experiments, seawater carbonate chemistry can be manipulated by different techniques, such as bubbling CO2, adding acids or bases, etc.");
@@ -256,6 +259,9 @@ public class TaPanel extends Composite implements GetsDirty<Variable> {
             isDirty(magnitudeOfBlankCorrection, original.getMagnitudeOfBlankCorrection() ) ||
             isDirty(titrationType, original.getTitrationType() );
         return isDirty;
+    }
+    public boolean hasContent() {
+        return isDirty();
     }
     public boolean isDirty() {
         if ( common.isDirty() ) {

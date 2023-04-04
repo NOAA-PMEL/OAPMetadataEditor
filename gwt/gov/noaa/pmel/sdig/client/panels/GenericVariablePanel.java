@@ -250,6 +250,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
     @UiField
     Button save;
+    @UiField
+    Button clear;
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -321,6 +323,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         observationType = new SuggestBox(observationTypeSuggestOracle);
 
         initWidget(ourUiBinder.createAndBindUi(this));
+
+        clear.addClickHandler(clearIt);
 
         List<String> detailNames = new ArrayList<String>();
         List<String> detailValues = new ArrayList<String>();

@@ -42,7 +42,6 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +51,7 @@ import java.util.*;
 /**
  * Created by rhs on 3/7/17.
  */
-public class FundingPanel extends Composite implements GetsDirty<Funding> {
+public class FundingPanel extends FormPanel implements GetsDirty<Funding> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -83,6 +82,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
     CellTable fundings;
     @UiField
     Button save;
+    @UiField
+    Button clear;
     @UiField
     Form form;
     @UiField
@@ -142,6 +143,8 @@ public class FundingPanel extends Composite implements GetsDirty<Funding> {
         });
 
         initWidget(ourUiBinder.createAndBindUi(this));
+
+        clear.addClickHandler(clearIt);
 
         fundings.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         fundings.addCellPreviewHandler(new CellPreviewEvent.Handler<Funding>() {
