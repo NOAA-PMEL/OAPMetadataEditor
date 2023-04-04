@@ -28,6 +28,8 @@ public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>
 
     @UiField
     Button save;
+    @UiField
+    Button clear;
 
     @UiField
     CommonVariablePanel common;
@@ -99,6 +101,7 @@ DIC: Researcher Institution
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Dissolved Inorganic Carbon (DIC).");
         save.addClickHandler(saveIt);
+        clear.addClickHandler(clearIt);
 
         common.abbreviationModal.setTitle("22.1 Column header name of the variable in the data files, e.g., DIC, TCO2, etc.");
         common.observationTypeModal.setTitle("22.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
@@ -230,6 +233,9 @@ DIC: Researcher Institution
         return isDirty;
     }
 
+    public boolean hasContent() {
+        return isDirty();
+    }
     public boolean isDirty() {
 
         if ( common.isDirty() ) {

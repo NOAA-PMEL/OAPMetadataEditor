@@ -55,6 +55,8 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 
     @UiField
     Button save;
+    @UiField
+    Button clear;
 
     String type = Constants.SECTION_CITATION;
 
@@ -65,6 +67,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
 
     public CitationPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        clear.addClickHandler(clearIt);
     }
 
     public Citation getCitation() {
@@ -101,6 +104,9 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             isDirty(supplementalInformation, original.getSupplementalInformation() );
         OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
+    }
+    public boolean hasContent() {
+        return  isDirty();
     }
     public boolean isDirty() {
         if (datasetAbstract.getText().trim() != null && !datasetAbstract.getText().isEmpty() ) {

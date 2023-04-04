@@ -240,6 +240,9 @@
                         <b:Column size="SM_2">
                             <b:Button ui:field="save" type="PRIMARY" text="SAVE VARIABLE"/>
                         </b:Column>
+                        <b:Column size="SM_2">
+                            <b:Button ui:field="clear" type="PRIMARY" text="CLEAR VARIABLE"/>
+                        </b:Column>
                     </b:Row>
                 </b:Container>
             </b:FieldSet>

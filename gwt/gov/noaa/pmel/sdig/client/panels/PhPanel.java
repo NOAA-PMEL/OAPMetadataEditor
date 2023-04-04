@@ -27,7 +27,7 @@ import java.util.Locale;
 /**
  * Created by rhs on 3/22/17.
  */
-public class PhPanel extends Composite implements GetsDirty<Variable> {
+public class PhPanel extends FormPanel implements GetsDirty<Variable> {
 
     @UiField
     public CommonVariablePanel common;
@@ -70,6 +70,8 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
 
     @UiField
     Button save;
+    @UiField
+    Button clear;
 
     interface PhPanelUiBinder extends UiBinder<HTMLPanel, PhPanel> {
     }
@@ -126,6 +128,7 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         common.referenceMethodModal.setTitle("24.18 Citation for the pH method.");
 
         save.addClickHandler(saveIt);
+        clear.addClickHandler(clearIt);
     }
 
     private void setDefaults() {
@@ -207,6 +210,9 @@ public class PhPanel extends Composite implements GetsDirty<Variable> {
         return isDirty;
     }
 
+    public boolean hasContent() {
+        return isDirty();
+    }
     public boolean isDirty() {
 
         if ( common.isDirty() ) {

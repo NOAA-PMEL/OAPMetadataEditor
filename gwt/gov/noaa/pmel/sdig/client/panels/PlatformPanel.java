@@ -51,7 +51,7 @@ import java.util.*;
 /**
  * Created by rhs on 3/7/17.
  */
-public class PlatformPanel extends Composite implements GetsDirty<Platform> {
+public class PlatformPanel extends FormPanel implements GetsDirty<Platform> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -72,6 +72,8 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
 
     @UiField
     Button save;
+    @UiField
+    Button clear;
     @UiField
     Form form;
 
@@ -115,6 +117,7 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         name = new SuggestBox(platformSuggestionOracle);
         country = new SuggestBox(countrySuggestionOracle);
         initWidget(ourUiBinder.createAndBindUi(this));
+        clear.addClickHandler(clearIt);
         platforms.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         platforms.addCellPreviewHandler(new CellPreviewEvent.Handler<Platform>() {
             @Override
