@@ -37,7 +37,7 @@
                                 <b:FormLabel color="#B22222" for="endDate" text="End Date *"></b:FormLabel>
                                 <b:Modal title="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalEndDate"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEndDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
+                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="true" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_4">
