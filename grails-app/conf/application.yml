@@ -118,7 +118,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
             password: webster
@@ -146,7 +146,7 @@ environments:
         dataSource:
             dbCreate: validate
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
             password: webster
@@ -175,7 +175,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
             password: webster
@@ -237,7 +237,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
@@ -263,7 +263,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:63306/socat_me?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
@@ -289,7 +289,7 @@ environments:
         dataSource:
             dbCreate: validate
             url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
@@ -315,7 +315,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
@@ -341,7 +341,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
@@ -367,7 +367,7 @@ environments:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
-            driverClassName: "com.mysql.jdbc.Driver"
+            driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
