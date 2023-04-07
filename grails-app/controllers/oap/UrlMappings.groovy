@@ -9,9 +9,18 @@ class UrlMappings {
             }
         }
 
+        "/document"(controller: 'document', action:'missing')
+        "/document/index"(controller: 'document', action:'missing')
+        "/document/create"(controller: 'document', action:'missing')
+        "/document/save"(controller: 'document', action:'missing')
+        "/document/show"(controller: 'document', action:'missing')
+        "/document/update"(controller: 'document', action:'missing')
+        "/document/delete"(controller: 'document', action:'missing')
+
         "/"(view:"/index")
-        "/dashboard"(view:"/dashboard")
-        "500"(view:'/error')
-        "404"(view:'/notFound')
+//        "/dashboard"(view:"/dashboard")
+        "500"(controller: 'document', action:  'error')
+        "404"(controller: 'document', action:  'missing')
+
     }
 }

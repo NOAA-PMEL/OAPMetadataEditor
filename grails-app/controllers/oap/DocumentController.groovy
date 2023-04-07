@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.ISODateTimeFormat
 
 import javax.servlet.http.HttpServletResponse
+import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import java.nio.charset.Charset
@@ -26,6 +27,16 @@ class DocumentController {
 //        Document.deleteAll(Document.findAll())
 //        DocumentUpdateListener.deleteAll(DocumentUpdateListener.findAll())
 //    }
+
+    def error() {
+        log.warn("error:" + request.requestURI)
+        response.sendError(500, "")
+    }
+
+    def missing() {
+        log.info("not found:" + request.requestURI)
+        response.sendError(HttpServletResponse.SC_NOT_FOUND, "")
+    }
 
     private def Document findDocById(String id) {
         Document doc
@@ -345,7 +356,12 @@ class DocumentController {
 
     private def _createXDoc(String xml) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance()
-        dbf.setNamespaceAware(true);
+        dbf.setNamespaceAware(true)
+        // Prevent XXE attacks
+        dbf.setXIncludeAware(false)
+        dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         DocumentBuilder db = dbf.newDocumentBuilder()
         org.w3c.dom.Document doc = db.parse(new ByteArrayInputStream(xml.bytes))
         return doc
