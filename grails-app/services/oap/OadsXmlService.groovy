@@ -905,11 +905,11 @@ class OadsXmlService {
         }
         human.setTelephone(contactInfo.phone)
         human.setEmail(contactInfo.email)
-        def ids = p.identifier
+        def ids = p.getIdentifier()
         if (ids && !ids.isEmpty()) {
-            TypedIdentifierType id = ids.get(0)
-            human.setRid(id.value)
-            human.setIdType(id.type)
+            for (TypedIdentifierType rid : ids) {
+                human.addToResearcherIds(new TypedString(rid.getType(), rid.getValue()))
+            }
         }
         return human
     }
@@ -919,6 +919,11 @@ class OadsXmlService {
     }
 
     def createOadsXml(Document doc) {
+        if ( !doc ) {
+            log("Null doc to createOadsXml")
+            System.err.println("Null doc to createOadsXml")
+            return ""
+        }
         OadsMetadataDocumentType mdDoc = buildMetadataDoc(doc)
         String xml = OadsXmlWriter.getXml(mdDoc)
         return xml
@@ -926,6 +931,11 @@ class OadsXmlService {
 
     def transformDoc(Document doc, OutputStream outS) {
         try {
+            if ( !doc ) {
+                log("Null doc to transformDoc")
+                System.err.println("Null doc to transformDoc")
+                return ""
+            }
             OadsMetadataDocumentType mdDoc = buildMetadataDoc(doc)
             ByteArrayOutputStream baos = new ByteArrayOutputStream()
             OadsXmlWriter.outputXml(mdDoc, baos)
@@ -1418,8 +1428,10 @@ class OadsXmlService {
                 .phone(p.getTelephone())
             .build()
         )
-        if ( p.getRid()) {
-            person.addIdentifier(TypedIdentifierType.builder().value(p.getRid()).type(p.getIdType()).build())
+        if ( ! p.getResearcherIds().isEmpty()) {
+            for ( TypedString rid : p.getResearcherIds()) {
+                person.addIdentifier(TypedIdentifierType.builder().value(rid.getValue()).type(rid.getType()).build())
+            }
         }
         return person.build()
     }

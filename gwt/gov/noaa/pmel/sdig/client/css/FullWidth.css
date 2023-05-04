@@ -260,7 +260,9 @@ body {
 .previewhtml {
 	padding: 0.25em;
 }
-
+/*.red-border {*/
+/*	border-color: #a94442;*/
+/*}*/
 .settingscaptionpanel {
 	display: block;
 	margin: 1em;

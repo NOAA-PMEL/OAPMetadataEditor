@@ -27,6 +27,9 @@
 .buttonBar {
    padding-top: 10px;
 }
+.float_right {
+    float: right;
+}
 
 /*.btn-group-justified > .btn {*/
 /*    width: auto !important;*/
@@ -129,6 +132,11 @@ h1 {
   margin: 5px;
 }
 
+.error-border {
+    border-color: red !important;
+    border-width: 3px !important;
+    /* #a94442 */
+}
 .serverResponseLabelError {
   color: red;
 }

@@ -130,21 +130,29 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
-                    <b:Row>
+                    <b:Row ui:field="ridRow0">
                         <b:Column size="SM_6 MD_4">
-                            <b:FormGroup>
+                            <b:FormGroup ui:field="ridTypeForm0">
                                 <b:FormLabel for="researcherType" text="Researcher ID Type"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="idTypePopover" b:id="idTypePopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#idTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <mde:ButtonDropDown ui:field="idType"></mde:ButtonDropDown>
+                                <mde:ButtonDropDown ui:field="ridType0" b:id="ridType0"></mde:ButtonDropDown> <!--addStyleNames="form-control" screws up layout-->
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6 MD_4">
-                            <b:FormGroup>
+                            <b:FormGroup ui:field="ridValueForm0">
                                 <b:FormLabel for="id" text="Researcher ID"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="idPopover" b:id="idPopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#idPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="rid" allowBlank="true" placeholder="Researcher ID" b:id="id"></b:TextBox>
+                                <b:TextBox ui:field="rid0" allowBlank="true" placeholder="ID" b:id="rid0"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_2">
+                            <b:FormGroup ui:field="ridBtnForm0">
+                                <b:FormLabel color="#00000000" for="addRidButton" text="*"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="ridBtnPopover" b:id="ridBtnPopover" title="Add another Researcher ID."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#ridBtnPopover" dataToggle="MODAL" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                <b:Button ui:field="addRidButton" pull="RIGHT" type="PRIMARY" text="ADD ANOTHER ID" b:id="addRidButton"/>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

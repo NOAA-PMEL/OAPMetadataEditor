@@ -1,5 +1,6 @@
 package gov.noaa.pmel.sdig.client.panels;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiField;
@@ -11,7 +12,7 @@ import org.gwtbootstrap3.client.ui.Form;
 
 public abstract class FormPanel <T extends DbItem> extends Composite {
     @UiField
-    Form form;
+    protected Form form;
 
     DbItem dbItem;
 
@@ -62,5 +63,12 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
             }
         }
     };
+
+    public boolean valid() {
+        // For some reason this returns a "0" in debug mode.
+        GWT.log("form:"+form);
+        String valid = String.valueOf(form.validate());
+        return !(valid.equals("false") || valid.equals("0"));
+    }
 
 }

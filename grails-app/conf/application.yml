@@ -225,10 +225,10 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    dunkel:
+    oapme_devexp:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/oapme_devexp?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist

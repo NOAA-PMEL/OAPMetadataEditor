@@ -14,6 +14,7 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
+import java.lang.reflect.Type
 import java.nio.charset.Charset
 
 @Transactional
@@ -865,8 +866,7 @@ class Oads2sXmlService {
         def ids = p.identifier
         if (ids && !ids.isEmpty()) {
             TypedIdentifierType id = ids.get(0)
-            human.setRid(id.value)
-            human.setIdType(id.type)
+            human.addToResearcherIds(new TypedString(id.getType(),id.value))
         }
         return human
     }
@@ -1377,8 +1377,10 @@ class Oads2sXmlService {
                 .phone(p.getTelephone())
             .build()
         )
-        if ( p.getRid()) {
-            person.addIdentifier(TypedIdentifierType.builder().value(p.getRid()).type(p.getIdType()).build())
+        if ( p.getResearcherIds()) {
+            for (TypedString rid : p.getResearcherIds()) {
+                person.addIdentifier(TypedIdentifierType.builder().value(rid.getValue()).type(rid.getType()).build())
+            }
         }
         return person.build()
     }

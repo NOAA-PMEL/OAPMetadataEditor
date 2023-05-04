@@ -16,18 +16,8 @@ import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.event.SectionSaveHandler;
-import gov.noaa.pmel.sdig.client.panels.CitationPanel;
-import gov.noaa.pmel.sdig.client.panels.DataSubmitterPanel;
-import gov.noaa.pmel.sdig.client.panels.DicPanel;
-import gov.noaa.pmel.sdig.client.panels.FundingPanel;
-import gov.noaa.pmel.sdig.client.panels.GenericVariablePanel;
-import gov.noaa.pmel.sdig.client.panels.InvestigatorPanel;
-import gov.noaa.pmel.sdig.client.panels.Pco2aPanel;
-import gov.noaa.pmel.sdig.client.panels.Pco2dPanel;
-import gov.noaa.pmel.sdig.client.panels.PhPanel;
-import gov.noaa.pmel.sdig.client.panels.PlatformPanel;
-import gov.noaa.pmel.sdig.client.panels.TaPanel;
-import gov.noaa.pmel.sdig.client.panels.TimeAndLocationPanel;
+import gov.noaa.pmel.sdig.client.panels.*;
+import gov.noaa.pmel.sdig.shared.ValidationException;
 import gov.noaa.pmel.sdig.shared.bean.*;
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 import org.fusesource.restygwt.client.Method;
@@ -128,36 +118,36 @@ public class OAPMetadataEditor implements EntryPoint {
     Long _documentDbVersion = null;
 
     //    Person dataSubmitter = null;
-    DataSubmitterPanel submitterPanel = new DataSubmitterPanel();
-    InvestigatorPanel investigatorPanel = new InvestigatorPanel();
+    static DataSubmitterPanel submitterPanel = new DataSubmitterPanel();
+    static InvestigatorPanel investigatorPanel = new InvestigatorPanel();
 
-    CitationPanel citationPanel = new CitationPanel();
+    static CitationPanel citationPanel = new CitationPanel();
 //    Citation citation = null;
 
-    TimeAndLocationPanel timeAndLocationPanel = new TimeAndLocationPanel();
+    static TimeAndLocationPanel timeAndLocationPanel = new TimeAndLocationPanel();
 //    TimeAndLocation timeAndLocation = null;
 
-    FundingPanel fundingPanel = new FundingPanel();
+    static FundingPanel fundingPanel = new FundingPanel();
 //    Funding funding = null;
 
-    PlatformPanel platformPanel = new PlatformPanel();
+    static PlatformPanel platformPanel = new PlatformPanel();
 
-    DicPanel dicPanel = new DicPanel();
+    static DicPanel dicPanel = new DicPanel();
 //    Variable dic = null;
 
-    TaPanel taPanel = new TaPanel();
+    static TaPanel taPanel = new TaPanel();
 //    Variable ta = null;
 
-    PhPanel phPanel = new PhPanel();
+    static PhPanel phPanel = new PhPanel();
 //    Variable ph = null;
 
-    Pco2aPanel pco2aPanel = new Pco2aPanel();
+    static Pco2aPanel pco2aPanel = new Pco2aPanel();
 //    Variable pco2a = null;
 
-    Pco2dPanel pco2dPanel = new Pco2dPanel();
+    static Pco2dPanel pco2dPanel = new Pco2dPanel();
 //    Variable pco2d = null;
 
-    GenericVariablePanel genericVariablePanel = new GenericVariablePanel();
+    static GenericVariablePanel genericVariablePanel = new GenericVariablePanel();
 
     // Save XML dialog, should be its own widget.
     Modal modal = new Modal();
@@ -388,73 +378,77 @@ public class OAPMetadataEditor implements EntryPoint {
 //        }
 //
 //    }
+
+    public void setMain(String section) {
+        FormPanel<?> panel = getSectionPanel(section);
+        if ( panel == null ) {
+            logToConsole("No panel found for section: " + section);
+            setMain(Constants.SECTION_SUBMITTER);
+            return;
+        }
+        topLayout.setMain(panel);
+        topLayout.setActive(section);
+    }
+
+    public static FormPanel<?> getSectionPanel(String section) {
+        if (section == null || section.trim().isEmpty()) {
+            GWT.log("NULL Section");
+            return null;
+        }
+        switch (section) {
+            case Constants.SECTION_SUBMITTER:
+                return submitterPanel;
+            case Constants.SECTION_INVESTIGATOR:
+                return investigatorPanel;
+            case Constants.SECTION_CITATION:
+                return citationPanel;
+            case Constants.SECTION_DIC:
+                return dicPanel;
+            case Constants.SECTION_FUNDING:
+                return fundingPanel;
+            case Constants.SECTION_GENERIC:
+                return genericVariablePanel;
+            case Constants.SECTION_PCO2A:
+                return pco2aPanel;
+            case Constants.SECTION_PCO2D:
+                return pco2dPanel;
+            case Constants.SECTION_PH:
+                return phPanel;
+            case Constants.SECTION_PLATFORMS:
+                return platformPanel;
+            case Constants.SECTION_TA:
+                return taPanel;
+            case Constants.SECTION_TIMEANDLOCATION:
+                return timeAndLocationPanel;
+            default:
+                return null;
+        }
+    }
     private void saveSection(String type, Object sectionContents) {
         logToConsole("saveSection:" + type + ", " + sectionContents);
         saved = false;
-        if (type.equals(Constants.SECTION_INVESTIGATOR)) {
+        if (type.equals(Constants.SECTION_SUBMITTER)) {
+            setMain(Constants.SECTION_INVESTIGATOR);
+        } else if (type.equals(Constants.SECTION_INVESTIGATOR)) {
             // List is in the celltable data provider in the layout. Nothing to do here.
-        } else if (type.equals(Constants.SECTION_SUBMITTER)) {
-//            dataSubmitter = (Person) sectionContents;
-            topLayout.setMain(investigatorPanel);
-            topLayout.setActive(Constants.SECTION_INVESTIGATOR);
         } else if (type.equals(Constants.SECTION_CITATION)) {
-//            citation = (Citation) sectionContents;
-//            if ( timeAndLocation != null ) {
-//                timeAndLocationPanel.show(timeAndLocation);
-//            }
-            topLayout.setMain(timeAndLocationPanel);
-            topLayout.setActive(Constants.SECTION_TIMEANDLOCATION);
+            setMain(Constants.SECTION_TIMEANDLOCATION);
         } else if (type.equals(Constants.SECTION_TIMEANDLOCATION)) {
-//            TimeAndLocation timeAndLocation = (TimeAndLocation) sectionContents;
-//            if ( funding != null ) {
-//                fundingPanel.show(funding);
-//            }
-            topLayout.setMain(fundingPanel);
-            topLayout.setActive(Constants.SECTION_FUNDING);
+            setMain(Constants.SECTION_FUNDING);
         } else if (type.equals(Constants.SECTION_FUNDING)) {
             // Nothing to do here, list in the panel
         } else if (type.equals(Constants.SECTION_PLATFORMS)) {
             // List kept in the panel. Nothing to do here.
         } else if (type.equals(Constants.SECTION_DIC)) {
-//            if ( dic == null ) {
-//                dic = (Variable) sectionContents;
-//            } else {
-//                dicPanel.fill(dic);
-//            }
-            topLayout.setMain(taPanel);
-            topLayout.setActive(Constants.SECTION_TA);
+            setMain(Constants.SECTION_TA);
         } else if (type.equals(Constants.SECTION_TA)) {
-//            if ( ta == null ) {
-//                ta = (Variable) sectionContents;
-//            } else {
-//                taPanel.fill(ta);
-//            }
-            topLayout.setMain(phPanel);
-            topLayout.setActive(Constants.SECTION_PH);
+            setMain(Constants.SECTION_PH);
         } else if (type.equals(Constants.SECTION_PH)) {
-//            if ( ph == null ) {
-//                ph = (Variable) sectionContents;
-//            } else {
-//                phPanel.fill(ph);
-//            }
-            topLayout.setMain(pco2aPanel);
-            topLayout.setActive(Constants.SECTION_PCO2A);
+            setMain(Constants.SECTION_PCO2A);
         } else if (type.equals(Constants.SECTION_PCO2A)) {
-//            if ( pco2a == null ) {
-//                pco2a = (Variable) sectionContents;
-//            } else {
-//                pco2aPanel.fill(pco2a);
-//            }
-            topLayout.setMain(pco2dPanel);
-            topLayout.setActive(Constants.SECTION_PCO2D);
+            setMain(Constants.SECTION_PCO2D);
         } else if (type.equals(Constants.SECTION_PCO2D)) {
-//            if ( pco2d == null ) {
-//                pco2d = (Variable) sectionContents;
-//            } else {
-//                pco2dPanel.fill(pco2d);
-//            }
-            topLayout.setMain(genericVariablePanel);
-            topLayout.setActive(Constants.SECTION_GENERIC);
+            setMain(Constants.SECTION_GENERIC);
         } else if (type.equals(Constants.SECTION_GENERIC)) {
             // List managed in the panel
         } else if (type.equals(Constants.SECTION_DOCUMENT)) {
@@ -497,9 +491,13 @@ public class OAPMetadataEditor implements EntryPoint {
 //        if (!topLayout.isSufficientlyComplete()) {
 //            warn(Constants.DOCUMENT_NOT_COMPLETE);
 //        }
-        Document doc = getDocument();
-        saveDocumentService.save(getDatasetId(doc), doc, callback);
-        saved = true;
+        try {
+            Document doc = getDocument(true);
+            saveDocumentService.save(getDatasetId(doc), doc, callback);
+            saved = true;
+        } catch (IllegalStateException isx) {
+            warn("Please correct the following:<br/>"+isx.getMessage());
+        }
     }
 
     private void saveChangeToServer(TextCallback callback) {
@@ -523,6 +521,9 @@ public class OAPMetadataEditor implements EntryPoint {
     }
 
     public Document getDocument() {
+        return getDocument(false);
+    }
+    public Document getDocument(boolean validate) {
         debugLog("getDocument has been called");
 
         Document doc = new Document();
@@ -533,10 +534,28 @@ public class OAPMetadataEditor implements EntryPoint {
         doc.setDbVersion(_documentDbVersion);
         // Data Submitter Panel
         Person dataSubmitter = submitterPanel.getPerson();
+        if ( validate ) {
+            try {
+                dataSubmitter.validate();
+            } catch (IllegalStateException isx) {
+                submitterPanel.validate();
+                setMain(Constants.SECTION_SUBMITTER);
+                throw isx;
+            }
+        }
         doc.setDataSubmitter(dataSubmitter);
         // Investigators Panel
         if (investigatorPanel.hasContent()) {
             Person p = investigatorPanel.getPerson();
+            if ( validate ) {
+                try {
+                    p.validate();
+                } catch (IllegalStateException isx) {
+                    investigatorPanel.validate();
+                    setMain(Constants.SECTION_INVESTIGATOR);
+                    throw new ValidationException(isx, investigatorPanel);
+                }
+            }
             if (!p.isComplete()) {
                 warn("Current Investigator is not complete.");
             }
@@ -554,6 +573,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 p.setPosition(i);
 //                debugLog("getDocument: " + p.getLastName() + "'s post-position: " + p.getPosition());
             }
+            // Don't have to validate here because they were validated when person saved.
         }
         doc.setInvestigators(investigators);
         // Citation Panel
@@ -1677,9 +1697,10 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalDataSubmitter.getMi() != null && !initalDataSubmitter.getMi().isEmpty()) {
                         dataSubmitter.setMi(initalDataSubmitter.getMi());
                     }
-                    if (initalDataSubmitter.getRid() != null && !initalDataSubmitter.getRid().isEmpty()) {
-                        dataSubmitter.setRid(initalDataSubmitter.getRid());
-                    }
+                    dataSubmitter.setResearcherIds(initalDataSubmitter.getResearcherIds());
+//                    if (initalDataSubmitter.getRid() != null && !initalDataSubmitter.getRid().isEmpty()) {
+//                        dataSubmitter.setRid(initalDataSubmitter.getRid());
+//                    }
                     if (initalDataSubmitter.getTelephone() != null && !initalDataSubmitter.getTelephone().isEmpty()) {
                         dataSubmitter.setTelephone(initalDataSubmitter.getTelephone());
                     }

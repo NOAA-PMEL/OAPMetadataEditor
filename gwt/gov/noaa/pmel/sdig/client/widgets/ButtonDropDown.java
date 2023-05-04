@@ -14,6 +14,8 @@ import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.DropDownMenu;
+import org.gwtbootstrap3.client.ui.Row;
+import org.gwtbootstrap3.client.ui.base.HasId;
 
 
 import java.util.HashMap;
@@ -25,16 +27,33 @@ import java.util.Set;
 /**
  * Created by rhs on 1/21/17.
  */
-public class ButtonDropDown extends Composite {
+public class ButtonDropDown extends Composite implements HasId {
 
+    String id;
     @UiField
     Button button;
+    public Button getButton() {
+        return button;
+    }
     @UiField
     DropDownMenu menu;
 
     Map<String, String> values = new HashMap<String, String>();
     String currentValue;
     String initialValue;
+
+//    Row formRow;
+    ButtonDropDown thisButton;
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
 
     interface ButtonDropDownUiBinder extends UiBinder<HTMLPanel, ButtonDropDown> {
     }
@@ -43,8 +62,14 @@ public class ButtonDropDown extends Composite {
 
     public ButtonDropDown() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        thisButton = this;
     }
     public void init(String initialValue, List<String> labels, List<String> inputValues) {
+//        this.init(initialValue, labels, inputValues, null);
+//    }
+//    public void init(String initialValue, List<String> labels, List<String> inputValues, Row formRow) {
+//        this.formRow = formRow;
+        this.currentValue = "";
         this.initialValue = initialValue;
         button.setText(initialValue);
         button.setTitle(initialValue);
@@ -58,6 +83,7 @@ public class ButtonDropDown extends Composite {
                     String label = a.getText();
                     button.setText(label);
                     currentValue = values.get(label);
+                    thisButton.getButton().removeStyleName("error-border");
                 }
             });
             menu.add(a);
@@ -81,13 +107,14 @@ public class ButtonDropDown extends Composite {
             }
         }
         if ( !set ) {
-            GWT.log("Failed to set " + this.initialValue + " dropbutton for value " + value);
-            reset();
+            GWT.log("Failed to set " + this.initialValue + " dropbutton for value \"" + value + "\"");
+            currentValue = "";
+//            reset();
         }
     }
 
     public  void reset() {
         button.setText(initialValue);
-        currentValue = null;
+        currentValue = "";
     }
 }

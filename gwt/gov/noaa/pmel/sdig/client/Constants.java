@@ -14,25 +14,25 @@ public class Constants {
 
     public static String NOT_FOUND = "Not Found";
 
-    public static String SECTION_INVESTIGATOR = "Investigators";
-    public static String SECTION_SUBMITTER = "Data Submitter";
-    public static String SECTION_CITATION = "Citation Information";
-    public static String SECTION_TIMEANDLOCATION = "Time and Location Information";
-    public static String SECTION_FUNDING = "Funding";
-    public static String SECTION_PLATFORMS = "Platforms";
-    public static String SECTION_DIC = "DIC";
-    public static String SECTION_DIC2 = "DIC (2)";
-    public static String SECTION_TA = "TA";
-    public static String SECTION_TA2 = "TA (2)";
-    public static String SECTION_PH = "pH";
-    public static String SECTION_PH2 = "pH (2)";
-    public static String SECTION_PCO2A = "pCO2A";
-    public static String SECTION_PCO2A2 = "pCO2A (2)";
-    public static String SECTION_PCO2D = "pCO2D";
-    public static String SECTION_PCO2D2 = "pCO2D (2)";
-    public static String SECTION_GENERIC = "Variable";
+    public static final String SECTION_INVESTIGATOR = "Investigators";
+    public static final String SECTION_SUBMITTER = "Data Submitter";
+    public static final String SECTION_CITATION = "Citation Information";
+    public static final String SECTION_TIMEANDLOCATION = "Time and Location Information";
+    public static final String SECTION_FUNDING = "Funding";
+    public static final String SECTION_PLATFORMS = "Platforms";
+    public static final String SECTION_DIC = "DIC";
+//    public static final String SECTION_DIC2 = "DIC (2)";
+    public static final String SECTION_TA = "TA";
+//    public static final String SECTION_TA2 = "TA (2)";
+    public static final String SECTION_PH = "pH";
+//    public static final String SECTION_PH2 = "pH (2)";
+    public static final String SECTION_PCO2A = "pCO2A";
+//    public static final String SECTION_PCO2A2 = "pCO2A (2)";
+    public static final String SECTION_PCO2D = "pCO2D";
+//    public static final String SECTION_PCO2D2 = "pCO2D (2)";
+    public static final String SECTION_GENERIC = "Variable";
 
-    public static String SECTION_DOCUMENT = " document";
+    public static final String SECTION_DOCUMENT = " document";
 
     public static final String saveDocument = base + "document/saveDoc";
     public static final String savePartial = base + "document/savePartial";

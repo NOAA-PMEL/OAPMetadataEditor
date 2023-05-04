@@ -2,10 +2,13 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.regexp.shared.RegExp;
@@ -19,8 +22,9 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.RowStyles;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
@@ -36,9 +40,11 @@ import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Person;
+import gov.noaa.pmel.sdig.shared.bean.TypedString;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
@@ -51,18 +57,15 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 import org.gwtbootstrap3.extras.select.client.ui.Option;
 import org.gwtbootstrap3.extras.select.client.ui.Select;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by rhs on 2/27/17.
  */
 public class PersonPanel extends FormPanel implements GetsDirty<Person> {
 
-    @UiField
-    Form form;
-    @UiField
-    ButtonDropDown idType;
+//    @UiField
+//    Form form;
     @UiField
     Button save;
     @UiField
@@ -100,9 +103,34 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     @UiField
     TextBox email;
     @UiField
-    TextBox rid;
-    @UiField
     Heading heading;
+
+    @UiField
+    Row ridRow0;
+    @UiField
+    FormGroup ridTypeForm0;
+    @UiField
+    ButtonDropDown ridType0;
+    @UiField
+    TextBox rid0;
+    @UiField
+    Button addRidButton;
+    @UiField
+    Modal ridBtnPopover;
+
+    List<Row> addedRows = new ArrayList<>();
+    HashMap<String, ButtonDropDown> ridIdTypeDrops = new LinkedHashMap<>();
+    HashMap<String, TextBox> ridTextBoxes = new LinkedHashMap<>();
+    int row0index = 9; // XXX CHANGE
+    //    int addedInstIdx = 0;
+    Container formContainer;
+
+    private static final char CO2_VARS_SEPARATOR = ';';
+    private static final String RID_ID = "rid_id_";
+    private static final String TYPE_ID = "rid_type_";
+
+    private static final String RMV_BTN_ID = "rid_rmv_";
+    private static final String RID_ROW_ = "rid_row_";
 
     // Form help items to be customized...
     @UiField
@@ -156,6 +184,17 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
 
     private static PersonUiBinder ourUiBinder = GWT.create(PersonUiBinder.class);
 
+    static List<String> idNames = new ArrayList<String>();
+    static List<String> idValues = new ArrayList<String>();
+    static {
+        idNames.add("ORCID ");
+        idValues.add("ORCID");
+        idNames.add("Researcher ID ");
+        idValues.add("RESEARCHER_ID");
+        idNames.add("Ocean Expert ");
+        idValues.add("OCEAN_EXPERT");
+    }
+
     public PersonPanel(String personType) {
         institution = new SuggestBox(institutionSuggestOracle);
 //        countrySuggest = new SuggestBox(countrySuggestionOracle);
@@ -173,13 +212,8 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         }
 
         initWidget(ourUiBinder.createAndBindUi(this));
-        List<String> idNames = new ArrayList<String>();
-        List<String> idValues = new ArrayList<String>();
-        idNames.add("ORCID ");
-        idValues.add("orcid");
-        idNames.add("Researcher ID ");
-        idValues.add("researcherId");
-        idType.init("Pick and ID Type ", idNames, idValues);
+        ridType0.init("Pick an ID Type ", idNames, idValues);
+//        ridType0.setId(TYPE_ID+"0");
 
         clear.addClickHandler(clearIt);
 
@@ -534,12 +568,97 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
 //        );
     }
 
-    public boolean valid() {
-        // For some reason this returns a "0" in debug mode.
-        String valid = String.valueOf(form.validate());
-//        OAPMetadataEditor.debugLog("person-valid; String.valueOf: " + valid);
-        return !(valid.equals("false") || valid.equals("0"));
+
+    private Widget getRowWidget(Row row, int colIdx, int wgtIdx) {
+        Widget clmWidget = row.getWidget(colIdx);
+        GWT.log("clmWidget:"+clmWidget);
+        org.gwtbootstrap3.client.ui.Column clm = (org.gwtbootstrap3.client.ui.Column)clmWidget;
+        GWT.log("clm:"+clm);
+        Widget formWidget = clm.getWidget(0);
+        GWT.log("formWidget:"+formWidget);
+        FormGroup form = (FormGroup)formWidget;
+        GWT.log("form:"+form);
+        Widget widget = form.getWidget(wgtIdx);
+        GWT.log("widget:"+widget);
+        return widget;
     }
+    public boolean validate() {
+        GWT.log("validate");
+        boolean isOk = this.valid();
+        List<Row>ridRows = getRidRows();
+        boolean isAdded = false;
+        for (Row rrow : ridRows) {
+            GWT.log("row:"+rrow);
+            int wgtIdx = isAdded ? 0 : 3;
+            ButtonDropDown rTypeBtn = (ButtonDropDown) getRowWidget(rrow, 0, wgtIdx);
+            TextBox ridBox = (TextBox) getRowWidget(rrow, 1, wgtIdx);
+            TypedString resid = buildResId(rTypeBtn, ridBox);
+            if ( ! resid.getValue().trim().isEmpty() &&
+                   resid.getType().isEmpty() ) {
+                isOk = false;
+                setRidError(rrow, wgtIdx, true);
+//                setRidError(true, rTypeBtn);
+//                ridTypeForm0.addStyleName("has-error");
+//                rTypeBtn.getButton().addStyleName("error-border");
+            } else {
+                if ( ! resid.getType().equals(rTypeBtn.getValue()) ||
+                     ! resid.getValue().equals(ridBox.getText())) {
+                    rTypeBtn.setSelected(resid.getType());
+                    ridBox.setText(resid.getValue());
+                }
+                setRidError(rrow, wgtIdx, false);
+//                setRidError(false, rTypeBtn);
+//                ridTypeForm0.removeStyleName("has-error");
+//                rTypeBtn.getButton().removeStyleName("error-border");
+            }
+            isAdded = true;
+        }
+        return isOk;
+    }
+
+    public void setRidError(int rowIdx, boolean set) {
+        Row rrow = getRidRows().get(rowIdx);
+        int wgtIdx = rowIdx == 0 ? 3 : 0;
+        setRidError(rrow, wgtIdx, set);
+    }
+    public void setRidError(Row rrow, int wgtIdx, boolean set) {
+        ButtonDropDown rTypeBtn = (ButtonDropDown) getRowWidget(rrow, 0, wgtIdx);
+        setRidError(set, rTypeBtn);
+    }
+    public void setRidError(boolean set, ButtonDropDown ridType) {
+        Button typeBtn = ridType.getButton();
+        if (set) {
+            ridTypeForm0.addStyleName("has-error");
+            typeBtn.addStyleName("error-border");
+        } else {
+            ridTypeForm0.removeStyleName("has-error");
+            typeBtn.removeStyleName("error-border");
+        }
+    }
+    private UIObject getFormGroup(Widget widget) {
+        return (FormGroup) widget.getParent();
+    }
+
+    private List<Row> getRidRows() {
+        List<Row> ridRows = new ArrayList<>();
+        ridRows.add(ridRow0);
+        ridRows.addAll(addedRows);
+        return ridRows;
+    }
+
+//    private List<?>[] getRidBoxes() {
+//        List<TextBox> rids = new ArrayList<>();
+//        List<ButtonDropDown> types = new ArrayList<>();
+//        List[] lists = new List[2];
+//        lists[0] = rids;
+//        lists[1] = types;
+//        rids.add(rid0);
+//        types.add(ridType0);
+//        for ( Row rrow : addedRows) {
+//
+//        }
+//        return lists;
+//    }
 
     public void addPerson(Person p) {
         if (p == null) {
@@ -555,7 +674,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
         OAPMetadataEditor.logToConsole("Save Person: " + clickEvent);
-        if (!valid()) {
+        if ( ! validate() || ! valid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -602,7 +721,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         person.setInstitution(institution.getText().trim());
         person.setLastName(lastName.getText().trim());
         person.setMi(mi.getText().trim());
-        person.setRid(rid.getText().trim());
+//        person.setRid(rid0.getText().trim());
         person.setTelephone(telephone.getText().trim());
         person.setExtension(extension.getText().trim());
         person.setCity(city.getText().trim());
@@ -613,10 +732,57 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         if ( opt != null ) {
             person.setCountry(opt.getValue());
         }
-        person.setIdType(idType.getValue());
-//        person.setComplete(this.valid());  // Don't do this here, screws up form.
+//        person.setIdType(ridType0.getValue());
+        person.setResearcherIds(getResearcherIds());
         person.setPosition(editIndex);
+//        person.setComplete(person.isValid());  // Don't do this here, screws up form.
         return person;
+    }
+
+    private TypedString buildResId(ButtonDropDown typeBtn, TextBox ridField) {
+        String typeGuess = "";
+        String ridVal = ridField.getText();
+        GWT.log("ridValue:"+ridVal);
+        String ridStr = ridVal.trim();
+        if ( ridStr.toLowerCase().startsWith("http")) {
+            if ( ridStr.endsWith("/")) {
+                ridStr = ridStr.substring(ridStr.length()-1);
+            }
+            ridStr = ridStr.substring(ridStr.lastIndexOf('/')+1);
+            int firstDot = ridVal.indexOf('.');
+            int lastDot = ridVal.lastIndexOf('.');
+            int colon = ridVal.indexOf(':');
+            int startIdx = firstDot < lastDot ? firstDot+1 : colon+3;
+            typeGuess = ridVal.substring(startIdx, lastDot).toUpperCase();
+            GWT.log("Guess : " + typeGuess);
+        }
+        String ridTypeVal = typeBtn.getValue();
+        String ridType = ridTypeVal != null ? ridTypeVal.trim() : "";
+        if ( ridType.isEmpty() && ! typeGuess.isEmpty() && typeGuess.toUpperCase().equals("ORCID")) {
+            GWT.log("Guessing : " + typeGuess);
+            ridType = typeGuess;
+        }
+        TypedString rid = new TypedString(ridType, ridStr);
+        return rid;
+    }
+    private List<TypedString> getResearcherIds() {
+        List<TypedString> resIds = new ArrayList<>();
+        TypedString id0 = buildResId(ridType0, rid0);
+        if ( id0.hasContent()) {
+            GWT.log("Got rid0:"+ id0);
+            resIds.add(id0);
+        }
+        int x = 0;
+        for (Row row : addedRows ) {
+            x += 1;
+            String rowId = row.getId();
+            TypedString ridx = buildResId(ridIdTypeDrops.get(rowId), ridTextBoxes.get(rowId));
+            if ( ridx.hasContent()) {
+                GWT.log("Got rid" + x + ": "+ ridx);
+                resIds.add(ridx);
+            }
+        }
+        return resIds;
     }
 
     @Override
@@ -632,7 +798,8 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
                 isDirty(institution, original.getInstitution()) ||
                 isDirty(lastName, original.getLastName()) ||
                 isDirty(mi, original.getMi()) ||
-                isDirty(rid, original.getRid()) ||
+//                isDirty(rid0, original.getRid()) ||
+                researcherIdsChanged(original) ||
                 isDirty(telephone, original.getTelephone()) ||
                 isDirty(extension, original.getExtension()) ||
                 isDirty(city, original.getCity()) ||
@@ -641,6 +808,22 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
                 isDirty(countrySelect, original.getCountry());
         OAPMetadataEditor.debugLog("PersonPanel.isDirty: " + isDirty);
         return isDirty;
+    }
+
+    private boolean researcherIdsChanged(Person original) {
+        List<TypedString> rids = getResearcherIds();
+        List<TypedString> originalRids = original.getResearcherIds();
+        if (rids.size() != originalRids.size()) {
+            return true;
+        }
+        for ( int i = 0; i < rids.size(); i++) {
+            if ( ! rids.get(i).equals(originalRids.get(i))) {
+                GWT.log("researcher IDs differ");
+                return true;
+            }
+        }
+        GWT.log("std gases the same");
+        return false;
     }
 
     boolean isDirty(Select cSelect, String originalCountry) {
@@ -683,10 +866,11 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
             OAPMetadataEditor.debugLog("PersonPanel.mi:" + mi.getText());
             hasContent = true;
         }
-        if (rid.getText().trim() != null && !rid.getText().isEmpty()) {
-            OAPMetadataEditor.debugLog("PersonPanel.rid:" + rid.getText());
+        if (rid0.getText().trim() != null && !rid0.getText().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.rid:" + rid0.getText());
             hasContent = true;
         }
+        // XXX check researcherIds
         if (telephone.getText().trim() != null && !telephone.getText().isEmpty()) {
             OAPMetadataEditor.debugLog("PersonPanel.telephone:" + telephone.getText());
             hasContent = true;
@@ -739,7 +923,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         institution.setEnabled(editable);
         lastName.setEnabled(editable);
         mi.setEnabled(editable);
-        rid.setEnabled(editable);
+        rid0.setEnabled(editable);
         telephone.setEnabled(editable);
         extension.setEnabled(editable);
         city.setEnabled(editable);
@@ -767,8 +951,8 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
             lastName.setText(person.getLastName());
         if (person.getMi() != null)
             mi.setText(person.getMi());
-        if (person.getRid() != null)
-            rid.setText(person.getRid());
+//        if (person.getRid() != null)
+//            rid0.setText(person.getRid());
         if (person.getTelephone() != null)
             telephone.setText(person.getTelephone());
         if (person.getExtension() != null)
@@ -781,14 +965,14 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
             zip.setText(person.getZip());
         if (person.getCountry() != null)
             countrySelect.setValue(person.getCountry());
-        if (person.getIdType() != null) {
-            idType.setSelected(person.getIdType());
-        }
+//        if (person.getIdType() != null) {
+//            ridType0.setSelected(person.getIdType());
+        showResearcherIds(person);
         OAPMetadataEditor.debugLog("Checking valid person");
-        person.setComplete(this.valid());
+        person.setComplete(this.validate());
     }
 
-    @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid"})
+    @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid0"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("onChange source: " + event.getSource());
         save.setEnabled(true);
@@ -839,6 +1023,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
 
     public void hasRequiredFields() {
         // check if any person in peopleData is missing required fields
+        GWT.log("Checking person for required fields");
         boolean meetsRequired = true;
         for (int i = 0; i < peopleData.getList().size(); i++) {
             Person p = peopleData.getList().get(i);
@@ -848,7 +1033,16 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
                     || ((p.getLastName() == null) || (p.getLastName().isEmpty()))
                     || ((!emailRegex.test(p.getEmail())) && ((p.getEmail() != null) && (!p.getEmail().isEmpty())))) {
                 meetsRequired = false;
-
+            }
+            List<TypedString> resIds = p.getResearcherIds();
+            if ( resIds != null && resIds.size() > 0 ) {
+                for (TypedString id : resIds) {
+                    if ( ! id.getValue().trim().isEmpty() &&
+                           id.getType().trim().isEmpty()) {
+                        meetsRequired = false;
+                        break;
+                    }
+                }
             }
         }
         if (meetsRequired == true && peopleData.getList().size() > 0) {
@@ -889,49 +1083,9 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         }
     }
 
-//    public int getPageTableSize() {
-//        if (people.getPageSize() > 0) {
-//            return people.getPageSize();
-//        }
-//        return pageSize;
-//    }
-//
-//    public void setPageTableSize(int size) {
-//        int min = 0;
-//        int max = 255;
-//        if ((size > min) && (size < max)) {
-//            people.setPageSize(size);
-//        } else {
-//            OAPMetadataEditor.debugLog("Out of specified range bounds [" + min + ", " + max + "]: " + size);
-//        }
-//    }
-//
-//    public void setRowContextualClass(int index, String contextualClass) {
-//        if (index >= 0) {
-//            OAPMetadataEditor.debugLog("passed this index: " + index);
-//            OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
-//            OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
-//            people.getRowElement(index).addClassName(contextualClass);
-//        }
-//    }
-//
-//    public void removeRowContextualClass(int index, String contextualClass) {
-//        if (index >= 0) {
-//            people.getRowElement(index).removeClassName(contextualClass);
-//        }
-//    }
-//
-//    public boolean hasRowContextualClass(int index, String contextualClass) {
-//        OAPMetadataEditor.debugLog("passed this index: " + index);
-//        OAPMetadataEditor.debugLog("passed this style: " + contextualClass);
-//        OAPMetadataEditor.debugLog("people row element is: " + people.getRowElement(index));
-//        OAPMetadataEditor.debugLog("contextualClass is: " + people.getRowElement(index).getClassName());
-//        OAPMetadataEditor.debugLog("contextualClass has: " + people.getRowElement(index).hasClassName(contextualClass));
-//        return true;
-//    }
-
     public void reset() {
         form.reset();
+        clearRids();
         form.validate(false);
         displayedPerson = null;
         editIndex = -1;
@@ -943,5 +1097,175 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         setAllEditable(true);
         setEnableTableRowButtons(true);
     }
+    @UiHandler("addRidButton")
+    public void onAdd(ClickEvent clickEvent) {
+        GWT.log("Add RID clicked:"+clickEvent);
+        addRidRow();
+    }
+
+    private void setFormContainer() {
+        formContainer = (Container)ridRow0.getParent();
+//        GWT.log("parent:"+ formContainer);
+        int row0idx = formContainer.getWidgetIndex(ridRow0);
+        if ( row0idx != row0index ) {
+            GWT.log("WARN: Row0index has changed from " + row0index + " to " + row0idx);
+            row0index = row0idx;
+        }
+        GWT.log("researcherIdRow index:"+ row0index);
+    }
+
+    private ButtonDropDown addRowDropButton(Row newRow, ColumnSize cSize, String itemId, String title) {
+        org.gwtbootstrap3.client.ui.Column theColumn = new org.gwtbootstrap3.client.ui.Column(cSize);
+        FormGroup theFgrp = new FormGroup();
+//        theFgrp.addStyleName("form-control");
+        ButtonDropDown bdd = new ButtonDropDown();
+        bdd.init("Pick an ID Type ", idNames, idValues); // TODO: Remove or disable already chosen.
+        bdd.setId(itemId);
+        theFgrp.add(bdd);
+        theColumn.add(theFgrp);
+        newRow.add(theColumn);
+        return bdd;
+    }
+    private TextBox addRowTextField(Row newRow, ColumnSize cSize, String itemId, String title) {
+        org.gwtbootstrap3.client.ui.Column theColumn = new org.gwtbootstrap3.client.ui.Column(cSize);
+        FormGroup theFgrp = new FormGroup();
+//        theFgrp.addStyleName("form-control");
+        TextBox theTextBox = new TextBox();
+        theTextBox.setPlaceholder(title);
+        theTextBox.setId(itemId);
+        theFgrp.add(theTextBox);
+        theColumn.add(theFgrp);
+        newRow.add(theColumn);
+        return theTextBox;
+    }
+
+    private Row addRidRow() {
+        setFormContainer();
+        int addedRidIdx = addedRows.size() + 1;// so it's 1-based.
+        int addedRowId = row0index + addedRidIdx;
+        addedRidIdx += 1; // So count matches displayed ids.
+        GWT.log("Adding RID row " + addedRowId + " with " + addedRows.size() + " already");
+        org.gwtbootstrap3.client.ui.Column row0col = (org.gwtbootstrap3.client.ui.Column) ridRow0.getWidget(0);
+        Row newRow = new Row();
+        String row_id = RID_ROW_ + addedRowId;
+        newRow.setId(row_id);
+
+        // ID Type
+        ButtonDropDown ridTypeBtn = addRowDropButton(newRow, ColumnSize.MD_4, TYPE_ID+ addedRowId, "ID Type" );
+        ridIdTypeDrops.put(row_id, ridTypeBtn);
+        // ID
+        TextBox ridTextBox = addRowTextField(newRow, ColumnSize.MD_4, RID_ID+ addedRowId, "ID");// " + addedRidIdx);
+        ridTextBoxes.put(row_id, ridTextBox);
+
+        // remove row button
+        org.gwtbootstrap3.client.ui.Column buttonColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_2);
+        FormGroup buttonFgrp = new FormGroup();
+        Button removeButton = new Button("REMOVE");
+        removeButton.setId(RMV_BTN_ID+ addedRowId);
+        removeButton.addStyleName("float_right");
+        removeButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                removeRid(event.getSource());
+            }
+        });
+        buttonFgrp.add(removeButton);
+        buttonColumn.add(buttonFgrp);
+        newRow.add(buttonColumn);
+
+        formContainer.insert(newRow, addedRowId);
+
+        addedRows.add(newRow);
+        if ( addedRows.size() == 2 ) {
+            addRidButton.setEnabled(false);
+        }
+        return newRow;
+    }
+
+    private void removeRid(Object source) {
+        GWT.log("remove:"+source);
+        Button removeButton = (Button) source;
+        Row rowToRemove = getRowFor(removeButton); // Row)bclm.getParent();
+        removeRidRow(rowToRemove);
+        addedRows.remove(rowToRemove);
+        addRidButton.setEnabled(true);
+    }
+
+    private void removeRidRow(Row rowToRemove) {
+        boolean removed = formContainer.remove(rowToRemove);
+        GWT.log("removed: " + removed);
+        rowToRemove.removeFromParent();
+        removeRidFields(rowToRemove);
+    }
+
+    private void removeRidFields(Row rowToRemove) {
+        String rowId = rowToRemove.getId();
+//        String rowIdxStr = rowId.substring(rowId.lastIndexOf("_")+1);
+//        int rowIdx = row0index + 1;
+//        try {
+//            rowIdx = Integer.parseInt(rowIdxStr);
+//        } catch (NumberFormatException e) {
+//            GWT.log("Failed to parse row index " + rowIdxStr);
+//        }
+//        int instListIdx = rowIdx - row0index;
+        removeDropBox(rowId, ridIdTypeDrops);
+        removeField(rowId, ridTextBoxes);
+    }
+    private void removeDropBox(String rowId, Map<String, ButtonDropDown> map) {
+        if ( map.containsKey(rowId)) {
+            map.remove(rowId);
+        } else {
+            GWT.log("WARN: Missing textBox for added researcherId row "+ rowId);
+        }
+    }
+
+    private void removeField(String rowId, Map<String, TextBox> map) {
+        if ( map.containsKey(rowId)) {
+            map.remove(rowId);
+        } else {
+            GWT.log("WARN: Missing textBox for added researcherId row "+ rowId);
+        }
+    }
+
+    private Row getRowFor(Widget widget) {
+        FormGroup bfg = (FormGroup)widget.getParent();
+        org.gwtbootstrap3.client.ui.Column bclm = (org.gwtbootstrap3.client.ui.Column)bfg.getParent();
+        Row rowToRemove = (Row)bclm.getParent();
+        return rowToRemove;
+    }
+
+    private void showResearcherIds(Person person) {
+        GWT.log("showing resIds for:" + person);
+        clearRids();
+        List<TypedString>researcherIds = person.getResearcherIds();
+        GWT.log("researcherIds:" + researcherIds);
+        if ( researcherIds.isEmpty()) { return; }
+        TypedString id0 = researcherIds.get(0);
+        rid0.setText(id0.getValue().trim());
+        ridType0.setSelected(id0.getType());
+        GWT.log("rid0: " + id0);
+        for (int i = 1; i<researcherIds.size(); i++) {
+            TypedString id = researcherIds.get(i);
+            addResearcherId(id);
+        }
+    }
+
+    private void clearRids() {
+        rid0.setText("");
+        ridType0.reset();
+        for (Row addedRow : addedRows) {
+            removeRidRow(addedRow);
+        }
+        addedRows.clear();
+    }
+
+    private void addResearcherId(TypedString rid) {
+        GWT.log("Adding rid " + rid);
+        Row addedRow = addRidRow();
+        String rowId = addedRow.getId();
+        ridTextBoxes.get(rowId).setText(rid.getValue());
+        ridIdTypeDrops.get(rowId).setSelected(rid.getType());
+    }
+
 }
 

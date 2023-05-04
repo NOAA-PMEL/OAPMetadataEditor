@@ -1,12 +1,17 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
 import gov.noaa.pmel.sdig.shared.HasContent;
+import gov.noaa.pmel.sdig.shared.IsValid;
 import gov.noaa.pmel.sdig.shared.Stringy;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rhs on 2/28/17.
  */
-public class Person extends Ordered implements Comparable<Person>, Stringy, HasContent {
+public class Person extends Ordered implements Comparable<Person>, Stringy, HasContent, IsValid {
     String lastName;
     String mi;
     String firstName;
@@ -16,24 +21,16 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
     String telephone;
     String extension;
     String email;
-    String rid;
     String city;
     String state;
     String zip;
     String country;
-    String idType;
+
+    List<TypedString> researcherIds;
 
     boolean complete = true;
     public boolean isComplete() { return complete; }
     public void setComplete(boolean isComplete) { complete = isComplete; }
-
-    public String getIdType() {
-        return idType;
-    }
-
-    public void setIdType(String idType) {
-        this.idType = idType;
-    }
 
     public String getLastName() {
         return lastName;
@@ -103,12 +100,19 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
         this.email = email;
     }
 
-    public String getRid() {
-        return rid;
+    public synchronized List<TypedString> getResearcherIds() {
+        if ( researcherIds == null ) {
+            researcherIds = new ArrayList<>();
+        }
+        return researcherIds;
     }
 
-    public void setRid(String rid) {
-        this.rid = rid;
+    public void addResearcherId(TypedString rid) {
+        getResearcherIds().add(rid);
+    }
+
+    public void setResearcherIds(List<TypedString> researcherIds) {
+        this.researcherIds = researcherIds;
     }
 
     public String getCity() {
@@ -162,8 +166,8 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
         if ( z != 0 ) { return z; }
         z = sCompare(email, other.email);
         if ( z != 0 ) { return z; }
-        z = sCompare(rid, other.rid);
-        if ( z != 0 ) { return z; }
+//        z = sCompare(rid, other.rid);
+//        if ( z != 0 ) { return z; }
         z = sCompare(city, other.city);
         if ( z != 0 ) { return z; }
         z = sCompare(state, other.state);
@@ -171,8 +175,9 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
         z = sCompare(zip, other.zip);
         if ( z != 0 ) { return z; }
         z = sCompare(country, other.country);
-        if ( z != 0 ) { return z; }
-        return sCompare(idType, other.idType);
+        return z;
+//        if ( z != 0 ) { return z; }
+//        return sCompare(idType, other.idType);
     }
     public boolean isTheSameAs(Person other) {
         if ( other == null ) { return false; }
@@ -186,12 +191,12 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
             sAreEffectivelyTheSame(telephone, other.telephone) &&
             sAreEffectivelyTheSame(extension, other.extension) &&
             sAreEffectivelyTheSame(email, other.email) &&
-            sAreEffectivelyTheSame(rid, other.rid) &&
+//            sAreEffectivelyTheSame(rid, other.rid) &&
             sAreEffectivelyTheSame(city, other.city) &&
             sAreEffectivelyTheSame(state, other.state) &&
             sAreEffectivelyTheSame(zip, other.zip) &&
-            sAreEffectivelyTheSame(country, other.country) &&
-            sAreEffectivelyTheSame(idType, other.idType);
+            sAreEffectivelyTheSame(country, other.country); //  &&
+//            sAreEffectivelyTheSame(idType, other.idType);
     }
 
     @Override
@@ -209,16 +214,15 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
         newPerson.telephone = this.telephone;
         newPerson.extension = this.extension;
         newPerson.email = this.email;
-        newPerson.rid = this.rid;
+//        newPerson.rid = this.rid;
         newPerson.city = this.city;
         newPerson.state = this.state;
         newPerson.zip = this.zip;
         newPerson.country = this.country;
-        newPerson.idType = this.idType;
+//        newPerson.idType = this.idType;
         return newPerson;
     }
 
-    @Override
     public boolean hasContent() {
         boolean hasContent = ! (
                     isEmpty(lastName) &&
@@ -230,12 +234,31 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
                     isEmpty(telephone) &&
                     isEmpty(extension) &&
                     isEmpty(email) &&
-                    isEmpty(rid) &&
+//                    isEmpty(rid) &&
                     isEmpty(city) &&
                     isEmpty(state) &&
                     isEmpty(zip) &&
                     isEmpty(country) &&
-                    isEmpty(idType));
+                    isEmpty(researcherIds));
         return hasContent;
     }
+
+    public boolean isValid() {
+        try {
+            validate();
+            return true;
+        } catch (IllegalStateException isx) {
+            return false;
+        }
+    }
+    public void validate()      // TODO: I guess should check empty fields, etc.
+        throws IllegalStateException
+    {
+        for (TypedString rid : getResearcherIds()) {
+            if ( (! rid.getValue().isEmpty()) && rid.getType().isEmpty() ) {
+                throw new IllegalStateException("Missing type for ID " + rid.getValue());
+            }
+        }
+    }
 }
+

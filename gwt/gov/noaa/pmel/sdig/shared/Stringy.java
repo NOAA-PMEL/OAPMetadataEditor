@@ -1,6 +1,27 @@
 package gov.noaa.pmel.sdig.shared;
 
+import gov.noaa.pmel.sdig.shared.bean.TypedString;
+
+import java.util.List;
+
 public interface Stringy {
+
+    default boolean isEmpty(String str) {
+        return str == null || str.trim().length() == 0;
+    }
+
+    default boolean isEmpty(List<TypedString> strs) {
+        if ( strs == null || strs.isEmpty()) {
+            return true;
+        }
+        for (TypedString str : strs) {
+            if ( str.hasContent()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     default int sCompare(String s1, String s2) {
         return s1 == null ?
                ( s2 == null ? 0 : -1 ) :

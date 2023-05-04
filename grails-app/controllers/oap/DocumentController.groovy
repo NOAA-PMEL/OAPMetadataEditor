@@ -260,7 +260,7 @@ class DocumentController {
             document = createDocumentFromXml(ins)
         } catch (Exception ex) {
             String msg = "Error parsing metadata XML document: " + ex.toString()
-            log.info(msg)
+            log.warn(msg, ex)
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg)
             return
         }
@@ -356,12 +356,19 @@ class DocumentController {
 
     private def _createXDoc(String xml) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance()
+        log.debug("dbf:"+dbf.getClass().getName());
         dbf.setNamespaceAware(true)
+
         // Prevent XXE attacks
         dbf.setXIncludeAware(false)
-        dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
-        dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+//        dbf.setExpandEntityReferences(false)  // XXX ??? TODO: not sure about this, Will it break anything?
+        dbf.setFeature("http://xml.org/sax/features/external-general-entities", false)
+        dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false)
+        dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
+        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
+
+//        dbf.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false)
         DocumentBuilder db = dbf.newDocumentBuilder()
         org.w3c.dom.Document doc = db.parse(new ByteArrayInputStream(xml.bytes))
         return doc
@@ -434,8 +441,8 @@ class DocumentController {
                 render document as JSON
             }
         } catch (Exception ex) {
-            ex.printStackTrace()
             String msg = "ERROR: There was an error processing your uploaded file: "+ ex.getMessage()
+            log.warn(msg,ex)
             render msg
         }
     }
