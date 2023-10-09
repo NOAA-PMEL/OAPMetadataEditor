@@ -1,6 +1,6 @@
 server:
     port: 8383
-    contextPath: /oap
+    contextPath: /socat
 ---
 grails:
     profile: web
