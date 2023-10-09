@@ -2,6 +2,7 @@ package gov.noaa.pmel.sdig.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -10,6 +11,8 @@ import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 import gov.noaa.pmel.sdig.client.event.NavLink;
 import gov.noaa.pmel.sdig.client.event.NavLinkHandler;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
@@ -92,8 +95,7 @@ public class OAPMetadataEditor implements EntryPoint {
     Document _currentDocument = null;
     String _requestedDocumentId = null;
     String _datasetId = null;
-    String _docType = Document.DOC_OCADS;
-    boolean _isSocat = SOCAT_DEFAULT;
+    String _docType = Document.TYPE_SOCAT; // XXX Should be configurable, somehow.
     Long _documentDbId = null;
     Long _documentDbVersion = null;
 
@@ -333,16 +335,13 @@ public class OAPMetadataEditor implements EntryPoint {
         if (socat != null) {
             if (socat.trim().length() == 0 ||
                     "true".equals(socat.trim().toLowerCase())) {
-                _isSocat = true;
+                _docType = Document.TYPE_SOCAT;
             } else {
-                _isSocat = false;
+                _docType = Document.TYPE_OADS;
             }
         }
-        if (_isSocat) {
-            _docType = Document.DOC_SOCAT;
-            _isSocat = true;
-            topLayout.setIsSocat(true);
-        }
+        topLayout.setIsSocat(_docType.equals(Document.TYPE_SOCAT));
+
         String docId = Window.Location.getParameter("id");
         if (docId != null) {
             debugLog("OAME: Loading document " + docId);
@@ -459,14 +458,14 @@ public class OAPMetadataEditor implements EntryPoint {
         }
     }
 
-    private static void warn(String msg) {
+    public static void warn(String msg) {
         NotifySettings settings = NotifySettings.newSettings();
         settings.setType(NotifyType.WARNING);
         settings.setPlacement(NotifyPlacement.TOP_CENTER);
         Notify.notify(msg, settings);
     }
 
-    private static void info(String msg) {
+    public static void info(String msg) {
         NotifySettings settings = NotifySettings.newSettings();
         settings.setType(NotifyType.INFO);
         settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -588,7 +587,7 @@ public class OAPMetadataEditor implements EntryPoint {
             doc.setPh(ph);
         }
         // pco2a
-        if ( _isSocat ) {
+        if ( isSocat() ) {
             if (co2Panel.isDirty()) {
                 List<Variable> co2vars = co2Panel.getCO2variables();
                 doc.setCo2vars(co2vars);
@@ -616,6 +615,10 @@ public class OAPMetadataEditor implements EntryPoint {
         doc.setVariables(genericVariables);
 
         return doc;
+    }
+
+    private boolean isSocat() {
+        return Document.TYPE_SOCAT.equals(_docType);
     }
 
     private void onPostMessage(String data, String origin) {
@@ -824,7 +827,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 header.add(h);
                 mergeOptions.add(header);
                 ModalBody body = new ModalBody();
-                HTML message = new HTML("<strong>Preserve</strong> will populate empty fields and append new data " +
+                HTML message = new HTML(" will populate empty fields and append new data " +
                         "content from the uploaded file, but will not overwrite content in the current data panels." +
                         "<br><br><strong>Overwrite</strong> will append new data content from the uploaded file where " +
                         "applicable and will not preserve content in the current data panels.");
@@ -938,7 +941,7 @@ public class OAPMetadataEditor implements EntryPoint {
             debugLog("pco2dPanel is Dirty");
             isDirty = true;
         }
-        if (co2Panel.isDirty(compDoc.getPco2a())) {
+        if (co2Panel.isDirty(compDoc.getCo2vars())) { // XXX TODO: CHECK Umm...
             debugLog("co2Panel is Dirty");
             isDirty = true;
         }
@@ -1040,6 +1043,7 @@ public class OAPMetadataEditor implements EntryPoint {
         jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
                 .replace("</pre>", "");
         jsonString = jsonString.replace("<pre>", "");
+        jsonString = jsonString.replace("<div></div>", "");
         GWT.log("json string:" + jsonString);
         boolean again = false;
         do {
@@ -1072,8 +1076,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
             Document document = documentFromJson(jsonString);
             _docType = document.getDocType();
-            _isSocat = Document.DOC_SOCAT.equals(_docType);
-            topLayout.setIsSocat(_isSocat);
+            topLayout.setIsSocat(Document.TYPE_SOCAT.equals(_docType));
             if (updateIds) {
                 debugLog("has updateIds: " + updateIds);
                 loadDocumentElements(document);
@@ -1162,8 +1165,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
             if (document.getTimeAndLocation() != null) {
                 TimeAndLocation timeAndLocation = document.getTimeAndLocation();
-//                timeAndLocationPanel.setIsSocat(_isSocat);
-                debugLog("show timeAndLocationPanel wiht isSocat =" + _isSocat);
+                debugLog("show timeAndLocationPanel with isSocat =" + isSocat());
                 timeAndLocationPanel.show(timeAndLocation);
                 if (!timeAndLocationPanel.valid()) {
 //                    debugLog("danger timeAndLocationPanel has no valid data");
@@ -1221,7 +1223,6 @@ public class OAPMetadataEditor implements EntryPoint {
 
             if (document.getPlatforms() != null) {
                 List<Platform> platforms = document.getPlatforms();
-//                platformPanel.setIsSocat(_isSocat);
 
                 // Load
                 platformPanel.addPlatforms(platforms);
@@ -2278,9 +2279,9 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getPco2Temperature() != null && !initalPco2a.getPco2Temperature().isEmpty()) {
                         pco2a.setPco2Temperature(initalPco2a.getPco2Temperature());
                     }
-                    if (initalPco2a.getGasConcentration() != null && !initalPco2a.getGasConcentration().isEmpty()) {
-                        pco2a.setGasConcentration(initalPco2a.getGasConcentration());
-                    }
+//                    if (initalPco2a.getGasConcentration() != null && !initalPco2a.getGasConcentration().isEmpty()) {
+//                        pco2a.setGasConcentration(initalPco2a.getGasConcentration());
+//                    }
                     if (initalPco2a.getIntakeDepth() != null && !initalPco2a.getIntakeDepth().isEmpty()) {
                         pco2a.setIntakeDepth(initalPco2a.getIntakeDepth());
                     }
@@ -2305,9 +2306,9 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getIntakeLocation() != null && !initalPco2a.getIntakeLocation().isEmpty()) {
                         pco2a.setIntakeLocation(initalPco2a.getIntakeLocation());
                     }
-                    if (initalPco2a.getStandardGasManufacture() != null && !initalPco2a.getStandardGasManufacture().isEmpty()) {
-                        pco2a.setStandardGasManufacture(initalPco2a.getStandardGasManufacture());
-                    }
+//                    if (initalPco2a.getStandardGasManufacture() != null && !initalPco2a.getStandardGasManufacture().isEmpty()) {
+//                        pco2a.setStandardGasManufacture(initalPco2a.getStandardGasManufacture());
+//                    }
                     if (initalPco2a.getGasDetectorManufacture() != null && !initalPco2a.getGasDetectorManufacture().isEmpty()) {
                         pco2a.setGasDetectorManufacture(initalPco2a.getGasDetectorManufacture());
                     }
@@ -2320,8 +2321,12 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2a.getTemperatureCorrectionMethod() != null && !initalPco2a.getTemperatureCorrectionMethod().isEmpty()) {
                         pco2a.setTemperatureCorrectionMethod(initalPco2a.getTemperatureCorrectionMethod());
                     }
-                    if (initalPco2a.getStandardGasUncertainties() != null && !initalPco2a.getStandardGasUncertainties().isEmpty()) {
-                        pco2a.setStandardGasUncertainties(initalPco2a.getStandardGasUncertainties());
+//                    if (initalPco2a.getStandardGasUncertainties() != null && !initalPco2a.getStandardGasUncertainties().isEmpty()) {
+//                        pco2a.setStandardGasUncertainties(initalPco2a.getStandardGasUncertainties());
+//                    }
+                    // XXX Note that wmo traceability not originally checked (missing)
+                    if (initalPco2a.getStandardGases() != null && !initalPco2a.getStandardGases().isEmpty()) {
+                        pco2a.setStandardGases(initalPco2a.getStandardGases());
                     }
                     if (initalPco2a.getGasDectectorUncertainty() != null && !initalPco2a.getGasDectectorUncertainty().isEmpty()) {
                         pco2a.setGasDectectorUncertainty(initalPco2a.getGasDectectorUncertainty());
@@ -2421,15 +2426,15 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2d.getPco2Temperature() != null && !initalPco2d.getPco2Temperature().isEmpty()) {
                         pco2d.setPco2Temperature(initalPco2d.getPco2Temperature());
                     }
-                    if (initalPco2d.getGasConcentration() != null && !initalPco2d.getGasConcentration().isEmpty()) {
-                        pco2d.setGasConcentration(initalPco2d.getGasConcentration());
-                    }
+//                    if (initalPco2d.getGasConcentration() != null && !initalPco2d.getGasConcentration().isEmpty()) {
+//                        pco2d.setGasConcentration(initalPco2d.getGasConcentration());
+//                    }
                     if (initalPco2d.getHeadspaceVolume() != null && !initalPco2d.getHeadspaceVolume().isEmpty()) {
                         pco2d.setHeadspaceVolume(initalPco2d.getHeadspaceVolume());
                     }
-                    if (initalPco2d.getStandardGasManufacture() != null && !initalPco2d.getStandardGasManufacture().isEmpty()) {
-                        pco2d.setStandardGasManufacture(initalPco2d.getStandardGasManufacture());
-                    }
+//                    if (initalPco2d.getStandardGasManufacture() != null && !initalPco2d.getStandardGasManufacture().isEmpty()) {
+//                        pco2d.setStandardGasManufacture(initalPco2d.getStandardGasManufacture());
+//                    }
                     if (initalPco2d.getGasDetectorManufacture() != null && !initalPco2d.getGasDetectorManufacture().isEmpty()) {
                         pco2d.setGasDetectorManufacture(initalPco2d.getGasDetectorManufacture());
                     }
@@ -2448,8 +2453,12 @@ public class OAPMetadataEditor implements EntryPoint {
                     if (initalPco2d.getTemperatureStandarization() != null && !initalPco2d.getTemperatureStandarization().isEmpty()) {
                         pco2d.setTemperatureStandarization(initalPco2d.getTemperatureStandarization());
                     }
-                    if (initalPco2d.getStandardGasUncertainties() != null && !initalPco2d.getStandardGasUncertainties().isEmpty()) {
-                        pco2d.setStandardGasUncertainties(initalPco2d.getStandardGasUncertainties());
+//                    if (initalPco2d.getStandardGasUncertainties() != null && !initalPco2d.getStandardGasUncertainties().isEmpty()) {
+//                        pco2d.setStandardGasUncertainties(initalPco2d.getStandardGasUncertainties());
+//                    }
+                    // XXX Note that wmo traceability was not originally included here (missing!)
+                    if (initalPco2d.getStandardGases() != null && !initalPco2d.getStandardGases().isEmpty()) {
+                        pco2d.setStandardGases(initalPco2d.getStandardGases());
                     }
                     if (initalPco2d.getGasDectectorUncertainty() != null && !initalPco2d.getGasDectectorUncertainty().isEmpty()) {
                         pco2d.setGasDectectorUncertainty(initalPco2d.getGasDectectorUncertainty());
@@ -2809,19 +2818,54 @@ public class OAPMetadataEditor implements EntryPoint {
         return true;
     }
 
-    public static boolean getDocType() {
-        String socat = Window.Location.getParameter("socat");
-        OAPMetadataEditor.debugLog("OAPMetadataEditor.getIsSocatParam(" + socat + ")");
-        if (socat != null) {
-            if (socat.trim().length() == 0 ||
-                    "true".equals(socat.trim().toLowerCase())) {
-                return true;
-            } else {
-                return false;
-            }
+    public String getDocType() {
+        return _docType;
+//        String socat = Window.Location.getParameter("socat");
+//        OAPMetadataEditor.debugLog("OAPMetadataEditor.getIsSocatParam(" + socat + ")");
+//        if (socat != null) {
+//            if (socat.trim().length() == 0 ||
+//                    "true".equals(socat.trim().toLowerCase())) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+//        // assume socat is true for now if null
+//        return true;
+    }
+
+    public static Widget getRowWidget(Row row, int colIdx, int wgtIdx) {
+        Widget clmWidget = row.getWidget(colIdx);
+        GWT.log("clmWidget:"+clmWidget);
+        org.gwtbootstrap3.client.ui.Column clm = (org.gwtbootstrap3.client.ui.Column)clmWidget;
+        GWT.log("clm:"+clm);
+        Widget formWidget = clm.getWidget(0);
+        GWT.log("formWidget:"+formWidget);
+        FormGroup form = (FormGroup)formWidget;
+        GWT.log("form:"+form);
+        Widget widget = form.getWidget(wgtIdx);
+        GWT.log("widget:"+widget);
+        return widget;
+    }
+    private static UIObject getFormGroup(Widget widget) {
+        return (FormGroup) widget.getParent();
+    }
+
+    public static void setFieldError(boolean set, Widget widget) {
+        setFieldError(set, getFormGroup(widget));
+    }
+    public static void setFieldError(boolean set, UIObject formGroup) {
+        if ( set ) {
+            formGroup.addStyleName("has-error");
+        } else {
+            formGroup.removeStyleName("has-error");
         }
-        // assume socat is true for now if null
-        return true;
+    }
+
+    public static Element getField(String withId) {
+        Element field = com.google.gwt.dom.client.Document.get().getElementById(withId);
+        logToConsole(String.valueOf(field));
+        return field;
     }
 
 }

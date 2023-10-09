@@ -2,34 +2,39 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.builder.shared.DivBuilder;
 import com.google.gwt.dom.builder.shared.InputBuilder;
 import com.google.gwt.dom.builder.shared.TableCellBuilder;
 import com.google.gwt.dom.builder.shared.TableRowBuilder;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.AbstractHeaderOrFooterBuilder;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.client.widgets.SizedEditTextCell;
+import gov.noaa.pmel.sdig.shared.bean.StandardGas;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.*;
 import org.gwtbootstrap3.client.ui.constants.ButtonSize;
 import org.gwtbootstrap3.client.ui.constants.ButtonType;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
@@ -38,15 +43,23 @@ import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
  * Created by rhs on 3/22/17.
+ * Changed by lkp on some later date.
  */
 public class Co2Panel extends Composite implements GetsDirty<Variable> {
     private static final char CO2_VARS_SEPARATOR = ';';
+    private static final String MANUF_ID = "sg_manuf_";
+    private static final String CONC_ID = "sg_conc_";
+    private static final String UNC_ID = "sg_uncert_";
+    private static final String TRACE_ID = "sg_trace_";
+
+    private static final String RMV_BTN_ID = "sg_rmv_";
+    private static final String STD_GAS_ROW_ = "sg_row_";
+    private static final String CO2_COMMON = "CO2_Common";
 
 //    List<Variable> variablesList;
 
@@ -73,10 +86,6 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     // 024 at what temperature was pCO2 reported
     @UiField
     TextBox pco2Temperature;
-
-    // 028 Concentrations of standard gas
-    @UiField
-    TextBox gasConcentration;
 
 //    // 030 Depth of seawater intake -> move to Co2CommonVariablePanel
 //    @UiField
@@ -110,9 +119,32 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //    @UiField
 //    TextBox intakeLocation;
 
+    @UiField
+    Button addStdGasButton;
+    @UiField
+    Row standardGasRow0;
+
+    // Traceability of standard gases to WMO standards
+    @UiField
+    TextBox standardGasTraceability0;
+
+    @UiField
+    Modal stdGasBtnPopover;
+
     // 043 Manufacturer of standard gas
     @UiField
-    TextBox standardGasManufacture;
+    TextBox standardGasManufacture0;
+
+    // 028 Concentrations of standard gas
+    @UiField
+    TextBox standardGasConcentration0;
+
+    // 056 Uncertainties of standard gas
+    @UiField
+    TextBox standardGasUncertainty0;
+
+//    @UiField
+//    TextBox standardGasId0;
 
     // 044 Manufacturer of the gas detector
     @UiField
@@ -130,10 +162,6 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox temperatureCorrectionMethod;
 
-    // 056 Uncertainties of standard gas
-    @UiField
-    TextBox standardGasUncertainties;
-
     // 057 Uncertainty of the gas detector
     @UiField
     TextBox gasDectectorUncertainty;
@@ -149,25 +177,6 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     // 060 Water vapor correction method
     @UiField
     TextBox vaporCorrection;
-
-    /*
-    TextBox equilibratorTemperatureMeasureUncertainty
-    String uncertaintyOfTemperature
-    TextBox equilibratorTemperatureSensorCalibrationMethod
-    String temperatureMeasurementCalibrationMethod
-    TextBox totalMeasurementPressureDetermined
-    String totalPressureCalcMethod
-    TextBox totalMeasurementPressureUncertaintyCalculated
-    String uncertaintyOfTotalPressure
-    TextBox calibrationMethodPressureSensorFrequency
-    String pressureMeasurementCalibrationMethod
-    TextBox stdGasTraceability
-    String traceabilityOfStdGas
-    TextBox pco2FromXco2Method
-    String pCo2CalcMethod
-    TextBox fco2FromPco2Method
-    String fCo2CalcMethod
-     */
 
     // Uncertainty of temperature measured inside the equlibrator
     @UiField
@@ -189,10 +198,6 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     TextBox equilibratorPressureSensorCalibrationMethod;
 
-    // Traceability of standard gases to WMO standards
-    @UiField
-    TextBox stdGasTraceability;
-
     // Method to calculate pCO2 from xCO2 (reference)
     @UiField
     TextBox pco2FromXco2Method;
@@ -200,18 +205,6 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     // Method to calculate fCO2 from pCO2 (reference)
     @UiField
     TextBox fco2FromPco2Method;
-
-//    @UiField
-//    FormLabel ventedLabel;
-//    @UiField
-//    FormLabel flowRateLabel;
-//    @UiField
-//    FormLabel gasFlowRateLabel;
-//    @UiField
-//    FormLabel standardizationTechniqueLabel;
-//    @UiField
-//    FormLabel freqencyOfStandardizationLabel;
-
 
     @UiField
     Co2CommonVariablePanel common;
@@ -222,6 +215,15 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
     @UiField
     Form form;
 
+    List<Row> addedRows = new ArrayList<>();
+    HashMap<String, TextBox> stdGasManufTextBoxes = new LinkedHashMap<>();
+    HashMap<String, TextBox> stdGasConcTextBoxes = new LinkedHashMap<>();
+    HashMap<String, TextBox> stdGasUncTextBoxes = new LinkedHashMap<>();
+    HashMap<String, TextBox> stdGasTraceTextBoxes = new LinkedHashMap<>();
+    int row0index = 2;
+    //    int addedInstIdx = 0;
+    Container formContainer;
+
     ButtonCell addButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
     ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
@@ -230,8 +232,65 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 
     private static Co2aPanelUiBinder ourUiBinder = GWT.create(Co2aPanelUiBinder.class);
 
+    public enum VarType {
+        OTHER,
+        FCO2_WATER_EQU,
+        FCO2_WATER_SST,
+        PCO2_WATER_EQU,
+        PCO2_WATER_SST,
+        XCO2_WATER_EQU,
+        XCO2_WATER_SST,
+        FCO2_ATM_ACTUAL,
+        FCO2_ATM_INTERP,
+        PCO2_ATM_ACTUAL,
+        PCO2_ATM_INTERP,
+        XCO2_ATM_ACTUAL,
+        XCO2_ATM_INTERP; /*,
+        SEA_SURFACE_TEMP,
+        EQUILIBRATOR_TEMP,
+        SEA_LEVEL_PRESSURE,
+        EQUILIBRATOR_PRESSURE,
+        SALINITY,
+        WOCE_CO2_WATER,
+        WOCE_CO2_ATM;
+        */
+
+        static List<String> _names = new ArrayList<>(VarType.values().length);
+//        static List<String> _lower = new ArrayList<>(VarType.values().length);
+        public static List<String> names() {
+            synchronized (_names) {
+                if (_names.isEmpty()) {
+                    for (VarType t : values()) {
+                        _names.add(t.name());
+//                        _lower.add(t.name().toLowerCase());
+                    }
+                }
+                return _names;
+            }
+        }
+
+        public static VarType guess(String fromName) {
+            String upper = fromName.toUpperCase();
+            OAPMetadataEditor.debugLog("guess " + upper);
+            if ( _names.contains(upper)) {
+                return VarType.valueOf(upper);
+            }
+            return VarType.OTHER;
+        }
+    }
+
     public Co2Panel() {
         initWidget(ourUiBinder.createAndBindUi(this));
+        Widget thisWidget = this.asWidget();
+        HTMLPanel panel = (HTMLPanel) this.getWidget();
+        Form form = (Form)panel.getWidget(0);
+        FieldSet fieldSet = (FieldSet) form.getWidget(2);
+        Container container = (Container) fieldSet.getWidget(0);
+//        Element ste = standardizationTechnique.getElement();
+//        Element stp = ste.getParentElement();
+//        stp.addClassName("has-error");
+//        OAPMetadataEditor.logToConsole("that: " + thatWidget);
+//        OAPMetadataEditor.setFieldError(true, standardizationTechnique);
         setDefaults();
 //        common.abbreviation.setEnabled(false);
 //        common.abbreviation.setVisible(false);
@@ -306,57 +365,94 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         // Vented or Not
         List<String> ventedNames = new ArrayList<String>();
         List<String> ventedValues = new ArrayList<String>();
-        ventedNames.add("Vented ");
-        ventedValues.add("vented");
+        ventedNames.add("Vented "); // needs space to push carat over... :-(
+        ventedValues.add("true");
         ventedNames.add("Not Vented ");
-        ventedValues.add("not vented");
+        ventedValues.add("false");
         vented.init("Select Vented or Not ", ventedNames, ventedValues);
 
-        Column<Variable, String> abbrevColumn = addColumn(new SizedEditTextCell(25), "Abbreviation", new GetValue<String>() {
-            @Override
-            public String getValue(Variable var) {
-                return var.getAbbreviation();
-            }
-        }, new FieldUpdater<Variable, String>() {
-            @Override
-            public void update(int index, Variable var, String value) {
-                OAPMetadataEditor.logToConsole("UPDATE abbrev for " + var.getAbbreviation() + " as " + value);
-                var.setAbbreviation(value);
-            }
-        });
+        List<String> co2varTypeNames = VarType.names();
+        com.google.gwt.user.cellview.client.Column <Variable, String> varTypeColumn =
+                addColumn(new SelectionCell(co2varTypeNames), "Var Type",
+                        new GetValue<String>() {
+                            @Override
+                            public String getValue(Variable var) {
+                                OAPMetadataEditor.logToConsole("getValue varType for " + var.getAbbreviation());
+                                try {
+                                    String socatType = var.getSocatType();
+                                    if ( socatType != null && ! socatType.trim().isEmpty() )
+                                        return socatType;
+                                    else
+                                        return guessVarType(var);
+                                } catch (Exception exception) {
+                                    OAPMetadataEditor.logToConsole(exception.toString());
+                                    return VarType.OTHER.name();
+                                }
+                            }
+                        },
+                        new FieldUpdater<Variable, String>() {
+                            @Override
+                            public void update(int index, Variable var, String value) {
+                                OAPMetadataEditor.logToConsole("UPDATE varType for " + var.getAbbreviation() + " as " + value);
+                                var.setSocatType(value);
+                            }
+                        });
 
-        Column<Variable, String> unitsColumn = addColumn(new SizedEditTextCell(10), "Units", new GetValue<String>() {
-            @Override
-            public String getValue(Variable var) {
-//                OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
-                return var.getUnits();
-            }
-        }, new FieldUpdater<Variable, String>() {
-            @Override
-            public void update(int index, Variable var, String value) {
-                OAPMetadataEditor.logToConsole("UPDATE units for " + var.getAbbreviation() + " as " + value);
-                var.setUnits(value);
-            }
-        });
-        Column<Variable, String> fullNameColumn = addColumn(new SizedEditTextCell(72), "Full Name", new GetValue<String>() {
-            @Override
-            public String getValue(Variable var) {
-//                OAPMetadataEditor.logToConsole("var name for " + var.getAbbreviation() + ":" + var.getFullVariableName());
-                return var.getFullVariableName();
-            }
-        }, new FieldUpdater<Variable, String>() {
-            @Override
-            public void update(int index, Variable var, String value) {
-                OAPMetadataEditor.logToConsole("UPDATE var name for " + var.getAbbreviation() + " as " + value);
-                var.setFullVariableName(value);
-            }
-        });
-        Column<Variable, String> deleteColumn = new com.google.gwt.user.cellview.client.Column<Variable, String>(deleteButton) {
-            @Override
-            public String getValue(Variable object) {
-                return "Delete";
-            }
-        };
+        com.google.gwt.user.cellview.client.Column <Variable, String> abbrevColumn =
+            addColumn(new SizedEditTextCell(25), "Abbreviation",
+                    new GetValue<String>() {
+                        @Override
+                        public String getValue(Variable var) {
+                            return var.getAbbreviation();
+                        }
+                    },
+                    new FieldUpdater<Variable, String>() {
+                        @Override
+                        public void update(int index, Variable var, String value) {
+                            OAPMetadataEditor.logToConsole("UPDATE abbrev for " + var.getAbbreviation() + " as " + value);
+                            var.setAbbreviation(value);
+                        }
+                    });
+
+        com.google.gwt.user.cellview.client.Column <Variable, String> unitsColumn =
+            addColumn(new SizedEditTextCell(10), "Units",
+                    new GetValue<String>() {
+                        @Override
+                        public String getValue(Variable var) {
+                            OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
+                            return var.getUnits();
+                        }
+                    },
+                    new FieldUpdater<Variable, String>() {
+                        @Override
+                        public void update(int index, Variable var, String value) {
+                            OAPMetadataEditor.logToConsole("UPDATE units for " + var.getAbbreviation() + " as " + value);
+                            var.setUnits(value);
+                        }
+                    });
+        com.google.gwt.user.cellview.client.Column<Variable, String> fullNameColumn =
+            addColumn(new SizedEditTextCell(72), "Full Name",
+                    new GetValue<String>() {
+                        @Override
+                        public String getValue(Variable var) {
+            //                OAPMetadataEditor.logToConsole("var name for " + var.getAbbreviation() + ":" + var.getFullVariableName());
+                            return var.getFullVariableName();
+                        }
+                    },
+                    new FieldUpdater<Variable, String>() {
+                        @Override
+                        public void update(int index, Variable var, String value) {
+                            OAPMetadataEditor.logToConsole("UPDATE var name for " + var.getAbbreviation() + " as " + value);
+                            var.setFullVariableName(value);
+                        }
+                    });
+        com.google.gwt.user.cellview.client.Column <Variable, String> deleteColumn =
+                new com.google.gwt.user.cellview.client.Column<Variable, String>(deleteButton) {
+                        @Override
+                        public String getValue(Variable object) {
+                                                                      return "Delete";
+                                                                                      }
+                    };
         deleteColumn.setFieldUpdater(new FieldUpdater<Variable, String>() {
             @Override
             public void update(int index, Variable variable, String value) {
@@ -396,51 +492,17 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 
         variablesTable.setVisible(true);
     }
+
+    private String guessVarType(Variable var) {
+        OAPMetadataEditor.logToConsole("guess varType for var: " + var.getAbbreviation());
+        String vabbrev = var.getAbbreviation();
+        return VarType.guess(vabbrev).name();
+    }
+
     private void setDefaults() {
         common.isBig5 = true;
     }
 
-    public void _addCO2variables(List<Variable> variables) {
-        List<Variable> dataList = variableData.getList();
-        dataList.clear();
-        this.reset();
-        if ( variables.isEmpty()) {
-            return;
-        }
-        Variable co2var = variables.get(0);
-        if ( variables.size() > 1 ) {
-            dataList.addAll(variables);
-        } else {
-            String varList = co2var.getAbbreviation();
-            List<Variable>co2vars = new ArrayList<>();
-            OAPMetadataEditor.logToConsole("Co2Panel varList:"+varList);
-            if ( varList != null && ! varList.isEmpty()) {
-                co2var.setAbbreviation("");
-                String[] vars = split(varList, CO2_VARS_SEPARATOR);
-                for (String var : vars) {
-                    if (var.isEmpty()) {
-                        continue;
-                    }
-                    String[] parts = split(var, ':');
-                    Variable v = new Variable();
-                    v.setAbbreviation(parts[0].trim());
-                    String units = "";
-                    if (parts.length > 1) {
-                        if ( parts[1] != null ) {
-                            units = parts[1].trim();
-                        } else {
-                            OAPMetadataEditor.logToConsole("Null units for " + v.getAbbreviation());
-                        }
-                    }
-                    v.setUnits( units );
-                    v.setFullVariableName(v.getAbbreviation());
-                    co2vars.add(v);
-                }
-            }
-            dataList.addAll(co2vars);
-        }
-        show(co2var);
-    }
     public void addCO2variables(List<Variable> variables) {
         List<Variable> dataList = variableData.getList();
         dataList.clear();
@@ -448,11 +510,16 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if ( variables.isEmpty()) {
             return;
         }
-        Variable co2var = variables.get(0);
-        if ( variables.size() > 1 ) {
-            for (int i = 1; i < variables.size(); i++ ) {
-                dataList.add(variables.get(i));
-            }
+        Variable co2var = variables.remove(0);
+        if ( ! co2var.getAbbreviation().equals(CO2_COMMON)) {
+            Variable copy = co2var.clone();
+            dataList.add(copy);
+            co2var.setAbbreviation("CO2_Common");
+            co2var.setFullVariableName("CO2_Common");
+            OAPMetadataEditor.logToConsole("CO2vars[0] is NOT CO2_Common!");
+        }
+        if ( variables.size() > 0 ) {
+            dataList.addAll(variables);
         } else {
             String varList = co2var.getAbbreviation();
             List<Variable>co2vars = new ArrayList<>();
@@ -528,7 +595,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //        co2.setStandardizationTechnique(standardizationTechnique.getText());
 //        co2.setFreqencyOfStandardization(freqencyOfStandardization.getText());
 //        co2.setPco2Temperature(pco2Temperature.getText());
-//        co2.setGasConcentration(gasConcentration.getText());
+//        co2.setGasConcentration(standardGasConcentration0.getText());
 //        co2.setDryingMethod(dryingMethod.getText());
 //        co2.setEquilibratorType(equilibratorType.getText());
 //        co2.setEquilibratorVolume(equilibratorVolume.getText());
@@ -538,18 +605,19 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //        co2.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
 //        co2.setTemperatureMeasurementCalibrationMethod(equilibratorTemperatureSensorCalibrationMethod.getText());
 //        co2.setUncertaintyOfTemperature(equilibratorTemperatureMeasureUncertainty.getText());
-//        co2.setStandardGasManufacture(standardGasManufacture.getText());
-//        co2.setTraceabilityOfStdGas(stdGasTraceability.getText());
+//        co2.setStandardGasManufacture(standardGasManufacture0.getText());
+//        co2.setTraceabilityOfStdGas(standardGasTraceability.getText());
 //        co2.setGasDetectorManufacture(gasDetectorManufacture.getText());
 //        co2.setGasDetectorModel(gasDetectorModel.getText());
 //        co2.setGasDectectorResolution(gasDectectorResolution.getText());
 //        co2.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-//        co2.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        co2.setStandardGasUncertainties(standardGasUncertainty0.getText());
 //        co2.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
 //        co2.setVented(vented.getText());
 //        co2.setFlowRate(flowRate.getText());
 //        co2.setVaporCorrection(vaporCorrection.getText());
     public List<Variable> getCO2variables() {
+        GWT.log("co2panel:getCO2variables");
         List<Variable> co2vars = new ArrayList<>();
         Variable co2common = common.getCommonVariable();
 //        for (Variable co2 : variableData.getList()) {
@@ -576,25 +644,25 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             co2common.setStandardizationTechnique(standardizationTechnique.getText());
             co2common.setFreqencyOfStandardization(freqencyOfStandardization.getText());
             co2common.setPco2Temperature(pco2Temperature.getText());
-            co2common.setGasConcentration(gasConcentration.getText());
+//            co2common.setGasConcentration(standardGasConcentration0.getText());
             co2common.setDryingMethod(dryingMethod.getText());
             co2common.setEquilibratorType(equilibratorType.getText());
             co2common.setEquilibratorVolume(equilibratorVolume.getText());
             co2common.setGasFlowRate(gasFlowRate.getText());
             co2common.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
             co2common.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
-            co2common.setStandardGasManufacture(standardGasManufacture.getText());
+//            co2common.setStandardGasManufacture(standardGasManufacture0.getText());
             co2common.setGasDetectorManufacture(gasDetectorManufacture.getText());
             co2common.setGasDetectorModel(gasDetectorModel.getText());
             co2common.setGasDectectorResolution(gasDectectorResolution.getText());
             co2common.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-            co2common.setStandardGasUncertainties(standardGasUncertainties.getText());
+//            co2common.setStandardGasUncertainties(standardGasUncertainty0.getText());
             co2common.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
             co2common.setVented(vented.getValue());
             co2common.setFlowRate(flowRate.getText());
             co2common.setVaporCorrection(vaporCorrection.getText());
             // missing socat
-            co2common.setTraceabilityOfStdGas(stdGasTraceability.getText());
+//            co2common.setTraceabilityOfStdGas(standardGasTraceability.getText());
             co2common.setPco2CalcMethod(pco2FromXco2Method.getText());
             co2common.setFco2CalcMethod(fco2FromPco2Method.getText());
             co2common.setTemperatureMeasurementCalibrationMethod(equilibratorTemperatureSensorCalibrationMethod.getText());
@@ -602,18 +670,57 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             co2common.setPressureMeasurementCalibrationMethod(equilibratorPressureSensorCalibrationMethod.getText());
             co2common.setTotalPressureCalcMethod(totalMeasurementPressureDetermined.getText());
             co2common.setUncertaintyOfTotalPressure(totalMeasurementPressureUncertaintyCalculated.getText());
+            co2common.setStandardGases(getStandardGases());
 //        }
-        co2vars.add(co2common);
-        co2vars.addAll(variableData.getList());
+        List<Variable> dataList = variableData.getList();
+        if ( dataList.isEmpty() ) {
+            OAPMetadataEditor.warn("You must define at least one CO2 variable.");
+            co2common.setAbbreviation(CO2_COMMON);
+            co2common.setFullVariableName(CO2_COMMON);
+            co2common.setUnits("");
+            co2vars.add(co2common);
+        } else {
+            Variable c0 = dataList.get(0);
+            co2common.setAbbreviation(c0.getAbbreviation());
+            co2common.setFullVariableName(c0.getFullVariableName());
+            co2common.setUnits(c0.getUnits());
+            co2vars.add(co2common);
+            for (int i = 1; i<dataList.size(); i++) {
+                co2vars.add(dataList.get(i));
+            }
+        }
         return co2vars;
     }
 
+    private List<StandardGas> getStandardGases() {
+        List<StandardGas> stdGases = new ArrayList<>();
+        StandardGas std = new StandardGas(standardGasManufacture0.getText().trim(),
+                                          standardGasConcentration0.getText().trim(),
+                                          standardGasUncertainty0.getText().trim(),
+                                          standardGasTraceability0.getText().trim());
+        if ( std.hasContent()) {
+            stdGases.add(std);
+        }
+        for (Row row : addedRows ) {
+            String rowId = row.getId();
+            std = new StandardGas(stdGasManufTextBoxes.get(rowId).getText().trim(),
+                                  stdGasConcTextBoxes.get(rowId).getText().trim(),
+                                  stdGasUncTextBoxes.get(rowId).getText().trim(),
+                                  stdGasTraceTextBoxes.get(rowId).getText().trim());
+            if ( std.hasContent()) {
+                stdGases.add(std);
+            }
+        }
+        return stdGases;
+    }
+
     public Variable getDisplayedVariable() {
+        GWT.log("co2panel:getDisplayedVariable");
         Variable co2 = common.getCommonVariable();
         co2.setStandardizationTechnique(standardizationTechnique.getText());
         co2.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         co2.setPco2Temperature(pco2Temperature.getText());
-        co2.setGasConcentration(gasConcentration.getText());
+//        co2.setGasConcentration(standardGasConcentration0.getText());
         co2.setDryingMethod(dryingMethod.getText());
         co2.setEquilibratorType(equilibratorType.getText());
         co2.setEquilibratorVolume(equilibratorVolume.getText());
@@ -623,25 +730,27 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         co2.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
         co2.setTemperatureMeasurementCalibrationMethod(equilibratorTemperatureSensorCalibrationMethod.getText());
         co2.setUncertaintyOfTemperature(equilibratorTemperatureMeasureUncertainty.getText());
-        co2.setStandardGasManufacture(standardGasManufacture.getText());
-        co2.setTraceabilityOfStdGas(stdGasTraceability.getText());
+//        co2.setStandardGasManufacture(standardGasManufacture0.getText());
+//        co2.setTraceabilityOfStdGas(standardGasTraceability.getText());
         co2.setGasDetectorManufacture(gasDetectorManufacture.getText());
         co2.setGasDetectorModel(gasDetectorModel.getText());
         co2.setGasDectectorResolution(gasDectectorResolution.getText());
         co2.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-        co2.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        co2.setStandardGasUncertainties(standardGasUncertainty0.getText());
         co2.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         co2.setVented(vented.getValue());
         co2.setFlowRate(flowRate.getText());
         co2.setVaporCorrection(vaporCorrection.getText());
+        co2.setStandardGases(getStandardGases());
         return co2;
     }
     public void fill(Variable pco2a) {
+        GWT.log("co2panel:fill(pco2a)");
         common.fillCommonVariable(pco2a);
         pco2a.setStandardizationTechnique(standardizationTechnique.getText());
         pco2a.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2a.setPco2Temperature(pco2Temperature.getText());
-        pco2a.setGasConcentration(gasConcentration.getText());
+//        pco2a.setGasConcentration(standardGasConcentration0.getText());
 //        pco2a.setIntakeDepth(intakeDepth.getText());
         pco2a.setDryingMethod(dryingMethod.getText());
         pco2a.setEquilibratorType(equilibratorType.getText());
@@ -651,18 +760,21 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
         pco2a.setUncertaintyOfTemperature(equilibratorTemperatureMeasureUncertainty.getText());
 //        pco2a.setIntakeLocation(intakeLocation.getText());
-        pco2a.setStandardGasManufacture(standardGasManufacture.getText());
+//        pco2a.setStandardGasManufacture(standardGasManufacture0.getText());
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
         pco2a.setGasDectectorResolution(gasDectectorResolution.getText());
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-        pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        pco2a.setStandardGasUncertainties(standardGasUncertainty0.getText());
+        // XXX Note that the traceability of gases was not being set! XXX
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         pco2a.setVented(vented.getValue());
         pco2a.setFlowRate(flowRate.getText());
         pco2a.setVaporCorrection(vaporCorrection.getText());
+        pco2a.setStandardGases(getStandardGases());
     }
     public void show(Variable co2common) {
+        GWT.log("showing co2: " + co2common);
         if ( co2common == null ) {
             reset();
             return;
@@ -681,9 +793,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             pco2Temperature.setText(co2common.getPco2Temperature());
         }
 
-        if ( co2common.getGasConcentration() != null ) {
-            gasConcentration.setText(co2common.getGasConcentration());
-        }
+//        if ( co2common.getGasConcentration() != null ) {
+//            standardGasConcentration0.setText(co2common.getGasConcentration());
+//        }
 
 //        if ( pco2a.getIntakeDepth() != null ) {
 //            intakeDepth.setText(pco2a.getIntakeDepth());
@@ -717,14 +829,13 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //            intakeLocation.setText(pco2a.getIntakeLocation());
 //        }
 
-        if ( co2common.getStandardGasManufacture() != null ) {
-            standardGasManufacture.setText(co2common.getStandardGasManufacture());
-        }
+//        if ( co2common.getStandardGasManufacture() != null ) {
+//            standardGasManufacture0.setText(co2common.getStandardGasManufacture());
+//        }
 
         if ( co2common.getGasDetectorManufacture() != null ) {
             gasDetectorManufacture.setText(co2common.getGasDetectorManufacture());
         }
-
 
         if ( co2common.getGasDetectorModel() != null ) {
             gasDetectorModel.setText(co2common.getGasDetectorModel());
@@ -738,16 +849,17 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             temperatureCorrectionMethod.setText(co2common.getTemperatureCorrectionMethod());
         }
 
-        if ( co2common.getStandardGasUncertainties() != null ) {
-            standardGasUncertainties.setText(co2common.getStandardGasUncertainties());
-        }
+//        if ( co2common.getStandardGasUncertainties() != null ) {
+//            standardGasUncertainty0.setText(co2common.getStandardGasUncertainties());
+//        }
 
         if ( co2common.getGasDectectorUncertainty() != null ) {
             gasDectectorUncertainty.setText(co2common.getGasDectectorUncertainty());
         }
 
         if ( co2common.getVented() != null ) {
-            vented.setSelected(co2common.getVented());
+            String isVented = vented.getTruth("vented", co2common.getVented());
+            vented.setSelected(isVented);
         }
 
         if ( co2common.getFlowRate() != null ) {
@@ -771,9 +883,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if ( co2common.getPressureMeasurementCalibrationMethod() != null ) {
             equilibratorPressureSensorCalibrationMethod.setText(co2common.getPressureMeasurementCalibrationMethod());
         }
-        if ( co2common.getTraceabilityOfStdGas() != null ) {
-            stdGasTraceability.setText(co2common.getTraceabilityOfStdGas());
-        }
+//        if ( co2common.getTraceabilityOfStdGas() != null ) {
+//            standardGasTraceability.setText(co2common.getTraceabilityOfStdGas());
+//        }
         if ( co2common.getPco2CalcMethod() != null ) {
             pco2FromXco2Method.setText(co2common.getPco2CalcMethod());
         }
@@ -786,6 +898,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if ( co2common.getUncertaintyOfTotalPressure() != null ) {
             totalMeasurementPressureUncertaintyCalculated.setText(co2common.getUncertaintyOfTotalPressure());
         }
+        showStandardGases(co2common);
     }
     public ClickHandler saveIt = new ClickHandler() {
         @Override
@@ -818,6 +931,14 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                 Notify.notify(Constants.COMPLETE, settings);
             }        }
     };
+    public boolean isDirty(List<Variable> co2vars) {
+       if ( co2vars.size() != variableData.getList().size()) { return true; }
+       if ( ! co2vars.isEmpty()) {
+           return isDirty(co2vars.get(0));
+       } else {
+           return isDirty();
+       }
+    }
     public boolean isDirty(Variable original) {
         boolean isDirty =
             original == null ?
@@ -826,7 +947,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
             isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
             isDirty(pco2Temperature, original.getPco2Temperature() ) ||
-            isDirty(gasConcentration, original.getGasConcentration() ) ||
+//            isDirty(standardGasConcentration0, original.getGasConcentration() ) ||
 //            isDirty(intakeDepth, original.getIntakeDepth() ) ||
             isDirty(dryingMethod, original.getDryingMethod() ) ||
             isDirty(equilibratorType, original.getEquilibratorType() ) ||
@@ -835,18 +956,37 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             isDirty(equilibratorPressureMeasureMethod, original.getEquilibratorPressureMeasureMethod() ) ||
             isDirty(equilibratorTemperatureMeasureMethod, original.getEquilibratorTemperatureMeasureMethod() ) ||
 //            isDirty(intakeLocation, original.getIntakeLocation() ) ||
-            isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
+//            isDirty(standardGasManufacture0, original.getStandardGasManufacture() ) ||
             isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
             isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
             isDirty(gasDectectorResolution, original.getGasDectectorResolution() ) ||
             isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
-            isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
+//            isDirty(standardGasUncertainty0, original.getStandardGasUncertainties() ) ||
+                    // XXX Note was not checking isDirty(traceablitity) XXX
             isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
             isDirty(vented.getValue(), original.getVented() ) ||
             isDirty(flowRate, original.getFlowRate() ) ||
-            isDirty(vaporCorrection, original.getVaporCorrection() );
+            isDirty(vaporCorrection, original.getVaporCorrection()) ||
+            standardGasesChanged(original);
         return isDirty;
     }
+
+    private boolean standardGasesChanged(Variable original) {
+        List<StandardGas> gases = getStandardGases();
+        List<StandardGas> originalGases = original.getStandardGases();
+        if (gases.size() != originalGases.size()) {
+            return true;
+        }
+        for ( int i = 0; i < gases.size(); i++) {
+            if ( ! gases.get(i).sEquals(originalGases.get(i))) {
+                GWT.log("std gases differ");
+                return true;
+            }
+        }
+        GWT.log("std gases the same");
+        return false;
+    }
+
     public boolean isDirty() {
         if ( common.isDirty() ) {
             return true;
@@ -860,7 +1000,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if (pco2Temperature.getText().trim() != null && !pco2Temperature.getText().isEmpty() ) {
             return true;
         }
-        if (gasConcentration.getText().trim() != null && !gasConcentration.getText().isEmpty() ) {
+        if (standardGasConcentration0.getText().trim() != null && !standardGasConcentration0.getText().isEmpty() ) {
             return true;
         }
 //        if (intakeDepth.getText().trim() != null && !intakeDepth.getText().isEmpty() ) {
@@ -887,7 +1027,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //        if (intakeLocation.getText().trim() != null && !intakeLocation.getText().isEmpty() ) {
 //            return true;
 //        }
-        if (standardGasManufacture.getText().trim() != null && !standardGasManufacture.getText().isEmpty() ) {
+        if (standardGasManufacture0.getText().trim() != null && !standardGasManufacture0.getText().isEmpty() ) {
             return true;
         }
         if (gasDetectorManufacture.getText().trim() != null && !gasDetectorManufacture.getText().isEmpty() ) {
@@ -902,7 +1042,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         if (temperatureCorrectionMethod.getText().trim() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
             return true;
         }
-        if (standardGasUncertainties.getText().trim() != null && !standardGasUncertainties.getText().isEmpty() ) {
+        if (standardGasUncertainty0.getText().trim() != null && !standardGasUncertainty0.getText().isEmpty() ) {
             return true;
         }
         if (gasDectectorUncertainty.getText().trim() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
@@ -925,6 +1065,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         common.reset();
         common.qcApplied.reset();
         clearVariables();
+        clearStdGases();
         setDefaults();
     }
     public void clearVariables() {
@@ -938,6 +1079,202 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         } else {
             return true;
         }
+    }
+
+    @UiHandler("addStdGasButton")
+    public void onAdd(ClickEvent clickEvent) {
+        GWT.log("Add StdGas clicked:"+clickEvent);
+        addStdGasRow();
+    }
+
+    private void setFormContainer() {
+        formContainer = (Container)standardGasRow0.getParent();
+//        GWT.log("parent:"+ formContainer);
+        int row0idx = formContainer.getWidgetIndex(standardGasRow0);
+        if ( row0idx != row0index ) {
+            GWT.log("WARN: Row0index has changed from " + row0index + " to " + row0idx);
+            row0index = row0idx;
+        }
+        GWT.log("standardGasRow index:"+ row0index);
+    }
+
+    private TextBox addRowField(Row newRow, ColumnSize cSize, String itemId, String title) {
+        org.gwtbootstrap3.client.ui.Column theColumn = new org.gwtbootstrap3.client.ui.Column(cSize);
+        FormGroup theFgrp = new FormGroup();
+        TextBox theTextBox = new TextBox();
+        theTextBox.setPlaceholder(title);
+        theTextBox.setId(itemId);
+        theFgrp.add(theTextBox);
+        theColumn.add(theFgrp);
+        newRow.add(theColumn);
+        return theTextBox;
+    }
+
+    private Row addStdGasRow() {
+        setFormContainer();
+        org.gwtbootstrap3.client.ui.Column row0col = (org.gwtbootstrap3.client.ui.Column) standardGasRow0.getWidget(0);
+        int addedGasIdx = addedRows.size() + 1;
+        int addedId = row0index + addedGasIdx;
+        addedGasIdx += 1; // so it's 1-based.
+        Row newRow = new Row();
+        String row_id = STD_GAS_ROW_ + addedId;
+        newRow.setId(row_id);
+
+        // manufacturer
+        TextBox stdGasManufTextBox = addRowField(newRow, ColumnSize.SM_4, MANUF_ID+ addedId, "Gas Manufacturer " + addedGasIdx);
+        stdGasManufTextBoxes.put(row_id, stdGasManufTextBox);
+//        org.gwtbootstrap3.client.ui.Column manufColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_12, ColumnSize.MD_6, ColumnSize.LG_2);
+//        FormGroup manufFgrp = new FormGroup();
+//        TextBox stdGasManufTextBox = new TextBox();
+//        stdGasManufTextBox.setPlaceholder("Std Gas Manufacturer " + addedGasIdx);
+//        stdGasManufTextBox.setId(MANUF_ID+ addedId);
+//        manufFgrp.add(stdGasManufTextBox);
+//        manufColumn.add(manufFgrp);
+//        newRow.add(manufColumn);
+
+        // concentration
+        TextBox stdGasConcTextBox = addRowField(newRow, ColumnSize.SM_2, CONC_ID+ addedId, "Concentration" );
+        stdGasConcTextBoxes.put(row_id, stdGasConcTextBox);
+//        org.gwtbootstrap3.client.ui.Column concColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_12, ColumnSize.MD_6, ColumnSize.LG_2);
+//        FormGroup concFgrp = new FormGroup();
+//        TextBox stdGasConcTextBox = new TextBox();
+//        stdGasConcTextBox.setPlaceholder("Std Gas Concentration " + (addedGasIdx+1));
+//        stdGasConcTextBox.setId(CONC_ID+ addedId);
+//        concFgrp.add(stdGasConcTextBox);
+//        concColumn.add(concFgrp);
+//        newRow.add(concColumn);
+
+        // uncertainty
+        TextBox stdGasUncTextBox = addRowField(newRow, ColumnSize.SM_2, UNC_ID+ addedId, "Uncertainty" );
+        stdGasUncTextBoxes.put(row_id, stdGasUncTextBox);
+//        org.gwtbootstrap3.client.ui.Column uncColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_12, ColumnSize.MD_6, ColumnSize.LG_2);
+//        FormGroup uncFgrp = new FormGroup();
+//        TextBox stdGasUncTextBox = new TextBox();
+//        stdGasUncTextBox.setPlaceholder("Std Gas Uncertainty " + (addedGasIdx+1));
+//        stdGasUncTextBox.setId(UNC_ID+ addedId);
+//        uncFgrp.add(stdGasUncTextBox);
+//        uncColumn.add(uncFgrp);
+//        newRow.add(uncColumn);
+
+        // traceability
+        TextBox stdGasTraceTextBox = addRowField(newRow, ColumnSize.SM_2, TRACE_ID+ addedId, "Traceability" );
+        stdGasTraceTextBoxes.put(row_id, stdGasTraceTextBox);
+//        org.gwtbootstrap3.client.ui.Column traceColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_12, ColumnSize.MD_6, ColumnSize.LG_2);
+//        FormGroup traceFgrp = new FormGroup();
+//        TextBox stdGasTraceTextBox = new TextBox();
+//        stdGasTraceTextBox.setPlaceholder("WMO Traceability " + (addedGasIdx+1));
+//        stdGasTraceTextBox.setId(UNC_ID+ addedId);
+//        traceFgrp.add(stdGasTraceTextBox);
+//        traceColumn.add(traceFgrp);
+//        newRow.add(traceColumn);
+
+        // remove row button
+        org.gwtbootstrap3.client.ui.Column buttonColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_2);
+        FormGroup buttonFgrp = new FormGroup();
+        Button removeButton = new Button("REMOVE");
+        removeButton.setId(RMV_BTN_ID+ addedId);
+        removeButton.addStyleName("float_right");
+        removeButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                removeStdGas(event.getSource());
+            }
+        });
+        buttonFgrp.add(removeButton);
+        buttonColumn.add(buttonFgrp);
+        newRow.add(buttonColumn);
+
+        formContainer.insert(newRow, addedId);
+
+        addedRows.add(newRow);
+        return newRow;
+    }
+
+    private void removeStdGas(Object source) {
+        GWT.log("remove:"+source);
+        Button removeButton = (Button) source;
+        Row rowToRemove = getRowFor(removeButton); // Row)bclm.getParent();
+        removeStdGasRow(rowToRemove);
+        addedRows.remove(rowToRemove);
+    }
+
+    private void removeStdGasRow(Row rowToRemove) {
+        boolean removed = formContainer.remove(rowToRemove);
+        GWT.log("removed: " + removed);
+        rowToRemove.removeFromParent();
+        removeStdGasFields(rowToRemove);
+    }
+
+    private void removeStdGasFields(Row rowToRemove) {
+        String rowId = rowToRemove.getId();
+//        String rowIdxStr = rowId.substring(rowId.lastIndexOf("_")+1);
+//        int rowIdx = row0index + 1;
+//        try {
+//            rowIdx = Integer.parseInt(rowIdxStr);
+//        } catch (NumberFormatException e) {
+//            GWT.log("Failed to parse row index " + rowIdxStr);
+//        }
+//        int instListIdx = rowIdx - row0index;
+        removeField(rowId, stdGasManufTextBoxes);
+        removeField(rowId, stdGasConcTextBoxes);
+        removeField(rowId, stdGasUncTextBoxes);
+        removeField(rowId, stdGasTraceTextBoxes);
+    }
+    private void removeField(String rowId, Map<String, TextBox> map) {
+        if ( map.containsKey(rowId)) {
+            map.remove(rowId);
+        } else {
+            GWT.log("WARN: Missing textBox for added standardGas row "+ rowId);
+        }
+    }
+
+    private Row getRowFor(Widget widget) {
+        FormGroup bfg = (FormGroup)widget.getParent();
+        org.gwtbootstrap3.client.ui.Column bclm = (org.gwtbootstrap3.client.ui.Column)bfg.getParent();
+        Row rowToRemove = (Row)bclm.getParent();
+        return rowToRemove;
+    }
+
+    private void showStandardGases(Variable co2var) {
+        GWT.log("showing stdgases:" + co2var);
+        clearStdGases();
+        List<StandardGas>standardGases = co2var.getStandardGases();
+        GWT.log("standardGases:" + standardGases);
+        if ( standardGases.isEmpty()) { return; }
+        StandardGas s0 = standardGases.get(0);
+        standardGasManufacture0.setText(s0.getManufacturer().trim());
+        standardGasConcentration0.setText(s0.getConcentration().trim());
+        standardGasUncertainty0.setText(s0.getUncertainty().trim());
+        standardGasTraceability0.setText(s0.getWmoTraceability().trim());
+        for (int i = 1; i<standardGases.size(); i++) {
+            StandardGas std = standardGases.get(i);
+            addStandardGas(std);
+        }
+    }
+
+    private void clearStdGases() {
+        standardGasManufacture0.setText("");
+        standardGasConcentration0.setText("");
+        standardGasUncertainty0.setText("");
+        standardGasTraceability0.setText("");
+        for (Row addedRow : addedRows) {
+            removeStdGasRow(addedRow);
+        }
+        addedRows.clear();
+//        if ( personInstitutions.size() > 1 ) {
+//            GWT.log("Orphan institution suggest box in clearInstitutions");
+//            personInstitutions.clear();
+//            personInstitutions.put(ROW_0_ID, institution0);
+//        }
+    }
+
+    private void addStandardGas(StandardGas gas) {
+        Row addedRow = addStdGasRow();
+        String rowId = addedRow.getId();
+        stdGasManufTextBoxes.get(rowId).setText(gas.getManufacturer());
+        stdGasConcTextBoxes.get(rowId).setText(gas.getConcentration());
+        stdGasUncTextBoxes.get(rowId).setText(gas.getUncertainty());
+        stdGasTraceTextBoxes.get(rowId).setText(gas.getWmoTraceability());
     }
 
     ClickHandler addVariableHandler = new ClickHandler() {
@@ -963,9 +1300,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
      * @param headerText the header string
      * @param getter the value getter for the cell
      */
-    private <C> Column<Variable, C> addColumn(Cell<C> cell, String headerText,
+    private <C> com.google.gwt.user.cellview.client.Column<Variable, C> addColumn(Cell<C> cell, String headerText,
                                               final GetValue<C> getter, FieldUpdater<Variable, C> fieldUpdater) {
-        Column<Variable, C> column = new Column<Variable, C>(cell) {
+        com.google.gwt.user.cellview.client.Column<Variable, C> column = new com.google.gwt.user.cellview.client.Column<Variable, C>(cell) {
             @Override
             public C getValue(Variable object) {
                 return getter.getValue(object);

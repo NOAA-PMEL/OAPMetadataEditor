@@ -1,7 +1,7 @@
 package oap
 
+import gov.noaa.pmel.socatmetadata.SocatMetadata
 import gov.noaa.pmel.socatmetadata.translate.CdiacReader
-import gov.noaa.pmel.socatmetadata.shared.core.SocatMetadata
 import gov.noaa.pmel.socatmetadata.translate.OcadsWriter
 import grails.transaction.Transactional
 import org.jdom2.Attribute
@@ -505,37 +505,48 @@ class XmlService {
             }
 //            Element stdGas = standard.getChild("standardgas")
             List<Element> stdGases = standard.getChildren("standardgas")
+            List<StandardGas>standardGases = new ArrayList<>();
             if ( stdGases && ! stdGases.isEmpty() ) {
-                String sep = "; "
-                StringBuilder manufs = new StringBuilder()
-                StringBuilder concs = new StringBuilder()
-                StringBuilder uncs = new StringBuilder()
+//                String sep = "; "
+//                StringBuilder manufs = new StringBuilder()
+//                StringBuilder concs = new StringBuilder()
+//                StringBuilder uncs = new StringBuilder()
                 for ( Element stdGas : stdGases ) {
+                    String manuf = ""
+                    String conc = ""
+                    String unc = ""
+                    String wmo = ""
                     Element sgasMfc = stdGas.getChild("manufacturer")
                     if ( !isEmpty( sgasMfc )) {
-                        manufs.append(sgasMfc.getText()).append(sep)
+                        manuf = sgasMfc.getText()
                     }
                     Element sgasConc = stdGas.getChild("concentration")
                     if ( !isEmpty( sgasConc )) {
-                        concs.append(sgasConc.getText()).append(sep)
+                        conc = sgasConc.getText()
                     }
                     Element sgasUnc = stdGas.getChild("uncertainty")
                     if ( !isEmpty( sgasUnc )) {
-                        uncs.append(sgasUnc.getText()).append(sep)
+                        unc = sgasUnc.getText()
                     }
+                    StandardGas std = new StandardGas(manuf, conc, unc, null)
+                    standardGases.add(std)
+                    // XXX There is no element for this in OCADS
+//                    Element sgasTrace = stdGas.getChild("wmoTraceability")
+//                    if ( !isEmpty( sgasTrace )) {
+//                        trace = sgasTrace.getText()
+//                    }
                 }
-                if ( manufs.length() > 0 ) {
-                    int len = manufs.length()
-                    domainVar.setStandardGasManufacture(manufs.toString().substring(0, len-1))
-                    len = concs.length()
-                    domainVar.setGasConcentration(concs.toString().substring(0, len-1))
-                    len = uncs.length()
-                    domainVar.setStandardGasUncertainties(uncs.toString().substring(0, len-1))
-                }
+//                if ( manufs.length() > 0 ) {
+//                    int len = manufs.length()
+//                    domainVar.setStandardGasManufacture(manufs.toString().substring(0, len-1))
+//                    len = concs.length()
+//                    domainVar.setGasConcentration(concs.toString().substring(0, len-1))
+//                    len = uncs.length()
+//                    domainVar.setStandardGasUncertainties(uncs.toString().substring(0, len-1))
+//                }
             }
+            domainVar.setStandardGases(standardGases)
         }
-
-
 
         Element poison = varElement.getChild("poison")
 
@@ -1542,25 +1553,25 @@ class XmlService {
         if ( !isEmpty(crm)) {
             standard.addContent(crm)
         }
-        if ( v.getStandardGasManufacture() || v.getStandardGasUncertainties() ||
-             v.getGasConcentration()) {
-            Element sgas = new Element("standardgas")
-            if ( v.getStandardGasManufacture()) {
+        List<StandardGas> standardGases = v.standardGases
+        for (StandardGas std : standardGases) {
+            if ( std.getManufacturer() || std.getUncertainty() ||
+                 std.getConcentration()) {
+                Element sgas = new Element("standardgas")
                 Element mnf = new Element("manufacturer")
-                mnf.addContent(v.getStandardGasManufacture())
+                mnf.addContent(std.getManufacturer())
                 sgas.addContent(mnf)
-            }
-            if ( v.getStandardGasUncertainties()) {
-                Element unc = new Element("uncertainty")
-                unc.addContent(v.getStandardGasUncertainties())
-                sgas.addContent(unc)
-            }
-            if ( v.getGasConcentration()) {
                 Element conc = new Element("concentration")
-                conc.addContent(v.getGasConcentration())
+                conc.addContent(std.getConcentration())
                 sgas.addContent(conc)
+                Element unc = new Element("uncertainty")
+                unc.addContent(std.getUncertainty())
+                sgas.addContent(unc)
+                Element trace = new Element("wmoTraceability")
+                trace.addContent(std.getWmoTraceability())
+                sgas.addContent(trace)
+                standard.addContent(sgas)
             }
-            standard.addContent(sgas)
         }
         if ( !isEmpty(standard)) {
             variable.addContent(standard)

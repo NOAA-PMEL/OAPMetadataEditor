@@ -90,11 +90,11 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         List<String> idNames = new ArrayList<String>();
         List<String> idValues = new ArrayList<String>();
         idNames.add("ICES ");
-        idValues.add("ices");
+        idValues.add("ICES");
         idNames.add("IMO ");
-        idValues.add("imo");
+        idValues.add("IMO");
         idNames.add("WMO ");
-        idValues.add("wmo");
+        idValues.add("WMO");
         cruiseIdType.init("Select ID Type ", idNames, idValues);
 
 //        if (OAPMetadataEditor.getIsSocatParam()) {
@@ -124,12 +124,18 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         citation.setResearchProjects(researchProjects.getText().trim());
         citation.setTitle(title.getText().trim());
         citation.setExpocode(expocode.getText().trim());
-        String cruise = cruiseId.getText().trim();
+        String cruiseText = cruiseId.getText().trim();
+        String[] cruises = cruiseText.split(" ");
         String idType = cruiseIdType.getValue();
-        if ( idType != null && ! idType.isEmpty()) {
-            cruise = cruise + ":" + idType;
+        cruiseText = "";
+        for (String cruise : cruises) {
+            if ( cruise.trim().isEmpty() ) { continue; }
+            if ( idType != null && ! idType.isEmpty()) {
+                cruise = cruise + ":" + idType;
+            }
+            cruiseText += cruise + " ";
         }
-        citation.setCruiseId(cruise);
+        citation.setCruiseId(cruiseText);
         citation.setSection(section.getText().trim());
         citation.setCitationAuthorList(citationAuthorList.getText().trim());
         citation.setScientificReferences(references.getText().trim());
@@ -228,16 +234,22 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             expocode.setText(citation.getExpocode());
         }
         if ( citation.getCruiseId() != null ) {
+            String cruiseText = "";
             String cruiseInfo = citation.getCruiseId();
-            int idx = cruiseInfo.indexOf(':');
-            if ( idx > 0 ) {
-                String id = cruiseInfo.substring(0, idx);
-                cruiseId.setText(id);
-                String idType = cruiseInfo.substring(idx+1);
-                cruiseIdType.setSelected(idType);
-            } else {
-                cruiseId.setText(citation.getCruiseId());
+            String[] cruises = cruiseInfo.split(" ");
+            for (String cruise : cruises) {
+                if (cruise.trim().isEmpty()) { continue; }
+                int idx = cruiseInfo.indexOf(':');
+                if (idx > 0) {
+                    String id = cruise.substring(0, idx);
+                    cruiseText += id + " ";
+                    String idType = cruise.substring(idx + 1);
+                    cruiseIdType.setSelected(idType);
+                } else {
+                    cruiseText += cruise + " ";
+                }
             }
+            cruiseId.setText(cruiseText);
         }
         if ( citation.getSection() != null &&
              ! citation.getSection().trim().equals("null")) { // XXX TODO: workaround for oads xml issue

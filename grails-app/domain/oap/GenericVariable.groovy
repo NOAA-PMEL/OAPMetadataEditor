@@ -43,9 +43,9 @@ class GenericVariable {
     String freqencyOfStandardization
     String storageMethod
     String pco2Temperature
-    String gasConcentration
+//    String gasConcentration
     String headspaceVolume
-    String standardGasManufacture
+//    String standardGasManufacture
     String gasDetectorManufacture
     String gasDetectorModel
     String gasDectectorResolution
@@ -53,7 +53,7 @@ class GenericVariable {
     String temperatureCorrectionMethod
     String temperatureMeasurement
     String temperatureStandarization
-    String standardGasUncertainties
+//    String standardGasUncertainties
     String gasDectectorUncertainty
     String vaporCorrection
     String vented
@@ -70,7 +70,7 @@ class GenericVariable {
     String analyzingInformation
     String phDyeTypeManuf
 
-    String traceabilityOfStdGas
+//    String traceabilityOfStdGas
     String fco2CalcMethod
     String pco2CalcMethod
     String temperatureMeasurementCalibrationMethod
@@ -78,10 +78,12 @@ class GenericVariable {
     String uncertaintyOfTemperature
     String uncertaintyOfTotalPressure
     String totalPressureCalcMethod
+    String socatType
+
+    List<StandardGas> standardGases
 
 //    static transients = ['variableType']
     static constraints = {
-
         abbreviation (nullable: true)
         manipulationMethod (nullable: true, type: 'text')
         observationType (nullable: true)
@@ -124,9 +126,9 @@ class GenericVariable {
         freqencyOfStandardization (nullable: true, type: 'text')
         storageMethod (nullable: true, type: 'text')
         pco2Temperature (nullable: true)
-        gasConcentration (nullable: true)
+//        gasConcentration (nullable: true)
         headspaceVolume (nullable: true)
-        standardGasManufacture (nullable: true)
+//        standardGasManufacture (nullable: true)
         gasDetectorManufacture (nullable: true)
         gasDetectorModel (nullable: true)
         gasDectectorResolution (nullable: true)
@@ -134,7 +136,7 @@ class GenericVariable {
         temperatureCorrectionMethod (nullable: true, type: 'text')
         temperatureMeasurement (nullable: true)
         temperatureStandarization (nullable: true, type: 'text')
-        standardGasUncertainties (nullable: true, type: 'text')
+//        standardGasUncertainties (nullable: true, type: 'text')
         gasDectectorUncertainty (nullable: true, type: 'text')
         vaporCorrection (nullable: true, type: 'text')
         vented (nullable: true)
@@ -149,7 +151,7 @@ class GenericVariable {
         collectionMethod (nullable: true, type: 'text')
         analyzingInformation (nullable: true, type: 'text')
         phDyeTypeManuf (nullable: true)
-        traceabilityOfStdGas (nullable: true, type: 'text')
+//        traceabilityOfStdGas (nullable: true, type: 'text')
         fco2CalcMethod (nullable: true)
         pco2CalcMethod (nullable: true)
         temperatureMeasurementCalibrationMethod (nullable: true, type: 'text')
@@ -157,5 +159,13 @@ class GenericVariable {
         uncertaintyOfTemperature (nullable: true)
         uncertaintyOfTotalPressure (nullable: true)
         totalPressureCalcMethod (nullable: true)
+        socatType (nullable: true)
+        standardGases (nullable: true)
+    }
+    static hasMany = [
+            standardGases : StandardGas
+    ]
+    static mapping = {
+        standardGases(cascade: 'all-delete-orphan')
     }
 }

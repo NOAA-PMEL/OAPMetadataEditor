@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.shared.bean.StandardGas;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -164,9 +165,11 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         pco2d.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2d.setStorageMethod(storageMethod.getText());
         pco2d.setPco2Temperature(pco2Temperature.getText());
-        pco2d.setGasConcentration(gasConcentration.getText());
+//        pco2d.setGasConcentration(gasConcentration.getText());
+        String conc = gasConcentration.getText();
         pco2d.setHeadspaceVolume(headspaceVolume.getText());
-        pco2d.setStandardGasManufacture(standardGasManufacture.getText());
+//        pco2d.setStandardGasManufacture(standardGasManufacture.getText());
+        String manuf = standardGasManufacture.getText();
         pco2d.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2d.setGasDetectorModel(gasDetectorModel.getText());
         pco2d.setGasDectectorResolution(gasDectectorResolution.getText());
@@ -174,7 +177,9 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         pco2d.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2d.setTemperatureMeasurement(temperatureMeasurement.getText());
         pco2d.setTemperatureStandarization(temperatureStandarization.getText());
-        pco2d.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        pco2d.setStandardGasUncertainties(standardGasUncertainties.getText());
+        String unc = standardGasUncertainties.getText();
+        pco2d.addStandardGas(new StandardGas(manuf,conc,unc,""));
         pco2d.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         pco2d.setVaporCorrection(vaporCorrection.getText());
     }
@@ -184,9 +189,9 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         pco2d.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2d.setStorageMethod(storageMethod.getText());
         pco2d.setPco2Temperature(pco2Temperature.getText());
-        pco2d.setGasConcentration(gasConcentration.getText());
+//        pco2d.setGasConcentration(gasConcentration.getText());
         pco2d.setHeadspaceVolume(headspaceVolume.getText());
-        pco2d.setStandardGasManufacture(standardGasManufacture.getText());
+//        pco2d.setStandardGasManufacture(standardGasManufacture.getText());
         pco2d.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2d.setGasDetectorModel(gasDetectorModel.getText());
         pco2d.setGasDectectorResolution(gasDectectorResolution.getText());
@@ -194,13 +199,20 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         pco2d.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
         pco2d.setTemperatureMeasurement(temperatureMeasurement.getText());
         pco2d.setTemperatureStandarization(temperatureStandarization.getText());
-        pco2d.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        pco2d.setStandardGasUncertainties(standardGasUncertainties.getText());
+        pco2d.addStandardGas(new StandardGas(standardGasManufacture.getText(),
+                                             gasConcentration.getText(),
+                                             standardGasUncertainties.getText(),
+                                ""));
         pco2d.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         pco2d.setVaporCorrection(vaporCorrection.getText());
         return pco2d;
     }
     public void show(Variable pco2d) {
         common.show(pco2d);
+        StandardGas standardGas = pco2d.getStandardGases().isEmpty() ?
+                new StandardGas() :
+                pco2d.getStandardGases().get(0);
         if ( pco2d.getStandardizationTechnique() != null ) {
             standardizationTechnique.setText(pco2d.getStandardizationTechnique());
         }
@@ -213,15 +225,15 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         if (pco2d.getPco2Temperature() != null) {
             pco2Temperature.setText(pco2d.getPco2Temperature());
         }
-        if (pco2d.getGasConcentration() != null) {
-            gasConcentration.setText(pco2d.getGasConcentration());
-        }
+//        if (pco2d.getGasConcentration() != null) {
+            gasConcentration.setText(standardGas.getConcentration());
+//        }
         if (pco2d.getHeadspaceVolume() != null) {
             headspaceVolume.setText(pco2d.getHeadspaceVolume());
         }
-        if (pco2d.getStandardGasManufacture() != null) {
-            standardGasManufacture.setText(pco2d.getStandardGasManufacture());
-        }
+//        if (pco2d.getStandardGasManufacture() != null) {
+            standardGasManufacture.setText(standardGas.getManufacturer());
+//        }
         if (pco2d.getGasDetectorManufacture() != null) {
             gasDetectorManufacture.setText(pco2d.getGasDetectorManufacture());
         }
@@ -243,9 +255,9 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         if (pco2d.getTemperatureStandarization() != null) {
             temperatureStandarization.setText(pco2d.getTemperatureStandarization());
         }
-        if (pco2d.getStandardGasUncertainties() != null) {
-            standardGasUncertainties.setText(pco2d.getStandardGasUncertainties());
-        }
+//        if (pco2d.getStandardGasUncertainties() != null) {
+            standardGasUncertainties.setText(standardGas.getUncertainty());
+//        }
         if (pco2d.getGasDectectorUncertainty() != null) {
             gasDectectorUncertainty.setText(pco2d.getGasDectectorUncertainty());
         }
@@ -286,6 +298,9 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
         }
     };
     public boolean isDirty(Variable original) {
+        StandardGas originalGas = original == null || original.getStandardGases().isEmpty() ?
+                                    new StandardGas() :
+                                    original.getStandardGases().get(0);
        boolean isDirty =
            original == null ?
            isDirty() :
@@ -293,9 +308,9 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
            isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
            isDirty(storageMethod, original.getStorageMethod() ) ||
            isDirty(pco2Temperature, original.getPco2Temperature() ) ||
-           isDirty(gasConcentration, original.getGasConcentration() ) ||
+           isDirty(gasConcentration, originalGas.getConcentration() ) ||
            isDirty(headspaceVolume, original.getHeadspaceVolume() ) ||
-           isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
+           isDirty(standardGasManufacture, originalGas.getManufacturer() ) ||
            isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
            isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
            isDirty(gasDectectorResolution, original.getGasDectectorResolution() ) ||
@@ -303,7 +318,7 @@ public class Pco2dPanel extends Composite implements GetsDirty<Variable> {
            isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
            isDirty(temperatureMeasurement, original.getTemperatureMeasurement() ) ||
            isDirty(temperatureStandarization, original.getTemperatureStandarization() ) ||
-           isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
+           isDirty(standardGasUncertainties, originalGas.getUncertainty() ) ||
            isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
            isDirty(vaporCorrection, original.getVaporCorrection() );
        return isDirty;

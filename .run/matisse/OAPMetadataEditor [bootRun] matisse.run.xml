@@ -9,12 +9,14 @@
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="bootRun -Dmy.argument.property=arg -Dgrails.env=matisse --stacktrace" />
+      <option name="scriptParameters" value="-Dmy.argument.property=arg -Dgrails.env=matisse --stacktrace" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
-        <list />
+        <list>
+          <option value="bootRun" />
+        </list>
       </option>
       <option name="vmOptions" value="-Dmy.vm.property=vm" />
     </ExternalSystemSettings>

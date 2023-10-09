@@ -1,8 +1,10 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rhs on 3/8/17.
@@ -51,9 +53,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String freqencyOfStandardization;
     String storageMethod;
     String pco2Temperature;
-    String gasConcentration;
+//    String gasConcentration;
     String headspaceVolume;
-    String standardGasManufacture;
+//    String standardGasManufacture;
     String gasDetectorManufacture;
     String gasDetectorModel;
     String gasDectectorResolution;
@@ -61,7 +63,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String temperatureCorrectionMethod;
     String temperatureMeasurement;
     String temperatureStandarization;
-    String standardGasUncertainties;
+//    String standardGasUncertainties;
     String gasDectectorUncertainty;
     String vaporCorrection;
     String vented;
@@ -78,7 +80,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String analyzingInformation;
     String phDyeTypeManuf;
 
-    String traceabilityOfStdGas;
+//    String traceabilityOfStdGas;
     String fco2CalcMethod;
     String pco2CalcMethod;
     String temperatureMeasurementCalibrationMethod;
@@ -86,6 +88,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
     String uncertaintyOfTemperature;
     String uncertaintyOfTotalPressure;
     String totalPressureCalcMethod;
+    String socatType;
+
+    List<StandardGas> standardGases;
 
     public Variable clone() {
         Variable newV = new Variable(
@@ -131,9 +136,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.freqencyOfStandardization,
             this.storageMethod,
             this.pco2Temperature,
-            this.gasConcentration,
+//            this.gasConcentration,
             this.headspaceVolume,
-            this.standardGasManufacture,
+//            this.standardGasManufacture,
             this.gasDetectorManufacture,
             this.gasDetectorModel,
             this.gasDectectorResolution,
@@ -141,7 +146,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.temperatureCorrectionMethod,
             this.temperatureMeasurement,
             this.temperatureStandarization,
-            this.standardGasUncertainties,
+//            this.standardGasUncertainties,
             this.gasDectectorUncertainty,
             this.vaporCorrection,
             this.vented,
@@ -156,14 +161,16 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             this.analyzingInformation,
             this.phDyeTypeManuf,
             this.variableType,
-            this.traceabilityOfStdGas,
+//            this.traceabilityOfStdGas,
             this.fco2CalcMethod,
             this.pco2CalcMethod,
             this.temperatureMeasurementCalibrationMethod,
             this.pressureMeasurementCalibrationMethod,
             this.uncertaintyOfTemperature,
             this.uncertaintyOfTotalPressure,
-            this.totalPressureCalcMethod
+            this.totalPressureCalcMethod,
+            this.socatType,
+            this.standardGases  // XXX CLONE!
         );
         return newV;
     }
@@ -211,9 +218,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String freqencyOfStandardization,
             String storageMethod,
             String pco2Temperature,
-            String gasConcentration,
+//            String gasConcentration,
             String headspaceVolume,
-            String standardGasManufacture,
+//            String standardGasManufacture,
             String gasDetectorManufacture,
             String gasDetectorModel,
             String gasDectectorResolution,
@@ -221,7 +228,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String temperatureCorrectionMethod,
             String temperatureMeasurement,
             String temperatureStandarization,
-            String standardGasUncertainties,
+//            String standardGasUncertainties,
             String gasDectectorUncertainty,
             String vaporCorrection,
             String vented,
@@ -236,15 +243,18 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
             String phDyeTypeManuf,
             String analyzingInformation,
             String variableType,
-            String traceabilityOfStdGas,
+//            String traceabilityOfStdGas,
             String fCo2CalcMethod,
             String pCo2CalcMethod,
             String temperatureMeasurementCalibrationMethod,
             String pressureMeasurementCalibrationMethod,
             String uncertaintyOfTemperature,
             String uncertaintyOfTotalPressure,
-            String totalPressureCalcMethod
+            String totalPressureCalcMethod,
+            String socatType,
+            List<StandardGas> standardGases
     ) {
+        this();
         this.abbreviation = abbreviation;
         this.manipulationMethod = manipulationMethod;
         this.observationType = observationType;
@@ -287,9 +297,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.freqencyOfStandardization = freqencyOfStandardization;
         this.storageMethod = storageMethod;
         this.pco2Temperature = pco2Temperature;
-        this.gasConcentration = gasConcentration;
+//        this.gasConcentration = gasConcentration;
         this.headspaceVolume = headspaceVolume;
-        this.standardGasManufacture = standardGasManufacture;
+//        this.standardGasManufacture = standardGasManufacture;
         this.gasDetectorManufacture = gasDetectorManufacture;
         this.gasDetectorModel = gasDetectorModel;
         this.gasDectectorResolution = gasDectectorResolution;
@@ -297,7 +307,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.temperatureCorrectionMethod = temperatureCorrectionMethod;
         this.temperatureMeasurement = temperatureMeasurement;
         this.temperatureStandarization = temperatureStandarization;
-        this.standardGasUncertainties = standardGasUncertainties;
+//        this.standardGasUncertainties = standardGasUncertainties;
         this.gasDectectorUncertainty = gasDectectorUncertainty;
         this.vaporCorrection = vaporCorrection;
         this.vented = vented;
@@ -312,7 +322,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.analyzingInformation = analyzingInformation;
         this.variableType = variableType;
         this.phDyeTypeManuf = phDyeTypeManuf;
-        this.traceabilityOfStdGas = traceabilityOfStdGas;
+//        this.traceabilityOfStdGas = traceabilityOfStdGas;
         this.fco2CalcMethod = fCo2CalcMethod;
         this.pco2CalcMethod = pCo2CalcMethod;
         this.temperatureMeasurementCalibrationMethod = temperatureMeasurementCalibrationMethod;
@@ -320,6 +330,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.uncertaintyOfTemperature = uncertaintyOfTemperature;
         this.uncertaintyOfTotalPressure = uncertaintyOfTotalPressure;
         this.totalPressureCalcMethod = totalPressureCalcMethod;
+        this.socatType = socatType;
+        this.standardGases = standardGases;
     }
     @Override
     public int compareTo(Variable v) {
@@ -374,9 +386,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (freqencyOfStandardization != null ? freqencyOfStandardization.hashCode() : 0);
         result = 31 * result + (storageMethod != null ? storageMethod.hashCode() : 0);
         result = 31 * result + (pco2Temperature != null ? pco2Temperature.hashCode() : 0);
-        result = 31 * result + (gasConcentration != null ? gasConcentration.hashCode() : 0);
+//        result = 31 * result + (gasConcentration != null ? gasConcentration.hashCode() : 0);
         result = 31 * result + (headspaceVolume != null ? headspaceVolume.hashCode() : 0);
-        result = 31 * result + (standardGasManufacture != null ? standardGasManufacture.hashCode() : 0);
+//        result = 31 * result + (standardGasManufacture != null ? standardGasManufacture.hashCode() : 0);
         result = 31 * result + (gasDetectorManufacture != null ? gasDetectorManufacture.hashCode() : 0);
         result = 31 * result + (gasDetectorModel != null ? gasDetectorModel.hashCode() : 0);
         result = 31 * result + (gasDectectorResolution != null ? gasDectectorResolution.hashCode() : 0);
@@ -385,7 +397,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
 //        result = 31 * result + (temperatureCorrection != null ? temperatureCorrection.hashCode() : 0);
         result = 31 * result + (temperatureMeasurement != null ? temperatureMeasurement.hashCode() : 0);
         result = 31 * result + (temperatureStandarization != null ? temperatureStandarization.hashCode() : 0);
-        result = 31 * result + (standardGasUncertainties != null ? standardGasUncertainties.hashCode() : 0);
+//        result = 31 * result + (standardGasUncertainties != null ? standardGasUncertainties.hashCode() : 0);
         result = 31 * result + (gasDectectorUncertainty != null ? gasDectectorUncertainty.hashCode() : 0);
         result = 31 * result + (vaporCorrection != null ? vaporCorrection.hashCode() : 0);
         result = 31 * result + (vented != null ? vented.hashCode() : 0);
@@ -399,7 +411,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (collectionMethod != null ? collectionMethod.hashCode() : 0);
         result = 31 * result + (analyzingInformation != null ? analyzingInformation.hashCode() : 0);
         result = 31 * result + (phDyeTypeManuf != null ? phDyeTypeManuf.hashCode() : 0);
-        result = 31 * result + (traceabilityOfStdGas != null ? traceabilityOfStdGas.hashCode() : 0);
+//        result = 31 * result + (traceabilityOfStdGas != null ? traceabilityOfStdGas.hashCode() : 0);
         result = 31 * result + (fco2CalcMethod != null ? fco2CalcMethod.hashCode() : 0);
         result = 31 * result + (pco2CalcMethod != null ? pco2CalcMethod.hashCode() : 0);
         result = 31 * result + (temperatureMeasurementCalibrationMethod != null ? temperatureMeasurementCalibrationMethod.hashCode() : 0);
@@ -407,6 +419,8 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         result = 31 * result + (uncertaintyOfTemperature != null ? uncertaintyOfTemperature.hashCode() : 0);
         result = 31 * result + (uncertaintyOfTotalPressure != null ? uncertaintyOfTotalPressure.hashCode() : 0);
         result = 31 * result + (totalPressureCalcMethod != null ? totalPressureCalcMethod.hashCode() : 0);
+        result = 31 * result + (socatType != null ? socatType.hashCode() : 0);
+        // XXX + hashCode of standardGases
         return result;
     }
 
@@ -465,9 +479,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(freqencyOfStandardization, v.freqencyOfStandardization) == 0 &&
                 sCompare(storageMethod, v.storageMethod) == 0 &&
                 sCompare(pco2Temperature, v.pco2Temperature) == 0 &&
-                sCompare(gasConcentration, v.gasConcentration) == 0 &&
+//                sCompare(gasConcentration, v.gasConcentration) == 0 &&
                 sCompare(headspaceVolume, v.headspaceVolume) == 0 &&
-                sCompare(standardGasManufacture, v.standardGasManufacture) == 0 &&
+//                sCompare(standardGasManufacture, v.standardGasManufacture) == 0 &&
                 sCompare(gasDetectorManufacture, v.gasDetectorManufacture) == 0 &&
                 sCompare(gasDetectorModel, v.gasDetectorModel) == 0 &&
                 sCompare(gasDectectorResolution, v.gasDectectorResolution) == 0 &&
@@ -476,7 +490,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
 //            sCompare(temperatureCorrection, v.temperatureCorrection) == 0 &&
                 sCompare(temperatureMeasurement, v.temperatureMeasurement) == 0 &&
                 sCompare(temperatureStandarization, v.temperatureStandarization) == 0 &&
-                sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&
+//                sCompare(standardGasUncertainties, v.standardGasUncertainties) == 0 &&
                 sCompare(gasDectectorUncertainty, v.gasDectectorUncertainty) == 0 &&
                 sCompare(vaporCorrection, v.vaporCorrection) == 0 &&
                 sCompare(vented, v.vented) == 0 &&
@@ -490,14 +504,16 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                 sCompare(collectionMethod, v.collectionMethod) == 0 &&
                 sCompare(analyzingInformation, v.analyzingInformation) == 0 &&
                 sCompare(phDyeTypeManuf, v.phDyeTypeManuf) == 0 &&
-                sCompare(traceabilityOfStdGas, v.traceabilityOfStdGas) == 0 &&
+//                sCompare(traceabilityOfStdGas, v.traceabilityOfStdGas) == 0 &&
                 sCompare(fco2CalcMethod, v.fco2CalcMethod) == 0 &&
                 sCompare(pco2CalcMethod, v.pco2CalcMethod) == 0 &&
                 sCompare(temperatureMeasurementCalibrationMethod, v.temperatureMeasurementCalibrationMethod) == 0 &&
                 sCompare(pressureMeasurementCalibrationMethod, v.pressureMeasurementCalibrationMethod) == 0 &&
                 sCompare(uncertaintyOfTemperature, v.uncertaintyOfTemperature) == 0 &&
                 sCompare(uncertaintyOfTotalPressure, v.uncertaintyOfTotalPressure) == 0 &&
-                sCompare(totalPressureCalcMethod, v.totalPressureCalcMethod) == 0;
+                sCompare(totalPressureCalcMethod, v.totalPressureCalcMethod) == 0 &&
+                sCompare(socatType, v.socatType) == 0;
+        // XXX + compare standardGases
     }
 
     @Override
@@ -548,9 +564,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.freqencyOfStandardization = this.freqencyOfStandardization;
         newv.storageMethod = this.storageMethod;
         newv.pco2Temperature = this.pco2Temperature;
-        newv.gasConcentration = this.gasConcentration;
+//        newv.gasConcentration = this.gasConcentration;
         newv.headspaceVolume = this.headspaceVolume;
-        newv.standardGasManufacture = this.standardGasManufacture;
+//        newv.standardGasManufacture = this.standardGasManufacture;
         newv.gasDetectorManufacture = this.gasDetectorManufacture;
         newv.gasDetectorModel = this.gasDetectorModel;
         newv.gasDectectorResolution = this.gasDectectorResolution;
@@ -558,7 +574,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.temperatureCorrectionMethod = this.temperatureCorrectionMethod;
         newv.temperatureMeasurement = this.temperatureMeasurement;
         newv.temperatureStandarization = this.temperatureStandarization;
-        newv.standardGasUncertainties = this.standardGasUncertainties;
+//        newv.standardGasUncertainties = this.standardGasUncertainties;
         newv.gasDectectorUncertainty = this.gasDectectorUncertainty;
         newv.vaporCorrection = this.vaporCorrection;
         newv.vented = this.vented;
@@ -572,7 +588,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.collectionMethod = this.collectionMethod;
         newv.analyzingInformation = this.analyzingInformation;
         newv.phDyeTypeManuf = this.phDyeTypeManuf;
-        newv.traceabilityOfStdGas = this.traceabilityOfStdGas;
+//        newv.traceabilityOfStdGas = this.traceabilityOfStdGas;
         newv.fco2CalcMethod = this.fco2CalcMethod;
         newv.pco2CalcMethod = this.pco2CalcMethod;
         newv.temperatureMeasurementCalibrationMethod = this.temperatureMeasurementCalibrationMethod;
@@ -580,12 +596,15 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         newv.uncertaintyOfTemperature = this.uncertaintyOfTemperature;
         newv.uncertaintyOfTotalPressure = this.uncertaintyOfTotalPressure;
         newv.totalPressureCalcMethod = this.totalPressureCalcMethod;
+        newv.socatType = this.socatType;
+        newv.standardGases = (List<StandardGas>) Document.getArrayCopy(this.standardGases);
+        // XXX + clone standardGases
         return newv;
     }
 
     @Override
     public boolean hasContent() {
-        boolean hasConent = ! (
+        boolean isEmpty =
                     isEmpty(abbreviation) &&
                     isEmpty(manipulationMethod) &&
                     isEmpty(observationType) &&
@@ -628,9 +647,9 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(freqencyOfStandardization) &&
                     isEmpty(storageMethod) &&
                     isEmpty(pco2Temperature) &&
-                    isEmpty(gasConcentration) &&
+//                    isEmpty(gasConcentration) &&
                     isEmpty(headspaceVolume) &&
-                    isEmpty(standardGasManufacture) &&
+//                    isEmpty(standardGasManufacture) &&
                     isEmpty(gasDetectorManufacture) &&
                     isEmpty(gasDetectorModel) &&
                     isEmpty(gasDectectorResolution) &&
@@ -638,7 +657,7 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(temperatureCorrectionMethod) &&
                     isEmpty(temperatureMeasurement) &&
                     isEmpty(temperatureStandarization) &&
-                    isEmpty(standardGasUncertainties) &&
+//                    isEmpty(standardGasUncertainties) &&
                     isEmpty(gasDectectorUncertainty) &&
                     isEmpty(vaporCorrection) &&
                     isEmpty(vented) &&
@@ -652,15 +671,17 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
                     isEmpty(collectionMethod) &&
                     isEmpty(analyzingInformation) &&
                     isEmpty(phDyeTypeManuf) &&
-                    isEmpty(traceabilityOfStdGas) &&
+//                    isEmpty(traceabilityOfStdGas) &&
                     isEmpty(fco2CalcMethod) &&
                     isEmpty(pco2CalcMethod) &&
                     isEmpty(temperatureMeasurementCalibrationMethod) &&
                     isEmpty(pressureMeasurementCalibrationMethod) &&
                     isEmpty(uncertaintyOfTemperature) &&
                     isEmpty(uncertaintyOfTotalPressure) &&
-                    isEmpty(totalPressureCalcMethod));
-        return hasConent;
+                    isEmpty(totalPressureCalcMethod) &&
+                    isEmpty(socatType) &&
+                    standardGases.isEmpty();
+        return isEmpty;
     }
 
     public String getVariableType() { return variableType; }
@@ -729,10 +750,10 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.pco2Temperature = pco2Temperature;
     }
 
-    public String getGasConcentration() {
-        return gasConcentration;
-    }
-    public void setGasConcentration(String gasConcentration) { this.gasConcentration = gasConcentration; }
+//    public String getGasConcentration() {
+//        return gasConcentration;
+//    }
+//    public void setGasConcentration(String gasConcentration) { this.gasConcentration = gasConcentration; }
 
     public String getIntakeDepth() {
         return intakeDepth;
@@ -790,12 +811,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.intakeLocation = intakeLocation;
     }
 
-    public String getStandardGasManufacture() {
-        return standardGasManufacture;
-    }
-    public void setStandardGasManufacture(String standardGasManufacture) {
-        this.standardGasManufacture = standardGasManufacture;
-    }
+//    public String getStandardGasManufacture() {
+//        return standardGasManufacture;
+//    }
+//    public void setStandardGasManufacture(String standardGasManufacture) {
+//        this.standardGasManufacture = standardGasManufacture;
+//    }
 
     public String getGasDetectorManufacture() {
         return gasDetectorManufacture;
@@ -818,9 +839,6 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.gasDectectorResolution = gasDectectorResolution;
     }
 
-    public String getStandardGasUncertainties() {
-        return standardGasUncertainties;
-    }
 
 
     public String getQcSchemeName() {
@@ -871,9 +889,12 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.phDyeTypeManuf = phDyeTypeManuf;
     }
 
-    public void setStandardGasUncertainties(String standardGasUncertainties) {
-        this.standardGasUncertainties = standardGasUncertainties;
-    }
+//    public String getStandardGasUncertainties() {
+//        return standardGasUncertainties;
+//    }
+//    public void setStandardGasUncertainties(String standardGasUncertainties) {
+//        this.standardGasUncertainties = standardGasUncertainties;
+//    }
 
     public String getGasDectectorUncertainty() {
         return gasDectectorUncertainty;
@@ -1132,10 +1153,10 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.cellType = cellType;
     }
 
-    public String getTraceabilityOfStdGas() { return traceabilityOfStdGas; }
-    public void setTraceabilityOfStdGas(String traceabilityOfStdGas) {
-        this.traceabilityOfStdGas = traceabilityOfStdGas;
-    }
+//    public String getTraceabilityOfStdGas() { return traceabilityOfStdGas; }
+//    public void setTraceabilityOfStdGas(String traceabilityOfStdGas) {
+//        this.traceabilityOfStdGas = traceabilityOfStdGas;
+//    }
 
     public String getFco2CalcMethod() { return fco2CalcMethod; }
     public void setFco2CalcMethod(String fco2CalcMethod) {
@@ -1176,4 +1197,21 @@ public class Variable extends Ordered implements Comparable<Variable>, Cloneable
         this.totalPressureCalcMethod = totalPressureCalcMethod;
     }
 
+    public String getSocatType() { return socatType; }
+    public void setSocatType(String socatType) {
+        this.socatType = socatType;
+    }
+    public synchronized List<StandardGas> getStandardGases() {
+        if ( standardGases == null ) {
+            standardGases = new ArrayList<>();
+        }
+        return standardGases;
+    }
+
+    public void setStandardGases(List<StandardGas> standardGases) {
+        this.standardGases = standardGases;
+    }
+    public void addStandardGas(StandardGas standardGas) {
+        getStandardGases().add(standardGas);
+    }
 }

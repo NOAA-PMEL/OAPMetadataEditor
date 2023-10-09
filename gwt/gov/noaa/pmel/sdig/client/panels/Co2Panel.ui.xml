@@ -54,12 +54,11 @@
                         </b:Column>
                     </b:Row>
                     -->
-                    <mdep:Co2CommonVariablePanel ui:field="common"></mdep:Co2CommonVariablePanel>
+                    <mdep:Co2CommonVariablePanel addStyleNames="expand_common" ui:field="common"></mdep:Co2CommonVariablePanel>
 
                     <b:Row>
                         <b:Column size="SM_12 MD_8 LG_9">
                             <b:FormGroup ui:field="standardizationTechniqueForm"><!-- Calibration method -->
-                                <!-- Keep -->
                                 <b:FormLabel for="standardizationTechnique" text="Calibration Method"></b:FormLabel>
                                 <b:Modal closable="true" b:id="modalStandardizationTechnique" title="24.25 Please describe the calibration procedure." />
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardizationTechnique" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -68,7 +67,6 @@
                         </b:Column>
                         <b:Column size="SM_12 MD_4 LG_3">
                             <b:FormGroup ui:field="freqencyOfStandardizationForm"><!-- Frequency of calibration -->
-                                <!-- Keep -->
                                 <b:FormLabel for="freqencyOfStandardization" text="Frequency of Calibration"></b:FormLabel>
                                 <b:Modal title="24.26 How frequently was the calibration carried out, e.g., every 6 hours, after every 10 samples, etc." closable="true" b:id="modalFreqencyOfStandardization"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFreqencyOfStandardization" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
@@ -76,85 +74,83 @@
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
-
-
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="standardGasManufactureForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="standardGasManufacture" text="Manufacturer of Standard Gas"></b:FormLabel>
+                    <b:Row ui:field="standardGasRow0">
+                        <b:Column size="SM_4">
+                            <b:FormGroup ui:field="standardGasManufactureForm0">
+                                <b:FormLabel for="standardGasManufacture0" text="Manufacturer of Standard Gas"></b:FormLabel>
                                 <b:Modal closable="true" b:id="modalStandardGasManufacture" title="24.27 Manufacturer of the CO2 standard gas."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardGasManufacture" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="standardGasManufacture" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture"></b:TextBox>
+                                <b:TextBox ui:field="standardGasManufacture0" allowBlank="true" placeholder="Manufacturer of standard gas" b:id="standardGasManufacture0"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="stdGasTraceabilityForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="stdGasTraceability" text="Traceability of Standard Gases to WMO Standards"></b:FormLabel>
-                                <b:Modal closable="true" b:id="modalStdGasTraceability" title="SOCAT"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStdGasTraceability" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="stdGasTraceability" allowBlank="true" placeholder="Traceability of standard gases to WMO standards" b:id="stdGasTraceability"></b:TextBox>
-                            </b:FormGroup>
-                        </b:Column>
-                    </b:Row>
-
-                    <b:Row>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="gasConcentrationForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="gasConcentration" text="Concentrations of Standard Gas"></b:FormLabel>
+                        <b:Column size="SM_2">
+                            <b:FormGroup ui:field="gasConcentrationForm0">
+                                <b:FormLabel for="standardGasConcentration0" text="Concentration"></b:FormLabel>
                                 <b:Modal title="24.28 Concentrations of the CO2 standard gases that were used to calibrate the CO2 sensor, e.g., 200, 350, 510ppm." closable="true" b:id="modalGasConcentration"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasConcentration" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasConcentration" allowBlank="true" placeholder="Concentrations of standard gas" b:id="gasConcentration"></b:TextBox>
+                                <b:TextBox ui:field="standardGasConcentration0" allowBlank="true" placeholder="Concentration" b:id="standardGasConcentration0"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_12 MD_6">
-                            <b:FormGroup ui:field="standardGasUncertaintiesForm">
-                                <!-- Keep -->
-                                <b:FormLabel for="standardGasUncertainties" text="Uncertainties of Standard Gas"></b:FormLabel>
-                                <b:Modal title="24.29 Uncertainties of the CO2 standard gas, e.g., 0.5%." closable="true" b:id="modalStandardGasUncertainties"/>
-                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardGasUncertainties" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="standardGasUncertainties" allowBlank="true" placeholder="Uncertainties of standard gas" b:id="standardGasUncertainties"></b:TextBox>
+                        <b:Column size="SM_2">
+                            <b:FormGroup ui:field="standardGasUncertaintiesForm0">
+                                <b:FormLabel for="standardGasUncertainty" text="Uncertainty"></b:FormLabel>
+                                <b:Modal title="24.29 Uncertainty of the CO2 standard gas, e.g., 0.5%." closable="true" b:id="modalStandardGasUncertainty"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardGasUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="standardGasUncertainty0" allowBlank="true" placeholder="Uncertainty" b:id="standardGasUncertainty0"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_2">
+                            <b:FormGroup ui:field="standardGasTraceabilityForm">
+                                <b:FormLabel for="standardGasTraceability" text="WMO Traceability"></b:FormLabel>
+                                <b:Modal closable="true" b:id="modalStandardGasTraceability" title="Traceability of Gas to WMO Standards."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStandardGasTraceability" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="standardGasTraceability0" allowBlank="true" placeholder="Traceability" b:id="standardGasTraceability0"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_2">
+                            <b:FormGroup>
+                                <b:FormLabel color="#00000000" for="addStdGasButton" text="*"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="stdGasBtnPopover" b:id="stdGasBtnPopover" title="Add another Standard Gas."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#stdGasBtnPopover" dataToggle="MODAL" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                <b:Button ui:field="addStdGasButton" pull="RIGHT" type="PRIMARY" text="ADD STD GAS" b:id="addStdGasButton"/>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
-
                     <b:Row>
                         <b:Column size="SM_12 MD_6 LG_3">
                             <b:FormGroup ui:field="gasDetectorManufactureForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="gasDetectorManufacture" text="Manufacturer of the Gas Detector"></b:FormLabel>
+                                <b:FormLabel for="gasDetectorManufacture" text="Gas Detector Manufacturer"></b:FormLabel>
                                 <b:Modal title="24.21 Manufacturer of the CO2 sensor." closable="true" b:id="modalGasDetectorManufacture"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDetectorManufacture" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer of the gas detector" b:id="gasDetectorManufacture"></b:TextBox>
+                                <b:TextBox ui:field="gasDetectorManufacture" allowBlank="true" placeholder="Manufacturer" b:id="gasDetectorManufacture"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_6 LG_3">
                             <b:FormGroup ui:field="gasDetectorModelForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="gasDetectorModel" text="Model of the Gas Detector"></b:FormLabel>
+                                <b:FormLabel for="gasDetectorModel" text="Gas Detector Model "></b:FormLabel>
                                 <b:Modal title="24.22 Model and number of the CO2 sensor." closable="true" b:id="modalGasDetectorModel"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDetectorModel" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model of the gas detector" b:id="gasDetectorModel"></b:TextBox>
+                                <b:TextBox ui:field="gasDetectorModel" allowBlank="true" placeholder="Model" b:id="gasDetectorModel"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_6 LG_3">
                             <b:FormGroup ui:field="gasDectectorResolutionForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="gasDectectorResolution" text="Resolution of the Gas Detector"></b:FormLabel>
+                                <b:FormLabel for="gasDectectorResolution" text="Gas Detector Resolution "></b:FormLabel>
                                 <b:Modal title="24.23 Resolution of the CO2 sensor." closable="true" b:id="modalGasDectectorResolution"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDectectorResolution" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution of the gas detector" b:id="gasDectectorResolution"></b:TextBox>
+                                <b:TextBox ui:field="gasDectectorResolution" allowBlank="true" placeholder="Resolution" b:id="gasDectectorResolution"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_6 LG_3">
                             <b:FormGroup ui:field="gasDectectorUncertaintyForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="gasDectectorUncertainty" text="Uncertainty of the Gas Detector"></b:FormLabel>
+                                <b:FormLabel for="gasDectectorUncertainty" text="Gas Detector Uncertainty"></b:FormLabel>
                                 <b:Modal title="24.24 Uncertainty of the CO2 sensor." closable="true" b:id="modalGasDectectorUncertainty"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGasDectectorUncertainty" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty of the gas detector" b:id="gasDectectorUncertainty"></b:TextBox>
+                                <b:TextBox ui:field="gasDectectorUncertainty" allowBlank="true" placeholder="Uncertainty" b:id="gasDectectorUncertainty"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

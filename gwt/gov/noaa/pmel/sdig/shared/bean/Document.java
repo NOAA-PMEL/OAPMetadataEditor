@@ -12,16 +12,15 @@ import java.util.List;
  */
 public class Document extends DbItem implements HasContent {
 
-    public static final String DOC_SOCAT = "socat";
-    public static final String DOC_OADS = "oads";
-    public static final String DOC_OCADS = "ocads";
+    public static final String TYPE_SOCAT = "socat";
+    public static final String TYPE_OADS = "oads";
 
-    private String docType = DOC_OCADS;
+    private String docType = TYPE_OADS;
     public String getDocType() { return docType; }
     public void setDocType(String type) { docType = type; }
-    private Long dbId;
-    public Long getDbId() { return dbId; }
-    public void setDbId(Long dbId) { this.dbId = dbId; }
+    private Long id;
+    public Long getDbId() { return id; }
+    public void setDbId(Long id) { this.id = id; }
     private Long dbVersion;
     public Long getDbVersion() { return dbVersion; }
     public void setDbVersion(Long dbVersion) { this.dbVersion = dbVersion; }
@@ -42,12 +41,12 @@ public class Document extends DbItem implements HasContent {
     Variable dic;
     Variable ta;
     Variable ph;
-    Variable pco2a;
+    Variable pco2a;  // NOTE that this is overloaded as the xCO2 for SOCAT
     Variable pco2d;
 
     String update;
 
-    private static List<? extends Stringy> getArrayCopy(List<? extends Stringy> list) {
+    static List<? extends Stringy> getArrayCopy(List<? extends Stringy> list) {
         ArrayList<Stringy> newList = new ArrayList<>();
         if ( list != null ) {
             for (Stringy o : list) {
@@ -77,7 +76,7 @@ public class Document extends DbItem implements HasContent {
         copyDoc.setTa((Variable)copyOf(doc.getTa()));
         copyDoc.setTimeAndLocation((TimeAndLocation) copyOf(doc.getTimeAndLocation()));
         copyDoc.setVariables((List<Variable>) getArrayCopy(doc.getVariables()));
-        copyDoc.setCo2vars((List<Variable>) getArrayCopy(doc.getVariables()));
+        copyDoc.setCo2vars((List<Variable>) getArrayCopy(doc.getCo2vars()));
         return copyDoc;
     }
     public static Document EmptyDocument() {
@@ -215,7 +214,7 @@ public class Document extends DbItem implements HasContent {
         this.ph = ph;
     }
 
-    public Variable getPco2a() {
+    public Variable getPco2a() { // NOTE that this is overloaded as the xCO2 for SOCAT
         return pco2a;
     }
 

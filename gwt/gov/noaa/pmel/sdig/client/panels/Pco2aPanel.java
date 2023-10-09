@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
+import gov.noaa.pmel.sdig.shared.bean.StandardGas;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
@@ -197,7 +198,8 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setStandardizationTechnique(standardizationTechnique.getText());
         pco2a.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2a.setPco2Temperature(pco2Temperature.getText());
-        pco2a.setGasConcentration(gasConcentration.getText());
+//        pco2a.setGasConcentration(gasConcentration.getText());
+        String stdGasConc = gasConcentration.getText();
 //        pco2a.setIntakeDepth(intakeDepth.getText());
         pco2a.setDryingMethod(dryingMethod.getText());
         pco2a.setEquilibratorType(equilibratorType.getText());
@@ -206,12 +208,15 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
 //        pco2a.setIntakeLocation(intakeLocation.getText());
-        pco2a.setStandardGasManufacture(standardGasManufacture.getText());
+//        pco2a.setStandardGasManufacture(standardGasManufacture.getText());
+        String stdGasManuf = standardGasManufacture.getText();
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
         pco2a.setGasDectectorResolution(gasDectectorResolution.getText());
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-        pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
+        String stdGasUnc = standardGasUncertainties.getText();
+        StandardGas stdGas = new StandardGas(stdGasManuf, stdGasConc, stdGasUnc, ""); // XXX WMO?
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         pco2a.setVented(vented.getValue());
         pco2a.setFlowRate(flowRate.getText());
@@ -223,7 +228,8 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setStandardizationTechnique(standardizationTechnique.getText());
         pco2a.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         pco2a.setPco2Temperature(pco2Temperature.getText());
-        pco2a.setGasConcentration(gasConcentration.getText());
+//        pco2a.setGasConcentration(gasConcentration.getText());
+        String conc = gasConcentration.getText();
 //        pco2a.setIntakeDepth(intakeDepth.getText());
         pco2a.setDryingMethod(dryingMethod.getText());
         pco2a.setEquilibratorType(equilibratorType.getText());
@@ -232,12 +238,16 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
         pco2a.setEquilibratorPressureMeasureMethod(equilibratorPressureMeasureMethod.getText());
         pco2a.setEquilibratorTemperatureMeasureMethod(equilibratorTemperatureMeasureMethod.getText());
 //        pco2a.setIntakeLocation(intakeLocation.getText());
-        pco2a.setStandardGasManufacture(standardGasManufacture.getText());
+//        pco2a.setStandardGasManufacture(standardGasManufacture.getText());
+        String manuf = standardGasManufacture.getText();
         pco2a.setGasDetectorManufacture(gasDetectorManufacture.getText());
         pco2a.setGasDetectorModel(gasDetectorModel.getText());
         pco2a.setGasDectectorResolution(gasDectectorResolution.getText());
         pco2a.setTemperatureCorrectionMethod(temperatureCorrectionMethod.getText());
-        pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
+//        pco2a.setStandardGasUncertainties(standardGasUncertainties.getText());
+        String unc = standardGasUncertainties.getText();
+        StandardGas standardGas = new StandardGas(manuf, conc, unc, ""); // no WMO
+        pco2a.addStandardGas(standardGas);
         pco2a.setGasDectectorUncertainty(gasDectectorUncertainty.getText());
         pco2a.setVented(vented.getValue());
         pco2a.setFlowRate(flowRate.getText());
@@ -257,9 +267,12 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             pco2Temperature.setText(pco2a.getPco2Temperature());
         }
 
-        if ( pco2a.getGasConcentration() != null ) {
-            gasConcentration.setText(pco2a.getGasConcentration());
-        }
+        StandardGas standardGas = pco2a.getStandardGases().isEmpty() ?
+                                    new StandardGas() :
+                                    pco2a.getStandardGases().get(0);
+//        if ( pco2a.getGasConcentration() != null ) {
+            gasConcentration.setText(standardGas.getConcentration());
+//        }
 
 //        if ( pco2a.getIntakeDepth() != null ) {
 //            intakeDepth.setText(pco2a.getIntakeDepth());
@@ -293,9 +306,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
 //            intakeLocation.setText(pco2a.getIntakeLocation());
 //        }
 
-        if ( pco2a.getStandardGasManufacture() != null ) {
-            standardGasManufacture.setText(pco2a.getStandardGasManufacture());
-        }
+//        if ( pco2a.getStandardGasManufacture() != null ) {
+            standardGasManufacture.setText(standardGas.getManufacturer());
+//        }
 
         if ( pco2a.getGasDetectorManufacture() != null ) {
             gasDetectorManufacture.setText(pco2a.getGasDetectorManufacture());
@@ -314,9 +327,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             temperatureCorrectionMethod.setText(pco2a.getTemperatureCorrectionMethod());
         }
 
-        if ( pco2a.getStandardGasUncertainties() != null ) {
-            standardGasUncertainties.setText(pco2a.getStandardGasUncertainties());
-        }
+//        if ( pco2a.getStandardGasUncertainties() != null ) {
+            standardGasUncertainties.setText(standardGas.getUncertainty());
+//        }
 
         if ( pco2a.getGasDectectorUncertainty() != null ) {
             gasDectectorUncertainty.setText(pco2a.getGasDectectorUncertainty());
@@ -366,6 +379,9 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             }        }
     };
     public boolean isDirty(Variable original) {
+        StandardGas originalGas = original == null || original.getStandardGases().isEmpty() ?
+                                    new StandardGas() :
+                                    original.getStandardGases().get(0);
         boolean isDirty =
             original == null ?
             isDirty() :
@@ -373,7 +389,7 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
             isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
             isDirty(pco2Temperature, original.getPco2Temperature() ) ||
-            isDirty(gasConcentration, original.getGasConcentration() ) ||
+            isDirty(gasConcentration, originalGas.getConcentration() ) ||
 //            isDirty(intakeDepth, original.getIntakeDepth() ) ||
             isDirty(dryingMethod, original.getDryingMethod() ) ||
             isDirty(equilibratorType, original.getEquilibratorType() ) ||
@@ -382,12 +398,12 @@ public class Pco2aPanel extends Composite implements GetsDirty<Variable> {
             isDirty(equilibratorPressureMeasureMethod, original.getEquilibratorPressureMeasureMethod() ) ||
             isDirty(equilibratorTemperatureMeasureMethod, original.getEquilibratorTemperatureMeasureMethod() ) ||
 //            isDirty(intakeLocation, original.getIntakeLocation() ) ||
-            isDirty(standardGasManufacture, original.getStandardGasManufacture() ) ||
+            isDirty(standardGasManufacture, originalGas.getManufacturer() ) ||
             isDirty(gasDetectorManufacture, original.getGasDetectorManufacture() ) ||
             isDirty(gasDetectorModel, original.getGasDetectorModel() ) ||
             isDirty(gasDectectorResolution, original.getGasDectectorResolution() ) ||
             isDirty(temperatureCorrectionMethod, original.getTemperatureCorrectionMethod() ) ||
-            isDirty(standardGasUncertainties, original.getStandardGasUncertainties() ) ||
+            isDirty(standardGasUncertainties, originalGas.getUncertainty() ) ||
             isDirty(gasDectectorUncertainty, original.getGasDectectorUncertainty() ) ||
             isDirty(vented.getValue(), original.getVented() ) ||
             isDirty(flowRate, original.getFlowRate() ) ||

@@ -38,7 +38,7 @@ dependencyManagement {
 dependencies {
 	// for handling uploaded excel file and new XML processing
 	compile fileTree(dir:'lib', include:['excel2oap.jar','oads_xml.jar', 
-										 'tws_util.jar', 'socatmetadata-7.0.0.jar',
+										 'tws_util.jar', 'socatmetadata-7.0.2.jar',
 										 'gwt-user.jar', 'servlet-api.jar'  ])
     // Add JSON Views
     compile 'org.grails.plugins:views-json:1.2.0'
@@ -81,7 +81,7 @@ dependencies {
 
     // RHS - use mysql for production
     // JDBC
-    runtime 'mysql:mysql-connector-java:5.1.29'
+    runtime 'mysql:mysql-connector-java:8.0.32'
 
 }
 

@@ -44,7 +44,7 @@ class OadsXmlService {
 //        return countryThreeLetter ? countryThreeLetter : proposed;
 //    }
 
-    def createMetadataDocumentFromVersionedXml(InputStream inputStream) {
+    def createMetadataDocumentFromVersionedXml(InputStream inputStream, String version) {
         log.info("Creating OadsMetadata from input stream")
         OadsMetadataDocumentType xmlMetadata = OadsXmlReader.read(inputStream)
         return buildDocumentFromMetadata(xmlMetadata)
@@ -59,10 +59,14 @@ class OadsXmlService {
 
     def buildDocumentFromMetadata(OadsMetadataDocumentType xmlMetadata) {
         Document mdDoc = new Document()
+        String xmlVersion = xmlMetadata.VERSION; // XXX hard coded!!!
+        mdDoc.docType = xmlVersion.equals("a0.2.2s") ? "socat" : "oads";
 
         // Investigators
         for (PersonType person : xmlMetadata.getInvestigators()) {
-            mdDoc.addToInvestigators(fillPersonDomain(person, new Investigator()))
+            Person investigator = fillPersonDomain(person, new Investigator())
+            if ( investigator )
+                mdDoc.addToInvestigators(investigator)
         }
         // Data Submitter
         mdDoc.setDataSubmitter(fillPersonDomain(xmlMetadata.getDataSubmitter(), new DataSubmitter()))
@@ -97,7 +101,9 @@ class OadsXmlService {
             platform.setCountry(p.country)
             mdDoc.addToPlatforms(platform)
         }
-        mdDoc.setDocType("oads")
+        // Already defaults to oads.
+        // Set to socat either by xml version or presence of socat variable
+//        mdDoc.setDocType("oads")
         for (BaseVariableType baseVar : xmlMetadata.getVariables()) {
             if (baseVar instanceof Co2Socat) {
                 mdDoc.setDocType("socat")
@@ -140,15 +146,17 @@ class OadsXmlService {
             expocode += code + " "
         }
         citation.setExpocode(expocode.trim())
-        def cruiseId = ""
+        def cruises = ""
         for (TypedIdentifierType code : metadata.getCruiseIds()) {
+            def cruiseId = ""
             if ( code.getType() && ! code.getType().isEmpty() ) {
-                cruiseId = code.getValue()+":"+code.getType() + " "
+                cruiseId = code.getValue()+":"+code.getType()
             } else {
                 cruiseId = code.getValue()
             }
+            cruises += cruiseId + " "
         }
-        citation.setCruiseId(cruiseId.trim())
+        citation.setCruiseId(cruises.trim())
 
         def section = ""
         for (String code : metadata.getSections()) {
@@ -302,10 +310,18 @@ class OadsXmlService {
 
         }
         if ( co2aVar.standardization ) {
-            List<StandardGasType> stdGases = co2aVar.standardization.getStandardGas()
+            StandardizationType standardization = co2aVar.standardization
+            List<StandardGasType> stdGases = standardization.getStandardGas()
             if ( stdGases != null && !stdGases.isEmpty()) {
-                StandardGasType stdGas = stdGases.get(0)
-                variable.setTraceabilityOfStdGas(stdGas.traceabilityToWmoStandards)
+                List<StandardGas> varGases = new ArrayList<>();
+                for (StandardGasType stdGas : stdGases) {
+                    StandardGas varGas = new StandardGas(stdGas.manufacturer,
+                                                         stdGas.concentration,
+                                                         stdGas.uncertainty,
+                                                         stdGas.traceabilityToWmoStandards)
+                    varGases.add(varGas)
+                }
+                variable.setStandardGases(varGases)
             }
         }
         variable.setPco2CalcMethod(co2aVar.calculationMethodForPCO2)
@@ -411,10 +427,13 @@ class OadsXmlService {
                     v.setCrmManufacture(std.crm.manufacturer)
                     v.setBatchNumber(std.crm.batch)
                 }
-                if (!isEmpty(std.standardGas)) {
-                    v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
-                    v.setGasConcentration(std.standardGas.get(0).concentration)
-                    v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
+                for ( StandardGasType gas : std.getStandardGas()) {
+                    StandardGas stdGas = new StandardGas(gas.manufacturer, gas.concentration,
+                                                         gas.uncertainty, gas.traceabilityToWmoStandards)
+                    v.addToStandardGases(stdGas)
+//                    v.setStandardGasManufacture(std.standardGas.get(0).manufacturer)
+//                    v.setGasConcentration(std.standardGas.get(0).concentration)
+//                    v.setStandardGasUncertainties(std.standardGas.get(0).uncertainty)
                 }
             }
         }
@@ -960,7 +979,8 @@ class OadsXmlService {
             variable.calculationMethod(CalculationMethodType.builder().description(v.getCalculationMethod()).build())
 
         if ( v.getStandardizationTechnique() || v.getCrmManufacture() || v.getBatchNumber() ||
-             v.getStandardGasManufacture() || v.getStandardGasUncertainties() || v.getGasConcentration() ||
+//             v.getStandardGasManufacture() || v.getStandardGasUncertainties() || v.getGasConcentration() ||
+             ! v.getStandardGases().isEmpty() ||
              v.getPhStandards() || v.getTemperatureStandarization()) {
 
             StandardizationType.StandardizationTypeBuilder standard = StandardizationType.builder()
@@ -977,14 +997,14 @@ class OadsXmlService {
                         .build()
                 )
             }
-            if ( v.getStandardGasManufacture() || v.getStandardGasUncertainties() || v.getGasConcentration()) {
+//            if ( v.getStandardGasManufacture() || v.getStandardGasUncertainties() || v.getGasConcentration()) {
+            for ( StandardGas std : v.getStandardGases()) {
                 standard.addStandardGas(StandardGasType.builder()
-                        .manufacturer(v.getStandardGasManufacture())
-                        .uncertainty(v.getStandardGasUncertainties())
-                        .concentration(v.getGasConcentration())
-                        .traceabilityToWmoStandards(v.getTraceabilityOfStdGas())
-                        .build()
-                )
+                        .manufacturer(std.getManufacturer())
+                        .uncertainty(std.getUncertainty())
+                        .concentration(std.getConcentration())
+                        .traceabilityToWmoStandards(std.getWmoTraceability())
+                        .build())
             }
             variable.standardization(standard.build())
         }

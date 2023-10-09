@@ -64,6 +64,17 @@ public class ButtonDropDown extends Composite {
         }
     }
 
+    public static String getTruth(String isTrue, String value) {
+        if ( value == null || value.trim().isEmpty()) { return "false"; }
+        String lowTruth = isTrue.trim().toLowerCase();
+        String lowValue = value.trim().toLowerCase();
+        if ( lowTruth.equals(lowValue) ||
+             "true".equals(lowValue) ||
+             "yes".equals(lowValue)) {
+            return "true";
+        }
+        return "false";
+    }
     public String getValue() {
         return currentValue;
     }

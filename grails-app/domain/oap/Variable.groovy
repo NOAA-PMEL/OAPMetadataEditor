@@ -5,7 +5,6 @@ class Variable extends GenericVariable {
     static constraints = {
         document(nullable: true)
     }
-
     static Variable from(GenericVariable genV) {
         Variable v = new Variable()
         v.abbreviation = genV.abbreviation
@@ -50,9 +49,9 @@ class Variable extends GenericVariable {
         v.freqencyOfStandardization = genV.freqencyOfStandardization
         v.storageMethod = genV.storageMethod
         v.pco2Temperature = genV.pco2Temperature
-        v.gasConcentration = genV.gasConcentration
+//        v.gasConcentration = genV.gasConcentration
         v.headspaceVolume = genV.headspaceVolume
-        v.standardGasManufacture = genV.standardGasManufacture
+//        v.standardGasManufacture = genV.standardGasManufacture
         v.gasDetectorManufacture = genV.gasDetectorManufacture
         v.gasDetectorModel = genV.gasDetectorModel
         v.gasDectectorResolution = genV.gasDectectorResolution
@@ -60,7 +59,7 @@ class Variable extends GenericVariable {
         v.temperatureCorrectionMethod = genV.temperatureCorrectionMethod
         v.temperatureMeasurement = genV.temperatureMeasurement
         v.temperatureStandarization = genV.temperatureStandarization
-        v.standardGasUncertainties = genV.standardGasUncertainties
+//        v.standardGasUncertainties = genV.standardGasUncertainties
         v.gasDectectorUncertainty = genV.gasDectectorUncertainty
         v.vaporCorrection = genV.vaporCorrection
         v.vented = genV.vented
@@ -75,7 +74,7 @@ class Variable extends GenericVariable {
         v.collectionMethod = genV.collectionMethod
         v.analyzingInformation =genV.analyzingInformation
         v.phDyeTypeManuf = genV.phDyeTypeManuf
-        v.traceabilityOfStdGas = genV.traceabilityOfStdGas
+//        v.traceabilityOfStdGas = genV.traceabilityOfStdGas
         v.pco2CalcMethod = genV.pco2CalcMethod
         v.pco2CalcMethod = genV.pco2CalcMethod
         v.temperatureMeasurementCalibrationMethod = genV.temperatureMeasurementCalibrationMethod
@@ -83,6 +82,7 @@ class Variable extends GenericVariable {
         v.uncertaintyOfTemperature = genV.uncertaintyOfTemperature
         v.uncertaintyOfTotalPressure = genV.uncertaintyOfTotalPressure
         v.totalPressureCalcMethod = genV.totalPressureCalcMethod
+        v.standardGases = genV.standardGases
 
         /*
         new VariableBuilder()

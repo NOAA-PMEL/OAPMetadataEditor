@@ -51,7 +51,7 @@ class DocumentController {
             }
             log.info("Found doc " + doc + ( doc ? " : " + doc.id : ""))
             if ( doc ) {
-                doc.dbId = doc.id
+//                doc.dbId = doc.id
                 doc.dbVersion = doc.version
             }
         } catch (Exception ex) {
@@ -148,7 +148,7 @@ class DocumentController {
 //                    d = doc.merge(flush: true, failOnError: true)
                 }
                 d = doc.save(flush: true, failOnError: true)
-                d.dbId = d.id
+//                d.dbId = d.id
                 d.dbVersion = d.version
                 log.debug("Save: " + d)
             } catch (Throwable t) {
@@ -173,7 +173,7 @@ class DocumentController {
         if ( id ) {
             datasetId = id
         } else {
-//            String expocode = _findExpocode(doc)
+//            String expocode = _findExpocodeAsId(doc)
 //            if ( expocode ) {
 //                datasetId = expocode
 //            } else {
@@ -182,11 +182,21 @@ class DocumentController {
         }
         return  datasetId
     }
-    private def _findExpocode(Document doc) {
+    private def _findExpocodeAsId(Document doc) {
         String expocode = null
         Citation c = doc.getCitation()
         if ( c ) {
             expocode = c.getExpocode()
+            if ( expocode ) {
+                expocode = expocode.trim();
+                String[] codes = expocode.split("[, ;]")
+                expocode = ""
+                String conj = ""
+                for (String code : codes) {
+                    expocode += conj + code
+                    conj = "_"
+                }
+            }
         }
         return expocode
     }
@@ -209,7 +219,7 @@ class DocumentController {
         String uri = request.getRequestURI()
         String from = request.getRemoteHost()
         if ( d ) {
-            d.dbId = d.id
+//            d.dbId = d.id
             d.dbVersion = d.version
             JSON.use("deep") {
                 render d as JSON
@@ -416,7 +426,7 @@ class DocumentController {
 
             if ( document ) {
                 if ( ! datasetId ) {
-                    datasetId = _findExpocode(document)
+                    datasetId = _findExpocodeAsId(document)
                 }
                 document.datasetIdentifier = datasetId
             }
