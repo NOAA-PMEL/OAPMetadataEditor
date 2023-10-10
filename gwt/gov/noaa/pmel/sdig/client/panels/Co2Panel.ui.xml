@@ -42,11 +42,12 @@
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:FormLabel text="CO2 variables in dataset" ></b:FormLabel>
+                            <b:FormLabel addStyleNames="larger_text" text="Add entries for the CO2 variables in the dataset" ></b:FormLabel>
                             <b:gwt.CellTable ui:field="variablesTable" addStyleNames="co2table" visible="false"
                                              bordered="true" condensed="true" striped="true" hover="true"/>
                         </b:Column>
                     </b:Row>
+                    <b:Heading size="H4" text="CO2 Common Attributes"/>
                     <!--
                     <b:Row>
                         <b:Column size="SM_12">

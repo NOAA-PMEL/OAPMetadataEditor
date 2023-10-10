@@ -399,7 +399,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                         });
 
         com.google.gwt.user.cellview.client.Column <Variable, String> abbrevColumn =
-            addColumn(new SizedEditTextCell(25), "Abbreviation",
+            addColumn(new SizedEditTextCell(25), "Data Column or Abbreviation",
                     new GetValue<String>() {
                         @Override
                         public String getValue(Variable var) {
@@ -511,21 +511,14 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
             return;
         }
         Variable co2var = variables.remove(0);
-        if ( ! co2var.getAbbreviation().equals(CO2_COMMON)) {
-            Variable copy = co2var.clone();
-            dataList.add(copy);
+        String abbrev = co2var.getAbbreviation();
+        if ( abbrev != null && ! abbrev.trim().isEmpty() && ! abbrev.trim().equals(CO2_COMMON)) {
             co2var.setAbbreviation("CO2_Common");
             co2var.setFullVariableName("CO2_Common");
-            OAPMetadataEditor.logToConsole("CO2vars[0] is NOT CO2_Common!");
-        }
-        if ( variables.size() > 0 ) {
-            dataList.addAll(variables);
-        } else {
-            String varList = co2var.getAbbreviation();
+            OAPMetadataEditor.logToConsole("CO2vars[0] is NOT CO2_Common:" + abbrev);
+            String varList = abbrev; // co2var.getAbbreviation();
             List<Variable>co2vars = new ArrayList<>();
             OAPMetadataEditor.logToConsole("Co2Panel varList:"+varList);
-            if ( varList != null && ! varList.isEmpty()) {
-                co2var.setAbbreviation("");
                 String[] vars = split(varList, CO2_VARS_SEPARATOR);
                 for (String var : vars) {
                     if (var.isEmpty()) {
@@ -545,9 +538,12 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                     v.setUnits( units );
                     v.setFullVariableName(v.getAbbreviation());
                     co2vars.add(v);
-                }
+//                }
             }
             dataList.addAll(co2vars);
+        }
+        if ( variables.size() > 0 ) {
+            dataList.addAll(variables);
         }
         show(co2var);
     }
