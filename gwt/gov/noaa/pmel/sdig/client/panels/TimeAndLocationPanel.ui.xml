@@ -33,7 +33,7 @@
                                 <b:FormLabel color="#B22222" for="startDate" text="First Day of Measurement Included in Data File *"></b:FormLabel>
                                 <b:Modal closable="true" b:id="modalStartDate" title="11.1 Start date of the first measurement (e.g. 2001-02-25). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalStartDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="startDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS" b:id="startDate"></b2:DatePicker>
+                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="startDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="startDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_6 MD_4">
@@ -45,7 +45,7 @@
                                 <b:FormLabel color="#B22222" for="endDate" text="Last Day of Measurement Included in Data File *"></b:FormLabel>
                                 <b:Modal closable="true" b:id="modalEndDate" title="11.2 End date of the last measurement (e.g. 2002-05-16). Please use ISO 8601 date format and if applicable time format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalEndDate" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS" b:id="endDate"></b2:DatePicker>
+                                <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_12 MD_4">
