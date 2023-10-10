@@ -177,7 +177,7 @@ public class OAPMetadataEditor implements EntryPoint {
                             ModalBody body = new ModalBody();
                             HTML message = new HTML("You appear to have made changes but have not saved them to your local disk." +
                                     "<br><strong>Click OK to reset the form and LOSE ALL YOUR DATA.</strong>" +
-                                    "<br>Click Canel to go back to what you were doing.");
+                                    "<br>Click Cancel to go back to what you were doing.");
                             ModalFooter footer = new ModalFooter();
                             Button ok = new Button("OK");
                             ok.setType(ButtonType.DANGER);
@@ -827,10 +827,11 @@ public class OAPMetadataEditor implements EntryPoint {
                 header.add(h);
                 mergeOptions.add(header);
                 ModalBody body = new ModalBody();
-                HTML message = new HTML(" will populate empty fields and append new data " +
-                        "content from the uploaded file, but will not overwrite content in the current data panels." +
-                        "<br><br><strong>Overwrite</strong> will append new data content from the uploaded file where " +
-                        "applicable and will not preserve content in the current data panels.");
+                HTML message = new HTML("<span style='font-weight=bold; color:red;'>Preserve</span> will populate empty fields with " +
+                        "content from the uploaded file, but will not overwrite existing content in the form fields." +
+                        "<br><br><span style='font-weight=bold; color:red;'>Overwrite</span> will populate empty fields with content from the uploaded file, " +
+                        "but will <span style='font-weight=bold; color:red;'>replace</span> any existing content in form fields if there is content for " +
+                        "that field in the uploaded file.");
                 ModalFooter footer = new ModalFooter();
                 Button preserve = new Button("Preserve");
                 preserve.setType(ButtonType.DANGER);
