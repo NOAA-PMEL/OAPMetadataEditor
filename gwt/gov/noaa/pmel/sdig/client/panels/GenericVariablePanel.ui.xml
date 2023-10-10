@@ -349,7 +349,7 @@
 <!--                    </b:Row>-->
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button ui:field="save" type="PRIMARY" text="SAVE VARIABLE"/>
+                            <b:Button ui:field="save" type="PRIMARY" text="ADD VARIABLE"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>

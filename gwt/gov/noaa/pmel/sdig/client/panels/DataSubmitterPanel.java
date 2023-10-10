@@ -12,6 +12,7 @@ public class DataSubmitterPanel extends PersonPanel {
         setType(Constants.SECTION_SUBMITTER);
         heading.setText("Enter the Information for this Data Submitter.");
         showTable = false;
+        save.setVisible(false);
     }
 
 }

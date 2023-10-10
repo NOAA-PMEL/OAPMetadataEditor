@@ -26,6 +26,12 @@
 .float_right {
     float: right;
 }
+.hidden {
+    visibility: hidden;
+}
+.larger_text {
+    font-size: larger;
+}
 .expand_common > fieldset > div {
     padding-left: 0px !important;
     padding-right: 0px !important;
