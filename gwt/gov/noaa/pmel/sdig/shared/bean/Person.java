@@ -23,6 +23,8 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
     String country;
     String idType;
 
+    public transient boolean isEditing = false;
+
     boolean complete = true;
     public boolean isComplete() { return complete; }
     public void setComplete(boolean isComplete) { complete = isComplete; }

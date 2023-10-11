@@ -57,7 +57,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiField
     ButtonDropDown idType;
     @UiField
-    Button save;
+    Button saveButton;
     @UiField
     TextBox lastName;
     @UiField
@@ -143,6 +143,10 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
+
+    private static final String MODE_EDIT = "Edit";
+    private static final String MODE_CANCEL = "Cancel";
+    private String LIST_EDIT_MODE = MODE_EDIT;
 
     interface PersonUiBinder extends UiBinder<HTMLPanel, PersonPanel> {
     }
@@ -277,24 +281,35 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 //        Column<Person, String> edit = new Column<Person, String>(new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL)) {
         Column<Person, String> edit = new Column<Person, String>(editButton) {
             @Override
-            public String getValue(Person object) {
-                return "Edit";
+            public String getValue(Person person) {
+                return person != null ?
+                            person.isEditing ?
+                                    MODE_CANCEL : MODE_EDIT :
+                            MODE_EDIT;
             }
         };
         edit.setFieldUpdater(new FieldUpdater<Person, String>() {
             @Override
             public void update(int index, Person person, String value) {
                 editIndex = peopleData.getList().indexOf(person);
+                OAPMetadataEditor.logToConsole("edit " + person.isEditing + " at " + editIndex);
                 OAPMetadataEditor.debugLog("EDIT editIndex: " + editIndex);
                 if (editIndex < 0) {
                     Window.alert("Edit failed.");
-                } else {
+                } else if ( ! person.isEditing ) {
                     show(person, true);
-                    peopleData.getList().remove(person);
-                    peopleData.flush();
-                    peoplePagination.rebuild(cellTablePager);
-                    save.setEnabled(true);
+                    person.isEditing = true;
+//                    peopleData.getList().remove(person);
+//                    peopleData.flush();
+//                    peoplePagination.rebuild(cellTablePager);
+                    saveButton.setEnabled(true);
                     setEnableTableRowButtons(false);
+                    saveButton.setText("SAVE INVESTIGATOR");
+                } else {
+                    reset();
+                    person.isEditing = false;
+                    setEnableTableRowButtons(true);
+                    saveButton.setText("ADD INVESTIGATOR");
                 }
             }
         });
@@ -343,7 +358,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
                     peopleData.flush();
                     peoplePagination.rebuild(cellTablePager);
-//                    save.setEnabled(true);
+//                    saveButton.setEnabled(true);
                     reset();
 
 //                    // for debugging position check
@@ -579,7 +594,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public void setShowInstitutionListButtonClick(ClickEvent clickEvent) {
         institution.showSuggestionList();
     }
-    @UiHandler("save")
+    @UiHandler("saveButton")
     public void onSave(ClickEvent clickEvent) {
 
         if (!valid()) {
@@ -592,7 +607,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             this.editing = false;
             if (hasContent()) {
                 Person p = getPerson();
-                addPerson(p);
+                if (! p.isEditing) {
+                    addPerson(p);
+                } else {
+                    p.isEditing = false;
+                }
             }
 
             // check if any person in peopleData is missing required fields
@@ -607,7 +626,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 setEnableTableRowButtons(true);
                 reset();
             }
-            save.setEnabled(false);
+            saveButton.setEnabled(false);
         }
 
     }
@@ -673,7 +692,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     public boolean hasContent() {
         OAPMetadataEditor.debugLog("@PersonPanel.hasContent()");
         boolean hasContent = false;
-        save.setEnabled(false);
+        saveButton.setEnabled(false);
         if (address1.getText().trim() != null && !address1.getText().isEmpty()) {
             OAPMetadataEditor.debugLog("PersonPanel.address1:" + address1.getText());
             hasContent = true;
@@ -736,7 +755,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
             hasContent = true;
         }
         if (hasContent == true) {
-            save.setEnabled(true);
+            saveButton.setEnabled(true);
         }
         OAPMetadataEditor.debugLog("PersonPanel.hasContent is " + hasContent);
         return hasContent;
@@ -821,14 +840,14 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("getsource: " + event.getSource());
-        save.setEnabled(true);
+        saveButton.setEnabled(true);
     }
 
     @UiHandler({"institution", "country"})
     public void onValueChange(ValueChangeEvent<String> event) {
 //            Window.alert("Here be the new value:" + event.getValue());
         OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
-        save.setEnabled(true);
+        saveButton.setEnabled(true);
     }
 
 //    @UiHandler("idType")
@@ -915,7 +934,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     public void setEnableTableRowButtons(boolean b) {
         for (int i = 0; i < peopleData.getList().size(); i++) {
-            setEnableButton(editButton, b);
+//            setEnableButton(editButton, b);
             setEnableButton(moveUpButton, b);
             setEnableButton(moveDownButton, b);
             setEnableButton(deleteButton, b);

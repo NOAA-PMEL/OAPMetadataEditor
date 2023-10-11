@@ -15,7 +15,7 @@ public class InvestigatorPanel extends PersonPanel {
         setType(Constants.SECTION_INVESTIGATOR);
         heading.setText("Enter the Information for this Investigator. You may enter more than one Investigator.");
         showTable=true;
-        save.setEnabled(false);
+        saveButton.setEnabled(false);
         email.setAllowBlank(true); //allowBlank="false"
         emailLabel.setText("Email Address");
         emailLabel.setColor("#000000");
