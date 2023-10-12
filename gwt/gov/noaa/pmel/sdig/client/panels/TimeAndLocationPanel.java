@@ -344,6 +344,8 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     }
 
     private String dateStringFormatter(String datetime) {
+        if (datetime == null ) { return "null"; }
+        if ( datetime.trim().isEmpty()) { return ""; }
         String isodate = "^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])$";
         RegExp isodate_regex = RegExp.compile(isodate);
         String iso8601 = "/^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(\\.\\d+)?(([+-]\\d\\d:\\d\\d)|Z)?$/i";
@@ -379,6 +381,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     }
 
     private String dateDateFormatter(Date datetime, String formatter) {
+        if ( datetime == null ) { return "null"; }
         return DateTimeFormat.getFormat(formatter).format(datetime);
     }
 
