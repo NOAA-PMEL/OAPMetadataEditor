@@ -299,6 +299,14 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
     ObservationTypeSuggestOracle observationTypeSuggestOracle = new ObservationTypeSuggestOracle();
+    private String MODE_EDIT = "Edit";
+    private String MODE_CANCEL = "Cancel";
+
+    int INACTIVE = -1;
+    int activeRow = INACTIVE;
+    private boolean isActiveRow(int index) {
+        return ( index == activeRow );
+    }
 
     public void reset() {
         form.reset();
@@ -422,11 +430,15 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             }
         });
 
-
+OAPMetadataEditor.debugLog("editButton: " + editButton);
         Column<Variable, String> edit = new Column<Variable, String>(editButton) {
             @Override
-            public String getValue(Variable object) {
-                return "Edit";
+            public String getValue(Variable variable) {
+                return variable != null ?
+                            variable.isEditing ?
+                                    MODE_CANCEL :
+                                    MODE_EDIT
+                            : MODE_EDIT; // Shouldn't happen.
             }
         };
         edit.setFieldUpdater(new FieldUpdater<Variable, String>() {
@@ -434,20 +446,28 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             public void update(int index, Variable variable, String value) {
                 editIndex = variableData.getList().indexOf(variable);
 
-                GWT.log("update " + variable + "["+index+"] at " + editIndex );
+                GWT.log("update editing " + variable.isEditing + " variable: " + variable + "["+index+"] at " + editIndex );
                 variable.setPosition(editIndex);
                 if ( editIndex < 0 ) {
                     Window.alert("Edit failed.");
-                } else {
+                } else if ( editing && ! isActiveRow(index)) {
+                        return;
+                } else if ( ! variable.isEditing ) { // edit
+                    activeRow = index;
                     show(variable, true);
-                    variableData.getList().remove(variable);
-                    variableData.flush();
-                    variablePagination.rebuild(cellTablePager);
+                    variable.isEditing = true;
                     save.setEnabled(true);
                     setEnableTableRowButtons(false);
+                    save.setText("SAVE VARIABLE");
+                } else { // cancel
+                    reset();
+                    editing = false;
+                    activeRow = INACTIVE;
+                    variable.isEditing = false;
+                    setEnableTableRowButtons(true);
+                    save.setText("ADD VARIABLE");
                 }
-
-            }
+        }
         });
         variables.addColumn(edit);
         edit.setCellStyleNames("text-center");
@@ -459,7 +479,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                 return object.getAbbreviation();
             }
         };
-        variables.addColumn(abbrevColumn, "Abbrevation");
+        variables.addColumn(abbrevColumn, "Variable Name or Column Header");
 
         // Add a text column to show the name.
         TextColumn<Variable> nameColumn = new TextColumn<Variable>() {
@@ -468,28 +488,37 @@ public class GenericVariablePanel extends FormPanel<Variable> {
                 return object.getFullVariableName();
             }
         };
-        variables.addColumn(nameColumn, "Variable Name");
+        variables.addColumn(nameColumn, "Full Name");
         Column<Variable, String> delete = new Column<Variable, String>(new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL)) {
             @Override
             public String getValue(Variable object) {
-                return "Delete";
-            }
+                return ( object != null ) ?
+                            object.isEditing ?
+                                    "Save" :
+                                    "Delete"
+                            : "Delete"; // shouldn't happen
+            };
         };
 
         delete.setFieldUpdater(new FieldUpdater<Variable, String>() {
             @Override
             public void update(int index, Variable variable, String value) {
-                form.reset(); // Because the mouseover will have filled the form
-                variableData.getList().remove(variable);
-                variableData.flush();
-                variablePagination.rebuild(cellTablePager);
-                if ( variableData.getList().size() == 0 ) {
-                    setTableVisible(false);
-                    show(variable, true);
-                    reset();
-                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_GENERIC),GenericVariablePanel.this);
-                } else {
-                    setTableVisible(true);
+                if ( editing && ! isActiveRow(index)) { return; }
+                else if ( variable.isEditing ) { // save variable
+                    activeRow = INACTIVE;
+                    onSave(null);
+                } else { // delete // XXX TODO: Should we confirm?
+                    form.reset(); // Because the mouseover will have filled the form
+                    variableData.getList().remove(variable);
+                    variableData.flush();
+                    variablePagination.rebuild(cellTablePager);
+                    if (variableData.getList().size() == 0) {
+                        setTableVisible(false);
+                        reset();
+                        eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_GENERIC), GenericVariablePanel.this);
+                    } else {
+                        setTableVisible(true);
+                    }
                 }
             }
         });
@@ -525,6 +554,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
 
         save.setEnabled(false);
     }
+
     public void setTableVisible(boolean b) {
         variables.setVisible(b);
         variablePagination.setVisible(b);
@@ -856,6 +886,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
 
+        // NOTE clickEvent may be null if called by deleteButton.handler
+
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
         String warning = Constants.NOT_COMPLETE;
@@ -879,7 +911,15 @@ public class GenericVariablePanel extends FormPanel<Variable> {
             Notify.notify(warning, settings);
         } else {
             if ( hasContent()) {
-                addCurrentVariable();
+                this.editing = false;
+                activeRow = INACTIVE;
+                Variable v = getGenericVariable();
+                if (! v.isEditing) {
+                    addCurrentVariable();
+                } else {
+                    v.isEditing = false;
+                    reset();
+                }
             }
 
             // check if any variable in variableData is missing required fields
@@ -958,20 +998,21 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     }
 
     public void setEnableTableRowButtons(boolean b) {
-        for (int i = 0; i < variableData.getList().size(); i++) {
-            setEnableButton(editButton, b);
-            setEnableButton(deleteButton, b);
-        }
+        OAPMetadataEditor.debugLog("enable rows : " + b);
+        // You can't (or I haven't figured out how to) control the buttons by row, only column.
+//        List<Variable> varlist = variableData.getList();
+//        int listSize = varlist.size();
+//        for (int i = 0; i < listSize; i++) {
+//            Variable v = varlist.get(i);
+//            boolean setEdit = v.isEditing || b;
+//            setEnableButton(editButton, setEdit);
+//            setEnableButton(deleteButton, setEdit);
+//        }
         variables.redraw();
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {
-        if (enabled) {
-            button.setEnabled(true);
-        }
-        else {
-            button.setEnabled(false);
-        }
+        button.setEnabled(enabled);
     }
 
 }

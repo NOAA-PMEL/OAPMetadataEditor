@@ -146,7 +146,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
     private static final String MODE_EDIT = "Edit";
     private static final String MODE_CANCEL = "Cancel";
-    private String LIST_EDIT_MODE = MODE_EDIT;
+    int INACTIVE = -1;
+    int activeRow = INACTIVE;
+    private boolean isActiveRow(int index) {
+        return ( index == activeRow );
+    }
 
     interface PersonUiBinder extends UiBinder<HTMLPanel, PersonPanel> {
     }
@@ -296,17 +300,19 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                 OAPMetadataEditor.debugLog("EDIT editIndex: " + editIndex);
                 if (editIndex < 0) {
                     Window.alert("Edit failed.");
+                } else if ( editing && ! isActiveRow(index)) {
+                    return;
                 } else if ( ! person.isEditing ) {
+                    activeRow = index;
                     show(person, true);
                     person.isEditing = true;
-//                    peopleData.getList().remove(person);
-//                    peopleData.flush();
-//                    peoplePagination.rebuild(cellTablePager);
                     saveButton.setEnabled(true);
                     setEnableTableRowButtons(false);
                     saveButton.setText("SAVE INVESTIGATOR");
                 } else {
                     reset();
+                    editing = false;
+                    activeRow = INACTIVE;
                     person.isEditing = false;
                     setEnableTableRowButtons(true);
                     saveButton.setText("ADD INVESTIGATOR");
@@ -465,24 +471,33 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         Column<Person, String> delete = new Column<Person, String>(deleteButton) {
             @Override
             public String getValue(Person object) {
-                return "Delete";
+                return ( object != null ) ?
+                        object.isEditing ?
+                                "Save" :
+                                "Delete"
+                        : "Delete"; // shouldn't happen
             }
         };
         delete.setFieldUpdater(new FieldUpdater<Person, String>() {
             @Override
             public void update(int index, Person person, String value) {
-                form.reset(); // Because the mouseover will have filled the form
-                peopleData.getList().remove(person);
-                hasRequiredFields();
-                peopleData.flush();
-                peoplePagination.rebuild(cellTablePager);
-                if (peopleData.getList().size() == 0) {
-                    setTableVisible(false);
-                    show(person, true);
-                    reset();
-                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_INVESTIGATOR),PersonPanel.this);
-                } else {
-                    setTableVisible(true);
+                if ( editing && ! isActiveRow(index)) { return; }
+                else if ( person.isEditing ) { // save variable
+                    activeRow = INACTIVE;
+                    onSave(null);
+                } else { // delete // XXX TODO: Should we confirm?
+                    form.reset(); // Because the mouseover will have filled the form
+                    peopleData.getList().remove(person);
+                    hasRequiredFields();
+                    peopleData.flush();
+                    peoplePagination.rebuild(cellTablePager);
+                    if (peopleData.getList().size() == 0) {
+                        setTableVisible(false);
+                        reset();
+                        eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_INVESTIGATOR), PersonPanel.this);
+                    } else {
+                        setTableVisible(true);
+                    }
                 }
             }
         });
@@ -597,6 +612,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     @UiHandler("saveButton")
     public void onSave(ClickEvent clickEvent) {
 
+        // NOTE that clickEvent can be null if called by save/delete button
         if (!valid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
@@ -605,6 +621,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         } else {
 //            this.modified = false;
             this.editing = false;
+            activeRow = INACTIVE;
             if (hasContent()) {
                 Person p = getPerson();
                 if (! p.isEditing) {
@@ -933,12 +950,15 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
     }
 
     public void setEnableTableRowButtons(boolean b) {
-        for (int i = 0; i < peopleData.getList().size(); i++) {
-//            setEnableButton(editButton, b);
-            setEnableButton(moveUpButton, b);
-            setEnableButton(moveDownButton, b);
-            setEnableButton(deleteButton, b);
-        }
+        // You can't control buttons by row, only column.
+//        for (int i = 0; i < peopleData.getList().size(); i++) {
+//            Person p = peopleData.getList().get(i);
+//            boolean setEdit = p.isEditing ? true : false;
+//            setEnableButton(editButton, setEdit);
+//            setEnableButton(moveUpButton, b);
+//            setEnableButton(moveDownButton, b);
+//            setEnableButton(deleteButton, b);
+//        }
         people.redraw();
     }
 

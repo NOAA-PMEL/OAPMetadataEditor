@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class Variable extends Ordered implements Comparable<Variable>, Cloneable, Stringy, HasContent {
 
+    // to control edit/cancel/save buttons
+    public transient boolean isEditing = false;
+
     String abbreviation;
     String manipulationMethod;
     String observationType;
