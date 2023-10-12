@@ -1,0 +1,414 @@
+﻿Submission Date
+Accession no. of related data sets
+Investigator-1 name
+Investigator-1 institution
+Investigator-1 address
+Investigator-1 phone
+Investigator-1 email
+Investigator-1 researcher ID
+Investigator-1 ID type
+Investigator-2 name
+Investigator-2 institution
+Investigator-2 address
+Investigator-2 phone
+Investigator-2 email
+Investigator-2 researcher ID
+Investigator-2 ID type
+Investigator-3 name
+Investigator-3 institution
+Investigator-3 address
+Investigator-3 phone
+Investigator-3 email
+Investigator-3 researcher ID
+Investigator-3 ID type
+Data submitter name
+Data submitter institution
+Data submitter address
+Data submitter phone
+Data submitter email
+Data submitter researcher ID
+Data submitter ID type
+Title
+Abstract
+Purpose
+Start date
+End date
+Westbd longitude
+Eastbd longitude
+Northbd latitude
+Southbd latitude
+Spatial reference system
+Geographic names
+Location of organism collection
+Funding agency name
+Funding project title
+Funding project ID (Grant no.)
+Research projects
+Platform-1 name
+Platform-1 ID
+Platform-1 type
+Platform-1 owner
+Platform-1 country
+Platform-2 name
+Platform-2 ID
+Platform-2 type
+Platform-2 owner
+Platform-2 country
+Platform-3 name
+Platform-3 ID
+Platform-3 type
+Platform-3 owner
+Platform-3 country
+EXPOCODE
+Cruise ID
+Section
+Author list for citation
+References
+Supplemental information
+DIC: Variable abbreviation in data files
+DIC: Observation type
+DIC: In-situ observation / manipulation condition / response variable
+DIC: Manipulation method
+DIC: Variable unit
+DIC: Measured or calculated
+DIC: Calculation method and parameters
+DIC: Sampling instrument
+DIC: Analyzing instrument
+DIC: Detailed sampling and analyzing information
+DIC: Field replicate information
+DIC: Standardization technique description
+DIC: Frequency of standardization
+DIC: CRM manufacturer
+DIC: Batch number
+DIC: Poison used to kill the sample
+DIC: Poison volume
+DIC Poisoning correction description
+DIC: Uncertainty
+DIC: Data quality flag description
+DIC: Method reference (citation)
+DIC: Researcher Name
+DIC: Researcher Institution
+TA: Variable abbreviation in data files
+TA: Observation type
+TA: In-situ observation / manipulation condition / response variable
+TA: Manipulation method
+TA: Variable unit
+TA: Measured or calculated
+TA: Calculation method and parameters
+TA: Sampling instrument
+TA: Analyzing instrument
+TA: Type of titration
+TA: Cell type (open or closed)
+TA: Curve fitting method
+TA: Detailed sampling and analyzing information
+TA: Field replicate information
+TA: Standardization technique description
+TA: Frequency of standardization
+TA: CRM manufacturer
+TA: Batch Number
+TA: Poison used to kill the sample
+TA: Poison volume
+TA: Poisoning correction description
+TA: Magnitude of blank correction
+TA: Uncertainty
+TA: Data quality flag description
+TA: Method reference (citation)
+TA: Researcher Name
+TA: Researcher Institution
+pH: Variable abbreviation in data files
+pH: Observation type
+pH: In-situ observation / manipulation condition / response variable
+pH: Manipulation method
+pH: Measured or calculated
+pH: Calculation method and parameters
+pH: Sampling instrument
+pH: Analyzing instrument
+pH: pH scale
+pH: Temperature of measurement
+pH: Detailed sampling and analyzing information
+pH: Field replicate information
+pH: Standardization technique description
+pH: Frequency of standardization
+pH: pH values of the standards
+pH: Temperature of standardization
+pH: Temperature correction method
+pH: at what temperature was pH reported
+pH: Uncertainty
+pH: Data quality flag description
+pH: Method reference (citation)
+pH: Researcher Name
+pH: Researcher Institution
+pCO2A: Variable abbreviation in data files
+pCO2A: Observation type
+pCO2A: In-situ observation / manipulation condition / response variable
+pCO2A: Manipulation method
+pCO2A: Variable unit
+pCO2A: Measured or calculated
+pCO2A: Calculation method and parameters
+pCO2A: Sampling instrument
+pCO2A: Location of seawater intake
+pCO2A: Depth of seawater intake
+pCO2A: Analyzing instrument
+pCO2A: Detailed sampling and analyzing information
+pCO2A: Equilbrator type
+pCO2A: Equilibrator volume (L)
+pCO2A: Vented or not
+pCO2A: Water flow rate (L/min)
+pCO2A: Headspace gas flow rate (L/min)
+pCO2A: How was temperature inside the equilibrator measured .
+pCO2A: How was pressure inside the equilibrator measured.
+pCO2A: Drying method for CO2 gas
+pCO2A: Manufacturer of the gas detector
+pCO2A: Model of the gas detector
+pCO2A: Resolution of the gas detector
+pCO2A: Uncertainty of the gas detector
+pCO2A: Standardization technique description
+pCO2A: Frequency of standardization
+pCO2A: Manufacturer of standard gas
+pCO2A: Concentrations of standard gas
+pCO2A: Uncertainties of standard gas
+pCO2A: Water vapor correction method
+pCO2A: Temperature correction method
+pCO2A: at what temperature was pCO2 reported
+pCO2A: Uncertainty
+pCO2A: Data quality flag description
+pCO2A: Method reference (citation)
+pCO2A: Researcher Name
+pCO2A: Researcher Institution
+pCO2D: Variable abbreviation in data files
+pCO2D: Observation type
+pCO2D: In-situ observation / manipulation condition / response variable
+pCO2D: Manipulation method
+pCO2D: Variable unit
+pCO2D: Measured or calculated
+pCO2D: Calculation method and parameters
+pCO2D: Sampling instrument
+pCO2D: Analyzing instrument
+pCO2D: Storage method
+pCO2D: Seawater volume (mL)
+pCO2D: Headspace volume (mL)
+pCO2D: Temperature of measurement
+pCO2D: Detailed sampling and analyzing information
+pCO2D: Field replicate information
+pCO2D: Manufacturer of the gas detector
+pCO2D: Model of the gas detector
+pCO2D: Resolution of the gas detector
+pCO2D: Uncertainty of the gas detector
+pCO2D: Standardization technique description
+pCO2D: Frequency of standardization
+pCO2D: Temperature of standardization
+pCO2D: Manufacturer of standard gas
+pCO2D: Concentrations of standard gas
+pCO2D: Uncertainties of standard gas
+pCO2D: Water vapor correction method
+pCO2D: Temperature correction method
+pCO2D: at what temperature was pCO2 reported
+pCO2D: Uncertainty
+pCO2D: Data quality flag description
+pCO2D: Method reference (citation)
+pCO2D: Researcher Name
+pCO2D: Researcher Institution
+Var1: Variable abbreviation in data files
+Var1: Full variable name
+Var1: Observation type
+Var1: In-situ observation / manipulation condition / response variable
+Var1: Variable unit
+Var1: Measured or calculated
+Var1: Calculation method and parameters
+Var1: Sampling instrument
+Var1: Analyzing instrument
+Var1: Duration (for settlement/colonization methods)
+Var1: Detailed sampling and analyzing information
+Var1: Field replicate information
+Var1: Uncertainty
+Var1: Data quality flag description
+Var1: Method reference (citation)
+Var1: Biological subject
+Var1: Species Identification code
+Var1: Life stage of the biological subject
+Var1: Researcher Name
+Var1: Researcher Institution
+Var2: Variable abbreviation in data files
+Var2: Full variable name
+Var2: Observation type
+Var2: In-situ observation / manipulation condition / response variable
+Var2: Variable unit
+Var2: Measured or calculated
+Var2: Calculation method and parameters
+Var2: Sampling instrument
+Var2: Analyzing instrument
+Var2: Duration (for settlement/colonization methods)
+Var2: Detailed sampling and analyzing information
+Var2: Field replicate information
+Var2: Uncertainty
+Var2: Data quality flag description
+Var2: Method reference (citation)
+Var2: Biological subject
+Var2: Species Identification code
+Var2: Life stage of the biological subject
+Var2: Researcher Name
+Var2: Researcher Institution
+Var3: Variable abbreviation in data files
+Var3: Full variable name
+Var3: Observation type
+Var3: In-situ observation / manipulation condition / response variable
+Var3: Variable unit
+Var3: Measured or calculated
+Var3: Calculation method and parameters
+Var3: Sampling instrument
+Var3: Analyzing instrument
+Var3: Duration (for settlement/colonization methods)
+Var3: Detailed sampling and analyzing information
+Var3: Field replicate information
+Var3: Uncertainty
+Var3: Data quality flag description
+Var3: Method reference (citation)
+Var3: Biological subject
+Var3: Species Identification code
+Var3: Life stage of the biological subject
+Var3: Researcher Name
+Var3: Researcher Institution
+Var4: Variable abbreviation in data files
+Var4: Full variable name
+Var4: Observation type
+Var4: In-situ observation / manipulation condition / response variable
+Var4: Variable unit
+Var4: Measured or calculated
+Var4: Calculation method and parameters
+Var4: Sampling instrument
+Var4: Analyzing instrument
+Var4: Duration (for settlement/colonization methods)
+Var4: Detailed sampling and analyzing information
+Var4: Field replicate information
+Var4: Uncertainty
+Var4: Data quality flag description
+Var4: Method reference (citation)
+Var4: Biological subject
+Var4: Species Identification code
+Var4: Life stage of the biological subject
+Var4: Researcher Name
+Var4: Researcher Institution
+Var5: Variable abbreviation in data files
+Var5: Full variable name
+Var5: Observation type
+Var5: In-situ observation / manipulation condition / response variable
+Var5: Variable unit
+Var5: Measured or calculated
+Var5: Calculation method and parameters
+Var5: Sampling instrument
+Var5: Analyzing instrument
+Var5: Duration (for settlement/colonization methods)
+Var5: Detailed sampling and analyzing information
+Var5: Field replicate information
+Var5: Uncertainty
+Var5: Data quality flag description
+Var5: Method reference (citation)
+Var5: Biological subject
+Var5: Species Identification code
+Var5: Life stage of the biological subject
+Var5: Researcher Name
+Var5: Researcher Institution
+Var6: Variable abbreviation in data files
+Var6: Full variable name
+Var6: Observation type
+Var6: In-situ observation / manipulation condition / response variable
+Var6: Variable unit
+Var6: Measured or calculated
+Var6: Calculation method and parameters
+Var6: Sampling instrument
+Var6: Analyzing instrument
+Var6: Duration (for settlement/colonization methods)
+Var6: Detailed sampling and analyzing information
+Var6: Field replicate information
+Var6: Uncertainty
+Var6: Data quality flag description
+Var6: Method reference (citation)
+Var6: Biological subject
+Var6: Species Identification code
+Var6: Life stage of the biological subject
+Var6: Researcher Name
+Var6: Researcher Institution
+Var7: Variable abbreviation in data files
+Var7: Full variable name
+Var7: Observation type
+Var7: In-situ observation / manipulation condition / response variable
+Var7: Variable unit
+Var7: Measured or calculated
+Var7: Calculation method and parameters
+Var7: Sampling instrument
+Var7: Analyzing instrument
+Var7: Duration (for settlement/colonization methods)
+Var7: Detailed sampling and analyzing information
+Var7: Field replicate information
+Var7: Uncertainty
+Var7: Data quality flag description
+Var7: Method reference (citation)
+Var7: Biological subject
+Var7: Species Identification code
+Var7: Life stage of the biological subject
+Var7: Researcher Name
+Var7: Researcher Institution
+Var8: Variable abbreviation in data files
+Var8: Full variable name
+Var8: Observation type
+Var8: In-situ observation / manipulation condition / response variable
+Var8: Variable unit
+Var8: Measured or calculated
+Var8: Calculation method and parameters
+Var8: Sampling instrument
+Var8: Analyzing instrument
+Var8: Duration (for settlement/colonization methods)
+Var8: Detailed sampling and analyzing information
+Var8: Field replicate information
+Var8: Uncertainty
+Var8: Data quality flag description
+Var8: Method reference (citation)
+Var8: Biological subject
+Var8: Species Identification code
+Var8: Life stage of the biological subject
+Var8: Researcher Name
+Var8: Researcher Institution
+Var9: Variable abbreviation in data files
+Var9: Full variable name
+Var9: Observation type
+Var9: In-situ observation / manipulation condition / response variable
+Var9: Variable unit
+Var9: Measured or calculated
+Var9: Calculation method and parameters
+Var9: Sampling instrument
+Var9: Analyzing instrument
+Var9: Duration (for settlement/colonization methods)
+Var9: Detailed sampling and analyzing information
+Var9: Field replicate information
+Var9: Uncertainty
+Var9: Data quality flag description
+Var9: Method reference (citation)
+Var9: Biological subject
+Var9: Species Identification code
+Var9: Life stage of the biological subject
+Var9: Researcher Name
+Var9: Researcher Institution
+Var10: Variable abbreviation in data files
+Var10: Full variable name
+Var10: Observation type
+Var10: In-situ observation / manipulation condition / response variable
+Var10: Variable unit
+Var10: Measured or calculated
+Var10: Calculation method and parameters
+Var10: Sampling instrument
+Var10: Analyzing instrument
+Var10: Duration (for settlement/colonization methods)
+Var10: Detailed sampling and analyzing information
+Var10: Field replicate information
+Var10: Uncertainty
+Var10: Data quality flag description
+Var10: Method reference (citation)
+Var10: Biological subject
+Var10: Species Identification code
+Var10: Life stage of the biological subject
+Var10: Researcher Name
+Var10: Researcher Institution
+Var11: Variable abbreviation in data files
+Var11: Full variable name
+Var12: Variable abbreviation in data files
+Var12: Full variable name

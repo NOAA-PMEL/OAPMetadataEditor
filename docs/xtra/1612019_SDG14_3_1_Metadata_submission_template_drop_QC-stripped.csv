@@ -1,0 +1,224 @@
+﻿Submission Date
+Accession no. of related data sets on the 14.3.1 data platform or any other data base
+URL of metadata set
+URL of associated data set
+DOI of dataset (if applicable)
+Investigator-1 name
+Investigator-1 institution
+Investigator-1 institution ID (OceanExpert)
+Investigator-1 address
+Investigator-1 phone
+Investigator-1 email
+Investigator-1 researcher ID
+"Investigator-1 ID type  (OceanExpert, ORCID, ResearcherID, etc.)"
+Data submitter name
+Data submitter institution
+Data submitter - institution ID (OceanExpert)
+Data submitter address
+Data submitter phone
+Data submitter email
+Data submitter researcher ID
+"Data submitter ID type  (OceanExpert, ORCID, ResearcherID, etc.)"
+Name of sampling site or title of related research project
+Short description including purpose of observation
+Method(s) applied
+First day of measurement included in data file (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+Last day of measurement included in data file (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+Site specific measurement longitude
+Site specific measurement latitude
+Transect measurement longitude easternmost
+Transect measurement longitude westernmost
+Transect measurement latitude northernmost
+Transect measurement latitude southernmost
+Funding agency name
+Funding project title
+Funding project ID (Grant number)
+Platform name
+Platform category
+Platform ID
+Platform ID type
+Platform-1 owner
+Platform-1 country
+EXPOCODE
+Cruise ID
+Cruise ID type
+Author list for citation
+References
+Supplemental information
+Depth: Variable abbreviation in data files 
+Depth: Variable unit
+DIC: Variable abbreviation in data files
+DIC: Observation type
+DIC: Variable unit 
+DIC: Collection method (e.g. bottle sampling)
+DIC: Analyzing instrument
+DIC: Analyzing information with citation 
+DIC: Quality control 
+DIC: Abbreviation of data quality flag scheme
+DIC: Data quality scheme (name of scheme)
+DIC: Uncertainty
+DIC: Field replicate information
+DIC: Calibration method
+DIC: Frequency of calibration
+DIC: CRM manufacturer
+DIC: Batch number(s)
+DIC: Poison used to kill the sample
+DIC: Poison volume
+DIC: Poisoning correction description
+DIC: Method reference (citation)
+DIC: Changes to Method or SOP
+TA: Variable abbreviation in data files
+TA: Observation type
+TA: Variable unit
+TA: Collection method (e.g. bottle sampling)
+TA: Measured or calculated
+TA: Calculation method and parameters
+TA: Analyzing instrument
+TA: Analyzing information with citation (SOP etc)
+TA: Quality control
+TA: Abbreviation of data quality flag scheme
+TA: Data quality flag scheme
+TA: Uncertainty
+TA: Type of titration
+TA: Cell type (open or closed)
+TA: Curve fitting method
+TA: Field replicate information
+TA: Calibration method
+TA: Frequency of calibration
+TA: CRM manufacturer
+TA: Batch Number(s)
+TA: Poison used to kill the sample
+TA: Poison volume
+TA: Poisoning correction description
+TA: Magnitude of blank correction
+TA: Method reference (citation)
+TA: Changes to Method or SOP
+pH: Variable abbreviation in data files
+pH: Observation type
+pH: Collection method (e.g. bottle sampling)
+pH: Analyzing instrument
+pH: Analyzing information with citation (SOP etc)
+pH: pH scale
+pH: Quality control
+pH: Abbreviation of data quality flag scheme
+pH: Data quality flag scheme
+pH: Uncertainty
+pH: Temperature of measurement
+pH: Field replicate information
+pH: Calibration method
+pH: Frequency of calibration
+pH:Type of dye and manufacturer information
+pH: pH values of the standards
+pH: Temperature of calibration
+pH: Temperature correction method
+pH: At what temperature was pH reported
+pH: Method reference (citation)
+pH: Changes to Method or SOP
+pCO2: Variable abbreviation in data files
+pCO2: Observation type
+pCO2: Variable unit
+pCO2: Collection method (e.g. bottle sampling)
+pCO2: Location of seawater intake
+pCO2: Depth of seawater intake
+pCO2: Analyzing instrument
+pCO2: Analyzing information with citation (SOP etc)
+pCO2: Quality control
+pCO2: Abbreviation of data quality flag scheme
+pCO2: Data quality flag scheme
+pCO2: Uncertainty
+pCO2: Equilbrator type
+pCO2: Equilibrator volume (L)
+pCO2: Equilibrator vented or not
+pCO2: Equilibrator water flow rate (L min-1)
+pCO2: Equilibrator headspace gas flow rate (L min-1)
+pCO2: How was temperature inside the equilibrator measured 
+pCO2: How was pressure inside the equilibrator measured
+pCO2: Drying method for CO2 gas
+pCO2: Manufacturer of the gas detector
+pCO2: Model of the gas detector
+pCO2: Resolution of the gas detector
+pCO2: Uncertainty of the gas detector
+pCO2: Calibration method
+pCO2: Frequency of calibration
+pCO2: Manufacturer of standard gas
+pCO2: Concentrations of standard gas
+pCO2: Uncertainties of standard gas
+pCO2: Water vapor correction method
+pCO2: Temperature correction method
+pCO2: At what temperature was pCO2 reported
+pCO2: Method reference (citation)
+pCO2: Changes to Method or SOP
+fCO2: Variable abbreviation in data files
+fCO2: Observation type
+fCO2: Variable unit
+fCO2: Collection method (e.g. bottle sampling)
+fCO2: Location of seawater intake
+fCO2: Depth of seawater intake
+fCO2: Analyzing instrument
+fCO2: Analyzing information with citation (SOP etc)
+fCO2: Quality control
+fCO2: Abbreviation of data quality flag scheme
+fCO2: Data quality flag scheme
+fCO2: Uncertainty
+fCO2: Equilbrator type
+fCO2: Equilibrator volume (L)
+fCO2: Equilibrator vented or not
+fCO2: Equilibrator water flow rate (L min-1)
+fCO2: Equilibrator headspace gas flow rate (L min-1)
+fCO2: How was temperature inside the equilibrator measured 
+fCO2: How was pressure inside the equilibrator measured
+fCO2: Drying method for CO2 gas
+fCO2: Manufacturer of the gas detector
+fCO2: Model of the gas detector
+fCO2: Resolution of the gas detector
+fCO2: Uncertainty of the gas detector
+fCO2: Calibration method
+fCO2: Frequency of calibration
+fCO2: Manufacturer of standard gas
+fCO2: Concentrations of standard gas
+fCO2: Uncertainties of standard gas
+fCO2: Water vapor correction method
+fCO2: Temperature correction method
+fCO2: At what temperature was fCO2 reported
+fCO2: Method reference (citation)
+fCO2: Changes to Method or SOP
+Temperature: Variable abbreviation in data files
+Temperature: Observation type
+Temperature: Variable unit
+Temperature: Collection method (e.g. bottle sampling)
+Temperature: Analyzing instrument
+Temperature: Analyzing information with citation (SOP etc)
+Temperature: Quality control
+Temperature: Abbreviation of data quality flag scheme
+Temperature: Data quality flag scheme
+Temperature: Uncertainty
+Temperature: Field replicate information
+Temperature: Method reference (citation)
+Temperature: Changes to Method or SOP
+Salinity: Variable abbreviation in data files
+Salinity: Observation type
+Salinity: Variable unit
+Salinity: Collection method (e.g. bottle sampling)
+Salinity: Analyzing instrument
+Salinity: Analyzing information with citation (SOP etc)
+Salinity: Quality control
+Salinity: Abbreviation of data quality flag scheme
+Salinity: Data quality flag scheme
+Salinity: Uncertainty
+Salinity: Field replicate information
+Salinity: Method reference (citation)
+Salinity: Changes to Method or SOP
+Var1: Variable abbreviation in data files
+Var1: Full variable name
+Var1: Observation type
+Var1: Variable unit
+Var1: Collection method (e.g. bottle sampling)
+Var1: Analyzing instrument
+Var1: Analyzing information with citation (SOP etc)
+Var1: Quality control
+Var1: Abbreviation of data quality flag scheme
+Var1: Data quality flag scheme 
+Var1: Uncertainty
+Var1: Field replicate information
+Var1: Method reference (citation)
+Var1: Changes to Method or SOP

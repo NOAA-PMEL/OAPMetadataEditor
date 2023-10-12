@@ -1,0 +1,189 @@
+﻿Submission Date
+Accession no. of related data sets
+Investigator-1 name
+Investigator-1 institution
+Investigator-1 address
+Investigator-1 phone
+Investigator-1 email
+Investigator-1 researcher ID
+"Investigator-1 ID type  (ORCID, Researcher ID, etc.)"
+Data submitter name
+Data submitter institution
+Data submitter address
+Data submitter phone
+Data submitter email
+Data submitter researcher ID
+"Data submitter ID type  (ORCID, Researcher ID, etc.)"
+Title
+Abstract
+Purpose
+Start date
+End date
+Westbd longitude
+Eastbd longitude
+Northbd latitude
+Southbd latitude
+Geographic names
+Funding agency name
+Funding project title
+Funding project ID (Grant no.)
+Research projects
+Platform-1 name
+Platform-1 ID
+Platform-1 type
+Platform-1 owner
+Platform-1 country
+EXPOCODE
+Cruise ID
+Section
+Author list for citation
+References
+Supplemental information
+DIC: Variable abbreviation in data files
+DIC: Variable unit
+DIC: Observation type
+DIC: Measured or calculated
+DIC: Calculation method and parameters
+DIC: Sampling instrument
+DIC: Analyzing instrument
+DIC: Detailed sampling and analyzing information
+DIC: Field replicate information
+DIC: Standardization technique description
+DIC: Frequency of standardization
+DIC: CRM manufacturer
+DIC: Batch number
+"DIC: How were the samples preserved (HgCl2, or others)"
+DIC: Concentration and amount of the preservative added
+DIC: Preservative correction description
+DIC: Uncertainty
+DIC: Data quality flag description
+DIC: Method reference (citation)
+DIC: Researcher Name
+DIC: Researcher Institution
+TA: Variable abbreviation in data files
+TA: Variable unit
+TA: Observation type
+TA: Measured or calculated
+TA: Calculation method and parameters
+TA: Sampling instrument
+TA: Analyzing instrument
+TA: Type of titration
+TA: Cell type (open or closed)
+TA: Curve fitting method
+TA: Detailed sampling and analyzing information
+TA: Field replicate information
+TA: Standardization technique description
+TA: Frequency of standardization
+TA: CRM manufacturer
+TA: Batch Number
+"TA: How were the samples preserved (HgCl2, or others)"
+TA: Concentration and amount of the preservative added
+TA: Preservative correction description
+TA: Magnitude of blank correction
+TA: Uncertainty
+TA: Data quality flag description
+TA: Method reference (citation)
+TA: Researcher Name
+TA: Researcher Institution
+pH: Variable abbreviation in data files
+pH: pH scale
+pH: Observation type
+pH: Measured or calculated
+pH: Calculation method and parameters
+pH: Sampling instrument
+pH: Analyzing instrument
+pH: Temperature of measurement
+pH: Detailed sampling and analyzing information
+pH: Field replicate information
+pH: Standardization technique description
+pH: Frequency of standardization
+pH: pH values of the standards
+pH: Temperature of standardization
+pH: Temperature correction method
+pH: at what temperature was pH reported
+pH: Uncertainty
+pH: Data quality flag description
+pH: Method reference (citation)
+pH: Researcher Name
+pH: Researcher Institution
+pCO2A: Variable abbreviation in data files
+pCO2A: Variable unit
+pCO2A: Observation type
+pCO2A: Measured or calculated
+pCO2A: Calculation method and parameters
+pCO2A: Sampling instrument
+pCO2A: Location of seawater intake
+pCO2A: Depth of seawater intake
+pCO2A: Analyzing instrument
+pCO2A: Detailed sampling and analyzing information
+pCO2A: Equilbrator type
+pCO2A: Equilibrator volume (L)
+pCO2A: Vented or not
+pCO2A: Water flow rate (L/min)
+pCO2A: Headspace gas flow rate (L/min)
+pCO2A: How was temperature inside the equilibrator measured .
+pCO2A: How was pressure inside the equilibrator measured.
+pCO2A: Drying method for CO2 gas
+pCO2A: Manufacturer of the gas detector
+pCO2A: Model of the gas detector
+pCO2A: Resolution of the gas detector
+pCO2A: Uncertainty of the gas detector
+pCO2A: Standardization technique description
+pCO2A: Frequency of standardization
+pCO2A: Manufacturer of standard gas
+pCO2A: Concentrations of standard gas
+pCO2A: Uncertainties of standard gas
+pCO2A: Water vapor correction method
+pCO2A: Temperature correction method
+pCO2A: at what temperature was pCO2 reported
+pCO2A: Uncertainty
+pCO2A: Data quality flag description
+pCO2A: Method reference (citation)
+pCO2A: Researcher Name
+pCO2A: Researcher Institution
+pCO2D: Variable abbreviation in data files
+pCO2D: Variable unit
+pCO2D: Observation type
+pCO2D: Measured or calculated
+pCO2D: Calculation method and parameters
+pCO2D: Sampling instrument
+pCO2D: Analyzing instrument
+pCO2D: Storage method
+pCO2D: Seawater volume (mL)
+pCO2D: Headspace volume (mL)
+pCO2D: Temperature of measurement
+pCO2D: Detailed sampling and analyzing information
+pCO2D: Field replicate information
+pCO2D: Manufacturer of the gas detector
+pCO2D: Model of the gas detector
+pCO2D: Resolution of the gas detector
+pCO2D: Uncertainty of the gas detector
+pCO2D: Standardization technique description
+pCO2D: Frequency of standardization
+pCO2D: Temperature of standardization
+pCO2D: Manufacturer of standard gas
+pCO2D: Concentrations of standard gas
+pCO2D: Uncertainties of standard gas
+pCO2D: Water vapor correction method
+pCO2D: Temperature correction method
+pCO2D: at what temperature was pCO2 reported
+pCO2D: Uncertainty
+pCO2D: Data quality flag description
+pCO2D: Method reference (citation)
+pCO2D: Researcher Name
+pCO2D: Researcher Institution
+Var1: Variable abbreviation in data files
+Var1: Full variable name
+Var1: Variable unit
+Var1: Observation type
+Var1: Sampling instrument
+Var1: Analyzing instrument
+Var1: Detailed sampling and analyzing information
+Var1: Field replicate information
+Var1: Uncertainty
+Var1: Data quality flag description
+Var1: Method reference (citation)
+Var1: Researcher Name
+Var1: Researcher Institution
+VarN: Variable abbreviation in data files
+VarN: Full variable name
