@@ -348,6 +348,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
                 if (newposition < 0) {
                     OAPMetadataEditor.debugLog("is at top position 0 > " + newposition);
+                } else if ( editing ) {
+                    return;
                 } else {
                     OAPMetadataEditor.debugLog("moveUp final position: " + newposition);
 
@@ -408,6 +410,8 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
 
                 if (newposition >= peopleData.getList().size()) {
                     OAPMetadataEditor.debugLog("is at bottom postion " + peopleData.getList().size() + " < " + newposition);
+                } else if ( editing ) {
+                    return;
                 } else {
                     OAPMetadataEditor.debugLog("moveDown final position: " + newposition);
 
