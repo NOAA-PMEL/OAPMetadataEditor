@@ -495,6 +495,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
                     hasRequiredFields();
                     peopleData.flush();
                     peoplePagination.rebuild(cellTablePager);
+                    setEnableTableRowButtons(true); // redraws the list XXX should be refactored
                     if (peopleData.getList().size() == 0) {
                         setTableVisible(false);
                         reset();
@@ -677,7 +678,7 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         person.setZip(zip.getText().trim());
         person.setCountry(country.getText().trim());
         person.setIdType(idType.getValue());
-        person.setComplete(this.valid());
+//        person.setComplete(this.valid());  // validation inappropriately flags required fields.
         person.setPosition(editIndex);
         return person;
     }
