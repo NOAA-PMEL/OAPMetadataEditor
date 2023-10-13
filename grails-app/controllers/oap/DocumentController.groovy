@@ -59,6 +59,9 @@ class DocumentController {
         }
         return doc
     }
+    def saveChange() {
+        saveDoc()
+    }
     def saveDoc() {
 //        def sessionFactory
 //        def session = sessionFactory.currentSession
@@ -506,7 +509,7 @@ class DocumentController {
             } else {
                 output = oadsXmlService.createXml(doc)
             }
-            response.setHeader "Content-disposition", "attachment; filename=${filename}"
+            response.setHeader "Content-disposition", "attachment;" //  filename=${filename}"
             response.contentType = 'text/xml'
             response.outputStream << output
             response.outputStream.flush()

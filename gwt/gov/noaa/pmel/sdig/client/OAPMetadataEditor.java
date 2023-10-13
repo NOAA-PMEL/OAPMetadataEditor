@@ -5,6 +5,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -51,6 +53,12 @@ public class OAPMetadataEditor implements EntryPoint {
         public void save(@PathParam("id") String datasetId, Document document, TextCallback textCallback);
     }
 
+    public interface SaveChangeService extends RestService {
+        @POST
+        @Path("{id}")
+        public void saveChange(@PathParam("id") String datasetId, Document document, TextCallback textCallback);
+    }
+
     public interface DocumentCodec extends JsonEncoderDecoder<Document> {
     }
 
@@ -80,6 +88,9 @@ public class OAPMetadataEditor implements EntryPoint {
 
     Resource saveDocumentResource = new Resource(Constants.saveDocument);
     SaveDocumentService saveDocumentService = GWT.create(SaveDocumentService.class);
+
+    Resource saveChangeResource = new Resource(Constants.saveChange);
+    SaveChangeService saveChangeService = GWT.create(SaveChangeService.class);
 
     Resource getDocumentResource = new Resource(Constants.getDocument);
     GetDocumentService getDocumentService = GWT.create(GetDocumentService.class);
@@ -143,10 +154,13 @@ public class OAPMetadataEditor implements EntryPoint {
 
     final DashboardLayout topLayout = new DashboardLayout();
 
+    private static OAPMetadataEditor instance;
     /**
      * This is the entry point method.
      */
     public void onModuleLoad() {
+
+        instance = this;
 
         RootPanel.get("load").getElement().setInnerHTML("");
         RootPanel.get().add(topLayout);
@@ -163,9 +177,11 @@ public class OAPMetadataEditor implements EntryPoint {
                 Object source = event.getSource();
                 if (source instanceof Button) {
                     Button b = (Button) source;
+                    debugLog("button click: " + b + " : " + b.getText());
                     if (b.getText().equals("Clear All")) {
                             //#DEBUG
 //                        debugLog("Called Clear ALL: ");
+                        // XXX TODO: This should be "if document hasContent() prompt!
                         if (currentDocumentIsDirty() && !saved) {
 
                             final Modal sure = new Modal();
@@ -211,6 +227,8 @@ public class OAPMetadataEditor implements EntryPoint {
                             startOver(false);
                         }
                     }
+                } else {
+                    OAPMetadataEditor.debugLog("Click event : " + event);
                 }
             }
         });
@@ -231,6 +249,7 @@ public class OAPMetadataEditor implements EntryPoint {
             @Override
             public void onNavLink(NavLink event) {
                 AnchorListItem link = (AnchorListItem) event.getSource();
+                debugLog("NavLinkEvent:"+link);
                 if (link.getText().equals(Constants.SECTION_INVESTIGATOR)) {
                     topLayout.setMain(investigatorPanel);
                     topLayout.setActive(Constants.SECTION_INVESTIGATOR);
@@ -310,23 +329,25 @@ public class OAPMetadataEditor implements EntryPoint {
             }
         });
         ((RestServiceProxy) saveDocumentService).setResource(saveDocumentResource);
+        ((RestServiceProxy) saveChangeService).setResource(saveChangeResource);
         ((RestServiceProxy) getDocumentService).setResource(getDocumentResource);
-//        Window.addWindowClosingHandler(new Window.ClosingHandler() {
-//            @Override
-//            public void onWindowClosing(Window.ClosingEvent event) {
-//                System.out.println("is about to close dirty: " + isDirty());
-//                if ( isDirty() && !saved ) {
-//                    event.setMessage("It appears you have made changes that you have not saved. Are you sure?");
-//                }
-//            }
-//        });
-//
-//        Window.addCloseHandler(new CloseHandler<Window>() {
-//            @Override
-//            public void onClose(CloseEvent<Window> event) {
-//                System.out.println("closing dirty: " + isDirty());
-//            }
-//        });
+        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+            @Override
+            public void onWindowClosing(Window.ClosingEvent event) {
+                boolean isDirty = currentDocumentIsDirty();
+                logToConsole("is about to close dirty: " + isDirty);
+                if ( isDirty ) { //&& !saved ) {
+                    event.setMessage("It appears you have made changes that you have not saved. Are you sure?");
+                }
+            }
+        });
+
+        Window.addCloseHandler(new CloseHandler<Window>() {
+            @Override
+            public void onClose(CloseEvent<Window> event) {
+                logToConsole("closing dirty: " + currentDocumentIsDirty());
+            }
+        });
 
         setupMessageListener(this);
 
@@ -480,6 +501,49 @@ public class OAPMetadataEditor implements EntryPoint {
         Document doc = getDocument();
         saveDocumentService.save(getDatasetId(doc), doc, callback);
         saved = true;
+    }
+
+    TextCallback saveQuietly = new TextCallback() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+            String msg = "saveQuietly " + method.toString() + " error : " + throwable.toString();
+            logToConsole(msg);
+            String useragent = getUserAgent();
+            logToConsole("agent:"+useragent);
+            // Chrome useragent contains both Safari and Chrome references
+            // Safari gets a false failure
+            if ( ! (useragent.contains("safari") && ! useragent.contains("chrome"))) {
+                Window.alert("There was an error saving your document.  Please try again later.");
+            }
+        }
+        public void onSuccess(Method method, String response) {
+            logToConsole("saved doc @"+response);
+            documentLocation = response;
+            _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/') + 1);
+//            _loadedDocument = Document.copy(_savedDoc);
+//            loadJsonDocument(response, true, true);
+//            loadDocumentId(_datasetId);
+//            info("Your document has been saved and is available.");
+            saved = true;
+        }
+    };
+
+    public static void saveDocumentChange() {
+        // XXX Not ready for prime time!
+        // instance.saveChangeToServer(false);
+    }
+    private void saveChangeToServer(boolean force) {
+        debugLog("saveChangeToServer has been called with saved " + saved);
+        try {
+            if ( force || (/* !saved && */ currentDocumentIsDirty())) {
+                Document doc = getDocument();
+                saveChangeService.saveChange(getDatasetId(doc), doc, saveQuietly);
+//            saved = true; // set in callback
+            }
+        } catch (Exception ex) {
+            logToConsole(ex.toString());
+            logToConsole(String.valueOf(ex.getStackTrace()));
+        }
     }
 
     public String getDatasetId(Document doc) {
@@ -901,9 +965,14 @@ public class OAPMetadataEditor implements EntryPoint {
 //                        genericVariablePanel.isDirty(compDoc.getVariables());
 //        debugLog("Found dirty: " + isDirty);
 
+        long start = System.currentTimeMillis();
         boolean isDirty = false;
         if (submitterPanel.isDirty(compDoc.getDataSubmitter())) {
             debugLog("submitterPanel is Dirty");
+            isDirty = true;
+        }
+        if ( investigatorPanel.isDirty(compDoc.getInvestigators())) {
+            debugLog("investigatorsPanel is Dirty");
             isDirty = true;
         }
         if (citationPanel.isDirty(compDoc.getCitation())) {
@@ -950,8 +1019,11 @@ public class OAPMetadataEditor implements EntryPoint {
             debugLog("genericVariablePanel is Dirty");
             isDirty = true;
         }
+        long end = System.currentTimeMillis();
+        long ms = (end-start);
+        logToConsole("docIsDirty took: "+ms+"ms");
 
-//        debugLog("isDirty@currentDocumentIsDirty(): " + isDirty);
+        debugLog("isDirty@currentDocumentIsDirty(): " + isDirty);
         return isDirty;
     }
 

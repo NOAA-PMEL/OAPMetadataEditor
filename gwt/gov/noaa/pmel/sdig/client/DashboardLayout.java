@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CaptionPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -309,6 +310,14 @@ public class DashboardLayout extends Composite {
         });
     }
 
+    @UiHandler({"submittersLink","investigatorsLink","citationLink", "timeAndLocationLink", "fundingLink", "platformsLink",
+                "co2Link",  // CO2Common
+                "dicLink", "taLink", "phLink", "pco2aLink", "pco2dLink",  // in case it gets switched to OADS view.
+                "genericVariableLink"})
+    public void onNavClick(ClickEvent clickEvent) {
+        OAPMetadataEditor.debugLog("nav click:"+clickEvent.getSource());
+        OAPMetadataEditor.saveDocumentChange();
+    }
     private void setNavLinkNames() {
         submittersLink.setText(Constants.SECTION_SUBMITTER);
         investigatorsLink.setText(Constants.SECTION_INVESTIGATOR);

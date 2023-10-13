@@ -29,4 +29,5 @@ public interface GetsDirty<T extends Stringy> {
 
     boolean isDirty(T original);
 
+    default boolean isDirty() { return isDirty(null); }
 }
