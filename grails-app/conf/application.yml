@@ -235,7 +235,7 @@ environments:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     socat:
         dataSource:
-            dbCreate: create
+            dbCreate: validate
             url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -261,7 +261,7 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     socat_matisse:
         dataSource:
-            dbCreate: create
+            dbCreate: validate
             url: jdbc:mysql://localhost:63306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
