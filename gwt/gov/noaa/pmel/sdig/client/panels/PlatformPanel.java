@@ -167,10 +167,12 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         catValues.add("mooring");
         catNames.add("Coastal Monitoring Site ");
         catValues.add("coastal monitoring site");
-        catValues.add("Repeat Hydrography (vessel) ");
+        catNames.add("Repeat Hydrography (vessel) ");
         catValues.add("repeat hydrography (vessel)");
         catNames.add("Ship-based time series (vessel) ");
         catValues.add("ship-based time series (vessel)");
+        catNames.add("Argo Float ");
+        catValues.add("argo float");
         catNames.add("Glider ");
         catValues.add("glider");
         catNames.add("Voluntary Observing Ship ");
