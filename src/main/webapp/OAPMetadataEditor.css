@@ -29,8 +29,8 @@
 .hidden {
     visibility: hidden;
 }
-.larger_text {
-    font-size: larger;
+.large_text {
+    font-size: large;
 }
 .expand_common > fieldset > div {
     padding-left: 0px !important;

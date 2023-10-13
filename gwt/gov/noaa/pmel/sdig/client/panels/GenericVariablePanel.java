@@ -3,11 +3,14 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -479,7 +482,8 @@ OAPMetadataEditor.debugLog("editButton: " + editButton);
                 return object.getAbbreviation();
             }
         };
-        variables.addColumn(abbrevColumn, "Variable Name or Column Header");
+        variables.addColumn(abbrevColumn,
+                            SimpleHtmlSanitizer.getInstance().sanitize("Variable Name or <br>Column Header"));
 
         // Add a text column to show the name.
         TextColumn<Variable> nameColumn = new TextColumn<Variable>() {
@@ -525,6 +529,9 @@ OAPMetadataEditor.debugLog("editButton: " + editButton);
         variables.addColumn(delete);
         delete.setCellStyleNames("text-center");
 
+        variables.setColumnWidth(0, 12, Style.Unit.PCT);
+        variables.setColumnWidth(1, 20, Style.Unit.PCT);
+        variables.setColumnWidth(3, 12, Style.Unit.PCT);
         // set RowStyles on required fields
         variables.setRowStyles(new RowStyles<Variable>() {
             @Override

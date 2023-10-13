@@ -19,16 +19,16 @@
                         </b:Column>
                     </b:Row>
                     <b:Row>
-                        <b:Column size="SM_5">
+                        <b:Column size="SM_4">
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="firstName" text="First Name *"></b:FormLabel>
                                 <b:TextBox ui:field="firstName" allowBlank="false" placeholder="First Name" b:id="firstName"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_2">
+                        <b:Column size="SM_3">
                             <b:FormGroup>
-                                <b:FormLabel for="mi" text="M.I."></b:FormLabel>
-                                <b:TextBox ui:field="mi" allowBlank="true" placeholder="M.I.(s)" b:id="mi"></b:TextBox>
+                                <b:FormLabel for="mi" text="Middle Name(s)"></b:FormLabel>
+                                <b:TextBox ui:field="mi" allowBlank="true" placeholder="Middle Name(s)" b:id="mi"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                         <b:Column size="SM_5">

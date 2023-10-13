@@ -42,7 +42,7 @@
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:FormLabel addStyleNames="larger_text" text="Add entries for the CO2 variables in the dataset" ></b:FormLabel>
+                            <b:FormLabel addStyleNames="large_text" text="Add entries for the CO2 variables in the dataset" ></b:FormLabel>
                             <b:gwt.CellTable ui:field="variablesTable" addStyleNames="co2table" visible="false"
                                              bordered="true" condensed="true" striped="true" hover="true"/>
                         </b:Column>
@@ -350,7 +350,7 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_2">
-                            <b:Button addStyleNames="hidden" ui:field="save" type="PRIMARY" text="SAVE C02"/>
+                            <b:Button addStyleNames="hidden" ui:field="save" type="PRIMARY" text="SAVE CO2"/>
                         </b:Column>
                     </b:Row>
                 </b:Container>
