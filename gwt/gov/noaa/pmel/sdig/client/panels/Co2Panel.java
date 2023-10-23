@@ -371,32 +371,32 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         ventedValues.add("false");
         vented.init("Select Vented or Not ", ventedNames, ventedValues);
 
-        List<String> co2varTypeNames = VarType.names();
-        com.google.gwt.user.cellview.client.Column <Variable, String> varTypeColumn =
-                addColumn(new SelectionCell(co2varTypeNames), "Var Type",
-                        new GetValue<String>() {
-                            @Override
-                            public String getValue(Variable var) {
-                                OAPMetadataEditor.logToConsole("getValue varType for " + var.getAbbreviation());
-                                try {
-                                    String socatType = var.getSocatType();
-                                    if ( socatType != null && ! socatType.trim().isEmpty() )
-                                        return socatType;
-                                    else
-                                        return guessVarType(var);
-                                } catch (Exception exception) {
-                                    OAPMetadataEditor.logToConsole(exception.toString());
-                                    return VarType.OTHER.name();
-                                }
-                            }
-                        },
-                        new FieldUpdater<Variable, String>() {
-                            @Override
-                            public void update(int index, Variable var, String value) {
-                                OAPMetadataEditor.logToConsole("UPDATE varType for " + var.getAbbreviation() + " as " + value);
-                                var.setSocatType(value);
-                            }
-                        });
+//        List<String> co2varTypeNames = VarType.names();
+//        com.google.gwt.user.cellview.client.Column <Variable, String> varTypeColumn =
+//                addColumn(new SelectionCell(co2varTypeNames), "Var Type",
+//                        new GetValue<String>() {
+//                            @Override
+//                            public String getValue(Variable var) {
+//                                OAPMetadataEditor.logToConsole("getValue varType for " + var.getAbbreviation());
+//                                try {
+//                                    String socatType = var.getSocatType();
+//                                    if ( socatType != null && ! socatType.trim().isEmpty() )
+//                                        return socatType;
+//                                    else
+//                                        return guessVarType(var);
+//                                } catch (Exception exception) {
+//                                    OAPMetadataEditor.logToConsole(exception.toString());
+//                                    return VarType.OTHER.name();
+//                                }
+//                            }
+//                        },
+//                        new FieldUpdater<Variable, String>() {
+//                            @Override
+//                            public void update(int index, Variable var, String value) {
+//                                OAPMetadataEditor.logToConsole("UPDATE varType for " + var.getAbbreviation() + " as " + value);
+//                                var.setSocatType(value);
+//                            }
+//                        });
 
         com.google.gwt.user.cellview.client.Column <Variable, String> abbrevColumn =
             addColumn(new SizedEditTextCell(25), "Data Column or Abbreviation",
@@ -419,7 +419,6 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                     new GetValue<String>() {
                         @Override
                         public String getValue(Variable var) {
-                            OAPMetadataEditor.logToConsole("units for " + var.getAbbreviation() + ":" + var.getUnits());
                             return var.getUnits();
                         }
                     },
@@ -513,12 +512,12 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         Variable co2var = variables.remove(0);
         String abbrev = co2var.getAbbreviation();
         if ( abbrev != null && ! abbrev.trim().isEmpty() && ! abbrev.trim().equals(CO2_COMMON)) {
-            co2var.setAbbreviation("CO2_Common");
-            co2var.setFullVariableName("CO2_Common");
             OAPMetadataEditor.logToConsole("CO2vars[0] is NOT CO2_Common:" + abbrev);
-            String varList = abbrev; // co2var.getAbbreviation();
-            List<Variable>co2vars = new ArrayList<>();
-            OAPMetadataEditor.logToConsole("Co2Panel varList:"+varList);
+            if ( abbrev.contains(String.valueOf(CO2_VARS_SEPARATOR))) {
+                co2var.setAbbreviation("CO2_Common");
+                String varList = abbrev; // co2var.getAbbreviation();
+                List<Variable>co2vars = new ArrayList<>();
+                OAPMetadataEditor.logToConsole("Co2Panel varList:"+varList);
                 String[] vars = split(varList, CO2_VARS_SEPARATOR);
                 for (String var : vars) {
                     if (var.isEmpty()) {
@@ -538,9 +537,15 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                     v.setUnits( units );
                     v.setFullVariableName(v.getAbbreviation());
                     co2vars.add(v);
-//                }
+                }
+                dataList.addAll(co2vars);
+            } else { // I guess it's a real var.
+                Variable v = new Variable();
+                v.setAbbreviation(co2var.getAbbreviation());
+                v.setFullVariableName(co2var.getFullVariableName());
+                v.setUnits(co2var.getUnits());
+                dataList.add(v);
             }
-            dataList.addAll(co2vars);
         }
         if ( variables.size() > 0 ) {
             dataList.addAll(variables);
