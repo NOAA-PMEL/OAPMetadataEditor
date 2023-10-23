@@ -57,10 +57,21 @@ class OadsXmlService {
         return buildDocumentFromMetadata(xmlMetadata)
     }
 
+    String getDocType(OadsMetadataDocumentType doc) {
+        String docType = "oads"
+        List<BaseVariableType> variables = doc.getVariables()
+        for (BaseVariableType var : variables) {
+            if ( var instanceof Co2Socat ) {
+                docType = "socat"
+                break
+            }
+        }
+        return docType
+    }
     def buildDocumentFromMetadata(OadsMetadataDocumentType xmlMetadata) {
         Document mdDoc = new Document()
-        String xmlVersion = xmlMetadata.VERSION; // XXX hard coded!!!
-        mdDoc.docType = xmlVersion.equals("a0.2.2s") ? "socat" : "oads";
+//        String xmlVersion = xmlMetadata.VERSION; // XXX hard coded!!!
+        mdDoc.docType = getDocType(xmlMetadata) // xmlVersion.equals("a0.2.2s") ? "socat" : "oads"
 
         // Investigators
         for (PersonType person : xmlMetadata.getInvestigators()) {
@@ -852,27 +863,29 @@ class OadsXmlService {
                 .depthSeawaterIntake(v.getIntakeDepth())
                 .co2GasDryingMethod(v.getDryingMethod())
 
-        co2Builder.equilibrator(EquilibratorType.builder()
-                        .type(v.getEquilibratorType())
-                        .volume(v.getEquilibratorVolume())
-                        .vented(v.getVented())
-                        .waterFlowRate(v.getFlowRate())
-                        .gasFlowRate(v.getGasFlowRate())
-                        .temperatureMeasurement(EquilibratorMeasurementType.builder()
-                                .method(v.getEquilibratorTemperatureMeasureMethod())
-                                .uncertainty(v.getUncertaintyOfTemperature())
-                                .sensor(InstrumentType.builder()
-                                        .calibration(v.getTemperatureMeasurementCalibrationMethod())
+        EquilibratorType equ = EquilibratorType.builder()
+                                .type(v.getEquilibratorType())
+                                .volume(v.getEquilibratorVolume())
+                                .vented(v.getVented())
+                                .waterFlowRate(v.getFlowRate())
+                                .gasFlowRate(v.getGasFlowRate())
+                                .temperatureMeasurement(EquilibratorMeasurementType.builder()
+                                        .method(v.getEquilibratorTemperatureMeasureMethod())
+                                        .uncertainty(v.getUncertaintyOfTemperature())
+                                        .sensor(InstrumentType.builder()
+                                                .calibration(v.getTemperatureMeasurementCalibrationMethod())
+                                                .build())
                                         .build())
-                                .build())
-                        .pressureMeasurement(EquilibratorMeasurementType.builder()
-                                .method(v.getEquilibratorPressureMeasureMethod())
-                                .sensor(InstrumentType.builder()
-                                        .calibration(v.getPressureMeasurementCalibrationMethod())
+                                .pressureMeasurement(EquilibratorMeasurementType.builder()
+                                        .method(v.getEquilibratorPressureMeasureMethod())
+                                        .sensor(InstrumentType.builder()
+                                                .calibration(v.getPressureMeasurementCalibrationMethod())
+                                                .build())
                                         .build())
-                                .build())
-                .build()
-        )
+                                .build()
+        if ( ! UtilsService.isEmpty(equ)) {
+            co2Builder.equilibrator(equ)
+        }
         co2Builder.calculationMethodForPCO2(v.getPco2CalcMethod())
         co2Builder.calculationMethodForFCO2(v.getFco2CalcMethod())
         return co2Builder
@@ -900,12 +913,15 @@ class OadsXmlService {
         pCO2A: Resolution of the gas detector
         pCO2A: Uncertainty of the gas detector
         */
-        co2Builder.gasDetector(GasDetectorType.builder()
+        GasDetectorType gdt = GasDetectorType.builder()
                 .manufacturer(v.getGasDetectorManufacture())
                 .model(v.getGasDetectorModel())
                 .resolution(v.getGasDectectorResolution())
                 .uncertainty(v.getGasDectectorUncertainty())
-                .build())
+                .build()
+        if ( ! UtilsService.isEmpty(gdt)) {
+            co2Builder.gasDetector(gdt)
+        }
 
         /*
         pCO2A: Water vapor correction method
