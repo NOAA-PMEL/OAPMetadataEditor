@@ -182,18 +182,21 @@ public class OAPMetadataEditor implements EntryPoint {
                             //#DEBUG
 //                        debugLog("Called Clear ALL: ");
                         // XXX TODO: This should be "if document hasContent() prompt!
+                        HTML message = new HTML("Are you sure?");
+                        String heading = "CLEAR ALL DATA:";
                         if (currentDocumentIsDirty() && !saved) {
-
+                            message = new HTML("You appear to have made changes but have not saved them to your local disk." +
+                                    "<br><strong>Click OK to reset the form and LOSE ALL YOUR DATA.</strong>" +
+                                    "<br>Click Cancel to go back to what you were doing.");
+                            heading = "WARNING!";
+                        }
                             final Modal sure = new Modal();
                             ModalHeader header = new ModalHeader();
                             Heading h = new Heading(HeadingSize.H3);
-                            h.setText("WARNING!");
+                            h.setText(heading);
                             header.add(h);
                             sure.add(header);
                             ModalBody body = new ModalBody();
-                            HTML message = new HTML("You appear to have made changes but have not saved them to your local disk." +
-                                    "<br><strong>Click OK to reset the form and LOSE ALL YOUR DATA.</strong>" +
-                                    "<br>Click Cancel to go back to what you were doing.");
                             ModalFooter footer = new ModalFooter();
                             Button ok = new Button("OK");
                             ok.setType(ButtonType.DANGER);
@@ -211,7 +214,7 @@ public class OAPMetadataEditor implements EntryPoint {
                             ok.addClickHandler(new ClickHandler() {
                                 @Override
                                 public void onClick(ClickEvent event) {
-                                    startOver(false);
+                                    startOver(true);
                                     sure.hide();
                                 }
                             });
@@ -223,9 +226,6 @@ public class OAPMetadataEditor implements EntryPoint {
                                 }
                             });
 
-                        } else {
-                            startOver(false);
-                        }
                     }
                 } else {
                     OAPMetadataEditor.debugLog("Click event : " + event);
@@ -238,11 +238,11 @@ public class OAPMetadataEditor implements EntryPoint {
 //                if ( event.getType().equals(Constants.SECTION_DOCUMENT )) { // &&  event.getSectionContents().equals("saveNotify") {
 //                    saveMultiItemPanels();
 //                }
-                if ("Download".equals(event.getSectionContents()) ||
-                        "Preview".equals(event.getSectionContents()) || // TODO:  ... but not empty document.
-                        currentDocumentIsDirty()) {
+//                if ("Download".equals(event.getSectionContents())
+//                        || "Preview".equals(event.getSectionContents())) {  // TODO:  ... but not empty document.
+////                        || currentDocumentIsDirty()) { // Always save.
                     saveSection(event.getType(), event.getSectionContents());
-                }
+//                }
             }
         });
         eventBus.addHandler(NavLink.TYPE, new NavLinkHandler() {
@@ -788,7 +788,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 });
 
                 modal.show();
-                loadDocumentId(_datasetId);
+                loadDocumentId(_datasetId); // XXX TODO: WHY???
             }
         }
     };
@@ -849,11 +849,11 @@ public class OAPMetadataEditor implements EntryPoint {
                 settings.setPlacement(NotifyPlacement.TOP_CENTER);
                 Notify.notify(Constants.NO_FILE, settings);
             }
-            String postDocId = _datasetId != null ?
-                    _datasetId :
-                    _requestedDocumentId != null ?
-                            _requestedDocumentId :
-                            "";
+            String postDocId = "";
+//             _datasetId != null ? _datasetId :
+//                    _requestedDocumentId != null ?
+//                            _requestedDocumentId :
+//                            "";
             topLayout.uploadForm.setAction("document/upload/" + postDocId);
         }
     };
@@ -870,7 +870,8 @@ public class OAPMetadataEditor implements EntryPoint {
             } else if (noMetadata(jsonString)) {
                 Window.alert("No metadata was found in the uploaded file. \n" +
                         "This could perhaps be because the file could not parsed.\n" +
-                        "Only OADS Metadata documents in Excel, CSV, or XML format can be uploaded.");
+                        "Only SOCAT or OADS Metadata in Excel, CSV, or XML format, \n" +
+                        "or OME XML metadata can be uploaded.");
                 String msg = "submitComplete failed no metadata : " + jsonString;
                 logToConsole(msg);
                 return;
@@ -891,12 +892,17 @@ public class OAPMetadataEditor implements EntryPoint {
                 header.add(h);
                 mergeOptions.add(header);
                 ModalBody body = new ModalBody();
-                HTML message = new HTML("<span style='font-weight=bold; color:red;'>Preserve</span> will populate empty fields with " +
-                        "content from the uploaded file, but will not overwrite existing content in the form fields." +
-                        "<br><br><span style='font-weight=bold; color:red;'>Overwrite</span> will populate empty fields with content from the uploaded file, " +
-                        "but will <span style='font-weight=bold; color:red;'>replace</span> any existing content in form fields if there is content for " +
-                        "that field in the uploaded file.");
+                HTML message =
+                    new HTML("<span style='font-weight=bold; color:red;'>Preserve</span> will populate empty fields with " +
+                            "content from the uploaded file, but will not overwrite existing content in the form fields." +
+                            "<br><br><span style='font-weight=bold; color:red;'>Overwrite</span> will populate empty fields " +
+                            "with content from the uploaded file, but will <span style='font-weight=bold; color:red;'>replace</span> " +
+                            "any existing content in form fields if there is content for that field in the uploaded file." +
+                            "<br><br><span style='font-weight=bold; color:red;'>Clear All</span> will " +
+                            "<span style='color:red;'>clear all fields</span> before uploading.");
                 ModalFooter footer = new ModalFooter();
+                Button clear = new Button("Clear All");
+                clear.setType(ButtonType.DANGER);
                 Button preserve = new Button("Preserve");
                 preserve.setType(ButtonType.DANGER);
                 Button overwrite = new Button("Overwrite");
@@ -904,6 +910,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 Button cancel = new Button("Cancel");
                 cancel.setType(ButtonType.PRIMARY);
 
+                footer.add(clear);
                 footer.add(preserve);
                 footer.add(overwrite);
                 footer.add(cancel);
@@ -913,7 +920,16 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 mergeOptions.show();
 
-                preserve.addClickHandler(new ClickHandler() {
+               clear.addClickHandler(new ClickHandler() {
+                   @Override
+                   public void onClick(ClickEvent event) {
+                       startOver(true);
+                       loadJsonDocument(jsonString, true, true);
+                       mergeOptions.hide();
+                   }
+               });
+
+               preserve.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         preserveMergeJsonDocument(jsonString);
@@ -1029,7 +1045,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private void startOver(boolean clearIds) {
         //#DEBUG
-        debugLog("Called startOver()");
+        debugLog("Called startOver(), clearing IDS:"+clearIds);
         // Reset containers for all information being collected to null.
         _loadedDocument = null;
         _currentDocument = null;
@@ -1037,6 +1053,7 @@ public class OAPMetadataEditor implements EntryPoint {
             _datasetId = null;
             _documentDbId = null;
             _documentDbVersion = null;
+            _requestedDocumentId = null;
         }
 //        dataSubmitter = null;
         if (investigatorPanel != null) investigatorPanel.clearPeople();
@@ -1117,7 +1134,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 .replace("</pre>", "");
         jsonString = jsonString.replace("<pre>", "");
         jsonString = jsonString.replace("<div></div>", "");
-        GWT.log("json string:" + jsonString);
+//        GWT.log("json string:" + jsonString);
         boolean again = false;
         do {
             String newJsonString = jsonString.replaceAll("&amp;", "&");
@@ -1141,7 +1158,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
     // overwrite data merge
     private void loadJsonDocument(String jsonString, boolean clearFirst, boolean updateIds) {
-        debugLog("loadJsonDocument has been called");
+        debugLog("loadJsonDocument has been called, clearFirst:"+clearFirst+", clearIds:"+updateIds);
         try {
             if (clearFirst) {
                 startOver(updateIds);
