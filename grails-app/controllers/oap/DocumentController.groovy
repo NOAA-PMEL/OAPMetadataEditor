@@ -472,7 +472,6 @@ class DocumentController {
      */
     def getXml() {
         String docId = params.id
-        log
         Document doc = findDocById(docId)
         if ( ! doc ) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + docId)
