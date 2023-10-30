@@ -50,6 +50,8 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     @UiField
     TextBox section;
     @UiField
+    TextBox doi;
+    @UiField
     TextArea citationAuthorList;
     @UiField
     TextArea methodsApplied;
@@ -137,6 +139,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         }
         citation.setCruiseId(cruiseText);
         citation.setSection(section.getText().trim());
+        citation.setDoi(doi.getText().trim());
         citation.setCitationAuthorList(citationAuthorList.getText().trim());
         citation.setScientificReferences(references.getText().trim());
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
@@ -161,6 +164,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
             isDirty(cruiseId, ((original.getCruiseId().split(":", 2)[0] != null)
                     ? original.getCruiseId().split(":", 2)[0] : original.getCruiseId() )) ||
             isDirty(section, original.getSection() ) ||
+            isDirty(doi, original.getDoi())  ||
             isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
             isDirty(references, original.getScientificReferences() ) ||
             isDirty(methodsApplied, original.getMethodsApplied() ) ||
@@ -257,6 +261,9 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         }
         if ( citation.getCitationAuthorList() != null ) {
             citationAuthorList.setText(citation.getCitationAuthorList());
+        }
+        if ( citation.getDoi() != null ) {
+            doi.setText(citation.getDoi());
         }
         if ( citation.getMethodsApplied() != null ) {
             methodsApplied.setText(citation.getMethodsApplied());

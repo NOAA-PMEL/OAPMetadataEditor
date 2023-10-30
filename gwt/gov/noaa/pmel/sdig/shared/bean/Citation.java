@@ -14,6 +14,7 @@ public class Citation extends DbItem implements Stringy, HasContent {
     String purpose;
     String expocode;
     String cruiseId;
+    String doi;
     String section;
     String citationAuthorList;
     String scientificReferences;
@@ -36,6 +37,13 @@ public class Citation extends DbItem implements Stringy, HasContent {
 
     public void setCruiseId(String cruiseId) {
         this.cruiseId = cruiseId;
+    }
+    public String getDoi() {
+        return doi;
+    }
+
+    public void setDoi(String doi) {
+        this.doi = doi;
     }
 
     public String getSection() {

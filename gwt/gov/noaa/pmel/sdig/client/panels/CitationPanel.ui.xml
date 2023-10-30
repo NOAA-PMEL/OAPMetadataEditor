@@ -28,7 +28,7 @@
                                     </b:ModalBody>
                                 </b:Modal>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalTitle" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea ui:field="title" visibleLines="1" allowBlank="false" placeholder="Title - Please see Help for suggested format." b:id="title"></b:TextArea>
+                                <b:TextArea ui:field="title" visibleLines="2" allowBlank="false" placeholder="Title - Please see Help for suggested format." b:id="title"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -78,7 +78,7 @@
                                 </b:Modal>
 
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCitationAuthorList" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextArea ui:field="citationAuthorList" visibleLines="3" allowBlank="false" placeholder="List of authors for citation (LastName, FirstName, MI; LastName, FirstName, MI; ...)" b:id="citationAuthorList"></b:TextArea>
+                                <b:TextArea ui:field="citationAuthorList" visibleLines="1" allowBlank="false" placeholder="List of authors for citation (LastName, FirstName, MI; LastName, FirstName, MI; ...)" b:id="citationAuthorList"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>
@@ -158,6 +158,22 @@
                                 <b:Modal closable="true" b:id="modalSection" title="18 Section ID is the identification number for a research cruise section or leg. It was commonly used during the World Ocean Circulation Experiment (WOCE) studies, which often had many repeating cruises on a single section, e.g., A16N."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSection" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="section" allowBlank="true" placeholder="Section" b:id="section"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_6">
+                            <b:FormGroup>
+                                <b:FormLabel for="doi" text="Dataset DOI"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="doiPopover" b:id="doiPopover" title="Dataset DOI" >
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            Dataset Digital Object Identifier (DOI)
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#doiPopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="doi" allowBlank="true" placeholder="DOI" b:id="doi"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

@@ -168,6 +168,7 @@ class OadsXmlService {
             cruises += cruiseId + " "
         }
         citation.setCruiseId(cruises.trim())
+        citation.setDoi(metadata.getDatasetDOI())
 
         def section = ""
         for (String code : metadata.getSections()) {
@@ -175,6 +176,9 @@ class OadsXmlService {
         }
         if ( !StringUtils.emptyOrNull(section)) {
             citation.setSection(section)
+        }
+        if ( StringUtils.emptyOrNull(metadata.getDatasetDOI())) {
+            citation.setDoi(metadata.getDatasetDOI())
         }
         def reference = ""
         for (String ref : metadata.getReferences()) {
@@ -635,6 +639,7 @@ class OadsXmlService {
                     }
                 }
             }
+            metadata.datasetDOI(citation.getDoi())
 
             metadata.methods(citation.getMethodsApplied())
 

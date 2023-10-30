@@ -8,6 +8,7 @@ class Citation {
     String purpose
     String expocode
     String cruiseId
+    String doi
     String section
     String citationAuthorList
     // The word "references" is a mysql reserved word.
@@ -23,6 +24,7 @@ class Citation {
         purpose (nullable: true, type: 'text')
         expocode (nullable: true)
         cruiseId (nullable: true)
+        doi (nullable: true)
         section (nullable: true)
         citationAuthorList (nullable: true, type: 'text')
         scientificReferences (nullable: true, type: 'text')
@@ -37,6 +39,7 @@ class Citation {
                Document.emptyOrNull(purpose) &&
                Document.emptyOrNull(expocode) &&
                Document.emptyOrNull(cruiseId) &&
+               Document.emptyOrNull(doi) &&
                Document.emptyOrNull(section) &&
                Document.emptyOrNull(citationAuthorList) &&
                Document.emptyOrNull(scientificReferences) &&
