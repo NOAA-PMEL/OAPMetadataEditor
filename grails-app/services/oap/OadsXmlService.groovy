@@ -629,7 +629,7 @@ class OadsXmlService {
                     }
                 }
             }
-
+            metadata.datasetDOI(citation.getDoi())
             String sectionField = citation.getSection()
             if ( sectionField ) {
                 String[] sections = sectionField.split("[, ;]")
