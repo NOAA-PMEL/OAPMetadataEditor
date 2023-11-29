@@ -165,11 +165,11 @@ public class PersonPanel extends Composite implements GetsDirty<Person> {
         List<String> idNames = new ArrayList<String>();
         List<String> idValues = new ArrayList<String>();
         idNames.add("ORCID ");
-        idValues.add("orcid");
+        idValues.add("ORCID");
         idNames.add("OceanExpert ");
-        idValues.add("oceanExpert");
+        idValues.add("OceanExpert");
         idNames.add("Researcher ID ");
-        idValues.add("researcherId");
+        idValues.add("Researcher ID");
         idType.init("Pick an ID Type ", idNames, idValues);
 
         namePopover.setTitle("6.1 Full name of the " + personType + " (First Middle Last).");

@@ -151,11 +151,11 @@ public class PlatformPanel extends Composite implements GetsDirty<Platform> {
         List<String> idNames = new ArrayList<String>();
         List<String> idValues = new ArrayList<String>();
         idNames.add("ICES ");
-        idValues.add("ices");
+        idValues.add("ICES");
         idNames.add("IMO ");
-        idValues.add("imo");
+        idValues.add("IMO");
         idNames.add("WMO ");
-        idValues.add("wmo");
+        idValues.add("WMO");
         platformIdType.init("Select PlatformID Type ", idNames, idValues);
 
         // platformType (Platform category)
