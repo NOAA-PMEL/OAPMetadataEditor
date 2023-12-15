@@ -24,7 +24,7 @@
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
-                        <b:Column size="SM_6 MD_4">
+                        <b:Column size="SM_4 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="startDate" text="Start Date *"></b:FormLabel>
                                 <b:Modal title="8.1 Start date of the first measurement (e.g., 2001-02-25). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalStartDate"/>
@@ -32,7 +32,7 @@
                                 <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="startDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD " b:id="startDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
-                        <b:Column size="SM_6 MD_4">
+                        <b:Column size="SM_4 MD_3">
                             <b:FormGroup>
                                 <b:FormLabel color="#B22222" for="endDate" text="End Date *"></b:FormLabel>
                                 <b:Modal title="8.2 End date of the last measurement (e.g., 2002-05-16). Please use ISO date format (YYYY-MM-DD)." closable="true" b:id="modalEndDate"/>
@@ -40,6 +40,7 @@
                                 <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="true" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
+                        <!--
                         <b:Column size="SM_12 MD_4">
                             <b:FormGroup>
                                 <b:FormLabel for="spatialRef" text="Spatial Reference System"></b:FormLabel>
@@ -48,10 +49,11 @@
                                 <b:TextBox ui:field="spatialRef" allowBlank="true" placeholder="Spatial Reference System" b:id="spatialRef"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                        -->
                     </b:Row>
                     <!-- GEO START -->
                     <b:Row>
-                        <b:Column size="SM_12 MD_8" offset="MD_2">
+                        <b:Column size="SM_12 MD_8" > <!--offset="MD_2"-->
                             <b:Panel>
                                 <b:PanelHeader  ><b:Heading size="H3" text="Geographic Extents">
                                     <b:Modal title="Latitude and Longitude values should be entered as decimal degrees, with negative values for South latitudes and West longitudes." closable="true" b:id="modalGeographicExtents"/>
@@ -118,6 +120,8 @@
                                 <b:TextBox ui:field="geoNames" allowBlank="true" placeholder="Geographic Names" b:id="geoNames"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                    </b:Row>
+                    <b:Row>
                         <b:Column size="SM_12 MD_6">
                             <b:FormGroup>
                                 <b:FormLabel for="organismLoc" text="Location of Organism Collection (Biological Study Only)"></b:FormLabel>
