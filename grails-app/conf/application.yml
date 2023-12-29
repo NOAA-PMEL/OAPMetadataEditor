@@ -171,14 +171,14 @@ environments:
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
-    matisse:
+    buckeye_oa_create:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:63306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:63306/ioap_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            username: oapweb
-            password: webster
+            username: scientist
+            password: qc4socat3
             logSql: false
             formatSql: false
             properties:
@@ -287,7 +287,7 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     production:
         dataSource:
-            dbCreate: create
+            dbCreate: validate
             url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
