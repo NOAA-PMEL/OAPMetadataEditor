@@ -35,7 +35,7 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
         }
     }
 
-    protected FormPanel() {
+    private FormPanel() {
         formPanelInstance = this;
     }
 
@@ -66,7 +66,7 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
 
     public boolean valid() {
         // For some reason this returns a "0" in debug mode.
-        GWT.log("form:"+form);
+        GWT.log("FormPanel validate form:"+panelName);
         String valid = String.valueOf(form.validate());
         return !(valid.equals("false") || valid.equals("0"));
     }

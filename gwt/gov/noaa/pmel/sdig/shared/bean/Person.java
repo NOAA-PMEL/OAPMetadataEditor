@@ -1,5 +1,7 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
+import com.google.gwt.core.client.GWT;
+import gov.noaa.pmel.sdig.client.panels.PersonPanel;
 import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.IsValid;
 import gov.noaa.pmel.sdig.shared.Stringy;
@@ -254,6 +256,14 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
     public void validate()      // TODO: I guess should check empty fields, etc.
         throws IllegalStateException
     {
+        GWT.log("Person validate");
+        String email = getEmail();
+        if ( ! (email == null || email.trim().isEmpty())) {
+            if ( !PersonPanel.emailRegex.test(email)) {
+                String fixedAlitte = email.replaceAll("<", "&lt;").replaceAll(">", "&gt;").trim();
+                throw new IllegalStateException("Invalid email: " +fixedAlitte);
+            }
+        }
         for (TypedString rid : getResearcherIds()) {
             if ( (! rid.getValue().isEmpty()) && rid.getType().isEmpty() ) {
                 throw new IllegalStateException("Missing type for ID " + rid.getValue());

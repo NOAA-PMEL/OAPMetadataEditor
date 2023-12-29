@@ -496,7 +496,8 @@ public class OAPMetadataEditor implements EntryPoint {
             saveDocumentService.save(getDatasetId(doc), doc, callback);
             saved = true;
         } catch (IllegalStateException isx) {
-            warn("Please correct the following:<br/>"+isx.getMessage());
+            String errorMsg = isx.getMessage();
+            warn("Please correct the following:<br/>"+errorMsg);
         }
     }
 

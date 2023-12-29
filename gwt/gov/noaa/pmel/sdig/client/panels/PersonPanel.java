@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
+import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -167,7 +168,12 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     ButtonCell moveDownButton = new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
     ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
-    RegExp emailRegex = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+    public static final String myRegex         = "^\\w[\\w-_#$%\\.]*@[\\w-_]+(\\.[\\w-_]+)*(\\.[a-z]{2,})$";
+    public static RegExp emailRegex = RegExp.compile(myRegex);
+    // from http://emailregex.com/ -- Doesn't seem to work.  Tried various strings
+//    public static RegExp emailRegex = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+//    public static RegExp checkRegex = RegExp.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+//    public static RegExp jsRegex = RegExp.compile("/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/");
 
     InstitutionSuggestOracle institutionSuggestOracle = new InstitutionSuggestOracle();
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
@@ -293,14 +299,15 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         email.addValidator(new Validator() {
             @Override
             public List<EditorError> validate(Editor editor, Object value) {
+                GWT.log("validate email: " + value);
                 List<EditorError> result = new ArrayList<EditorError>();
                 String valueStr = value == null ? "" : value.toString();
                 if (valueStr.length() == 0) {
                     return result;
                 }
-                // from http://emailregex.com/
-                //RegExp p = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
-                if (!emailRegex.test(valueStr)) {
+                boolean isGood = emailRegex.test(valueStr);
+//                isGood = valueStr.matches(myRegex);
+                if (!isGood) {
                     result.add(new BasicEditorError(email, value, "Does not look like an email address to me."));
                 }
                 return result;
@@ -577,13 +584,13 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         Widget formWidget = clm.getWidget(0);
         GWT.log("formWidget:"+formWidget);
         FormGroup form = (FormGroup)formWidget;
-        GWT.log("form:"+form);
+        GWT.log("form:"+String.valueOf(form != null));
         Widget widget = form.getWidget(wgtIdx);
         GWT.log("widget:"+widget);
         return widget;
     }
     public boolean validate() {
-        GWT.log("validate");
+        GWT.log("PersonPanel validate");
         boolean isOk = this.valid();
         List<Row>ridRows = getRidRows();
         boolean isAdded = false;
@@ -597,9 +604,6 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
                    resid.getType().isEmpty() ) {
                 isOk = false;
                 setRidError(rrow, wgtIdx, true);
-//                setRidError(true, rTypeBtn);
-//                ridTypeForm0.addStyleName("has-error");
-//                rTypeBtn.getButton().addStyleName("error-border");
             } else {
                 if ( ! resid.getType().equals(rTypeBtn.getValue()) ||
                      ! resid.getValue().equals(ridBox.getText())) {
@@ -607,9 +611,6 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
                     ridBox.setText(resid.getValue());
                 }
                 setRidError(rrow, wgtIdx, false);
-//                setRidError(false, rTypeBtn);
-//                ridTypeForm0.removeStyleName("has-error");
-//                rTypeBtn.getButton().removeStyleName("error-border");
             }
             isAdded = true;
         }
@@ -625,6 +626,15 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         ButtonDropDown rTypeBtn = (ButtonDropDown) getRowWidget(rrow, 0, wgtIdx);
         setRidError(set, rTypeBtn);
     }
+
+    public void setFieldError(boolean set, Widget fieldForm) {
+        FormGroup group = getFormGroup(fieldForm);
+        if ( set )
+            group.addStyleName("has-error");
+        else
+            group.removeStyleName("has-error");
+    }
+
     public void setRidError(boolean set, ButtonDropDown ridType) {
         Button typeBtn = ridType.getButton();
         if (set) {
@@ -635,8 +645,8 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
             typeBtn.removeStyleName("error-border");
         }
     }
-    private UIObject getFormGroup(Widget widget) {
-        return (FormGroup) widget.getParent();
+    private FormGroup getFormGroup(Widget widget) {
+        return (FormGroup) widget.getParent(); // XXX TODO: not always!
     }
 
     private List<Row> getRidRows() {
@@ -972,6 +982,13 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         person.setComplete(this.validate());
     }
 
+    @UiHandler("email")
+    public void onEmailBlur(BlurEvent event) {
+        OAPMetadataEditor.debugLog("onBlur source: " + event.getSource());
+        boolean emailGood = emailRegex.test(email.getValue());
+        setFieldError(! emailGood, email);
+        save.setEnabled(emailGood);
+    }
     @UiHandler({"firstName", "mi", "lastName", "address1", "address2", "city", "state", "zip", "telephone", "extension", "email", "rid0"})
     public void onChange(ChangeEvent event) {
         OAPMetadataEditor.debugLog("onChange source: " + event.getSource());
