@@ -202,6 +202,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     }
 
     public PersonPanel(String personType) {
+        super(personType);
         institution = new SuggestBox(institutionSuggestOracle);
 //        countrySuggest = new SuggestBox(countrySuggestionOracle);
         countrySelect = new Select();

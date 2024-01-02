@@ -35,7 +35,7 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
         }
     }
 
-    private FormPanel() {
+    protected FormPanel() {
         formPanelInstance = this;
     }
 
