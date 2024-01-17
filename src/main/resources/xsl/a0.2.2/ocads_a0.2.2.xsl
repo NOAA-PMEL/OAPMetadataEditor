@@ -290,8 +290,8 @@ td.desc {
 
           <span style="font-weight:bold">ADDITIONAL INFORMATION: </span><br/>
           <span style="padding-left:20px;"></span>
-          <xsl:if test="oa:suppleInfo != ''">
-            <xsl:for-each select="oa:suppleInfo">
+          <xsl:if test="oa:supplementalInfo != ''">
+            <xsl:for-each select="oa:supplementalInfo">
               <span style="padding-left:20px;"><xsl:apply-templates/></span><br/>
             </xsl:for-each>
           </xsl:if>
