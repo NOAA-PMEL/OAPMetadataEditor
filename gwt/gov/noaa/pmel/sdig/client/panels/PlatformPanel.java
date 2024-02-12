@@ -32,7 +32,6 @@ import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.PlatformSuggestOracle;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Pagination;
 import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -51,7 +50,7 @@ import java.util.*;
 /**
  * Created by rhs on 3/7/17.
  */
-public class PlatformPanel extends FormPanel implements GetsDirty<Platform> {
+public class PlatformPanel extends MultiPanel<Platform> implements GetsDirty<Platform> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -74,8 +73,6 @@ public class PlatformPanel extends FormPanel implements GetsDirty<Platform> {
     Button save;
     @UiField
     Button clear;
-    @UiField
-    Form form;
 
     @UiField
     Pagination platformPagination;
@@ -252,11 +249,17 @@ public class PlatformPanel extends FormPanel implements GetsDirty<Platform> {
         return platform;
     }
 
+    public boolean isDirty() {
+        return isDirty(originals);
+    }
     public boolean isDirty(List<Platform> originals) {
         OAPMetadataEditor.debugLog("PlatformPanel.isDirty:"+originals);
         boolean isDirty = false;
         if ( hasContent()) {
             addCurrentPlatform();
+        }
+        if ( originals == null || originals.isEmpty()) {
+            return ! getPlatforms().isEmpty();
         }
         Set<Platform> thisPlatforms = new TreeSet<>(getPlatforms());
         if ( thisPlatforms.size() != originals.size()) { return true; }
@@ -425,6 +428,7 @@ public class PlatformPanel extends FormPanel implements GetsDirty<Platform> {
     }
 
     public void addPlatforms(List<Platform> platformsList) {
+        originals = platformsList;
 //        OAPMetadataEditor.debugLog("in addPlatforms:"+platformsList);
 //        OAPMetadataEditor.debugLog("chk1 platformsList size: " + platformsList.size());
         int listSize =  platformsList.size();

@@ -13,5 +13,8 @@ public class DataSubmitterPanel extends PersonPanel {
         heading.setText("Enter the Information for this Data Submitter.");
         showTable = false;
     }
+    public boolean isDirty() {
+        return isDirty(getDbItem()); // XXX Not sure...
+    }
 
 }

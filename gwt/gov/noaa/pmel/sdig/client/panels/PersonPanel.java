@@ -63,10 +63,8 @@ import java.util.*;
 /**
  * Created by rhs on 2/27/17.
  */
-public class PersonPanel extends FormPanel implements GetsDirty<Person> {
+public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty<Person> {
 
-//    @UiField
-//    Form form;
     @UiField
     Button save;
     @UiField
@@ -119,6 +117,8 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     @UiField
     Modal ridBtnPopover;
 
+    protected List<Person> originals = null;
+
     List<Row> addedRows = new ArrayList<>();
     HashMap<String, ButtonDropDown> ridIdTypeDrops = new LinkedHashMap<>();
     HashMap<String, TextBox> ridTextBoxes = new LinkedHashMap<>();
@@ -168,7 +168,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     ButtonCell moveDownButton = new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
     ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
-    public static final String myRegex         = "^\\w[\\w-_#$%\\.]*@[\\w-_]+(\\.[\\w-_]+)*(\\.[a-z]{2,})$";
+    public static final String myRegex         = "^\\w[\\w-_#$%'\\.]*@[\\w-_]+(\\.[\\w-_]+)*(\\.[a-z]{2,})$";
     public static RegExp emailRegex = RegExp.compile(myRegex);
     // from http://emailregex.com/ -- Doesn't seem to work.  Tried various strings
 //    public static RegExp emailRegex = RegExp.compile("(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
@@ -232,6 +232,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         idTypePopover.setTitle("3.7 Please indicate which type of researcher ID.");
         idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
+//        save.setEnabled(false);
         if ("data submitter".equalsIgnoreCase(personType)) {
             emailLabel.setText("Email Address *");
             emailLabel.setColor("#B22222");
@@ -577,22 +578,9 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     }
 
 
-    private Widget getRowWidget(Row row, int colIdx, int wgtIdx) {
-        Widget clmWidget = row.getWidget(colIdx);
-        GWT.log("clmWidget:"+clmWidget);
-        org.gwtbootstrap3.client.ui.Column clm = (org.gwtbootstrap3.client.ui.Column)clmWidget;
-        GWT.log("clm:"+clm);
-        Widget formWidget = clm.getWidget(0);
-        GWT.log("formWidget:"+formWidget);
-        FormGroup form = (FormGroup)formWidget;
-        GWT.log("form:"+String.valueOf(form != null));
-        Widget widget = form.getWidget(wgtIdx);
-        GWT.log("widget:"+widget);
-        return widget;
-    }
-    public boolean validate() {
+    public boolean validateForm() {
         GWT.log("PersonPanel validate");
-        boolean isOk = this.valid();
+        boolean isOk = this.isValid();
         List<Row>ridRows = getRidRows();
         boolean isAdded = false;
         for (Row rrow : ridRows) {
@@ -625,29 +613,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     }
     public void setRidError(Row rrow, int wgtIdx, boolean set) {
         ButtonDropDown rTypeBtn = (ButtonDropDown) getRowWidget(rrow, 0, wgtIdx);
-        setRidError(set, rTypeBtn);
-    }
-
-    public void setFieldError(boolean set, Widget fieldForm) {
-        FormGroup group = getFormGroup(fieldForm);
-        if ( set )
-            group.addStyleName("has-error");
-        else
-            group.removeStyleName("has-error");
-    }
-
-    public void setRidError(boolean set, ButtonDropDown ridType) {
-        Button typeBtn = ridType.getButton();
-        if (set) {
-            ridTypeForm0.addStyleName("has-error");
-            typeBtn.addStyleName("error-border");
-        } else {
-            ridTypeForm0.removeStyleName("has-error");
-            typeBtn.removeStyleName("error-border");
-        }
-    }
-    private FormGroup getFormGroup(Widget widget) {
-        return (FormGroup) widget.getParent(); // XXX TODO: not always!
+        setDropButtonError(set, rTypeBtn);
     }
 
     private List<Row> getRidRows() {
@@ -685,7 +651,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
         OAPMetadataEditor.logToConsole("Save Person: " + clickEvent);
-        if ( ! validate() || ! valid()) {
+        if ( ! validateForm() || ! isValid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
@@ -801,7 +767,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         OAPMetadataEditor.debugLog("@PersonPanel.isDirty(" + original + ")");
         boolean isDirty = false;
         isDirty = original == null ?
-                hasContent() : //       XXX get hasBeenModified() right!
+                hasContent() :
                 isDirty(address1, original.getAddress1()) ||
                 isDirty(address2, original.getAddress2()) ||
                 isDirty(email, original.getEmail()) ||
@@ -825,25 +791,33 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
         List<TypedString> rids = getResearcherIds();
         List<TypedString> originalRids = original.getResearcherIds();
         if (rids.size() != originalRids.size()) {
+            OAPMetadataEditor.debugLog("researcher IDs different sizes: " +
+                                        rids.size() + " : " + originalRids.size());
             return true;
         }
         for ( int i = 0; i < rids.size(); i++) {
             if ( ! rids.get(i).equals(originalRids.get(i))) {
-                GWT.log("researcher IDs differ");
+                OAPMetadataEditor.debugLog("researcher ID "+i+" differ " +rids.get(i)+":"+originalRids.get(i));
                 return true;
             }
         }
-        GWT.log("std gases the same");
+        OAPMetadataEditor.debugLog("rids do not differ");
         return false;
     }
 
     boolean isDirty(Select cSelect, String originalCountry) {
+        boolean isDirty = false;
         Option selectedOption = cSelect.getSelectedItem();
         String originalValue = originalCountry != null ? originalCountry.trim() : "";
         if ( selectedOption == null || selectedOption.getText().trim().isEmpty()) {
-            return ! originalValue.isEmpty();
+            isDirty = ! originalValue.isEmpty();
+            if ( isDirty ) OAPMetadataEditor.debugLog("cselect changed");
+            return isDirty;
         }
-        return ! selectedOption.getValue().equals(originalValue);
+        isDirty = ! selectedOption.getValue().equals(originalValue);
+            if (isDirty) OAPMetadataEditor.debugLog("countries not equal:"+
+                            selectedOption.getValue()+" : "+ originalValue);
+        return isDirty;
     }
     public boolean hasContent() {
         OAPMetadataEditor.debugLog("@PersonPanel.hasContent()");
@@ -877,8 +851,16 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
             OAPMetadataEditor.debugLog("PersonPanel.mi:" + mi.getText());
             hasContent = true;
         }
+        if ( ridType0.getValue() != null &&  ! ridType0.getValue().trim().isEmpty()) {
+            OAPMetadataEditor.debugLog("PersonPanel.ridType:" + ridType0.getValue());
+            hasContent = true;
+        }
         if (rid0.getText().trim() != null && !rid0.getText().isEmpty()) {
             OAPMetadataEditor.debugLog("PersonPanel.rid:" + rid0.getText());
+            hasContent = true;
+        }
+        if ( getRidRows().size() > 1 ) {
+            OAPMetadataEditor.debugLog("PersonPanel.ridRows:" + getRidRows().size());
             hasContent = true;
         }
         // XXX check researcherIds
@@ -980,7 +962,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
 //            ridType0.setSelected(person.getIdType());
         showResearcherIds(person);
         OAPMetadataEditor.debugLog("Checking valid person");
-        person.setComplete(this.validate());
+        person.setComplete(this.validateForm());
     }
 
     @UiHandler("email")
@@ -1029,6 +1011,7 @@ public class PersonPanel extends FormPanel implements GetsDirty<Person> {
     }
 
     public void addPeople(List<Person> personList) {
+        originals = personList;
         for (int i = 0; i < personList.size(); i++) {
             Person p = personList.get(i);
             p.setPosition(i);

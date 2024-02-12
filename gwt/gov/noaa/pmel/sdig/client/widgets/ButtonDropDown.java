@@ -27,7 +27,8 @@ import java.util.Set;
 /**
  * Created by rhs on 1/21/17.
  */
-public class ButtonDropDown extends Composite implements HasId {
+public class ButtonDropDown extends Composite
+        implements HasId {
 
     String id;
     @UiField

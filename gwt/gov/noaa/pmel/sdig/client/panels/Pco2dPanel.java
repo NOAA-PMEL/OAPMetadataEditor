@@ -11,7 +11,6 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
@@ -21,16 +20,13 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/30/17.
  */
-public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
+public class Pco2dPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
 
     @UiField
     Button save;
 
     @UiField
     Button clear;
-
-    @UiField
-    Form form;
 
     // 012 Standardization technique description
     @UiField
@@ -108,6 +104,15 @@ public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
 
     private static Pco2dPanel.Pco2dPanelUiBinder ourUiBinder = GWT.create(Pco2dPanel.Pco2dPanelUiBinder.class);
 
+//    public static final String PCO2dAbbrevDEFAULT = "pCO2d";
+    public static final String PCO2dNameDEFAULT = "pco2 (fco2) discrete";
+
+    public Variable getDefault() {
+        Variable pco2d = new Variable();
+//        pco2d.setAbbreviation(PCO2dAbbrevDEFAULT);
+        pco2d.setFullVariableName(PCO2dNameDEFAULT);
+        return pco2d;
+    }
     public Pco2dPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
         setDefaults();
@@ -133,13 +138,12 @@ public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
         common.fullVariableNameModal.setTitle("The full variable name.");
         common.referenceMethodModal.setTitle("26.23 Citation for the pCO2 method.");
         common.unitsModal.setTitle("26.5 Units of the variable, e.g., μatm.");
-
-
+        setDbItem(getDefault());
     }
 
     private void setDefaults() {
         common.isBig5 = true;
-        common.abbreviation.setText("pCO2d");
+//        common.abbreviation.setText("pCO2d");
         common.fullVariableName.setText("pco2 (fco2) discrete");
     }
 
@@ -185,6 +189,7 @@ public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
         return pco2d;
     }
     public void show(Variable pco2d) {
+        setDbItem(pco2d);
         common.show(pco2d);
         if ( pco2d.getStandardizationTechnique() != null ) {
             standardizationTechnique.setText(pco2d.getStandardizationTechnique());
@@ -270,10 +275,13 @@ public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
             }
         }
     };
+    public boolean isDirty() {
+        return isDirty(getDbItem());
+    }
     public boolean isDirty(Variable original) {
        boolean isDirty =
            original == null ?
-           isDirty() :
+           hasContent() :
            common.isDirty(original) ||
            isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
            isDirty(storageMethod, original.getStorageMethod() ) ||
@@ -293,12 +301,8 @@ public class Pco2dPanel extends FormPanel implements GetsDirty<Variable> {
            isDirty(vaporCorrection, original.getVaporCorrection() );
        return isDirty;
     }
-
     public boolean hasContent() {
-        return isDirty();
-    }
-    public boolean isDirty() {
-        if ( common.isDirty() ) {
+        if ( common.hasContent() ) {
             return true;
         }
         if (freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {

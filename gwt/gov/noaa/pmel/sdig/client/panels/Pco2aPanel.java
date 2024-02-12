@@ -5,16 +5,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import gov.noaa.pmel.sdig.client.ConfirmClearFormCallback;
 import gov.noaa.pmel.sdig.client.Constants;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
@@ -25,7 +20,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/22/17.
  */
-public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variable> {
+public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault {
     // 012 Standardization technique description
     @UiField
     TextBox standardizationTechnique;
@@ -125,9 +120,6 @@ public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variabl
     @UiField
     Button clear;
 
-    @UiField
-    Form form;
-
     private static Pco2aPanel instance = null;
     public synchronized static Pco2aPanel instance() {
         if ( instance == null ) {
@@ -140,6 +132,16 @@ public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variabl
     }
 
     private static Pco2aPanel.Pco2aPanelUiBinder ourUiBinder = GWT.create(Pco2aPanel.Pco2aPanelUiBinder.class);
+
+//    public static final String PCO2aAbbrevDEFAULT = "pCO2a";
+    public static final String PCO2aNameDEFAULT = "pco2 (fco2) autonomous";
+
+    public Variable getDefault() {
+        Variable pco2a = new Variable();
+//        pco2a.setAbbreviation(PCO2aAbbrevDEFAULT);
+        pco2a.setFullVariableName(PCO2aNameDEFAULT);
+        return pco2a;
+    }
 
     public Pco2aPanel() {
         initWidget(ourUiBinder.createAndBindUi(this));
@@ -168,12 +170,12 @@ public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variabl
         common.fullVariableNameModal.setTitle("Full variable name.");
         common.referenceMethodModal.setTitle("25.22 Citation for the pCO2 method.");
         common.unitsModal.setTitle("25.5 Units of the variable, e.g., μatm.");
-
+        setDbItem(getDefault());
     }
     private void setDefaults() {
         common.isBig5 = true;
-        common.abbreviation.setText("pCO2a");
-        common.fullVariableName.setText("pco2 (fco2) autonomous");
+//        common.abbreviation.setText(PCO2aAbbrevDEFAULT);
+        common.fullVariableName.setText(PCO2aNameDEFAULT);
     }
     public Variable getPco2a() {
         Variable pco2a = common.getCommonVariable();
@@ -227,6 +229,7 @@ public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variabl
         pco2a.setVaporCorrection(vaporCorrection.getText());
     }
     public void show(Variable pco2a) {
+        setDbItem(pco2a);
         common.show(pco2a);
         if (pco2a.getStandardizationTechnique() != null ) {
             standardizationTechnique.setText(pco2a.getStandardizationTechnique());
@@ -360,10 +363,11 @@ public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variabl
             }
         }
     };
+    public boolean isDirty() { return isDirty(getDbItem()); }
     public boolean isDirty(Variable original) {
         boolean isDirty =
             original == null ?
-            isDirty() :
+            hasContent() :
             common.isDirty(original) ||
             isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
             isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
@@ -391,10 +395,7 @@ public class Pco2aPanel extends FormPanel<Variable> implements GetsDirty<Variabl
     }
 
     public boolean hasContent() {
-        return isDirty();
-    }
-    public boolean isDirty() {
-        if ( common.isDirty() ) {
+        if ( common.hasContent() ) {
             return true;
         }
         if (standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {

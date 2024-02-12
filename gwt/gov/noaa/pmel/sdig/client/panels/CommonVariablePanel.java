@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class CommonVariablePanel extends Composite implements GetsDirty<Variable> {
 
-    Variable _displayedVariable = null;
+    Variable commonVariable = null;
     boolean isBig5 = false;
 
     @UiField
@@ -306,7 +306,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         measured.reset();
     }
     public void show(Variable variable) {
-        _displayedVariable = variable;
+        commonVariable = variable;
         if ( variable.getAbbreviation() != null ) {
             abbreviation.setText(variable.getAbbreviation());
         }
@@ -366,7 +366,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
     public Variable getCommonVariable() {
 
-        Variable commonVariable = _displayedVariable != null ? _displayedVariable : new Variable();
+        Variable commonVariable = this.commonVariable != null ? this.commonVariable : new Variable();
 
         fillCommonVariable(commonVariable);
 
@@ -396,8 +396,10 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
     public boolean isDirty(Variable original) {
         boolean isDirty;
         isDirty = original == null ?
-                  isDirty() :
+                   hasContent() :
                    // Don't check abbreviation and full name since they are filled automatically.
+                   isDirty(abbreviation, original.getAbbreviation() ) ||
+                   isDirty(fullVariableName, original.getFullVariableName() ) ||
                    isDirty(observationType, original.getObservationType() ) ||
                    isDirty(manipulationMethod, original.getManipulationMethod() ) ||
                    isDirty(observationDetail.getValue(), original.getObservationDetail() ) ||
@@ -415,12 +417,12 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
                    isDirty(referenceMethod, original.getReferenceMethod() );
         return isDirty;
     }
-    public boolean isDirty() {
-        // Don't check abbreviation and full name for Big5 since they are filled automatically.
+    public boolean hasContent() {
+        if (abbreviation.getText() != null && !abbreviation.getText().isEmpty() ) {
+            return true;
+        }
+        // Don't check full name for Big5 since they are filled automatically.
         if ( !isBig5 ) {
-            if (abbreviation.getText() != null && !abbreviation.getText().isEmpty() ) {
-                return true;
-            }
             if (fullVariableName.getText() != null && !fullVariableName.getText().isEmpty() ) {
                 return true;
             }

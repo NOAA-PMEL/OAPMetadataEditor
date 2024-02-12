@@ -12,7 +12,6 @@ import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
@@ -25,14 +24,11 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class TaPanel extends FormPanel implements GetsDirty<Variable> {
+public class TaPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
     @UiField
     Button save;
     @UiField
     Button clear;
-
-    @UiField
-    Form form;
 
     // 012 Standardization technique description
     @UiField
@@ -86,10 +82,20 @@ public class TaPanel extends FormPanel implements GetsDirty<Variable> {
 
     private static TaPanel.VariablePanelUiBinder ourUiBinder = GWT.create(TaPanel.VariablePanelUiBinder.class);
 
+//    public static final String TaAbbrevDEFAULT = "TA";
+    public static final String TaNameDEFAULT = "Total Alkalinity";
+
+    public Variable getDefault() {
+        Variable ta = new Variable();
+//        ta.setAbbreviation(TaAbbrevDEFAULT);
+        ta.setFullVariableName(TaNameDEFAULT);
+        return ta;
+    }
     public TaPanel() {
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        setDbItem(getDefault());
         setDefaults();
         // common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
@@ -134,8 +140,8 @@ public class TaPanel extends FormPanel implements GetsDirty<Variable> {
     }
     private void setDefaults() {
         common.isBig5 = true;
-        common.abbreviation.setText("TA");
-        common.fullVariableName.setText("Total Alkalinity");
+//        common.abbreviation.setText("TA");
+        common.fullVariableName.setText(TaNameDEFAULT);
     }
     public Variable getTa() {
         Variable ta = common.getCommonVariable();
@@ -199,6 +205,7 @@ public class TaPanel extends FormPanel implements GetsDirty<Variable> {
         }
     };
     public void show(Variable ta) {
+        setDbItem(ta);
         common.show(ta);
         if ( ta.getStandardizationTechnique() != null ) {
             standardizationTechnique.setText(ta.getStandardizationTechnique());
@@ -260,11 +267,11 @@ public class TaPanel extends FormPanel implements GetsDirty<Variable> {
             isDirty(titrationType, original.getTitrationType() );
         return isDirty;
     }
-    public boolean hasContent() {
-        return isDirty();
-    }
     public boolean isDirty() {
-        if ( common.isDirty() ) {
+        return isDirty(getDbItem());
+    }
+    public boolean hasContent() {
+        if ( common.hasContent() ) {
             return true;
         }
         if (standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {

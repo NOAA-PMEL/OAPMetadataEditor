@@ -134,8 +134,11 @@ h1 {
 
 .error-border {
     border-color: red !important;
-    border-width: 3px !important;
+    border-width: 2px !important;
     /* #a94442 */
+}
+.has-error.control-label {
+    color: #a94442;
 }
 .serverResponseLabelError {
   color: red;

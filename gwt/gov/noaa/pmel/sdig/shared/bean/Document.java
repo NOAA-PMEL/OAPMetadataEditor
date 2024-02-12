@@ -39,7 +39,7 @@ public class Document extends DbItem implements HasContent {
 
     String update;
 
-    private static List<? extends Stringy> getArrayCopy(List<? extends Stringy> list) {
+    public static List<? extends Stringy> getArrayCopy(List<? extends Stringy> list) {
         ArrayList<Stringy> newList = new ArrayList<>();
         if ( list != null ) {
             for (Stringy o : list) {

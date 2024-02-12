@@ -114,7 +114,7 @@ dataSource:
 
 # ./gradlew -Dgrails.env=[environment] assemble
 environments:
-    devcreate:
+    sa_oa_create_3306:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
@@ -142,14 +142,15 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    development:
+
+    buckeye_oa_preserve:
         dataSource:
             dbCreate: validate
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:63306/ioap_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-            username: oapweb
-            password: webster
+            username: scientist
+            password: qc4socat3
             logSql: true
             formatSql: true
             properties:
@@ -199,10 +200,10 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    sour:
+    sour_oa_create:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist

@@ -329,28 +329,29 @@ class XmlService {
                     variableE.getChild("internal").getTextTrim() :
                     null
             if (( internal != null && internal.equals("1")) ||
-                ( fullname != null && fullname.contains("inorganic carbon"))) {
+                ( fullname != null && ( fullname.contains("inorganic carbon")) ||
+                                        fullname.toLowerCase().contains(Dic.FULL_NAME.toLowerCase()))) {
                 Dic dic = fillVariableDomain(variableE, new Dic())
                 mdDoc.setDic(dic)
             } else if (( internal != null && internal.equals("2")) ||
-                       ( fullname != null && fullname.equals("total alkalinity"))) {
+                       ( fullname != null && fullname.toLowerCase().equals(Ta.FULL_NAME.toLowerCase()))) {
                 Ta ta = fillVariableDomain(variableE, new Ta())
                 mdDoc.setTa(ta)
             } else if (( internal != null && internal.equals("3")) ||
                         ( fullname != null &&
-                        ( fullname.equals("ph") ||
+                        ( fullname.toLowerCase().equals(Ph.FULL_NAME.toLowerCase()) ||
                                 fullname.equals("ph total")))) {
                 Ph ph = fillVariableDomain(variableE, new Ph())
                 mdDoc.setPh(ph)
             } else if (( internal != null && internal.equals("4")) ||
                        ( fullname != null &&
-                           ( fullname.equals("pco2 (fco2) autonomous") ||
+                           ( fullname.toLowerCase().equals(Pco2a.FULL_NAME.toLowerCase()) ||
                              fullname.equals("pco2 (or fco2) autonomous")))) {
                 Pco2a p = fillVariableDomain(variableE, new Pco2a())
                 mdDoc.setPco2a(p)
             } else if (( internal != null && internal.equals("5")) ||
                        ( fullname != null &&
-                            ( fullname.equals("pco2 (fco2) discrete") ||
+                            ( fullname.toLowerCase().equals(Pco2d.FULL_NAME.toLowerCase()) ||
                               fullname.equals("pco2 (or fco2) discrete")))) {
                 Pco2d p = fillVariableDomain(variableE, new Pco2d())
                 mdDoc.setPco2d(p)

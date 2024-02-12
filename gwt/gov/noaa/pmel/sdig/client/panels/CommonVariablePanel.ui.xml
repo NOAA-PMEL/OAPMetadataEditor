@@ -36,7 +36,8 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="SM_6 MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
-                                <b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
+                                <!-- b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel -->
+                                <b:FormLabel addStyleNames="has-error" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="abbreviationModal" b:id="modalAbbreviation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="abbreviation" allowBlank="false" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
@@ -90,7 +91,7 @@ Unnamed variables have "Full variable name in addition.
                             </b:FormGroup>
                             <b:FormGroup ui:field="pHscaleForm" visible="false">
                                 <!-- Keep -->
-                                <b:FormLabel for="pHscale" text="pH scale"></b:FormLabel>
+                                <b:FormLabel color="#B22222" for="pHscale" text="pH Scale *"></b:FormLabel>
                                 <b:Modal title="24.9 The pH scale for the reported pH results, e.g., total scale, seawater scale, NBS scale, etc." closable="true" b:id="modalpHscale"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHscale" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <!-- b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox -->

@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable> {
+public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
 
     @UiField
     Button save;
@@ -67,37 +67,20 @@ public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>
 
     private static DicPanel.DicPanelUiBinder ourUiBinder = GWT.create(DicPanel.DicPanelUiBinder.class);
 
+//    public static final String DICAbbrevDEFAULT = "DIC";
+    public static final String DICNameDEFAULT = "Dissolved Inorganic Carbon";
 
+    public Variable getDefault() {
+        Variable dic = new Variable();
+//        dic.setAbbreviation(DICAbbrevDEFAULT);
+        dic.setFullVariableName(DICNameDEFAULT);
+        return dic;
+    }
     public DicPanel() {
-        /*
-DIC: Variable abbreviation in data files
-DIC: Observation type
-DIC: In-situ observation / manipulation condition / response variable
-DIC: Manipulation method
-DIC: Variable unit
-DIC: Measured or calculated
-DIC: Calculation method and parameters
-DIC: Sampling instrument
-DIC: Analyzing instrument
-DIC: Detailed sampling and analyzing information
-DIC: Field replicate information
-DIC: Standardization technique description
-DIC: Frequency of standardization
-DIC: CRM manufacturer
-DIC: Batch number
-DIC: How were the samples preserved (HgCl2, or others)
-DIC: Concentration and amount of the preservative
-DIC: Preservative correction description
-DIC: Uncertainty
-DIC: Data quality flag description
-DIC: Method reference (citation)
-DIC: Researcher Name
-DIC: Researcher Institution
-         */
         initWidget(ourUiBinder.createAndBindUi(this));
 
+        setDbItem(getDefault());
         setDefaults();
-//        common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Dissolved Inorganic Carbon (DIC).");
         save.addClickHandler(saveIt);
@@ -120,13 +103,12 @@ DIC: Researcher Institution
         common.fullVariableNameModal.setTitle("The full variable name.");
         common.referenceMethodModal.setTitle("22.16 Citation for the dissolved inorganic carbon method.");
         common.unitsModal.setTitle("22.5 Units of the variable (e.g., μmol/kg).");
-
     }
 
     private void setDefaults() {
         common.isBig5 = true;
-        common.abbreviation.setText("DIC");
-        common.fullVariableName.setText("Dissolved Inorganic Carbon");
+//        common.abbreviation.setText("DIC");
+        common.fullVariableName.setText(DICNameDEFAULT);
     }
 
     public Variable getDic() {
@@ -153,6 +135,7 @@ DIC: Researcher Institution
     }
 
     public void show(Variable dic) {
+        setDbItem(dic);
         common.show(dic);
         if ( dic.getStandardizationTechnique() != null ) {
             standardizationTechnique.setText(dic.getStandardizationTechnique());
@@ -218,10 +201,11 @@ DIC: Researcher Institution
         }
     };
 
+    public boolean isDirty() { return isDirty(getDbItem()); }
     public boolean isDirty(Variable original) {
         boolean isDirty;
         isDirty = original == null ?
-            isDirty() :
+            hasContent() :
             common.isDirty(original) ||
             isDirty(standardizationTechnique, original.getStandardizationTechnique() ) ||
             isDirty(freqencyOfStandardization, original.getFreqencyOfStandardization() ) ||
@@ -234,11 +218,7 @@ DIC: Researcher Institution
     }
 
     public boolean hasContent() {
-        return isDirty();
-    }
-    public boolean isDirty() {
-
-        if ( common.isDirty() ) {
+        if ( common.hasContent() ) {
             return true;
         }
         if (standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {

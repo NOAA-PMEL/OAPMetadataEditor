@@ -2,6 +2,7 @@ package oap
 
 
 import grails.converters.JSON
+import org.apache.commons.beanutils.BeanUtils
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -45,7 +46,15 @@ class DocumentController {
                 long lid = Long.valueOf(id)
                 doc = Document.findById(lid)
             } catch (NumberFormatException nfe) {
-                doc = Document.findByDatasetIdentifier(id)
+//                doc = Document.findByDatasetIdentifier(id)
+                List<Document> prior = Document.findAllByDatasetIdentifier(id)
+                if (prior && !prior.isEmpty()) {
+                    log.info("Found " + prior.size() + " documents");
+                    if ( prior.size() > 1 ) {
+                        log.info("prior: " + prior)
+                    }
+                    doc = prior.get(0);
+                }
             }
             if ( ! doc ) {
                 Citation savedCitation = Citation.findByExpocode(id)
@@ -136,18 +145,24 @@ class DocumentController {
         Document d
         if ( doc.validate() ) {
             try {
-                if ( removePrior ) {
+//                if ( removePrior ) {
                     List<Document> prior = Document.findAllByDatasetIdentifier(datasetId)
-                    if ( prior && ! prior.isEmpty()) {
-                        log.debug("Found previous documents " + prior + " found for id " + datasetId)
-                        Document.deleteAll(prior)
-                    }
-//                    Document savedVersion = Document.findByDatasetIdentifier(datasetId)
-//                    if (savedVersion) {
-//                        log.debug("Found previous document found for id " + datasetId)
-//                        savedVersion.delete(flush: true)
-//                    d = doc.merge(flush: true, failOnError: true)
-                }
+//                if (!prior.isEmpty()) {
+//
+//                }
+                    Document savedVersion = Document.findByDatasetIdentifier(datasetId)
+                    if (savedVersion) {
+                        log.debug("Found previous document " + savedVersion.id + " found for id " + datasetId)
+                        savedVersion.delete(flush: true)
+//                        BeanUtils.copyProperties(savedVersion, doc);
+//                        doc = savedVersion;
+//                        d = doc.merge(flush:true, failOnError:true)
+                    } // d = doc.merge(flush: true, failOnError: true) Doesn't work..
+//                    if ( prior && ! prior.isEmpty()) {
+//                        log.debug("Found previous documents " + prior + " found for id " + datasetId)
+//                        Document.deleteAll(prior)
+//                    }
+//                }
                 d = doc.save(flush: true, failOnError: true)
                 d.dbId = d.id
                 d.dbVersion = d.version

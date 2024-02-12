@@ -16,7 +16,6 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.view.client.CellPreviewEvent;
@@ -46,12 +45,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.*;
 
 /**
  * Created by rhs on 3/7/17.
  */
-public class FundingPanel extends FormPanel implements GetsDirty<Funding> {
+public class FundingPanel extends MultiPanel<Funding> implements GetsDirty<Funding> {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -71,6 +69,8 @@ public class FundingPanel extends FormPanel implements GetsDirty<Funding> {
 
     FundingCodec codec = GWT.create(FundingCodec.class);
 
+    List<Funding> originalList = null;
+
     @UiField
     TextBox agencyName;
     @UiField
@@ -84,8 +84,6 @@ public class FundingPanel extends FormPanel implements GetsDirty<Funding> {
     Button save;
     @UiField
     Button clear;
-    @UiField
-    Form form;
     @UiField
     Pagination fundingPagination;
 
@@ -301,10 +299,16 @@ public class FundingPanel extends FormPanel implements GetsDirty<Funding> {
         return funding;
     }
 
+    public boolean isDirty() {
+        return isDirty(originalList);
+    }
     public boolean isDirty(List<Funding> originals) {
         boolean isDirty = false;
         if (hasContent()) {
             addCurrentFunding();
+        }
+        if ( originals == null || originals.isEmpty()) {
+            return ! getFundings().isEmpty();
         }
         Set<Funding>thisFundings = new TreeSet<>(getFundings());
         if (thisFundings.size() != originals.size()) { return true; }
@@ -380,6 +384,7 @@ public class FundingPanel extends FormPanel implements GetsDirty<Funding> {
         }
     }
     public void addFundings(List<Funding> fundingList) {
+        originalList = fundingList;
         for (int i = 0; i < fundingList.size(); i++) {
             Funding f = fundingList.get(i);
             f.setPosition(i);

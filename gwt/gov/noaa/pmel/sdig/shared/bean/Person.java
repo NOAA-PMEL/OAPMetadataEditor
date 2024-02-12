@@ -216,12 +216,11 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
         newPerson.telephone = this.telephone;
         newPerson.extension = this.extension;
         newPerson.email = this.email;
-//        newPerson.rid = this.rid;
         newPerson.city = this.city;
         newPerson.state = this.state;
         newPerson.zip = this.zip;
         newPerson.country = this.country;
-//        newPerson.idType = this.idType;
+        newPerson.setResearcherIds((List<TypedString>)Document.getArrayCopy(this.getResearcherIds()));
         return newPerson;
     }
 

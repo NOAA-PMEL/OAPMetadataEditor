@@ -159,37 +159,39 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         return timeAndLocation;
     }
 
-    private boolean isDirty(HasValue<Date> valueField, String original) {
+//    private boolean isDirty(HasValue<Date> valueField, String original) {
+    private boolean isDirty(DatePicker valueField, String original) {
         boolean isDirty = false;
-        Date fieldValue = valueField.getValue();
+        String fieldValue = valueField.getTextBox().getValue();
         String originalValue = original != null ? original.trim() : "";
         isDirty = fieldValue == null ?
                 !isEmpty(originalValue) :
                 !originalValue.equals(String.valueOf(fieldValue));
+        if (isDirty) OAPMetadataEditor.debugLog("dates different:"+fieldValue+" : " + original);
         return isDirty;
     }
 
+    public boolean isDirty() {
+        return isDirty(getDbItem());
+    }
     public boolean isDirty(TimeAndLocation original) {
         OAPMetadataEditor.debugLog("TimeAndLocation.isDirty(" + original + ")");
         boolean isDirty =
                 original == null ?
-                        this.isDirty() :
-                        isDirty(eastLon, original.getEastLon()) ||
-                                isDirty(endDate, original.getEndDate()) ||
-                                isDirty(startDate, original.getStartDate()) ||
-                                isDirty(geoNames, original.getGeoNames()) ||
-                                isDirty(northLat, original.getNorthLat()) ||
-                                isDirty(organismLoc, original.getOrganismLoc()) ||
-                                isDirty(southLat, original.getSouthLat()) ||
+                this.hasContent() :
+                isDirty(eastLon, original.getEastLon()) ||
+                isDirty(endDate, original.getEndDate()) ||
+                isDirty(startDate, original.getStartDate()) ||
+                isDirty(geoNames, original.getGeoNames()) ||
+                isDirty(northLat, original.getNorthLat()) ||
+                isDirty(organismLoc, original.getOrganismLoc()) ||
+                isDirty(southLat, original.getSouthLat()) ||
 //                                isDirty(spatialRef, original.getSpatialRef()) ||
-                                isDirty(westLon, original.getWestLon());
+                isDirty(westLon, original.getWestLon());
         return isDirty;
     }
 
     public boolean hasContent() {
-        return isDirty();
-    }
-    public boolean isDirty() {
         if (eastLon.getText().trim() != null && !eastLon.getText().isEmpty()) {
             return true;
         }

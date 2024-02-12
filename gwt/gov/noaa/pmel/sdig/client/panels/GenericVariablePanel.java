@@ -56,9 +56,7 @@ import java.util.*;
 /**
  * Created by rhs on 3/8/17.
  */
-public class GenericVariablePanel extends FormPanel<Variable> {
-
-    Variable displayedVariable = null;
+public class GenericVariablePanel extends MultiPanel<Variable> {
 
     // Maybe someday this will be used dynamically
     // currently prevents requiring observation details (in-situ, etc) and Measured/Calculated
@@ -259,7 +257,8 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     boolean showTable = true;
     boolean editing = false;
 
-    Variable editVariable;
+    Variable displayedVariable = null;
+    Variable editVariable = null;
     int editIndex = -1;
     int pageSize = 3;
 
@@ -269,6 +268,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
     ObservationTypeSuggestOracle observationTypeSuggestOracle = new ObservationTypeSuggestOracle();
+    private List<Variable> originalList = null;
 
     public void reset() {
         form.reset();
@@ -598,10 +598,16 @@ public class GenericVariablePanel extends FormPanel<Variable> {
         return commonVariable;
     }
 
+    public boolean isDirty() {
+        return isDirty(originalList);
+    }
     public boolean isDirty(List<Variable> originals) {
         boolean isDirty = false;
         if ( hasContent()) {
             addCurrentVariable();
+        }
+        if ( originals == null || originals.isEmpty() ) {
+            return !getVariables().isEmpty();
         }
         Set<Variable>thisVariables = new TreeSet<>(getVariables());
         if ( thisVariables.size() != originals.size()) { return true; }
@@ -687,7 +693,7 @@ public class GenericVariablePanel extends FormPanel<Variable> {
     }
 
     public void addVariables(List<Variable> variableList) {
-
+        originalList = variableList;
         for (int i = 0; i < variableList.size(); i++) {
             Variable p = variableList.get(i);
             if ( p == null ) { // XXX badness

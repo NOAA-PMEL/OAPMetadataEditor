@@ -90,7 +90,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         boolean isDirty = false;
         isDirty =
             original == null ?
-            this.isDirty() :
+            this.hasContent() :
             isDirty(datasetAbstract, original.getDatasetAbstract() ) ||
             isDirty(useLimitation, original.getUseLimitation() ) ||
             isDirty(purpose, original.getPurpose() ) ||
@@ -105,10 +105,10 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
     }
-    public boolean hasContent() {
-        return  isDirty();
-    }
     public boolean isDirty() {
+        return isDirty(getDbItem());
+    }
+    public boolean hasContent() {
         if (datasetAbstract.getText().trim() != null && !datasetAbstract.getText().isEmpty() ) {
             return true;
         }

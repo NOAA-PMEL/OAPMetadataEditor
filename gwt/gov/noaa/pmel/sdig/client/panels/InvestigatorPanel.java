@@ -10,6 +10,7 @@ import java.util.*;
  */
 
 public class InvestigatorPanel extends PersonPanel {
+
     public InvestigatorPanel() {
         super("investigator");
         setType(Constants.SECTION_INVESTIGATOR);
@@ -22,6 +23,9 @@ public class InvestigatorPanel extends PersonPanel {
     }
     public void setEditing(boolean isEditing) {
         editing = isEditing;
+    }
+    public boolean isDirty() {
+        return isDirty(originals);
     }
     public boolean isDirty(List<Person> originals) {
         OAPMetadataEditor.debugLog("Investigator.isDirty("+originals+")");
@@ -45,16 +49,4 @@ public class InvestigatorPanel extends PersonPanel {
         }
         return false;
     }
-
-    public boolean isValidTest(List<Person> originals) {
-        OAPMetadataEditor.debugLog("Investigator.isValidTest("+originals+")");
-//        Set<Person> thisPeople = new TreeSet<>(getInvestigators());
-        Set<Person> orderedOriginals = new TreeSet<>(originals);
-        for ( Person person : orderedOriginals ) {
-                OAPMetadataEditor.debugLog("Investigator.valid: " + person);
-                return true;
-        }
-        return false;
-    }
-
 }

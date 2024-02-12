@@ -89,6 +89,13 @@ public class OAPMetadataEditor implements EntryPoint {
         console.log(msg);
     }-*/;
 
+    public static void dumpStackTrace(Exception ex, int depth) {
+        StackTraceElement[] stack = ex.getStackTrace();
+       for (int i = 0; i < depth && i < stack.length; i++) {
+           StackTraceElement ste = stack[i];
+           logToConsole(String.valueOf(ste));
+       }
+    }
     /**
      * The message displayed to the user when the server cannot be reached or
      * returns an error.
@@ -240,11 +247,12 @@ public class OAPMetadataEditor implements EntryPoint {
 //                if ( event.getType().equals(Constants.SECTION_DOCUMENT )) { // &&  event.getSectionContents().equals("saveNotify") {
 //                    saveMultiItemPanels();
 //                }
-                if ("Download".equals(event.getSectionContents()) ||
-                        "Preview".equals(event.getSectionContents()) || // TODO:  ... but not empty document.
-                        currentDocumentIsDirty()) {
+                // Always save, because isDirty is not reliable...
+//                if ("Download".equals(event.getSectionContents()) ||
+//                        "Preview".equals(event.getSectionContents()) || // TODO:  ... but not empty document.
+//                        currentDocumentIsDirty()) {
                     saveSection(event.getType(), event.getSectionContents());
-                }
+//                }
             }
         });
         eventBus.addHandler(NavLink.TYPE, new NavLinkHandler() {
@@ -493,9 +501,10 @@ public class OAPMetadataEditor implements EntryPoint {
 //        }
         try {
             Document doc = getDocument(true);
+            debugLog("doc is dirty:"+currentDocumentIsDirty());
             saveDocumentService.save(getDatasetId(doc), doc, callback);
             saved = true;
-        } catch (IllegalStateException isx) {
+        } catch (Throwable isx) {
             String errorMsg = isx.getMessage();
             warn("Please correct the following:<br/>"+errorMsg);
         }
@@ -539,7 +548,7 @@ public class OAPMetadataEditor implements EntryPoint {
             try {
                 dataSubmitter.validate();
             } catch (IllegalStateException isx) {
-                submitterPanel.validate();
+                submitterPanel.validateForm();
                 setMain(Constants.SECTION_SUBMITTER);
                 throw isx;
             }
@@ -552,7 +561,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 try {
                     p.validate();
                 } catch (IllegalStateException isx) {
-                    investigatorPanel.validate();
+                    investigatorPanel.validateForm();
                     setMain(Constants.SECTION_INVESTIGATOR);
                     throw new ValidationException(isx, investigatorPanel);
                 }
@@ -578,11 +587,15 @@ public class OAPMetadataEditor implements EntryPoint {
         }
         doc.setInvestigators(investigators);
         // Citation Panel
-        Citation citation = citationPanel.getCitation();
-        doc.setCitation(citation);
+        if ( citationPanel.hasContent()) {
+            Citation citation = citationPanel.getCitation();
+            doc.setCitation(citation);
+        }
         // TimeAndLocationPanel
-        TimeAndLocation timeAndLocation = timeAndLocationPanel.getTimeAndLocation();
-        doc.setTimeAndLocation(timeAndLocation);
+        if ( timeAndLocationPanel.hasContent()) {
+            TimeAndLocation timeAndLocation = timeAndLocationPanel.getTimeAndLocation();
+            doc.setTimeAndLocation(timeAndLocation);
+        }
 
         // Funding Panel
 //        List<Funding> fundings = fundingPanel.getFundings();
@@ -619,27 +632,27 @@ public class OAPMetadataEditor implements EntryPoint {
         doc.setPlatforms(platforms);
 
         // Dic Panel
-        if (dicPanel.isDirty()) {
+        if (dicPanel.hasContent()) {
             Variable dic = dicPanel.getDic();
             doc.setDic(dic);
         }
         // Ta
-        if (taPanel.isDirty()) {
+        if (taPanel.hasContent()) {
             Variable ta = taPanel.getTa();
             doc.setTa(ta);
         }
         // Ph
-        if (phPanel.isDirty()) {
-            Variable ph = phPanel.getPh();
+        if (phPanel.hasContent()) {
+            Variable ph = phPanel.getPh(validate);
             doc.setPh(ph);
         }
         // pco2a
-        if (pco2aPanel.isDirty()) {
+        if (pco2aPanel.hasContent()) {
             Variable pco2a = pco2aPanel.getPco2a();
             doc.setPco2a(pco2a);
         }
         // pco2d
-        if (pco2dPanel.isDirty()) {
+        if (pco2dPanel.hasContent()) {
             Variable pco2d = pco2dPanel.getPco2d();
             doc.setPco2d(pco2d);
         }
@@ -869,7 +882,7 @@ public class OAPMetadataEditor implements EntryPoint {
             // prompt for merge while metadata panels have data.
             // Overwrite to overwrite the existing metadata panels.
             // Preserve exiting data and merge only empty values
-//            if (currentDocumentIsDirty() && _loadedDocument != null) {
+               // Old / Original way
            if (getDocument().hasContent()) {
                  //#DEBUG
 //               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
@@ -924,17 +937,94 @@ public class OAPMetadataEditor implements EntryPoint {
                         mergeOptions.hide();
                     }
                 });
+           } else {
+               //#DEBUG
+//               debugLog("currentDocumentIsDirty()onSubmitComplete is false: " + currentDocumentIsDirty() + " --overwrite empty doc");
+               mergeJsonDocument(jsonString);
+           }
+                /* From SOCAT / New way, with Clear All
+//            if (currentDocumentIsDirty() && _loadedDocument != null) {
+                   // still thinking if this is the right thing to do
+                   // the issue is perhaps clearing the internal document (record) ID.
+            if (getDocument().hasContent() && _loadedDocument != null) {
+                //#DEBUG
+//               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
+
+                final Modal mergeOptions = new Modal();
+                ModalHeader header = new ModalHeader();
+                Heading h = new Heading(HeadingSize.H3);
+                h.setText("Merge Options");
+                header.add(h);
+                mergeOptions.add(header);
+                ModalBody body = new ModalBody();
+                HTML message =
+                        new HTML("<span style='font-weight=bold; color:red;'>Preserve</span> will populate empty fields with " +
+                                "content from the uploaded file, but will not overwrite existing content in the form fields." +
+                                "<br><br><span style='font-weight=bold; color:red;'>Overwrite</span> will populate empty fields " +
+                                "with content from the uploaded file, but will <span style='font-weight=bold; color:red;'>replace</span> " +
+                                "any existing content in form fields if there is content for that field in the uploaded file." +
+                                "<br><br><span style='font-weight=bold; color:red;'>Clear All</span> will " +
+                                "<span style='color:red;'>clear all fields</span> before uploading.");
+                ModalFooter footer = new ModalFooter();
+                Button clear = new Button("Clear All");
+                clear.setType(ButtonType.DANGER);
+                Button preserve = new Button("Preserve");
+                preserve.setType(ButtonType.DANGER);
+                Button overwrite = new Button("Overwrite");
+                overwrite.setType(ButtonType.DANGER);
+                Button cancel = new Button("Cancel");
+                cancel.setType(ButtonType.PRIMARY);
+
+                footer.add(clear);
+                footer.add(preserve);
+                footer.add(overwrite);
+                footer.add(cancel);
+                body.add(message);
+                mergeOptions.add(body);
+                mergeOptions.add(footer);
+
+                mergeOptions.show();
+
+                clear.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        startOver(true);
+                        loadJsonDocument(jsonString, true, true);
+                        mergeOptions.hide();
+                    }
+                });
+
+                preserve.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        preserveMergeJsonDocument(jsonString);
+                        mergeOptions.hide();
+                    }
+                });
+
+                overwrite.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        mergeJsonDocument(jsonString);
+                        mergeOptions.hide();
+                    }
+                });
+
+                cancel.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        mergeOptions.hide();
+                    }
+                });
 
             } else {
-                //#DEBUG
-//               debugLog("currentDocumentIsDirty()onSubmitComplete is false: " + currentDocumentIsDirty() + " --overwrite empty doc");
-                mergeJsonDocument(jsonString);
-            }
+                */
         }
     };
 
     private boolean currentDocumentIsDirty() {
-//        debugLog("_loadedDoc@currentDocumentIsDirty():" + _loadedDocument);
+        debugLog("_loadedDoc@currentDocumentIsDirty():" +
+                            _loadedDocument == null ? ">null<" : _loadedDocument.getDatasetIdentifier());
         Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
 //        debugLog("compDoc@currentDocumentIsDirty():" + compDoc);
 
@@ -1132,7 +1222,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getDataSubmitter() != null) {
                 Person dataSubmitter = document.getDataSubmitter();
                 submitterPanel.show(dataSubmitter);
-                if (!submitterPanel.valid()) {
+                if (!submitterPanel.isValid()) {
 //                    debugLog("danger submitterPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_SUBMITTER, "pill-danger");
                 } else {
@@ -1162,7 +1252,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //                    debugLog("current index: " + i);
                     Person p = personList.get(i);
                     investigatorPanel.show(p);
-                    if (!investigatorPanel.valid()) {
+                    if (!investigatorPanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -1196,7 +1286,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getCitation() != null) {
                 Citation citation = document.getCitation();
                 citationPanel.show(citation);
-                if (!citationPanel.valid()) {
+                if (!citationPanel.isValid()) {
 //                    debugLog("danger citationPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_CITATION, "pill-danger");
                 } else {
@@ -1209,7 +1299,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getTimeAndLocation() != null) {
                 TimeAndLocation timeAndLocation = document.getTimeAndLocation();
                 timeAndLocationPanel.show(timeAndLocation);
-                if (!timeAndLocationPanel.valid()) {
+                if (!timeAndLocationPanel.isValid()) {
 //                    debugLog("danger timeAndLocationPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_TIMEANDLOCATION, "pill-danger");
                 } else {
@@ -1231,7 +1321,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 for (int i = 0; i < fundings.size(); i++) {
                     Funding f = fundings.get(i);
                     fundingPanel.show(f);
-                    if (!fundingPanel.valid()) {
+                    if (!fundingPanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -1275,7 +1365,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 for (int i = 0; i < platforms.size(); i++) {
                     Platform p = platforms.get(i);
                     platformPanel.show(p);
-                    if (!platformPanel.valid()) {
+                    if (!platformPanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -1310,7 +1400,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getDic() != null) {
                 Variable dic = document.getDic();
                 dicPanel.show(dic);
-                if (!dicPanel.valid()) {
+                if (!dicPanel.isValid()) {
 //                    debugLog("danger dicPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_DIC, "pill-danger");
                 } else {
@@ -1322,7 +1412,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getTa() != null) {
                 Variable ta = document.getTa();
                 taPanel.show(ta);
-                if (!phPanel.valid()) {
+                if (!taPanel.isValid()) {
 //                    debugLog("danger taPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_TA, "pill-danger");
                 } else {
@@ -1334,7 +1424,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getPh() != null) {
                 Variable ph = document.getPh();
                 phPanel.show(ph);
-                if (!phPanel.valid()) {
+                if (!phPanel.isValid()) {
 //                    debugLog("danger phPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PH, "pill-danger");
                 } else {
@@ -1348,7 +1438,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //                common.fullVariableName.setText("pco2 (fco2) autonomous");
                 Variable pco2a = document.getPco2a();
                 pco2aPanel.show(pco2a);
-                if (!pco2aPanel.valid()) {
+                if (!pco2aPanel.isValid()) {
 //                    debugLog("danger pco2aPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PCO2A, "pill-danger");
                 } else {
@@ -1360,7 +1450,7 @@ public class OAPMetadataEditor implements EntryPoint {
             if (document.getPco2d() != null) {
                 Variable pco2d = document.getPco2d();
                 pco2dPanel.show(pco2d);
-                if (!pco2dPanel.valid()) {
+                if (!pco2dPanel.isValid()) {
 //                    debugLog("danger pco2dPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PCO2D, "pill-danger");
                 } else {
@@ -1381,7 +1471,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //                for (int i = 0; i < variablesList.size(); i++) {
 //                    Variable v = variablesList.get(i);
 //                    genericVariablePanel.show(v);
-//                    if (genericVariablePanel.valid()) {
+//                    if (genericVariablePanel.isValid()) {
 //                        topLayout.setChecked(Constants.SECTION_GENERIC);
 //                        topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-warning");
 //                    }
@@ -1493,7 +1583,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 for (int i = 0; i < variablesList.size(); i++) {
                     Variable v = variablesList.get(i);
                     genericVariablePanel.show(v);
-                    if (!genericVariablePanel.valid()) {
+                    if (!genericVariablePanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -1609,7 +1699,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //                for (int i = 0; i < variablesList.size(); i++) {
 //                    Variable v = variablesList.get(i);
 //                    genericVariablePanel.show(v);
-//                    if (!genericVariablePanel.valid()) {
+//                    if (!genericVariablePanel.isValid()) {
 //                        hasInvalidData = true;
 //                    } else {
 //                        hasValidData = true;
@@ -1723,7 +1813,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 submitterPanel.show(dataSubmitter);
-                if (!submitterPanel.valid()) {
+                if (!submitterPanel.isValid()) {
 //                    debugLog("danger submitterPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_SUBMITTER, "pill-danger");
                 } else {
@@ -1754,7 +1844,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     debugLog("current index: " + i);
                     Person p = personList.get(i);
                     investigatorPanel.show(p);
-                    if (!investigatorPanel.valid()) {
+                    if (!investigatorPanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -1831,7 +1921,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 citationPanel.show(citation);
-                if (!citationPanel.valid()) {
+                if (!citationPanel.isValid()) {
 //                    debugLog("danger citationPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_CITATION, "pill-danger");
                 } else {
@@ -1877,7 +1967,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 timeAndLocationPanel.show(timeAndLocation);
-                if (!timeAndLocationPanel.valid()) {
+                if (!timeAndLocationPanel.isValid()) {
 //                    debugLog("danger timeAndLocationPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_TIMEANDLOCATION, "pill-danger");
                 } else {
@@ -1899,7 +1989,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 for (int i = 0; i < fundings.size(); i++) {
                     Funding f = fundings.get(i);
                     fundingPanel.show(f);
-                    if (!fundingPanel.valid()) {
+                    if (!fundingPanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -1942,7 +2032,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 for (int i = 0; i < platforms.size(); i++) {
                     Platform p = platforms.get(i);
                     platformPanel.show(p);
-                    if (!platformPanel.valid()) {
+                    if (!platformPanel.isValid()) {
                         hasInvalidData = true;
                     } else {
                         hasValidData = true;
@@ -2048,7 +2138,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 dicPanel.show(dic);
-                if (!dicPanel.valid()) {
+                if (!dicPanel.isValid()) {
 //                    debugLog("danger dicPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_DIC, "pill-danger");
                 } else {
@@ -2143,7 +2233,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 taPanel.show(ta);
-                if (!phPanel.valid()) {
+                if (!phPanel.isValid()) {
 //                    debugLog("danger taPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_TA, "pill-danger");
                 } else {
@@ -2228,7 +2318,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 phPanel.show(ph);
-                if (!phPanel.valid()) {
+                if (!phPanel.isValid()) {
 //                    debugLog("danger phPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PH, "pill-danger");
                 } else {
@@ -2356,7 +2446,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 pco2aPanel.show(pco2a);
-                if (!pco2aPanel.valid()) {
+                if (!pco2aPanel.isValid()) {
 //                    debugLog("danger pco2aPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PCO2A, "pill-danger");
                 } else {
@@ -2465,7 +2555,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
 
                 pco2dPanel.show(pco2d);
-                if (!pco2dPanel.valid()) {
+                if (!pco2dPanel.isValid()) {
 //                    debugLog("danger pco2dPanel has no valid data");
                     topLayout.sethighlight(Constants.SECTION_PCO2D, "pill-danger");
                 } else {
@@ -2486,7 +2576,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //                for (int i = 0; i < variablesList.size(); i++) {
 //                    Variable v = variablesList.get(i);
 //                    genericVariablePanel.show(v);
-//                    if (genericVariablePanel.valid()) {
+//                    if (genericVariablePanel.isValid()) {
 //                        topLayout.setChecked(Constants.SECTION_GENERIC);
 //                        topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-warning");
 //                    }
@@ -2666,7 +2756,7 @@ public class OAPMetadataEditor implements EntryPoint {
                     for (int i = 0; i < variablesList.size(); i++) {
                         Variable v = variablesList.get(i);
                         genericVariablePanel.show(v);
-                        if (!genericVariablePanel.valid()) {
+                        if (!genericVariablePanel.isValid()) {
                             hasInvalidData = true;
                         } else {
                             hasValidData = true;
