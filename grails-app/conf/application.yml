@@ -122,8 +122,8 @@ environments:
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
             password: webster
-            logSql: true
-            formatSql: true
+#            logSql: true
+#            formatSql: true
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -151,8 +151,8 @@ environments:
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
-            logSql: true
-            formatSql: true
+#            logSql: true
+#            formatSql: true
             properties:
                 jmxEnabled: true
                 initialSize: 5
@@ -180,8 +180,8 @@ environments:
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
             password: qc4socat3
-            logSql: false
-            formatSql: false
+#            logSql: false
+#            formatSql: false
             properties:
                 jmxEnabled: true
                 initialSize: 5
