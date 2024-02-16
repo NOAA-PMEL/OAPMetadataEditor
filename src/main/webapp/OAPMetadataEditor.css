@@ -20,6 +20,9 @@
     width: 89%;
 }
 
+.editing_highlight {
+    background-color: #dca7a7 !important;
+}
 .tightenTBmargins {
     margin-top: 2px !important;
     margin-bottom: 5px !important;
