@@ -75,8 +75,8 @@
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup>
-                                <b:FormLabel for="useLimitation" text="Fair Data Use Statement"></b:FormLabel>
-                                <b:Modal title="* Request for fair and proper attribution." closable="true" b:id="modalLimitation"/>
+                                <b:FormLabel for="useLimitation" text="Fair Data Use Request"></b:FormLabel>
+                                <b:Modal title="* Request for fair and proper data attribution." closable="true" b:id="modalLimitation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLimitation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextArea ui:field="useLimitation" visibleLines="6" allowBlank="true" placeholder="Fair Data Use" b:id="useLimitation"></b:TextArea>
                             </b:FormGroup>
