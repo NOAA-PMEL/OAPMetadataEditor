@@ -265,8 +265,8 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
-        List<String> detailNames = new ArrayList<String>();
-        List<String> detailValues = new ArrayList<String>();
+        List<String> detailNames = new ArrayList<>();
+        List<String> detailValues = new ArrayList<>();
         detailNames.add("in-situ observation");
         detailValues.add("in-situ observation");
         detailNames.add("manipulation condition");
@@ -275,8 +275,8 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         detailValues.add("response variable");
         observationDetail.init("Pick One ", detailNames, detailValues);
 
-        List<String> measuredNames = new ArrayList<String>();
-        List<String> measuredValues = new ArrayList<String>();
+        List<String> measuredNames = new ArrayList<>();
+        List<String> measuredValues = new ArrayList<>();
         measuredNames.add("Measured");
         measuredValues.add("Measured");
         measuredNames.add("Calculated");
@@ -430,31 +430,31 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if (observationType.getText() != null && !observationType.getText().isEmpty() ) {
             return true;
         }
-        if (manipulationMethod.getText().trim() != null && !manipulationMethod.getValue().isEmpty() )
+        if (manipulationMethod.getText() != null && !manipulationMethod.getText().trim().isEmpty() )
             return true;
         if (observationDetail.getValue() != null && !observationDetail.getValue().isEmpty())
             return true;
-        if (units.getText().trim() != null && !units.getValue().isEmpty() )
+        if (units.getText() != null && !units.getText().trim().isEmpty() )
             return true;
         if (measured.getValue() != null && !measured.getValue().isEmpty() )
             return true;
-        if (samplingInstrument.getText().trim() != null && !samplingInstrument.getValue().isEmpty() )
+        if (samplingInstrument.getText() != null && !samplingInstrument.getText().trim().isEmpty() )
             return true;
-        if (analyzingInstrument.getText().trim() != null && !analyzingInstrument.getValue().isEmpty() )
+        if (analyzingInstrument.getText() != null && !analyzingInstrument.getText().trim().isEmpty() )
             return true;
-        if (detailedInformation.getText().trim() != null & !detailedInformation.getValue().isEmpty() )
+        if (detailedInformation.getText() != null & !detailedInformation.getText().trim().isEmpty() )
             return true;
-        if (fieldReplicate.getText().trim() != null && !fieldReplicate.getValue().isEmpty() )
+        if (fieldReplicate.getText() != null && !fieldReplicate.getText().trim().isEmpty() )
             return true;
-        if (uncertainty.getText().trim() != null && !uncertainty.getValue().isEmpty())
+        if (uncertainty.getText() != null && !uncertainty.getText().trim().isEmpty())
             return true;
-        if (qualityFlag.getText().trim() != null && !qualityFlag.getValue().isEmpty() )
+        if (qualityFlag.getText() != null && !qualityFlag.getText().trim().isEmpty() )
             return true;
-        if (researcherName.getText().trim() != null && !researcherName.getValue().isEmpty())
+        if (researcherName.getText() != null && !researcherName.getText().trim().isEmpty())
             return true;
-        if (researcherInstitution.getText().trim() != null && !researcherInstitution.getValue().isEmpty() )
+        if (researcherInstitution.getText() != null && !researcherInstitution.getText().trim().isEmpty() )
             return true;
-        if (referenceMethod.getText().trim() != null && !referenceMethod.getValue().isEmpty() )
+        if (referenceMethod.getText() != null && !referenceMethod.getText().trim().isEmpty() )
             return true;
         return false;
     }
