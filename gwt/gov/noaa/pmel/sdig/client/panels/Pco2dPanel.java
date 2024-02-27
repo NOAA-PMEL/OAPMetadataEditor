@@ -5,9 +5,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
@@ -20,7 +20,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/30/17.
  */
-public class Pco2dPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
+public class Pco2dPanel extends FormPanel<Variable> implements HasDefault<Variable> {
 
     @UiField
     Button save;
@@ -102,7 +102,7 @@ public class Pco2dPanel extends FormPanel<Variable> implements GetsDirty<Variabl
     interface Pco2dPanelUiBinder extends UiBinder<HTMLPanel, Pco2dPanel> {
     }
 
-    private static Pco2dPanel.Pco2dPanelUiBinder ourUiBinder = GWT.create(Pco2dPanel.Pco2dPanelUiBinder.class);
+    private static final Pco2dPanel.Pco2dPanelUiBinder ourUiBinder = GWT.create(Pco2dPanel.Pco2dPanelUiBinder.class);
 
 //    public static final String PCO2dAbbrevDEFAULT = "pCO2d";
     public static final String PCO2dNameDEFAULT = "pco2 (fco2) discrete";
@@ -114,6 +114,7 @@ public class Pco2dPanel extends FormPanel<Variable> implements GetsDirty<Variabl
         return pco2d;
     }
     public Pco2dPanel() {
+        super(Constants.SECTION_PCO2D);
         initWidget(ourUiBinder.createAndBindUi(this));
         setDefaults();
         // common.abbreviation.setEnabled(false);
@@ -302,67 +303,64 @@ public class Pco2dPanel extends FormPanel<Variable> implements GetsDirty<Variabl
        return isDirty;
     }
     public boolean hasContent() {
+        OAPMetadataEditor.debugLog("@pCO2d.hasContent()");
         if ( common.hasContent() ) {
             return true;
         }
-        if (freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+        if (freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().trim().isEmpty() ) {
             return true;
         }
-        if (storageMethod.getText().trim() != null && !storageMethod.getText().isEmpty() ) {
+        if (storageMethod.getText() != null && !storageMethod.getText().trim().isEmpty() ) {
             return true;
         }
-        if (pco2Temperature.getText().trim() != null && !pco2Temperature.getText().isEmpty() ) {
+        if (pco2Temperature.getText() != null && !pco2Temperature.getText().trim().isEmpty() ) {
             return true;
         }
-        if (gasConcentration.getText().trim() != null && !gasConcentration.getText().isEmpty() ) {
+        if (gasConcentration.getText() != null && !gasConcentration.getText().trim().isEmpty() ) {
             return true;
         }
-        if (headspaceVolume.getText().trim() != null && !headspaceVolume.getText().isEmpty() ) {
+        if (headspaceVolume.getText() != null && !headspaceVolume.getText().trim().isEmpty() ) {
             return true;
         }
-        if (standardGasManufacture.getText().trim() != null && !standardGasManufacture.getText().isEmpty() ) {
+        if (standardGasManufacture.getText() != null && !standardGasManufacture.getText().trim().isEmpty() ) {
             return true;
         }
-        if (gasDetectorManufacture.getText().trim() != null && !gasDetectorManufacture.getText().isEmpty() ) {
+        if (gasDetectorManufacture.getText() != null && !gasDetectorManufacture.getText().trim().isEmpty() ) {
             return true;
         }
-        if (gasDetectorModel.getText().trim() != null && !gasDetectorModel.getText().isEmpty() ) {
+        if (gasDetectorModel.getText() != null && !gasDetectorModel.getText().trim().isEmpty() ) {
             return true;
         }
-        if (gasDectectorResolution.getText().trim() != null && !gasDectectorResolution.getText().isEmpty() ) {
+        if (gasDectectorResolution.getText() != null && !gasDectectorResolution.getText().trim().isEmpty() ) {
             return true;
         }
-        if (seawaterVolume.getText().trim() != null && !seawaterVolume.getText().isEmpty() ) {
+        if (seawaterVolume.getText() != null && !seawaterVolume.getText().trim().isEmpty() ) {
             return true;
         }
-        if (temperatureCorrectionMethod.getText().trim() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().trim().isEmpty() ) {
             return true;
         }
-        if (temperatureMeasurement.getText().trim() != null && !temperatureMeasurement.getText().isEmpty() ) {
+        if (temperatureMeasurement.getText() != null && !temperatureMeasurement.getText().trim().isEmpty() ) {
             return true;
         }
-        if (temperatureStandarization.getText().trim() != null && !temperatureStandarization.getText().isEmpty() ) {
+        if (temperatureStandarization.getText() != null && !temperatureStandarization.getText().trim().isEmpty() ) {
             return true;
         }
-        if (standardGasUncertainties.getText().trim() != null && !standardGasUncertainties.getText().isEmpty() ) {
+        if (standardGasUncertainties.getText() != null && !standardGasUncertainties.getText().trim().isEmpty() ) {
             return true;
         }
-        if (gasDectectorUncertainty.getText().trim() != null && !gasDectectorUncertainty.getText().isEmpty() ) {
+        if (gasDectectorUncertainty.getText() != null && !gasDectectorUncertainty.getText().trim().isEmpty() ) {
             return true;
         }
-        if (vaporCorrection.getText().trim() != null && !vaporCorrection.getText().isEmpty() ) {
+        if (vaporCorrection.getText() != null && !vaporCorrection.getText().trim().isEmpty() ) {
             return true;
         }
         return false;
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());
-        if (valid.equals("false") ||
-                valid.equals("0")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !valid.equals("false") &&
+                !valid.equals("0");
     }
     public void reset() {
         form.reset();

@@ -24,14 +24,7 @@ import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.Input;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.base.form.AbstractForm;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.constants.IconSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
-import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
-import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
-import org.gwtbootstrap3.extras.notify.client.ui.Notify;
-import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 /**
  * Created by rhs on 2/27/17.
@@ -317,7 +310,7 @@ public class DashboardLayout extends Composite {
             pco2aLink.setIcon(null);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
             genericVariableLink.setIcon(null);
         }
     }
@@ -350,7 +343,7 @@ public class DashboardLayout extends Composite {
             pco2aLink.setIcon(IconType.CHECK);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.setIcon(IconType.CHECK);
-        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
             genericVariableLink.setIcon(IconType.CHECK);
         }
     }
@@ -380,7 +373,7 @@ public class DashboardLayout extends Composite {
             pco2aLink.setIcon(null);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
             genericVariableLink.setIcon(null);
         }
     }
@@ -411,7 +404,7 @@ public class DashboardLayout extends Composite {
             pco2aLink.removeStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.removeStyleName(highlightStyle);
-        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
             genericVariableLink.removeStyleName(highlightStyle);
         }
     }
@@ -442,98 +435,11 @@ public class DashboardLayout extends Composite {
             pco2aLink.addStyleName(highlightStyle);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.addStyleName(highlightStyle);
-        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
             genericVariableLink.addStyleName(highlightStyle);
         }
-
-//        if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
-//            investigatorsLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_SUBMITTER) ) {
-//            submittersLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_CITATION) ) {
-//            citationLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
-//            timeAndLocationLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_FUNDING) ) {
-//            fundingLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_PLATFORMS) ) {
-//            platformsLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_DIC)) {
-//            dicLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_TA) ) {
-//            taLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_PH) ) {
-//            phLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_PCO2A) ) {
-//            pco2aLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_PCO2D) ) {
-//            pco2dLink.addStyleName(highlightStyle);
-//        }
-//        if ( section.equals(Constants.SECTION_GENERIC) ) {
-//            genericVariableLink.addStyleName(highlightStyle);
-//        }
-
-//        investigatorsLink.removeStyleName(highlightStyle);
-//        submittersLink.removeStyleName(highlightStyle);
-//        citationLink.removeStyleName(highlightStyle);
-//        timeAndLocationLink.removeStyleName(highlightStyle);
-//        fundingLink.removeStyleName(highlightStyle);
-//        platformsLink.removeStyleName(highlightStyle);
-//        dicLink.removeStyleName(highlightStyle);
-//        taLink.removeStyleName(highlightStyle);
-//        phLink.removeStyleName(highlightStyle);
-//        pco2aLink.removeStyleName(highlightStyle);
-//        pco2dLink.removeStyleName(highlightStyle);
-//        genericVariableLink.removeStyleName(highlightStyle);
-
-
-//        if (investigatorsLink.getIcon() == null ) {
-//            investigatorsLink.addStyleName(highlightStyle);
-//        }
-//        if ( submittersLink.getIcon() == null ) {
-//            submittersLink.addStyleName(highlightStyle);
-//        }
-//        if ( citationLink.getIcon() == null ) {
-//            citationLink.addStyleName(highlightStyle);
-//        }
-//        if ( timeAndLocationLink.getIcon() == null ) {
-//            timeAndLocationLink.addStyleName(highlightStyle);
-//        }
-//        if ( fundingLink.getIcon() == null ) {
-//            fundingLink.addStyleName(highlightStyle);
-//        }
-//        if ( platformsLink.getIcon() == null ) {
-//            platformsLink.addStyleName(highlightStyle);
-//        }
-//        if ( dicLink.getIcon() == null ) {
-//            dicLink.addStyleName(highlightStyle);
-//        }
-//        if ( taLink.getIcon() == null ) {
-//            taLink.addStyleName(highlightStyle);
-//        }
-//        if ( phLink.getIcon() == null ) {
-//            phLink.addStyleName(highlightStyle);
-//        }
-//        if ( pco2aLink.getIcon() == null ) {
-//            pco2aLink.addStyleName(highlightStyle);
-//        }
-//        if ( pco2dLink.getIcon() == null ) {
-//            pco2dLink.addStyleName(highlightStyle);
-//        }
-//        if ( genericVariableLink.getIcon() == null ) {
-//            genericVariableLink.addStyleName(highlightStyle);
-//        }
     }
+
     public boolean isSufficientlyComplete() {
         // Miniumn for a complete document
         // at least one investigator must be included
@@ -682,7 +588,7 @@ public class DashboardLayout extends Composite {
             pco2aLink.setActive(true);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
             pco2dLink.setActive(true);
-        } else if ( section.equals(Constants.SECTION_GENERIC) ) {
+        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
             genericVariableLink.setActive(true);
         }
     }
@@ -698,7 +604,7 @@ public class DashboardLayout extends Composite {
         if ( phLink.isActive() ) return Constants.SECTION_PH;
         if ( pco2aLink.isActive() ) return Constants.SECTION_PCO2A;
         if ( pco2dLink.isActive() ) return Constants.SECTION_PCO2D;
-        if ( genericVariableLink.isActive() ) return Constants.SECTION_GENERIC;
+        if ( genericVariableLink.isActive() ) return Constants.SECTION_VARIABLES;
         return null;
     }
 

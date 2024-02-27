@@ -6,7 +6,6 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
@@ -14,7 +13,6 @@ import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Citation;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
@@ -25,7 +23,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 /**
  * Created by rhs on 3/3/17.
  */
-public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Citation> {
+public class CitationPanel extends BasicPanel<Citation>  {
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -63,15 +61,16 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     interface CitationUiBinder extends UiBinder<HTMLPanel, CitationPanel> {
     }
 
-    private static CitationUiBinder ourUiBinder = GWT.create(CitationUiBinder.class);
+    private static final CitationUiBinder ourUiBinder = GWT.create(CitationUiBinder.class);
 
     public CitationPanel() {
+        super(Constants.SECTION_CITATION);
         initWidget(ourUiBinder.createAndBindUi(this));
         clear.addClickHandler(clearIt);
     }
 
     public Citation getCitation() {
-        Citation citation = dbItem != null ? (Citation)dbItem : new Citation();
+        Citation citation = getDbItem() != null ? (Citation)getDbItem() : new Citation();
         citation.setDatasetAbstract(datasetAbstract.getText().trim());
         citation.setUseLimitation(useLimitation.getText().trim());
         citation.setPurpose(purpose.getText().trim());
@@ -87,8 +86,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     }
     public boolean isDirty(Citation original) {
         OAPMetadataEditor.debugLog("CitationPanel.isDirty("+original+")");
-        boolean isDirty = false;
-        isDirty =
+        boolean isDirty =
             original == null ?
             this.hasContent() :
             isDirty(datasetAbstract, original.getDatasetAbstract() ) ||
@@ -105,41 +103,38 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
         OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
     }
-    public boolean isDirty() {
-        return isDirty(getDbItem());
-    }
     public boolean hasContent() {
-        if (datasetAbstract.getText().trim() != null && !datasetAbstract.getText().isEmpty() ) {
+        if (datasetAbstract.getText() != null && !datasetAbstract.getText().trim().isEmpty() ) {
             return true;
         }
-        if (useLimitation.getText().trim() != null && !useLimitation.getText().isEmpty() ) {
+        if (useLimitation.getText() != null && !useLimitation.getText().trim().isEmpty() ) {
             return true;
         }
-        if (purpose.getText().trim() != null && !purpose.getText().isEmpty() ) {
+        if (purpose.getText() != null && !purpose.getText().trim().isEmpty() ) {
             return true;
         }
-        if (researchProjects.getText().trim() != null && !researchProjects.getText().isEmpty() ) {
+        if (researchProjects.getText() != null && !researchProjects.getText().trim().isEmpty() ) {
             return true;
         }
-        if (title.getText().trim() != null && !title.getText().isEmpty() ) {
+        if (title.getText() != null && !title.getText().trim().isEmpty() ) {
             return true;
         }
-        if (expocode.getText().trim() != null && !expocode.getText().isEmpty() ) {
+        if (expocode.getText() != null && !expocode.getText().trim().isEmpty() ) {
             return true;
         }
-        if (cruiseId.getText().trim() != null && !cruiseId.getText().isEmpty() ) {
+        if (cruiseId.getText() != null && !cruiseId.getText().trim().isEmpty() ) {
             return true;
         }
-        if (section.getText().trim() != null && !section.getText().isEmpty() ) {
+        if (section.getText() != null && !section.getText().trim().isEmpty() ) {
             return true;
         }
-        if (citationAuthorList.getText().trim() != null && !citationAuthorList.getText().isEmpty() ) {
+        if (citationAuthorList.getText() != null && !citationAuthorList.getText().trim().isEmpty() ) {
             return true;
         }
-        if (references.getText().trim() != null && !references.getText().isEmpty() ) {
+        if (references.getText() != null && !references.getText().trim().isEmpty() ) {
             return true;
         }
-        if (supplementalInformation.getText().trim() != null && !supplementalInformation.getText().isEmpty() ) {
+        if (supplementalInformation.getText() != null && !supplementalInformation.getText().trim().isEmpty() ) {
             return true;
         }
         return false;
@@ -199,11 +194,7 @@ public class CitationPanel extends FormPanel<Citation> implements GetsDirty<Cita
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());
-        if (valid.equals("false") ||
-                valid.equals("0")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !valid.equals("false") &&
+                !valid.equals("0");
     }
 }

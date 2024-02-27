@@ -5,26 +5,22 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by rhs on 3/8/17.
  */
-public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
+public class DicPanel extends BasicPanel<Variable> implements HasDefault<Variable> {
 
     @UiField
     Button save;
@@ -67,16 +63,15 @@ public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>
 
     private static DicPanel.DicPanelUiBinder ourUiBinder = GWT.create(DicPanel.DicPanelUiBinder.class);
 
-//    public static final String DICAbbrevDEFAULT = "DIC";
     public static final String DICNameDEFAULT = "Dissolved Inorganic Carbon";
 
     public Variable getDefault() {
         Variable dic = new Variable();
-//        dic.setAbbreviation(DICAbbrevDEFAULT);
         dic.setFullVariableName(DICNameDEFAULT);
         return dic;
     }
     public DicPanel() {
+        super(Constants.SECTION_CITATION);
         initWidget(ourUiBinder.createAndBindUi(this));
 
         setDbItem(getDefault());
@@ -107,7 +102,6 @@ public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>
 
     private void setDefaults() {
         common.isBig5 = true;
-//        common.abbreviation.setText("DIC");
         common.fullVariableName.setText(DICNameDEFAULT);
     }
 
@@ -218,6 +212,7 @@ public class DicPanel extends FormPanel<Variable> implements GetsDirty<Variable>
     }
 
     public boolean hasContent() {
+        OAPMetadataEditor.debugLog("@DIC.hasContent()");
         if ( common.hasContent() ) {
             return true;
         }

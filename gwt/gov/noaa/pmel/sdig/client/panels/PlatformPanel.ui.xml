@@ -9,12 +9,12 @@
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:gwt.CellTable ui:field="platforms" addStyleNames="tightenTBmargins" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
+                            <b:gwt.CellTable ui:field="cellTable" addStyleNames="tightenTBmargins" visible="false" bordered="true" condensed="true" striped="true" hover="true"></b:gwt.CellTable>
                         </b:Column>
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:Pagination ui:field="platformPagination" addStyleNames="tightenTBmargins" visible="false" />
+                            <b:Pagination ui:field="tablePagination" addStyleNames="tightenTBmargins" visible="false" />
                         </b:Column>
                     </b:Row>
                     <b:Row>

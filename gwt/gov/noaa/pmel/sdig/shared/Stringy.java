@@ -1,5 +1,6 @@
 package gov.noaa.pmel.sdig.shared;
 
+import com.google.gwt.user.client.ui.HasText;
 import gov.noaa.pmel.sdig.shared.bean.TypedString;
 
 import java.util.List;
@@ -10,6 +11,9 @@ public interface Stringy {
         return str == null || str.trim().length() == 0;
     }
 
+    default boolean isEmpty(HasText field) {
+        return field == null || field.getText() == null || field.getText().trim().isEmpty();
+    }
     default boolean isEmpty(List<TypedString> strs) {
         if ( strs == null || strs.isEmpty()) {
             return true;

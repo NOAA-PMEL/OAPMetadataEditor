@@ -2,7 +2,6 @@ package oap
 
 
 import grails.converters.JSON
-import org.apache.commons.beanutils.BeanUtils
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormatter
@@ -154,7 +153,6 @@ class DocumentController {
                     if (savedVersion) {
                         log.debug("Found previous document " + savedVersion.id + " found for id " + datasetId)
                         savedVersion.delete(flush: true)
-//                        BeanUtils.copyProperties(savedVersion, doc);
 //                        doc = savedVersion;
 //                        d = doc.merge(flush:true, failOnError:true)
                     } // d = doc.merge(flush: true, failOnError: true) Doesn't work..

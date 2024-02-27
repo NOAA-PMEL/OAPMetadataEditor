@@ -10,6 +10,7 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
+import gov.noaa.pmel.sdig.shared.bean.DbItem;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -24,7 +25,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/22/17.
  */
-public class PhPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
+public class PhPanel extends FormPanel<Variable> implements HasDefault<Variable> {
 
     @UiField
     public CommonVariablePanel common;
@@ -65,11 +66,12 @@ public class PhPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
     Button save;
     @UiField
     Button clear;
+    private List<String> messages = new ArrayList<>();
 
     interface PhPanelUiBinder extends UiBinder<HTMLPanel, PhPanel> {
     }
 
-    private static PhPanel.PhPanelUiBinder ourUiBinder = GWT.create(PhPanel.PhPanelUiBinder.class);
+    private static final PhPanel.PhPanelUiBinder ourUiBinder = GWT.create(PhPanel.PhPanelUiBinder.class);
 
     private static final String SCALE_TOTAL = "Total scale (T)";
     private static final String SCALE_SEAWATER = "Seawater scale (SWS)";
@@ -100,8 +102,8 @@ public class PhPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
         setDefaults();
         setDbItem(getDefault());
 
-        List<String> scaleNames = new ArrayList<String>();
-        List<String> scaleValues = new ArrayList<String>();
+        List<String> scaleNames = new ArrayList<>();
+        List<String> scaleValues = new ArrayList<>();
 
         scaleNames.add(SCALE_TOTAL);
         scaleValues.add(SCALE_TOTAL);
@@ -157,11 +159,17 @@ public class PhPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
     }
     public Variable getPh(boolean validate) {
         if ( validate && ! this.isValid()) {
-            throw new IllegalStateException("Invalid Ph Scale");
+            StringBuilder msgBldr = new StringBuilder();
+            String newLine = "";
+            for (String msg : messages) {
+                msgBldr.append(newLine).append(msg);
+                newLine = "<br/>";
+            }
+            messages.clear();
+            throw new IllegalStateException(msgBldr.toString());
         }
         Variable ph = common.getCommonVariable();
         ph.setStandardizationTechnique(standardizationTechnique.getText());
-        ph.setStandardizationTechnique(standardizationTechnique.getText().trim());
         ph.setFreqencyOfStandardization(freqencyOfStandardization.getText());
         ph.setPhTemperature(pHtemperature.getText());
         ph.setPhScale(pHscale.getValue());
@@ -227,32 +235,33 @@ public class PhPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
     }
 
     public boolean hasContent() {
+        OAPMetadataEditor.debugLog("@pH.hasContent()");
         if ( common.hasContent()) {
             return true;
         }
-        if ( standardizationTechnique.getText().trim() != null && !standardizationTechnique.getText().isEmpty() ) {
+        if ( standardizationTechnique.getText() != null && !standardizationTechnique.getText().trim().isEmpty() ) {
             return true;
         }
 
-        if ( freqencyOfStandardization.getText().trim() != null && !freqencyOfStandardization.getText().isEmpty() ) {
+        if ( freqencyOfStandardization.getText() != null && !freqencyOfStandardization.getText().trim().isEmpty() ) {
             return true;
         }
-        if ( pHtemperature.getText().trim() != null && !pHtemperature.getText().isEmpty() ) {
+        if ( pHtemperature.getText() != null && !pHtemperature.getText().trim().isEmpty() ) {
             return true;
         }
         if ( pHscale.getValue() != null && !pHscale.getValue().isEmpty() ) {
             return true;
         }
-        if (pHstandards.getText().trim() != null && !pHstandards.getText().isEmpty()) {
+        if (pHstandards.getText() != null && !pHstandards.getText().trim().isEmpty()) {
             return true;
         }
-        if (temperatureCorrectionMethod.getText().trim() != null && !temperatureCorrectionMethod.getText().isEmpty() ) {
+        if (temperatureCorrectionMethod.getText() != null && !temperatureCorrectionMethod.getText().trim().isEmpty() ) {
             return true;
         }
-        if ( temperatureMeasurement.getText().trim() != null && !temperatureMeasurement.getText().isEmpty() ) {
+        if ( temperatureMeasurement.getText() != null && !temperatureMeasurement.getText().trim().isEmpty() ) {
             return true;
         }
-        if ( temperatureStandarization.getText().trim() != null && !temperatureStandarization.getText().isEmpty() ) {
+        if ( temperatureStandarization.getText() != null && !temperatureStandarization.getText().trim().isEmpty() ) {
             return true;
         }
 
@@ -265,13 +274,22 @@ public class PhPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
     }
     @Override
     public boolean isValid() {
+        messages.clear();
         boolean isValid = super.isValid();
+        boolean emptyAbbrev = common.abbreviation.getValue().trim().isEmpty();
         boolean validScale = validScale();
-        validScale = common.abbreviation.getValue().trim().isEmpty() ?
-                        true :
-                        validScale ;
+        validScale = emptyAbbrev || validScale;
         if ( ! validScale ) {
+            messages.add("Invalid pH scale.");
             setDropButtonError(true, pHscale);
+        }
+        boolean hasContent = this.hasContent();
+        if ( hasContent && emptyAbbrev ) {
+            messages.add("Missing pH variable abbreviation.");
+            setFieldError(true, common.abbreviation);
+            isValid = false;
+        } else {
+            setFieldError(false, common.abbreviation);
         }
         isValid = isValid && validScale;
         return isValid;

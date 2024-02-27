@@ -43,10 +43,7 @@ import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
 //import javax.print.Doc;
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 import java.util.*;
 
 
@@ -326,9 +323,9 @@ public class OAPMetadataEditor implements EntryPoint {
 //                    if ( pco2d != null) {
 //                        pco2dPanel.show(pco2d);
 //                    }
-                } else if (link.getText().equals(Constants.SECTION_GENERIC)) {
+                } else if (link.getText().equals(Constants.SECTION_VARIABLES)) {
                     topLayout.setMain(genericVariablePanel);
-                    topLayout.setActive(Constants.SECTION_GENERIC);
+                    topLayout.setActive(Constants.SECTION_VARIABLES);
                     if (genericVariablePanel.getVariables().size() > 0) {
                         genericVariablePanel.setTableVisible(true);
                     }
@@ -414,7 +411,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 return dicPanel;
             case Constants.SECTION_FUNDING:
                 return fundingPanel;
-            case Constants.SECTION_GENERIC:
+            case Constants.SECTION_VARIABLES:
                 return genericVariablePanel;
             case Constants.SECTION_PCO2A:
                 return pco2aPanel;
@@ -456,8 +453,8 @@ public class OAPMetadataEditor implements EntryPoint {
         } else if (type.equals(Constants.SECTION_PCO2A)) {
             setMain(Constants.SECTION_PCO2D);
         } else if (type.equals(Constants.SECTION_PCO2D)) {
-            setMain(Constants.SECTION_GENERIC);
-        } else if (type.equals(Constants.SECTION_GENERIC)) {
+            setMain(Constants.SECTION_VARIABLES);
+        } else if (type.equals(Constants.SECTION_VARIABLES)) {
             // List managed in the panel
         } else if (type.equals(Constants.SECTION_DOCUMENT)) {
             String content = (String) sectionContents;
@@ -613,20 +610,11 @@ public class OAPMetadataEditor implements EntryPoint {
         List<Funding> fundings = fundingPanel.getFundings();
         doc.setFunding(fundings);
 
-        // Platforms Panel
-//        List<Platform> platforms = platformPanel.getPlatforms();
-//        if ( platformPanel.isDirty() ) {
-//            Platform p = platformPanel.getPlatform();
-//            platforms.add(p);
-//        }
-//        doc.setPlatforms(platforms);
-        //
         if (platformPanel.hasContent()) {
             Platform p = platformPanel.getPlatform();
             platformPanel.addPlatform(p);
             platformPanel.reset();
             platformPanel.setEditing(false);
-//            genericVariables.add(v);
         }
         List<Platform> platforms = platformPanel.getPlatforms();
         doc.setPlatforms(platforms);
@@ -760,8 +748,6 @@ public class OAPMetadataEditor implements EntryPoint {
             logToConsole("saved doc @"+response);
             documentLocation = response;
             _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/') + 1);
-//            _loadedDocument = Document.copy(_savedDoc);
-//            loadJsonDocument(response, true, true);
             loadDocumentId(_datasetId);
 //            info("Your document has been saved and is available.");
             saved = true;
@@ -784,8 +770,6 @@ public class OAPMetadataEditor implements EntryPoint {
             } else {
                 documentLocation = response;
                 _datasetId = documentLocation.substring(documentLocation.lastIndexOf('/') + 1);
-//                _loadedDocument = Document.copy(_savedDoc);
-//                loadJsonDocument(response, true, true);
                 modalHeader.setTitle("Save XML file.");
                 save.setType(ButtonType.PRIMARY);
                 save.addClickHandler(new ClickHandler() {
@@ -942,107 +926,13 @@ public class OAPMetadataEditor implements EntryPoint {
 //               debugLog("currentDocumentIsDirty()onSubmitComplete is false: " + currentDocumentIsDirty() + " --overwrite empty doc");
                mergeJsonDocument(jsonString);
            }
-                /* From SOCAT / New way, with Clear All
-//            if (currentDocumentIsDirty() && _loadedDocument != null) {
-                   // still thinking if this is the right thing to do
-                   // the issue is perhaps clearing the internal document (record) ID.
-            if (getDocument().hasContent() && _loadedDocument != null) {
-                //#DEBUG
-//               debugLog("currentDocumentIsDirty()@onSubmitComplete is true: " + currentDocumentIsDirty() + " --choose merge");
-
-                final Modal mergeOptions = new Modal();
-                ModalHeader header = new ModalHeader();
-                Heading h = new Heading(HeadingSize.H3);
-                h.setText("Merge Options");
-                header.add(h);
-                mergeOptions.add(header);
-                ModalBody body = new ModalBody();
-                HTML message =
-                        new HTML("<span style='font-weight=bold; color:red;'>Preserve</span> will populate empty fields with " +
-                                "content from the uploaded file, but will not overwrite existing content in the form fields." +
-                                "<br><br><span style='font-weight=bold; color:red;'>Overwrite</span> will populate empty fields " +
-                                "with content from the uploaded file, but will <span style='font-weight=bold; color:red;'>replace</span> " +
-                                "any existing content in form fields if there is content for that field in the uploaded file." +
-                                "<br><br><span style='font-weight=bold; color:red;'>Clear All</span> will " +
-                                "<span style='color:red;'>clear all fields</span> before uploading.");
-                ModalFooter footer = new ModalFooter();
-                Button clear = new Button("Clear All");
-                clear.setType(ButtonType.DANGER);
-                Button preserve = new Button("Preserve");
-                preserve.setType(ButtonType.DANGER);
-                Button overwrite = new Button("Overwrite");
-                overwrite.setType(ButtonType.DANGER);
-                Button cancel = new Button("Cancel");
-                cancel.setType(ButtonType.PRIMARY);
-
-                footer.add(clear);
-                footer.add(preserve);
-                footer.add(overwrite);
-                footer.add(cancel);
-                body.add(message);
-                mergeOptions.add(body);
-                mergeOptions.add(footer);
-
-                mergeOptions.show();
-
-                clear.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        startOver(true);
-                        loadJsonDocument(jsonString, true, true);
-                        mergeOptions.hide();
-                    }
-                });
-
-                preserve.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        preserveMergeJsonDocument(jsonString);
-                        mergeOptions.hide();
-                    }
-                });
-
-                overwrite.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        mergeJsonDocument(jsonString);
-                        mergeOptions.hide();
-                    }
-                });
-
-                cancel.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        mergeOptions.hide();
-                    }
-                });
-
-            } else {
-                */
         }
     };
 
     private boolean currentDocumentIsDirty() {
-        debugLog("_loadedDoc@currentDocumentIsDirty():" +
-                            _loadedDocument == null ? ">null<" : _loadedDocument.getDatasetIdentifier());
+        debugLog("_loadedDoc@currentDocumentIsDirty(): _loadedDocument:" + _loadedDocument );// == null ? ">null<" : _loadedDocument.getDatasetIdentifier());
         Document compDoc = _loadedDocument != null ? _loadedDocument : Document.EmptyDocument();
-//        debugLog("compDoc@currentDocumentIsDirty():" + compDoc);
-
-//        debugLog("Checking dirty against " + compDoc);
-//        boolean isDirty =
-//                submitterPanel.isDirty(compDoc.getDataSubmitter()) ||
-//                        investigatorPanel.isDirty(compDoc.getInvestigators()) ||
-//                        citationPanel.isDirty(compDoc.getCitation()) ||
-//                        timeAndLocationPanel.isDirty(compDoc.getTimeAndLocation()) ||
-//                        fundingPanel.isDirty(compDoc.getFunding()) ||
-//                        platformPanel.isDirty(compDoc.getPlatforms()) ||
-//                        dicPanel.isDirty(compDoc.getDic()) ||
-//                        taPanel.isDirty(compDoc.getTa()) ||
-//                        phPanel.isDirty(compDoc.getPh()) ||
-//                        pco2aPanel.isDirty(compDoc.getPco2a()) ||
-//                        pco2dPanel.isDirty(compDoc.getPco2d()) ||
-//                        genericVariablePanel.isDirty(compDoc.getVariables());
-//        debugLog("Found dirty: " + isDirty);
+        debugLog("checking compDoc for dirty:" + compDoc);
 
         boolean isDirty = false;
         if (submitterPanel.isDirty(compDoc.getDataSubmitter())) {
@@ -1094,7 +984,7 @@ public class OAPMetadataEditor implements EntryPoint {
             isDirty = true;
         }
 
-//        debugLog("isDirty@currentDocumentIsDirty(): " + isDirty);
+        debugLog("currentDocumentIsDirty: " + isDirty);
         return isDirty;
     }
 
@@ -1109,18 +999,9 @@ public class OAPMetadataEditor implements EntryPoint {
             _documentDbId = null;
             _documentDbVersion = null;
         }
-//        dataSubmitter = null;
         if (investigatorPanel != null) investigatorPanel.clearPeople();
-//        citation = null;
-//        timeAndLocation = null;
-//        funding = null;
         if (fundingPanel != null) fundingPanel.clearFundings();
         if (platformPanel != null) platformPanel.clearPlatforms();
-//        dic = null;
-//        ta = null;
-//        ph = null;
-//        pco2a = null;
-//        pco2d = null;
         if (genericVariablePanel != null) genericVariablePanel.clearVariables();
 
         // Reset all forms
@@ -1459,28 +1340,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.removehighlight(Constants.SECTION_PCO2D, "pill-danger");
                 }
             }
-            // TODO this has to be redone to work with the data provider
-            // what does that mean?
-//            List<Variable> variablesList = document.getVariables();
-//            if (variablesList != null) {
-//                genericVariablePanel.addVariables(variablesList);
-//            }
-//
-//            if (document.getVariables() != null) {
-//                List<Variable> variablesList = document.getVariables();
-//                for (int i = 0; i < variablesList.size(); i++) {
-//                    Variable v = variablesList.get(i);
-//                    genericVariablePanel.show(v);
-//                    if (genericVariablePanel.isValid()) {
-//                        topLayout.setChecked(Constants.SECTION_GENERIC);
-//                        topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-warning");
-//                    }
-//                    genericVariablePanel.reset();
-//                }
-//                genericVariablePanel.addVariables(variablesList);
-//
-//            }
-
             if (document.getVariables() != null) {
                 List<Variable> variablesList = document.getVariables();
                 debugLog("Overwrite merge");
@@ -1593,144 +1452,28 @@ public class OAPMetadataEditor implements EntryPoint {
 
                 if (hasValidData == true && hasInvalidData == true) {
 //                    debugLog("warning genericVariablePanel valid and invalid");
-                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    topLayout.sethighlight(Constants.SECTION_VARIABLES, "pill-danger");
                 }
                 if (hasValidData == true && hasInvalidData == false) {
 //                    debugLog("success genericVariablePanel has only valid data");
-                    topLayout.setChecked(Constants.SECTION_GENERIC);
-                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    topLayout.setChecked(Constants.SECTION_VARIABLES);
+                    topLayout.removehighlight(Constants.SECTION_VARIABLES, "pill-danger");
                 }
                 if (hasValidData == false && hasInvalidData == true) {
 //                    debugLog("danger genericVariablePanel has no valid data");
-                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    topLayout.sethighlight(Constants.SECTION_VARIABLES, "pill-danger");
                 }
                 if (hasValidData == false && hasInvalidData == false) {
 //                    debugLog("danger genericVariablePanel has no data");
-                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    topLayout.sethighlight(Constants.SECTION_VARIABLES, "pill-danger");
                 }
 
                 if (variablesList.size() == 0) {
                     genericVariablePanel.setTableVisible(false);
-                    topLayout.uncheck(Constants.SECTION_GENERIC);
-                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
+                    topLayout.uncheck(Constants.SECTION_VARIABLES);
+                    topLayout.removehighlight(Constants.SECTION_VARIABLES, "pill-danger");
                 }
             }
-
-//            if (document.getVariables() != null) {
-//                List<Variable> variablesList = document.getVariables();
-//                debugLog("Overwrite merge");
-//
-//                if (originalDocument.getVariables() != null) {
-//                    List<Variable> oVariablesList = originalDocument.getVariables();
-//
-//                    Map<String, Variable> matchMap = new HashMap<String, Variable>();
-//                    for (Variable ovl : oVariablesList) {
-//
-//                        // has abbreviation and units then use as key
-////                        if ((ovl.getAbbreviation() != null && !ovl.getAbbreviation().isEmpty())) {
-////                            debugLog("**abbreviation is not null and is not empty");
-////                        }
-////                        if ((ovl.getUnits() != null && !ovl.getUnits().isEmpty())) {
-////                            debugLog("**has units is not null and is not empty");
-////                        }
-//
-//                        if ((ovl.getAbbreviation() != null && !ovl.getAbbreviation().isEmpty())
-//                                && (ovl.getUnits() != null && !ovl.getUnits().isEmpty())) {
-////                            debugLog("has abbreviation + units: " + ovl.getAbbreviation() + " + " + ovl.getUnits());
-////                            String matchKey = createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits());
-////                            debugLog("matchKey: " + matchKey);
-//
-//                            String variableKey = createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits());
-//                            boolean isKeyPresent = matchMap.containsKey(variableKey);
-//                            if (isKeyPresent) {
-//                                debugLog("** " + variableKey + " already exists");
-//                                Variable previous = matchMap.get(variableKey);
-//                                if (previous.equals(ovl)) {
-//                                    debugLog("Variable @" + variableKey + " is equal");
-//                                }
-//                                else {
-//                                    debugLog("Variable @" + variableKey + " is NOT equal");
-//                                }
-//                            }
-//                            else {
-//                                matchMap.put(createVariableKeyIndex(ovl.getAbbreviation(), ovl.getUnits()), ovl);
-//                            }
-//
-//                        }
-////                        else {
-////                            debugLog("missing abbreviation (" + ovl.getAbbreviation() + ") and/or units (" + ovl.getUnits() + ")");
-////                        }
-//
-//                    }
-//                    matchMap.forEach((key, value) -> debugLog("nKEY: " + key + " = nVALUE: " + value));
-//
-//                    Iterator<Variable> variableIterator = variablesList.iterator();
-//                    while (variableIterator.hasNext()) {
-//                        Variable v = variableIterator.next();
-//
-//                        // original list contains this Variable
-//                        if (oVariablesList.contains(v)) {
-//                            variableIterator.remove();  // is same; remove from this variableslist
-//                            continue;
-//                        }
-//
-//                        String variableKey = null;
-//                        if ((v.getAbbreviation() != null && !v.getAbbreviation().isEmpty())
-//                                && (v.getUnits() != null && !v.getUnits().isEmpty())) {
-//                            variableKey = createVariableKeyIndex(v.getAbbreviation(), v.getUnits());
-////                            debugLog("(jsonDoc) variableKey is " + variableKey);
-//
-//                            // variableKey exists in the map from the original variablelist, then remove from orignal variablelist
-//                            if (matchMap.containsKey(variableKey)) {
-//                                Variable o = matchMap.get(variableKey);
-//                                oVariablesList.remove(o);
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                // validate
-//                // Load
-//                genericVariablePanel.addVariables(variablesList);
-//
-//                // verify
-//                boolean hasValidData = false;
-//                boolean hasInvalidData = false;
-//                for (int i = 0; i < variablesList.size(); i++) {
-//                    Variable v = variablesList.get(i);
-//                    genericVariablePanel.show(v);
-//                    if (!genericVariablePanel.isValid()) {
-//                        hasInvalidData = true;
-//                    } else {
-//                        hasValidData = true;
-//                    }
-//                    genericVariablePanel.reset();
-//                }
-//
-//                if (hasValidData == true && hasInvalidData == true) {
-////                    debugLog("warning genericVariablePanel valid and invalid");
-//                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
-//                }
-//                if (hasValidData == true && hasInvalidData == false) {
-////                    debugLog("success genericVariablePanel has only valid data");
-//                    topLayout.setChecked(Constants.SECTION_GENERIC);
-//                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
-//                }
-//                if (hasValidData == false && hasInvalidData == true) {
-////                    debugLog("danger genericVariablePanel has no valid data");
-//                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
-//                }
-//                if (hasValidData == false && hasInvalidData == false) {
-////                    debugLog("danger genericVariablePanel has no data");
-//                    topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
-//                }
-//
-//                if (variablesList.size() == 0) {
-//                    genericVariablePanel.setTableVisible(false);
-//                    topLayout.uncheck(Constants.SECTION_GENERIC);
-//                    topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
-//                }
-//            }
 
             if (!clearFirst) {
                 _currentDocument = getDocument();
@@ -2328,8 +2071,6 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
             }
             if (document.getPco2a() != null) {
-//                common.abbreviation.setText("pCO2a");
-//                common.fullVariableName.setText("pco2 (fco2) autonomous");
                 Variable pco2a = document.getPco2a();
                 if (originalDocument.getPco2a() != null) {
                     Variable initalPco2a = originalDocument.getPco2a();
@@ -2564,28 +2305,6 @@ public class OAPMetadataEditor implements EntryPoint {
                     topLayout.removehighlight(Constants.SECTION_PCO2D, "pill-danger");
                 }
             }
-            // TODO this has to be redone to work with the data provider
-            // what does that mean?
-//            List<Variable> variablesList = document.getVariables();
-//            if (variablesList != null) {
-//                genericVariablePanel.addVariables(variablesList);
-//            }
-//
-//            if (document.getVariables() != null) {
-//                List<Variable> variablesList = document.getVariables();
-//                for (int i = 0; i < variablesList.size(); i++) {
-//                    Variable v = variablesList.get(i);
-//                    genericVariablePanel.show(v);
-//                    if (genericVariablePanel.isValid()) {
-//                        topLayout.setChecked(Constants.SECTION_GENERIC);
-//                        topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-warning");
-//                    }
-//                    genericVariablePanel.reset();
-//                }
-//                genericVariablePanel.addVariables(variablesList);
-//
-//            }
-
 
             if (document.getVariables() != null) {
                 List<Variable> variablesList = document.getVariables();
@@ -2766,20 +2485,20 @@ public class OAPMetadataEditor implements EntryPoint {
 
                     if (hasValidData == true && hasInvalidData == true) {
 //                    debugLog("warning genericVariablePanel valid and invalid");
-                        topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                        topLayout.sethighlight(Constants.SECTION_VARIABLES, "pill-danger");
                     }
                     if (hasValidData == true && hasInvalidData == false) {
 //                    debugLog("success genericVariablePanel has only valid data");
-                        topLayout.setChecked(Constants.SECTION_GENERIC);
-                        topLayout.removehighlight(Constants.SECTION_GENERIC, "pill-danger");
+                        topLayout.setChecked(Constants.SECTION_VARIABLES);
+                        topLayout.removehighlight(Constants.SECTION_VARIABLES, "pill-danger");
                     }
                     if (hasValidData == false && hasInvalidData == true) {
 //                    debugLog("danger genericVariablePanel has no valid data");
-                        topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                        topLayout.sethighlight(Constants.SECTION_VARIABLES, "pill-danger");
                     }
                     if (hasValidData == false && hasInvalidData == false) {
 //                    debugLog("danger genericVariablePanel has no data");
-                        topLayout.sethighlight(Constants.SECTION_GENERIC, "pill-danger");
+                        topLayout.sethighlight(Constants.SECTION_VARIABLES, "pill-danger");
                     }
 
                     if (variablesList.size() == 0) {

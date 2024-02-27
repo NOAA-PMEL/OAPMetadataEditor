@@ -3,31 +3,43 @@ package gov.noaa.pmel.sdig.client.panels;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.ConfirmClearFormCallback;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.DbItem;
-import gov.noaa.pmel.sdig.shared.bean.Variable;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Row;
 
-public abstract class FormPanel <T extends DbItem> extends Composite {
+public abstract class FormPanel <T extends DbItem>
+        extends Composite
+        implements GetsDirty {
     @UiField
     protected Form form;
 
-    DbItem dbItem;
+    @UiField
+    protected Button save;
+    @UiField
+    protected Button clear;
+
+    private DbItem dbItem;
 
     protected FormPanel formPanelInstance;
 
     String panelName;
 
-    abstract boolean isDirty();
+    public boolean isDirty() {
+        return isDirty(getDbItem());
+    }
+    abstract void show(T item);
     abstract boolean hasContent();
+    abstract boolean isDirty(T item);
     public void clear() {
         form.reset();
     }
@@ -41,7 +53,10 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
         }
     }
 
-    protected FormPanel() {
+    ClientFactory clientFactory = GWT.create(ClientFactory.class);
+    EventBus eventBus = clientFactory.getEventBus();
+
+    private FormPanel() {
         formPanelInstance = this;
     }
 
@@ -69,11 +84,8 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
 
     protected Widget getRowWidget(Row row, int colIdx, int wgtIdx) {
         Widget clmWidget = row.getWidget(colIdx);
-//        GWT.log("clmWidget:"+clmWidget);
         org.gwtbootstrap3.client.ui.Column clm = (org.gwtbootstrap3.client.ui.Column)clmWidget;
-//        GWT.log("clm:"+clm);
         Widget formWidget = clm.getWidget(0);
-//        GWT.log("formWidget:"+formWidget);
         FormGroup form = (FormGroup)formWidget;
         GWT.log("form:"+String.valueOf(form != null));
         Widget widget = form.getWidget(wgtIdx);
@@ -96,11 +108,9 @@ public abstract class FormPanel <T extends DbItem> extends Composite {
         FormGroup buttonFormGroup = getFormGroup(button);
         if (set) {
             buttonFormGroup.addStyleName("has-error");
-//            ridTypeForm0.addStyleName("has-error");
              fieldButton.addStyleName("error-border");
         } else {
             buttonFormGroup.removeStyleName("has-error");
-//            ridTypeForm0.removeStyleName("has-error");
              fieldButton.removeStyleName("error-border");
         }
     }

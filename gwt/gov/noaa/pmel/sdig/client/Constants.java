@@ -2,9 +2,6 @@ package gov.noaa.pmel.sdig.client;
 
 import com.google.gwt.core.client.GWT;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by rhs on 3/1/17.
  */
@@ -30,7 +27,7 @@ public class Constants {
 //    public static final String SECTION_PCO2A2 = "pCO2A (2)";
     public static final String SECTION_PCO2D = "pCO2D";
 //    public static final String SECTION_PCO2D2 = "pCO2D (2)";
-    public static final String SECTION_GENERIC = "Variable";
+    public static final String SECTION_VARIABLES = "Variable";
 
     public static final String SECTION_DOCUMENT = " document";
 

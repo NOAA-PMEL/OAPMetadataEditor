@@ -2,8 +2,6 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -11,31 +9,24 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.RowStyles;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.RangeChangeEvent;
 
-import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
-import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
@@ -50,7 +41,6 @@ import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
-import org.gwtbootstrap3.client.ui.gwt.CellTable;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -63,12 +53,8 @@ import java.util.*;
 /**
  * Created by rhs on 2/27/17.
  */
-public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty<Person> {
+public abstract class PersonPanel extends MultiPanel<Person>  {
 
-    @UiField
-    Button save;
-    @UiField
-    Button clear;
     @UiField
     TextBox lastName;
     @UiField
@@ -85,8 +71,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
     FormLabel telephoneLabel;
     @UiField
     TextBox telephone;
-//    @UiField
-//    Label telephoneError;
     @UiField
     TextBox extension;
     @UiField
@@ -117,13 +101,10 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
     @UiField
     Modal ridBtnPopover;
 
-    protected List<Person> originals = null;
-
     List<Row> addedRows = new ArrayList<>();
     HashMap<String, ButtonDropDown> ridIdTypeDrops = new LinkedHashMap<>();
     HashMap<String, TextBox> ridTextBoxes = new LinkedHashMap<>();
     int row0index = 9; // XXX CHANGE
-    //    int addedInstIdx = 0;
     Container formContainer;
 
     private static final char CO2_VARS_SEPARATOR = ';';
@@ -149,24 +130,13 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
     @UiField
     Modal idTypePopover;
 
-    @UiField
-    CellTable<Person> people;
-
-    boolean showTable = true;
-    boolean editing = false;
     Person displayedPerson;
     Person editPerson = null;
     String type;
-    int editIndex = -1;
     int pageSize = 4;
 
-    @UiField
-    Pagination peoplePagination;
-
-    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
     ButtonCell moveUpButton = new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
     ButtonCell moveDownButton = new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
-    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     public static final String myRegex         = "^\\w[\\w-_#$%'\\.]*@[\\w-_]+(\\.[\\w-_]+)*(\\.[a-z]{2,})$";
     public static RegExp emailRegex = RegExp.compile(myRegex);
@@ -177,13 +147,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
 
     InstitutionSuggestOracle institutionSuggestOracle = new InstitutionSuggestOracle();
     CountrySuggestionOracle countrySuggestionOracle = new CountrySuggestionOracle();
-
-    ListDataProvider<Person> peopleData = new ListDataProvider<Person>();
-
-    private SimplePager cellTablePager = new SimplePager();
-
-    ClientFactory clientFactory = GWT.create(ClientFactory.class);
-    EventBus eventBus = clientFactory.getEventBus();
 
     interface PersonUiBinder extends UiBinder<HTMLPanel, PersonPanel> {
     }
@@ -204,7 +167,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
     public PersonPanel(String personType) {
         super(personType);
         institution = new SuggestBox(institutionSuggestOracle);
-//        countrySuggest = new SuggestBox(countrySuggestionOracle);
         countrySelect = new Select();
         countrySelect.setLiveSearch(true);
         countrySelect.setPlaceholder("Country");
@@ -220,7 +182,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
 
         initWidget(ourUiBinder.createAndBindUi(this));
         ridType0.init("Pick an ID Type ", idNames, idValues);
-//        ridType0.setId(TYPE_ID+"0");
 
         clear.addClickHandler(clearIt);
 
@@ -232,7 +193,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
         idTypePopover.setTitle("3.7 Please indicate which type of researcher ID.");
         idPopover.setTitle("3.6 We recommend to use person identifiers (e.g. ORCID, Researcher ID, etc.) to unambiguously identify the " + personType + ".");
 
-//        save.setEnabled(false);
         if ("data submitter".equalsIgnoreCase(personType)) {
             emailLabel.setText("Email Address *");
             emailLabel.setColor("#B22222");
@@ -321,9 +281,9 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
             }
         });
 
-        people.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+        cellTable.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
 
-        people.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
+        cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Person> event) {
                 OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
@@ -338,31 +298,8 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
             }
         });
 
-        Column<Person, String> edit = new Column<Person, String>(editButton) {
-            @Override
-            public String getValue(Person object) {
-                return "Edit";
-            }
-        };
-        edit.setFieldUpdater(new FieldUpdater<Person, String>() {
-            @Override
-            public void update(int index, Person person, String value) {
-                editIndex = peopleData.getList().indexOf(person);
-                OAPMetadataEditor.debugLog("EDIT editIndex: " + editIndex);
-                if (editIndex < 0) {
-                    Window.alert("Edit failed.");
-                } else {
-                    show(person, true);
-                    peopleData.getList().remove(person);
-                    peopleData.flush();
-                    peoplePagination.rebuild(cellTablePager);
-                    save.setEnabled(true);
-                    setEnableTableRowButtons(false);
-                }
-            }
-        });
-        people.addColumn(edit);
-        edit.setCellStyleNames("text-center");
+        cellTable.addColumn(editColumn); // From MultiPanel
+        editColumn.setCellStyleNames("text-center");
 
         // Add a text column to show the position.
 //        TextColumn<Person> positionColumn = new TextColumn<Person>() {
@@ -373,7 +310,7 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
 //                return String.valueOf(object.getPosition());
 //            }
 //        };
-//        people.addColumn(positionColumn, "Position");
+//        cellTable.addColumn(positionColumn, "Position");
 //        positionColumn.setCellStyleNames("text-center");
 
         Column<Person, String> moveUp = new Column<Person, String>(moveUpButton) {
@@ -394,46 +331,25 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
                     OAPMetadataEditor.debugLog("moveUp final position: " + newposition);
 
                     // update previousPerson's position
-                    Person previousPerson = peopleData.getList().get(newposition);
+                    Person previousPerson = tableData.getList().get(newposition);
                     previousPerson.setPosition(position);
-                    peopleData.getList().remove(previousPerson);
-                    peopleData.getList().add(newposition, previousPerson);
+                    tableData.getList().remove(previousPerson);
+                    tableData.getList().add(newposition, previousPerson);
 
                     // update current person's position
-                    peopleData.getList().remove(person);
+                    tableData.getList().remove(person);
                     person.setPosition(newposition);
-                    peopleData.getList().add(newposition, person);
+                    tableData.getList().add(newposition, person);
 
-                    peopleData.flush();
-                    peoplePagination.rebuild(cellTablePager);
+                    tableData.flush();
+                    tablePagination.rebuild(cellTablePager);
 //                    save.setEnabled(true);
                     reset();
-
-//                    // for debugging position check
-//                    for (int i = 0; i < peopleData.getList().size(); i++) {
-//                        OAPMetadataEditor.debugLog("UPWARD LOOP");
-//                        OAPMetadataEditor.debugLog("Loop index: " + i);
-//                        Person who = peopleData.getList().get(i);
-//
-//                        int guessWhoPos = who.getPosition();
-////                        OAPMetadataEditor.debugLog("who pos: " + guessWhoPos);
-//
-//                        String guessWho;
-//                        if ( who.getLastName() != null ) {
-//                            guessWho = who.getLastName();
-//                            OAPMetadataEditor.debugLog(guessWho + "'s position is set to " + guessWhoPos);
-//                        }
-//                        else {
-//                            OAPMetadataEditor.debugLog("Unknown'sposition is set to " + guessWhoPos);
-//                        }
-//
-//                    }
-
                 }
 
             }
         });
-        people.addColumn(moveUp);
+        cellTable.addColumn(moveUp);
         moveUp.setCellStyleNames("text-center");
 
         Column<Person, String> moveDown = new Column<Person, String>(moveDownButton) {
@@ -448,48 +364,29 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
                 int position = person.getPosition();
                 int newposition = position + 1;
 
-                if (newposition >= peopleData.getList().size()) {
-                    OAPMetadataEditor.debugLog("is at bottom postion " + peopleData.getList().size() + " < " + newposition);
+                if (newposition >= tableData.getList().size()) {
+                    OAPMetadataEditor.debugLog("is at bottom postion " + tableData.getList().size() + " < " + newposition);
                 } else {
                     OAPMetadataEditor.debugLog("moveDown final position: " + newposition);
 
                     // update nextPerson's position
-                    Person nextPerson = peopleData.getList().get(newposition);
+                    Person nextPerson = tableData.getList().get(newposition);
                     nextPerson.setPosition(position);
-                    peopleData.getList().remove(nextPerson);
-                    peopleData.getList().add(newposition, nextPerson);
+                    tableData.getList().remove(nextPerson);
+                    tableData.getList().add(newposition, nextPerson);
 
                     // update current person's position
-                    peopleData.getList().remove(person);
+                    tableData.getList().remove(person);
                     person.setPosition(newposition);
-                    peopleData.getList().add(newposition, person);
+                    tableData.getList().add(newposition, person);
 
-                    peopleData.flush();
-                    peoplePagination.rebuild(cellTablePager);
+                    tableData.flush();
+                    tablePagination.rebuild(cellTablePager);
                     reset();
-
-//                    // for debugging position check
-//                    for (int i = 0; i < peopleData.getList().size(); i++) {
-//                        OAPMetadataEditor.debugLog("DOWNWARD LOOP");
-//                        OAPMetadataEditor.debugLog("Loop index: " + i);
-//                        Person who = peopleData.getList().get(i);
-//
-//                        int guessWhoPos = who.getPosition();
-////                        OAPMetadataEditor.debugLog("who pos: " + guessWhoPos);
-//
-//                        String guessWho;
-//                        if ( who.getLastName() != null ) {
-//                            guessWho = who.getLastName();
-//                            OAPMetadataEditor.debugLog(guessWho + "'s position is set to " + guessWhoPos);
-//                        }
-//                        else {
-//                            OAPMetadataEditor.debugLog("Unknown'sposition is set to " + guessWhoPos);
-//                        }
-//                    }
                 }
             }
         });
-        people.addColumn(moveDown);
+        cellTable.addColumn(moveDown);
         moveDown.setCellStyleNames("text-center");
 
         // Add a text column to show the name.
@@ -499,7 +396,7 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
                 return object.getLastName();
             }
         };
-        people.addColumn(nameColumn, "Last Name");
+        cellTable.addColumn(nameColumn, "Last Name");
 
         // Add a text column to show the institution.
         TextColumn<Person> institutionColumn = new TextColumn<Person>() {
@@ -508,37 +405,13 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
                 return object.getInstitution();
             }
         };
-        people.addColumn(institutionColumn, "Institution");
+        cellTable.addColumn(institutionColumn, "Institution");
 
-        Column<Person, String> delete = new Column<Person, String>(deleteButton) {
-            @Override
-            public String getValue(Person object) {
-                return "Delete";
-            }
-        };
-        delete.setFieldUpdater(new FieldUpdater<Person, String>() {
-            @Override
-            public void update(int index, Person person, String value) {
-                form.reset(); // Because the mouseover will have filled the form
-                peopleData.getList().remove(person);
-                hasRequiredFields();
-                peopleData.flush();
-                peoplePagination.rebuild(cellTablePager);
-                if (peopleData.getList().size() == 0) {
-                    setTableVisible(false);
-                    show(person, true);
-                    reset();
-                    eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_INVESTIGATOR),PersonPanel.this);
-                } else {
-                    setTableVisible(true);
-                }
-            }
-        });
-        people.addColumn(delete);
-        delete.setCellStyleNames("text-center");
+        cellTable.addColumn(deleteColumn); // from MultiPanel
+        deleteColumn.setCellStyleNames("text-center");
 
         // set RowStyles on required fields
-        people.setRowStyles(new RowStyles<Person>() {
+        cellTable.setRowStyles(new RowStyles<Person>() {
             @Override
             public String getStyleNames(Person row, int rowIndex) {
                 if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
@@ -555,18 +428,18 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
             }
         });
 
-        people.addRangeChangeHandler(new RangeChangeEvent.Handler() {
+        cellTable.addRangeChangeHandler(new RangeChangeEvent.Handler() {
             @Override
             public void onRangeChange(final RangeChangeEvent event) {
-                peoplePagination.rebuild(cellTablePager);
+                tablePagination.rebuild(cellTablePager);
             }
         });
 
-        cellTablePager.setDisplay(people);
+        cellTablePager.setDisplay(cellTable);
 
-        people.setPageSize(pageSize);
+        cellTable.setPageSize(pageSize);
 
-        peopleData.addDataDisplay(people);
+        tableData.addDataDisplay(cellTable);
 
 //        countrySelect.addValueChangeHandler(new ValueChangeHandler<String>() {
 //                  @Override
@@ -623,29 +496,15 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
         return ridRows;
     }
 
-//    private List<?>[] getRidBoxes() {
-//        List<TextBox> rids = new ArrayList<>();
-//        List<ButtonDropDown> types = new ArrayList<>();
-//        List[] lists = new List[2];
-//        lists[0] = rids;
-//        lists[1] = types;
-//        rids.add(rid0);
-//        types.add(ridType0);
-//        for ( Row rrow : addedRows) {
-//
-//        }
-//        return lists;
-//    }
-
     public void addPerson(Person p) {
         if (p == null) {
             return;
         }
-        int position = p.getPosition() >= 0 ? p.getPosition() : peopleData.getList().size();
+        int position = p.getPosition() >= 0 ? p.getPosition() : tableData.getList().size();
         p.setPosition(position);
-        peopleData.getList().add(position, p);
-        peopleData.flush();
-        peoplePagination.rebuild(cellTablePager);
+        tableData.getList().add(position, p);
+        tableData.flush();
+        tablePagination.rebuild(cellTablePager);
     }
 
     @UiHandler("save")
@@ -659,19 +518,25 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
         } else {
 //            this.modified = false;
             this.editing = false;
-            if (hasContent()) {
+            editIndex = INACTIVE;
+            if ( hasContent()) {
                 Person p = getPerson();
-                addPerson(p);
+                if (!p.isEditing) {
+                    addPerson(p);
+                } else {
+                    reset();
+                }
+                p.isEditing = false;
             }
 
-            // check if any person in peopleData is missing required fields
+                // check if any person in tableData is missing required fields
             hasRequiredFields();
 
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if (showTable && peopleData.getList().size() > 0) {
+            if (showTable && tableData.getList().size() > 0) {
                 setTableVisible(true);
                 setEnableTableRowButtons(true);
                 reset();
@@ -680,14 +545,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
         }
 
     }
-//    public Person savePerson() {
-//        Person p = getPerson();
-//        peopleData.getList().add(getPerson());
-//        peopleData.flush();
-//        peoplePagination.rebuild(cellTablePager);
-//        return p;
-//    }
-
     public Person getPerson() {
 //        OAPMetadataEditor.debugLog("PersonPanel.get()");
         Person person = displayedPerson != null ? displayedPerson : new Person();
@@ -762,6 +619,28 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
         return resIds;
     }
 
+    public boolean isDirty(List<Person> originals) {
+        OAPMetadataEditor.debugLog("Investigator.isDirty("+originals+")");
+        if ( originals == null ) { originals = Collections.EMPTY_LIST; }
+        Set<Person> thisPeople = new TreeSet<>(getInvestigators());
+        if ( this.hasContent()) {
+            thisPeople.add(getPerson());
+        }
+        if ( thisPeople.size() != originals.size()) {
+            OAPMetadataEditor.debugLog("Investigator.isDirty(orig:"+originals.size()+"): size:" + thisPeople.size());
+            return true;
+        }
+        Set<Person> orderedOriginals = new TreeSet<>(originals);
+        Iterator<Person> ooI = orderedOriginals.iterator();
+        for ( Person person : thisPeople ) {
+            Person originalPerson = ooI.next();
+            if ( ! person.isTheSameAs(originalPerson)) {
+                OAPMetadataEditor.debugLog("Investigator.isDirty: " + person + " v " + originalPerson);
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public boolean isDirty(Person original) {
         OAPMetadataEditor.debugLog("@PersonPanel.isDirty(" + original + ")");
@@ -927,9 +806,12 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
 
     public void show(Person person) {
         if (person == null || ! person.hasContent()) {
+            OAPMetadataEditor.logToConsole("show null person");
+            setDbItem(new Person()); // ???
             reset();
             return;
         }
+        setDbItem(person);
         if (person.getAddress1() != null)
             address1.setText(person.getAddress1());
         if (person.getAddress2() != null)
@@ -999,35 +881,35 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
     }
 
     public List<Person> getInvestigators() {
-        return peopleData.getList();
+        return tableData.getList();
     }
 
     public void clearPeople() {
-        peopleData.getList().clear();
-        peopleData.flush();
-        peoplePagination.rebuild(cellTablePager);
+        tableData.getList().clear();
+        tableData.flush();
+        tablePagination.rebuild(cellTablePager);
         setEnableTableRowButtons(true);
         setTableVisible(false);
     }
 
     public void addPeople(List<Person> personList) {
-        originals = personList;
+        originalList = personList;
         for (int i = 0; i < personList.size(); i++) {
             Person p = personList.get(i);
             p.setPosition(i);
-            peopleData.getList().add(p);
+            tableData.getList().add(p);
         }
-        peopleData.flush();
-        peoplePagination.rebuild(cellTablePager);
+        tableData.flush();
+        tablePagination.rebuild(cellTablePager);
         setTableVisible(true);
     }
 
     public void hasRequiredFields() {
-        // check if any person in peopleData is missing required fields
+        // check if any person in tableData is missing required fields
         GWT.log("Checking person for required fields");
         boolean meetsRequired = true;
-        for (int i = 0; i < peopleData.getList().size(); i++) {
-            Person p = peopleData.getList().get(i);
+        for (int i = 0; i < tableData.getList().size(); i++) {
+            Person p = tableData.getList().get(i);
             OAPMetadataEditor.debugLog("@checkPeople:p.getEmail(): \"" + p.getEmail() + "\"");
             if (((p.getInstitution() == null) || (p.getInstitution().isEmpty()))
                     || ((p.getFirstName() == null) || (p.getFirstName().isEmpty()))
@@ -1046,33 +928,33 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
                 }
             }
         }
-        if (meetsRequired == true && peopleData.getList().size() > 0) {
+        if (meetsRequired == true && tableData.getList().size() > 0) {
             eventBus.fireEventFromSource(new SectionSave(getPerson(), this.type), PersonPanel.this);
         }
     }
 
     public void setTableVisible(boolean b) {
-        people.setVisible(b);
-        peoplePagination.setVisible(b);
+        cellTable.setVisible(b);
+        tablePagination.setVisible(b);
         if (b) {
             if (cellTablePager.getPageCount() > 1) {
                 int page = cellTablePager.getPage();
-                peoplePagination.setVisible(true);
+                tablePagination.setVisible(true);
                 cellTablePager.setPage(page);
             } else {
-                peoplePagination.setVisible(false);
+                tablePagination.setVisible(false);
             }
         }
     }
 
     public void setEnableTableRowButtons(boolean b) {
-        for (int i = 0; i < peopleData.getList().size(); i++) {
+        for (int i = 0; i < tableData.getList().size(); i++) {
             setEnableButton(editButton, b);
             setEnableButton(moveUpButton, b);
             setEnableButton(moveDownButton, b);
             setEnableButton(deleteButton, b);
         }
-        people.redraw();
+        cellTable.redraw();
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {
@@ -1201,14 +1083,6 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
 
     private void removeRidFields(Row rowToRemove) {
         String rowId = rowToRemove.getId();
-//        String rowIdxStr = rowId.substring(rowId.lastIndexOf("_")+1);
-//        int rowIdx = row0index + 1;
-//        try {
-//            rowIdx = Integer.parseInt(rowIdxStr);
-//        } catch (NumberFormatException e) {
-//            GWT.log("Failed to parse row index " + rowIdxStr);
-//        }
-//        int instListIdx = rowIdx - row0index;
         removeDropBox(rowId, ridIdTypeDrops);
         removeField(rowId, ridTextBoxes);
     }
@@ -1266,6 +1140,12 @@ public abstract class PersonPanel extends FormPanel<Person> implements GetsDirty
         String rowId = addedRow.getId();
         ridTextBoxes.get(rowId).setText(rid.getValue());
         ridIdTypeDrops.get(rowId).setSelected(rid.getType());
+    }
+
+    @Override
+    protected void setEnableButtons(boolean enable) {
+        moveUpButton.setEnabled(enable);
+        moveDownButton.setEnabled(enable);
     }
 
 }

@@ -5,9 +5,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by rhs on 3/8/17.
  */
-public class TaPanel extends FormPanel<Variable> implements GetsDirty<Variable>, HasDefault<Variable> {
+public class TaPanel extends FormPanel<Variable> implements HasDefault<Variable> {
     @UiField
     Button save;
     @UiField
@@ -82,22 +82,19 @@ public class TaPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
 
     private static TaPanel.VariablePanelUiBinder ourUiBinder = GWT.create(TaPanel.VariablePanelUiBinder.class);
 
-//    public static final String TaAbbrevDEFAULT = "TA";
     public static final String TaNameDEFAULT = "Total Alkalinity";
 
     public Variable getDefault() {
         Variable ta = new Variable();
-//        ta.setAbbreviation(TaAbbrevDEFAULT);
         ta.setFullVariableName(TaNameDEFAULT);
         return ta;
     }
     public TaPanel() {
-
+        super(Constants.SECTION_TA);
         initWidget(ourUiBinder.createAndBindUi(this));
 
         setDbItem(getDefault());
         setDefaults();
-        // common.abbreviation.setEnabled(false);
         common.fullVariableName.setEnabled(false);
         common.heading.setText("Enter the Information for Total Alkalinity (TA).");
         save.addClickHandler(saveIt);
@@ -271,6 +268,7 @@ public class TaPanel extends FormPanel<Variable> implements GetsDirty<Variable>,
         return isDirty(getDbItem());
     }
     public boolean hasContent() {
+        OAPMetadataEditor.debugLog("@TA.hasContent()");
         if ( common.hasContent() ) {
             return true;
         }

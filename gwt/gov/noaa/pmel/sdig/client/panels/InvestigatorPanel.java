@@ -25,28 +25,6 @@ public class InvestigatorPanel extends PersonPanel {
         editing = isEditing;
     }
     public boolean isDirty() {
-        return isDirty(originals);
-    }
-    public boolean isDirty(List<Person> originals) {
-        OAPMetadataEditor.debugLog("Investigator.isDirty("+originals+")");
-        if ( originals == null ) { originals = Collections.EMPTY_LIST; }
-        Set<Person> thisPeople = new TreeSet<>(getInvestigators());
-        if ( this.hasContent()) {
-            thisPeople.add(getPerson());
-        }
-        if ( thisPeople.size() != originals.size()) {
-            OAPMetadataEditor.debugLog("Investigator.isDirty(orig:"+originals.size()+"): size:" + thisPeople.size());
-            return true;
-        }
-        Set<Person> orderedOriginals = new TreeSet<>(originals);
-        Iterator<Person> ooI = orderedOriginals.iterator();
-        for ( Person person : thisPeople ) {
-            Person originalPerson = ooI.next();
-            if ( ! person.isTheSameAs(originalPerson)) {
-                OAPMetadataEditor.debugLog("Investigator.isDirty: " + person + " v " + originalPerson);
-                return true;
-            }
-        }
-        return false;
+        return isDirty(originalList);
     }
 }

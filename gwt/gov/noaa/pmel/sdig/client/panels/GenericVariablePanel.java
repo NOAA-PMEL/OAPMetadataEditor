@@ -1,46 +1,31 @@
 package gov.noaa.pmel.sdig.client.panels;
 
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.*;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.RangeChangeEvent;
-import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
-import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
-import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.VariableSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.Variable;
-import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.FormGroup;
 import org.gwtbootstrap3.client.ui.Heading;
-import org.gwtbootstrap3.client.ui.Pagination;
 import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextArea;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.constants.ButtonSize;
-import org.gwtbootstrap3.client.ui.constants.ButtonType;
-import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
-import org.gwtbootstrap3.client.ui.gwt.CellTable;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -232,56 +217,19 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     @UiField
     FormGroup speciesIdCodeForm;
 
-    @UiField
-    CellTable<Variable> variables;
-
-    @UiField
-    Pagination variablePagination;
-
-    ListDataProvider<Variable> variableData = new ListDataProvider<Variable>();
-    private SimplePager cellTablePager = new SimplePager();
-
-    @UiField
-    Button save;
-    @UiField
-    Button clear;
-
-    ClientFactory clientFactory = GWT.create(ClientFactory.class);
-    EventBus eventBus = clientFactory.getEventBus();
-
-    boolean showTable = true;
-    boolean editing = false;
-
     Variable displayedVariable = null;
     Variable editVariable = null;
-    int editIndex = -1;
+
     int pageSize = 3;
-
-    private String MODE_EDIT = "Edit";
-    private String MODE_CANCEL = "Cancel";
-
-    int INACTIVE = -1;
-    // XXX This is / should be the same as editIndex...
-    int activeRow = INACTIVE;
-    int variablesRange_start = 0;
-    int variablesRange_length = 3;
-    private boolean isActiveRow(int index) {
-        return ( index == activeRow );
-    }
-
-    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
-    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     VariableSuggestOracle variableSuggestOracle = new VariableSuggestOracle();
     InstrumentSuggestOracle instrumentSuggestOracle = new InstrumentSuggestOracle();
     ObservationTypeSuggestOracle observationTypeSuggestOracle = new ObservationTypeSuggestOracle();
-    private List<Variable> originalList = null;
 
     public void reset() {
         form.reset();
         displayedVariable = null;
         editIndex = -1;
-        activeRow = -1;
         editing = false;
         if ( editVariable != null ) {
             show(editVariable);
@@ -301,9 +249,9 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     }
 
     public void clearVariables() {
-        variableData.getList().clear();
-        variableData.flush();
-        variablePagination.rebuild(cellTablePager);
+        tableData.getList().clear();
+        tableData.flush();
+        tablePagination.rebuild(cellTablePager);
         redrawTableAndSetHighlight(false);
         setTableVisible(false);
     }
@@ -314,7 +262,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     private static VariablePanelUiBinder ourUiBinder = GWT.create(VariablePanelUiBinder.class);
 
     public GenericVariablePanel() {
-
+        super(Constants.SECTION_VARIABLES);
         fullVariableName = new SuggestBox(variableSuggestOracle);
         fullVariableName.getValueBox().addDoubleClickHandler(new DoubleClickHandler() {
             @Override
@@ -331,30 +279,8 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
 
         initWidget(ourUiBinder.createAndBindUi(this));
 
-       variables.addHandler(new ChangeHandler() {
-            @Override
-            public void onChange(ChangeEvent event) {
-                GWT.log("table change event: " + event);
-            }
-        }, ChangeEvent.getType());
-        // Only one that works.
-        variables.addRangeChangeHandler(new RangeChangeEvent.Handler() {
-            @Override
-            public void onRangeChange(RangeChangeEvent event) {
-                GWT.log("range change: " +event.toDebugString());
-                variablesRange_start = event.getNewRange().getStart();
-                variablesRange_length = event.getNewRange().getLength();
-            }
-        });
-        variables.addRedrawHandler(new AbstractHasData.RedrawEvent.Handler() {
-            @Override
-            public void onRedraw() {
-                GWT.log("redraw displayed:"+variables.getDisplayedItems());
-                setRowHighlight(activeRow >= 0); // Weird backwards
-            }
-        });
-
         clear.addClickHandler(clearIt);
+        addCellTableListeners();
 
         List<String> detailNames = new ArrayList<String>();
         List<String> detailValues = new ArrayList<String>();
@@ -374,8 +300,8 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         measuredValues.add("Calculated");
         measured.init("Measured or Calculated ", measuredNames, measuredValues);
 
-        variables.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
-        variables.addCellPreviewHandler(new CellPreviewEvent.Handler<Variable>() {
+        cellTable.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+        cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<Variable>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Variable> event) {
 //                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
@@ -383,57 +309,12 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
                     show(event.getValue(), false);
                 } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
                     reset();
-//                } else {
-//                    OAPMetadataEditor.logToConsole("event:" + event.getNativeEvent().getType());
                 }
             }
         });
 
-
-        Column<Variable, String> edit = new Column<Variable, String>(editButton) {
-            @Override
-            public String getValue(Variable variable) {
-                return variable != null ?
-                        variable.isEditing ?
-                                MODE_CANCEL :
-                                MODE_EDIT
-                        : MODE_EDIT; // Shouldn't happen.
-            }
-        };
-        edit.setFieldUpdater(new FieldUpdater<Variable, String>() {
-            @Override
-            public void update(int index, Variable variable, String value) {
-                editIndex = variableData.getList().indexOf(variable);
-
-                OAPMetadataEditor.logToConsole("update editing " + variable.isEditing +
-                        " variable: " + variable +
-                        "["+index+"] at " + editIndex +
-                        ", active:" + activeRow);
-                variable.setPosition(editIndex);
-                if ( editIndex < 0 ) {
-                    Window.alert("Edit failed.");
-                } else if ( editing && ! isActiveRow(index)) {
-                    return;
-                } else if ( ! variable.isEditing ) { // edit
-                    activeRow = index;
-                    show(variable, true);
-                    variable.isEditing = true;
-                    save.setEnabled(true);
-                    redrawTableAndSetHighlight(true);
-                    save.setText("SAVE VARIABLE");
-                } else { // cancel
-                    reset();
-                    editing = false;
-                    variable.isEditing = false;
-                    // need to do this before unsetting activeRow
-                    redrawTableAndSetHighlight(false);
-                    activeRow = INACTIVE;
-                    save.setText("ADD VARIABLE");
-                }
-            }
-        });
-        variables.addColumn(edit);
-        edit.setCellStyleNames("text-center");
+        cellTable.addColumn(editColumn);
+        editColumn.setCellStyleNames("text-center");
 
         // abbrevation
         TextColumn<Variable> abbrevColumn = new TextColumn<Variable>() {
@@ -442,7 +323,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
                 return object.getAbbreviation();
             }
         };
-        variables.addColumn(abbrevColumn,
+        cellTable.addColumn(abbrevColumn,
                 SimpleHtmlSanitizer.getInstance().sanitize("Variable Name or <br>Column Header"));
 
         // Add a text column to show the name.
@@ -452,50 +333,17 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
                 return object.getFullVariableName();
             }
         };
-        variables.addColumn(nameColumn, "Full Name");
+        cellTable.addColumn(nameColumn, "Full Name");
 
-        Column<Variable, String> delete = new Column<Variable, String>(new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL)) {
-            @Override
-            public String getValue(Variable object) {
-                return ( object != null ) ?
-                        object.isEditing ?
-                                "Save" :
-                                "Delete"
-                        : "Delete"; // shouldn't happen
-            };
-        };
+        cellTable.addColumn(deleteColumn);
+        deleteColumn.setCellStyleNames("text-center");
 
-        delete.setFieldUpdater(new FieldUpdater<Variable, String>() {
-            @Override
-            public void update(int index, Variable variable, String value) {
-                if ( editing && ! isActiveRow(index)) { return; }
-                else if ( variable.isEditing ) { // save variable
-                    activeRow = INACTIVE;
-                    onSave(null);
-                } else { // delete // XXX TODO: Should we confirm?
-                    form.reset(); // Because the mouseover will have filled the form
-                    variableData.getList().remove(variable);
-                    variableData.flush();
-                    variablePagination.rebuild(cellTablePager);
-                    if (variableData.getList().size() == 0) {
-                        setTableVisible(false);
-                        reset();
-                        eventBus.fireEventFromSource(new SectionUpdater(Constants.SECTION_GENERIC), GenericVariablePanel.this);
-                    } else {
-                        setTableVisible(true);
-                    }
-                }
-            }
-        });
-        variables.addColumn(delete);
-        delete.setCellStyleNames("text-center");
-
-        variables.setColumnWidth(0, 12, Style.Unit.PCT);
-        variables.setColumnWidth(1, 20, Style.Unit.PCT);
-        variables.setColumnWidth(3, 12, Style.Unit.PCT);
+        cellTable.setColumnWidth(0, 12, Style.Unit.PCT);
+        cellTable.setColumnWidth(1, 20, Style.Unit.PCT);
+        cellTable.setColumnWidth(3, 12, Style.Unit.PCT);
 
         // set RowStyles on required fields
-        variables.setRowStyles(new RowStyles<Variable>() {
+        cellTable.setRowStyles(new RowStyles<Variable>() {
             @Override
             public String getStyleNames(Variable row, int rowIndex) {
                 if (((row.getAbbreviation() == null) || (row.getAbbreviation().isEmpty()))
@@ -508,26 +356,13 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             }
         });
 
-        cellTablePager.setDisplay(variables);
+        cellTablePager.setDisplay(cellTable);
 
-        variableData.addDataDisplay(variables);
+        tableData.addDataDisplay(cellTable);
 
-        variables.setPageSize(pageSize);
+        cellTable.setPageSize(pageSize);
 
         save.setEnabled(false);
-    }
-    public void setTableVisible(boolean b) {
-        variables.setVisible(b);
-        variablePagination.setVisible(b);
-        if ( b ) {
-            if (cellTablePager.getPageCount() > 1) {
-                int page = cellTablePager.getPage();
-                variablePagination.setVisible(true);
-                cellTablePager.setPage(page);
-            } else {
-                variablePagination.setVisible(false);
-            }
-        }
     }
     private void setAllEditable(boolean editable) {
         abbreviation.setEnabled(editable);
@@ -668,6 +503,12 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     public boolean isDirty() {
         return isDirty(originalList);
     }
+
+    @Override
+    public boolean isDirty(Variable original) {
+        return !getGenericVariable().equals(original);
+    }
+
     public boolean isDirty(List<Variable> originals) {
         boolean isDirty = false;
         if ( hasContent()) {
@@ -756,7 +597,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         return hasContent;
     }
     public List<Variable> getVariables() {
-        return variableData.getList();
+        return tableData.getList();
     }
 
     public void addVariables(List<Variable> variableList) {
@@ -768,14 +609,12 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
                 continue;
             }
             p.setPosition(i);
-            variableData.getList().add(p);
+            tableData.getList().add(p);
         }
-        variableData.flush();
-        variablePagination.rebuild(cellTablePager);
+        tableData.flush();
+        tablePagination.rebuild(cellTablePager);
         setTableVisible(true);
     }
-
-
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
@@ -802,36 +641,36 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(warning, settings);
         } else {
+            editIndex = INACTIVE;
+            this.editing = false;
             if ( hasContent()) {
-                this.editing = false;
-                activeRow = INACTIVE;
                 Variable v = getGenericVariable();
                 if (! v.isEditing) {
                     addCurrentVariable();
                 } else {
-                    v.isEditing = false;
                     reset();
                 }
+                v.isEditing = false;
             }
 
-            // check if any variable in variableData is missing required fields
+            // check if any variable in tableData is missing required fields
             boolean meetsRequired = true;
-            for (int i = 0; i < variableData.getList().size(); i++) {
-                Variable v = variableData.getList().get(i);
+            for (int i = 0; i < tableData.getList().size(); i++) {
+                Variable v = tableData.getList().get(i);
                 if (((v.getAbbreviation() == null) || (v.getAbbreviation().isEmpty()))
                 || ((v.getFullVariableName() == null) || (v.getFullVariableName().isEmpty()))) {
                     meetsRequired = false;
                 }
             }
-            if (meetsRequired == true  && variableData.getList().size() > 0) {
-                eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_GENERIC), GenericVariablePanel.this);
+            if (meetsRequired == true  && tableData.getList().size() > 0) {
+                eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_VARIABLES), GenericVariablePanel.this);
             }
 
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.SUCCESS);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.COMPLETE, settings);
-            if ( showTable && variableData.getList().size() > 0) {
+            if ( showTable && tableData.getList().size() > 0) {
                 setTableVisible(true);
                 redrawTableAndSetHighlight(false);
                 reset();
@@ -851,11 +690,11 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     }
     public void addVariable(Variable v) {
         if ( v == null ) { return; }
-        int position = v.getPosition() >= 0 ? v.getPosition() : variableData.getList().size();
+        int position = v.getPosition() >= 0 ? v.getPosition() : tableData.getList().size();
         v.setPosition(position);
-        variableData.getList().add(position, v);
-        variableData.flush();
-        variablePagination.rebuild(cellTablePager);
+        tableData.getList().add(position, v);
+        tableData.flush();
+        tablePagination.rebuild(cellTablePager);
     }
     public boolean valid() {
         String valid = String.valueOf(form.validate());
@@ -866,15 +705,6 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             return true;
         }
     }
-
-//
-//    // 004 In-situ observation / manipulation condition / response variable
-//    @UiField
-//    ButtonDropDown observationDetail;
-//
-//    // 006 Measured or calculated
-//    @UiField
-//    ButtonDropDown measured;
 
     @UiHandler({"abbreviation","manipulationMethod","units","calculationMethod",
             "detailedInformation","fieldReplicate","uncertainty","qualityFlag",
@@ -889,40 +719,6 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     public void onValueChange(ValueChangeEvent<String> event) {
 //        OAPMetadataEditor.debugLog("Here be the new value:" + event.getValue());
         save.setEnabled(true);
-    }
-
-    public void redrawTableAndSetHighlight(boolean setHighlight) {
-        // wasn't working for deleteButton for some reason.
-//        for (int i = 0; i < variableData.getList().size(); i++) {
-//            setEnableButton(editButton, b);
-//            setEnableButton(deleteButton, b);
-//        }
-        variables.redraw();
-        variables.flush();
-        setRowHighlight(setHighlight);
-    }
-
-    private void setRowHighlight(boolean setHighlight) {
-        OAPMetadataEditor.logToConsole("setRowHightlight " + setHighlight +
-                " active: " + activeRow +
-                ", range: " + variablesRange_start);
-        if ( activeRow >= 0 ) {
-            int rangeRow = activeRow - variablesRange_start;
-            if ( rangeRow < 0 ) {
-                return;
-            }
-            try {
-                TableRowElement row = variables.getRowElement(rangeRow);
-                GWT.log("row:"+row);
-                if (setHighlight) {
-                    row.addClassName("editing_highlight");
-                } else {
-                    row.removeClassName("editing_highlight");
-                }
-            } catch (Exception exception) {
-                GWT.log(exception.toString());
-            }
-        }
     }
 
     public void setEnableButton(ButtonCell button, boolean enabled) {

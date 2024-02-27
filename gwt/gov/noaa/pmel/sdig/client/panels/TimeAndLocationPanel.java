@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Created by rhs on 3/6/17.
  */
-public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements GetsDirty<TimeAndLocation> {
+public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> {
 
     @UiField
     DatePicker startDate;
@@ -67,6 +67,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     private static TimeAndLocationUiBinder ourUiBinder = GWT.create(TimeAndLocationUiBinder.class);
 
     public TimeAndLocationPanel() {
+        super(Constants.SECTION_TIMEANDLOCATION);
         initWidget(ourUiBinder.createAndBindUi(this));
         clear.addClickHandler(clearIt);
     }
@@ -144,7 +145,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     }
 
     public TimeAndLocation getTimeAndLocation() {
-        TimeAndLocation timeAndLocation = dbItem != null ? (TimeAndLocation) dbItem : new TimeAndLocation();
+        TimeAndLocation timeAndLocation = getDbItem() != null ?
+                                 (TimeAndLocation)getDbItem() :
+                                  new TimeAndLocation();
         timeAndLocation.setEastLon(eastLon.getText().trim());
         String end = endDate.getTextBox().getValue();
         timeAndLocation.setEndDate(end != null ? end.toString() : null);

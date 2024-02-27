@@ -7,4 +7,7 @@ public abstract class DbItem {
 //    protected Long version;
 //    public Long getVersion() { return version; }
 //    public void setVersion(Long version) { this.version = version; }
+
+    // to control edit/cancel/save buttons
+    public transient boolean isEditing = false;
 }
