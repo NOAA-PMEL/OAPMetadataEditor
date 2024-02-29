@@ -17,6 +17,14 @@ class UrlMappings {
         "/document/update"(controller: 'document', action:'missing')
         "/document/delete"(controller: 'document', action:'missing')
 
+        "/funding"(controller: 'document', action:'missing')
+        "/funding/index"(controller: 'document', action:'missing')
+        "/funding/create"(controller: 'document', action:'missing')
+        "/funding/save"(controller: 'document', action:'missing')
+        "/funding/show"(controller: 'document', action:'missing')
+        "/funding/update"(controller: 'document', action:'missing')
+        "/funding/delete"(controller: 'document', action:'missing')
+
         "/"(view:"/index")
 //        "/dashboard"(view:"/dashboard")
         "500"(controller: 'document', action:  'error')
