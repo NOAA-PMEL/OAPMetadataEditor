@@ -590,6 +590,7 @@ class OracleController {
                 query = queryString
             }
         }
+        return query as JSON
     }
 
     def getQuerySuggestions(String query, Set<String> vocabulary) {
