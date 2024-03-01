@@ -220,8 +220,8 @@ public class DashboardLayout extends Composite {
 //                OAPMetadataEditor.debugLog("preview:"+event);
                 String section = event.getType();
                 setChecked(section);
-                removehighlight(section, "pill-warning"); //added ok
-                removehighlight(section, "pill-danger"); //added ok
+                removeHighlight(section, "pill-warning"); //added ok
+                removeHighlight(section, "pill-danger"); //added ok
             }
         });
         eventBus.addHandler(SectionUpdater.TYPE, new SectionUpdaterHandler() {
@@ -231,8 +231,8 @@ public class DashboardLayout extends Composite {
                 String section = event.getType();
                 OAPMetadataEditor.debugLog("section:"+section);
                 removeIcon(section);
-                removehighlight(section, "pill-warning");
-                removehighlight(section, "pill-danger");
+                removeHighlight(section, "pill-warning");
+                removeHighlight(section, "pill-danger");
             }
         });
 
@@ -285,101 +285,49 @@ public class DashboardLayout extends Composite {
     public static boolean showConfirmationDialog(String msg) {
         return false;
     }
+
     public void uncheck(String section) {
-        if (section.equals(Constants.SECTION_DOCUMENT)) {
-            return;
-        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
-            investigatorsLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
-            submittersLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_CITATION) ) {
-            citationLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
-            timeAndLocationLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
-            fundingLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
-            platformsLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_DIC)) {
-            dicLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_TA) ) {
-            taLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PH) ) {
-            phLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
-            pco2aLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
-            pco2dLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
-            genericVariableLink.setIcon(null);
-        }
+        setIcon(section, null);
     }
     public void setChecked(String section) {
         setIcon(section, IconType.CHECK);
+    }
+    public void removeIcon(String section) {
+        setIcon(section, null);
     }
 
     public void setIcon(String section, IconType icon) {
         if (section.equals(Constants.SECTION_DOCUMENT)) {
             return;
         } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
-            investigatorsLink.setIcon(IconType.CHECK);
+            investigatorsLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
-            submittersLink.setIcon(IconType.CHECK);
+            submittersLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_CITATION) ) {
-            citationLink.setIcon(IconType.CHECK);
+            citationLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
-            timeAndLocationLink.setIcon(IconType.CHECK);
+            timeAndLocationLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_FUNDING) ) {
-            fundingLink.setIcon(IconType.CHECK);
+            fundingLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
-            platformsLink.setIcon(IconType.CHECK);
+            platformsLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_DIC)) {
-            dicLink.setIcon(IconType.CHECK);
+            dicLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_TA) ) {
-            taLink.setIcon(IconType.CHECK);
+            taLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_PH) ) {
-            phLink.setIcon(IconType.CHECK);
+            phLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_PCO2A) ) {
-            pco2aLink.setIcon(IconType.CHECK);
+            pco2aLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_PCO2D) ) {
-            pco2dLink.setIcon(IconType.CHECK);
+            pco2dLink.setIcon(icon);
         } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
-            genericVariableLink.setIcon(IconType.CHECK);
-        }
-    }
-
-    public void removeIcon(String section) {
-        if (section.equals(Constants.SECTION_DOCUMENT)) {
-            return;
-        } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
-            investigatorsLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_SUBMITTER) ) {
-            submittersLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_CITATION) ) {
-            citationLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_TIMEANDLOCATION) ) {
-            timeAndLocationLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_FUNDING) ) {
-            fundingLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PLATFORMS) ) {
-            platformsLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_DIC)) {
-            dicLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_TA) ) {
-            taLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PH) ) {
-            phLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PCO2A) ) {
-            pco2aLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_PCO2D) ) {
-            pco2dLink.setIcon(null);
-        } else if ( section.equals(Constants.SECTION_VARIABLES) ) {
-            genericVariableLink.setIcon(null);
+            genericVariableLink.setIcon(icon);
         }
     }
 
     // ex: removehighlight(section, "pill-warning"); will remove "pill-warning" style from the html element
-    public void removehighlight(String section, String highlightStyle) {
+    public void removeHighlight(String section, String highlightStyle) {
         if (section.equals(Constants.SECTION_DOCUMENT)) {
             return;
         } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
@@ -410,7 +358,7 @@ public class DashboardLayout extends Composite {
     }
 
     // ex: sethighlight(section, "pill-warning"); will add "pill-warning" style from the html element
-    public void sethighlight(String section, String highlightStyle) {
+    public void setHighlight(String section, String highlightStyle) {
         if (section.equals(Constants.SECTION_DOCUMENT)) {
             return;
         } else if ( section.equals(Constants.SECTION_INVESTIGATOR) ) {
