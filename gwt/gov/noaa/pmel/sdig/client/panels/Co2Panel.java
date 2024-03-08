@@ -399,7 +399,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
 //                        });
 
         com.google.gwt.user.cellview.client.Column <Variable, String> abbrevColumn =
-            addColumn(new SizedEditTextCell(25), "Data Column or Abbreviation",
+            addColumn(new SizedEditTextCell(30), "Data Column or Abbreviation",
                     new GetValue<String>() {
                         @Override
                         public String getValue(Variable var) {
@@ -415,7 +415,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                     });
 
         com.google.gwt.user.cellview.client.Column <Variable, String> unitsColumn =
-            addColumn(new SizedEditTextCell(10), "Units",
+            addColumn(new SizedEditTextCell(6), "Units",
                     new GetValue<String>() {
                         @Override
                         public String getValue(Variable var) {
@@ -430,7 +430,7 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
                         }
                     });
         com.google.gwt.user.cellview.client.Column<Variable, String> fullNameColumn =
-            addColumn(new SizedEditTextCell(72), "Full Name",
+            addColumn(new SizedEditTextCell(69), "Full Name",
                     new GetValue<String>() {
                         @Override
                         public String getValue(Variable var) {
@@ -483,9 +483,9 @@ public class Co2Panel extends Composite implements GetsDirty<Variable> {
         });
         variablesTable.addColumn(deleteColumn, addVariableHeader);
 
-        variablesTable.setColumnWidth(abbrevColumn,20., Style.Unit.PCT);
-        variablesTable.setColumnWidth(unitsColumn,10., Style.Unit.PCT);
-        variablesTable.setColumnWidth(fullNameColumn,60., Style.Unit.PCT);
+        variablesTable.setColumnWidth(abbrevColumn,24., Style.Unit.PCT);
+        variablesTable.setColumnWidth(unitsColumn,8., Style.Unit.PCT);
+        variablesTable.setColumnWidth(fullNameColumn,58., Style.Unit.PCT);
 
         variableData.addDataDisplay(variablesTable);
 

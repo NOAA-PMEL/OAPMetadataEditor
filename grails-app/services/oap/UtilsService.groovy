@@ -143,11 +143,11 @@ class UtilsService {
                 Field field = fields.get(idx++)
                 if ( (field.getModifiers() & Modifier.PRIVATE) == 0 ) {
                     field.setAccessible(true)
+                }
                     Object fo = field.get(obj)
                     empty = isEmpty(fo, depth+1)
 //                } else {
 //                    System.out.println("no access : " + field)
-                }
             }
             return empty
         } else {

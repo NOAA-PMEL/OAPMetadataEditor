@@ -518,7 +518,7 @@ public class Co2CommonVariablePanel extends Composite implements GetsDirty<Varia
         commonVariable.setFieldReplicate(fieldReplicate.getText());
         commonVariable.setUncertainty(uncertainty.getText());
         commonVariable.setQcApplied(qcApplied.getValue());
-        commonVariable.setResearcherName(researcherName.getText());
+//        commonVariable.setResearcherName(researcherName.getText());
         commonVariable.setResearcherInstitution(researcherInstitution.getText());
 //        commonVariable.setFullVariableName(fullVariableName.getText());
         commonVariable.setReferenceMethod(referenceMethod.getText());

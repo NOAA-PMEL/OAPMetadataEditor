@@ -144,8 +144,8 @@ environments:
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
     development:
         dataSource:
-            dbCreate: validate
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            dbCreate: create
+            url: jdbc:mysql://localhost:63306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -171,10 +171,10 @@ environments:
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
 
-    matisse:
+    buckeye:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:63306/oapme?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -259,7 +259,7 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    socat-update:
+    socat_create:
         dataSource:
             dbCreate: create
             url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
@@ -285,9 +285,9 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-    socat_matisse:
+    socat_buckeye:
         dataSource:
-            dbCreate: validate
+            dbCreate: create
             url: jdbc:mysql://localhost:63306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect

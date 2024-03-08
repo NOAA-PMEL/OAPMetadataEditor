@@ -48,14 +48,16 @@
                                 <b2:DatePicker autoClose="true" format="yyyy-mm-dd" ui:field="endDate" allowBlank="false" position="AUTO_LEFT" placeholder="YYYY-MM-DD" b:id="endDate"></b2:DatePicker>
                             </b:FormGroup>
                         </b:Column>
+                        <!--
                         <b:Column size="SM_12 MD_4">
-                            <b:FormGroup> <!-- OCADS_v7 -->
+                            <b:FormGroup> <!-X- OCADS_v7 -X->
                                 <b:FormLabel for="spatialRef" text="Spatial Reference System"></b:FormLabel>
                                 <b:Modal closable="true" b:id="modalSpatialRef" title="10 A spatial reference system or coordinate reference system defines a specific map projection, as well as transformations between different spatial reference systems. WGS 84 is the reference coordinate system used by the Global Position System."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalSpatialRef" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="spatialRef" allowBlank="true" placeholder="Spatial Reference System" b:id="spatialRef"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
+                        -->
                     </b:Row>
 
                     <b:Row>

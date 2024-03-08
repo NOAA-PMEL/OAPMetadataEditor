@@ -36,8 +36,8 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
     DatePicker endDate;
     @UiField
     TextBox northLat;
-    @UiField
-    TextBox spatialRef;
+//    @UiField
+//    TextBox spatialRef;
     @UiField
     TextBox westLon;
     @UiField
@@ -231,9 +231,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
             if (timeAndLocation.getNorthLat() != null) {
                 northLat.setText(timeAndLocation.getNorthLat());
             }
-            if (timeAndLocation.getSpatialRef() != null) {
-                spatialRef.setText(timeAndLocation.getSpatialRef());
-            }
+//            if (timeAndLocation.getSpatialRef() != null) {
+//                spatialRef.setText(timeAndLocation.getSpatialRef());
+//            }
             if (timeAndLocation.getWestLon() != null) {
                 westLon.setText(timeAndLocation.getWestLon());
             }
@@ -282,7 +282,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
 //            }
 //        }
 
-        timeAndLocation.setSpatialRef(spatialRef.getText().trim());
+//        timeAndLocation.setSpatialRef(spatialRef.getText().trim());
         if ( timeAndLocation.isSiteLocation() || ! siteSpecificLon.getText().isEmpty()) {
             timeAndLocation.setSiteSpecificLon(siteSpecificLon.getText().trim());
             timeAndLocation.setSiteSpecificLat(siteSpecificLat.getText().trim());
@@ -335,7 +335,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
                 || isDirty(northLat, original.getNorthLat())
                 || isDirty(organismLoc, original.getOrganismLoc())
                 || isDirty(southLat, original.getSouthLat())
-                || isDirty(spatialRef, original.getSpatialRef())
+//                || isDirty(spatialRef, original.getSpatialRef())
                 || isDirty(westLon, original.getWestLon())
                 || isDirty(siteSpecificLon, original.getSiteSpecificLon())
                 || isDirty(siteSpecificLat, original.getSiteSpecificLat());
@@ -413,9 +413,9 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> implements 
         if (southLat.getText().trim() != null && !southLat.getText().isEmpty()) {
             hasContent = true;
         }
-        if (spatialRef.getText().trim() != null && !spatialRef.getText().isEmpty()) {
-            hasContent = true;
-        }
+//        if (spatialRef.getText().trim() != null && !spatialRef.getText().isEmpty()) {
+//            hasContent = true;
+//        }
         if (westLon.getText().trim() != null && !westLon.getText().isEmpty()) {
             hasContent = true;
         }

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="OAPMetadataEditor [bootRun] matisse" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="OAPMetadataEditor [bootRun] buckeye" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="env">
         <map>
@@ -9,7 +9,7 @@
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="-Dmy.argument.property=arg -Dgrails.env=matisse --stacktrace" />
+      <option name="scriptParameters" value="-Dmy.argument.property=arg -Dgrails.env=buckeye --stacktrace" />
       <option name="taskDescriptions">
         <list />
       </option>
@@ -23,6 +23,7 @@
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
+    <RunAsTest>false</RunAsTest>
     <method v="2" />
   </configuration>
 </component>

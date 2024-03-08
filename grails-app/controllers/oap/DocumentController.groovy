@@ -33,7 +33,7 @@ class DocumentController {
 //        DocumentUpdateListener.deleteAll(DocumentUpdateListener.findAll())
 //    }
 
-    private def Document findDocById(String id) {
+    private Document findDocById(String id) {
         Document doc
         try {
             try {
@@ -132,11 +132,9 @@ class DocumentController {
         doc.setLastModified(update)
 
         Document d
-        for ( Variable v : doc.getVariables()) {
-            System.out.println("var: " + v.getClass().getCanonicalName())
-            System.out.println("par: " + v.getClass().getSuperclass().getCanonicalName())
+        if ( ! doc.validate() ) {
+            log.warn("doc " + doc.id + " FAILED TO VALIDATE!")
         }
-//        if ( doc.validate() ) {
             try {
                 if ( removePrior ) {
                     List<Document> prior = Document.findAllByDatasetIdentifier(datasetId)
@@ -151,7 +149,7 @@ class DocumentController {
 //                    d = doc.merge(flush: true, failOnError: true)
                 }
                 d = doc.save(flush: true, failOnError: true)
-//                d.dbId = d.id
+                d.dbId = d.id
                 d.dbVersion = d.version
                 log.debug("Save: " + d)
             } catch (Throwable t) {
@@ -472,6 +470,7 @@ class DocumentController {
      */
     def getXml() {
         String docId = params.id
+        log.debug("getXML:" + docId)
         Document doc = findDocById(docId)
         if ( ! doc ) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + docId)
@@ -492,6 +491,7 @@ class DocumentController {
         try {
             String pid = params.id
             String version = params.v
+            log.debug("xml:" + pid + ", v:"+version)
             Document doc = findDocById(pid)
             if ( ! doc ) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Document not found for id " + pid)
@@ -518,9 +518,6 @@ class DocumentController {
         }
     }
 
-    def _xml(Document doc) {
-
-    }
     /**
      * @return a preview of the metadata produced by a version of the NCEI xsl template
      */

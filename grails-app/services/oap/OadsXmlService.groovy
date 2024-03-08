@@ -837,10 +837,13 @@ class OadsXmlService {
     }
     private Co2Socat fillCO2socat(GenericVariable v) {
         Co2Socat.Co2SocatBuilder co2SocatBuilder = fillPCO2a(v, Co2Socat.builder())
-        co2SocatBuilder.totalMeasurementPressure(EquilibratorMeasurementType.builder()
-                                                 .method(v.getTotalPressureCalcMethod())
-                                                 .uncertainty(v.getUncertaintyOfTotalPressure())
-                                                 .build())
+        if ( ! UtilsService.isEmpty(v.getTotalPressureCalcMethod()) ||
+                ! UtilsService.isEmpty(v.getUncertaintyOfTotalPressure())) {
+            co2SocatBuilder.totalMeasurementPressure(EquilibratorMeasurementType.builder()
+                    .method(v.getTotalPressureCalcMethod())
+                    .uncertainty(v.getUncertaintyOfTotalPressure())
+                    .build())
+        }
         Co2Socat co2Socat = co2SocatBuilder.build()
         return co2Socat
     }
@@ -1037,10 +1040,13 @@ class OadsXmlService {
                     .qcFlagVarName(v.getQcVariableName())
                     .build())
         variable.methodReference(v.getReferenceMethod())
-        variable.researcher(PersonReferenceType.builder()
+        if ( ! UtilsService.isEmpty(v.getResearcherName()) ||
+             ! UtilsService.isEmpty(v.getResearcherInstitution())) {
+            variable.researcher(PersonReferenceType.builder()
                     .name(v.getResearcherName())
                     .organization(v.getResearcherInstitution())
                     .build())
+        }
 
        return variable
     }
