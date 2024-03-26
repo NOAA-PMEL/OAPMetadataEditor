@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OAPMetadataEditor JavaScript" type="JavascriptDebugType" uri="http://localhost:8484/socat/MetadataEditor.html" useFirstLineBreakpoints="true">
+    <method v="2" />
+  </configuration>
+</component>

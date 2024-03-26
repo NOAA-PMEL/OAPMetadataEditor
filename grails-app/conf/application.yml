@@ -1,5 +1,5 @@
 server:
-    port: 8383
+    port: 8484
     contextPath: /socat
 ---
 grails:
