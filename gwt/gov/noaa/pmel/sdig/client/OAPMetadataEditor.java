@@ -1120,7 +1120,6 @@ public class OAPMetadataEditor implements EntryPoint {
 
     private void mergeJsonDocument(String jsonString) {
         loadJsonDocument(jsonString, false, false);
-
     }
 
     private void preserveMergeJsonDocument(String jsonString) {
@@ -1130,11 +1129,14 @@ public class OAPMetadataEditor implements EntryPoint {
     private Document documentFromJson(String jsonString) {
         // A bug discussed in various places on the 'net, but nothing specific to grails.
         // Just work around for now
-        jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
-                .replace("</pre>", "");
-        jsonString = jsonString.replace("<pre>", "");
-        jsonString = jsonString.replace("<div></div>", "");
-//        GWT.log("json string:" + jsonString);
+        logToConsole("response start:"+jsonString.substring(0, 75));
+        int end = jsonString.length() > 100 ? jsonString.length() - 100 : 0;
+        logToConsole("response end: "+ jsonString.substring(end, jsonString.length()));
+        jsonString = jsonString.replaceAll("<pre.*?>", ""); // <pre ... > (non-greedy)
+        jsonString = jsonString.replace("</pre>", ""); // at end of JSON doc
+        jsonString = jsonString.replaceAll("<div.*>", ""); // div element, maybe with content
+        logToConsole("start after trimming:"+jsonString.substring(0,10));
+        GWT.log("json string:" + jsonString);
         boolean again = false;
         do {
             String newJsonString = jsonString.replaceAll("&amp;", "&");
