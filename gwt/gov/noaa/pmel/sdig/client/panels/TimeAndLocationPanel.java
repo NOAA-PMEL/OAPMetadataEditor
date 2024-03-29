@@ -18,6 +18,7 @@ import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.shared.bean.TimeAndLocation;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Form;
+import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.TextBox;
 import org.gwtbootstrap3.extras.datepicker.client.ui.DatePicker;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
@@ -41,6 +42,8 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> {
 //    @UiField
 //    TextBox spatialRef;
     @UiField
+    Modal geoExtentsHelpModal;
+    @UiField
     TextBox westLon;
     @UiField
     TextBox eastLon;
@@ -56,6 +59,10 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> {
     @UiField
     Button clear;
 
+    public static final String GEO_EXTENTS_HELP =
+            "Latitude and Longitude values should be entered as decimal degrees," +
+                    " with negative values for South latitudes and West longitudes." +
+                    " Spatial Bounds are REQUIRED for observational data.";
     String type = Constants.SECTION_TIMEANDLOCATION;
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
@@ -69,6 +76,7 @@ public class TimeAndLocationPanel extends FormPanel<TimeAndLocation> {
     public TimeAndLocationPanel() {
         super(Constants.SECTION_TIMEANDLOCATION);
         initWidget(ourUiBinder.createAndBindUi(this));
+        geoExtentsHelpModal.setTitle( GEO_EXTENTS_HELP );
         clear.addClickHandler(clearIt);
     }
 

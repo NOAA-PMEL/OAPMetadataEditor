@@ -55,8 +55,8 @@
                     <b:Row>
                         <b:Column size="SM_12 MD_8" > <!--offset="MD_2"-->
                             <b:Panel>
-                                <b:PanelHeader  ><b:Heading size="H3" text="Geographic Extents">
-                                    <b:Modal title="Latitude and Longitude values should be entered as decimal degrees, with negative values for South latitudes and West longitudes." closable="true" b:id="modalGeographicExtents"/>
+                                <b:PanelHeader  ><b:Heading size="H3" text="Geographic Extents - Required for Observational Data">
+                                    <b:Modal ui:field="geoExtentsHelpModal" closable="true" b:id="modalGeographicExtents"/>
                                     <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalGeographicExtents" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 </b:Heading>
                                 </b:PanelHeader>
