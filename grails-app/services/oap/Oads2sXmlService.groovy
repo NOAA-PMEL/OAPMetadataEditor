@@ -6,7 +6,6 @@ import gov.noaa.ncei.oads.xml.v_a0_2_2s.DicVariableType.DicVariableTypeBuilder
 import gov.noaa.ncei.oads.xml.v_a0_2_2s.PersonType.PersonTypeBuilder
 import gov.noaa.pmel.excel2oap.Excel2OAP
 import gov.noaa.pmel.oads.util.TimeUtils
-import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlReader
 import gov.noaa.pmel.oads.xml.a0_2_2.OadsXmlWriter
 import grails.transaction.Transactional
 
@@ -14,11 +13,12 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
-import java.lang.reflect.Type
 import java.nio.charset.Charset
 
 @Transactional
 class Oads2sXmlService {
+
+    int MIN_RESEARCHER_ID_SIZE = 5 //  who knows?
 
     private static boolean isEmpty(Collection<?> list) {
         return list == null || list.size() == 0
@@ -138,8 +138,8 @@ class Oads2sXmlService {
     }
 
     def nonNullString(Object obj) {
-        if ( obj != null ) { return String.valueOf(obj); }
-        return null;
+        if ( obj != null ) { return String.valueOf(obj) }
+        return null
     }
     def fillTimeAndLocDomain(OadsMetadataDocumentType metadata) {
         TimeAndLocation timeAndLocation = new TimeAndLocation()
@@ -865,8 +865,36 @@ class Oads2sXmlService {
         human.setEmail(contactInfo.email)
         def ids = p.identifier
         if (ids && !ids.isEmpty()) {
-            TypedIdentifierType id = ids.get(0)
-            human.addToResearcherIds(new TypedString(id.getType(),id.value))
+            for (TypedIdentifierType id : ids) {
+                String idValue = id.getValue()
+                if ( idValue == null || idValue.trim().isEmpty()) {
+                    continue
+                }
+                String idType = id.getType()
+                String[] idValues = idValue.split("[, ;]")
+                if (idValues.length > 1) {
+                    String thisIdType = ""
+                    String[] idTypes = null
+                    if ( idType != null && ! idType.trim().isEmpty()) {
+                        idTypes = idType.split("[, ;]")
+                    }
+                    for (int idx = 0; idx < idValues.length; idx++) {
+                        String possibleId = idValues[idx]
+                        if (possibleId && possibleId.trim().length() >= MIN_RESEARCHER_ID_SIZE) {
+                            if ( idTypes != null ) {
+                                thisIdType = idTypes.length > idx ?
+                                        idTypes[idx] :
+                                        idType ? idType : ""
+                            }
+                            human.addToResearcherIds(new TypedString(thisIdType, possibleId))
+                        } else {
+                            log.info("skipping researcher ID value:" + possibleId)
+                        }
+                    }
+                } else {
+                    human.addToResearcherIds(new TypedString(idType, idValue))
+                }
+            }
         }
         return human
     }
@@ -1393,35 +1421,5 @@ class Oads2sXmlService {
         } else {
             return null
         }
-    }
-
-    // This actually is likely to get it wrong.
-    def _lookForDelimiter(String peak) {
-        SortedMap<Integer, Character> sort = new TreeMap<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2.intValue() - o1.intValue();
-            }
-        });
-        sort.put(count(peak, ',' as char), new Character(',' as char));
-        sort.put(count(peak, ';' as char), new Character(';' as char));
-        sort.put(count(peak, '\t' as char), new Character('\t' as char));
-        sort.put(count(peak, '|' as char), new Character('|' as char));
-        return sort.values().iterator().next().charValue();
-    }
-
-    /**
-     * @param peak
-     * @param c
-     * @return
-     */
-    def count(String peak, char c) {
-        int count = 0;
-        for (int i = 0; i < peak.length(); i++) {
-            if ( peak.charAt(i) == c) {
-                count += 1;
-            }
-        }
-        return new Integer(count);
     }
 }

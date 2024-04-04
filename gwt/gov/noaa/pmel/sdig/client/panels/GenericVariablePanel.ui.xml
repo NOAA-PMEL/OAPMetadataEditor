@@ -30,7 +30,7 @@
                         <b:Column size="SM_6 MD_4 LG_3">
                             <!-- Keep -->
                             <b:FormGroup ui:field="abbreviationForm">
-                                <b:FormLabel color="#B22222" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
+                                <b:FormLabel addStyleNames="has-error" for="abbreviation" text="Variable Abbreviation *"></b:FormLabel>
                                 <b:Modal title="27.1 Column header name of the variable in the data files, e.g., T, DO, etc." closable="true" b:id="modalAbbreviation"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalAbbreviation" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="abbreviation" allowBlank="false" placeholder="Variable Abbreviation" b:id="abbreviation"></b:TextBox>
@@ -39,7 +39,7 @@
                         <b:Column size="SM_6 MD_4 LG_5">
                             <!-- Keep -->
                             <b:FormGroup ui:field="fullVariableNameForm">
-                                <b:FormLabel color="#B22222" for="fullVariableName" text="Full Variable Name *"></b:FormLabel>
+                                <b:FormLabel addStyleNames="has-error" for="fullVariableName" text="Full Variable Name *"></b:FormLabel>
                                 <b:Modal title="27.2 Here 'Variable' refers to the observed property of your study, e.g., Temperature, Dissolved Oxygen, Nitrate, etc. Information such as Station ID, Bottle number, etc are not variables. Similarly, ancillary variables, such as Nitrate_stdev, Nitrate_Flag, temp_eq, press_eq, etc are not treated as 'Variables' as well. In this example, only their parent variable (Nitrate, and pCO2) are treated as variables." closable="true" b:id="modalFullVariableName"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalFullVariableName" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:SuggestBox ui:field="fullVariableName" allowBlank="false" placeholder="Full variable name" b:id="fullVariableName"></b:SuggestBox>
@@ -77,10 +77,10 @@
                         <b:Column size="MD_4 LG_3" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel for="units" text="Units"></b:FormLabel> <!-- color="#B22222" -->
-                                <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. *" closable="true" b:id="modalUnits"/>
+                                <b:FormLabel addStyleNames="has-error" for="units" text="Units *"></b:FormLabel> <!-- color="#B22222" -->
+                                <b:Modal title="27.7 Units of the variable, e.g., oC, μmol/kg. " closable="true" b:id="modalUnits"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
+                                <b:TextBox ui:field="units" allowBlank="false" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

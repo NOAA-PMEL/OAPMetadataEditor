@@ -23,6 +23,7 @@ import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.client.ui.gwt.CellTable;
+import gov.noaa.pmel.sdig.client.widgets.MyButtonCell;
 
 import java.util.List;
 
@@ -47,7 +48,12 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
     boolean showTable = true;
     boolean editing = false;
 
+    T formContents = null;
+
     int INACTIVE = -1;
+
+    static final String EDITING_HIGHLIGHT = "editing_highlight";
+    static final String ERROR_HIGHLIST = "error_highlight";
 
     static final String MODE_EDIT = "Edit";
     static final String MODE_CANCEL = "Cancel";
@@ -61,8 +67,8 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
         return ( index == editIndex );
     }
 
-    ButtonCell editButton = new ButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
-    ButtonCell deleteButton = new ButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
+    MyButtonCell editButton = new MyButtonCell(IconType.EDIT, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    MyButtonCell deleteButton = new MyButtonCell(IconType.TRASH, ButtonType.DANGER, ButtonSize.EXTRA_SMALL);
 
     @Override
     public boolean isDirty() {
@@ -70,7 +76,8 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
     }
     abstract  boolean isDirty(List<T> originals);
     abstract void show(T item, boolean editing);
-    public abstract void onSave(ClickEvent clickEvent);
+//    abstract T getItem();
+    public abstract boolean doSave();
     protected void setEnableButtons(boolean enable) {
         // to be overridden where appropriate
     }
@@ -111,6 +118,9 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
                     editIndex = index;
                     item.isEditing = true;
                     setEnableButtons(false);
+//                    deleteButton.setIcon(IconType.SAVE);
+//                    deleteButton.setType(ButtonType.SUCCESS);
+//                    formContents = getItem();
                     show(item, true);
                     save.setEnabled(true);
                     redrawTableAndSetHighlight(true);
@@ -119,7 +129,13 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
                     reset();
                     editing = false;
                     item.isEditing = false;
+//                    deleteButton.setIcon(IconType.TRASH);
+//                    deleteButton.setType(ButtonType.DANGER);
                     setEnableButtons(true);
+//                    if ( formContents != null ) {
+//                        show(formContents);
+//                        formContents = null;
+//                    }
                     // need to do this before unsetting editIndex
                     redrawTableAndSetHighlight(false);
                     editIndex = INACTIVE;
@@ -145,7 +161,10 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
                 else if ( item.isEditing ) { // save item
                     editIndex = INACTIVE;
                     setEnableButtons(true);
-                    onSave(null);
+//                    deleteButton.setIcon(IconType.TRASH);
+//                    deleteButton.setType(ButtonType.DANGER);
+                    doSave();
+                    reset();
                 } else { // delete // XXX TODO: Should we confirm?
                     form.reset(); // Because the mouseover will have filled the form
                     tableData.getList().remove(item);
@@ -179,10 +198,13 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
     protected void redrawTableAndSetHighlight(boolean setHighlight) {
         cellTable.redraw();
         cellTable.flush();
-        setRowHighlight(setHighlight);
+        setRowHighlight(EDITING_HIGHLIGHT, setHighlight);
     }
 
-    protected void setRowHighlight(boolean setHighlight) {
+    protected void setRowHighlight(String highlight, boolean setHighlight) {
+//        if ( true ) return; // XXX TODO: Right now this is redundant for PersonPanel due to setRowStyles
+        // Need to add setRowStyles to other panels.
+        // Actually, preferably, promote it to MultiPanel with the rest.
         OAPMetadataEditor.logToConsole("setRowHightlight " + setHighlight +
                 " active: " + editIndex +
                 ", range: " + cellTableRange_start);
@@ -195,9 +217,9 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
                 TableRowElement row = cellTable.getRowElement(rangeRow);
                 GWT.log("row:"+row);
                 if (setHighlight) {
-                    row.addClassName("editing_highlight");
+                    row.addClassName(highlight);
                 } else {
-                    row.removeClassName("editing_highlight");
+                    row.removeClassName(highlight);
                 }
             } catch (Exception exception) {
                 GWT.log(exception.toString());
@@ -217,7 +239,7 @@ public abstract class MultiPanel<T extends Ordered> extends FormPanel<T> {
             @Override
             public void onRedraw() {
                 GWT.log("redraw displayed:"+cellTable.getDisplayedItems());
-                setRowHighlight(editIndex >= 0);
+                setRowHighlight(EDITING_HIGHLIGHT, editIndex >= 0);
             }
         });
     }

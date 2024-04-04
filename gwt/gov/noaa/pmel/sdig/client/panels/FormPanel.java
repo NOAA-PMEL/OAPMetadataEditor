@@ -114,7 +114,11 @@ public abstract class FormPanel <T extends DbItem>
              fieldButton.removeStyleName("error-border");
         }
     }
-
+    public boolean validateForm() {
+        String valid = String.valueOf(form.validate());
+        return !valid.equals("false") &&
+                !valid.equals("0");
+    }
     public boolean isValid() {
         // For some reason this returns a "0" in debug mode.
         GWT.log("FormPanel validate form:"+panelName);
@@ -123,7 +127,7 @@ public abstract class FormPanel <T extends DbItem>
             OAPMetadataEditor.dumpStackTrace(new Exception("Form undefined"), 6);
             return true; // XXX ???
         }
-        String valid = String.valueOf(form.validate());
+        String valid = String.valueOf(form.validate(true));
         return !(valid.equals("false") || valid.equals("0"));
     }
 

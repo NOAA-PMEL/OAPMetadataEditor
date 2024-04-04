@@ -309,6 +309,17 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         commonVariable = variable;
         if ( variable.getAbbreviation() != null ) {
             abbreviation.setText(variable.getAbbreviation());
+            abbreviation.removeStyleName("has-error");
+        } else {
+            abbreviation.addStyleName("has-error");
+        }
+        if ( !isBig5 ) {
+            if (variable.getFullVariableName() != null) {
+                fullVariableName.setText(variable.getFullVariableName());
+                fullVariableName.removeStyleName("has-error");
+            } else {
+                fullVariableName.addStyleName("has-error");
+            }
         }
         if ( variable.getObservationDetail() != null ) {
             observationDetail.setSelected(variable.getObservationDetail());
@@ -323,6 +334,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         }
         if ( variable.getUnits() != null ) {
             units.setText(variable.getUnits());
+            units.removeStyleName("has-error");
+        } else {
+            units.addStyleName("has-error");
         }
         if ( variable.getMeasured() != null ) {
             measured.setSelected(variable.getMeasured());
@@ -355,9 +369,6 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         }
         if ( variable.getResearcherInstitution() != null ) {
             researcherInstitution.setText(variable.getResearcherInstitution());
-        }
-        if ( variable.getFullVariableName() != null ) {
-            fullVariableName.setText(variable.getFullVariableName());
         }
         if ( variable.getReferenceMethod() != null ) {
             referenceMethod.setText(variable.getReferenceMethod());

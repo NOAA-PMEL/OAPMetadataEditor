@@ -30,7 +30,9 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
 
     List<TypedString> researcherIds;
 
-    boolean complete = true;
+    public boolean emailRequired = false;
+
+    boolean complete = false;
     public boolean isComplete() { return complete; }
     public void setComplete(boolean isComplete) { complete = isComplete; }
 
@@ -247,7 +249,7 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
     public boolean isValid() {
         try {
             validate();
-            return true;
+            return complete;
         } catch (IllegalStateException isx) {
             return false;
         }
@@ -256,16 +258,29 @@ public class Person extends Ordered implements Comparable<Person>, Stringy, HasC
         throws IllegalStateException
     {
         GWT.log("Person validate");
-        String email = getEmail();
-        if ( ! (email == null || email.trim().isEmpty())) {
-            if ( !PersonPanel.emailRegex.test(email)) {
-                String fixedAlitte = email.replaceAll("<", "&lt;").replaceAll(">", "&gt;").trim();
-                throw new IllegalStateException("Invalid email: " +fixedAlitte);
+        complete = true;
+        if ( isEmpty(firstName) || isEmpty(lastName) || isEmpty(institution)) {
+            GWT.log("empty required field");
+            complete = false;
+        }
+        if ( emailRequired ) {
+            String email = getEmail();
+            if (email == null || email.trim().isEmpty()) {
+                complete = false;
+            } else {
+                if (!PersonPanel.emailRegex.test(email)) {
+                    complete = false;
+                    String fixedAlitte = email.replaceAll("<", "&lt;").replaceAll(">", "&gt;").trim();
+                    throw new IllegalStateException("Invalid email: " + fixedAlitte);
+                }
             }
         }
         for (TypedString rid : getResearcherIds()) {
-            if ( (! rid.getValue().isEmpty()) && rid.getType().isEmpty() ) {
-                throw new IllegalStateException("Missing type for ID " + rid.getValue());
+            if ( (! rid.getValue().isEmpty()) &&
+                    ( rid.getType().isEmpty() ||
+                            PersonPanel.ResearcherID.from(rid.getType()) == null)) {
+                complete = false;
+                throw new IllegalStateException("Missing or invalid type for ID " + rid.getValue());
             }
         }
     }

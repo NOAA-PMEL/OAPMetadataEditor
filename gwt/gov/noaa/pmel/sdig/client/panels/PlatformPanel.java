@@ -18,6 +18,7 @@ import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.PlatformSuggestOracle;
+import gov.noaa.pmel.sdig.client.widgets.MyButtonCell;
 import gov.noaa.pmel.sdig.shared.bean.Platform;
 import org.gwtbootstrap3.client.ui.SuggestBox;
 import org.gwtbootstrap3.client.ui.TextBox;
@@ -311,6 +312,10 @@ public class PlatformPanel extends MultiPanel<Platform> {
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
+        GWT.log("onSave:"+clickEvent.getSource());
+        doSave();
+    }
+    public boolean doSave() {
 
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
@@ -323,6 +328,7 @@ public class PlatformPanel extends MultiPanel<Platform> {
             settings.setType(type);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(warning, settings);
+            return false;
         } else {
             this.editing = false;
             editIndex = INACTIVE;
@@ -364,6 +370,7 @@ public class PlatformPanel extends MultiPanel<Platform> {
             }
             save.setEnabled(false);
         }
+        return true;
     }
     public List<Platform> getPlatforms() {
         return tableData.getList();
@@ -460,7 +467,7 @@ public class PlatformPanel extends MultiPanel<Platform> {
         cellTable.redraw();
     }
 
-    public void setEnableButton(ButtonCell button, boolean enabled) {
+    public void setEnableButton(MyButtonCell button, boolean enabled) {
         if (enabled) {
             button.setEnabled(true);
         }

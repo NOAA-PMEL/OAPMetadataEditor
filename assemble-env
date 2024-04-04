@@ -52,6 +52,7 @@ else
 fi
 
 echo "Building Metadata Editor as $CMD for environment $GRAILS_ENV"
+cp -p build/libs/* last_build/
 if [ $DO_IT ] ; then
 	\rm build/libs/env.* 2&> /dev/null
 	./gradlew -Dgrails.env=$GRAILS_ENV clean $CMD

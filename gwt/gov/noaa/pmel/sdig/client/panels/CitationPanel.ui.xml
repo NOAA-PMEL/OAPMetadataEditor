@@ -11,8 +11,8 @@
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="title" text="Title *"></b:FormLabel>
+                            <b:FormGroup > <!--addStyleNames="has-error" validationState="ERROR" -->
+                                <b:FormLabel for="title" text="Title *"></b:FormLabel>
                                 <b:Modal title="5 Provide a descriptive title for the data set." closable="true" b:id="modalTitle">
                                     <b:ModalBody>
                                         <g:HTML>
@@ -34,8 +34,8 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="datasetAbstract" text="Abstract *"></b:FormLabel>
+                            <b:FormGroup > <!-- addStyleNames="has-error" -->
+                                <b:FormLabel for="datasetAbstract" text="Abstract *"></b:FormLabel>
                                 <b:Modal title="6 A narrative summary of the data set." closable="true" b:id="modalAbstract">
                                     <b:ModalBody>
                                         <g:HTML>
@@ -63,12 +63,111 @@
                     </b:Row>
                     <b:Row>
                         <b:Column size="SM_12">
-                            <b:FormGroup>
-                                <b:FormLabel color="#B22222" for="citationAuthorList" text="List of Authors for Citation *"></b:FormLabel>
-                                <!--    <b:FormLabel for="citationAuthorList" text="List of Authors for Citation"></b:FormLabel> -->
+                            <b:FormGroup >
+                                <b:FormLabel for="citationAuthorList" text="List of Authors for Citation *"></b:FormLabel>
+                                <!--    <b:FormLabel color="#B22222" for="citationAuthorList" text="List of Authors for Citation"></b:FormLabel> -->
                                 <b:Modal title="19 Please provide the list of authors in their correct order for the creation of data citation for this data set. We recommend the format of LastName1, FirstName1, Middle1; LastName2, FirstName2, Middle2; … for this field." b:id="modalCitationAuthorList"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalCitationAuthorList" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="citationAuthorList" allowBlank="false" placeholder="List of authors for citation (LastName, FirstName, MI; LastName, FirstName, MI; ...)" b:id="citationAuthorList"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row>
+                        <b:Column size="SM_4">
+                            <b:FormGroup ui:field="licenseFormGroup" >
+                                <b:FormLabel text="Data License *"></b:FormLabel>
+                                <b:Modal title="* Data Licensing" closable="true" b:id="modalLicensing" >
+                                    <b:ModalBody>
+                                        <g:HTML>
+                                            To submit data to NCEI, one of the following two licenses must be selected.<br/>
+                                            <ul>
+                                                <li>
+                                                    <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">
+                                                    https://creativecommons.org/publicdomain/zero/1.0/</a>
+                                                </li>
+                                                <li>
+                                                    <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                                                    https://creativecommons.org/licenses/by/4.0/</a>
+                                                </li>
+                                            </ul>
+                                            <br/>
+                                            Internal NOAA Source data must use the CC0 1.0 license.
+                                        </g:HTML>
+                                    </b:ModalBody>
+                                </b:Modal>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalLicensing" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:InputGroup> <!-- -->
+                                    <b:Modal title="* What is an Internal NOAA Source Dataset?" closable="true" b:id="modalNoaaInternal" >
+                                        <b:ModalBody>
+                                            <g:HTML>
+                                                Internal NOAA Source Data refers to data that have been generated
+                                                by NOAA-owned sensors or systems or NOAA Federal employees, including:
+                                                <ul>
+                                                    <li>NESDIS satellite data and data products, climatologies, and atlases</li>
+                                                    <li>NWS radar data and model output</li>
+                                                    <li>NMFS habitat surveys, coral ecosystems analyses</li>
+                                                    <li>OAR carbon mooring arrays, atmospheric chemistry monitoring stations</li>
+                                                    <li>NOS bathymetry data collected by NOAA ships</li>
+                                                    <li>Derived products developed by NOAA systems or NOAA Federal employees using internal
+                                                        and/or external data, when the agreement with the external data provider confirms that
+                                                        they do not maintain ownership of or restrict the use of derived products created with
+                                                        their data (e.g. NWS model output)</li>
+                                                </ul>
+                                            </g:HTML>
+                                        </b:ModalBody>
+                                    </b:Modal>
+                                    <b:CheckBox addStyleNames="cit_checkbox" b:id="isNOAAChkBx" ui:field="isNOAAData">Internal NOAA Source Dataset?</b:CheckBox>
+                                    <b:InputGroupButton  addStyleNames="pushUp_5"> <!-- -->
+                                        <b:Button dataTarget="#modalNoaaInternal" dataToggle="MODAL" tabIndex="999" addStyleNames="benone" icon="QUESTION_CIRCLE"/>
+                                    </b:InputGroupButton>
+                                </b:InputGroup>
+                                <b:VerticalButtonGroup addStyleNames="error-response" name="license_group" ui:field="licenseBtnGroup" b:id="licenseBtnGroup"> <!--addStyleNames="indent_1" -->
+                                    <b:InputGroup width="10%">
+                                        <b:RadioButton addStyleNames="cit_radio_button" ui:field="lic_cc0" b:id="lic_cc0" name="license_group" >CC0-1.0</b:RadioButton>
+                                        <b:Modal title="* Creative Commons Zero 1.0" closable="true" b:id="modalCC0" >
+                                            <b:ModalBody>
+                                                <g:HTML>
+                                                    The Creative Commons 1.0 Deed (CC0 1.0 Universal) dedicates this work to the public domain,
+                                                    waiving all rights to the work worldwide under copyright law, including all related and neighboring rights,
+                                                    to the extent allowed by law.<br/>
+                                                    <br/>
+                                                    Internal NOAA Source data is required to use the CC0-1.0 license.<br/>
+                                                    <br/>
+                                                    See <a target="_blank" href="https://creativecommons.org/publicdomain/zero/1.0/">
+                                                                https://creativecommons.org/publicdomain/zero/1.0/</a>
+                                                </g:HTML>
+                                            </b:ModalBody>
+                                        </b:Modal>
+                                        <b:InputGroupButton >
+                                            <b:Button dataTarget="#modalCC0" dataToggle="MODAL" tabIndex="999" addStyleNames="benone" icon="QUESTION_CIRCLE"/>
+                                        </b:InputGroupButton>
+                                    </b:InputGroup>
+                                    <b:InputGroup width="10%">
+                                        <b:RadioButton addStyleNames="cit_radio_button" ui:field="lic_ccBy" b:id="lic_ccBy" name="license_group" >CC-BY 4.0</b:RadioButton>
+                                        <b:Modal title="* Creative Commons Attribution 4.0 International" closable="true" b:id="modalCCBy" >
+                                            <b:ModalBody>
+                                                <g:HTML>
+                                                    The Creative Commons Attribution 4.0 International (CC BY 4.0) allows these data to be freely copied
+                                                    and redistributed, including as derivative works, provided that appropriate credit
+                                                    is given and no additional restrictions are placed on the data.<br/>
+                                                    <br/>
+                                                    See <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                                                        https://creativecommons.org/licenses/by/4.0/</a>
+                                                </g:HTML>
+                                            </b:ModalBody>
+                                        </b:Modal>
+                                        <b:InputGroupButton >
+                                            <b:Button dataTarget="#modalCCBy" dataToggle="MODAL" tabIndex="999" addStyleNames="benone" icon="QUESTION_CIRCLE"/>
+                                        </b:InputGroupButton>
+                                    </b:InputGroup>
+                                </b:VerticalButtonGroup>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_8">
+                            <b:FormGroup ui:field="licTextGroup"  addStyleNames="cit_text_group">
+                                <!-- <b:FormLabel text="Acknowledgement"></b:FormLabel> -->
+                                <b:TextArea ui:field="licenseText" addStyleNames="cit_lic_text" placeholder="License Brief Text"
+                                            visibleLines="4" allowBlank="true" enabled="false" b:id="licenseText"></b:TextArea>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

@@ -10,6 +10,9 @@ public class Citation extends DbItem implements Stringy, HasContent {
 
     String title;
     String datasetAbstract;
+    String licenseUrl;
+    String licenseText;
+    Boolean noaaData = Boolean.FALSE;
     String useLimitation;
     String purpose;
     String expocode;
@@ -98,6 +101,13 @@ public class Citation extends DbItem implements Stringy, HasContent {
         this.datasetAbstract = datasetAbstract;
     }
 
+    public Boolean getNoaaData() { return noaaData; }
+    public void setNoaaData(Boolean noaaData) { this.noaaData = noaaData; }
+    public String getLicenseUrl() { return licenseUrl; }
+    public void setLicenseUrl(String licenseUrl) { this.licenseUrl = licenseUrl; }
+    public String getLicenseText() { return licenseText; }
+    public void setLicenseText(String licenseText) { this.licenseText = licenseText; }
+
     public String getUseLimitation() { return useLimitation; }
 
     public void setUseLimitation(String useLimitation) { this.useLimitation = useLimitation; }
@@ -105,10 +115,11 @@ public class Citation extends DbItem implements Stringy, HasContent {
     @Override
     public Citation sClone() {
         Citation newc = new Citation();
-//        newc.id = this.id;
-//        newc.version = this.version;
         newc.title = this.title;
         newc.datasetAbstract = this.datasetAbstract;
+        newc.noaaData = this.noaaData;
+        newc.licenseUrl = this.licenseUrl;
+        newc.licenseText = this.licenseText;
         newc.useLimitation = this.useLimitation;
         newc.purpose = this.purpose;
         newc.expocode = this.expocode;
@@ -126,6 +137,8 @@ public class Citation extends DbItem implements Stringy, HasContent {
         boolean hasContent = ! (
                     isEmpty(title) &&
                     isEmpty(datasetAbstract) &&
+                    isEmpty(licenseUrl) &&
+                    isEmpty(licenseText) &&
                     isEmpty(useLimitation) &&
                     isEmpty(purpose) &&
                     isEmpty(expocode) &&

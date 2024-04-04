@@ -5,12 +5,19 @@
     padding: 0px !important;
     margin: 0px !important;
     vertical-align: middle;
+    background-color: transparent !important;
 }
 .auto_table {
     table-layout: auto !important;
 }
 .middle_button {
     padding: 0px 5px;
+}
+.fixed_top_right {
+    position: fixed;
+    top: 35px;
+    right: 36px;
+
 }
 .control-label {
 /*    overflow: hidden;*/
@@ -19,9 +26,43 @@
 /*    text-overflow: ellipsis;*/
     width: 89%;
 }
-
 .editing_highlight {
-    background-color: #dca7a7 !important;
+    background-color: cornsilk !important;
+}
+.error_highlight {
+    background-color: rgba(245, 17, 10, 0.39) !important;
+    /* e4b9b9 */
+}
+.indent_1 {
+    padding-left: 1em;
+}
+.pushUp_5 {
+    padding-bottom: 5px;
+}
+.cit_checkbox {
+    margin-top: 5px !important;
+    margin-bottom: 8px !important;
+}
+#isNOAAChkBx {
+    color: #333 !important;
+}
+.has-error #licenseBtnGroup {
+    border: solid 1px #a94442 !important;
+}
+.error-response .has-error {
+    border: solid 1px #a94442; /* !important; */
+}
+.cit_radio_button {
+    text-align: left !important;
+    border: transparent !important;
+    padding: 0px 12px !important;
+}
+.cit_text_group {
+    padding-top: 1em;
+    margin-bottom: 0px !important;
+}
+.cit_lic_text {
+    /*background-color: transparent !important;*/
 }
 .tightenTBmargins {
     margin-top: 2px !important;
@@ -139,9 +180,6 @@ h1 {
     border-color: red !important;
     border-width: 2px !important;
     /* #a94442 */
-}
-.has-error.control-label {
-    color: #a94442;
 }
 .serverResponseLabelError {
   color: red;

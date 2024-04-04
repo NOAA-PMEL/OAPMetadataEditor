@@ -2,6 +2,7 @@ package gov.noaa.pmel.sdig.client.panels;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -31,6 +32,7 @@ import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.CountrySuggestionOracle;
 import gov.noaa.pmel.sdig.client.oracles.InstitutionSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
+import gov.noaa.pmel.sdig.client.widgets.MyButtonCell;
 import gov.noaa.pmel.sdig.shared.bean.Person;
 import gov.noaa.pmel.sdig.shared.bean.TypedString;
 import org.gwtbootstrap3.client.ui.*;
@@ -39,6 +41,7 @@ import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
+import org.gwtbootstrap3.client.ui.form.error.ErrorHandler;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
 import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
@@ -73,6 +76,8 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     TextBox telephone;
     @UiField
     TextBox extension;
+//    @UiField
+//    Label telephoneError;
     @UiField
     TextBox city;
     @UiField
@@ -87,6 +92,8 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     TextBox email;
     @UiField
     Heading heading;
+    @UiField
+    Heading secondHeading;
 
     @UiField
     Row ridRow0;
@@ -114,6 +121,9 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     private static final String RMV_BTN_ID = "rid_rmv_";
     private static final String RID_ROW_ = "rid_row_";
 
+    @UiField
+    Button showErrorsBtn;
+
     // Form help items to be customized...
     @UiField
     Modal namePopover;
@@ -135,8 +145,8 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     String type;
     int pageSize = 4;
 
-    ButtonCell moveUpButton = new ButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
-    ButtonCell moveDownButton = new ButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    MyButtonCell moveUpButton = new MyButtonCell(IconType.ARROW_UP, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
+    MyButtonCell moveDownButton = new MyButtonCell(IconType.ARROW_DOWN, ButtonType.PRIMARY, ButtonSize.EXTRA_SMALL);
 
     public static final String myRegex         = "^\\w[\\w-_#$%'\\.]*@[\\w-_]+(\\.[\\w-_]+)*(\\.[a-z]{2,})$";
     public static RegExp emailRegex = RegExp.compile(myRegex);
@@ -152,20 +162,39 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     }
 
     private static PersonUiBinder ourUiBinder = GWT.create(PersonUiBinder.class);
-
+    public static enum ResearcherID {
+        ORCID("ORCID"),
+        RESEARCHERID("Researcher ID"),
+        OCEANEXPERT("Ocean Expert");
+        private final String display;
+        ResearcherID(String displayString) {
+            display = displayString + " ";
+        }
+        public static ResearcherID from(String type) {
+            if ( type == null || type.trim().isEmpty() )
+                return null;
+            String tryStr = type.trim().toUpperCase().replaceAll("[_ ]", "");
+            return ResearcherID.valueOf(tryStr);
+        }
+    }
     static List<String> idNames = new ArrayList<String>();
     static List<String> idValues = new ArrayList<String>();
     static {
-        idNames.add("ORCID ");
-        idValues.add("ORCID");
-        idNames.add("Researcher ID ");
-        idValues.add("RESEARCHER_ID");
-        idNames.add("Ocean Expert ");
-        idValues.add("OCEAN_EXPERT");
+        for (ResearcherID rid : ResearcherID.values()) {
+            idNames.add(rid.display);
+            idValues.add(rid.name());
+        }
+//        idNames.add("ORCID ");
+//        idValues.add("ORCID");
+//        idNames.add("Researcher ID ");
+//        idValues.add("RESEARCHER_ID");
+//        idNames.add("Ocean Expert ");
+//        idValues.add("OCEAN_EXPERT");
     }
 
     public PersonPanel(String personType) {
         super(personType);
+        setType(Constants.SECTION_SUBMITTER);
         institution = new SuggestBox(institutionSuggestOracle);
         countrySelect = new Select();
         countrySelect.setLiveSearch(true);
@@ -245,6 +274,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
 //
 //                @Override
 //                public void showErrors(List<EditorError> errors) {
+//                    GWT.log("show errors:" + errors);
 //                    StringBuilder sb = new StringBuilder();
 //                    String sep = "";
 //                    for (EditorError e : errors) {
@@ -286,7 +316,9 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<Person>() {
             @Override
             public void onCellPreview(CellPreviewEvent<Person> event) {
-                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
+                NativeEvent nevent = event.getNativeEvent();
+                OAPMetadataEditor.logToConsole("event: " + new Date().getTime() + ": " + nevent.getType() +
+                                                " at " + nevent.getClientX() + ", " + nevent.getClientY());
                 Person rowPerson = event.getValue();
                 if ( editing ) { // ignore
                     return;
@@ -414,10 +446,28 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         cellTable.setRowStyles(new RowStyles<Person>() {
             @Override
             public String getStyleNames(Person row, int rowIndex) {
-                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
-                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
-                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
-                        || ((row.getEmail() != null ) && (row.getEmail().toString().length() != 0) && (!emailRegex.test(row.getEmail())))) {
+//                if (rowIndex % 2 == 0) {
+//                    return "danger";
+//                } else {
+//                    return "";
+//                }
+//            }
+//        });
+                boolean isValid = true;
+                try {
+                    isValid = row.isValid();
+                } catch (Exception exception) {
+                    GWT.log("row exception: " + exception);
+                    isValid = false;
+                }
+                if ( row.isEditing ) {
+                    return EDITING_HIGHLIGHT;
+                } else if ( ! isValid ) {
+//                if (((row.getInstitution() == null) || (row.getInstitution().isEmpty()))
+//                        || ((row.getFirstName() == null) || (row.getFirstName().isEmpty()))
+//                        || ((row.getLastName() == null) || (row.getLastName().isEmpty()))
+//                        || ((row.getEmail() != null ) && (row.getEmail().toString().length() != 0)
+//                            && (!emailRegex.test(row.getEmail())))) {
                     OAPMetadataEditor.debugLog("row.getEmail(): \"" + row.getEmail() + "\"");
     //                OAPMetadataEditor.debugLog("row.getEmail() string length: " + row.getEmail().toString().length());
                     OAPMetadataEditor.debugLog("getCssName(TableContextualType.DANGER): " + TableContextualType.DANGER.getCssName());
@@ -450,7 +500,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
 //        );
     }
 
-
+    @Override
     public boolean validateForm() {
         GWT.log("PersonPanel validate");
         boolean isOk = this.isValid();
@@ -510,11 +560,15 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
         OAPMetadataEditor.logToConsole("Save Person: " + clickEvent);
+        doSave();
+    }
+    public boolean doSave() {
         if ( ! validateForm() || ! isValid()) {
             NotifySettings settings = NotifySettings.newSettings();
             settings.setType(NotifyType.WARNING);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(Constants.NOT_COMPLETE, settings);
+            return false;
         } else {
 //            this.modified = false;
             this.editing = false;
@@ -543,7 +597,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
             }
             save.setEnabled(false);
         }
-
+        return true;
     }
     public Person getPerson() {
 //        OAPMetadataEditor.debugLog("PersonPanel.get()");
@@ -551,6 +605,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         person.setAddress1(address1.getText().trim());
         person.setAddress2(address2.getText().trim());
         person.setEmail(email.getText().trim());
+        person.emailRequired = this.getType().equals(Constants.SECTION_SUBMITTER);
         person.setFirstName(firstName.getText().trim());
         person.setInstitution(institution.getText().trim());
         person.setLastName(lastName.getText().trim());
@@ -805,6 +860,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     }
 
     public void show(Person person) {
+        form.reset();
         if (person == null || ! person.hasContent()) {
             OAPMetadataEditor.logToConsole("show null person");
             setDbItem(new Person()); // ???
@@ -957,7 +1013,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         cellTable.redraw();
     }
 
-    public void setEnableButton(ButtonCell button, boolean enabled) {
+    public void setEnableButton(MyButtonCell button, boolean enabled) {
         if (enabled) {
             button.setEnabled(true);
         }

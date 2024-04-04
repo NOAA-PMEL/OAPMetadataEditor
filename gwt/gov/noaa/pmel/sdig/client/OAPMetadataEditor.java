@@ -540,17 +540,19 @@ public class OAPMetadataEditor implements EntryPoint {
         doc.setDbId(_documentDbId);
         doc.setDbVersion(_documentDbVersion);
         // Data Submitter Panel
-        Person dataSubmitter = submitterPanel.getPerson();
-        if ( validate ) {
-            try {
-                dataSubmitter.validate();
-            } catch (IllegalStateException isx) {
-                submitterPanel.validateForm();
-                setMain(Constants.SECTION_SUBMITTER);
-                throw isx;
+        if (submitterPanel.hasContent()) {
+            Person dataSubmitter = submitterPanel.getPerson();
+            if (validate) {
+                try {
+                    dataSubmitter.validate();
+                } catch (IllegalStateException isx) {
+                    submitterPanel.validateForm();
+                    setMain(Constants.SECTION_SUBMITTER);
+                    throw isx;
+                }
             }
+            doc.setDataSubmitter(dataSubmitter);
         }
-        doc.setDataSubmitter(dataSubmitter);
         // Investigators Panel
         if (investigatorPanel.hasContent()) {
             Person p = investigatorPanel.getPerson();
@@ -566,7 +568,11 @@ public class OAPMetadataEditor implements EntryPoint {
             if (!p.isComplete()) {
                 warn("Current Investigator is not complete.");
             }
-            investigatorPanel.addPerson(p);
+            if ( !p.isEditing ) {
+                investigatorPanel.addPerson(p);
+            } else {
+                p.isEditing = false;
+            }
             investigatorPanel.reset();
             investigatorPanel.setEditing(false);
 
@@ -835,8 +841,8 @@ public class OAPMetadataEditor implements EntryPoint {
             } else {
                 debugLog("TextCallback: onSuccess is calling loadJsonDocument true true");
                 loadJsonDocument(s, true, true);
-                topLayout.setMain(submitterPanel);
-                topLayout.setActive(Constants.SECTION_SUBMITTER);
+//                topLayout.setMain(submitterPanel);
+//                topLayout.setActive(Constants.SECTION_SUBMITTER);
             }
         }
     };
@@ -1082,9 +1088,13 @@ public class OAPMetadataEditor implements EntryPoint {
     private Document documentFromJson(String jsonString) {
         // A bug discussed in various places on the 'net, but nothing specific to grails.
         // Just work around for now
-        jsonString = jsonString.replace("<pre style=\"word-wrap: break-word; white-space: pre-wrap;\">", "")
-                .replace("</pre>", "");
-        jsonString = jsonString.replace("<pre>", "");
+        logToConsole("response start:"+jsonString.substring(0, 75));
+        int endStart = jsonString.length() > 100 ? jsonString.length() - 100 : 0;
+        logToConsole("response end: "+ jsonString.substring(endStart, jsonString.length()));
+        jsonString = jsonString.replaceAll("<pre.*?>", ""); // <pre ... > (non-greedy)
+        jsonString = jsonString.replace("</pre>", ""); // at end of JSON doc
+        jsonString = jsonString.replaceAll("<div.*>", ""); // div element, maybe with content
+        logToConsole("start after trimming:"+jsonString.substring(0,10));
         GWT.log("json string:" + jsonString);
         boolean again = false;
         do {
@@ -1127,9 +1137,11 @@ public class OAPMetadataEditor implements EntryPoint {
 
             if (document.getDataSubmitter() != null) {
                 Person dataSubmitter = document.getDataSubmitter();
+                dataSubmitter.emailRequired = true;
                 submitterPanel.show(dataSubmitter);
                 if (!submitterPanel.validateForm()) {
 //                    debugLog("danger submitterPanel has no valid data");
+                    topLayout.uncheck(Constants.SECTION_SUBMITTER);
                     topLayout.setHighlight(Constants.SECTION_SUBMITTER, "pill-danger");
                 } else {
 //                    debugLog("success submitterPanel has only valid data");
@@ -1139,11 +1151,16 @@ public class OAPMetadataEditor implements EntryPoint {
             } else {
 //                debugLog("submitterPanel is null");
                 topLayout.setHighlight(Constants.SECTION_SUBMITTER, "pill-danger");
+                submitterPanel.validateForm();
             }
 
 //            investigatorPanel.clearPeople();
+            boolean hasInvestigators = false;
             if (document.getInvestigators() != null) {
                 List<Person> personList = document.getInvestigators();
+                if ( personList.size() > 0) {
+                    hasInvestigators = true;
+                }
 //              investigatorPanel.reset(); // XXX Should this also be commented out.  What about merge?
 
                 // Load
@@ -1164,11 +1181,17 @@ public class OAPMetadataEditor implements EntryPoint {
                     }
                     investigatorPanel.reset();
                 }
-                if (hasValidData && ! hasInvalidData) {
+                if ( !hasInvestigators ) {
+                    topLayout.uncheck(Constants.SECTION_INVESTIGATOR);
+                    topLayout.setHighlight(Constants.SECTION_INVESTIGATOR, "pill-danger");
+                    investigatorPanel.validateForm();
+                }
+                else if (hasValidData && ! hasInvalidData) {
 //                    debugLog("success investigatorPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_INVESTIGATOR);
                     topLayout.removeHighlight(Constants.SECTION_INVESTIGATOR, "pill-danger");
                 } else {
+                    topLayout.uncheck(Constants.SECTION_INVESTIGATOR);
                     topLayout.setHighlight(Constants.SECTION_INVESTIGATOR, "pill-danger");
                 }
 //                if (hasValidData == true && hasInvalidData == true) {
@@ -1199,12 +1222,17 @@ public class OAPMetadataEditor implements EntryPoint {
                 citationPanel.show(citation);
                 if (!citationPanel.isValid()) {
 //                    debugLog("danger citationPanel has no valid data");
+                    topLayout.uncheck(Constants.SECTION_CITATION);
                     topLayout.setHighlight(Constants.SECTION_CITATION, "pill-danger");
                 } else {
 //                    debugLog("success citationPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_CITATION);
                     topLayout.removeHighlight(Constants.SECTION_CITATION, "pill-danger");
                 }
+            } else {
+                topLayout.uncheck(Constants.SECTION_CITATION);
+                topLayout.setHighlight(Constants.SECTION_CITATION, "pill-danger");
+                citationPanel.validateForm();
             }
 
             if (document.getTimeAndLocation() != null) {
@@ -1308,7 +1336,9 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
             }
 
+            boolean hasVariable = false;
             if (document.getDic() != null) {
+                hasVariable = true;
                 Variable dic = document.getDic();
                 dicPanel.show(dic);
                 if (!dicPanel.isValid()) {
@@ -1321,6 +1351,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
             }
             if (document.getTa() != null) {
+                hasVariable = true;
                 Variable ta = document.getTa();
                 taPanel.show(ta);
                 if (!taPanel.isValid()) {
@@ -1333,6 +1364,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
             }
             if (document.getPh() != null) {
+                hasVariable = true;
                 Variable ph = document.getPh();
                 phPanel.show(ph);
                 if (!phPanel.isValid()) {
@@ -1345,6 +1377,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
             }
             if (document.getPco2a() != null) {
+                hasVariable = true;
 //                common.abbreviation.setText("pCO2a");
 //                common.fullVariableName.setText("pco2 (fco2) autonomous");
                 Variable pco2a = document.getPco2a();
@@ -1359,6 +1392,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 }
             }
             if (document.getPco2d() != null) {
+                hasVariable = true;
                 Variable pco2d = document.getPco2d();
                 pco2dPanel.show(pco2d);
                 if (!pco2dPanel.isValid()) {
@@ -1372,6 +1406,9 @@ public class OAPMetadataEditor implements EntryPoint {
             }
             if (document.getVariables() != null) {
                 List<Variable> variablesList = document.getVariables();
+                if ( variablesList.size() > 0) {
+                    hasVariable = true;
+                }
                 debugLog("Overwrite merge");
 
                 if (originalDocument.getVariables() != null) {
@@ -1398,6 +1435,7 @@ public class OAPMetadataEditor implements EntryPoint {
 
                     Iterator<Variable> variableIterator = variablesList.iterator();
                     while (variableIterator.hasNext()) {
+                        hasVariable = true;
                         Variable v = variableIterator.next();
 
                         // original list contains this Variable
@@ -1467,7 +1505,7 @@ public class OAPMetadataEditor implements EntryPoint {
                 genericVariablePanel.addVariables(variablesList);
 
                 // verify
-                boolean hasValidData = false;
+                boolean hasValidData = hasVariable;
                 boolean hasInvalidData = false;
                 for (int i = 0; i < variablesList.size(); i++) {
                     Variable v = variablesList.get(i);
@@ -1480,28 +1518,42 @@ public class OAPMetadataEditor implements EntryPoint {
                     genericVariablePanel.reset();
                 }
 
-                if (hasValidData == true && hasInvalidData == true) {
-//                    debugLog("warning genericVariablePanel valid and invalid");
-                    topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
-                }
-                if (hasValidData == true && hasInvalidData == false) {
-//                    debugLog("success genericVariablePanel has only valid data");
+//                if ( !hasVariable ) {
+//                    topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
+//                } else
+                if (hasValidData && ! hasInvalidData) {
+//                    debugLog("success investigatorPanel has only valid data");
                     topLayout.setChecked(Constants.SECTION_VARIABLES);
                     topLayout.removeHighlight(Constants.SECTION_VARIABLES, "pill-danger");
-                }
-                if (hasValidData == false && hasInvalidData == true) {
-//                    debugLog("danger genericVariablePanel has no valid data");
+                } else {
+                    topLayout.uncheck(Constants.SECTION_VARIABLES);
                     topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
                 }
-                if (hasValidData == false && hasInvalidData == false) {
-//                    debugLog("danger genericVariablePanel has no data");
-                    topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
-                }
+//                if (hasValidData == true && hasInvalidData == true) {
+////                    debugLog("warning genericVariablePanel valid and invalid");
+//                    topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
+//                }
+//                if (hasValidData == true && hasInvalidData == false) {
+////                    debugLog("success genericVariablePanel has only valid data");
+//                    topLayout.setChecked(Constants.SECTION_VARIABLES);
+//                    topLayout.removeHighlight(Constants.SECTION_VARIABLES, "pill-danger");
+//                }
+//                if (hasValidData == false && hasInvalidData == true) {
+////                    debugLog("danger genericVariablePanel has no valid data");
+//                    topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
+//                }
+//                if (hasValidData == false && hasInvalidData == false) {
+////                    debugLog("danger genericVariablePanel has no data");
+//                    topLayout.setHighlight(Constants.SECTION_VARIABLES, "pill-danger");
+//                }
 
                 if (variablesList.size() == 0) {
                     genericVariablePanel.setTableVisible(false);
                     topLayout.uncheck(Constants.SECTION_VARIABLES);
                     topLayout.removeHighlight(Constants.SECTION_VARIABLES, "pill-danger");
+                }
+                if ( !hasVariable) {
+                    GWT.log("Add Must Have a variable error message."); // TODO: For when we capture errors.
                 }
             }
 

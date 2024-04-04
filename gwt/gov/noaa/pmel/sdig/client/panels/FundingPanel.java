@@ -22,6 +22,7 @@ import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionUpdater;
 import gov.noaa.pmel.sdig.client.oracles.FundingSuggestOracle;
+import gov.noaa.pmel.sdig.client.widgets.MyButtonCell;
 import gov.noaa.pmel.sdig.shared.bean.Funding;
 import org.fusesource.restygwt.client.*;
 import org.gwtbootstrap3.client.ui.*;
@@ -355,6 +356,10 @@ public class FundingPanel extends MultiPanel<Funding> {
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
+        GWT.log("onSave:"+clickEvent.getSource());
+        doSave();
+    }
+    public boolean doSave() {
 
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
@@ -367,6 +372,7 @@ public class FundingPanel extends MultiPanel<Funding> {
             settings.setType(type);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(warning, settings);
+            return false;
         } else {
             this.editing = false;
             editIndex = INACTIVE;
@@ -391,6 +397,7 @@ public class FundingPanel extends MultiPanel<Funding> {
             }
             save.setEnabled(false);
         }
+        return true;
     }
     public void setTableVisible(boolean v) {
         cellTable.setVisible(v);
@@ -457,13 +464,7 @@ public class FundingPanel extends MultiPanel<Funding> {
         cellTable.redraw();
     }
 
-    public void setEnableButton(ButtonCell button, boolean enabled) {
-        if (enabled) {
-            button.setEnabled(true);
-        }
-        else {
-            button.setEnabled(false);
-        }
+    public void setEnableButton(MyButtonCell button, boolean enabled) {
+        button.setEnabled(enabled);
     }
-
 }

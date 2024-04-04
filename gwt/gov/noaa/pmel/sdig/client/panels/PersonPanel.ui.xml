@@ -4,9 +4,12 @@
              xmlns:s="urn:import:org.gwtbootstrap3.extras.select.client.ui"
              xmlns:mde="urn:import:gov.noaa.pmel.sdig.client.widgets">
     <g:HTMLPanel>
+        <b:Button ui:field="showErrorsBtn" addStyleNames="fixed_top_right" icon="ANGLE_DOWN" text="Show Issues"
+                  title="Show Metadata Issues" visible="false"/>
         <b:Form ui:field="form">
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Information for this Person"></b:Heading>
+                <b:Heading ui:field="secondHeading" size="H4" text="" visible="false"/>
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
                 <b:Container width="100%" pull="LEFT">
                     <b:Row>

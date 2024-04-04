@@ -106,13 +106,13 @@ public class PhPanel extends FormPanel<Variable> implements HasDefault<Variable>
         List<String> scaleValues = new ArrayList<>();
 
         scaleNames.add(SCALE_TOTAL);
-        scaleValues.add(SCALE_TOTAL);
+        scaleValues.add(ButtonDropDown.standardValue(SCALE_TOTAL));
         scaleNames.add(SCALE_SEAWATER);
-        scaleValues.add(SCALE_SEAWATER);
+        scaleValues.add(ButtonDropDown.standardValue(SCALE_SEAWATER));
         scaleNames.add(SCALE_FREE);
-        scaleValues.add(SCALE_FREE);
+        scaleValues.add(ButtonDropDown.standardValue(SCALE_FREE));
         scaleNames.add(SCALE_NBS);
-        scaleValues.add(SCALE_NBS);
+        scaleValues.add(ButtonDropDown.standardValue(SCALE_NBS));
         pHscale.init("ph Scale ", scaleNames, scaleValues);
 
         common.abbreviationModal.setTitle("24.1 Column header name of the variable in the data files, e.g., pH");

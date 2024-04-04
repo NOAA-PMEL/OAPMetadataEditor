@@ -12,9 +12,11 @@ import java.util.*;
 public class InvestigatorPanel extends PersonPanel {
 
     public InvestigatorPanel() {
-        super("investigator");
+        super(Constants.SECTION_INVESTIGATOR);
         setType(Constants.SECTION_INVESTIGATOR);
-        heading.setText("Enter the Information for this Investigator. You may enter more than one investigator.");
+        heading.setText("Enter the Information for this Investigator.");
+        secondHeading.setText("You may enter more than one investigator.");
+        secondHeading.setVisible(true);
         showTable=true;
         save.setEnabled(false);
         email.setAllowBlank(true); //allowBlank="false"

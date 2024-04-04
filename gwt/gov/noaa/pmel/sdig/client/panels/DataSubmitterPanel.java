@@ -7,7 +7,7 @@ import gov.noaa.pmel.sdig.client.Constants;
  */
 public class DataSubmitterPanel extends PersonPanel {
     public DataSubmitterPanel() {
-        super("data submitter");
+        super(Constants.SECTION_SUBMITTER);
         setType(Constants.SECTION_SUBMITTER);
         heading.setText("Enter the Information for this Data Submitter.");
         email.setAllowBlank(false);

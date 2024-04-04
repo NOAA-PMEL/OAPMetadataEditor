@@ -9,6 +9,7 @@ import gov.noaa.ncei.oads.xml.v_a0_2_2.Co2Autonomous
 import gov.noaa.ncei.oads.xml.v_a0_2_2.Co2Base
 import gov.noaa.ncei.oads.xml.v_a0_2_2.Co2Discrete
 import gov.noaa.ncei.oads.xml.v_a0_2_2.CrmType
+import gov.noaa.ncei.oads.xml.v_a0_2_2.DataLicenseType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.DicVariableType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.DicVariableType.DicVariableTypeBuilder
 import gov.noaa.ncei.oads.xml.v_a0_2_2.EquilibratorSensorType
@@ -144,6 +145,14 @@ class OadsXmlService {
         Citation citation = new Citation()
         citation.setTitle(metadata.getTitle())
         citation.setDatasetAbstract(metadata.getAbstract())
+        if ( metadata.getDataLicense() != null ) {
+            DataLicenseType license = metadata.getDataLicense()
+            String licText = license.getValue()
+            boolean isNoaaData = licText != null && licText.contains("produced by NOAA")
+            citation.setNoaaData(isNoaaData)
+            citation.setLicenseUrl(license.getUrl())
+            citation.setLicenseText(licText)
+        }
         citation.setUseLimitation(metadata.getUseLimitation())
 //        citation.setDataUse(metadata.getDataUse())
         citation.setPurpose(metadata.getPurpose())
@@ -879,7 +888,8 @@ class OadsXmlService {
         human.mi = name?.middle
         human.lastName = name?.last
 
-        human.setInstitution(p.organization)
+        if ( p.getOrganizations().size() > 0 )
+            human.setInstitution(p.getOrganizations().get(0))
 
         PersonContactInfoType contactInfo = p.contactInfo
         AddressType address = contactInfo.address
@@ -905,7 +915,7 @@ class OadsXmlService {
         }
         human.setTelephone(contactInfo.phone)
         human.setEmail(contactInfo.email)
-        def ids = p.getIdentifier()
+        def ids = p.getIdentifiers()
         if (ids && !ids.isEmpty()) {
             for (TypedIdentifierType rid : ids) {
                 human.addToResearcherIds(new TypedString(rid.getType(), rid.getValue()))
@@ -1010,6 +1020,15 @@ class OadsXmlService {
 //            metadata.dataUse(citation.getDataUse())
             metadata.purpose(citation.getPurpose())
 
+            if ( citation.getLicenseUrl()) {
+                String licText = citation.getLicenseText()
+//                boolean isNoaaData = licText != null && licText.contains("produced by NOAA")
+                DataLicenseType license = DataLicenseType.builder()
+                    .url(citation.getLicenseUrl())
+                    .value(licText)
+                    .build()
+                metadata.dataLicense(license)
+            }
             // XXX TODO: use single string, multiple strings, or ResearchProjectType ???
             if ( citation.getResearchProjects() ) {
                 metadata.addResearchProject(citation.getResearchProjects())
@@ -1412,7 +1431,7 @@ class OadsXmlService {
         PersonTypeBuilder person = PersonType.builder()
         person.name(PersonNameType.builder().first(p.getFirstName()).middle(p.getMi()).last(p.getLastName()).build())
         // Apparently institution in the spreadsheet is organization in the XML
-        person.organization(p.getInstitution())
+        person.addOrganization(p.getInstitution())
         person.contactInfo(
             PersonContactInfoType.builder()
                 .address(AddressType.builder()

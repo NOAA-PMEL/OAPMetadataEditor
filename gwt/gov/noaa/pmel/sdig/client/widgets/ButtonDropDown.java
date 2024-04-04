@@ -1,11 +1,8 @@
 package gov.noaa.pmel.sdig.client.widgets;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -14,7 +11,6 @@ import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import org.gwtbootstrap3.client.ui.AnchorListItem;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.DropDownMenu;
-import org.gwtbootstrap3.client.ui.Row;
 import org.gwtbootstrap3.client.ui.base.HasId;
 
 
@@ -76,7 +72,7 @@ public class ButtonDropDown extends Composite
         button.setTitle(initialValue);
         for ( int i = 0; i < labels.size(); i++ ) {
             String label = labels.get(i);
-            values.put(label, inputValues.get(i));
+            values.put(label, standardValue(inputValues.get(i)));
             final AnchorListItem a = new AnchorListItem(label);
             a.addClickHandler(new ClickHandler() {
                 @Override
@@ -91,16 +87,28 @@ public class ButtonDropDown extends Composite
         }
     }
 
+    public static String standardValue(String value) {
+        if ( value == null || value.trim().isEmpty()) {
+            return "";
+        }
+        String stdValue = value.trim().replaceAll("[ _]", "").toUpperCase();
+        return stdValue;
+    }
     public String getValue() {
         return currentValue;
     }
-    public void setSelected(String value) {
+    public boolean setSelected(String value) {
         boolean set = false;
+        if ( value == null || value.trim().isEmpty()) {
+            OAPMetadataEditor.logToConsole("Empty or null RID type value");
+            return false;
+        }
+        String ridValue = standardValue(value);
         Set<String> keys = values.keySet();
         for (Iterator kIt = keys.iterator(); kIt.hasNext(); ) {
             String key = (String) kIt.next();
             String v = values.get(key);
-            if ( v.equalsIgnoreCase(value) ) {
+            if ( v.equals(ridValue) ) {
                 button.setText(key);
                 currentValue = v;
                 set = true;
@@ -108,10 +116,11 @@ public class ButtonDropDown extends Composite
             }
         }
         if ( !set ) {
-            GWT.log("Failed to set " + this.initialValue + " dropbutton for value \"" + value + "\"");
+            OAPMetadataEditor.logToConsole("Failed to set " + this.initialValue + " dropbutton for value \"" + value + "\"");
             currentValue = "";
 //            reset();
         }
+        return set;
     }
 
     public  void reset() {

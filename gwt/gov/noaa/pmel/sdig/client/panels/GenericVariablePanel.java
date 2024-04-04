@@ -307,6 +307,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
 //                OAPMetadataEditor.logToConsole("event:"+ event.getNativeEvent().getType());
                 if ( !editing && "mouseover".equals(event.getNativeEvent().getType())) {
                     show(event.getValue(), false);
+                    form.validate();
                 } else if ( !editing && "mouseout".equals(event.getNativeEvent().getType())) {
                     reset();
                 }
@@ -400,6 +401,15 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
     public void show(Variable variable) {
         if ( variable.getAbbreviation() != null ) {
             abbreviation.setText(variable.getAbbreviation());
+            abbreviation.removeStyleName("has-error");
+        } else {
+            abbreviation.addStyleName("has-error");
+        }
+        if ( variable.getFullVariableName() != null ) {
+            fullVariableName.setText(variable.getFullVariableName());
+            fullVariableName.removeStyleName("has-error");
+        } else {
+            fullVariableName.addStyleName("has-error");
         }
         if ( variable.getObservationDetail() != null ) {
             observationDetail.setSelected(variable.getObservationDetail());
@@ -412,6 +422,9 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         }
         if ( variable.getUnits() != null ) {
             units.setText(variable.getUnits());
+            units.removeStyleName("has-error");
+        } else {
+            units.addStyleName("has-error");
         }
         if ( variable.getMeasured() != null ) {
             measured.setSelected(variable.getMeasured());
@@ -442,9 +455,6 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         }
         if ( variable.getResearcherInstitution() != null ) {
             researcherInstitution.setText(variable.getResearcherInstitution());
-        }
-        if ( variable.getFullVariableName() != null ) {
-            fullVariableName.setText(variable.getFullVariableName());
         }
         if ( variable.getReferenceMethod() != null ) {
             referenceMethod.setText(variable.getReferenceMethod());
@@ -618,6 +628,10 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
 
     @UiHandler("save")
     public void onSave(ClickEvent clickEvent) {
+        GWT.log("onSave:"+clickEvent.getSource());
+        doSave();
+    }
+    public boolean doSave() {
 
         // For some reason this returns a "0" in debug mode.
         String valid = String.valueOf( form.validate());
@@ -640,6 +654,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             settings.setType(type);
             settings.setPlacement(NotifyPlacement.TOP_CENTER);
             Notify.notify(warning, settings);
+            return false;
         } else {
             editIndex = INACTIVE;
             this.editing = false;
@@ -654,6 +669,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             }
 
             // check if any variable in tableData is missing required fields
+            // XXX I'm not sure this is necessary after validating the form.
             boolean meetsRequired = true;
             for (int i = 0; i < tableData.getList().size(); i++) {
                 Variable v = tableData.getList().get(i);
@@ -662,7 +678,11 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
                     meetsRequired = false;
                 }
             }
+            if ( !meetsRequired ) {
+                return false;
+            }
             if (meetsRequired == true  && tableData.getList().size() > 0) {
+                // XXX This event is ignored in OAPMetadataEditor.saveSection(), the only place it is "used"
                 eventBus.fireEventFromSource(new SectionSave(getGenericVariable(), Constants.SECTION_VARIABLES), GenericVariablePanel.this);
             }
 
@@ -677,6 +697,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             }
             save.setEnabled(false);
         }
+        return true;
     }
 
     private void updateEditingVariable() {
@@ -696,7 +717,13 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         tableData.flush();
         tablePagination.rebuild(cellTablePager);
     }
+    private void resetRequiredLabels() {
+        abbreviation.removeStyleName("has-error");
+        fullVariableName.removeStyleName("has-error");
+        units.removeStyleName("has-error");
+    }
     public boolean valid() {
+        resetRequiredLabels();
         String valid = String.valueOf(form.validate());
         if (valid.equals("false") ||
                 valid.equals("0")) {

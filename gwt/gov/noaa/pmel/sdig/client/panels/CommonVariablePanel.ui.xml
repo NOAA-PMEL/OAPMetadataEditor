@@ -84,14 +84,14 @@ Unnamed variables have "Full variable name in addition.
                         <b:Column size="MD_4 LG_3" offset="LG_1">
                             <!-- Keep -->
                             <b:FormGroup ui:field="unitsForm">
-                                <b:FormLabel for="units" text="Units"></b:FormLabel>
+                                <b:FormLabel addStyleNames="has-error" for="units" text="Units *"></b:FormLabel>
                                 <b:Modal title="" closable="true" ui:field="unitsModal" b:id="modalUnits"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalUnits" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="units" allowBlank="true" placeholder="Units" b:id="units"></b:TextBox>
+                                <b:TextBox ui:field="units" allowBlank="false" placeholder="Units" b:id="units"></b:TextBox>
                             </b:FormGroup>
                             <b:FormGroup ui:field="pHscaleForm" visible="false">
                                 <!-- Keep -->
-                                <b:FormLabel color="#B22222" for="pHscale" text="pH Scale *"></b:FormLabel>
+                                <b:FormLabel addStyleNames="has-error" for="pHscale" text="pH Scale *"></b:FormLabel>
                                 <b:Modal title="24.9 The pH scale for the reported pH results, e.g., total scale, seawater scale, NBS scale, etc." closable="true" b:id="modalpHscale"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpHscale" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <!-- b:TextBox ui:field="pHscale" allowBlank="true" placeholder="pH scale" b:id="pHscale"></b:TextBox -->
