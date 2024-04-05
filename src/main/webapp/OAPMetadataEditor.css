@@ -46,6 +46,12 @@
 #isNOAAChkBx {
     color: #333 !important;
 }
+/** Mozilla Firefox */
+@-moz-document url-prefix() {
+    #licenseBtnGroup {
+        width: 100%;
+    }
+}
 .has-error #licenseBtnGroup {
     border: solid 1px #a94442 !important;
 }
