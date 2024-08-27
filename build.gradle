@@ -97,6 +97,10 @@ war.dependsOn(GWTCompile)
 
 jar.dependsOn(GWTCompile)
 
+springBoot {
+    mainClass="oap.Application"
+}
+
 bootRun {
     jvmArgs = ['-Dspring.output.ansi.enabled=always']
 }
