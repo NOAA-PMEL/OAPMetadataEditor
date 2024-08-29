@@ -271,10 +271,10 @@
                         <b:Column size="SM_12 MD_6 LG_4">
                             <b:FormGroup ui:field="pco2TemperatureForm">
                                 <!-- Keep -->
-                                <b:FormLabel for="pco2Temperature" text="At what temperature was pCO2 reported?"></b:FormLabel>
+                                <b:FormLabel for="pco2Temperature" text="At what temperature was fCO2 reported?"></b:FormLabel>
                                 <b:Modal closable="true" b:id="modalpco2Temperature" title="24.32 The input could be a constant temperature value, or something like in-situ temperature, temperature of analysis, etc."/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalpco2Temperature" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
-                                <b:TextBox ui:field="pco2Temperature" allowBlank="true" placeholder="At what temperature was pCO2 reported?" b:id="pco2Temperature"></b:TextBox>
+                                <b:TextBox ui:field="pco2Temperature" allowBlank="true" placeholder="At what temperature was fCO2 reported?" b:id="pco2Temperature"></b:TextBox>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

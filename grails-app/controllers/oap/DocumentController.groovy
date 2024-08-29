@@ -459,7 +459,7 @@ class DocumentController {
         }
     }
 
-    def translateSpreadsheet(InputStream inputStream, Charset charset) {            // TODO: should move this elsewhere
+    private translateSpreadsheet(InputStream inputStream, Charset charset) {            // TODO: should move this elsewhere
         OadsMetadataDocumentType doc = Excel2OAP.ConvertExcelToOADS_doc(inputStream, charset)
         return oadsXmlService.buildDocumentFromMetadata(doc)
     }

@@ -117,7 +117,7 @@ environments:
     devcreate:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -145,7 +145,7 @@ environments:
     development:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:63306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:63306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -174,7 +174,7 @@ environments:
     buckeye:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:63306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:63306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: oapweb
@@ -202,7 +202,7 @@ environments:
     sour:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
@@ -340,7 +340,7 @@ environments:
     procreate:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/socat__me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
@@ -366,7 +366,7 @@ environments:
     production:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/ioap_me?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
@@ -392,7 +392,7 @@ environments:
     standalone_production:
         dataSource:
             dbCreate: create
-            url: jdbc:mysql://localhost:3306/oapme?useUnicode=true&characterEncoding=UTF-8
+            url: jdbc:mysql://localhost:3306/socat_me?useUnicode=true&characterEncoding=UTF-8
             driverClassName: "com.mysql.cj.jdbc.Driver"
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: scientist
