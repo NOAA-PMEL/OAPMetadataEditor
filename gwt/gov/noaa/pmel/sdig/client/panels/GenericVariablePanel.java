@@ -290,7 +290,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         detailValues.add("manipulation condition");
         detailNames.add("response variable");
         detailValues.add("response variable");
-        observationDetail.init("Pick One ", detailNames, detailValues);
+        observationDetail.init("Pick One ", false, detailNames, detailValues);
 
         List<String> measuredNames = new ArrayList<String>();
         List<String> measuredValues = new ArrayList<String>();
@@ -298,7 +298,7 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         measuredValues.add("Measured");
         measuredNames.add("Calculated");
         measuredValues.add("Calculated");
-        measured.init("Measured or Calculated ", measuredNames, measuredValues);
+        measured.init("Measured or Calculated ", false, measuredNames, measuredValues);
 
         cellTable.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         cellTable.addCellPreviewHandler(new CellPreviewEvent.Handler<Variable>() {

@@ -29,6 +29,8 @@ public class ButtonDropDown extends Composite
     String id;
     @UiField
     Button button;
+    private boolean isStandard;
+
     public Button getButton() {
         return button;
     }
@@ -61,12 +63,13 @@ public class ButtonDropDown extends Composite
         initWidget(ourUiBinder.createAndBindUi(this));
         thisButton = this;
     }
-    public void init(String initialValue, List<String> labels, List<String> inputValues) {
+    public void init(String initialValue, boolean standardize, List<String> labels, List<String> inputValues) {
 //        this.init(initialValue, labels, inputValues, null);
 //    }
 //    public void init(String initialValue, List<String> labels, List<String> inputValues, Row formRow) {
 //        this.formRow = formRow;
         this.currentValue = "";
+        this.isStandard = standardize;
         this.initialValue = initialValue;
         button.setText(initialValue);
         button.setTitle(initialValue);
@@ -87,11 +90,15 @@ public class ButtonDropDown extends Composite
         }
     }
 
-    public static String standardValue(String value) {
+    public String standardValue(String value) {
+        if ( !isStandard) { return value; }
+        return standardizeValue(value);
+    }
+    public static String standardizeValue(String value) {
         if ( value == null || value.trim().isEmpty()) {
             return "";
         }
-        String stdValue = value.trim().replaceAll("[ _]", "").toUpperCase();
+        String stdValue = value.trim().replaceAll("[ ]", "_"); // .toUpperCase();
         return stdValue;
     }
     public String getValue() {

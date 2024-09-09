@@ -7,6 +7,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
@@ -273,7 +274,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         detailValues.add("manipulation condition");
         detailNames.add("response variable");
         detailValues.add("response variable");
-        observationDetail.init("Pick One ", detailNames, detailValues);
+        observationDetail.init("Pick One ", false, detailNames, detailValues);
 
         List<String> measuredNames = new ArrayList<>();
         List<String> measuredValues = new ArrayList<>();
@@ -281,7 +282,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         measuredValues.add("Measured");
         measuredNames.add("Calculated");
         measuredValues.add("Calculated");
-        measured.init("Measured or Calculated ", measuredNames, measuredValues);
+        measured.init("Measured or Calculated ", false, measuredNames, measuredValues);
 
         abbreviationModal.setTitle("");
         observationTypeModal.setTitle("");
@@ -322,6 +323,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             }
         }
         if ( variable.getObservationDetail() != null ) {
+            String varDetail = variable.getObservationDetail();
+            OAPMetadataEditor.logToConsole("variable detail:" + varDetail);
+            String fixedDetail = fixDetail(varDetail);
             observationDetail.setSelected(variable.getObservationDetail());
         } else {
             observationDetail.reset();
@@ -339,6 +343,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             units.addStyleName("has-error");
         }
         if ( variable.getMeasured() != null ) {
+            String fixedMeasured = fixMeasured(variable.getMeasured());
             measured.setSelected(variable.getMeasured());
         } else {
             measured.reset();
@@ -375,6 +380,23 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         }
     }
 
+    private String fixDetail(String varDetail) {
+        if ( varDetail == null || varDetail.trim().isEmpty()) { return ""; }
+        if ( varDetail.toLowerCase().contains("in-situ")) { return "in-situ observation"; }
+        if ( varDetail.toLowerCase().contains("manipulation")) { return "manipulation condition"; }
+        if ( varDetail.toLowerCase().contains("response")) { return "response variable"; }
+        OAPMetadataEditor.logToConsole("Unknown detail:" + varDetail);
+        return "";
+    }
+
+    private String fixMeasured(String measured) {
+        if ( measured == null || measured.trim().isEmpty()) { return ""; }
+        if ( measured.toLowerCase().contains("measured")) { return "Measured"; }
+        if ( measured.toLowerCase().contains("calculated")) { return "Calculated"; }
+        OAPMetadataEditor.logToConsole("Unknown measured:" + measured);
+        return "";
+    }
+
     public Variable getCommonVariable() {
 
         Variable commonVariable = this.commonVariable != null ? this.commonVariable : new Variable();
@@ -388,7 +410,9 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         commonVariable.setAbbreviation(abbreviation.getText());
         commonVariable.setObservationType(observationType.getText());
         commonVariable.setManipulationMethod(manipulationMethod.getText());
-        commonVariable.setObservationDetail(observationDetail.getValue());
+        String detailValue = observationDetail.getValue();
+        OAPMetadataEditor.logToConsole("detailValue:"+detailValue);
+        commonVariable.setObservationDetail(detailValue);
         commonVariable.setUnits(units.getText());
         commonVariable.setMeasured(measured.getValue());
         commonVariable.setCalculationMethod(calculationMethod.getValue());

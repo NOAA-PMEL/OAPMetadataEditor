@@ -164,8 +164,8 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     private static PersonUiBinder ourUiBinder = GWT.create(PersonUiBinder.class);
     public static enum ResearcherID {
         ORCID("ORCID"),
-        RESEARCHERID("Researcher ID"),
-        OCEANEXPERT("Ocean Expert");
+        ResearcherID("Researcher ID"),
+        Ocean_Expert("Ocean Expert");
         private final String display;
         ResearcherID(String displayString) {
             display = displayString + " ";
@@ -173,7 +173,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         public static ResearcherID from(String type) {
             if ( type == null || type.trim().isEmpty() )
                 return null;
-            String tryStr = type.trim().toUpperCase().replaceAll("[_ ]", "");
+            String tryStr = type.trim().replaceAll("[ ]", "_"); // .toUpperCase()
             return ResearcherID.valueOf(tryStr);
         }
     }
@@ -210,7 +210,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         }
 
         initWidget(ourUiBinder.createAndBindUi(this));
-        ridType0.init("Pick an ID Type ", idNames, idValues);
+        ridType0.init("Pick an ID Type ", true, idNames, idValues);
 
         clear.addClickHandler(clearIt);
 
@@ -1058,7 +1058,7 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         FormGroup theFgrp = new FormGroup();
 //        theFgrp.addStyleName("form-control");
         ButtonDropDown bdd = new ButtonDropDown();
-        bdd.init("Pick an ID Type ", idNames, idValues); // TODO: Remove or disable already chosen.
+        bdd.init("Pick an ID Type ", true, idNames, idValues); // TODO: Remove or disable already chosen.
         bdd.setId(itemId);
         theFgrp.add(bdd);
         theColumn.add(theFgrp);
@@ -1173,7 +1173,8 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         if ( researcherIds.isEmpty()) { return; }
         TypedString id0 = researcherIds.get(0);
         rid0.setText(id0.getValue().trim());
-        ridType0.setSelected(id0.getType());
+        String fixedType = fixRidType(id0.getType());
+        ridType0.setSelected(fixedType);
         GWT.log("rid0: " + id0);
         for (int i = 1; i<researcherIds.size(); i++) {
             TypedString id = researcherIds.get(i);
@@ -1195,7 +1196,17 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         Row addedRow = addRidRow();
         String rowId = addedRow.getId();
         ridTextBoxes.get(rowId).setText(rid.getValue());
+        String fixedType = fixRidType(rid.getType());
         ridIdTypeDrops.get(rowId).setSelected(rid.getType());
+    }
+
+    private String fixRidType(String type) {
+        if ( type == null || type.trim().isEmpty() ) { return ""; }
+        if ( type.toLowerCase().contains("researcher")) { return "ResearcherID"; }
+        if ( type.toLowerCase().equals("orcid")) { return "ORCID"; }
+        if ( type.toLowerCase().contains("ocean")) { return "Ocean_Expert"; }
+        OAPMetadataEditor.logToConsole("Unknown RID type " + type);
+        return "";
     }
 
     @Override

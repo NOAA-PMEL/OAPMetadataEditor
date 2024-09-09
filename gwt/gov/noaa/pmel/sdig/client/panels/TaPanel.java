@@ -133,7 +133,7 @@ public class TaPanel extends FormPanel<Variable> implements HasDefault<Variable>
         value.add("open");
         name.add("Closed");
         value.add("closed");
-        cellType.init("Cell Type: Open or Closed", name, value);
+        cellType.init("Cell Type: Open or Closed", false, name, value);
     }
     private void setDefaults() {
         common.isBig5 = true;
@@ -149,7 +149,7 @@ public class TaPanel extends FormPanel<Variable> implements HasDefault<Variable>
         ta.setPoison(poison.getText());
         ta.setPoisonVolume(poisonVolume.getText());
         ta.setPoisonDescription(poisonDescription.getText());
-        ta.setCellType(cellType.getValue());
+        ta.setCellType(cellType.getValue().toLowerCase());
         ta.setCurveFittingMethod(curveFittingMethod.getText());
         ta.setMagnitudeOfBlankCorrection(magnitudeOfBlankCorrection.getText());
         ta.setTitrationType(titrationType.getText());
@@ -233,7 +233,7 @@ public class TaPanel extends FormPanel<Variable> implements HasDefault<Variable>
         }
 
         if ( ta.getCellType() != null ) {
-            cellType.setSelected(ta.getCellType());
+            cellType.setSelected(ta.getCellType().toLowerCase());
         }
 
         if ( ta.getCurveFittingMethod() != null ) {

@@ -106,14 +106,18 @@ public class PhPanel extends FormPanel<Variable> implements HasDefault<Variable>
         List<String> scaleValues = new ArrayList<>();
 
         scaleNames.add(SCALE_TOTAL);
-        scaleValues.add(ButtonDropDown.standardValue(SCALE_TOTAL));
+        scaleValues.add(SCALE_TOTAL);
+//        scaleValues.add(ButtonDropDown.standardizeValue(SCALE_TOTAL));
         scaleNames.add(SCALE_SEAWATER);
-        scaleValues.add(ButtonDropDown.standardValue(SCALE_SEAWATER));
+        scaleValues.add(SCALE_SEAWATER);
+//        scaleValues.add(ButtonDropDown.standardizeValue(SCALE_SEAWATER));
         scaleNames.add(SCALE_FREE);
-        scaleValues.add(ButtonDropDown.standardValue(SCALE_FREE));
+        scaleValues.add(SCALE_FREE);
+//        scaleValues.add(ButtonDropDown.standardizeValue(SCALE_FREE));
         scaleNames.add(SCALE_NBS);
-        scaleValues.add(ButtonDropDown.standardValue(SCALE_NBS));
-        pHscale.init("ph Scale ", scaleNames, scaleValues);
+        scaleValues.add(SCALE_NBS);
+//        scaleValues.add(ButtonDropDown.standardizeValue(SCALE_NBS));
+        pHscale.init("ph Scale ", false, scaleNames, scaleValues);
 
         common.abbreviationModal.setTitle("24.1 Column header name of the variable in the data files, e.g., pH");
         common.observationTypeModal.setTitle("24.2 How the variable is observed, e.g., surface underway, profile, time series, model output, etc. For experimental data, this could be: laboratory experiment, pelagic mesocosm, benthic mesocosm, benthic FOCE type studies, natural pertubration site studies, etc");
