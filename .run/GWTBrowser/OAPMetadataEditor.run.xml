@@ -1,12 +1,12 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="OAPMetadataEditor" type="GWT.ConfigurationType" factoryName="GWT Configuration">
     <option name="VM_PARAMETERS" value="-Xmx1024M" />
-    <option name="SHELL_PARAMETERS" value="-sourceLevel 1.8 -war $MODULE_DIR$/src/main/webapp -nostartServer -bindAddress localhost -codeServerPort 9986 -startupUrl http://localhost:8383/oap/OAPMetadataEditor.html gov.noaa.pmel.sdig.OAPMetadataEditor -style detailed" />
+    <option name="SHELL_PARAMETERS" value="-sourceLevel 1.8 -war $PROJECT_DIR$/src/main/webapp -nostartServer -bindAddress localhost -codeServerPort 9986 -startupUrl http://localhost:8383/oap/OAPMetadataEditor.html gov.noaa.pmel.sdig.OAPMetadataEditor -style detailed" />
     <option name="RUN_PAGE" value="OAPMetadataEditor.html" />
     <option name="START_JAVASCRIPT_DEBUGGER" value="true" />
     <option name="BROWSER" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
     <option name="USE_SUPER_DEV_MODE" value="true" />
-    <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <module name="OAPMetadataEditor.oa-integration" />
     <method v="2">
       <option name="Make" enabled="true" />

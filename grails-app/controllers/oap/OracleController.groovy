@@ -547,7 +547,7 @@ class OracleController {
 //            "Earth Science > Terrestrial Hydrosphere > Surface Water > Surface Water Processes/Measurements > Runoff > Runoff Rate",
 //            "Earth Science > Terrestrial Hydrosphere > Surface Water > Surface Water Processes/Measurements > Runoff > Total Runoff"
 //    ]
-    def getAllSuggestions(Collection<String> vocabulary) {
+    private getAllSuggestions(Collection<String> vocabulary) {
         List<NceiSuggestion> allSuggestions = new ArrayList<NceiSuggestion>()
         for (String item : vocabulary) {
             NceiSuggestion v = new NceiSuggestion()
@@ -556,7 +556,7 @@ class OracleController {
         }
         return allSuggestions
     }
-    def getSuggestions(Set<String> vocabulary) {
+    private getSuggestions(Set<String> vocabulary) {
         String query
         String method = request.getMethod()
         if ( method.equals("POST")) {
@@ -593,7 +593,7 @@ class OracleController {
         return query as JSON
     }
 
-    def getQuerySuggestions(String query, Set<String> vocabulary) {
+    private getQuerySuggestions(String query, Set<String> vocabulary) {
         List<NceiSuggestion> suggestions
         if (query) {
             suggestions = new ArrayList<NceiSuggestion>()
