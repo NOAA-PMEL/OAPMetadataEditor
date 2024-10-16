@@ -5,6 +5,7 @@
 
 GRAILS_ENV=production
 
+unset NO_GWT
 CMD=assemble
 DO_IT=true
 
@@ -16,6 +17,7 @@ while [ $1 ] ; do
 			;;
 		"war" ) CMD=war;;
 		"-x" ) unset DO_IT;;
+		"-g" ) export NO_GWT=true;;
 		*) GRAILS_ENV=$1;;
 	esac
 	shift

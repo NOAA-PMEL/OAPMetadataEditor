@@ -79,7 +79,7 @@ dependencies {
 
     // RHS - use mysql for production
     // JDBC
-    runtime 'mysql:mysql-connector-java:8.0.31'
+    runtime 'mysql:mysql-connector-java:8.0.32'
 
 }
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 APPDIR=`dirname $0`
-GWTDIR="/local/software/gwt/gwt-2.8.0"
+GWTDIR="/local/software/gwt/gwt-2.8.2"
 LIBS=./lib/*
 CLASSPATH="${LIBS}:${GWTDIR}/*:${APPDIR}/gwt"
 CMPNTDIR="./src/main/webapp"
