@@ -5,11 +5,11 @@ import java.lang.reflect.Modifier
 
 import gov.noaa.ncei.oads.xml.v_a0_2_2s.BaseVariableType
 
-import org.apache.catalina.core.ApplicationPart
+import javax.servlet.http.Part
 
 class UtilsService {
 
-    File stash(ApplicationPart part) {
+    File stash(Part part) {
         System.out.println(part)
         File stashFile = getUploadStashFile(part.getSubmittedFileName())
         def partStream = part.getInputStream()
