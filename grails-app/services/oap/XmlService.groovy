@@ -415,7 +415,7 @@ class XmlService {
         Element insitu = varElement.getChild("insitu")
         if ( ! isEmpty(insitu)) {
             String insituText = insitu.getTextTrim().toLowerCase()
-            if ( insituText.startsWith("in-situ") )
+            if ( insituText.contains("in-situ") )
                 domainVar.setObservationDetail("In-situ observation")
             else
                 domainVar.setObservationDetail(insituText)
@@ -431,19 +431,23 @@ class XmlService {
         Element measured = varElement.getChild("measured")
         if ( ! isEmpty(measured) ) {
             boolean set = false
-            String measuredText = measured.getTextTrim()
+            String measuredText = measured.getTextTrim().toLowerCase()
             if ( "measured or calculated".equalsIgnoreCase(measuredText)) {
                 // ignore domainVar.setMeasured("")
             } else if ( "measured".equalsIgnoreCase(measuredText) ||
                         "calculated".equalsIgnoreCase(measuredText)) {
                 domainVar.setMeasured(measuredText)
                 set = true
-            } else if ( measuredText.toLowerCase().contains("calculated")) {
+            } else if ( measuredText.contains("measured")) {
+                domainVar.setMeasured("Measured")
+                domainVar.setCalculationMethod(measuredText)
+                set = true
+            } else if ( measuredText.contains("calculated")) {
                 domainVar.setMeasured("Calculated")
                 domainVar.setCalculationMethod(measuredText)
                 set = true
             }
-            if ( !set && ! isEmpty(varElement.getChild("calcMethod"))) {
+            if ( !set && ! isEmpty(varElement.getChild("calcMethod"))) { // XXX: could be inconsistent...
                 domainVar.setMeasured("Calculated")
             }
         }

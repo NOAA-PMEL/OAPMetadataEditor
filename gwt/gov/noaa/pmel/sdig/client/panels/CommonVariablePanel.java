@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import gov.noaa.pmel.sdig.client.ClientFactory;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
 import gov.noaa.pmel.sdig.client.oracles.ObservationTypeSuggestOracle;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
@@ -438,7 +439,8 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             abbreviation.setText(variable.getAbbreviation());
         }
         if ( variable.getObservationDetail() != null ) {
-            observationDetail.setSelected(variable.getObservationDetail());
+            String fixedValue = fixDetail(variable.getObservationDetail());
+            observationDetail.setSelected(fixedValue);
         } else {
             observationDetail.reset();
         }
@@ -452,7 +454,8 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             units.setText(variable.getUnits());
         }
         if ( variable.getMeasured() != null ) {
-            measured.setSelected(variable.getMeasured());
+            String fixedMeasured = fixMeasured(variable.getMeasured());
+            measured.setSelected(fixedMeasured);
         } else {
             measured.reset();
         }
@@ -509,6 +512,23 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         if ( variable.getIntakeLocation() != null ) {
             intakeLocation.setText(variable.getIntakeLocation());
         }
+    }
+
+    public static String fixDetail(String varDetail) {
+        if ( varDetail == null || varDetail.trim().isEmpty()) { return ""; }
+        if ( varDetail.toLowerCase().contains("in-situ")) { return "in-situ observation"; }
+        if ( varDetail.toLowerCase().contains("manipulation")) { return "manipulation condition"; }
+        if ( varDetail.toLowerCase().contains("response")) { return "response variable"; }
+        OAPMetadataEditor.logToConsole("Unknown detail:" + varDetail);
+        return "";
+    }
+
+    public static String fixMeasured(String measured) {
+        if ( measured == null || measured.trim().isEmpty()) { return ""; }
+        if ( measured.toLowerCase().contains("measured")) { return "Measured"; }
+        if ( measured.toLowerCase().contains("calculated")) { return "Calculated"; }
+        OAPMetadataEditor.logToConsole("Unknown measured:" + measured);
+        return "";
     }
 
     public Variable getCommonVariable() {

@@ -631,7 +631,8 @@ OAPMetadataEditor.debugLog("editButton: " + editButton);
             units.setText(variable.getUnits());
         }
         if ( variable.getMeasured() != null ) {
-            measured.setSelected(variable.getMeasured());
+            String fixedValue = CommonVariablePanel.fixMeasured(variable.getMeasured());
+            measured.setSelected(fixedValue);
         }
         if ( variable.getSamplingInstrument() != null ) {
             samplingInstrument.setText(variable.getSamplingInstrument());
