@@ -1,6 +1,6 @@
 #!/bin/sh
 APPDIR=`dirname $0`
-GWTDIR="/Users/kamb/libs/gwt/gwt-2.8.2"
+GWTDIR="./gwt-2.8.2"
 LIBS=./lib/*
 CLASSPATH="${LIBS}:${GWTDIR}/*:${APPDIR}/gwt"
 #CLASSPATH="${LIBS}:${APPDIR}/gwt"
