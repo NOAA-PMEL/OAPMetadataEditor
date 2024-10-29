@@ -326,7 +326,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
             String varDetail = variable.getObservationDetail();
             OAPMetadataEditor.logToConsole("variable detail:" + varDetail);
             String fixedDetail = fixDetail(varDetail);
-            observationDetail.setSelected(variable.getObservationDetail());
+            observationDetail.setSelected(fixedDetail);
         } else {
             observationDetail.reset();
         }
@@ -344,7 +344,7 @@ public class CommonVariablePanel extends Composite implements GetsDirty<Variable
         }
         if ( variable.getMeasured() != null ) {
             String fixedMeasured = fixMeasured(variable.getMeasured());
-            measured.setSelected(variable.getMeasured());
+            measured.setSelected(fixedMeasured);
         } else {
             measured.reset();
         }

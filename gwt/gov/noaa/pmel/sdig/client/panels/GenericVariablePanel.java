@@ -13,6 +13,7 @@ import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.view.client.CellPreviewEvent;
 import gov.noaa.pmel.sdig.client.Constants;
+import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.TableContextualType;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
 import gov.noaa.pmel.sdig.client.oracles.InstrumentSuggestOracle;
@@ -412,7 +413,8 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             fullVariableName.addStyleName("has-error");
         }
         if ( variable.getObservationDetail() != null ) {
-            observationDetail.setSelected(variable.getObservationDetail());
+            String fixedDetail = fixDetail(variable.getObservationDetail());
+            observationDetail.setSelected(fixedDetail);
         }
         if ( variable.getManipulationMethod() != null ) {
             manipulationMethod.setText(variable.getManipulationMethod());
@@ -427,7 +429,8 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
             units.addStyleName("has-error");
         }
         if ( variable.getMeasured() != null ) {
-            measured.setSelected(variable.getMeasured());
+            String fixedMeasured = fixMeasured(variable.getMeasured());
+            measured.setSelected(fixedMeasured);
         }
         if ( variable.getSamplingInstrument() != null ) {
             samplingInstrument.setText(variable.getSamplingInstrument());
@@ -471,6 +474,22 @@ public class GenericVariablePanel extends MultiPanel<Variable> {
         if ( variable.getSpeciesIdCode() != null ) {
             speciesIdCode.setText(variable.getSpeciesIdCode());
         }
+    }
+    private String fixDetail(String varDetail) {
+        if ( varDetail == null || varDetail.trim().isEmpty()) { return ""; }
+        if ( varDetail.toLowerCase().contains("in-situ")) { return "in-situ observation"; }
+        if ( varDetail.toLowerCase().contains("manipulation")) { return "manipulation condition"; }
+        if ( varDetail.toLowerCase().contains("response")) { return "response variable"; }
+        OAPMetadataEditor.logToConsole("Unknown detail:" + varDetail);
+        return "";
+    }
+
+    private String fixMeasured(String measured) {
+        if ( measured == null || measured.trim().isEmpty()) { return ""; }
+        if ( measured.toLowerCase().contains("measured")) { return "Measured"; }
+        if ( measured.toLowerCase().contains("calculated")) { return "Calculated"; }
+        OAPMetadataEditor.logToConsole("Unknown measured:" + measured);
+        return "";
     }
 
     public Variable getGenericVariable() {
