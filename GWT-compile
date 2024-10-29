@@ -1,8 +1,9 @@
 #!/bin/sh
 APPDIR=`dirname $0`
-GWTDIR="/usr/local/gwt-2.8.0"
+GWTDIR="/Users/kamb/libs/gwt/gwt-2.8.2"
 LIBS=./lib/*
 CLASSPATH="${LIBS}:${GWTDIR}/*:${APPDIR}/gwt"
+#CLASSPATH="${LIBS}:${APPDIR}/gwt"
 CMPNTDIR="./src/main/webapp"
 JAVAOPS="-Xmx1024M -Xms1024M"
 COMPILE_REPORT="-compileReport"

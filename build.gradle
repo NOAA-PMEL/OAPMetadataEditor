@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.11.6"
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.0.10"
         classpath "org.grails.plugins:hibernate5:6.0.4"
         classpath "org.grails.plugins:views-gradle:1.1.6"
     }
@@ -37,9 +37,46 @@ dependencyManagement {
 
 dependencies {
 	// for handling uploaded excel file and new XML processing
-	compile fileTree(dir:'lib', include:['excel2oap.jar','oads_xml.jar', 
-										 'tws_util.jar', 'socatmetadata-7.0.2.jar',
-										 'gwt-user.jar', 'servlet-api.jar'  ])
+	compile fileTree(dir:'lib', include:['excel2oap.jar',
+										 'oads_xml.jar',
+										 'tws_util.jar',
+										 'socatmetadata-7.0.2.jar',
+										 'gwt-user.jar',
+										 'servlet-api.jar',
+										 'gwtbootstrap3-0.9.4.jar',
+										 'gwtbootstrap3-extras-0.9.4.jar',
+										 'restygwt-2.2.0.jar',
+										 'jsr311-api-1.1.1.jar',
+'gwt-api-checker.jar',
+'gwt-codeserver.jar',
+'gwt-dev.jar',
+'gwt-elemental.jar',
+'gwt-jackson-0.14.1.jar',
+'gwt-openlayers-client-0.6.jar',
+'gwt-servlet-deps.jar',
+'gwt-servlet.jar',
+'gwtbootstrap3-0.9.4.jar',
+'gwtbootstrap3-extras-0.9.4.jar',
+'gwttime.jar',
+'jackson-annotations-2.7.2-sources.jar',
+'jackson-annotations-2.7.2.jar',
+'javapoet-1.0.0.jar',
+'jsr311-api-1.1.1.jar',
+'omemetadata-7.0.0.jar',
+'org.moxieapps.gwt.highcharts-1.7.0.jar',
+'requestfactory-apt-src.jar',
+'requestfactory-apt.jar',
+'requestfactory-client+src.jar',
+'requestfactory-client-src.jar',
+'requestfactory-client.jar',
+'requestfactory-server+src.jar',
+'requestfactory-server-src.jar',
+'requestfactory-server.jar',
+'restygwt-2.2.0.jar',
+'xalan-2.7.2.jar',
+'xercesImpl-2.9.1.jar'
+])
+										 ])
     // Add JSON Views
     compile 'org.grails.plugins:views-json:1.2.0'
     compile "org.springframework.boot:spring-boot-starter-logging"
@@ -56,7 +93,7 @@ dependencies {
     compile "org.hibernate:hibernate-ehcache:5.1.2.Final"
     console "org.grails:grails-console"
     profile "org.grails.profiles:web"
-    runtime "com.bertramlabs.plugins:asset-pipeline-grails:2.11.6"
+	runtime "com.bertramlabs.plugins:asset-pipeline-gradle:3.0.10"
     runtime "com.h2database:h2"
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
@@ -100,6 +137,14 @@ jar.dependsOn(GWTCompile)
 springBoot {
     mainClass="oap.Application"
 }
+
+//sourceSets {
+//    main {
+//        java{
+//            srcDirs 'gwt' /* include proto files from base project level */
+//        }
+//    }
+//}
 
 bootRun {
     jvmArgs = ['-Dspring.output.ansi.enabled=always']
