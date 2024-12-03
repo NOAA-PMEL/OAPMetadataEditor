@@ -15,17 +15,27 @@ import gov.noaa.pmel.sdig.client.ClientFactory;
 import gov.noaa.pmel.sdig.client.Constants;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.event.SectionSave;
+import gov.noaa.pmel.sdig.shared.Stringy;
 import gov.noaa.pmel.sdig.shared.bean.Citation;
+import gov.noaa.pmel.sdig.shared.bean.DescribedValue;
 import org.gwtbootstrap3.client.ui.*;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
 import org.gwtbootstrap3.extras.notify.client.ui.NotifySettings;
 
+import java.util.*;
+
 /**
  * Created by rhs on 3/3/17.
  */
 public class CitationPanel extends BasicPanel<Citation>  {
+
+    private static final String RELATED_ROW_ID_PFX_ = "related_row_";
+    private static final String RELATED_URI_ID_PFX_ = "related_uri_";
+    private static final String RELATED_DESC_ID_PFX_ = "related_desc_";
+    private static final String RELATED_RMV_BTN_ID_PFX_ = "related_rmv_";
 
     ClientFactory clientFactory = GWT.create(ClientFactory.class);
     EventBus eventBus = clientFactory.getEventBus();
@@ -64,6 +74,17 @@ public class CitationPanel extends BasicPanel<Citation>  {
     TextBox citationAuthorList;
     @UiField
     TextBox references;
+
+    @UiField
+    Container formContainer;
+    @UiField
+    Row relatedRow0;
+    @UiField
+    TextBox relatedDatasetUri0;
+    @UiField
+    TextBox relatedDatasetDesc0;
+    @UiField
+    Button addRelatedButton;
     @UiField
     TextArea supplementalInformation;
 
@@ -73,6 +94,13 @@ public class CitationPanel extends BasicPanel<Citation>  {
     Button clear;
 
     String type = Constants.SECTION_CITATION;
+
+    int relatedRow0index;
+    DescribedValue relatedDataset0;
+    List<Row> relatedRows = new ArrayList<>();
+    List<DescribedValue> relatedDatasets = new ArrayList<>();
+    Map<String, TextBox> relatedDatasetUris = new HashMap<>();
+    Map<String, TextBox> relatedDatasetDescriptions = new HashMap<>();
 
     private static final String NOAA_SOURCED_DATA_EXPLANATION =
             "Data that was collected by a NOAA Scientist and/or funded by a NOAA grant."; // TODO: FIX
@@ -113,6 +141,8 @@ public class CitationPanel extends BasicPanel<Citation>  {
     public CitationPanel() {
         super(Constants.SECTION_CITATION);
         initWidget(ourUiBinder.createAndBindUi(this));
+        resetRelated();
+
         clear.addClickHandler(clearIt);
         lic_cc0.addChangeHandler(new ChangeHandler() {
             @Override
@@ -163,6 +193,11 @@ public class CitationPanel extends BasicPanel<Citation>  {
                 }
             }
         });
+    }
+
+    private void resetRelated() {
+        relatedRow0index = formContainer.getWidgetIndex(relatedRow0);
+        relatedDataset0 = new DescribedValue();
     }
 
     @UiHandler("isNOAAData")
@@ -225,10 +260,13 @@ public class CitationPanel extends BasicPanel<Citation>  {
 
     @Override
     public void reset(boolean clearIds) {
+        GWT.log("Citation reset: "  + clearIds);
         super.reset(clearIds);
         isNOAAData.setValue(Boolean.FALSE);
         lic_ccBy.setValue(Boolean.FALSE);
         lic_cc0.setValue(Boolean.FALSE);
+//        resetRelated();
+        removeRelatedDatasets();
     }
     @Override
     public boolean isValid() {
@@ -274,6 +312,7 @@ public class CitationPanel extends BasicPanel<Citation>  {
         citation.setCitationAuthorList(citationAuthorList.getText().trim());
         citation.setScientificReferences(references.getText().trim());
         citation.setSupplementalInformation(supplementalInformation.getText().trim());
+        citation.setRelatedDatasets(getRelatedDatasets());
         return citation;
     }
     public boolean isDirty(Citation original) {
@@ -293,10 +332,25 @@ public class CitationPanel extends BasicPanel<Citation>  {
             isDirty(section, original.getSection() ) ||
             isDirty(citationAuthorList, original.getCitationAuthorList() ) ||
             isDirty(references, original.getScientificReferences() ) ||
+            relatedDatasetsChanged(original.getRelatedDatasets()) ||
             isDirty(supplementalInformation, original.getSupplementalInformation() );
         OAPMetadataEditor.debugLog("CitationPanel.isDirty:"+isDirty);
         return isDirty;
     }
+
+    private boolean relatedDatasetsChanged(List<DescribedValue> relatedDatasets) {
+        List<DescribedValue> related = getRelatedDatasets();
+        if ( related.size() != relatedDatasets.size() ) {
+            return true;
+        }
+        Iterator<DescribedValue> relatedIter = relatedDatasets.iterator();
+        for ( DescribedValue relatedDataset : related ) {
+             if ( !relatedIter.hasNext() ) { return true; }
+             if ( ! relatedDataset.equals(relatedIter.next()) ) { return true; }
+        }
+        return false;
+    }
+
     public boolean hasContent() {
         if (datasetAbstract.getText() != null && !datasetAbstract.getText().trim().isEmpty() ) {
             return true;
@@ -334,10 +388,13 @@ public class CitationPanel extends BasicPanel<Citation>  {
         if (supplementalInformation.getText() != null && !supplementalInformation.getText().trim().isEmpty() ) {
             return true;
         }
+        if ( ! getRelatedDatasets().isEmpty()) {
+            return true;
+        }
         return false;
     }
     public void show(Citation citation) {
-        form.reset();
+        reset();
         setDbItem(citation);
         if ( citation.getTitle() != null ) {
             title.setText(citation.getTitle());
@@ -378,5 +435,108 @@ public class CitationPanel extends BasicPanel<Citation>  {
         if ( citation.getSupplementalInformation() != null ) {
             supplementalInformation.setText(citation.getSupplementalInformation());
         }
+        showRelatedDatasets(citation);
+    }
+    @Override
+    public void reset() {
+        GWT.log("reset()");
+        reset(true);
+    }
+
+    private void removeRelatedDatasets() {
+        GWT.log("removeRelatedDatasets()");
+        relatedDatasetUri0.clear();
+        relatedDatasetDesc0.clear();
+        for (Row row : relatedRows) {
+            GWT.log("removing " + row.getId());
+            removeRelatedRow(row);
+        }
+        relatedRows.clear();
+    }
+
+    private void showRelatedDatasets(Citation citation) {
+        if (citation.getRelatedDatasets() != null) {
+            for (DescribedValue dv : citation.getRelatedDatasets()) {
+                addRelatedDataset(dv);
+            }
+        }
+    }
+
+    private List<DescribedValue> getRelatedDatasets() {
+        List<DescribedValue> related = new ArrayList<>();
+        if (!Stringy.isEmpty(relatedDatasetUri0)) {
+            related.add(new DescribedValue(relatedDatasetUri0.getText(),
+                                           relatedDatasetDesc0.getText()));
+        }
+        for (String rowid : relatedDatasetUris.keySet()) {
+            TextBox uriField = relatedDatasetUris.get(rowid);
+            TextBox descField = relatedDatasetDescriptions.get(rowid);
+            if ( ! Stringy.isEmpty(uriField)) {
+                String uri = uriField.getText();
+                String desc = Stringy.isEmpty(descField) ? "" : descField.getText();
+                DescribedValue dataset = new DescribedValue(uri, desc);
+                related.add(dataset);
+            }
+        }
+        return related;
+    }
+
+    @UiHandler("addRelatedButton")
+    void onAdd(ClickEvent clickEvent) {
+        GWT.log("Add related clicked:"+clickEvent);
+        addRelatedRow();
+    }
+
+    private void addRelatedDataset(DescribedValue dataset) {
+        GWT.log("Add related dataset:"+dataset);
+        Row addedRow = addRelatedRow();
+        String rowId = addedRow.getId();
+        relatedDatasetUris.get(rowId).setText(dataset.getValue());
+        relatedDatasetDescriptions.get(rowId).setText(dataset.getDescription());
+    }
+
+    private Row addRelatedRow() {
+        int addedRelatedIdx = relatedRows.size() + 1; // so it's 1-based
+        int addedRowId = relatedRow0index + addedRelatedIdx;
+        GWT.log("Adding related row " + addedRowId + " with " + relatedRows.size() + " already");
+        String row_id = RELATED_ROW_ID_PFX_ + addedRowId;
+        Row newRow = new Row();
+        newRow.setId(row_id);
+
+        TextBox uriTextBox = addRowTextField(newRow, ColumnSize.SM_3, RELATED_URI_ID_PFX_+ addedRowId, "URI or accession");
+        relatedDatasetUris.put(row_id, uriTextBox);
+
+        TextBox descTextBox = addRowTextField(newRow, ColumnSize.SM_7, RELATED_DESC_ID_PFX_+ addedRowId, "Dataset description");
+        relatedDatasetDescriptions.put(row_id, descTextBox);
+
+        Column buttonColumn = getRemoveButtonColumn(RELATED_RMV_BTN_ID_PFX_+addedRowId, event -> removeRelated(event.getSource()));
+        newRow.add(buttonColumn);
+
+        formContainer.insert(newRow, addedRowId);
+
+        relatedRows.add(newRow);
+
+        return newRow;
+    }
+
+    private void removeRelated(Object source) {
+        Button removeButton = (Button) source;
+        Row rowToRemove = getRowFor(removeButton);
+        removeRelatedRow(rowToRemove);
+        relatedRows.remove(rowToRemove);
+    }
+
+    private void removeRelatedRow(Row rowToRemove) {
+        GWT.log("removing: " + rowToRemove);
+        boolean removed = formContainer.remove(rowToRemove);
+        GWT.log("removed: " + removed);
+        rowToRemove.removeFromParent();
+        removeRelatedFields(rowToRemove);
+    }
+
+    private void removeRelatedFields(Row rowToRemove) {
+        String rowId = rowToRemove.getId();
+        removeWidget(rowId, relatedDatasetUris);
+        removeWidget(rowId, relatedDatasetDescriptions);
     }
 }

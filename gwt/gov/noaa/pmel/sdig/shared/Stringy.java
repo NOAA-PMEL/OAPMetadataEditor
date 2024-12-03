@@ -11,7 +11,7 @@ public interface Stringy {
         return str == null || str.trim().length() == 0;
     }
 
-    default boolean isEmpty(HasText field) {
+    static boolean isEmpty(HasText field) {
         return field == null || field.getText() == null || field.getText().trim().isEmpty();
     }
     default boolean isEmpty(List<TypedString> strs) {

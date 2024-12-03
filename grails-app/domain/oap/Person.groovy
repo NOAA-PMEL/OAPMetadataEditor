@@ -43,5 +43,4 @@ class Person {
     static mapping = {
         researcherIds(cascade: 'all-delete-orphan')
     }
-
 }

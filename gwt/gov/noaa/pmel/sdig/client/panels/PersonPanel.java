@@ -8,7 +8,6 @@ import com.google.gwt.editor.client.EditorError;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -20,7 +19,6 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.RowStyles;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.RangeChangeEvent;
 
@@ -41,9 +39,7 @@ import org.gwtbootstrap3.client.ui.constants.ButtonType;
 import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.form.error.BasicEditorError;
-import org.gwtbootstrap3.client.ui.form.error.ErrorHandler;
 import org.gwtbootstrap3.client.ui.form.validator.Validator;
-import org.gwtbootstrap3.client.ui.gwt.ButtonCell;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyPlacement;
 import org.gwtbootstrap3.extras.notify.client.constants.NotifyType;
 import org.gwtbootstrap3.extras.notify.client.ui.Notify;
@@ -98,8 +94,6 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     @UiField
     Row ridRow0;
     @UiField
-    FormGroup ridTypeForm0;
-    @UiField
     ButtonDropDown ridType0;
     @UiField
     TextBox rid0;
@@ -114,12 +108,10 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
     int row0index = 9; // XXX CHANGE
     Container formContainer;
 
-    private static final char CO2_VARS_SEPARATOR = ';';
-    private static final String RID_ID = "rid_id_";
-    private static final String TYPE_ID = "rid_type_";
-
-    private static final String RMV_BTN_ID = "rid_rmv_";
-    private static final String RID_ROW_ = "rid_row_";
+    private static final String RID_ROW_ID_PFX_ = "rid_row_";
+    private static final String RID_ID_PFX_ = "rid_id_";
+    private static final String TYPE_ID_PFX_ = "rid_type_";
+    private static final String RID_RMV_BTN_ID_PFX_ = "rid_rmv_";
 
     @UiField
     Button showErrorsBtn;
@@ -1065,51 +1057,48 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
         newRow.add(theColumn);
         return bdd;
     }
-    private TextBox addRowTextField(Row newRow, ColumnSize cSize, String itemId, String title) {
-        org.gwtbootstrap3.client.ui.Column theColumn = new org.gwtbootstrap3.client.ui.Column(cSize);
-        FormGroup theFgrp = new FormGroup();
-//        theFgrp.addStyleName("form-control");
-        TextBox theTextBox = new TextBox();
-        theTextBox.setPlaceholder(title);
-        theTextBox.setId(itemId);
-        theFgrp.add(theTextBox);
-        theColumn.add(theFgrp);
-        newRow.add(theColumn);
-        return theTextBox;
-    }
+//    private TextBox addRowTextField(Row newRow, ColumnSize cSize, String itemId, String title) {
+//        org.gwtbootstrap3.client.ui.Column theColumn = new org.gwtbootstrap3.client.ui.Column(cSize);
+//        FormGroup theFgrp = new FormGroup();
+////        theFgrp.addStyleName("form-control");
+//        TextBox theTextBox = new TextBox();
+//        theTextBox.setPlaceholder(title);
+//        theTextBox.setId(itemId);
+//        theFgrp.add(theTextBox);
+//        theColumn.add(theFgrp);
+//        newRow.add(theColumn);
+//        return theTextBox;
+//    }
 
     private Row addRidRow() {
         setFormContainer();
         int addedRidIdx = addedRows.size() + 1;// so it's 1-based.
         int addedRowId = row0index + addedRidIdx;
-        addedRidIdx += 1; // So count matches displayed ids.
         GWT.log("Adding RID row " + addedRowId + " with " + addedRows.size() + " already");
         org.gwtbootstrap3.client.ui.Column row0col = (org.gwtbootstrap3.client.ui.Column) ridRow0.getWidget(0);
         Row newRow = new Row();
-        String row_id = RID_ROW_ + addedRowId;
+        String row_id = RID_ROW_ID_PFX_ + addedRowId;
         newRow.setId(row_id);
 
         // ID Type
-        ButtonDropDown ridTypeBtn = addRowDropButton(newRow, ColumnSize.MD_4, TYPE_ID+ addedRowId, "ID Type" );
+        ButtonDropDown ridTypeBtn = addRowDropButton(newRow, ColumnSize.MD_4, TYPE_ID_PFX_ + addedRowId, "ID Type" );
         ridIdTypeDrops.put(row_id, ridTypeBtn);
         // ID
-        TextBox ridTextBox = addRowTextField(newRow, ColumnSize.MD_4, RID_ID+ addedRowId, "ID");// " + addedRidIdx);
+        TextBox ridTextBox = addRowTextField(newRow, ColumnSize.MD_4, RID_ID_PFX_ + addedRowId, "ID");// " + addedRidIdx);
         ridTextBoxes.put(row_id, ridTextBox);
 
         // remove row button
-        org.gwtbootstrap3.client.ui.Column buttonColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_2);
-        FormGroup buttonFgrp = new FormGroup();
-        Button removeButton = new Button("REMOVE");
-        removeButton.setId(RMV_BTN_ID+ addedRowId);
-        removeButton.addStyleName("float_right");
-        removeButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                removeRid(event.getSource());
-            }
-        });
-        buttonFgrp.add(removeButton);
-        buttonColumn.add(buttonFgrp);
+//        org.gwtbootstrap3.client.ui.Column buttonColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_2);
+//        FormGroup buttonFgrp = new FormGroup();
+//        Button removeButton = new Button("REMOVE");
+//        removeButton.setId(RMV_BTN_ID_PFX_ + addedRowId);
+//        removeButton.addStyleName("float_right");
+//        removeButton.addClickHandler(event -> removeRid(event.getSource()));
+//        buttonFgrp.add(removeButton);
+//        buttonColumn.add(buttonFgrp);
+        org.gwtbootstrap3.client.ui.Column buttonColumn =
+                getRemoveButtonColumn(RID_RMV_BTN_ID_PFX_ +addedRidIdx,
+                                       event -> removeRid(event.getSource()));
         newRow.add(buttonColumn);
 
         formContainer.insert(newRow, addedRowId);
@@ -1139,30 +1128,8 @@ public abstract class PersonPanel extends MultiPanel<Person>  {
 
     private void removeRidFields(Row rowToRemove) {
         String rowId = rowToRemove.getId();
-        removeDropBox(rowId, ridIdTypeDrops);
-        removeField(rowId, ridTextBoxes);
-    }
-    private void removeDropBox(String rowId, Map<String, ButtonDropDown> map) {
-        if ( map.containsKey(rowId)) {
-            map.remove(rowId);
-        } else {
-            GWT.log("WARN: Missing textBox for added researcherId row "+ rowId);
-        }
-    }
-
-    private void removeField(String rowId, Map<String, TextBox> map) {
-        if ( map.containsKey(rowId)) {
-            map.remove(rowId);
-        } else {
-            GWT.log("WARN: Missing textBox for added researcherId row "+ rowId);
-        }
-    }
-
-    private Row getRowFor(Widget widget) {
-        FormGroup bfg = (FormGroup)widget.getParent();
-        org.gwtbootstrap3.client.ui.Column bclm = (org.gwtbootstrap3.client.ui.Column)bfg.getParent();
-        Row rowToRemove = (Row)bclm.getParent();
-        return rowToRemove;
+        removeWidget(rowId, ridIdTypeDrops);
+        removeWidget(rowId, ridTextBoxes);
     }
 
     private void showResearcherIds(Person person) {

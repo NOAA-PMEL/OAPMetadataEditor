@@ -3,6 +3,9 @@ package gov.noaa.pmel.sdig.shared.bean;
 import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rhs on 3/3/17.
  */
@@ -22,6 +25,21 @@ public class Citation extends DbItem implements Stringy, HasContent {
     String scientificReferences;
     String supplementalInformation;
     String researchProjects;
+
+    List<DescribedValue> relatedDatasets;
+
+    public synchronized List<DescribedValue> getRelatedDatasets() {
+        if ( relatedDatasets == null ) {
+            relatedDatasets = new ArrayList<DescribedValue>();
+        }
+        return relatedDatasets;
+    }
+    public void setRelatedDatasets(List<DescribedValue> relatedDatasets) {
+        this.relatedDatasets = relatedDatasets;
+    }
+    public void addRelatedDataset(DescribedValue relatedDataset) {
+        getRelatedDatasets().add(relatedDataset);
+    }
 
     public String getResearchProjects() {
         return researchProjects;

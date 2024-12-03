@@ -135,7 +135,7 @@
                     </b:Row>
                     <b:Row ui:field="ridRow0">
                         <b:Column size="SM_6 MD_4">
-                            <b:FormGroup ui:field="ridTypeForm0">
+                            <b:FormGroup>
                                 <b:FormLabel for="researcherType" text="Researcher ID Type"></b:FormLabel>
                                 <b:Modal closable="true" ui:field="idTypePopover" b:id="idTypePopover"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#idTypePopover" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>

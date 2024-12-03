@@ -1,6 +1,5 @@
 package gov.noaa.pmel.sdig.shared.bean;
 
-import gov.noaa.pmel.sdig.client.panels.GetsDirty;
 import gov.noaa.pmel.sdig.shared.HasContent;
 import gov.noaa.pmel.sdig.shared.Stringy;
 

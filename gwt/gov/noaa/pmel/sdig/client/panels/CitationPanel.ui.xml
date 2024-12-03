@@ -8,7 +8,7 @@
             <b:FieldSet>
                 <b:Heading ui:field="heading" size="H3" text="Enter the Information about this Citation."></b:Heading>
                 <b:Heading color="#B22222" size="H5" text="(*) Denotes a required field."></b:Heading>
-                <b:Container width="100%" pull="LEFT">
+                <b:Container width="100%" pull="LEFT" ui:field="formContainer">
                     <b:Row>
                         <b:Column size="SM_12">
                             <b:FormGroup > <!--addStyleNames="has-error" validationState="ERROR" -->
@@ -234,6 +234,32 @@
                                 <b:Modal title="20 References are bibliographic citations of publications or cruise reports, etc, describing the data set." b:id="modalReferences"/>
                                 <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalReferences" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
                                 <b:TextBox ui:field="references" allowBlank="true" placeholder="References" b:id="references"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                    </b:Row>
+                    <b:Row ui:field="relatedRow0">
+                        <b:Column size="SM_3">
+                            <b:FormGroup >
+                                <b:FormLabel for="relatedDatasetUri" text="Related Dataset URI"></b:FormLabel>
+                                <b:Modal title="21 URI (or accession) for other published dataset related to this one."  b:id="modalRelatedDatasetUri"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalRelatedDatasetUri" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="relatedDatasetUri0" allowBlank="true" placeholder="Dataset URI or accession" b:id="relatedDatasetUri"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_7">
+                            <b:FormGroup >
+                                <b:FormLabel for="relatedDatasetDesc" text="Related Dataset Description"></b:FormLabel>
+                                <b:Modal title="21 Description of related dataset."  b:id="modalRelatedDatasetDesc"/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#modalRelatedDatasetDesc" dataToggle="MODAL" iconSize="NONE" icon="QUESTION_CIRCLE" pull="RIGHT" type="DEFAULT"></b:Button>
+                                <b:TextBox ui:field="relatedDatasetDesc0" allowBlank="true" placeholder="Related Dataset Description" b:id="relatedDatasetDesc"></b:TextBox>
+                            </b:FormGroup>
+                        </b:Column>
+                        <b:Column size="SM_2">
+                            <b:FormGroup >
+                                <b:FormLabel color="#00000000" for="addRelatedButton" text="*"></b:FormLabel>
+                                <b:Modal closable="true" ui:field="relatedBtnPopover" b:id="relatedBtnPopover" title="Add another Researcher ID."/>
+                                <b:Button tabIndex="999" addStyleNames="benone" dataTarget="#relatedBtnPopover" dataToggle="MODAL" pull="RIGHT" icon="QUESTION_CIRCLE"></b:Button>
+                                <b:Button ui:field="addRelatedButton" pull="RIGHT" type="PRIMARY" text="ADD DATASET" b:id="addRelatedButton"/>
                             </b:FormGroup>
                         </b:Column>
                     </b:Row>

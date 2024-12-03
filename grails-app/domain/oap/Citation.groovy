@@ -17,6 +17,9 @@ class Citation {
     String scientificReferences
     String supplementalInformation
     String researchProjects
+
+    List<DescribedValue> relatedDatasets
+
     static constraints = {
         document (nullable: true)
         title (nullable: true, type: 'text')
@@ -33,5 +36,13 @@ class Citation {
         scientificReferences (nullable: true, type: 'text')
         supplementalInformation (nullable: true, type: 'text')
         researchProjects(nullable: true, type: 'text')
+
+        relatedDatasets(nullable: true)
+    }
+    static hasMany = [
+        relatedDatasets : DescribedValue
+    ]
+    static mapping = {
+        relatedDatasets(cascade: 'all-delete-orphan')
     }
 }

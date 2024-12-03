@@ -12,14 +12,14 @@ import gov.noaa.pmel.sdig.client.ConfirmClearFormCallback;
 import gov.noaa.pmel.sdig.client.OAPMetadataEditor;
 import gov.noaa.pmel.sdig.client.widgets.ButtonDropDown;
 import gov.noaa.pmel.sdig.shared.bean.DbItem;
-import org.gwtbootstrap3.client.ui.Button;
-import org.gwtbootstrap3.client.ui.Form;
-import org.gwtbootstrap3.client.ui.FormGroup;
-import org.gwtbootstrap3.client.ui.Row;
+import org.gwtbootstrap3.client.ui.*;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
+
+import java.util.Map;
 
 public abstract class FormPanel <T extends DbItem>
         extends Composite
-        implements GetsDirty {
+        implements GetsDirty, MultiLine {
     @UiField
     protected Form form;
 
@@ -131,4 +131,44 @@ public abstract class FormPanel <T extends DbItem>
         return !(valid.equals("false") || valid.equals("0"));
     }
 
+    protected TextBox addRowTextField(Row newRow, ColumnSize cSize, String itemId, String placeholder) {
+        org.gwtbootstrap3.client.ui.Column theColumn = new org.gwtbootstrap3.client.ui.Column(cSize);
+        FormGroup theFgrp = new FormGroup();
+//        theFgrp.addStyleName("form-control");
+        TextBox theTextBox = new TextBox();
+        theTextBox.setPlaceholder(placeholder);
+        theTextBox.setId(itemId);
+        theFgrp.add(theTextBox);
+        theColumn.add(theFgrp);
+        newRow.add(theColumn);
+        return theTextBox;
+    }
+
+    protected Column getRemoveButtonColumn(String btnId, ClickHandler clickHandler) {
+        // remove row button
+        org.gwtbootstrap3.client.ui.Column buttonColumn = new org.gwtbootstrap3.client.ui.Column(ColumnSize.SM_2);
+        FormGroup buttonFgrp = new FormGroup();
+        Button removeButton = new Button("REMOVE");
+        removeButton.setId(btnId);
+        removeButton.addStyleName("float_right");
+        removeButton.addClickHandler(clickHandler);
+        buttonFgrp.add(removeButton);
+        buttonColumn.add(buttonFgrp);
+        return buttonColumn;
+    }
+
+    protected Row getRowFor(Widget widget) {
+        FormGroup bfg = (FormGroup)widget.getParent();
+        org.gwtbootstrap3.client.ui.Column bclm = (org.gwtbootstrap3.client.ui.Column)bfg.getParent();
+        Row rowToRemove = (Row)bclm.getParent();
+        return rowToRemove;
+    }
+
+    protected void removeWidget(String id, Map<String, ? extends Widget> map) {
+        if ( map.containsKey(id)) {
+            map.remove(id);
+        } else {
+            GWT.log("Failed to remove widget:"+id);
+        }
+    }
 }

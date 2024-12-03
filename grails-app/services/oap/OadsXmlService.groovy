@@ -25,6 +25,7 @@ import gov.noaa.ncei.oads.xml.v_a0_2_2.PlatformType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.PoisonType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.QcFlagInfoType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.ReferenceType
+import gov.noaa.ncei.oads.xml.v_a0_2_2.RelatedDatasetsType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.SpatialExtentsType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.StandardGasType
 import gov.noaa.ncei.oads.xml.v_a0_2_2.StandardizationType
@@ -196,8 +197,18 @@ class OadsXmlService {
         }
         citation.setCitationAuthorList(authorList.trim())
 
+        citation.setRelatedDatasets(getRelatedDatasetsFrom(citation))
         citation.setSupplementalInformation(metadata.getSupplementalInfo())
         return citation
+    }
+
+    def getRelatedDatasetsFrom(Citation citation) {
+        List<DescribedValue> relatedList = new ArrayList<>()
+        for (RelatedDatasetsType related : citation.getRelatedDatasets()) {
+            relatedList.add(new DescribedValue(related.getLink(),
+                                               related.getDataset()))
+        }
+        return relatedList
     }
 
     def nonNullString(Object obj) {
@@ -1084,6 +1095,14 @@ class OadsXmlService {
                 }
             }
 
+            if ( citation.getRelatedDatasets()) {
+                for (DescribedValue related : citation.getRelatedDatasets()) {
+                    RelatedDatasetsType rdt = new RelatedDatasetsType()
+                    rdt.setLink(related.getValue())
+                    rdt.setDataset(related.getDescription())
+                    metadata.addRelated(rdt)
+                }
+            }
             metadata.supplementalInfo(citation.getSupplementalInformation())
         }
 

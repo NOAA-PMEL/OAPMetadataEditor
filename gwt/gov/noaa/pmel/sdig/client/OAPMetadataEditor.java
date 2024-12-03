@@ -498,7 +498,7 @@ public class OAPMetadataEditor implements EntryPoint {
 //        }
         try {
             Document doc = getDocument(true);
-            debugLog("doc is dirty:"+currentDocumentIsDirty());
+//            debugLog("doc is dirty:"+currentDocumentIsDirty());
             saveDocumentService.save(getDatasetId(doc), doc, callback);
             saved = true;
         } catch (Throwable isx) {

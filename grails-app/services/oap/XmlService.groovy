@@ -792,12 +792,15 @@ class XmlService {
                 human.setEmail(email.getTextTrim())
             }
             Element ID = p.getChild("ID")
-            if ( ! isEmpty(ID) ) {
-                human.setRid(ID.getTextTrim())
-            }
             Element IDtype = p.getChild("IDtype")
-            if ( ! isEmpty(IDtype) ) {
-                human.setIdType(IDtype.getTextTrim())
+            if ( ! isEmpty(ID) ) {
+                String[] ids = ID.getTextTrim().split("[;,]")
+                String[] types = IDtype.getTextTrim().split("[;,]")
+                Iterator<String> typesItr = types.iterator()
+                for (String id : ids) {
+                    String type = typesItr.hasNext() ? typesItr.next() : "N/A"
+                    human.addToResearcherIds(new TypedString(type, id))
+                }
             }
         }
         return human
@@ -844,12 +847,17 @@ class XmlService {
 
         addNceiStuff(metadata)
 
+        // Would be nice if we didn't have to manually build the XML,
+        // and could put this with the other citation stuff below.
         Element useLimitation = new Element("useLimitation")
-        useLimitation.setText(doc.getCitation().getUseLimitation())
-        metadata.addContent(useLimitation)
+        if ( doc.getCitation() && doc.getCitation().getUseLimitation()) {
+            useLimitation.setText(doc.getCitation().getUseLimitation())
+            metadata.addContent(useLimitation)
+        }
 
         for (int i = 0; i < doc.getInvestigators().size(); i++) {
             Person p = doc.getInvestigators().get(i)
+            if ( !p ) { continue }
             Element person = new Element("person")
             fillPerson(p, person, "Investigator")
             metadata.addContent(person)
@@ -1015,6 +1023,7 @@ class XmlService {
         if ( platforms ) {
             for (int i = 0; i < platforms.size(); i++) {
                 Platform platform = platforms.get(i)
+                if ( ! platform ) { continue }
                 Element platformE = new Element("platform")
                 if (platform.getName()) {
                     Element platformName = new Element("name")
@@ -1084,7 +1093,6 @@ class XmlService {
             }
         }
 
-        // TODO the rest of the variable stuff.
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat())
         String xml = outputter.outputString(xmlDoc)
         return xml
@@ -1596,12 +1604,11 @@ class XmlService {
         if ( p.getInstitution() )
             person.addContent(new Element("organization").setText(p.getInstitution()))
         // Apparently address1 in the spreadsheet is deliverypoint1 in the XML.
-        person.addContent(new Element("deliverypoint1").setText(p.getAddress1()))
-
+        if ( p.getAddress1() ) {
+            person.addContent(new Element("deliverypoint1").setText(p.getAddress1()))
+        }
         if ( p.getAddress2() ) {
             person.addContent(new Element("deliverypoint2").setText(p.getAddress2()))
-        } else {
-            person.addContent(new Element("deliverypoint2"))
         }
         if ( p.getCity() )
             person.addContent(new Element("city").setText(p.getCity()))
@@ -1622,15 +1629,26 @@ class XmlService {
         }
         if ( p.getTelephone() && p.getExtension() ) {
             person.addContent(new Element("phone").setText(p.getTelephone() + " " +p.getExtension() ))
-        } else if ( p.getTelephone() ) {
-            person.addContent(new Element("phone").setText(p.getTelephone()))
         }
         if ( p.getEmail() )
             person.addContent(new Element("email").setText(p.getEmail()))
-        if ( p.getRid() ) {
-            person.addContent(new Element("ID").setText(p.getRid()))
-            if ( p.getIdType() )
-                person.addContent(new Element("IDtype").setText(p.getIdType()))
+        if ( p.getResearcherIds()) {
+            StringBuilder ids = new StringBuilder()
+            StringBuilder types = new StringBuilder()
+            String sep = ""
+            for (TypedString rid : p.getResearcherIds()) {
+                if ( rid ) {
+                    String id = rid.getValue()
+                    if ( id ) {
+                        String idtype = rid.getType() ? rid.getType() : "N/A"
+                        ids.append(sep).append(id)
+                        types.append(sep).append(idtype)
+                    }
+                }
+                sep = ";"
+            }
+            person.addContent(new Element("ID").setText(ids.toString()))
+            person.addContent(new Element("IDtype").setText(types.toString()))
         }
         if ( type != null )
             person.addContent(new Element("role").setText(type))
