@@ -197,14 +197,14 @@ class OadsXmlService {
         }
         citation.setCitationAuthorList(authorList.trim())
 
-        citation.setRelatedDatasets(getRelatedDatasetsFrom(citation))
+        citation.setRelatedDatasets(getRelatedDatasetsFrom(metadata))
         citation.setSupplementalInformation(metadata.getSupplementalInfo())
         return citation
     }
 
-    def getRelatedDatasetsFrom(Citation citation) {
+    def getRelatedDatasetsFrom(OadsMetadataDocumentType metadata) {
         List<DescribedValue> relatedList = new ArrayList<>()
-        for (RelatedDatasetsType related : citation.getRelatedDatasets()) {
+        for (RelatedDatasetsType related : metadata.getRelatedDataSets()) {
             relatedList.add(new DescribedValue(related.getLink(),
                                                related.getDataset()))
         }

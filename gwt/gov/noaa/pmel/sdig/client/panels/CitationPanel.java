@@ -279,12 +279,12 @@ public class CitationPanel extends BasicPanel<Citation>  {
         String  text = citation.getLicenseText() != null ? citation.getLicenseText() : "";
         boolean isNOAA = citation.getNoaaData() != null ? citation.getNoaaData() : false;
         isNOAAData.setValue(isNOAA, true);
-        if ( ! isNOAA) {
+//        if ( ! isNOAA) {
             String url = license.toLowerCase();
             lic_cc0.setValue(CC0_URL.equals(url), true);
             lic_ccBy.setValue(CCBY_URL.equals(url), true);
-//            licenseText.setText(text);
-        }
+            licenseText.setText(text);
+//        }
 
     }
     String getLicenseUrl() {
@@ -394,6 +394,7 @@ public class CitationPanel extends BasicPanel<Citation>  {
         return false;
     }
     public void show(Citation citation) {
+        GWT.log("show: " + citation);
         reset();
         setDbItem(citation);
         if ( citation.getTitle() != null ) {
@@ -456,7 +457,13 @@ public class CitationPanel extends BasicPanel<Citation>  {
 
     private void showRelatedDatasets(Citation citation) {
         if (citation.getRelatedDatasets() != null) {
-            for (DescribedValue dv : citation.getRelatedDatasets()) {
+            List<DescribedValue> relatedDatasets = citation.getRelatedDatasets();
+            if (relatedDatasets.isEmpty()) { return; }
+            DescribedValue relatedDataset0 = relatedDatasets.get(0);
+            relatedDatasetUri0.setText(relatedDataset0.getValue());
+            relatedDatasetDesc0.setText(relatedDataset0.getDescription());
+            for (int i = 1; i < relatedDatasets.size(); i++) {
+                DescribedValue dv = relatedDatasets.get(i);
                 addRelatedDataset(dv);
             }
         }
